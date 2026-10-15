@@ -50,7 +50,7 @@ rer verify
 
 Archives include all product tables, original import bytes, journals and photograph BLOBs. Auth sessions, credentials, development outbox and private configuration are excluded. Restore preserves the destination owner and refuses a nonempty product destination, corrupt archives and a supplied erasure fence. Keep backups private. An offline archive cannot know about a later erasure unless you supply the later journal. `rer reset --yes` removes local data and settings; export first if they matter.
 
-Verification builds the app, typechecks it and runs seven public-door integration tests plus the emitted-Worker runtime and ordinary email-link checks at the mail provider boundary. Build and deploy do not run tests. Test cap: 200. `rer describe`, `rer check --profile first-party` and `rer doctor` explain the declared operations and local setup.
+Verification builds the app, typechecks it and runs seven public-door integration tests plus the emitted-Worker runtime and ordinary email-link checks at the mail provider boundary. Build and deploy do not run tests. Test cap: 200. Push and PR Verify runs source/site, typecheck, product and emitted-Worker shards in parallel. Release tags (`v*`), nightly and manual Nightly journeys run the full plan; this seed currently has no separate slow installer/README journey files. See [VERIFY-WORKFLOW.md](VERIFY-WORKFLOW.md) to add them without dropping checks. `rer describe`, `rer check --profile first-party` and `rer doctor` explain the declared operations and local setup.
 
 ## Deploy to your Cloudflare account
 

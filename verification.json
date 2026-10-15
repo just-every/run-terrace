@@ -1,0 +1,40 @@
+{
+  "push": [
+    {
+      "name": "source",
+      "browser": false,
+      "hosted": false,
+      "commands": [
+        "pnpm run check --profile first-party",
+        "pnpm exec rer build --site"
+      ]
+    },
+    {
+      "name": "typecheck",
+      "browser": false,
+      "hosted": false,
+      "commands": [
+        "pnpm run typecheck"
+      ]
+    },
+    {
+      "name": "terrace",
+      "browser": false,
+      "hosted": false,
+      "commands": [
+        "pnpm run test:terrace"
+      ]
+    },
+    {
+      "name": "runtime",
+      "browser": true,
+      "hosted": true,
+      "commands": [
+        "pnpm run build",
+        "pnpm run test:runtime",
+        "pnpm run test:email-link"
+      ]
+    }
+  ],
+  "nightly": []
+}
