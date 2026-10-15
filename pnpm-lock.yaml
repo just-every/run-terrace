@@ -9,11 +9,6 @@ overrides:
   undici: 7.29.1
   source-map-js: 1.2.2
 
-patchedDependencies:
-  '@runeditrun/rer@0.2.15':
-    hash: a4f0383a93deb09e24522988b16a4a37b527dcdc728c5130edb42406c8acf734
-    path: patches/@runeditrun__rer@0.2.15.patch
-
 importers:
 
   .:
@@ -44,8 +39,8 @@ importers:
         specifier: 1.63.0
         version: 1.63.0
       '@runeditrun/rer':
-        specifier: 0.2.15
-        version: 0.2.15(patch_hash=a4f0383a93deb09e24522988b16a4a37b527dcdc728c5130edb42406c8acf734)
+        specifier: 0.2.17
+        version: 0.2.17
       '@types/node':
         specifier: 22.18.6
         version: 22.18.6
@@ -654,8 +649,8 @@ packages:
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
 
-  '@runeditrun/rer@0.2.15':
-    resolution: {integrity: sha512-E8ttNRxVklwsmmmhAjYdTnVyNLZkJM+V7U5cztUzEQkVvYVyS7AIDoaLyJg1zmTjQL+ZBWyO9ow2AzYatEYM4g==}
+  '@runeditrun/rer@0.2.17':
+    resolution: {integrity: sha512-D945/8jhB3JdXwlAy8qCUBbbxXvT6faHqWTTbVNcBiXwO9R5Zo2Agd1IYQYl5x0AbojnzQTwi2nemuHpN8hi9w==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -1773,7 +1768,7 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.1': {}
 
-  '@runeditrun/rer@0.2.15(patch_hash=a4f0383a93deb09e24522988b16a4a37b527dcdc728c5130edb42406c8acf734)': {}
+  '@runeditrun/rer@0.2.17': {}
 
   '@sindresorhus/is@7.2.0': {}
 
