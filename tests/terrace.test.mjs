@@ -1,0 +1,90 @@
+import {test,before,after} from 'node:test'
+import assert from 'node:assert/strict'
+import {readFile} from 'node:fs/promises'
+import {createHash} from 'node:crypto'
+import {installation,tenancyInput} from './api/harness.mjs'
+let h,member,admin,t,inspection,job,imported,archiveBefore,journalAfter
+const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jz1sAAAAASUVORK5CYII=','base64')
+before(async()=>{h=await installation();member=await h.invite('member','preparer@example.test');admin=await h.invite('admin','manager@example.test')})
+after(async()=>{await h?.close()})
+test('ordinary sign-in, per-handler roles, CSRF and revocation',async()=>{
+ assert.equal((await h.request('/api/state',{as:''})).status,401)
+ assert.equal((await h.request('/api/commands',{method:'POST',body:{command:'tenancy.create',...tenancyInput},originHeader:'https://elsewhere.test'})).status,403)
+ for(const command of ['tenancy.create','rent.charge','rent.receipt','rent.adjust','proposal.approve','proposal.reject','inspection.create','inspection.photo','inspection.complete','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore'])await h.command(command,{}, {as:member,status:403})
+ assert.equal((await h.request('/api/backup',{as:member})).status,403)
+ t=await h.command('tenancy.create',tenancyInput,{as:admin})
+ const people=await(await h.request('/auth/operators')).json(),m=people.find(x=>x.email==='manager@example.test')
+ assert.ok(m)
+ assert.equal((await h.request('/auth/operator/status',{method:'POST',body:{operatorId:m.id,status:'inactive'}})).status,200)
+ assert.equal((await h.request('/api/state',{as:admin})).status,401)
+})
+test('rent charges, external receipts and corrections preserve balances under races and duplicates',async()=>{
+ await h.command('rent.charge',{tenancyId:t.id,dueDate:'2026-09-01',amount:'1.234',description:'Rent',reference:'invalid'},{status:400})
+ const charge=await h.command('rent.charge',{tenancyId:t.id,dueDate:'2026-09-01',amount:'620.00',description:'September rent',reference:'RENT-SEP-01'})
+ await h.command('rent.receipt',{chargeId:charge.id,amount:'200.00',receivedDate:'2026-09-02',reference:'BANK-001'})
+ await h.command('rent.receipt',{chargeId:charge.id,amount:'200.00',receivedDate:'2026-09-02',reference:'BANK-001'},{status:409})
+ const results=await Promise.all(['BANK-002','BANK-003'].map(reference=>h.request('/api/commands',{method:'POST',body:{command:'rent.receipt',chargeId:charge.id,amount:'300.00',receivedDate:'2026-09-03',reference}})))
+ assert.deepEqual(results.map(r=>r.status).sort(),[200,409])
+ await h.command('rent.adjust',{chargeId:charge.id,amount:'20.00',reason:'Agreed charge correction'})
+ const state=await h.state(t.id);assert.equal(state.ledger.balanceCents,10000);assert.equal(state.ledger.arrearsCents,10000)
+ const csv=await(await h.request(`/api/statement?tenancyId=${t.id}&from=2026-09-01&to=2026-09-30`)).text()
+ assert.ok(csv.includes('620.00'));assert.ok(csv.includes('120.00'));assert.ok(csv.includes('BANK-001'))
+ assert.equal((await h.request(`/api/statement?tenancyId=${t.id}&from=2026-09-01&to=2026-09-30`,{as:member})).status,403)
+})
+test('member prepares renewal and arrears; human approval records actor and refuses stale terms',async()=>{
+ const renewal=await h.command('renewal.prepare',{tenancyId:t.id,endDate:'2027-12-31',rent:'650.00',source:'Signed lease schedule page 2'},{as:member})
+ const stale=await h.command('renewal.prepare',{tenancyId:t.id,endDate:'2027-06-30',rent:'630.00',source:'Earlier proposal'},{as:member})
+ await h.command('proposal.approve',{proposalId:renewal.id},{as:member,status:403})
+ await h.command('proposal.approve',{proposalId:renewal.id});await h.command('proposal.approve',{proposalId:stale.id},{status:409})
+ const arrears=await h.command('arrears.prepare',{tenancyId:t.id,message:'Please confirm the remaining September rent.',followUpDate:'2026-10-20'},{as:member});await h.command('proposal.approve',{proposalId:arrears.id})
+ const s=await h.state(t.id);assert.equal(s.tenancies.find(x=>x.id===t.id).rent_cents,65000);assert.ok(s.proposals.find(x=>x.id===renewal.id).approved_by)
+})
+test('photographed inspection and approved trade handoff retain exact evidence',async()=>{
+ inspection=await h.command('inspection.create',{tenancyId:t.id,date:'2026-10-01',notes:'Kitchen tap drips.'})
+ await h.command('inspection.complete',{inspectionId:inspection.id,notes:'Kitchen tap drips.'},{status:409})
+ await h.formCommand('inspection.photo',{inspectionId:inspection.id,file:new File(['not an image'],'tap.png')},{status:400})
+ const photo=await h.formCommand('inspection.photo',{inspectionId:inspection.id,file:new File([png],'tap.png',{type:'image/png'})})
+ assert.equal(photo.sha256,createHash('sha256').update(png).digest('hex'))
+ const image=await h.request('/api/inspections/photos/'+photo.photoId);assert.deepEqual(Buffer.from(await image.arrayBuffer()),png)
+ await h.command('inspection.complete',{inspectionId:inspection.id,notes:'Kitchen tap drips; other inspected areas satisfactory.'})
+ job=await h.command('maintenance.prepare',{tenancyId:t.id,title:'Repair kitchen tap',tradeName:'River Plumbing',tradeEmail:'trade@example.test',dueDate:'2026-10-22',estimate:'180.00'},{as:member})
+ assert.equal((await h.request('/api/maintenance/'+job.id+'/packet')).status,409)
+ await h.command('maintenance.approve',{jobId:job.id,version:1});await h.command('maintenance.approve',{jobId:job.id,version:1},{status:409})
+ const packet=await(await h.request('/api/maintenance/'+job.id+'/packet')).text();assert.ok(packet.includes('To: trade@example.test'))
+ await h.command('maintenance.sent',{jobId:job.id,version:2,reference:'Message in external Sent folder / trade handoff 401'})
+ const s=await h.state(t.id);assert.equal(s.work.inspections[0].state,'completed');assert.equal(s.work.jobs[0].state,'sent');assert.ok(s.work.jobs[0].approval_sha256)
+})
+test('move-in previews exact source, requires reviewed fingerprint, journals, and undoes unchanged records',async()=>{
+ const csv=await readFile('fixtures/terrace-tenancies.csv','utf8'),preview=await h.command('import.preview',{csv,namespace:'archive-a'})
+ assert.equal((await h.state()).tenancies.length,1)
+ await h.command('import.apply',{csv,namespace:'archive-a',fingerprint:'0'.repeat(64)},{status:409})
+ const applied=await h.command('import.apply',{csv,namespace:'archive-a',fingerprint:preview.fingerprint});imported=applied.job
+ assert.equal(imported.state,'completed');assert.equal((await h.state()).tenancies.length,3)
+ const journal=await h.command('import.journal',{jobId:imported.id});assert.ok(journal.journal.length);assert.ok(journal.originals.length)
+ const other=await h.command('import.preview',{csv,namespace:'archive-b'}),second=await h.command('import.apply',{csv,namespace:'archive-b',fingerprint:other.fingerprint})
+ await h.command('import.undo',{jobId:second.job.id});assert.equal((await h.state()).tenancies.length,3)
+ const conflict=await h.command('import.preview',{csv,namespace:'archive-c'}),third=await h.command('import.apply',{csv,namespace:'archive-c',fingerprint:conflict.fingerprint})
+ const added=(await h.state()).tenancies.find(x=>x.id===conflict.rows[0].targetId)
+ await h.command('rent.charge',{tenancyId:added.id,dueDate:'2026-10-01',amount:'100',description:'Later work',reference:'later'})
+ await h.command('import.undo',{jobId:third.job.id},{status:409});assert.ok((await h.state()).tenancies.find(x=>x.id===added.id))
+})
+test('complete backup restores into a fresh owner installation, preserving photos and import undo',async()=>{
+ archiveBefore=await(await h.request('/api/backup')).text();const fresh=await installation()
+ try{
+  await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archiveBefore],'backup.rer')})
+  const original=await h.state(t.id),restored=await fresh.state(t.id);assert.deepEqual(restored.tenancies,original.tenancies);assert.deepEqual(restored.ledger,original.ledger);assert.deepEqual(restored.work.photos,original.work.photos)
+  const photo=restored.work.photos[0];assert.deepEqual(Buffer.from(await(await fresh.request('/api/inspections/photos/'+photo.id)).arrayBuffer()),png)
+  await fresh.command('import.undo',{jobId:imported.id});const afterUndo=await fresh.state();assert.equal(afterUndo.tenancies.length,original.tenancies.length-2);assert.ok(afterUndo.tenancies.find(x=>x.id===t.id))
+  await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archiveBefore],'backup.rer')},{status:409})
+ }finally{await fresh.close()}
+})
+test('owner erasure removes tenancy and photo custody and later journal rejects an older backup',async()=>{
+ const before=await h.state(t.id),photo=before.work.photos[0]
+ await h.command('tenancy.erase',{tenancyId:t.id,confirm:'wrong'},{status:400});await h.command('tenancy.erase',{tenancyId:t.id,confirm:tenancyInput.tenantEmail})
+ assert.ok(!(await h.state()).tenancies.find(x=>x.id===t.id));assert.equal((await h.request('/api/inspections/photos/'+photo.id)).status,404)
+ const importedTenancy=(await h.state()).tenancies.find(x=>x.address.includes(''))
+ await h.command('tenancy.erase',{tenancyId:importedTenancy.id,confirm:importedTenancy.tenant_email})
+ journalAfter=await(await h.request('/api/backup')).text()
+ assert.ok(!journalAfter.includes(tenancyInput.address))
+ const fresh=await installation();try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archiveBefore],'old.rer'),journal:new File([journalAfter],'later.rer')},{status:409});assert.equal((await fresh.state()).tenancies.length,0)}finally{await fresh.close()}
+})
