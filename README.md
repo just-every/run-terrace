@@ -9,7 +9,7 @@ Terrace records charges and money received elsewhere. It does not collect rent, 
 Install Git and Node.js 22 or newer. RER selects the project's pinned Node 22.20.0 for project commands. Install the CLI once:
 
 ```sh
-npx -y @runeditrun/rer@0.2.21 cli install
+npx -y @runeditrun/rer@0.2.22 cli install
 git clone https://github.com/just-every/run-terrace.git
 cd run-terrace
 rer dev
@@ -72,4 +72,4 @@ The static run site includes the Terrace homepage, `/run` instructions and repos
 
 ## Source
 
-Foundation: `runeditrun/base` `fc0e1041efa55771142bbb57c4ab4743147e264d`. Package-mode CLI: exactly `@runeditrun/rer` `0.2.21`, which supplies bounded, nonblocking macOS listener ownership inspection without local RER patches. [SOURCE.md](SOURCE.md) records the Base and sibling reuse. Terrace uses shared Fraunces, Manrope and olive theme tokens across its run site, setup, sign-in and server-rendered app.
+Foundation: `runeditrun/base` `fc0e1041efa55771142bbb57c4ab4743147e264d`. Package-mode CLI: exactly `@runeditrun/rer` `0.2.22`, which supplies bounded, nonblocking macOS listener ownership inspection without local RER patches. [SOURCE.md](SOURCE.md) records the Base and sibling reuse. Terrace uses shared Fraunces, Manrope and olive theme tokens across its run site, setup, sign-in and server-rendered app.
