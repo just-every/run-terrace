@@ -60,6 +60,7 @@ export function homeHtml(repository: string): string {
 </p>
 <div class="actions">
 <a class="pill" href="/run">Run Terrace →</a>
+<a class="pill" href="https://demo.run-terrace.com/">Try the demo</a>
 <a href="/docs">Read the docs</a>
 </div>
 <p class="tiny">Free and open source, MIT licensed.</p>
