@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "domain": "run-terrace.com",
+  "name": "Terrace",
+  "settings": {
+    "MAIL_FROM": "Terrace <hello@demo.invalid>",
+    "MAIL_PROVIDER": "resend"
+  }
+}

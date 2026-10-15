@@ -86,7 +86,9 @@
       "erasure",
       "dependencies",
       "operator-auth",
-      "owner-claim"
+      "owner-claim",
+      "demo",
+      "d1-transport"
     ]
   }
 }

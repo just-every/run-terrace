@@ -12,3 +12,6 @@ dist/
 .rer/
 .claude/settings.local.json
 REVIEW.md
+
+.rer/demo/
+.rer/demo-host/

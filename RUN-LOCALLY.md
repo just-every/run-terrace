@@ -74,18 +74,11 @@ this computer set differently (each distinct pin keeps its own copy), and about
 a checkout on another volume than your home folder, where pnpm cannot clone
 packages from its store.
 
-After `RER_READY`, a seed with dev identity normally prints `RER_SIGNED_IN EMAIL`
-and `RER_OPEN URL`: open that URL on this computer and the app opens signed in
-as the owner, at `/setup` until first-run is finished. With `rer dev --login`,
-open the printed `RER_OPEN` URL at `/__dev/key`: it exchanges the fragment's dev
-key for a cookie, then opens `/__dev/outbox`. Treat `RER_OPEN` as a credential;
-do not share it. A fresh browser needs that exchange before the outbox can open.
-For seeds without dev identity, open the printed `RER_SIGN_IN` URL directly.
-In the outbox, follow the newest ordinary sign-in link and finish first-run setup
-at `/setup`. Until first-run completion is stored durably, app routes send the
-signed-in owner to `/setup`; signed-out visitors sign in and return there.
-Once complete, `/setup` opens the app or settings. The local outbox sends no
-external email.
+After `RER_READY`, open the private `RER_OPEN` link on this computer to sign in
+as the owner. Complete first-run setup at `/setup`. Local development mail is
+silently suppressed. For a fully prepared disposable workspace use `rer demo`;
+its sample records and completed first run are isolated from `.wrangler/state`.
+See [DEMO.md](DEMO.md). Treat `RER_OPEN` as a credential; never share it publicly.
 
 The saved local port is used; a first setup saves the first free port from 8787. Explicit ports are decimal
 integers from 1 through 65535 and must be free; a busy requested port fails
@@ -138,13 +131,10 @@ after the application health check. With dev identity it then prints
 checkout's dev key in its fragment: opening it signs the browser in through a
 real dev session, and the key is removed from the address bar and kept only as a
 host-only cookie. Treat that line as a credential and open it only on this
-computer. A dev-only badge switches between the owner, signed out and the
-seed's personas (`admin@dev.localhost` and so on). `rer dev --as PERSONA` starts as
-another persona or `signed-out`; `rer dev --login` turns dev identity off and uses
-the outbox: it prints `RER_SIGN_IN URL` and a `RER_OPEN` URL that opens that
-outbox. Choose the newest ordinary sign-in message and follow its link. No
-external email is sent. A successful sign-in consumes the link once. Seeds
-without dev identity print only `RER_SIGN_IN URL` for the local outbox.
+computer. The nav product label reads Terrace Dev. `rer dev --as PERSONA` starts as
+another persona or `signed-out`. Local mail is silently suppressed; the private
+`RER_OPEN` link supplies owner access without mail. `rer demo` instead starts
+a fresh Terrace Demo, with realistic data and mocked external sends.
 
 Dev and preview are managed servers. In a terminal the first invocation stays
 active while serving; without one, `rer dev` returns once the app is ready and

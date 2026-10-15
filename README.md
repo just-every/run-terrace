@@ -9,17 +9,21 @@ Terrace records charges and money received elsewhere. It does not collect rent, 
 Install Git and Node.js 22 or newer. RER selects the project's pinned Node 22.20.0 for project commands. Install the CLI once:
 
 ```sh
-npx -y @runeditrun/rer@0.2.19 cli install
+npx -y @runeditrun/rer@0.2.21 cli install
 git clone https://github.com/just-every/run-terrace.git
 cd run-terrace
 rer dev
 ```
 
-`rer dev` installs the pinned dependencies, prepares a local D1 database and owner, applies migrations and starts the app. Allow several minutes on the first run. Open its `RER_OPEN` link privately: it signs you in as the local owner. Confirm the owner on **Finish setup**, then open Terrace. The link is a credential; do not share it publicly. Local sign-in uses a development outbox and sends no external email. `rer dev --login` uses an ordinary email-link sign-in instead; open the local outbox after opening the private dev link, choose the newest message and confirm its link.
+`rer dev` installs the pinned dependencies, prepares a local D1 database and owner, applies migrations and starts the app. Allow several minutes on the first run. Open its `RER_OPEN` link privately: it signs you in as the local owner. Confirm the owner on **Finish setup**, then open Terrace. The link is a credential; do not share it publicly. Local development mail is silently suppressed and sends no external email.
 
 For an installation with your real owner mailbox, run `rer setup --owner-email you@example.com` before the first `rer dev`. The interactive `rer setup` also accepts your mailbox. Do not change an existing owner's identity by overwriting settings.
 
 Stop with `rer dev --stop` (or Ctrl-C). Rerunning `rer dev` reuses a compatible running instance. Stop dev or preview before a build or verification. If a command times out, repeat it and follow its recovery message; do not reset data to repair a startup.
+
+## Try a disposable workspace
+
+Run `rer demo` for a fresh signed-in **Terrace Demo**, with six tenancies, rent history, reviewed decisions, photographed inspections and maintenance. Stop it with `rer demo --stop`; each launch starts fresh. [DEMO.md](DEMO.md) describes isolation and real-read / mocked-send behavior.
 
 ## First working cycle
 
@@ -46,7 +50,7 @@ rer verify
 
 Archives include all product tables, original import bytes, journals and photograph BLOBs. Auth sessions, credentials, development outbox and private configuration are excluded. Restore preserves the destination owner and refuses a nonempty product destination, corrupt archives and a supplied erasure fence. Keep backups private. An offline archive cannot know about a later erasure unless you supply the later journal. `rer reset --yes` removes local data and settings; export first if they matter.
 
-Verification builds the app, typechecks it and runs seven public-door integration tests plus the emitted-Worker runtime and ordinary email-link checks. Build and deploy do not run tests. Test cap: 200. `rer describe`, `rer check --profile first-party` and `rer doctor` explain the declared operations and local setup.
+Verification builds the app, typechecks it and runs seven public-door integration tests plus the emitted-Worker runtime and ordinary email-link checks at the mail provider boundary. Build and deploy do not run tests. Test cap: 200. `rer describe`, `rer check --profile first-party` and `rer doctor` explain the declared operations and local setup.
 
 ## Deploy to your Cloudflare account
 
@@ -68,4 +72,4 @@ The static run site includes the Terrace homepage, `/run` instructions and repos
 
 ## Source
 
-Foundation: `runeditrun/base` `fc0e1041efa55771142bbb57c4ab4743147e264d`. Package-mode CLI: exactly `@runeditrun/rer` `0.2.19`, which supplies bounded, nonblocking macOS listener ownership inspection without local RER patches. [SOURCE.md](SOURCE.md) records the Base and sibling reuse. Terrace uses shared Fraunces, Manrope and olive theme tokens across its run site, setup, sign-in and server-rendered app.
+Foundation: `runeditrun/base` `fc0e1041efa55771142bbb57c4ab4743147e264d`. Package-mode CLI: exactly `@runeditrun/rer` `0.2.21`, which supplies bounded, nonblocking macOS listener ownership inspection without local RER patches. [SOURCE.md](SOURCE.md) records the Base and sibling reuse. Terrace uses shared Fraunces, Manrope and olive theme tokens across its run site, setup, sign-in and server-rendered app.
