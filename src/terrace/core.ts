@@ -1,5 +1,5 @@
 export type Row = Record<string, any>
-export type Actor = { id: string; role: 'owner' | 'admin' | 'member'; version?: number }
+export type Actor = { id: string; role: 'owner' | 'admin' | 'member'; displayName: string; version?: number }
 export type Context = { db: D1Database; actor: Actor; now: string }
 export class Fault extends Error { constructor(public code: string, message: string, public status = 400) { super(message) } }
 export function insist(ok: unknown, code: string, message: string, status = 400): asserts ok { if (!ok) throw new Fault(code, message, status) }

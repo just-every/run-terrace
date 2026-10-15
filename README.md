@@ -9,7 +9,7 @@ Terrace records charges and money received elsewhere. It does not collect rent, 
 Install Git and Node.js 22 or newer. RER selects the project's pinned Node 22.20.0 for project commands. Install the CLI once:
 
 ```sh
-npx -y @runeditrun/rer@0.2.17 cli install
+npx -y @runeditrun/rer@0.2.19 cli install
 git clone https://github.com/just-every/run-terrace.git
 cd run-terrace
 rer dev
@@ -64,8 +64,8 @@ rer deploy
 
 The dry run builds and validates without contacting providers. Real deploy provisions declared D1 resources, applies migrations, uploads the Worker/assets and checks deployment identity and asset health. Keep the returned workers.dev address. On the new installation, claim its first owner at **Finish setup** with the configured setup token, then use the emailed sign-in link. If the provider settings are incomplete, fix them before calling the deployment ready.
 
-This round does not claim a live deployment or email delivery. Domain purchase, the run site and release review are later work. The local app and provider-free dry run are the supported checks here.
+The static run site includes the Terrace homepage, `/run` instructions and repository Markdown guides. Build it with `rer build --site`. Its deployment workflow remains off until the run-site gate enables it. This repository does not claim a live deployment or email delivery.
 
 ## Source
 
-Foundation: `runeditrun/base` `fc0e1041efa55771142bbb57c4ab4743147e264d`. Package-mode CLI: exactly `@runeditrun/rer` `0.2.17`, which supplies bounded, nonblocking macOS listener ownership inspection without local RER patches. [SOURCE.md](SOURCE.md) records the Base and sibling reuse. App UI uses Base's theme and server-rendered form components; the design stage follows separately.
+Foundation: `runeditrun/base` `fc0e1041efa55771142bbb57c4ab4743147e264d`. Package-mode CLI: exactly `@runeditrun/rer` `0.2.19`, which supplies bounded, nonblocking macOS listener ownership inspection without local RER patches. [SOURCE.md](SOURCE.md) records the Base and sibling reuse. Terrace uses shared Fraunces, Manrope and olive theme tokens across its run site, setup, sign-in and server-rendered app.

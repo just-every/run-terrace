@@ -8,10 +8,10 @@ export const identity: EditionIdentity = {
   product: branding.name,
   deployment: branding.name,
   purpose: '{deployment} keeps tenancies, rent records, inspections and maintenance in one place.',
-  tagline: 'Residential property operations with reviewed decisions and portable records.',
+  tagline: 'Rentals, in good order.',
   signInPath: '/signin',
   // The run site `rer deploy --site` publishes (deploy-site.json).
-  runSite: 'https://runeditrun.com',
+  runSite: 'https://run-terrace.com',
   // An installed instance serves the Lobby at /.
   installedHome: 'lobby',
   theme: '/rer-theme.css',

@@ -6,7 +6,7 @@ import { workCommand,workData,photoResponse,workPacket } from './work'
 import { importCommand,importData,importView } from './imports'
 import { backup,dataCommand } from './data'
 import { page } from './view'
-import { chooser,tenancyView } from './tenancy-view'
+import { chooser,tenancyView,tenancyList } from './tenancy-view'
 import { ledgerView } from './ledger-view'
 import { workView } from './work-view'
 import { settingsView } from './settings-view'
@@ -16,15 +16,18 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
  const tab=url.searchParams.get('tab')??'tenancy',rows=await tenancyData(c),selected=rows.find(t=>t.id===url.searchParams.get('tenancy'))??rows[0],manage=['owner','admin'].includes(c.actor.role)
  let body='',title='Tenancies'
  if(tab==='import'){owner(c);title='Move in';body=importView({...await importData(c),...result})}
- else if(tab==='settings'){title='Data & access';body=settingsView(rows,c.actor.role==='owner');if(c.actor.role==='owner'&&request&&env)body+=await peopleView(request,env,c)}
+ else if(tab==='settings'){title='Data & access';body=settingsView(rows,c.actor.role==='owner');if(c.actor.role==='owner'&&request&&env)body+=await peopleView(request,env,c);body=`<div class="settings-layout">${body}</div>`}
  else {
-  body=chooser(rows,selected,tab)
-  if(tab==='tenancy') body+=tenancyView(selected,selected?await proposals(c,selected.id):[],manage)
-  else if(tab==='ledger'){title='Rent & arrears';if(selected)body+=ledgerView(selected,await ledgerData(c,selected.id),manage)}
+  if(tab==='tenancy') {
+   if(url.searchParams.get('tenancy')&&selected){title=selected.address;body=tenancyView(selected,await proposals(c,selected.id),manage)}
+   else body=tenancyList(rows,await all(c,"SELECT tenancy_id,kind FROM tt_proposals WHERE state='pending'"),manage,url.searchParams.get('add')==='1')
+  }
+  else body=chooser(rows,selected,tab)
+  if(tab==='ledger'){title='Rent & arrears';if(selected)body+=ledgerView(selected,await ledgerData(c,selected.id),manage)}
   else if(tab==='work'){title='Inspections & maintenance';if(selected)body+=workView(selected,await workData(c,selected.id))}
-  else throw new Fault('not_found','Page not found.',404)
+  else if(tab!=='tenancy') throw new Fault('not_found','Page not found.',404)
  }
- return page(c,title,body,notice,status)
+ return page(c,title,body,notice,status,tab)
 }
 async function command(c:Context,name:string,p:Row) {
  for(const handler of [tenancyCommand,ledgerCommand,workCommand,importCommand,dataCommand]) {

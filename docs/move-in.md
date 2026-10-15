@@ -3,16 +3,32 @@
 The first named kit is **Terrace tenancy CSV v1**. It is a documented Terrace
 CSV contract, not a claim that an external property platform exports this shape.
 No provider connection or external API is involved. The checked-in
-`fixtures/terrace-tenancies.csv` contains two fictional tenancies using
+[example CSV](../fixtures/terrace-tenancies.csv) contains two fictional tenancies using
 `example.com` addresses. It is an import fixture, not seeded application data.
 
-An installation owner opens **Import**, pastes the CSV and selects a stable
+An installation owner opens **Move in**, pastes the CSV and selects a stable
 source namespace. **Preview import** produces a read-only dry run: source row
 references, normalized native tenancy values, rejections, counts and the exact
 SHA-256 plan fingerprint. Nothing is written by preview. The owner reviews
 that result and selects **Approve and import these tenancies**. Preparing a
 preview never approves it; an agent must stop at preparation until the owner
 explicitly approves the fingerprint.
+
+## Bring your records in
+
+1. Prepare a file in the [source shape](#source-shape) below. The example file
+   shows the format; replace its fictional records with your own.
+2. In **Move in**, paste the CSV and choose a stable **Source namespace**.
+3. Select **Preview import**. Check every tenancy, rejection and the displayed
+   fingerprint. Correct rejected records and preview again.
+4. As owner, select **Approve and import these tenancies** only after reviewing
+   the exact plan. Use **Continue approved import** if the job is still applying.
+5. Under **Import history**, select **Inspect journal and original** to check
+   progress and download the exact retained CSV.
+
+**Undo import** removes unchanged imported tenancies. Later edits or dependent
+records stop undo and are preserved. Repeating undo continues a partial reversal.
+Keep a [backup](backup-and-restore.md) when the imported records are in order.
 
 ## Source shape
 

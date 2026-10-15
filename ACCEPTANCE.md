@@ -7,3 +7,5 @@
 5. Export and restore the complete product data, including photos and import custody; erase a tenancy and use the later archive's journal to prevent restoring its older data.
 
 Not needed: trust accounting or money movement, rent collection, bond lodgement, tenant screening, listings, real provider calls, brand/homepage redesign, a docs/run site, a domain purchase, or release review. Maintenance sending uses the person's existing email client; Terrace records the approved packet and human handoff. No jurisdiction-specific notice or compliance claims.
+
+The public run site offers **Run Terrace** to `/run` and on-site Markdown guides for getting started, tenancies and renewals, rent and owner statements, inspections and maintenance, moving in, backup/restore, people/erasure and the command API. The installed root remains the Lobby. The app retains its recorded operations and approval boundaries, with linked tenancy rows and responsive layouts.

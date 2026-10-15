@@ -9,4 +9,6 @@ dist/
 .cache/
 *.tsbuildinfo
 
-.rer/local/
+.rer/
+.claude/settings.local.json
+REVIEW.md

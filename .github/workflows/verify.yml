@@ -23,4 +23,5 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm exec rer check --profile first-party
+      - run: pnpm exec rer build --site
       - run: pnpm run verify
