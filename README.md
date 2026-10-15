@@ -72,4 +72,4 @@ The static run site includes the Terrace homepage, `/run` instructions and repos
 
 ## Source
 
-Foundation: `runeditrun/base` `fc0e1041efa55771142bbb57c4ab4743147e264d`. Package-mode CLI: exactly `@runeditrun/rer` `0.2.22`, which supplies bounded, nonblocking macOS listener ownership inspection without local RER patches. [SOURCE.md](SOURCE.md) records the Base and sibling reuse. Terrace uses shared Fraunces, Manrope and olive theme tokens across its run site, setup, sign-in and server-rendered app.
+Foundation: `runeditrun/base` `fc0e1041efa55771142bbb57c4ab4743147e264d`. Package-mode CLI: exactly `@runeditrun/rer` `0.2.24`, with the vendored Base modules refreshed together from `rer-v0.2.24` for hosted demo starts and suppressed mail. [SOURCE.md](SOURCE.md) records the Base and sibling reuse. Terrace uses shared Fraunces, Manrope and olive theme tokens across its run site, setup, sign-in and server-rendered app.

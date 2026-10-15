@@ -10,7 +10,7 @@ export async function seedDemo(env: Bindings, { ownerEmail, now }: { ownerEmail:
  if (!owner) throw Error('Demo owner is missing')
  const at = (days: number) => new Date(now.getTime() + days * 86400000).toISOString()
  const day = (days: number) => at(days).slice(0, 10)
- const statements: D1PreparedStatement[] = []
+ const statements: D1PreparedStatement[] = [env.DB.prepare('UPDATE oa_operators SET display_name=? WHERE id=?').bind('Rowan Patel', owner.id)]
  const insert = (table: string, row: Record<string, unknown>) => {
   const columns = Object.keys(row)
   statements.push(env.DB.prepare(`INSERT INTO ${table}(${columns.join(',')}) VALUES(${columns.map(() => '?').join(',')}) ON CONFLICT DO NOTHING`).bind(...Object.values(row)))

@@ -3,8 +3,9 @@
   "domain": "run-terrace.com",
   "name": "Terrace",
   "settings": {
-    "MAIL_FROM": "Terrace <hello@demo.invalid>",
+    "MAIL_FROM": "Terrace <hello@terraceproperty.example>",
     "MAIL_PROVIDER": "resend"
   },
-  "instanceType": "standard-1"
+  "instanceType": "basic",
+  "ownerEmail": "rowan@terraceproperty.example"
 }
