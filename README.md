@@ -64,7 +64,7 @@ rer deploy
 
 The dry run builds and validates without contacting providers. Real deploy provisions declared D1 resources, applies migrations, uploads the Worker/assets and checks deployment identity and asset health. Keep the returned workers.dev address. On the new installation, claim its first owner at **Finish setup** with the configured setup token, then use the emailed sign-in link. If the provider settings are incomplete, fix them before calling the deployment ready.
 
-The static run site includes the Terrace homepage, `/run` instructions and repository Markdown guides. Build it with `rer build --site`. Its deployment workflow remains off until the run-site gate enables it. This repository does not claim a live deployment or email delivery.
+The static run site includes the Terrace homepage, `/run` instructions and repository Markdown guides. Build it with `rer build --site`. The public site is at https://run-terrace.com and updates automatically through GitHub Actions on pushes to `main`. Email delivery remains unverified.
 
 ## Source
 
