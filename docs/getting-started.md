@@ -4,14 +4,13 @@ Run Terrace locally, confirm the installation owner and record your first tenanc
 
 ## Get Terrace and start it
 
-Install the RER command once, then clone the source and run it:
+One line installs the RER command, clones the source and runs it:
 
 ```sh
-npx -y @runeditrun/rer@0.2.19 cli install
-git clone https://github.com/just-every/run-terrace.git
-cd run-terrace
-rer dev
+npx -y @runeditrun/rer dev just-every/run-terrace
 ```
+
+To start it again later, run `cd run-terrace && rer dev`.
 
 The first launch can take several minutes. `rer dev` installs dependencies, prepares the local database and development owner, applies migrations and starts the app. It prints the local address as `RER_READY` and a private sign-in link as `RER_OPEN`.
 

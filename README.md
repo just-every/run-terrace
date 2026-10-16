@@ -6,14 +6,13 @@ Terrace records charges and money received elsewhere. It does not collect rent, 
 
 ## Clone and run
 
-Install Git and Node.js 22 or newer. RER selects the project's pinned Node 22.20.0 for project commands. Install the CLI once:
+Install Git and Node.js 22 or newer. RER selects the project's pinned Node 22.20.0 for project commands. Run one line to install the CLI, clone Terrace and start it:
 
 ```sh
-npx -y @runeditrun/rer@0.2.30 cli install
-git clone https://github.com/just-every/run-terrace.git
-cd run-terrace
-rer dev
+npx -y @runeditrun/rer dev just-every/run-terrace
 ```
+
+To start it again later, run `cd run-terrace && rer dev`.
 
 `rer dev` installs the pinned dependencies, prepares a local D1 database and owner, applies migrations and starts the app. Allow several minutes on the first run. Open its `RER_OPEN` link privately: it signs you in as the local owner. Confirm the owner on **Finish setup**, then open Terrace. The link is a credential; do not share it publicly. Local development mail is silently suppressed and sends no external email.
 
