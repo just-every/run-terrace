@@ -6,6 +6,5 @@
     "MAIL_FROM": "Terrace <hello@terraceproperty.example>",
     "MAIL_PROVIDER": "resend"
   },
-  "instanceType": "basic",
   "ownerEmail": "rowan@terraceproperty.example"
 }
