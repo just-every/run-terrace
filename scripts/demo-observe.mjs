@@ -49,3 +49,5 @@ finally {
  console.log(JSON.stringify(summary))
 }
 if (failure) throw Error(failure)
+// Undici can retain the tail socket after close; the completed record is durable.
+process.exit(0)

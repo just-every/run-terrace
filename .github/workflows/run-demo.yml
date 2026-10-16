@@ -9,7 +9,7 @@ on:
         type: boolean
         default: false
       observe:
-        description: 'Observe test-host admissions for 15 minutes before a fresh-start cohort'
+        description: 'Observe the existing test host for 15 minutes before a fresh-start cohort'
         type: boolean
         default: false
       remove:
@@ -43,7 +43,7 @@ jobs:
         if: inputs.test_only
         run: node --input-type=module -e "import fs from 'node:fs'; const d=JSON.parse(fs.readFileSync('deploy-demo.json','utf8')); d.domain='test.'+d.domain; fs.writeFileSync('deploy-demo.json',JSON.stringify(d));"
       # Wrangler builds the container image with the runner's Docker and pushes it to the account.
-      - if: ${{ !inputs.remove }}
+      - if: ${{ !inputs.remove && !inputs.observe }}
         run: pnpm exec rer deploy --demo --environment "$DEMO_ENVIRONMENT"
         env:
           CLOUDFLARE_ACCOUNT_ID: b20c0ca9cab0c2b70e13d7cf724b89bd
