@@ -6,17 +6,17 @@ Terrace records charges and money received elsewhere. It does not collect rent, 
 
 ## Clone and run
 
-Install Git and Node.js 22 or newer. RER selects the project's pinned Node 22.20.0 for project commands. Run one line to install the CLI, clone Terrace and start it:
+Install Git. RER selects the project's pinned Node 22.20.0 for project commands. Run one line to install the CLI, clone Terrace and start it:
 
 ```sh
 npx -y @runeditrun/rer dev just-every/run-terrace
 ```
 
-To start it again later, run `cd run-terrace && rer dev`.
+Without Node, `curl -fsSL https://runeditrun.com/install.sh | sh -s -- dev just-every/run-terrace` does the same. To start it again later, run `cd run-terrace && rer dev`.
 
 `rer dev` installs the pinned dependencies, prepares a local D1 database and owner, applies migrations and starts the app. Allow several minutes on the first run. Open its `RER_OPEN` link privately: it signs you in as the local owner. Confirm the owner on **Finish setup**, then open Terrace. The link is a credential; do not share it publicly. Local development mail is silently suppressed and sends no external email.
 
-For an installation with your real owner mailbox, run `rer setup --owner-email you@example.com` before the first `rer dev`. The interactive `rer setup` also accepts your mailbox. Do not change an existing owner's identity by overwriting settings.
+For an installation with your real owner mailbox, run `npx -y @runeditrun/rer install just-every/run-terrace`, then `rer setup --owner-email you@example.com` from the checkout before the first `rer dev`. The interactive `rer setup` also accepts your mailbox. Do not change an existing owner's identity by overwriting settings.
 
 Stop with `rer dev --stop` (or Ctrl-C). Rerunning `rer dev` reuses a compatible running instance. Stop dev or preview before a build or verification. If a command times out, repeat it and follow its recovery message; do not reset data to repair a startup.
 

@@ -10,13 +10,13 @@ One line installs the RER command, clones the source and runs it:
 npx -y @runeditrun/rer dev just-every/run-terrace
 ```
 
-To start it again later, run `cd run-terrace && rer dev`.
+Without Node, `curl -fsSL https://runeditrun.com/install.sh | sh -s -- dev just-every/run-terrace` does the same. To start it again later, run `cd run-terrace && rer dev`.
 
 The first launch can take several minutes. `rer dev` installs dependencies, prepares the local database and development owner, applies migrations and starts the app. It prints the local address as `RER_READY` and a private sign-in link as `RER_OPEN`.
 
 Open `RER_OPEN` on this computer. It is a credential: keep it private. On **Finish setup**, confirm the owner and finish setup to enter Terrace. Local sign-in and invitations use the development outbox; they send no external email.
 
-For a new installation using your real owner mailbox, run `rer setup` before its first `rer dev` and enter the mailbox at the prompt. Preserve the owner identity in an existing installation. The repository's [operating instructions](../README.md) cover deployment and provider configuration.
+For a new installation using your real owner mailbox, run `npx -y @runeditrun/rer install just-every/run-terrace`, then `rer setup` from the checkout before its first `rer dev`, and enter the mailbox at the prompt. Preserve the owner identity in an existing installation. The repository's [operating instructions](../README.md) cover deployment and provider configuration.
 
 ## Add the first tenancy
 
