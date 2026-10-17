@@ -6,11 +6,14 @@ const widths: Record<string, number[]> = { hero: [768, 1152, 1536], closing: [76
 const sizes: Record<string, [number, number]> = { hero: [1536, 1024], closing: [1536, 588], mailboxes: [1536, 1024] }
 const srcset = (name: string, type: string) => widths[name].map(w => `/site/${name}-${w}.${type} ${w}w`).join(', ')
 
-/** A painted plate as AVIF with a WebP fallback, at three widths, with an optional phone crop for the narrow layout (under 1100 px). */
+/** The homepage's one-column layout, used until its desktop composition fits (landing*.css use the same 1239 px). */
+export const narrow = '(max-width: 1239px)'
+
+/** A painted plate as AVIF with a WebP fallback, at three widths, with an optional phone crop for the narrow layout. */
 export function picture(name: string, alt: string, { phone, eager = false }: { phone?: string; eager?: boolean } = {}) {
  const [w, h] = sizes[name]
- const narrow = phone ? `<source media="(max-width: 1099px)" type="image/avif" srcset="${srcset(phone, 'avif')}" sizes="100vw"><source media="(max-width: 1099px)" type="image/webp" srcset="${srcset(phone, 'webp')}" sizes="100vw">` : ''
- return `<picture class="art">${narrow}<source type="image/avif" srcset="${srcset(name, 'avif')}" sizes="100vw"><source type="image/webp" srcset="${srcset(name, 'webp')}" sizes="100vw"><img src="/site/${name}-1536.webp" alt="${alt}" width="${w}" height="${h}" ${eager ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'}></picture>`
+ const crop = phone ? `<source media="${narrow}" type="image/avif" srcset="${srcset(phone, 'avif')}" sizes="100vw"><source media="${narrow}" type="image/webp" srcset="${srcset(phone, 'webp')}" sizes="100vw">` : ''
+ return `<picture class="art">${crop}<source type="image/avif" srcset="${srcset(name, 'avif')}" sizes="100vw"><source type="image/webp" srcset="${srcset(name, 'webp')}" sizes="100vw"><img src="/site/${name}-1536.webp" alt="${alt}" width="${w}" height="${h}" ${eager ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'}></picture>`
 }
 
 export const runButton = () => `<a class="run-button" href="/run">Run Terrace ${icon('arrow')}</a>`

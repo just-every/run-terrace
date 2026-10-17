@@ -47,19 +47,3 @@ h2+.lead{margin-top:26px}
 .site-footer{background:var(--card);border-top:1px solid var(--rule)}
 .site-footer-row{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:82px}
 .site-footer nav{font-size:17px;gap:42px}
-
-@media (max-width:1099px){
- :root{--gutter:max(16px,calc((100vw - 720px) / 2));--h2:44px;--lead:18px}
- .eyebrow{font-size:13px;letter-spacing:.24em}
- h2,.display{letter-spacing:-.05em;line-height:1}
- h2+.lead{margin-top:16px}
- .site-header-row{height:64px;margin-top:4px}
- .lockup{font-size:21px;gap:12px}.lockup .mark{width:33px;height:22px}
- .site-header nav{gap:24px;font-size:16px}
- .run-button{height:52px;padding:0 28px;font-size:18px}
- .text-link{font-size:16px;text-underline-offset:8px}
- .actions{gap:16px 28px}
- .site-footer-row{flex-direction:column;align-items:flex-start;justify-content:center;padding:22px 0;gap:14px}
- .site-footer nav{gap:24px;font-size:15px;flex-wrap:wrap}
-}
-@media (max-width:420px){:root{--h2:41px}}

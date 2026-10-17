@@ -2,6 +2,9 @@
 .section{padding:62px 0 70px}
 .split{display:grid;align-items:center}
 .phone-only{display:none}
+/* The desktop composition runs from 1240 px; headings and leads ease down from their 1440 sizes so every section
+   keeps its drawn arrangement there. Under 1240 the one-column layout takes over (the 1239 block below). */
+@media (min-width:1240px){:root{--h2:clamp(62px,5.14vw,74px);--lead:clamp(22.5px,1.84vw,26.5px)}}
 
 /* 02 · October at a glance, then Oct 1 · Rent day */
 .month{padding-top:60px}
@@ -11,7 +14,7 @@
 .ribbon b{font:700 18px/1.2 var(--rer-font-heading);letter-spacing:-.02em;color:var(--ink)}
 .stop{width:18px;height:18px;border-radius:50%;box-shadow:0 0 0 4px #fff}
 .stop.green{background:#1FA571}.stop.blue{background:#3B82F6}.stop.orange{background:#F47B2A}.stop.amber{background:#EAB12A}.stop.violet{background:#7357FF}
-.rent-day{grid-template-columns:1fr 720px;gap:72px;margin-top:38px}
+.rent-day{grid-template-columns:minmax(400px,1fr) minmax(0,720px);gap:clamp(48px,12vw - 101px,72px);margin-top:38px}
 .rent-day .copy{padding-bottom:20px}
 .rent-day h2{line-height:.97}
 .rent-roll{padding:30px 26px 14px}
@@ -25,7 +28,7 @@
 .progress b{font-size:17px;font-weight:500}
 .rent-roll .count{padding-left:12px;margin-top:10px;font-size:18px;color:var(--body)}
 .roll{margin-top:18px;border-top:1px solid var(--rule)}
-.roll li{display:grid;grid-template-columns:46px 172px 1fr 116px 84px;align-items:center;gap:0 16px;min-height:61px;padding:8px 0;border-bottom:1px solid var(--rule)}
+.roll li{display:grid;grid-template-columns:46px minmax(0,172px) minmax(170px,1fr) minmax(0,116px) 84px;align-items:center;gap:0 16px;min-height:61px;padding:8px 0;border-bottom:1px solid var(--rule)}
 .roll li:last-child{border-bottom:0}
 .roll .who{font-size:16.5px;font-weight:500;color:var(--ink)}
 .roll .amount{display:grid;font-size:16.5px;color:var(--ink)}
@@ -41,7 +44,7 @@
 .rail-step{display:grid;justify-items:center}
 .rail-date{position:relative;font:500 19px/1 var(--rer-font-heading);letter-spacing:-.01em;color:var(--ink);padding-bottom:30px}
 .rail-date::after{content:"";position:absolute;left:50%;bottom:4px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:#6C4CFF}
-.rail-step .card{width:100%;padding:20px 18px 24px}
+.rail-step .card{width:100%;padding:20px 18px 24px;container-type:inline-size}
 .applications .card{margin-top:16px}
 .rail-step header{display:flex;align-items:center;gap:20px}
 .rail-step header .disc{width:58px;height:58px}.rail-step header .disc .i{width:26px;height:26px;stroke-width:2}
@@ -67,6 +70,9 @@
 .lease .price{margin-top:8px;font-size:32px}
 .deposit{margin-top:6px;font-size:16px;color:var(--ink);white-space:nowrap}
 .deposit .i.inline{display:inline-block;width:18px;height:18px;vertical-align:-3px}
+/* Narrower desktop cards (1240-1360): the decisions go under each applicant and the deposit line may wrap. */
+@container (max-width:470px){.applicants li{grid-template-columns:56px minmax(0,1fr)}.applicants .pill{grid-column:2;justify-self:start;margin-top:8px;white-space:normal}}
+@container (max-width:340px){.deposit{white-space:normal}}
 .signers{margin:18px 0 18px;padding:14px 0;border-block:1px solid var(--rule);display:grid;gap:14px}
 .signers li{display:flex;align-items:center;gap:16px;font-size:16px;color:var(--body)}
 .signers b{color:var(--ink)}
@@ -74,7 +80,7 @@
 
 /* 04 · Oct 5 · Leak in 3A */
 .leak{padding-top:84px}
-.display{font-size:84px}
+.display{font-size:min(84px,5.84vw)}
 .leak .lead{margin-top:20px;font-size:24px}
 .leak-stage{position:relative;height:632px;margin-top:38px;--axis:308px}
 .leak-stage::before{content:"";position:absolute;left:-12px;right:-12px;top:var(--axis);height:1.5px;background:#CFCBE0}
@@ -91,6 +97,7 @@
 .leak-step header .disc{width:44px;height:44px}
 .leak-step h3{font:600 17px/1.25 var(--rer-font-heading);letter-spacing:-.025em;color:var(--ink)}
 .leak-step h3 b{font-weight:700}
+.leak-step h3 span{white-space:nowrap}
 .leak-step p{margin-top:14px;font-size:18px;line-height:1.4;color:var(--body)}
 .leak-step p+p{margin-top:10px}
 .leak-step .note{font-size:16px;color:var(--body)}
@@ -208,16 +215,17 @@
 .flag .disc{width:34px;height:34px}.flag .disc .i{width:20px;height:20px;stroke-width:3}
 .flag .pill{margin-left:auto;min-height:32px;font-size:15px}
 .down{display:grid;place-items:center;margin-top:10px;color:#8F92AE}.down .i{width:22px;height:22px;stroke-width:1.6}
-.trace{display:grid;grid-template-columns:1fr 46px 1fr 46px 1fr;align-items:center;margin-top:52px}
+.trace{display:grid;grid-template-columns:minmax(0,1fr) 46px minmax(0,1fr) 46px minmax(0,1fr);align-items:center;margin-top:52px}
 .trace-arrow{display:grid;place-items:center;color:#6C4CFF}.trace-arrow .i{width:34px;height:24px;stroke-width:1.6}
-.ledger{padding:26px 18px 24px}
-.ledger h3{margin:0 10px;padding-bottom:16px;border-bottom:1px solid var(--rule);font:600 13px/1.3 var(--rer-font-body);letter-spacing:.2em;white-space:nowrap;text-transform:uppercase;color:#3D4163}
+/* Each ledger's text scales with its own width (409 px at 1440), so the three always fit their third of the row. */
+.ledger{container-type:inline-size;padding:26px 18px 24px}
+.ledger h3{margin:0 10px;padding-bottom:16px;border-bottom:1px solid var(--rule);font:600 clamp(11.5px,3.18cqw,13px)/1.3 var(--rer-font-body);letter-spacing:clamp(1.4px,1.52cqw - 3.6px,2.6px);white-space:nowrap;text-transform:uppercase;color:#3D4163}
 .ledger ul{display:grid;gap:8px;margin-top:12px}
-.ledger li{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:54px;padding:0 10px;border-radius:10px;font-size:18.5px;color:var(--ink)}
-.ledger li>span{display:flex;align-items:center;gap:10px;white-space:nowrap}
+.ledger li{display:flex;align-items:center;justify-content:space-between;gap:min(10px,2.4cqw);min-height:54px;padding:0 10px;border-radius:10px;font-size:min(18.5px,4.52cqw);color:var(--ink)}
+.ledger li>span{display:flex;align-items:center;gap:min(10px,2.4cqw);white-space:nowrap}
 .ledger li b{font-weight:500}
 .ledger .dup{background:#FDECEC;color:#C8232A}
-.ledger .dup .pill{background:#F9D3D4;color:#B4232A;font-size:14px;min-height:26px;padding:2px 10px}
+.ledger .dup .pill{background:#F9D3D4;color:#B4232A;font-size:clamp(11.5px,3.42cqw,14px);min-height:26px;padding:2px 10px}
 .ledger .rev{background:#E7F6EE;color:#0E5E3E}
 .ledger .rev .disc{background:#17935F}
 .deposits{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:52px;font-size:18px;color:var(--body)}
@@ -276,7 +284,7 @@
 .homes h3{margin-top:24px;font:800 36px/1.1 var(--rer-font-heading);letter-spacing:-.045em}
 .homes p{margin-top:14px;font-size:21px;line-height:1.55;color:var(--body)}
 
-@media (max-width:1099px){
+@media (max-width:1239px){
  .section{padding:44px 0 40px}
  .split{grid-template-columns:1fr!important;gap:24px!important}
  .card{border-radius:16px}
@@ -434,11 +442,11 @@
  .flag>span:not(.disc){flex:1 1 220px;min-width:0}
  .flag .disc{width:26px;height:26px}.flag .disc .i{width:15px;height:15px}
  .flag .pill{margin-left:36px;font-size:13.5px;min-height:28px}
- .trace{grid-template-columns:1fr;gap:6px;margin-top:22px}
+ .trace{grid-template-columns:minmax(0,1fr);gap:6px;margin-top:22px}
  .trace-arrow .i{transform:rotate(90deg);width:26px;height:22px}
  .ledger{padding:16px 10px 12px}
- .ledger h3{font-size:13px;letter-spacing:.14em;padding-bottom:12px}
- .ledger li{min-height:44px;font-size:14.5px;padding:0 8px}
+ .ledger h3{font-size:13px;letter-spacing:.14em;padding-bottom:12px;white-space:normal}
+ .ledger li{min-height:44px;font-size:clamp(13px,4.4cqw,14.5px);padding:0 8px}
  .ledger .dup .pill{font-size:13px;padding:1px 8px}
  .deposits{margin-top:22px;font-size:14px;text-align:center;flex-wrap:wrap}
 

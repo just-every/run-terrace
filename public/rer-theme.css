@@ -53,3 +53,5 @@ body>.art{height:220px}
 body>.art img{object-position:center 40%;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 55%);mask-image:linear-gradient(to bottom,transparent,#000 55%)}
 .step .num{background:var(--ink)}
 @media(max-width:760px){.bar .brand img{width:36px;height:24px}body>.art{height:170px}}
+/* /run: a command too long for its card wraps at its spaces inside the room Base keeps for Copy, so it never runs under the button. */
+body:has(>.bar) .code pre{white-space:pre-wrap;overflow-wrap:break-word}
