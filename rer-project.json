@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "projectId": "just-every/run-terrace",
+  "name": "Terrace",
+  "sourceRepository": "https://github.com/just-every/run-terrace",
+  "license": "MIT"
+}
