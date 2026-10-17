@@ -71,7 +71,7 @@ function document(guide: Guide, repository: string, html: string, headings: Head
 <title>${escape(guide.title)} · Terrace Docs</title><meta name="description" content="${escape(guide.description)}">
 <link rel="icon" href="/brand/mark.svg"><link rel="stylesheet" href="/rer-theme.css"><link rel="stylesheet" href="/docs.css"></head>
 <body><a class="skip-link" href="#main">Skip to content</a>
-<header class="docs-header"><a class="docs-brand" href="/"><img src="/brand/mark.svg" width="28" height="28" alt=""><span>Terrace</span></a><nav aria-label="Site"><a href="/docs" aria-current="true">Docs</a><a href="${escape(repository)}">Source</a></nav></header>
+<header class="docs-header"><a class="docs-brand" href="/"><img src="/brand/mark.svg" width="28" height="28" alt=""><span>Terrace</span></a><nav aria-label="Site"><a href="/docs" aria-current="true">Docs</a><a href="/contract">Contract</a><a href="${escape(repository)}">Source</a></nav></header>
 <div class="docs-layout"><aside>${navigation(guide)}</aside><main id="main" tabindex="-1"><p class="eyebrow">Terrace documentation</p><article class="prose">${article}</article><footer class="doc-footer"><a href="${escape(sourceUrl(repository, guide.file))}">Read this guide in the source</a><p>Free and open source, MIT licensed.</p></footer></main></div></body></html>`
 }
 

@@ -50,6 +50,7 @@ export function homeHtml(repository: string): string {
 </a>
 <nav class="links" aria-label="Main navigation">
 <a href="/docs">Docs</a>
+<a href="/contract">Contract</a>
 <a href="${source}">Source</a>
 </nav>
 </header>
