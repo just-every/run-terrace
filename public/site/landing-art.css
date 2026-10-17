@@ -37,10 +37,17 @@
 .unit-card.u4b{align-items:center}
 .unit-card .short{display:none}
 @media (min-width:1240px){
- .hero>.site-header .site-header-row{width:auto;margin-inline:var(--edge);height:min(80px,calc(80 * 100cqw / 1440));margin-top:min(12px,calc(12 * 100cqw / 1440))}
- /* Under 1440 the actions shrink with the painting, so the row ends before the building. */
- .hero .run-button{height:min(53px,calc(53 * 100cqw / 1440));padding:0 min(34px,calc(34 * 100cqw / 1440));font-size:min(20.5px,calc(20.5 * 100cqw / 1440))}
- .hero .text-link{font-size:min(17.5px,calc(17.5 * 100cqw / 1440))}
+ /* --s is one 1440 px at this width: the header and actions keep their 1440 sizes against the copy at every width,
+    as page-01 does, so the Run label stays about the subhead's size. Under 1440 the actions and the header row
+    shrink with the painting (the row ends before the building); the lockup and nav keep their 1440 sizes there. */
+ .hero>.site-header,.hero-copy{--s:calc(100cqw / 1440)}
+ .hero>.site-header .site-header-row{width:auto;margin-inline:var(--edge);height:calc(80 * var(--s));margin-top:calc(12 * var(--s))}
+ .hero .lockup{gap:max(17px,calc(17 * var(--s)));font-size:max(23px,calc(23 * var(--s)))}
+ .hero .lockup .mark{width:max(37px,calc(37 * var(--s)));height:max(25px,calc(25 * var(--s)))}
+ .hero .site-header nav{gap:max(44px,calc(44 * var(--s)));font-size:max(18px,calc(18 * var(--s)))}
+ .hero .run-button{gap:max(12px,calc(12 * var(--s)));height:calc(53 * var(--s));padding:0 calc(34 * var(--s));font-size:calc(20.5 * var(--s))}
+ .hero .run-button .i{width:max(21px,calc(21 * var(--s)));height:max(21px,calc(21 * var(--s)))}
+ .hero .text-link{font-size:calc(17.5 * var(--s));text-underline-offset:max(11px,calc(11 * var(--s)))}
 }
 
 /* Mid-month mailboxes: the plate is 1536 x 1024; box (c, r) has its name card centred at
