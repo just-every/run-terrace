@@ -5,6 +5,13 @@
 /* The desktop composition runs from 1240 px; headings and leads ease down from their 1440 sizes so every section
    keeps its drawn arrangement there. Under 1240 the one-column layout takes over (the 1239 block below). */
 @media (min-width:1240px){:root{--h2:clamp(62px,5.14vw,74px);--lead:clamp(22.5px,1.84vw,26.5px)}}
+/* One left edge from the header down to the footer: from about 1480 px the column widens with the hero
+   painting's margin (85 of 1536, the edge landing-art.css gives the hero's header and copy), as in page-01/02. */
+@media (min-width:1240px){
+ .wrap{width:calc(100% - 2 * min(85 * 100% / 1536,max(var(--gutter),(100% - 1320px) / 2)))}
+ /* Leads keep the line length they have at 1440 (at most 28em) as the column widens. */
+ p.lead:not(.center){max-width:28em}
+}
 
 /* 02 · October at a glance, then Oct 1 · Rent day */
 .month{padding-top:60px}
