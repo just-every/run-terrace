@@ -1,0 +1,124 @@
+/* The three painted sections: the hero, the mid-month mailboxes and the closing rooftop. On wide screens
+   every HTML layer is placed in the painting's own 1536-wide coordinates (--u is one painting pixel). */
+.art img{width:100%;height:auto}
+
+/* Hero */
+.hero{position:relative;container-type:inline-size;aspect-ratio:1536/1024;overflow:hidden;background:#EDEBFA}
+.hero>.site-header{position:absolute;inset:0 0 auto}
+.hero-scene,.hero-copy{--u:calc(100cqw / 1536)}
+.hero-scene{position:absolute;inset:0}
+.hero-scene .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-copy{position:absolute;z-index:2;left:calc(85 * var(--u));top:calc(150 * var(--u));width:calc(720 * var(--u))}
+.hero h1{font:800 calc(72 * var(--u))/.985 var(--rer-font-heading);letter-spacing:-.052em;color:var(--ink)}
+.hero-sub{margin-top:calc(26 * var(--u));max-width:calc(590 * var(--u));font-size:calc(25.5 * var(--u));line-height:1.37;color:#55587A}
+.hero-alt{margin-top:calc(18 * var(--u));font-size:calc(23.5 * var(--u));line-height:1.4;color:#45496A}
+.hero-alt strong{color:var(--ink);font-weight:700}
+.hero-alt .names{display:inline-block;white-space:nowrap}
+.hero .actions{margin-top:calc(34 * var(--u));gap:calc(20 * var(--u)) calc(44 * var(--u))}
+.hero-pins{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.lead-line,.hero-pins .lead,.closing-pins .lead{fill:none;stroke:#FFFFFFE6;stroke-width:2}
+.pin{stroke:#fff;stroke-width:3.5}
+.pin.green{fill:#1FA571}.pin.orange{fill:#F47B2A}.pin.violet{fill:#7357FF}.pin.blue{fill:#4A7DF4}
+.unit-cards{position:absolute;inset:0;pointer-events:none}
+.unit-card{position:absolute;left:calc(var(--x) * var(--u));top:calc(var(--y) * var(--u));width:calc(var(--w) * var(--u));display:flex;align-items:flex-start;gap:calc(14 * var(--u));padding:calc(16 * var(--u)) calc(16 * var(--u)) calc(15 * var(--u));background:#FFFFFFF2;border-radius:calc(16 * var(--u));box-shadow:0 2px 4px #2A1F5A14,0 16px 34px -12px #2A1F5A55;pointer-events:auto}
+.unit-card .disc{width:calc(42 * var(--u));height:calc(42 * var(--u))}
+.unit-card .disc .i{width:calc(22 * var(--u));height:calc(22 * var(--u))}
+.unit-card p{display:grid;gap:calc(2 * var(--u));font-size:calc(14 * var(--u));line-height:1.3;color:#6B6E92}
+.unit-card p b{font-size:calc(15.5 * var(--u));font-weight:600;color:var(--ink);margin-bottom:calc(2 * var(--u))}
+.unit-card p strong{display:flex;align-items:center;gap:calc(10 * var(--u));font:600 calc(16.5 * var(--u))/1.35 var(--rer-font-body);color:var(--ink);letter-spacing:-.01em}
+.unit-card p strong.soft{font-weight:500;font-size:calc(14.5 * var(--u))}
+.unit-card.owner p strong{font-size:calc(17.5 * var(--u));margin-top:calc(4 * var(--u))}
+.unit-card .pill{min-height:0;padding:calc(2 * var(--u)) calc(9 * var(--u));font-size:calc(12 * var(--u));font-style:normal}
+.unit-card.u4b{align-items:center}
+.unit-card .short{display:none}
+
+/* Mid-month mailboxes: the plate is 1536 x 1024; box (c, r) has its name card centred at
+   x = 354 + 210.5c, y = 286 + 197.7r. */
+.mailboxes{position:relative;padding:0}
+.mail-stage .art img{-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 7%,#000 92%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 7%,#000 92%,transparent 100%)}
+.mail-stage{position:relative;container-type:inline-size}
+.mail-stage .art img{width:100%;height:auto}
+.plate-eyebrow{position:absolute;z-index:2;left:0;right:0;top:calc(100cqw * 56 / 1536);margin:0}
+.mailboxes{container-type:inline-size}
+.boxes{position:absolute;inset:0;--u:calc(100cqw / 1536)}
+.box{position:absolute;left:calc((354 + 210.5 * var(--c)) * var(--u));top:calc((286 + 197.7 * var(--r)) * var(--u));width:0;height:0}
+.box .label{position:absolute;left:calc(-44 * var(--u));top:calc(-14 * var(--u));width:calc(88 * var(--u));height:calc(28 * var(--u));display:grid;place-items:center;font:700 calc(18 * var(--u))/1 var(--rer-font-heading);letter-spacing:.01em;color:#4A3414;text-shadow:0 1px 0 #FFF6DD99}
+.box .tag{position:absolute;left:calc(-78 * var(--u));top:calc(-95 * var(--u));min-width:calc(144 * var(--u));display:flex;align-items:center;gap:calc(10 * var(--u));padding:calc(9 * var(--u)) calc(14 * var(--u)) calc(9 * var(--u)) calc(10 * var(--u));background:#FFFFFFF5;border-radius:calc(11 * var(--u));box-shadow:0 10px 22px -10px #2B1A0080;white-space:nowrap}
+.box .tag .disc{width:calc(26 * var(--u));height:calc(26 * var(--u))}
+.box .tag .disc .i{width:calc(15 * var(--u));height:calc(15 * var(--u));stroke-width:2.8}
+.box .tag>span:last-child{display:grid;font-size:max(15px,calc(14 * var(--u)));line-height:1.25;color:#55587A}
+.box .tag b{font-size:max(15px,calc(16 * var(--u)));color:var(--ink)}
+.box-dot{display:none}
+.tag-list{display:none}
+
+/* Closing: the heading over lavender, the rooftop plate (1536 x 588) under it, then the footer. */
+.closing{position:relative;background:linear-gradient(180deg,#F6F5FD 0,#EEEBFA 60%,#E3DDF6 100%)}
+.closing-copy{padding:76px var(--gutter) 46px;text-align:center}
+.closing-copy h2{font-size:84px}
+.closing-sub{margin-top:14px;font:400 30px/1.3 var(--rer-font-body);color:#4A4D72;letter-spacing:-.01em}
+.closing .actions{justify-content:center;margin-top:38px}
+.licence{margin-top:34px;font-size:16.5px;color:#5F6283}
+.closing-scene{position:relative;container-type:inline-size;margin-top:-56px}
+.closing-scene .art img{width:100%;height:auto;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 13%);mask-image:linear-gradient(180deg,transparent 0,#000 13%)}
+.closing-pins{position:absolute;inset:0;width:100%;height:100%}
+.night-tag{--u:calc(100cqw / 1536);position:absolute;display:flex;align-items:center;gap:calc(14 * var(--u));padding:calc(14 * var(--u)) calc(20 * var(--u)) calc(14 * var(--u)) calc(16 * var(--u));background:#FFFFFFF5;border-radius:calc(14 * var(--u));box-shadow:0 14px 30px -12px #0B0A2A99}
+.night-tag .disc{width:calc(38 * var(--u));height:calc(38 * var(--u))}
+.night-tag .disc .i{width:calc(21 * var(--u));height:calc(21 * var(--u))}
+.night-tag span:last-child{display:grid;font-size:max(15px,calc(14.5 * var(--u)));line-height:1.3;color:#55587A}
+.night-tag b{font-size:max(15px,calc(17 * var(--u)));color:var(--ink)}
+.night-tag{white-space:nowrap}
+.night-tag.paid{left:calc(1251 * var(--u));top:calc(31 * var(--u))}
+.night-tag.moved{left:calc(1171 * var(--u));top:calc(386 * var(--u))}
+
+@media (max-width:1099px){
+ /* Hero: header and copy on the sky, then the building with five compact cards on it. */
+ .hero{aspect-ratio:auto;container-type:normal;overflow:visible;background:linear-gradient(180deg,#E7E9FB 0,#F1E9F6 55%,#F8E4E4 100%)}
+ .hero>.site-header{position:relative}
+ .hero-copy{position:relative;left:auto;top:auto;width:auto;padding:30px var(--gutter) 30px}
+ .hero h1{font-size:45px;line-height:1;letter-spacing:-.05em}
+ .hero-sub{margin-top:16px;max-width:none;font-size:18px;line-height:1.45}
+ .hero-alt{margin-top:14px;max-width:none;font-size:17px}
+ .hero .actions{margin-top:24px;gap:16px 28px}
+ .hero .run-button{width:100%;justify-content:center}
+ .hero-scene{position:relative;inset:auto;aspect-ratio:836/660}
+ .hero-pins{display:none}
+ .unit-card{left:var(--px);top:var(--py);width:44.5%;gap:7px;padding:7px 9px;border-radius:12px;align-items:center}
+ .unit-card .disc{width:10px;height:10px;align-self:flex-start;margin-top:5px}.unit-card .disc .i{display:none}
+ .unit-card .long{display:none}
+ .unit-card .short{display:grid;gap:1px;min-width:0;font-size:13px;line-height:1.25}
+ .unit-card .short b{font-size:13px;margin:0}
+
+ /* Mailboxes: the panel full width with 13 px labels and a dot on each of the seven boxes; the tags
+    move below it into two columns. */
+ .mail-stage .art img{width:100%}
+ .plate-eyebrow{position:static;padding:40px 0 18px}
+ .boxes{--u:calc(100cqw / 1096)}
+ .box{left:calc((126 + 210.5 * var(--c)) * var(--u));top:calc((166 + 197.7 * var(--r)) * var(--u))}
+ .box .label{font-size:max(13px,calc(18 * var(--u)));left:calc(-50 * var(--u));width:calc(100 * var(--u));height:calc(36 * var(--u));top:calc(-18 * var(--u))}
+ .box .tag{display:none}
+ .box-dot{display:block;position:absolute;left:calc(26 * var(--u));top:calc(-80 * var(--u));width:calc(46 * var(--u));height:calc(46 * var(--u));min-width:14px;min-height:14px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 6px #0004}
+ .box-dot.green{background:#1FA571}.box-dot.amber{background:#EBA22B}.box-dot.violet{background:#7357FF}
+ .tag-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px;padding-bottom:12px}
+ .tag-list li{display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px}
+ .tag-list .disc{width:30px;height:30px}.tag-list .disc .i{width:17px;height:17px}
+ .tag-list li>span:last-child{display:grid;font-size:13.5px;line-height:1.3;color:#55587A;min-width:0}
+ .tag-list b{font-size:14px;color:var(--ink);white-space:nowrap}
+ .tag-list li{gap:8px}.tag-list .disc{width:28px;height:28px}
+
+ /* Closing: heading and actions centred, the scene full bleed, the two tags staggered. */
+ .closing-copy{padding:56px var(--gutter) 30px}
+ .closing-copy h2{font-size:44px}
+ .closing-sub{font-size:18px;margin-top:12px}
+ .closing .actions{flex-direction:column;margin-top:26px}
+ .licence{margin-top:22px;font-size:14px}
+ .closing-scene{margin-top:0;container-type:normal}
+ .closing-pins{display:none}
+ .night-tag{position:relative;z-index:1;width:auto!important;max-width:220px;margin:0;padding:10px 14px 10px 10px;border-radius:12px;gap:10px}
+ .night-tag .disc{width:30px;height:30px}.night-tag .disc .i{width:17px;height:17px}
+ .night-tag span:last-child{font-size:13px}.night-tag b{font-size:14.5px}
+ .closing-scene{display:grid}
+ .closing-scene>picture{grid-area:1/1}
+ .night-tag.paid,.night-tag.moved{left:auto;top:auto}
+ .night-tag.paid{grid-area:1/1;align-self:start;justify-self:end;margin:14px 14px 0 0}
+ .night-tag.moved{grid-area:1/1;align-self:end;justify-self:start;margin:0 0 16px 14px}
+}

@@ -78,8 +78,8 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
     case 'maintenance.prepare': {
       insist(['owner','admin','member'].includes(c.actor.role), 'forbidden', 'You cannot prepare maintenance.', 403)
       const t = await tenancy(c, p.tenancyId), jobId = id(), proposalId = id()
-      const details = { title: text(p.title, 'Work required', 200), tradeName: text(p.tradeName, 'Trade name', 200), tradeEmail: email(p.tradeEmail), dueDate: date(p.dueDate, 'Due date'), estimateCents: cents(p.estimate) }
-      insist(!/[<>"(),:;\\]/.test(details.tradeEmail), 'invalid_email', 'Enter a plain trade email address.')
+      const details = { title: text(p.title, 'Work required', 200), tradeName: text(p.tradeName, 'Vendor name', 200), tradeEmail: email(p.tradeEmail), dueDate: date(p.dueDate, 'Due date'), estimateCents: cents(p.estimate) }
+      insist(!/[<>"(),:;\\]/.test(details.tradeEmail), 'invalid_email', 'Enter a plain vendor email address.')
       await commit(c, [
         guard(c, 'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)', t.id, t.version),
         sql(c, "INSERT INTO tt_proposals(id,tenancy_id,kind,payload,tenancy_version,prepared_by,prepared_at) VALUES(?,?,'maintenance',?,?,?,?)", proposalId, t.id, JSON.stringify({ jobId, ...details }), t.version, c.actor.id, c.now),

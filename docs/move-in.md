@@ -46,9 +46,9 @@ ref,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,
 - `owner_name`, `tenant_name`: names, up to 200 characters.
 - `owner_email`, `tenant_email`: valid email addresses, normalized to lowercase.
 - `start_date`, `end_date`: real `YYYY-MM-DD` dates; end must not precede start.
-- `rent`: positive AUD decimal with at most two decimal places, up to
+- `rent`: positive USD decimal with at most two decimal places, up to
   `1000000.00`. It becomes integer `rent_cents`.
-- `cadence`: `weekly`, `fortnightly` or `monthly`.
+- `cadence`: `weekly`, `fortnightly` (every two weeks) or `monthly`.
 - `created_at`: the source tenancy record's creation time, expressed exactly as
   an ISO UTC timestamp such as `2026-01-15T00:00:00.000Z`. This preserves the
   complete native row without putting the time of preview into its fingerprint.

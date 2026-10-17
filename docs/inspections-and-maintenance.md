@@ -13,16 +13,16 @@ Completion requires notes and at least one saved photo. The completed record ret
 
 ## Prepare maintenance
 
-Under **Prepare maintenance**, enter the work required, trade name and email, due date and estimate in AUD. Select **Prepare for approval**.
+Under **Prepare maintenance**, enter the work required, vendor name and email, due date and estimate in USD. Select **Prepare for approval**.
 
-The new job reads **Prepared · awaiting approval**. Preparing does not approve the work or contact the trade. A member-account agent stops here and hands the job to a person for review.
+The new job reads **Prepared · awaiting approval**. Preparing does not approve the work or contact the vendor. A member-account agent stops here and hands the job to a person for review.
 
 ## Approve and send the packet
 
-1. An owner or admin reviews the scope, trade details, date and estimate, then selects **Approve maintenance**.
+1. An owner or admin reviews the scope, vendor details, date and estimate, then selects **Approve maintenance**.
 2. Terrace saves an approval snapshot and changes the job to **Approved · awaiting external handoff**.
 3. Select **Download approved email packet (.eml)**.
-4. Open the packet in your own email client, check it and send it to the trade.
+4. Open the packet in your own email client, check it and send it to the vendor.
 5. After sending, enter an **Email or external handoff reference** and select **Record external handoff**.
 
 Downloading an `.eml` file does not send it. The final state, **Sent · external handoff recorded**, means a person recorded the external handoff. Terrace does not deliver the maintenance email or confirm receipt by the trade.

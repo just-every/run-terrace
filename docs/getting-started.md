@@ -22,7 +22,7 @@ For a new installation using your real owner mailbox, run `npx -y @runeditrun/re
 
 1. Open **Tenancies**, then **Add a tenancy**.
 2. Enter the address, property owner's name and email, and tenant's name and email.
-3. Enter the lease start and end dates, rent in AUD and rent cadence: weekly, fortnightly or monthly.
+3. Enter the lease start and end dates, rent in USD and rent cadence: weekly, every two weeks or monthly.
 4. Select **Add tenancy** and check the saved details.
 
 If you already have records to bring across, use **Move in** and follow the [CSV guide](move-in.md). Terrace starts with your records; the repository's example CSV is an import fixture, not preloaded portfolio data.

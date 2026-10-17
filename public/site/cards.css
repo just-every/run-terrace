@@ -1,0 +1,20 @@
+/* The drawing primitives every homepage card uses: the white card, status pills, initials, icon discs. */
+.card{background:var(--card);border:1px solid #E9E7F3;border-radius:18px;box-shadow:0 1px 2px #12163A0A,0 18px 40px -22px #12163A33}
+.pill{display:inline-flex;align-items:center;gap:6px;width:max-content;max-width:100%;min-height:28px;padding:3px 13px;border-radius:999px;font:500 14px/1.3 var(--rer-font-body);white-space:nowrap}
+.pill.big{min-height:38px;padding:5px 18px;font-size:17px}
+.pill.green{background:var(--green-tint);color:var(--green-ink)}
+.pill.green-solid{background:#178A5B;color:#fff}
+.pill.amber{background:var(--amber-tint);color:var(--amber-ink)}
+.pill.red{background:var(--red-tint);color:var(--red-ink)}
+.pill.grey{background:#EFEEF4;color:#3D4163}
+.avatar{display:inline-grid;place-items:center;flex:none;width:46px;height:46px;border-radius:50%;font:500 16.5px/1 var(--rer-font-body);letter-spacing:.02em}
+.avatar.violet{background:#ECE8FF;color:#3F2FA8}.avatar.blue{background:#E2ECFF;color:#24499E}.avatar.amber{background:#FDEFD3;color:#7A5108}
+.avatar.green{background:#DDF3E8;color:#0D6B45}.avatar.red{background:#FDE2E2;color:#A3232A}.avatar.grey{background:#EBEAF2;color:#3D4163}
+.disc{display:inline-grid;place-items:center;flex:none;width:42px;height:42px;border-radius:50%;color:#fff}
+.disc .i{width:22px;height:22px;stroke-width:2.4}
+.disc.square{border-radius:12px}.disc.big{width:56px;height:56px}.disc.big .i{width:28px;height:28px}
+.disc.tiny{width:23px;height:23px}.disc.tiny .i{width:14px;height:14px;stroke-width:3}
+.disc.green,.disc.green-solid{background:#22A472}.disc.orange{background:#F47B2A}.disc.violet,.disc.violet-solid{background:#7357FF}
+.disc.blue,.disc.blue-solid{background:#4A7DF4}.disc.red,.disc.red-solid{background:#E23E43}.disc.amber{background:#EBA22B}
+.disc.violet-soft{background:#EEEAFF;color:var(--accent)}
+.disc.green-solid{background:#178A5B}

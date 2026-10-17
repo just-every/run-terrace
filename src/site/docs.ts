@@ -2,6 +2,8 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join, normalize } from 'node:path/posix'
 import { Marked } from 'marked'
+import { siteDocument } from './document'
+import { siteFooter, siteHeader } from './shell'
 
 const guides = [
   { file: 'docs/index.md', path: '/docs', label: 'Overview', title: 'Terrace guides', description: 'Practical guides to tenancies, rent, inspections, maintenance and looking after your Terrace records.' },
@@ -59,20 +61,38 @@ function renderMarkdown(source: string, file: string, repository: string) {
   return { html, headings: headings.filter(heading => heading.depth === 2 || heading.depth === 3) }
 }
 
+const sections: [string, string[]][] = [
+  ['Start here', ['/docs', '/docs/getting-started']],
+  ['Everyday work', ['/docs/tenancies', '/docs/rent-and-statements', '/docs/inspections-and-maintenance']],
+  ['Your records', ['/docs/move-in', '/docs/backup-and-restore', '/docs/roles-and-erasure']],
+  ['Integrations', ['/docs/api']],
+]
+
 function navigation(current: Guide) {
-  return `<nav class="guide-nav" aria-label="Documentation guides"><p class="nav-label">The guides</p><ul>${guides.map(guide => `<li><a href="${guide.path}"${guide.path === current.path ? ' aria-current="page"' : ''}>${escape(guide.label)}</a></li>`).join('')}</ul></nav>`
+  return `<nav class="guide-nav" aria-label="Documentation guides">${sections.map(([label, paths]) => `<p class="nav-label">${escape(label)}</p><ul>${paths.map(path => guides.find(guide => guide.path === path)!).map(guide => `<li><a href="${guide.path}"${guide.path === current.path ? ' aria-current="page"' : ''}>${escape(guide.label)}</a></li>`).join('')}</ul>`).join('')}</nav>`
 }
+
+function pager(current: Guide) {
+  const index = guides.indexOf(current), previous = guides[index - 1], next = guides[index + 1]
+  const link = (guide: Guide | undefined, rel: string, label: string) => guide ? `<a class="card pager-${rel}" href="${guide.path}" rel="${rel}"><span>${label}</span><b>${escape(guide.title)}</b></a>` : '<span></span>'
+  return `<nav class="pager" aria-label="More guides">${link(previous, 'prev', 'Previous')}${link(next, 'next', 'Next')}</nav>`
+}
+
+// Code cards get their Copy button only when script runs; without it the command is still there to select.
+const COPY = "document.querySelectorAll('.prose pre').forEach(pre=>{const b=document.createElement('button');b.type='button';b.className='copy';b.textContent='Copy';b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(pre.querySelector('code').textContent.trim());b.textContent='Copied';setTimeout(()=>{b.textContent='Copy'},1600)}catch{}});pre.append(b)})"
 
 function document(guide: Guide, repository: string, html: string, headings: Heading[]) {
   const contents = headings.length ? `<details class="contents" open><summary>On this page</summary><nav aria-label="On this page"><ul>${headings.map(heading => `<li${heading.depth === 3 ? ' class="subheading"' : ''}><a href="#${escape(heading.id)}">${escape(heading.label)}</a></li>`).join('')}</ul></nav></details>` : ''
-  const article = html.replace('</h1>', `</h1>${contents}`)
-  return `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${escape(guide.title)} · Terrace Docs</title><meta name="description" content="${escape(guide.description)}">
-<link rel="icon" href="/brand/mark.svg"><link rel="stylesheet" href="/rer-theme.css"><link rel="stylesheet" href="/docs.css"></head>
-<body><a class="skip-link" href="#main">Skip to content</a>
-<header class="docs-header"><a class="docs-brand" href="/"><img src="/brand/mark.svg" width="28" height="28" alt=""><span>Terrace</span></a><nav aria-label="Site"><a href="/docs" aria-current="true">Docs</a><a href="/contract">Contract</a><a href="${escape(repository)}">Source</a></nav></header>
-<div class="docs-layout"><aside>${navigation(guide)}</aside><main id="main" tabindex="-1"><p class="eyebrow">Terrace documentation</p><article class="prose">${article}</article><footer class="doc-footer"><a href="${escape(sourceUrl(repository, guide.file))}">Read this guide in the source</a><p>Free and open source, MIT licensed.</p></footer></main></div></body></html>`
+  // The index lists each guide as "[Title](file): what it covers"; its cards set the title on its own line.
+  if (guide.path === '/docs') html = html.replace(/(<li><a [^>]+>[^<]+<\/a>): /g, '$1')
+  const article = html.replace(/<h1 id="[^"]*">([\s\S]*?)<a class="heading-link"[^>]*>#<\/a><\/h1>/, (_, title) => `<h1>${title}</h1><p class="title-dots" aria-hidden="true"><i></i><i></i><i></i></p>${contents}`)
+  return siteDocument({
+    title: guide.path === '/docs' ? 'Terrace docs' : `${guide.title} · Terrace docs`,
+    description: guide.description,
+    styles: ['/site/docs.css'],
+    script: COPY,
+    body: `${siteHeader('docs')}<div class="wrap docs-layout${guide.path === '/docs' ? ' is-index' : ''}"><aside>${navigation(guide)}</aside><main id="main" tabindex="-1"><p class="eyebrow">Terrace documentation</p><article class="prose">${article}</article>${pager(guide)}<footer class="doc-footer"><a href="${escape(sourceUrl(repository, guide.file))}">Read this guide in the source</a><p>Free and open source, MIT licensed.</p></footer></main></div>${siteFooter()}`,
+  })
 }
 
 /** Called from the checkout root by the run site's static entry, never a Worker. */

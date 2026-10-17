@@ -4,6 +4,8 @@ export const repository = metadata.repository.url.replace(/\.git$/, '')
 export const run: RunData = {
  name:'Terrace', repository,
  clone:'npx -y @runeditrun/rer dev just-every/run-terrace', folder:'run-terrace',
- requirements:'Needs Node 22 or later and pnpm 10.12.4, on macOS, Linux or Windows with WSL2.',
+ requirements:'Runs on macOS, Linux or Windows with WSL2, with git. The installer brings Node when it is missing, and rer brings pnpm.',
  licence:'MIT', docs:true, hosted:[],
 }
+/** The demo the hero's "Try the demo" opens (deploy-demo.json). */
+export const demo = 'https://demo.run-terrace.com/'

@@ -29,7 +29,8 @@
     "check": "rer check",
     "deps": "rer install",
     "rer": "rer",
-    "test:terrace": "node --test --test-concurrency=1 tests/terrace.test.mjs"
+    "test:terrace": "node --test --test-concurrency=1 tests/terrace.test.mjs",
+    "test:site": "node --test tests/site/site.test.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "1.170.33",

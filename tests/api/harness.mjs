@@ -32,4 +32,4 @@ export async function installation(){
   return {mf,origin,request,command,formCommand,state,invite,cookie,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
  }catch(e){await mf.dispose();await rm(root,{recursive:true,force:true});throw e}
 }
-export const tenancyInput={address:'12 Jacaranda Street, New Farm QLD',ownerName:'Rowan Ellis',ownerEmail:'rowan@example.test',tenantName:'Alex Chen',tenantEmail:'alex@example.test',startDate:'2025-01-01',endDate:'2026-12-31',rent:'620.00',cadence:'weekly'}
+export const tenancyInput={address:'Unit 1C, 1840 Alder Street, Oakland, CA',ownerName:'Rowan Ellis',ownerEmail:'rowan@example.test',tenantName:'Alex Chen',tenantEmail:'alex@example.test',startDate:'2025-01-01',endDate:'2026-12-31',rent:'620.00',cadence:'weekly'}

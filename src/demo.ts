@@ -4,6 +4,8 @@ import sink from './terrace/demo/sink.txt?raw'
 import tap from './terrace/demo/tap.txt?raw'
 import { sha256 } from './terrace/core'
 
+const intervals: Record<'weekly' | 'fortnightly' | 'monthly', number> = { weekly: 7, fortnightly: 14, monthly: 30 }
+
 /** Real records in the visitor's disposable database. No requests or random IDs. */
 export async function seedDemo(env: Bindings, { ownerEmail, now }: { ownerEmail: string; now: Date }) {
  const owner = await env.DB.prepare("SELECT id FROM oa_operators WHERE email=? AND role='owner'").bind(ownerEmail).first<{ id: string }>()
@@ -20,7 +22,7 @@ export async function seedDemo(env: Bindings, { ownerEmail, now }: { ownerEmail:
  }
  insert('oa_first_run', { singleton: 1, completed_by: owner.id, completed_at: now.getTime() })
  for (const [index, p] of portfolio.entries()) {
-  const id = `demo-${p.id}`, interval = p.cadence === 'weekly' ? 7 : p.cadence === 'fortnightly' ? 14 : 30
+  const id = `demo-${p.id}`, interval = intervals[p.cadence]
   insert('tt_tenancies', { id, address: p.address, owner_name: p.owner, owner_email: `${p.owner.toLowerCase().replaceAll(' ', '.')}@example.test`, tenant_name: p.tenant, tenant_email: `${p.tenant.toLowerCase().replaceAll(' ', '.')}@example.test`, start_date: day(-280), end_date: day(p.end), rent_cents: p.rent, cadence: p.cadence, version: 1, created_at: at(-290) })
   for (let period = 0; period < 4; period++) {
    const chargeId = `${id}-rent-${period}`, due = (period - 3) * interval + 3
@@ -34,7 +36,7 @@ export async function seedDemo(env: Bindings, { ownerEmail, now }: { ownerEmail:
  }
  for (const [index, encoded] of [sink, tap].entries()) {
   const id = `demo-inspection-${index}`, completed = index === 0, photo = Uint8Array.from(atob(encoded.trim()), c => c.charCodeAt(0))
-  insert('tt_inspections', { id, tenancy_id: `demo-${portfolio[index].id}`, inspection_date: day(index === 0 ? -14 : -1), notes: index === 0 ? 'Kitchen and living areas clean and well maintained. Mixer drips after closing; maintenance prepared. No other concerns raised.' : 'Balcony latch repaired. Kitchen tap and seals checked; finish report after discussing access with Jordan.', state: completed ? 'completed' : 'draft', version: 2, created_by: 'demo-manager', created_at: at(-15), completed_by: completed ? 'demo-manager' : null, completed_at: completed ? at(-14) : null })
+  insert('tt_inspections', { id, tenancy_id: `demo-${portfolio[index].id}`, inspection_date: day(index === 0 ? -14 : -1), notes: index === 0 ? 'Kitchen and living areas clean and well maintained. Faucet drips after closing; maintenance prepared. No other concerns raised.' : 'Balcony latch repaired. Kitchen faucet and seals checked; finish report after discussing access with Jordan.', state: completed ? 'completed' : 'draft', version: 2, created_by: 'demo-manager', created_at: at(-15), completed_by: completed ? 'demo-manager' : null, completed_at: completed ? at(-14) : null })
   insert('tt_inspection_photos', { id: `${id}-photo`, inspection_id: id, filename: index === 0 ? 'kitchen-sink.jpg' : 'kitchen-tap.jpg', media_type: 'image/jpeg', size: photo.length, sha256: await sha256(photo), bytes: photo, uploaded_by: 'demo-manager', uploaded_at: at(index === 0 ? -14 : -1) })
  }
  for (const [index, m] of maintenance.entries()) {

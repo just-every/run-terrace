@@ -1,0 +1,65 @@
+/* The run site's frame: page, type scale, header, buttons and footer. Tokens live once, in /rer-theme.css. */
+*,*::before,*::after{box-sizing:border-box}
+:root{--gutter:60px;--h2:74px;--lead:26.5px}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--ink);font:400 17px/1.5 var(--rer-font-body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure,pre{margin:0;padding:0}
+ul,ol{list-style:none}
+b,strong{font-weight:600}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.skip-link{position:absolute;left:16px;top:8px;z-index:30;padding:10px 14px;border-radius:10px;background:var(--card);color:var(--ink);transform:translateY(-200%)}
+.skip-link:focus{transform:none}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1320px,100% - 2 * var(--gutter));margin-inline:auto}
+
+/* The lockup: the vector mark beside the Geist wordmark. */
+.mark .bar-deep{fill:var(--violet-deep)}.mark .bar-mid{fill:var(--accent)}.mark .bar-pale{fill:var(--violet-pale)}
+.lockup{display:inline-flex;align-items:center;gap:17px;text-decoration:none;color:var(--ink);font:600 23px/1 var(--rer-font-heading);letter-spacing:-.035em}
+.lockup .mark{width:37px;height:25px}
+.site-header{position:relative;z-index:5}
+.site-header-row{display:flex;align-items:center;justify-content:space-between;gap:24px;height:80px;margin-top:12px;border-bottom:1px solid #12163A24}
+.site-header nav,.site-footer nav{display:flex;align-items:center;gap:44px;font-size:18px}
+.site-header nav a,.site-footer nav a{color:var(--body);text-decoration:none}
+.site-header nav a:hover,.site-footer nav a:hover,.site-header nav a[aria-current]{color:var(--ink);text-decoration:underline;text-underline-offset:6px}
+
+/* Type */
+.eyebrow{font:700 15.5px/1.6 var(--rer-font-body);letter-spacing:.3em;text-transform:uppercase;color:var(--accent-ink)}
+h2,.display{font:800 var(--h2)/.99 var(--rer-font-heading);letter-spacing:-.052em;color:var(--ink);text-wrap:balance}
+.eyebrow+h2{margin-top:14px}
+.dot{color:var(--accent)}
+.lead{font-size:var(--lead);line-height:1.45;color:var(--body);text-wrap:pretty}
+h2+.lead{margin-top:26px}
+.center{text-align:center}
+
+/* Actions */
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:18px 44px}
+.run-button{display:inline-flex;align-items:center;gap:12px;height:53px;padding:0 34px;border-radius:999px;background:var(--ink);color:#fff;font:500 20.5px/1 var(--rer-font-body);text-decoration:none;box-shadow:0 12px 26px -14px #12163ACC;transition:background .15s}
+.run-button:hover{background:#262c64}
+.run-button .i{width:21px;height:21px;stroke-width:1.8}
+.text-link{font-size:17.5px;font-weight:500;color:var(--ink);text-decoration:underline;text-decoration-thickness:1.5px;text-decoration-color:#12163A80;text-underline-offset:11px}
+.text-link:hover{text-decoration-color:var(--ink)}
+
+/* Footer */
+.site-footer{background:var(--card);border-top:1px solid var(--rule)}
+.site-footer-row{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:82px}
+.site-footer nav{font-size:17px;gap:42px}
+
+@media (max-width:1099px){
+ :root{--gutter:max(16px,calc((100vw - 720px) / 2));--h2:44px;--lead:18px}
+ .eyebrow{font-size:13px;letter-spacing:.24em}
+ h2,.display{letter-spacing:-.05em;line-height:1}
+ h2+.lead{margin-top:16px}
+ .site-header-row{height:64px;margin-top:4px}
+ .lockup{font-size:21px;gap:12px}.lockup .mark{width:33px;height:22px}
+ .site-header nav{gap:24px;font-size:16px}
+ .run-button{height:52px;padding:0 28px;font-size:18px}
+ .text-link{font-size:16px;text-underline-offset:8px}
+ .actions{gap:16px 28px}
+ .site-footer-row{flex-direction:column;align-items:flex-start;justify-content:center;padding:22px 0;gap:14px}
+ .site-footer nav{gap:24px;font-size:15px;flex-wrap:wrap}
+}
+@media (max-width:420px){:root{--h2:41px}}

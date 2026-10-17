@@ -1,8 +1,10 @@
+<picture><source media="(prefers-color-scheme: dark)" srcset="public/brand/mark-dark.svg"><img src="public/brand/mark.svg" alt="" width="54" height="36"></picture>
+
 # Terrace
 
 Residential property management for an independent manager or landlord. Keep tenancies, recorded rent, photographed inspections, reviewed maintenance and owner statements in your own Cloudflare account. MIT licensed.
 
-Terrace records charges and money received elsewhere. It does not collect rent, hold or move funds, reconcile a trust account, lodge bonds, screen tenants or publish listings. See [ACCEPTANCE.md](ACCEPTANCE.md) for the first release.
+Terrace records charges and money received elsewhere. It does not yet collect rent, hold or move funds, reconcile a trust account, hold security deposits, screen applicants or publish listings. See [ACCEPTANCE.md](ACCEPTANCE.md) for the first release.
 
 ## Clone and run
 
@@ -12,7 +14,14 @@ Install Git. RER selects the project's pinned Node 22.20.0 for project commands.
 npx -y @runeditrun/rer dev just-every/run-terrace
 ```
 
-Without Node, `curl -fsSL https://runeditrun.com/install.sh | sh -s -- dev just-every/run-terrace` does the same. To start it again later, run `cd run-terrace && rer dev`.
+Or, as [run-terrace.com/run](https://run-terrace.com/run) shows it, install rer first (it brings its own Node when you have none) and then start Terrace:
+
+```sh
+curl -fsSL https://runeditrun.com/install.sh | sh
+rer dev just-every/run-terrace
+```
+
+To start it again later, run `cd run-terrace && rer dev`.
 
 `rer dev` installs the pinned dependencies, prepares a local D1 database and owner, applies migrations and starts the app. Allow several minutes on the first run. Open its `RER_OPEN` link privately: it signs you in as the local owner. Confirm the owner on **Finish setup**, then open Terrace. The link is a credential; do not share it publicly. Local development mail is silently suppressed and sends no external email.
 
@@ -28,7 +37,7 @@ Run `rer demo` for a fresh signed-in **Terrace Demo**, with six tenancies, rent 
 
 1. **Tenancies → Add a tenancy.** Enter the address, owner and tenant names/emails, lease dates and rent cadence. The chosen tenancy carries into its selected screen. Prepare a renewal with its source reference; approve the exact proposed terms in **Prepared decisions**. Previous terms remain in the archive.
 2. **Rent & arrears.** Select the tenancy. Add a charge with a unique reference. Record an amount already received in your external system, with its date and unique bank/receipt reference. A receipt cannot exceed a charge's remaining balance. Use **Reduce an incorrect charge** for an explained correction. Prepare an arrears follow-up and approve it on **Tenancies**. No follow-up email is sent automatically. Download a period **Owner statement** CSV; its opening and closing amounts are rent receivables, not owner disbursements.
-3. **Inspections & maintenance → New inspection.** Save a date and notes, upload a JPEG/PNG up to 1.5 MB, then complete the inspection. At least one photo and notes are required. Prepare maintenance with its trade, due date and estimate. Approve it, download the `.eml` packet, open it in your existing email client and send it to the trade. Only then record its external handoff reference. The approval snapshot and photo fingerprint are retained.
+3. **Inspections & maintenance → New inspection.** Save a date and notes, upload a JPEG/PNG up to 1.5 MB, then complete the inspection. At least one photo and notes are required. Prepare maintenance with its vendor, due date and estimate. Approve it, download the `.eml` packet, open it in your existing email client and send it to the vendor. Only then record its external handoff reference. The approval snapshot and photo fingerprint are retained.
 4. **Move in.** Paste [fixtures/terrace-tenancies.csv](fixtures/terrace-tenancies.csv), use a stable namespace, preview the rows and approve their displayed fingerprint. Inspect the journal and original, or undo the import. Undo stops if a tenancy acquired rent, inspections, maintenance or later edits. See the exact [CSV contract](docs/move-in.md). The fixture is a documented-shape example, not a verified vendor export.
 5. **Data & access.** Download a backup. To restore, start a separate empty installation and upload the `.rer` file there. The owner-only erasure form deletes a tenancy and its dependent data. Download a new backup after erasure and provide it as the later journal when restoring any older backup.
 
@@ -49,7 +58,7 @@ rer verify
 
 Archives include all product tables, original import bytes, journals and photograph BLOBs. Auth sessions, credentials, development outbox and private configuration are excluded. Restore preserves the destination owner and refuses a nonempty product destination, corrupt archives and a supplied erasure fence. Keep backups private. An offline archive cannot know about a later erasure unless you supply the later journal. `rer reset --yes` removes local data and settings; export first if they matter.
 
-Verification builds the app, typechecks it and runs seven public-door integration tests plus the emitted-Worker runtime and ordinary email-link checks at the mail provider boundary. Build and deploy do not run tests. Test cap: 200. Push and PR Verify runs source/site, typecheck, product and emitted-Worker shards in parallel. Release tags (`v*`), nightly and manual Nightly journeys run the full plan; this seed currently has no separate slow installer/README journey files. See [VERIFY-WORKFLOW.md](VERIFY-WORKFLOW.md) to add them without dropping checks. `rer describe`, `rer check --profile first-party` and `rer doctor` explain the declared operations and local setup.
+Verification builds the app, typechecks it and runs seven public-door integration tests, the run-site build test, plus the emitted-Worker runtime and ordinary email-link checks at the mail provider boundary. Build and deploy do not run tests. Test cap: 200. Push and PR Verify runs source/site, typecheck, product and emitted-Worker shards in parallel. Release tags (`v*`), nightly and manual Nightly journeys run the full plan; this seed currently has no separate slow installer/README journey files. See [VERIFY-WORKFLOW.md](VERIFY-WORKFLOW.md) to add them without dropping checks. `rer describe`, `rer check --profile first-party` and `rer doctor` explain the declared operations and local setup.
 
 ## Deploy to your Cloudflare account
 
@@ -71,4 +80,4 @@ The static run site includes the Terrace homepage, `/run` instructions and repos
 
 ## Source
 
-Foundation: `runeditrun/base` `fc0e1041efa55771142bbb57c4ab4743147e264d`. Package-mode CLI: exactly `@runeditrun/rer` `0.2.30`, with the vendored Base modules refreshed together from `rer-v0.2.30` for native hosted demo starts and suppressed mail. [SOURCE.md](SOURCE.md) records the Base and sibling reuse. Terrace uses shared Fraunces, Manrope and olive theme tokens across its run site, setup, sign-in and server-rendered app.
+Foundation: `runeditrun/base` `fc0e1041efa55771142bbb57c4ab4743147e264d`. Package-mode CLI: exactly `@runeditrun/rer` `0.2.30`, with the vendored Base modules refreshed together from `rer-v0.2.30` for native hosted demo starts and suppressed mail. [SOURCE.md](SOURCE.md) records the Base and sibling reuse. Terrace uses one set of tokens in `public/rer-theme.css` (lavender paper, navy ink and the violet ramp of its stepped-blocks mark) and self-hosted Geist, Figtree and JetBrains Mono ([public/fonts](public/fonts/README.md)) across its run site, setup, sign-in and server-rendered app.

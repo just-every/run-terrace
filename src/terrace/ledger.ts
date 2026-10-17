@@ -43,6 +43,6 @@ export async function statement(c:Context,tenancyId:string,from:string,to:string
 }
 export function statementCsv(s:Awaited<ReturnType<typeof statement>>) {
  const cell=(v:unknown)=>'"'+String(v??'').replaceAll('"','""').replace(/^[=+@-]/,"'$&")+'"'
- const rows:unknown[][]=[['Terrace owner statement',s.tenancy.owner_name],['Property',s.tenancy.address],['Period',s.from,s.to],['Opening receivable AUD',(s.openingCents/100).toFixed(2)],['Date','Kind','Reference','Charges AUD','Receipts AUD','Adjustments AUD'],...s.events.map(e=>[e.date,e.kind,e.reference,(e.chargeCents/100).toFixed(2),(e.receiptCents/100).toFixed(2),(e.adjustmentCents/100).toFixed(2)]),['Closing receivable AUD',(s.closingCents/100).toFixed(2)],[s.boundary]]
+ const rows:unknown[][]=[['Terrace owner statement',s.tenancy.owner_name],['Property',s.tenancy.address],['Period',s.from,s.to],['Opening receivable USD',(s.openingCents/100).toFixed(2)],['Date','Kind','Reference','Charges USD','Receipts USD','Adjustments USD'],...s.events.map(e=>[e.date,e.kind,e.reference,(e.chargeCents/100).toFixed(2),(e.receiptCents/100).toFixed(2),(e.adjustmentCents/100).toFixed(2)]),['Closing receivable USD',(s.closingCents/100).toFixed(2)],[s.boundary]]
  return rows.map(r=>r.map(cell).join(',')).join('\r\n')+'\r\n'
 }

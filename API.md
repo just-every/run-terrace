@@ -23,7 +23,7 @@ All reads and writes authenticate a current Base operator session. Send the sess
 | `tenancy.erase` | tenancyId, confirm (exact tenant email) | Owner |
 | `data.restore` | backup file, optional journal file, confirm=RESTORE (multipart) | Owner, empty product destination |
 
-Amounts are AUD decimal strings, dates YYYY-MM-DD. Charges and receipt references are unique; duplicate retries are refused without duplicating money. Current versions are returned in `/api/state`; stale approvals and changes fail. A prepared proposal has no effect until approval. Agents use member accounts to prepare, then hand the proposal/job ID to a person. Approval records the actual authenticated actor and time; sending a `role` field cannot grant authority.
+Amounts are USD decimal strings, dates YYYY-MM-DD. Charges and receipt references are unique; duplicate retries are refused without duplicating money. Current versions are returned in `/api/state`; stale approvals and changes fail. A prepared proposal has no effect until approval. Agents use member accounts to prepare, then hand the proposal/job ID to a person. Approval records the actual authenticated actor and time; sending a `role` field cannot grant authority.
 
 Downloads: `GET /api/statement?tenancyId=ID&from=YYYY-MM-DD&to=YYYY-MM-DD` (owner/admin CSV), `/api/inspections/photos/ID` (authenticated image), `/api/maintenance/ID/packet` (approved `.eml`), `/api/backup` (owner-only archive). Downloads are private and not cacheable. An `.eml` is an unsent packet; its download is not delivery evidence.
 
