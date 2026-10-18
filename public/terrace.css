@@ -28,8 +28,10 @@ article{padding:20px;margin:20px 0 0;box-shadow:none}section>article:last-child{
 form{display:grid;gap:16px;margin:16px 0 0}form p{font-size:14px;color:var(--muted)}form>label{margin:0}
 label{display:grid;gap:8px;font-size:14px;font-weight:500;margin-bottom:16px}
 input,select,textarea{width:100%;max-width:100%;min-width:0;min-height:46px;padding:10px 12px;border:1px solid var(--field);border-radius:10px;color:var(--ink);background:var(--card);font:400 16px/1.4 var(--rer-font-body)}
+/* every single-choice select draws its chevron 14px in from the right border (two gradient strokes in the theme's muted ink: the theme CSP allows no data: images); multiple and size>1 lists keep their native look */
+select:not([multiple]):not([size]), select[size="1"]:not([multiple]) { -webkit-appearance: none; appearance: none; padding-inline-end: 40px; background-image: linear-gradient(to top right, transparent calc(50% - 1.1px), var(--rer-muted) calc(50% - .55px), var(--rer-muted) calc(50% + .55px), transparent calc(50% + 1.1px)), linear-gradient(to top left, transparent calc(50% - 1.1px), var(--rer-muted) calc(50% - .55px), var(--rer-muted) calc(50% + .55px), transparent calc(50% + 1.1px)); background-repeat: no-repeat; background-position: right 20px center, right 14px center; background-size: 6px 6px; text-overflow: ellipsis; line-height: normal; }
 input[type=hidden]{display:none}input[type=checkbox]{width:20px;min-height:20px;accent-color:var(--accent)}input[type=file]{font-size:13px;padding:10px}
-textarea{min-height:110px;resize:vertical}select{padding-right:30px}input[type=date]{min-width:0;appearance:none}
+textarea{min-height:110px;resize:vertical}input[type=date]{min-width:0;appearance:none}
 button,.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:11px 20px;border:1px solid var(--accent);border-radius:10px;background:var(--accent);color:var(--rer-accent-text);font:600 15px/1.4 var(--rer-font-body);text-decoration:none;text-align:center;cursor:pointer}
 button:hover,.button:hover{filter:brightness(.94)}button:disabled{opacity:.5;cursor:default}
 button.secondary,.button.secondary{background:var(--card);color:var(--ink);border-color:var(--field)}button.danger,.button.danger{color:var(--danger);border-color:var(--danger);background:var(--card)}
