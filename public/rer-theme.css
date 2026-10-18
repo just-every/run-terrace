@@ -24,24 +24,30 @@
   --rer-wordmark-weight:600; --rer-wordmark-tracking:-.035em;
 }
 /* The shared native auth documents use this same frame, including the outbox. */
-.rer-themed.rer-themed body{display:grid;place-items:center;padding:80px 20px;line-height:1.55;background:var(--page);color:var(--ink)}
+.rer-themed.rer-themed body{display:grid;place-items:center;padding:80px 20px;line-height:1.55;background:radial-gradient(55% 45% at 100% 0,#FCEFF5 0,transparent 70%),radial-gradient(45% 40% at 0 0,#EEEBFF 0,transparent 70%),var(--page);color:var(--ink)}
 .rer-themed.rer-themed main{width:100%;max-width:480px;padding:40px;border:var(--rer-card-border);box-shadow:var(--card-shadow)}
-.rer-themed.rer-themed h1{font-size:34px;font-weight:700;letter-spacing:-.035em;line-height:1.15;margin:0 0 28px}
+.rer-themed.rer-themed h1{font-size:34px;font-weight:800;letter-spacing:-.04em;line-height:1.15;margin:0 0 24px;text-align:center}
+.rer-themed.rer-themed h1::after{content:".";color:var(--accent)}
+.rer-themed.rer-themed h1+p{text-align:center;color:var(--body)}
 .rer-themed.rer-themed h2{font-family:var(--rer-font-heading);font-size:22px;font-weight:650;letter-spacing:-.02em}
 .rer-themed.rer-themed .brand,.rer-themed.rer-themed .rer-brand{justify-content:center;font-size:30px;font-weight:600;letter-spacing:-.035em;margin:0 0 36px}
 .rer-themed.rer-themed .brand::before,.rer-themed.rer-themed .rer-brand::before{width:42px;height:28px;background-size:contain}
 .rer-themed.rer-themed button,.rer-themed.rer-themed .action{border-radius:var(--rer-button-radius);min-height:48px;font-size:15px}
 .rer-themed.rer-themed input:not([type=checkbox]):not([type=hidden]){min-height:46px;border-color:var(--field);border-radius:10px;background:var(--card)}
-.rer-themed.rer-themed dl{gap:0 16px}
+.rer-themed.rer-themed dl{gap:0}
 .rer-themed.rer-themed dt,.rer-themed.rer-themed dd{padding:12px 0;border-bottom:1px solid var(--rule)}
+.rer-themed.rer-themed dd{padding-left:16px}
 /* Text links only: a link drawn as a button (Base's a.action) keeps its white-on-navy button text. */
 .rer-themed.rer-themed a:not(.action){color:var(--accent-ink);text-underline-offset:4px}
-.rer-themed.rer-themed :focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.rer-themed.rer-themed :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+/* Fields: a thin violet border and a soft ring, never a heavy outline. */
+.rer-themed.rer-themed input:not([type=checkbox]):not([type=hidden]):focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px #6C4CFF2E}
+.rer-themed.rer-themed input[type=checkbox]{accent-color:var(--accent)}
 @media(max-width:480px){
  .rer-themed.rer-themed body{padding:72px 16px 40px}
  .rer-themed.rer-themed main{padding:28px 20px}
  .rer-themed.rer-themed h1{font-size:28px}
- .rer-themed.rer-themed .brand,.rer-themed.rer-themed .rer-brand{flex-direction:column;gap:8px;font-size:30px;margin-bottom:28px}
+ .rer-themed.rer-themed .brand,.rer-themed.rer-themed .rer-brand{font-size:26px;margin-bottom:24px}
 }
 /* Base's Run, Contract and not-found pages: the desk's lavender paper, the mark at its own ratio,
    heavy Geist headlines and the dusk skyline from the closing plate along the foot. */

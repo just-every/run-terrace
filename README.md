@@ -31,7 +31,7 @@ Stop with `rer dev --stop` (or Ctrl-C). Rerunning `rer dev` reuses a compatible 
 
 ## Try a disposable workspace
 
-Run `rer demo` for a fresh signed-in **Terrace Demo**, with six tenancies, rent history, reviewed decisions, photographed inspections and maintenance. Stop it with `rer demo --stop`; each launch starts fresh. [DEMO.md](DEMO.md) describes isolation and real-read / mocked-send behavior.
+Run `rer demo` for a fresh signed-in **Terrace Demo**, with eight tenancies, rent history, reviewed decisions, photographed inspections and maintenance. Stop it with `rer demo --stop`; each launch starts fresh. [DEMO.md](DEMO.md) describes isolation and real-read / mocked-send behavior.
 
 ## First working cycle
 

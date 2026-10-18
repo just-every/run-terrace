@@ -96,3 +96,18 @@ test('owner erasure removes tenancy and photo custody and later journal rejects 
  assert.ok(!journalAfter.includes(tenancyInput.address))
  const fresh=await installation();try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archiveBefore],'old.rer'),journal:new File([journalAfter],'later.rer')},{status:409});assert.equal((await fresh.state()).tenancies.length,0)}finally{await fresh.close()}
 })
+test('a renewal waiting on the home is approved from its card and the manager lands back on the home',async()=>{
+ const own=await h.command('tenancy.create',{...tenancyInput,address:'Unit 1D, 1840 Alder Street, Oakland, CA',tenantEmail:'sam@example.test'})
+ const proposal=await h.command('renewal.prepare',{tenancyId:own.id,endDate:'2027-12-31',rent:'640.00',source:'Annual review'},{as:member})
+ const home=await(await h.request('/app')).text()
+ const card=home.match(new RegExp('<form[^>]*>(?:(?!</form>).)*name="proposalId" value="'+proposal.id+'"(?:(?!</form>).)*</form>','g'))?.find(f=>f.includes('value="proposal.approve"'))
+ assert.ok(card,'the waiting card carries the approve form for this proposal')
+ const fields=Object.fromEntries([...card.matchAll(/name="([^"]+)" value="([^"]*)"/g)].map(m=>[m[1],m[2]]))
+ const posted=await h.request('/app/command',{method:'POST',form:new URLSearchParams(fields)})
+ assert.equal(posted.status,303)
+ const back=new URL(posted.headers.get('location'),h.origin)
+ assert.equal(back.pathname,'/app');assert.equal(back.searchParams.get('tab'),'tenancy');assert.equal(back.searchParams.get('tenancy'),'')
+ const state=await h.state(own.id)
+ assert.equal(state.proposals.find(p=>p.id===proposal.id).state,'approved')
+ assert.equal(state.tenancies.find(x=>x.id===own.id).end_date,'2027-12-31')
+})

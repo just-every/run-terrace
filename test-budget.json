@@ -1,1 +1,1 @@
-{"cap": 200, "productIntegrationTests": 8, "emittedWorkerChecks": 2, "rationale": "High-stakes public HTTP paths, real D1 and migrations; no copied Base unit suites; one run-site build test."}
+{"cap": 200, "productIntegrationTests": 9, "emittedWorkerChecks": 2, "rationale": "High-stakes public HTTP paths, real D1 and migrations; no copied Base unit suites; one run-site build test."}

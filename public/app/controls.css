@@ -1,0 +1,29 @@
+/* Controls: quiet 1px fields with a violet focus ring, the chevron select, pill buttons, disclosures. */
+form{display:grid;gap:14px;margin:16px 0 0}form p{font-size:14px;color:var(--body)}form>label{margin:0}
+label{display:grid;gap:6px;font-size:13px;font-weight:500;color:var(--body)}
+input,select,textarea{width:100%;max-width:100%;min-width:0;min-height:42px;padding:9px 12px;border:1px solid var(--field);border-radius:10px;color:var(--ink);background:var(--card);font:400 15px/1.4 var(--rer-font-body);transition:border-color .12s,box-shadow .12s}
+input::placeholder,textarea::placeholder{color:#9A9DB6}
+input:hover,select:hover,textarea:hover{border-color:#A39EC6}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px #6C4CFF2E}
+/* every single-choice select draws its chevron 14px in from the right border (two gradient strokes in the theme's muted ink: the theme CSP allows no data: images); multiple and size>1 lists keep their native look */
+select:not([multiple]):not([size]), select[size="1"]:not([multiple]) { -webkit-appearance: none; appearance: none; padding-inline-end: 40px; background-image: linear-gradient(to top right, transparent calc(50% - 1.1px), var(--rer-muted) calc(50% - .55px), var(--rer-muted) calc(50% + .55px), transparent calc(50% + 1.1px)), linear-gradient(to top left, transparent calc(50% - 1.1px), var(--rer-muted) calc(50% - .55px), var(--rer-muted) calc(50% + .55px), transparent calc(50% + 1.1px)); background-repeat: no-repeat; background-position: right 20px center, right 14px center; background-size: 6px 6px; text-overflow: ellipsis; line-height: normal; }
+input[type=hidden]{display:none}
+input[type=checkbox]{width:18px;min-height:18px;height:18px;padding:0;accent-color:var(--accent)}
+input[type=file]{font-size:13px;padding:8px}
+textarea{min-height:104px;resize:vertical}input[type=date]{appearance:none}
+button,.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:9px 20px;border:1px solid var(--ink);border-radius:999px;background:var(--ink);color:#FFFFFF;font:600 14px/1.3 var(--rer-font-body);text-decoration:none;text-align:center;cursor:pointer;width:fit-content}
+button:hover,.button:hover{background:#252A5A}
+button:disabled{opacity:.45;cursor:default}
+button.secondary,.button.secondary{background:var(--card);color:var(--ink);border-color:#D9D6EC}button.secondary:hover,.button.secondary:hover{background:var(--card-inset)}
+button.danger,.button.danger{color:var(--red-ink);border-color:#F2B8BA;background:var(--card)}button.danger:hover{background:var(--red-tint)}
+.button .icon,button .icon{width:16px;height:16px}
+details{margin:14px 0}
+details>summary{cursor:pointer;color:var(--accent-ink);font-size:14px;font-weight:600;list-style:none;display:flex;align-items:center;gap:8px;min-height:32px}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"";width:7px;height:7px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(-45deg);transition:transform .15s;flex:none;margin:0 3px}
+details[open]>summary::before{transform:rotate(45deg)}
+details[open]>summary{margin-bottom:12px}
+.form-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px}.form-columns>div{display:grid;gap:14px;align-content:start;min-width:0}.form-columns button{width:100%;margin-top:8px}
+.field-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.decision-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.decision-actions form{margin:0}
+@media(max-width:860px){input,select,textarea{font-size:16px;min-height:44px}button,.button{min-height:44px}.form-columns,.field-row{grid-template-columns:1fr;gap:14px}.decision-actions form{flex:1 1 140px}.decision-actions button{width:100%}}

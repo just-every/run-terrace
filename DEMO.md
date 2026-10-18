@@ -151,8 +151,8 @@ uploads and R2 prefixes. Unsupported bindings are refused by name at demo build.
 
 ## Terrace sample portfolio and effects
 
-The hook starts from the documented Terrace CSV properties and adds six tenancies,
-24 rent charges, 17 external receipts, six renewal/arrears decisions, two photographed
+The hook starts from the documented Terrace CSV properties and adds eight tenancies,
+32 rent charges (due on the 1st of each month), 23 external receipts, eight renewal/arrears decisions, two photographed
 inspections, four maintenance jobs and two approval snapshots. Contacts use reserved
 sample addresses, and dates follow the visitor’s start. All are real database records
 with fixed IDs. The first run is complete.
