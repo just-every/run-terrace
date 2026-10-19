@@ -24,7 +24,7 @@ export async function start(browser, origin, measurement, name) {
  const page=await context.newPage()
  page.setDefaultTimeout(60000)
  const network=[]
- page.on('requestfailed',request=>network.push(`${new URL(request.url()).origin}${new URL(request.url()).pathname}: ${request.failure()?.errorText}`))
+ page.on('requestfailed',request=>network.push(`${new URL(request.url()).origin}: ${request.failure()?.errorText}`))
  page.on('response',response=>{const path=new URL(response.url()).pathname;if(path.startsWith('/__demo/'))network.push(`${path}: ${response.status()}`)})
  try {
   assert.equal((await page.goto(origin)).status(),200)
