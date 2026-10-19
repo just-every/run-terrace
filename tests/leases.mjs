@@ -112,6 +112,7 @@ export async function journey({inspect,assets=false}={}) {
    assert.deepEqual((await fresh.state(t.id)).leaseVersions,(await h.state(t.id)).leaseVersions)
    assert.deepEqual(Buffer.from(await(await fresh.request('/api/lease-source?id='+first.leaseId)).arrayBuffer()),originalBytes)
   }finally{await fresh.close()}
+  await preserveImportedSource(h)
   await erasure(h)
   if(inspect)await inspect({h,t,manager,input,amendedInput,first,amendment})
  }finally{await h.close()}
@@ -131,4 +132,16 @@ async function erasure(h){
  assert.equal((await h.command('lease.prepare',{...fields,tenancyId:other.id},{status:409})).error,'erased_artifact')
  const fresh=await installation()
  try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([older],'older.rer'),journal:new File([later],'later.rer')},{status:409})}finally{await fresh.close()}
+}
+
+/** A prepared signed version is later operating work even before its charges are approved. */
+async function preserveImportedSource(h){
+ const csv=['ref,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,rent,cadence,created_at,currency,time_zone','IMPORTED-LEASE,1840 Alder Street Oakland,Rowan Ellis,rowan@example.test,Maya Chen,maya-import@example.test,2026-08-01,2027-07-31,1800.00,monthly,2026-08-01T00:00:00.000Z,USD,America/Los_Angeles'].join('\n')
+ const preview=await h.command('import.preview',{csv,namespace:'signed-import'})
+ const applied=await h.command('import.apply',{csv,namespace:'signed-import',fingerprint:preview.fingerprint})
+ const t=(await h.state()).tenancies.find(t=>t.tenant_email==='maya-import@example.test')
+ const v=await h.command('lease.prepare',leaseFields(t.id,'2026-08-01'))
+ await h.command('import.undo',{jobId:applied.job.id},{status:409})
+ assert.equal((await h.request('/api/lease-source?id='+v.leaseId)).status,200,'PORT-005 signed source survives refused import undo')
+ assert.ok((await h.state(t.id)).leaseVersions.some(x=>x.id===v.leaseId))
 }
