@@ -7,18 +7,18 @@ import {join,resolve} from 'node:path'
 import {randomBytes} from 'node:crypto'
 import assert from 'node:assert/strict'
 /** legacy(db): writes rows as an older release would, before migration 0018 (PORT-001) runs. */
-export async function installation({legacy,assets=false}={}){
- const root=await mkdtemp(join(tmpdir(),'terrace-api-')),bundle=await build({entryPoints:['tests/api/worker.ts'],bundle:true,write:false,format:'esm',platform:'neutral',target:'es2022',external:['node:*','cloudflare:*'],loader:{'.css':'text','.svg':'text'}})
+export async function installation({legacy,assets=false,demo=false}={}){
+ const root=await mkdtemp(join(tmpdir(),'terrace-api-')),bundle=await build({entryPoints:[demo?'tests/api/demo-worker.ts':'tests/api/worker.ts'],bundle:true,write:false,format:'esm',platform:'neutral',target:'es2022',external:['node:*','cloudflare:*'],loader:{'.css':'text','.svg':'text','.txt':'text'}})
  const secret=()=>randomBytes(32).toString('hex'),setup=secret(),devKey=secret(),sessionSecret=secret()
  const messages=[]
  let origin='http://localhost'
- const options=port=>({...convertV4MiniflareOptions({host:'127.0.0.1',port,modules:true,script:bundle.outputFiles[0].text,compatibilityDate:'2026-09-08',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{AUTH_LOCAL:'true',AUTH_ORIGIN:origin,OWNER_EMAIL:'owner@example.test',SESSION_SECRET:sessionSecret,SETUP_TOKEN:setup,MAIL_PROVIDER:'resend',MAIL_API_KEY:'example-test-mail',MAIL_FROM:'auth@localhost.test',RER_DEV_KEY:devKey},...(assets?{assets:{directory:resolve('public'),routerConfig:{has_user_worker:true}}}:{}),outboundService:async request=>{assert.equal(new URL(request.url).hostname,'api.resend.com');messages.push(await request.json());return Response.json({id:crypto.randomUUID()})}}),resourcePersistencePath:root})
+ const options=port=>({...convertV4MiniflareOptions({host:'127.0.0.1',port,modules:true,script:bundle.outputFiles[0].text,compatibilityDate:'2026-09-08',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{AUTH_LOCAL:demo?'false':'true',...(demo?{RER_DEMO:'1'}:{}),AUTH_ORIGIN:origin,OWNER_EMAIL:'owner@example.test',SESSION_SECRET:sessionSecret,SETUP_TOKEN:setup,MAIL_PROVIDER:'resend',MAIL_API_KEY:'example-test-mail',MAIL_FROM:'auth@localhost.test',RER_DEV_KEY:devKey},...(assets?{assets:{directory:resolve('public'),routerConfig:{has_user_worker:true}}}:{}),outboundService:async request=>{assert.equal(new URL(request.url).hostname,'api.resend.com');messages.push(await request.json());return Response.json({id:crypto.randomUUID()})}}),resourcePersistencePath:root})
  const mf=new Miniflare(options(0));let cookie=''
  try {
-  const address=await mf.ready;origin=address.origin;await mf.setOptions(options(Number(address.port)))
+  const address=await mf.ready;origin=demo?address.origin.replace('http:','https:'):address.origin;await mf.setOptions(options(Number(address.port)))
   const db=await mf.getD1Database('DB')
   for(const f of (await readdir('migrations/core')).filter(f=>f.endsWith('.sql')).sort()){if(legacy&&f.startsWith('0018'))await legacy(db);await db.batch(unstable_splitSqlQuery(await readFile('migrations/core/'+f,'utf8')).map(q=>db.prepare(q)))}
-  const request=(path,{method='GET',body,as=cookie,originHeader=origin,form,headers={}}={})=>fetch(origin+path,{method,redirect:'manual',headers:{origin:originHeader,...(!form?{'content-type':'application/json'}:{}),...(as?{cookie:as}:{}),...headers},...(form?{body:form}:body!==undefined?{body:JSON.stringify(body)}:{})})
+  const request=(path,{method='GET',body,as=cookie,originHeader=origin,form,headers={}}={})=>(demo?mf.dispatchFetch.bind(mf):fetch)(origin+path,{method,redirect:'manual',headers:{origin:originHeader,...(!form?{'content-type':'application/json'}:{}),...(as?{cookie:as}:{}),...headers},...(form?{body:form}:body!==undefined?{body:JSON.stringify(body)}:{})})
   const boot=await request('/auth/bootstrap',{method:'POST',body:{token:setup,displayName:'Terrace owner'}});assert.equal(boot.status,303,await boot.text());cookie=boot.headers.getSetCookie().map(v=>v.split(';')[0]).join('; ')
   const first=await request('/setup',{method:'POST',form:new URLSearchParams({confirm:'yes'})});assert.equal(first.status,303)
   const command=async(command,p={},opts={})=>{const r=await request('/api/commands',{method:'POST',body:{command,...p},...opts});const b=await r.json();if(opts.status){assert.equal(r.status,opts.status,JSON.stringify(b));return b}assert.equal(r.status,200,JSON.stringify(b));return b.result}
@@ -38,7 +38,7 @@ export async function installation({legacy,assets=false}={}){
   const signIn=async email=>{const r=await request('/auth/magic-link',{method:'POST',as:'',body:{email}});assert.equal(r.status,202,await r.text());return accept(email)}
   /** Base's step-up: the email link completes in the session that asked (default the owner's). */
   const stepUp=async(email='owner@example.test',as=cookie)=>{const r=await request('/auth/step-up',{method:'POST',as,body:{action:'credentials:mint'}});assert.equal(r.status,202,await r.text());await accept(email,as)}
-  return {mf,origin,request,command,formCommand,state,invite,accept,signIn,stepUp,cookie,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
+  return {mf,origin,request,command,formCommand,state,invite,accept,signIn,stepUp,cookie,messages,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
  }catch(e){await mf.dispose();await rm(root,{recursive:true,force:true});throw e}
 }
 export const tenancyInput={address:'Unit 1C, 1840 Alder Street, Oakland, CA',ownerName:'Rowan Ellis',ownerEmail:'rowan@example.test',tenantName:'Alex Chen',tenantEmail:'alex@example.test',startDate:'2025-01-01',endDate:'2026-12-31',rent:'620.00',cadence:'weekly'}

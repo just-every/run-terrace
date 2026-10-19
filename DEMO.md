@@ -171,3 +171,12 @@ token, the `CLOUDFLARE_ACCOUNT_ID` variable, the optional operator token, the pr
 measurement token for test-host starts and the real Turnstile keys. Dispatch the
 workflow with `test_only` for measurements, then `test_only` + `remove` to delete that
 test host. Production is dispatched manually; no repository deploy switch is needed.
+
+
+## DEMO-001 acceptance
+
+`pnpm run test:demo` checks the actual Worker/D1 doors in ordinary and native demo mode: an empty ordinary installation, real seeded records and photos, native owner/preparer rights, retained visitor changes, suppressed invitation mail and production build/deploy refusal.
+
+Dispatch **Run demo** with `test_only=true` on the commit being accepted. It deploys the supported isolated host with Turnstile’s published test keys and the existing private measurement credential, then runs `pnpm run test:demo-hosted`. That journey follows the actual production homepage link to its signed-out landing, without running its production CAPTCHA, and exercises two independent interactive visitors on the test host. It covers owner/preparer roles, renewal and maintenance approvals, a recorded external handoff and unchanged records in the other visitor. Screens at1440 and390 are uploaded as `demo-journey`. No production CAPTCHA completion is claimed.
+
+The journey ends both visitor copies. The workflow removes its test host in an always-run final step; a removal failure fails the run and must be resolved before acceptance. Production dispatches retain the real Turnstile keys and never run the test-host cleanup. Payment/SMS/webhook capabilities inherit the demo no-egress obligation as their clauses ship; existing manual rent/handoff doors do not move funds or send vendor mail.

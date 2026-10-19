@@ -110,3 +110,25 @@ jobs:
             sleep 15
           done
           ! curl --silent --show-error --doh-url "$doh" -D - -o /dev/null "https://$domain/" | grep -qi '^set-cookie:'
+
+      - name: Install browser for the isolated DEMO-001 journey
+        if: inputs.test_only && !inputs.remove
+        run: pnpm exec playwright install --with-deps chromium
+      - name: DEMO-001 hosted owner, preparer and isolation journey
+        if: inputs.test_only && !inputs.remove
+        run: pnpm run test:demo-hosted
+        env:
+          RER_DEMO_MEASUREMENT_TOKEN: ${{ secrets.RER_DEMO_MEASUREMENT_TOKEN }}
+      - name: Keep DEMO-001 desktop and phone screens
+        if: always() && inputs.test_only && !inputs.remove
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: demo-journey
+          path: artifacts/demo
+          if-no-files-found: ignore
+      - name: Remove this isolated test host
+        if: always() && inputs.test_only && !inputs.remove
+        run: pnpm exec rer deploy --demo --remove --yes --environment "$DEMO_ENVIRONMENT"
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

@@ -22,7 +22,8 @@
       "browser": false,
       "hosted": false,
       "commands": [
-        "pnpm run test:terrace"
+        "pnpm run test:terrace",
+        "pnpm run test:demo"
       ]
     },
     {
