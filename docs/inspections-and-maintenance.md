@@ -53,3 +53,7 @@ When preparing maintenance, choose the asset the repair is for. A repair due on 
 
 To replace equipment, open **Record a replacement** on the asset and enter the new equipment. The old asset stays, marked replaced on the new installed date, with its service history; new repairs link to the replacement.
 
+## Service report
+
+On the **Properties** page, **Maintenance service report** downloads a CSV of maintenance jobs, filtered by the date they were prepared, property and status (choose **Unresolved** for the open queue). Each job shows its status, how long it has been open, hours from preparation to the first approval and to the handoff, and hours to the resident's confirmation. A vendor's completion report, a reopened job or a job closed without the resident's confirmation has no resolution time. `GET /api/maintenance-report` returns the same report with vendor performance, asset cost and budget variance. Costs are approved estimates, not invoices. Appointment booking time and open emergencies are listed as not recorded until those features exist.
+

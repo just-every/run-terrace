@@ -285,6 +285,26 @@ test('photographed inspection, WORK-004 qualified vendor handoff, WORK-003 quote
  const plan=await(await h.request('/app?tab=work&tenancy='+t.id)).text()
  assert.match(plan,/<strong>Overdue occurrences<\/strong><ul><li>Annual HVAC service · due [^<]+ · order pending, not yet handed off<\/li><li>Quarterly smoke alarm test · due [^<]+ · order pending, not yet handed off<\/li><\/ul>/)
  assert.ok(plan.includes('deferred to '+new Intl.DateTimeFormat('en-US',{timeZone:'UTC',month:'short',day:'numeric',year:'numeric'}).format(new Date(shift(today,10)+'T00:00:00Z'))+': Resident away; access from next week'))
+ // REPORT-004: the service report keeps the reopened tap and the heater closed without confirmation out of resolution time, traces durations and owner cost to records, and exports the unresolved queue.
+ await h.command('work.limits',{tenancyId:t.id,limit:'10000.00',budget:'3000.00'})
+ await h.command('maintenance.sent',{jobId:withinBudget.id,version:2,reference:'Emailed Delta flapper'});await h.command('completion.record',{jobId:withinBudget.id,completedDate:'2026-11-02',summary:'Flapper replaced',reference:'Delta email 2 Nov'},{as:member})
+ const report=await(await h.request('/api/maintenance-report')).json(),reported=id=>report.rows.find(r=>r.jobId===id),tap=reported(job.id),boiler=reported(heater.id)
+ assert.deepEqual([tap.status,tap.attempts,tap.callbacks,tap.resolutionHours,tap.confirmedAt,tap.vendor],['reopened',2,['warranty'],null,null,'River Plumbing'],'a reopened repair is not resolved')
+ assert.deepEqual([boiler.status,boiler.label,boiler.resolutionHours,boiler.attempts],['closed','closed without the resident’s confirmation',null,1],'a closure without confirmation is not a resolution')
+ const flapper=reported(withinBudget.id);assert.deepEqual([flapper.status,flapper.label,flapper.resolutionHours,flapper.firstCompletion],['awaiting_check','completion reported, resident not confirmed',null,'2026-11-02'],'a vendor completion report alone is not a resolution')
+ for(const r of [tap,boiler]){assert.ok(r.firstApprovedAt&&r.handedOffAt);assert.equal(r.responseHours,Math.round((Date.parse(r.firstApprovedAt)-Date.parse(r.preparedAt))/360000)/10);assert.equal(r.handoffHours,Math.round((Date.parse(r.handedOffAt)-Date.parse(r.preparedAt))/360000)/10);assert.ok(r.missing.includes('booking not recorded (WORK-005)'))}
+ assert.equal(boiler.estimateCents,(await h.state(t.id)).work.jobs.find(j=>j.id===heater.id).estimate_cents);assert.equal(boiler.costBasis,'approved estimate, not invoiced')
+ assert.equal(report.summary.resolved,report.rows.filter(r=>r.status==='resolved').length);assert.ok(report.summary.reopened>=1&&report.summary.closedWithoutConfirmation>=1&&report.summary.repeatRepairs>=1)
+ assert.match(report.summary.openEmergencies,/not recorded.*WORK-001/)
+ const riverService=report.vendors.find(v=>v.vendor==='River Plumbing');assert.ok(riverService.reopened>=1&&riverService.callbacks>=1)
+ const approvedOn=async id=>{const jobs=(await h.state(t.id)).work.jobs.filter(j=>j.asset_id===id&&['approved','sent'].includes(j.state));return [jobs.length,jobs.reduce((n,j)=>n+j.estimate_cents,0)]}
+ for(const a of [hvac,replacement])assert.deepEqual(report.assetCost.filter(x=>x.assetId===a.id).map(x=>[x.jobs,x.approvedEstimateCents]),[await approvedOn(a.id)])
+ assert.deepEqual(report.assetCost.find(x=>x.assetId===hvac.id).approvedEstimateCents,24000,'the warranty repair on the first furnace')
+ const committedCents=(await h.state(t.id)).work.jobs.filter(j=>['approved','sent'].includes(j.state)&&j.due_date.startsWith('2026')).reduce((n,j)=>n+j.estimate_cents,0),yearBudget=report.budgets.find(b=>b.year==='2026')
+ assert.deepEqual([yearBudget.budgetCents,yearBudget.committedCents,yearBudget.varianceCents],[300000,committedCents,300000-committedCents])
+ const queue=await(await h.request('/api/maintenance-report?status=unresolved&format=csv')).text()
+ assert.ok(queue.includes(job.id)&&queue.includes('reopened')&&queue.includes(withinBudget.id)&&!queue.includes(heater.id),'the unresolved queue keeps the reopened tap and the unconfirmed flapper and leaves out the closed heater')
+ assert.equal((await h.request('/api/maintenance-report',{as:member})).status,403)
 })
 test('move-in previews exact source, requires reviewed fingerprint, journals, and undoes unchanged records',async()=>{
  const csv=await readFile('fixtures/terrace-tenancies.csv','utf8'),preview=await h.command('import.preview',{csv,namespace:'archive-a'})

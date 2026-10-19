@@ -3,6 +3,8 @@ import { all, allow, can, Fault, insist, sha256, tenancy, text, type Context, ty
 import { loadStaff } from './roles'
 import { FACTOR_COMMANDS,factorCommand,factorState } from './second-factor'
 import { securityView } from './security-view'
+import { serviceReport,serviceTable } from './service-report'
+import { serviceSection } from './service-view'
 import { localDate as today } from './zones'
 import { tenancyCommand,tenancyData,proposals } from './tenancies'
 import { ledgerCommand,ledgerData,statement,statementCsv } from './ledger'
@@ -45,7 +47,7 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
  let body='',title='Tenancies',head={}
  if(tab==='security'){title='Two-step sign-in';body=securityView(await factorState(c),result,c.actor.role==='owner',c.actor.role==='owner'?await all(c,'SELECT o.id,o.display_name FROM tt_totp t JOIN oa_operators o ON o.id=t.operator_id WHERE t.confirmed_at IS NOT NULL AND o.id<>? ORDER BY o.display_name',c.actor.id):[])}
  else if(tab==='import'){allow(c,'import.preview');title='Move in';body=importView({...await importData(c),...result})}
- else if(tab==='properties'){title='Properties';const data=await propertyData(c);const owners=await ownershipData(c),keep=can(c,'ownership.set')&&!!owners.directory;body=ownerDirectory(owners.directory,can(c,'owner.add'),can(c,'reports.read'))+propertiesView(data,await unitChoices(c),can(c,'unit.add'),await turnoverData(c),p=>propertyOwners(p,owners.byProperty[p.id],owners.directory,keep));if(can(c,'reports.read')){const day=today(c.now,c.zone!);body+=rentRollSection(await rentRoll(c,{asOf:url.searchParams.get('asOf')||day,propertyId:url.searchParams.get('propertyId'),occupancy:url.searchParams.get('occupancy')}),await collections(c,url.searchParams.get('month')||day.slice(0,7)),data.portfolios.flatMap((f:Row)=>f.properties))}}
+ else if(tab==='properties'){title='Properties';const data=await propertyData(c);const owners=await ownershipData(c),keep=can(c,'ownership.set')&&!!owners.directory;body=ownerDirectory(owners.directory,can(c,'owner.add'),can(c,'reports.read'))+propertiesView(data,await unitChoices(c),can(c,'unit.add'),await turnoverData(c),p=>propertyOwners(p,owners.byProperty[p.id],owners.directory,keep));if(can(c,'maintenance.report'))body+=serviceSection(data.portfolios.flatMap((f:Row)=>f.properties));if(can(c,'reports.read')){const day=today(c.now,c.zone!);body+=rentRollSection(await rentRoll(c,{asOf:url.searchParams.get('asOf')||day,propertyId:url.searchParams.get('propertyId'),occupancy:url.searchParams.get('occupancy')}),await collections(c,url.searchParams.get('month')||day.slice(0,7)),data.portfolios.flatMap((f:Row)=>f.properties))}}
  else if(tab==='settings'){title='Data & access';body=companyView(await companyData(c),can(c,'company.save')&&(c.actor.role==='owner'||!!c.actor.staff?.all),c.actor.role==='owner')+settingsView(rows,c.actor.role==='owner')+'<section><h2>Two-step sign-in</h2><p>Authenticator codes and recovery codes for each sign-in.</p><p><a href="/app?tab=security">Set up or manage two-step sign-in</a></p></section>';if(can(c,'operator.role')&&request&&env)body+=await peopleView(request,env,c);body=`<div class="settings-layout">${body}</div>`}
  else {
   if(tab==='tenancy') {
@@ -75,7 +77,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
  const url=new URL(request.url),isApi=url.pathname.startsWith('/api/'),isPage=url.pathname==='/app'||url.pathname==='/app/command'
  if(!isApi&&!isPage)return null
  // Unknown API paths retain a genuine 404 without leaking installation data.
- if(isApi&&!['/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement'].includes(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
+ if(isApi&&!['/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report'].includes(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
  let c:Context|undefined,p:Row={}
  try {
   insist(url.origin===env.AUTH_ORIGIN,'origin','The request origin does not match this installation.',403)
@@ -119,6 +121,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
    if(f==='pdf')return new Response(pdf('Terrace rent roll as of '+r.asOf,rentRollTable(r).slice(1)),{headers:head('application/pdf','pdf')})
    return json(r)
   }
+  if(url.pathname==='/api/maintenance-report') {const r=await serviceReport(c,Object.fromEntries(url.searchParams));return url.searchParams.get('format')==='csv'?new Response(csv(serviceTable(r)),{headers:{'content-type':'text/csv;charset=utf-8','content-disposition':'attachment; filename="terrace-maintenance-report.csv"','cache-control':'no-store'}}):json(r)}
   if(url.pathname==='/api/owner-statement') {const s=await ownerStatement(c,url.searchParams.get('ownerId'),url.searchParams.get('from'),url.searchParams.get('to'));return url.searchParams.get('format')==='csv'?new Response(csv(ownerStatementTable(s)),{headers:{'content-type':'text/csv;charset=utf-8','content-disposition':'attachment; filename="terrace-owner-allocation.csv"','cache-control':'no-store'}}):json(s)}
   if(url.pathname==='/api/statement') {const s=await statement(c,text(url.searchParams.get('tenancyId'),'Tenancy'),text(url.searchParams.get('from'),'From'),text(url.searchParams.get('to'),'To'));return new Response(statementCsv(s),{headers:{'content-type':'text/csv;charset=utf-8','content-disposition':'attachment; filename="terrace-owner-statement.csv"','cache-control':'no-store'}})}
   if(url.pathname.startsWith('/api/inspections/photos/'))return await photoResponse(c,url.pathname.split('/').at(-1)!)
