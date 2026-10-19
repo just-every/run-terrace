@@ -1,4 +1,4 @@
-import { all, cents, commit, date, email, guard, id, insist, manager, money, one, sha256, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
+import { all, cents, commit, date, email, guard, id, insist, allow, money, one, sha256, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
 import { assetData, serviceableAsset } from './assets'
 import { hold, trade, vendor, vendorData, vendorGuard } from './vendors'
 import { jobWrites } from './job-writes'
@@ -27,12 +27,14 @@ async function readAccess(c: Context) {
 async function inspection(c: Context, p: Row) {
   const row = await one(c, 'SELECT * FROM tt_inspections WHERE id=?', text(p.inspectionId, 'Inspection', 100))
   insist(row, 'not_found', 'Inspection not found.', 404)
+  await tenancy(c, row.tenancy_id)
   contextMatches(p, row)
   return row
 }
 async function job(c: Context, p: Row) {
   const row = await one(c, 'SELECT * FROM tt_maintenance_jobs WHERE id=?', text(p.jobId, 'Maintenance job', 100))
   insist(row, 'not_found', 'Maintenance job not found.', 404)
+  await tenancy(c, row.tenancy_id)
   contextMatches(p, row)
   return row
 }
@@ -51,7 +53,7 @@ async function qualified(c: Context, row: Row, t: Row) {
 export async function workCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
   switch (command) {
     case 'inspection.create': {
-      manager(c)
+      allow(c, command)
       const t = await tenancy(c, p.tenancyId), inspectionId = id()
       const notes = p.notes === undefined || p.notes === '' ? '' : text(p.notes, 'Inspection notes', 4000)
       await commit(c, [
@@ -61,7 +63,7 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
       return { id: inspectionId, tenancyId: t.id, notice: 'Inspection draft created. Add photo evidence and complete your notes.' }
     }
     case 'inspection.photo': {
-      manager(c)
+      allow(c, command)
       const row = await inspection(c, p), file = p.file
       insist(file instanceof File && file.size > 0 && file.size <= PHOTO_LIMIT, 'invalid_photo', 'Choose a JPEG or PNG photo up to 1.5 MB.')
       const bytes = new Uint8Array(await file.arrayBuffer())
@@ -77,7 +79,7 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
       return { ...result(row, 'Photo evidence saved.'), photoId, sha256: digest }
     }
     case 'inspection.complete': {
-      manager(c)
+      allow(c, command)
       const row = await inspection(c, p), notes = text(p.notes ?? row.notes, 'Inspection notes', 4000)
       insist(await one(c, 'SELECT id FROM tt_inspection_photos WHERE inspection_id=? LIMIT 1', row.id), 'inspection_evidence', 'Save at least one photo before completing the inspection.', 409)
       await commit(c, [
@@ -88,7 +90,7 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
       return result(row, 'Inspection completed with notes and photo evidence.')
     }
     case 'maintenance.prepare': {
-      insist(['owner','admin','member'].includes(c.actor.role), 'forbidden', 'You cannot prepare maintenance.', 403)
+      allow(c, command)
       const t = await tenancy(c, p.tenancyId)
       // WORK-004: a directory vendor is checked for the job's trade; a typed-in vendor is held as unlisted.
       const listed = p.vendorId ? await vendor(c, p.vendorId) : null, work = listed || p.trade ? trade(p.trade) : null
@@ -99,7 +101,7 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
       return { id: jobId, tenancyId: t.id, proposalId, version: 1, issues: found, notice: found.length ? `Maintenance prepared and held: ${found.join('; ')}. A manager's documented exception is needed before approval.` : 'Maintenance prepared. An owner or administrator must approve it before handoff.' }
     }
     case 'maintenance.approve': {
-      manager(c)
+      allow(c, command)
       const row = await job(c, p), version = validVersion(p.version), t = await tenancy(c, row.tenancy_id), h = await qualified(c, row, t)
       // WORK-003: above the owner's limit or budget, a manager approves only the exact terms the owner approved.
       const a = await authority(c, row, t), owner = a.decision
@@ -117,7 +119,7 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
       return { ...result(row, 'Maintenance approved. Download the email packet and send it using your email client.'), version: version + 1 }
     }
     case 'maintenance.sent': {
-      manager(c)
+      allow(c, command)
       const row = await job(c, p), version = validVersion(p.version), reference = text(p.reference, 'External handoff reference', 500)
       insist(row.state === 'approved', 'not_approved', 'Approve the current terms before recording the handoff.', 409)
       // Qualification is checked again at handoff: a vendor that lapsed after approval is held, never silently dispatched.
@@ -150,9 +152,10 @@ export async function operatorNames(c: Context): Promise<Record<string, string>>
 }
 
 export async function photoResponse(c: Context, photoId: string): Promise<Response> {
-  await readAccess(c)
-  const row = await one(c, 'SELECT media_type,bytes FROM tt_inspection_photos WHERE id=?', text(photoId, 'Photo', 100))
+  await readAccess(c); allow(c, 'work.read')
+  const row = await one(c, 'SELECT p.media_type,p.bytes,i.tenancy_id FROM tt_inspection_photos p JOIN tt_inspections i ON i.id=p.inspection_id WHERE p.id=?', text(photoId, 'Photo', 100))
   insist(row, 'not_found', 'Photo not found.', 404)
+  await tenancy(c, row.tenancy_id)
   return new Response(new Uint8Array(row.bytes), { headers: {
     'content-type': row.media_type, 'content-disposition': `inline; filename="inspection-${photoId.replace(/[^a-zA-Z0-9-]/g,'')}.${row.media_type === 'image/png' ? 'png' : 'jpg'}"`,
     'cache-control': 'private, no-store', 'x-content-type-options': 'nosniff', 'content-security-policy': "default-src 'none'; sandbox",
@@ -160,9 +163,10 @@ export async function photoResponse(c: Context, photoId: string): Promise<Respon
 }
 
 export async function workPacket(c: Context, jobId: string): Promise<Response> {
-  await readAccess(c)
-  const row = await one(c, "SELECT a.*,j.currency,t.currency_confirmed FROM tt_maintenance_approvals a JOIN tt_maintenance_jobs j ON j.id=a.job_id JOIN tt_tenancies t ON t.id=j.tenancy_id WHERE j.id=? AND j.state IN ('approved','sent') ORDER BY a.job_version DESC LIMIT 1", text(jobId, 'Maintenance job', 100))
+  await readAccess(c); allow(c, 'work.read')
+  const row = await one(c, "SELECT a.*,j.currency,j.tenancy_id,t.currency_confirmed FROM tt_maintenance_approvals a JOIN tt_maintenance_jobs j ON j.id=a.job_id JOIN tt_tenancies t ON t.id=j.tenancy_id WHERE j.id=? AND j.state IN ('approved','sent') ORDER BY a.job_version DESC LIMIT 1", text(jobId, 'Maintenance job', 100))
   insist(row, 'not_approved', 'An approved maintenance job is required to download a handoff packet.', 409)
+  await tenancy(c, row.tenancy_id)
   const s = JSON.parse(row.snapshot)
   insist(await sha256(new TextEncoder().encode(row.snapshot)) === row.sha256, 'conflict', 'The approval evidence could not be verified.', 409)
   const body = [

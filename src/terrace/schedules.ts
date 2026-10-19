@@ -3,7 +3,7 @@
 // maintenance order, for the schedule's budget and vendor, for each occurrence whose effective due date (its
 // deferred date, if deferred) is on or before the property-local today plus the lead days. Replays create
 // nothing new. An occurrence past its effective due date whose order has not been handed off is overdue.
-import { all, cents, commit, date, insist, manager, one, sql, tenancy, text, id, type Context, type Row } from './core'
+import { all, cents, commit, date, insist, allow, one, sql, tenancy, text, id, type Context, type Row, reaches } from './core'
 import { serviceableAsset } from './assets'
 import { jobWrites } from './job-writes'
 import { trade, vendor } from './vendors'
@@ -25,7 +25,7 @@ export function occurrences(s: Row, through: string) {
 
 export async function scheduleCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'schedule.add') {
-  manager(c)
+  allow(c, command)
   const t = await tenancy(c, p.tenancyId), key = id(), asset = await serviceableAsset(c, t.id, p.assetId)
   const inspection = p.inspectionId ? await one(c, "SELECT id FROM tt_inspections WHERE id=? AND tenancy_id=? AND state='completed'", text(p.inspectionId, 'Inspection', 100), t.id) : null
   insist(!p.inspectionId || inspection, 'not_found', 'Choose a completed inspection of this tenancy.', 404)
@@ -36,7 +36,7 @@ export async function scheduleCommand(c: Context, command: string, p: Row): Prom
   return { id: key, tenancyId: t.id, notice: 'Schedule saved. Run the scheduler to create its due orders.' }
  }
  if (command === 'schedule.defer') {
-  manager(c)
+  allow(c, command)
   const s = await one(c, 'SELECT * FROM tt_schedules WHERE id=?', text(p.scheduleId, 'Schedule', 100))
   insist(s, 'not_found', 'Schedule not found.', 404)
   const due = date(p.dueDate, 'Occurrence date'), to = date(p.deferTo, 'Deferred to')
@@ -48,9 +48,10 @@ export async function scheduleCommand(c: Context, command: string, p: Row): Prom
   return { id: s.id, tenancyId: s.tenancy_id, notice: `Occurrence of ${due} deferred to ${to}.` }
  }
  if (command === 'schedule.run') {
-  manager(c)
+  allow(c, command)
   let created = 0, existing = 0
-  for (const s of await all(c, 'SELECT * FROM tt_schedules ORDER BY created_at')) {
+  // ROLE-001: the run creates orders only for schedules on tenancies in the runner's portfolios.
+  for (const s of await all(c, 'SELECT s.*,t.unit_id AS tenancy_unit FROM tt_schedules s JOIN tt_tenancies t ON t.id=s.tenancy_id ORDER BY s.created_at').then(rows => rows.filter(s => reaches(c, s.tenancy_unit)))) {
    const t = await tenancy(c, s.tenancy_id), horizon = addDays(localDate(c.now, t.time_zone), s.lead_days)
    const listed = await vendor(c, s.vendor_id)
    const asset = s.asset_id ? await one(c, "SELECT * FROM tt_assets WHERE id=? AND state='in_service'", s.asset_id) : null

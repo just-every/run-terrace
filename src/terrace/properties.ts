@@ -2,7 +2,7 @@
 // one lease on any day; a lease's occupancy runs from its start to its move-out day (ended_on) or, if not ended
 // early, its end date. Ending a lease early keeps the record; a transfer ends the lease on one unit and starts a
 // linked lease on another, so neither unit's history is merged or lost.
-import { all, cents, commit, date, guard, id, insist, manager, one, sql, tenancy, text, type Context, type Row } from './core'
+import { all, cents, commit, date, guard, id, insist, allow, one, sql, tenancy, text, reaches, reachesPortfolio, everywhere, type Context, type Row } from './core'
 import { usZone, localDate } from './zones'
 
 export const PROPERTY_KINDS = ['single_family','duplex','multifamily','townhouse','condo'] as const
@@ -13,7 +13,7 @@ export const freeUnit = (c: Context, unitId: string, from: string, to: string, e
 
 export async function unitFor(c: Context, v: unknown) {
  const u = await one(c, 'SELECT u.*,p.address AS property_address,p.time_zone,p.name AS property_name FROM tt_units u JOIN tt_properties p ON p.id=u.property_id WHERE u.id=?', text(v, 'Unit', 100))
- insist(u, 'not_found', 'Unit not found.', 404)
+ insist(u && reaches(c, u.id), 'not_found', 'Unit not found.', 404)
  insist(u.rentable === 1, 'unit_offline', 'This unit is not rentable.', 409)
  return u
 }
@@ -21,21 +21,21 @@ export const unitAddress = (u: Row) => `Unit ${u.identifier}, ${u.property_addre
 
 export async function propertyCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'portfolio.add') {
-  manager(c); const key = id()
+  allow(c, command); everywhere(c); const key = id()
   await commit(c, [sql(c, 'INSERT INTO tt_portfolios(id,name,created_by,created_at) VALUES(?,?,?,?)', key, text(p.name, 'Portfolio name', 150), c.actor.id, c.now)], command, key)
   return { id: key, notice: 'Portfolio added.' }
  }
  if (command === 'property.add') {
-  manager(c); const key = id()
+  allow(c, command); const key = id()
   insist(PROPERTY_KINDS.includes(p.kind), 'invalid_kind', `Property kind is one of ${PROPERTY_KINDS.join(', ')}.`)
-  insist(await one(c, 'SELECT 1 FROM tt_portfolios WHERE id=?', text(p.portfolioId, 'Portfolio', 100)), 'not_found', 'Portfolio not found.', 404)
+  insist(await one(c, 'SELECT 1 FROM tt_portfolios WHERE id=?', text(p.portfolioId, 'Portfolio', 100)) && reachesPortfolio(c, p.portfolioId), 'not_found', 'Portfolio not found.', 404)
   await commit(c, [sql(c, 'INSERT INTO tt_properties(id,portfolio_id,name,address,kind,time_zone,created_by,created_at) VALUES(?,?,?,?,?,?,?,?)', key, p.portfolioId, text(p.name, 'Property name', 150), text(p.address, 'Property address', 300), p.kind, usZone(p.timeZone), c.actor.id, c.now)], command, key)
   return { id: key, notice: 'Property added.' }
  }
  if (command === 'unit.add' || command === 'unit.update') {
-  manager(c)
+  allow(c, command)
   const old = command === 'unit.update' ? await one(c, 'SELECT * FROM tt_units WHERE id=?', text(p.unitId, 'Unit', 100)) : null
-  insist(command === 'unit.add' || old, 'not_found', 'Unit not found.', 404)
+  insist(command === 'unit.add' || (old && reaches(c, old.id)), 'not_found', 'Unit not found.', 404)
   const bedrooms = Number(p.bedrooms), bathrooms = Number(p.bathrooms), amenities = String(p.amenities ?? '').split(',').map(x => x.trim()).filter(Boolean)
   insist(Number.isInteger(bedrooms) && bedrooms >= 0 && bedrooms <= 20, 'invalid_unit', 'Bedrooms is a whole number from 0 to 20.')
   insist(Number.isFinite(bathrooms) && bathrooms >= 0 && bathrooms <= 20 && bathrooms * 2 === Math.round(bathrooms * 2), 'invalid_unit', 'Bathrooms is 0 to 20 in halves.')
@@ -47,12 +47,13 @@ export async function propertyCommand(c: Context, command: string, p: Row): Prom
    return { id: old.id, notice: 'Unit updated.' }
   }
   const key = id()
-  insist(await one(c, 'SELECT 1 FROM tt_properties WHERE id=?', text(p.propertyId, 'Property', 100)), 'not_found', 'Property not found.', 404)
+  const home = await one(c, 'SELECT portfolio_id FROM tt_properties WHERE id=?', text(p.propertyId, 'Property', 100))
+  insist(home && reachesPortfolio(c, home.portfolio_id), 'not_found', 'Property not found.', 404)
   await commit(c, [sql(c, 'INSERT INTO tt_units(id,property_id,identifier,bedrooms,bathrooms,amenities,rentable,market_rent_cents,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?,?)', key, p.propertyId, text(p.identifier, 'Unit identifier', 40), bedrooms, bathrooms, JSON.stringify(amenities), rentable, market, c.actor.id, c.now)], command, key)
   return { id: key, notice: 'Unit added.' }
  }
  if (command === 'tenancy.end') {
-  manager(c)
+  allow(c, command)
   const t = await tenancy(c, p.tenancyId), moveOut = date(p.moveOut, 'Move-out date')
   insist(!t.ended_on, 'lease_ended', 'This lease has already ended.', 409)
   insist(moveOut >= t.start_date && moveOut <= t.end_date, 'invalid_move_out', 'The move-out day falls within the lease.')
@@ -60,7 +61,7 @@ export async function propertyCommand(c: Context, command: string, p: Row): Prom
   return { tenancyId: t.id, notice: `Lease ended with move-out on ${moveOut}. The lease record is kept.` }
  }
  if (command === 'tenancy.transfer') {
-  manager(c)
+  allow(c, command)
   const t = await tenancy(c, p.tenancyId), u = await unitFor(c, p.unitId), moveIn = date(p.moveIn, 'Move-in date'), key = id()
   insist(!t.ended_on, 'lease_ended', 'This lease has already ended.', 409)
   insist(u.id !== t.unit_id, 'same_unit', 'Choose a different unit.')
@@ -82,7 +83,7 @@ export async function propertyData(c: Context) {
   all(c, 'SELECT * FROM tt_portfolios ORDER BY name'), all(c, 'SELECT * FROM tt_properties ORDER BY name'), all(c, 'SELECT * FROM tt_units ORDER BY identifier'),
   all(c, 'SELECT id,unit_id,tenant_name,start_date,end_date,ended_on,end_reason,transferred_from,rent_cents,currency,currency_confirmed,cadence FROM tt_tenancies WHERE unit_id IS NOT NULL ORDER BY start_date'),
  ])
- return { portfolios: portfolios.map(f => ({ ...f, properties: properties.filter(p => p.portfolio_id === f.id).map(p => {
+ return { portfolios: portfolios.filter(f => reachesPortfolio(c, f.id)).map(f => ({ ...f, properties: properties.filter(p => p.portfolio_id === f.id).map(p => {
   const today = localDate(c.now, p.time_zone)
   return { ...p, today, units: units.filter(u => u.property_id === p.id).map(u => {
    const history: Row[] = leases.filter(l => l.unit_id === u.id).map(l => ({ ...l, occupiedTo: occupiedTo(l), state: l.start_date > today ? 'future' : occupiedTo(l) < today ? 'past' : 'current' }))
@@ -91,4 +92,4 @@ export async function propertyData(c: Context) {
   }) }
  }) })) }
 }
-export const unitChoices = (c: Context) => all(c, 'SELECT u.id,u.identifier,p.name AS property_name FROM tt_units u JOIN tt_properties p ON p.id=u.property_id WHERE u.rentable=1 ORDER BY p.name,u.identifier')
+export const unitChoices = (c: Context) => all(c, 'SELECT u.id,u.identifier,p.name AS property_name FROM tt_units u JOIN tt_properties p ON p.id=u.property_id WHERE u.rentable=1 ORDER BY p.name,u.identifier').then(rows => rows.filter(u => reaches(c, u.id)))

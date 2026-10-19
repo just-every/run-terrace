@@ -26,11 +26,15 @@ export async function installation({legacy}={}){
   const state=async id=>{const r=await request('/api/state'+(id?'?tenancy='+id:''));assert.equal(r.status,200);return r.json()}
   const invite=async(role,email)=>{
    const r=await request('/auth/invite',{method:'POST',body:{email,displayName:role+' person',role}});assert.equal(r.status,202,await r.text())
+   return accept(email)
+  }
+  /** Follows the newest invitation link sent to email and returns the new operator's session cookie. */
+  const accept=async email=>{
    const message=messages.findLast(message=>message.to.includes(email));assert.ok(message,'Invitation reached the provider edge')
    const match=(message.html??message.text).match(/(?:href=")?([^"\s<>]*\/auth\/confirm\?token=[^"\s<>]+)/);assert.ok(match,'Invitation includes a confirmation link')
    const token=new URL(match[1].replaceAll('&amp;','&'),origin).searchParams.get('token');const confirm=await request('/auth/confirm',{method:'POST',as:'',body:{token}});assert.equal(confirm.status,303,await confirm.text());return confirm.headers.getSetCookie().map(v=>v.split(';')[0]).join('; ')
   }
-  return {mf,origin,request,command,formCommand,state,invite,cookie,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
+  return {mf,origin,request,command,formCommand,state,invite,accept,cookie,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
  }catch(e){await mf.dispose();await rm(root,{recursive:true,force:true});throw e}
 }
 export const tenancyInput={address:'Unit 1C, 1840 Alder Street, Oakland, CA',ownerName:'Rowan Ellis',ownerEmail:'rowan@example.test',tenantName:'Alex Chen',tenantEmail:'alex@example.test',startDate:'2025-01-01',endDate:'2026-12-31',rent:'620.00',cadence:'weekly'}

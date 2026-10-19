@@ -1,17 +1,17 @@
 // WORK-003: comparable vendor quotes for a job, the owner's per-job spending limit and annual maintenance
 // budget, the owner's decision on work above them (recorded by staff for the owner: Terrace has no owner
 // portal and contacts no one), and changes to scope, vendor or price, which reopen authorization.
-import { all, cents, commit, date, email, guard, id, insist, manager, money, one, sha256, sql, tenancy, text, type Context, type Row } from './core'
+import { all, cents, commit, date, email, guard, id, insist, allow, money, one, sha256, sql, tenancy, text, type Context, type Row } from './core'
 import { assignment, issues, vendor } from './vendors'
 
 export const OWNER_LABEL = 'recorded by staff for the owner'
 const SOURCES = ['email', 'document', 'call']
-const prepares = (c: Context) => insist(['owner', 'admin', 'member'].includes(c.actor.role), 'forbidden', 'You cannot prepare maintenance.', 403)
 const tax = (v: unknown) => v === undefined || v === '' || /^0+(\.0{1,2})?$/.test(String(v)) ? 0 : cents(v)
 
 async function job(c: Context, v: unknown) {
  const row = await one(c, 'SELECT * FROM tt_maintenance_jobs WHERE id=?', text(v, 'Maintenance job', 100))
  insist(row, 'not_found', 'Maintenance job not found.', 404)
+ await tenancy(c, row.tenancy_id)
  return row
 }
 
@@ -58,13 +58,13 @@ const reopened = (j: Row, found: string[]) => `${j.state === 'approved' ? 'Chang
 
 export async function quoteCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'work.limits') {
-  manager(c)
+  allow(c, command)
   const t = await tenancy(c, p.tenancyId), scope = await limitScope(c, t), budget = p.budget ? cents(p.budget) : null
   await commit(c, [sql(c, 'INSERT INTO tt_work_limits(scope,limit_cents,budget_cents,currency,set_by,set_at) VALUES(?,?,?,?,?,?) ON CONFLICT(scope) DO UPDATE SET limit_cents=excluded.limit_cents,budget_cents=excluded.budget_cents,version=version+1,set_by=excluded.set_by,set_at=excluded.set_at', scope, cents(p.limit), budget, t.currency, c.actor.id, c.now)], command, scope)
   return { tenancyId: t.id, scope, notice: `Owner’s spending limit ${OWNER_LABEL}. Work above it, or over the year’s budget, needs the owner’s decision.` }
  }
  if (command === 'quote.add') {
-  prepares(c)
+  allow(c, command)
   const j = await job(c, p.jobId)
   insist(j.state !== 'sent', 'job_state', 'This work has already been handed off.', 409)
   const listed = p.vendorId ? await vendor(c, p.vendorId) : null, key = id()
@@ -76,7 +76,7 @@ export async function quoteCommand(c: Context, command: string, p: Row): Promise
   return { id: key, tenancyId: j.tenancy_id, totalCents: amount + taxCents, notice: 'Quote recorded for comparison.' }
  }
  if (command === 'quote.select') {
-  prepares(c)
+  allow(c, command)
   const j = await job(c, p.jobId), version = Number(p.version ?? j.version)
   const quote = await one(c, 'SELECT * FROM tt_job_quotes WHERE id=? AND job_id=?', text(p.quoteId, 'Quote', 100), j.id)
   insist(quote, 'not_found', 'Quote not found for this job.', 404)
@@ -86,7 +86,7 @@ export async function quoteCommand(c: Context, command: string, p: Row): Promise
   return { id: j.id, tenancyId: j.tenancy_id, version: j.version + 1, issues: found, notice: `Quote selected. ${reopened(j, found)}` }
  }
  if (command === 'maintenance.revise') {
-  prepares(c)
+  allow(c, command)
   const j = await job(c, p.jobId), version = Number(p.version ?? j.version)
   insist(j.state !== 'sent', 'job_state', 'This work has already been handed off.', 409)
   const changes: Row = {}
@@ -101,7 +101,7 @@ export async function quoteCommand(c: Context, command: string, p: Row): Promise
   return { id: j.id, tenancyId: j.tenancy_id, version: j.version + 1, issues: found, notice: reopened(j, found) }
  }
  if (command === 'maintenance.owner') {
-  manager(c)
+  allow(c, command)
   const j = await job(c, p.jobId), version = Number(p.version ?? j.version), t = await tenancy(c, j.tenancy_id)
   insist(j.state === 'pending' && j.version === version, 'conflict', 'The work changed. Reload and record the owner’s decision on the current terms.', 409)
   const a = await authority(c, j, t)

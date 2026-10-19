@@ -1,6 +1,6 @@
 import { applyD1ImportBatches, createD1ImportJob, planD1Import, readD1ErasureJournal, readD1ImportJob, readD1ImportOriginals, retireD1ImportCustody, rollbackD1Import, undoD1Import } from '../modules/import-kit/src/d1/index.ts'
 import { toD1Sql } from '../modules/erasure/index.mjs'
-import { Context, Fault, Row, all, insist, one, owner, text } from './core'
+import { Context, Fault, Row, all, insist, one, allow, text } from './core'
 import { IMPORT_DESTINATION, IMPORT_KIT, TENANCY_KIND, importNamespace, tenancyMapping, tenancySource } from './imports-source'
 import { tenancyImportContext } from './imports-target'
 import { officeZone } from './company'
@@ -8,7 +8,7 @@ export { importView } from './imports-view'
 export { IMPORT_KIT, CSV_HEADERS, LEASE_TYPE_HEADER, OPTIONAL_HEADERS, RESIDENTIAL_ONLY, tenancySource, tenancyMapping, tenancyImportId } from './imports-source'
 
 async function importOwner(c: Context) {
-  owner(c)
+  allow(c, 'import.apply')
   insist(await one(c, "SELECT 1 FROM oa_operators WHERE id=? AND status='active' AND role='owner' AND version=?", c.actor.id, c.actor.version ?? 1), 'forbidden', 'Your owner access changed. Sign in again.', 403)
 }
 

@@ -4,23 +4,34 @@ Each operator signs in with their own identity. Permissions come from the authen
 
 ## Choose a role
 
+The owner holds every action: access and people, integrations, money authorities such as the one-time currency confirmation, and data custody (move-in, backup, restore and erasure). Everyone else holds one role:
+
 | Role | Access |
 | --- | --- |
-| Owner | All property operations, approvals, imports, backups, restore, erasure and operator management. |
-| Admin · property manager | Add tenancies, record rent, complete inspections, approve proposals and maintenance, record external handoffs and download owner statements. |
-| Member · preparer | Read the portfolio and prepare renewal, arrears and maintenance proposals for a person to review. |
+| Portfolio manager | Tenancies, households, renewals and their approval, rent, charge terms and runs, statements, the rent roll, properties and units, inspections, vendors and schedules; approves maintenance within the owner's per-property limit and budget. No access changes. |
+| Leasing | Tenancies, households, move-out, transfers, turnovers and renewal proposals. No ledger, receipts, statements, collections, rent-roll money, bank accounts or EINs. |
+| Bookkeeper | Rent charges, receipts, corrections, the charge run, arrears follow-ups, statements, collections, the rent roll, legal entities and operating accounts. No people or access. |
+| Accountant | Reads every ledger and downloads every statement, rent roll and collections report. Posts nothing. |
+| Maintenance coordinator | Inspections, maintenance preparation, quotes, reassignment and handoff, completion records, assets, vendors, schedules and turnovers. Never approves spend, sets owner limits or posts money. |
+| Member | Reads their portfolios and prepares renewal, arrears and maintenance proposals for a person to review. |
 
-Agents should use a member account. A person's owner or admin account reviews and approves prepared work. Preparing a proposal never confers approval authority. See the [command API](../API.md) for integration details.
+Each role covers either all portfolios or only the portfolios you assign. Staff reach only tenancies on units in their portfolios: other records answer "not found" on every page, API call and download, and an action outside the role is refused. A tenancy without a unit, and changes to the company, legal entities, operating accounts or the portfolio list, need all portfolios.
+
+Agents should use a member account. A person's own account reviews and approves prepared work. Preparing a proposal never confers approval authority. See the [command API](../API.md) for each command's roles.
 
 ## Invite an operator
 
-As owner, open **Data & access**. Under **Invite an operator**, enter the name and email, choose member or admin, then select **Send invitation**. The invitee follows their sign-in link to confirm access.
+As owner, open **Data & access**. Under **Invite an operator**, enter the name and email, choose the role and tick **All portfolios** or the portfolios they work in, then select **Send invitation**. The invitee follows their sign-in link to confirm access.
+
+To change someone's role or portfolios later, open **Change role or portfolios** on their row and save. The change applies to their next request and appears under **Role changes**. Moving someone between portfolio manager and any other role also signs them out, because it changes their sign-in tier.
+
+When Terrace was upgraded to these roles, existing admins became portfolio managers over all portfolios and existing members stayed members over all portfolios.
 
 During local development, invitations arrive only in the development outbox. A deployed installation needs working mail provider configuration to deliver invitations; see the repository's [operating instructions](../README.md).
 
 ## Remove access
 
-Under **Operators**, select **Deactivate operator** for the person whose access should stop. Their sessions are invalidated. **Activate operator** allows an inactive operator to regain access. Each person should use their own sign-in identity; do not share the owner's sign-in link or credentials.
+Under **Operators**, select **Deactivate operator** for the person whose access should stop. Their sessions are invalidated. **Activate operator** allows an inactive operator to regain access. Only the owner invites, deactivates or changes roles. Each person should use their own sign-in identity; do not share the owner's sign-in link or credentials.
 
 ## Erase a tenancy
 

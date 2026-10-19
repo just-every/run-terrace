@@ -3,7 +3,7 @@
 // residents (PORTAL-005), so every row says it was recorded by staff. An unresolved or recurring issue
 // reopens the work for a return visit (a callback to the vendor); only an owner or admin closes work without
 // the resident's confirmation, with a reason.
-import { all, commit, date, guard, id, insist, manager, one, sql, text, type Context, type Row } from './core'
+import { all, commit, date, guard, id, insist, allow, one, sql, text, tenancy, type Context, type Row } from './core'
 
 export const CONFIRMED_LABEL = 'confirmed by staff, resident not contacted by Terrace'
 const LABELS: Record<string, string> = {
@@ -11,10 +11,10 @@ const LABELS: Record<string, string> = {
  unresolved: 'not resolved, recorded by staff, resident not contacted by Terrace',
  no_response: 'no response, recorded by staff, resident not contacted by Terrace',
 }
-const staff = (c: Context) => insist(['owner', 'admin', 'member'].includes(c.actor.role), 'forbidden', 'You cannot record completion checks.', 403)
 const sentJob = async (c: Context, v: unknown) => {
  const j = await one(c, 'SELECT * FROM tt_maintenance_jobs WHERE id=?', text(v, 'Maintenance job', 100))
  insist(j, 'not_found', 'Maintenance job not found.', 404)
+ await tenancy(c, j.tenancy_id)
  insist(j.state === 'sent', 'job_state', 'Completion is recorded after the external handoff.', 409)
  return j
 }
@@ -22,7 +22,7 @@ const resolutionIs = (c: Context, j: Row) => guard(c, 'EXISTS(SELECT 1 FROM tt_m
 
 export async function completionCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'completion.record') {
-  staff(c)
+  allow(c, command)
   const j = await sentJob(c, p.jobId)
   insist(j.resolution === null || j.resolution === 'reopened', 'job_state', 'This report is waiting on the resident’s check, or the work is resolved or closed.', 409)
   const attempt = ((await one<{ n: number }>(c, 'SELECT COUNT(*) AS n FROM tt_completion_attempts WHERE job_id=?', j.id))!.n) + 1
@@ -37,7 +37,7 @@ export async function completionCommand(c: Context, command: string, p: Row): Pr
   return { id: key, tenancyId: j.tenancy_id, attempt, notice: `Vendor’s completion report ${attempt > 1 ? `for return visit ${attempt - 1} ` : ''}recorded. Ask the resident whether the original issue is resolved: Terrace has not contacted them.` }
  }
  if (command === 'completion.check') {
-  staff(c)
+  allow(c, command)
   const j = await sentJob(c, p.jobId), outcome = String(p.outcome ?? '')
   insist(outcome in LABELS, 'invalid_input', 'The resident’s answer is confirmed, unresolved or no_response.')
   const last = await one(c, 'SELECT * FROM tt_completion_attempts WHERE job_id=? ORDER BY attempt DESC LIMIT 1', j.id)
@@ -58,7 +58,7 @@ export async function completionCommand(c: Context, command: string, p: Row): Pr
   return { id: key, tenancyId: j.tenancy_id, resolution: next, notice }
  }
  if (command === 'completion.close') {
-  manager(c)
+  allow(c, command)
   const j = await sentJob(c, p.jobId)
   insist(j.resolution === 'awaiting_check' || j.resolution === 'reopened', 'job_state', 'Only open completed work can be closed without the resident’s confirmation.', 409)
   await commit(c, [

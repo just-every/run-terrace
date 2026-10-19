@@ -13,13 +13,16 @@ export async function monthData(c: Context, tenancies: Row[]) {
  // The month and "Today" are the office's day; each tenancy's overdue state uses its own property's day.
  const today = localDate(c.now, c.zone ?? DEFAULT_ZONE), first = today.slice(0, 8) + '01'
  const last = new Date(Date.UTC(Number(today.slice(0, 4)), Number(today.slice(5, 7)), 0)).toISOString().slice(0, 10)
- const [charges, proposals, jobs, inspections] = await Promise.all([
+ let [charges, proposals, jobs, inspections] = await Promise.all([
   all(c, `SELECT q.id,q.tenancy_id,q.due_date,q.amount_cents,${BALANCE} AS balance_cents,COALESCE((SELECT SUM(amount_cents) FROM tt_receipts WHERE charge_id=q.id),0) AS received_cents,(SELECT MAX(received_date) FROM tt_receipts WHERE charge_id=q.id) AS received_date FROM tt_charges q WHERE q.due_date BETWEEN ? AND ? ORDER BY q.due_date`, first, last),
   all(c, "SELECT p.id,p.tenancy_id,p.kind,p.payload,p.prepared_at,COALESCE(o.display_name,p.prepared_by) AS prepared_name FROM tt_proposals p LEFT JOIN oa_operators o ON o.id=p.prepared_by WHERE p.state='pending' AND p.kind IN ('renewal','arrears') ORDER BY p.prepared_at DESC"),
   all(c, "SELECT id,tenancy_id,title,trade_name,estimate_cents,currency,due_date,state,sent_at FROM tt_maintenance_jobs ORDER BY prepared_at DESC"),
   all(c, "SELECT i.id,i.tenancy_id,i.inspection_date,i.state,i.completed_at,(SELECT COUNT(*) FROM tt_inspection_photos p WHERE p.inspection_id=i.id) AS photos FROM tt_inspections i ORDER BY i.inspection_date DESC"),
  ])
  const byId = new Map(tenancies.map(t => [t.id, t]))
+ // ROLE-001: tenancies are already limited to the viewer's portfolios; so is everything waiting or dated on them.
+ const mine = <T extends Row>(rows: T[]) => rows.filter(r => byId.has(r.tenancy_id))
+ charges = mine(charges); proposals = mine(proposals); jobs = mine(jobs); inspections = mine(inspections)
  const unit = (tenancyId: string) => { const t = byId.get(tenancyId); if (!t) return ''; const p = place(t.address); return p.unit ? (/^\w+$/.test(p.unit) ? `Unit ${p.unit}` : p.unit) : p.property.split(',')[0] }
  // Track labels drop "Unit" ("3A handoff") so the stops stay one short line.
  const short = (tenancyId: string) => unit(tenancyId).replace(/^Unit /, '')

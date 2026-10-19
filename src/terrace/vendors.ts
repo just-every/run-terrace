@@ -2,7 +2,7 @@
 // blocked, has the job's trade as a specialty, serves the property, has a received W-9, and its insurance (and
 // license, when one is recorded) runs through the job's due date. Unqualified work is held: it is prepared and
 // shown with its issues, but approval and handoff wait for a manager's documented exception for those issues.
-import { all, cents, commit, date, email, guard, id, insist, manager, one, sql, tenancy, text, type Context, type Row } from './core'
+import { all, cents, commit, date, email, guard, id, insist, allow, one, sql, tenancy, text, type Context, type Row } from './core'
 
 export const TRADES = ['plumbing','electrical','hvac','appliance','roofing','locksmith','pest control','cleaning','general'] as const
 const list = (v: unknown, label: string) => {
@@ -47,13 +47,13 @@ export const vendorGuard = (c: Context, job: Row, version: number | null) => ver
 
 export async function vendorCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'vendor.add') {
-  manager(c)
+  allow(c, command)
   const key = id()
   await commit(c, [sql(c, "INSERT INTO tt_vendors(id,name,email,phone,specialties,service_areas,w9,insurance_expires,license_number,license_expires,availability,rate_cents,standing,currency,updated_by,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,'USD',?,?)", key, ...vendorFields(p), c.actor.id, c.now)], command, key)
   return { id: key, notice: 'Vendor added to the directory.' }
  }
  if (command === 'vendor.update') {
-  manager(c)
+  allow(c, command)
   const row = await vendor(c, p.vendorId), version = Number(p.version ?? row.version)
   await commit(c, [
    guard(c, 'EXISTS(SELECT 1 FROM tt_vendors WHERE id=? AND version=?)', row.id, version),
@@ -62,7 +62,7 @@ export async function vendorCommand(c: Context, command: string, p: Row): Promis
   return { id: row.id, version: version + 1, notice: 'Vendor updated. Work assigned to this vendor is checked again before approval and handoff.' }
  }
  if (command === 'maintenance.reassign') {
-  manager(c)
+  allow(c, command)
   const job = await one(c, 'SELECT * FROM tt_maintenance_jobs WHERE id=?', text(p.jobId, 'Maintenance job', 100))
   insist(job, 'not_found', 'Maintenance job not found.', 404)
   insist(job.state === 'pending', 'job_state', 'Only prepared, unapproved work can be reassigned.', 409)
@@ -78,7 +78,7 @@ export async function vendorCommand(c: Context, command: string, p: Row): Promis
   return { id: job.id, tenancyId: t.id, version: job.version + 1, issues: found, notice: found.length ? `Reassigned and held: ${found.join('; ')}. A manager's documented exception is needed before approval.` : 'Reassigned to a qualified vendor.' }
  }
  if (command === 'maintenance.exception') {
-  manager(c)
+  allow(c, command)
   const job = await one(c, 'SELECT * FROM tt_maintenance_jobs WHERE id=?', text(p.jobId, 'Maintenance job', 100))
   insist(job, 'not_found', 'Maintenance job not found.', 404)
   insist(job.state !== 'sent', 'job_state', 'This work has already been handed off.', 409)

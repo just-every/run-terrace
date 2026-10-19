@@ -1,12 +1,12 @@
 // Adapted from Nectar c76a60ccffa39cc1a207b52c152bda16d6d7b1df
 // src/nectar/receivables.ts: integer cents, immutable charges and receipts,
 // with a balance guard in the same batch as every allocation or adjustment.
-import { all, cents, commit, date, guard, id, insist, manager, one, shown, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
+import { all, cents, commit, date, guard, id, insist, allow, one, shown, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
 import { dayStart, localDate, nextDay } from './zones'
 export const BALANCE = `(q.amount_cents - COALESCE((SELECT SUM(amount_cents) FROM tt_receipts WHERE charge_id=q.id),0) - COALESCE((SELECT SUM(amount_cents) FROM tt_adjustments WHERE charge_id=q.id),0))`
 export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|undefined> {
  if(!['rent.charge','rent.receipt','rent.adjust'].includes(command)) return
- manager(c)
+ allow(c, command)
  const key=id()
  if(command==='rent.charge') {
   const t=await tenancy(c,p.tenancyId)
@@ -14,6 +14,7 @@ export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|
  } else {
   const charge=await one(c,`SELECT q.*,${BALANCE} AS balance_cents,(SELECT time_zone FROM tt_tenancies WHERE id=q.tenancy_id) AS time_zone FROM tt_charges q WHERE id=?`,text(p.chargeId,'Charge',100))
   insist(charge,'not_found','Charge not found.',404)
+  await tenancy(c,charge.tenancy_id)
   const amount=cents(p.amount)
   insist(amount<=charge.balance_cents,'exceeds_balance','Amount exceeds the unpaid charge balance.',409)
   const writes=[guard(c,`(SELECT ${BALANCE} FROM tt_charges q WHERE id=?)>=?`,charge.id,amount)]
@@ -39,7 +40,7 @@ export async function ledgerData(c:Context,tenancyId:string) {
 }
 // Every amount is period-based, with no pagination cap in a statement.
 export async function statement(c:Context,tenancyId:string,from:string,to:string) {
- manager(c)
+ allow(c,'reports.read')
  const t=await tenancy(c,tenancyId); from=date(from,'Period start');to=date(to,'Period end');insist(to>=from,'period','Period end must follow its start.')
  const ledger=await ledgerData(c,t.id)
  const events=[...ledger.charges.map(x=>({date:x.due_date,kind:'Charge',reference:x.reference,chargeCents:x.amount_cents,receiptCents:0,adjustmentCents:0})),...ledger.receipts.map(x=>({date:x.received_date,kind:'Recorded external receipt',reference:x.reference,chargeCents:0,receiptCents:x.amount_cents,adjustmentCents:0})),...ledger.adjustments.map(x=>({date:localDate(x.at,t.time_zone),kind:'Charge reduction',reference:x.reason,chargeCents:0,receiptCents:0,adjustmentCents:x.amount_cents}))].sort((a,b)=>a.date.localeCompare(b.date))

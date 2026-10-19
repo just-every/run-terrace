@@ -1,11 +1,11 @@
-import { all, audit, cents, commit, date, email, guard, id, insist, manager, one, sha256, sql, tenancy, text, type Context, type Row } from './core'
+import { all, audit, cents, commit, date, email, guard, id, insist, allow, one, sha256, sql, tenancy, text, reaches, everywhere, type Context, type Row } from './core'
 import { officeZone } from './company'
 import { usZone } from './zones'
 import { freeUnit, unitAddress, unitFor } from './properties'
 
 export async function tenancyCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'tenancy.create') {
-  manager(c)
+  allow(c, command)
   const key = id(), start = date(p.startDate,'Lease start'), end = date(p.endDate,'Lease end')
   insist(end >= start,'lease_dates','Lease end must follow its start.')
   insist(['weekly','fortnightly','monthly'].includes(p.cadence),'cadence','Choose a rent cadence.')
@@ -13,6 +13,7 @@ export async function tenancyCommand(c: Context, command: string, p: Row): Promi
   // PORT-001: a new tenancy is USD. PORT-002: on a unit it takes the unit's address and its property's zone;
   // otherwise the given address and zone (default the office zone).
   const unit=p.unitId?await unitFor(c,p.unitId):null
+  if(!unit)everywhere(c)
   const zone=unit?unit.time_zone:usZone(p.timeZone??await officeZone(c))
   await commit(c,[
    guard(c,'NOT EXISTS(SELECT 1 FROM tt_erasures WHERE subject=?)',await sha256(new TextEncoder().encode(tenantEmail))),
@@ -34,7 +35,7 @@ export async function tenancyCommand(c: Context, command: string, p: Row): Promi
   return {id:key,state:'pending'}
  }
  if(command==='proposal.approve' || command==='proposal.reject') {
-  manager(c)
+  allow(c, command)
   const r=await one(c,'SELECT * FROM tt_proposals WHERE id=?',text(p.proposalId,'Proposal',100))
   insist(r && ['renewal','arrears'].includes(r.kind),'not_found','Proposal not found.',404)
   insist(r.state==='pending','proposal_state','This proposal has already been decided.',409)
@@ -49,5 +50,5 @@ export async function tenancyCommand(c: Context, command: string, p: Row): Promi
   return {id:r.id,state:approved?'approved':'rejected'}
  }
 }
-export const tenancyData = (c:Context) => all(c,'SELECT * FROM tt_tenancies ORDER BY address,tenant_name')
+export const tenancyData = (c:Context) => all(c,'SELECT * FROM tt_tenancies ORDER BY address,tenant_name').then(rows=>rows.filter(t=>reaches(c,t.unit_id)))
 export const proposals = (c:Context,tenancyId:string) => all(c,"SELECT p.*,COALESCE(a.display_name,p.prepared_by) AS prepared_name,COALESCE(b.display_name,p.approved_by) AS approved_name FROM tt_proposals p LEFT JOIN oa_operators a ON a.id=p.prepared_by LEFT JOIN oa_operators b ON b.id=p.approved_by WHERE p.tenancy_id=? AND p.kind IN ('renewal','arrears') ORDER BY p.prepared_at DESC",tenancyId)

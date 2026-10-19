@@ -1,7 +1,7 @@
 // PORT-001: the US management company, its legal entities and their USD operating accounts, and each
 // property's time zone. An EIN is format-checked only; an operating account is a recorded reference.
 // Terrace verifies neither with the IRS or a bank and moves no money.
-import { all, commit, email, guard, id, insist, manager, one, owner, sql, tenancy, text, type Context, type Row } from './core'
+import { all, commit, email, guard, id, insist, allow, one,  sql, tenancy, text, can, everywhere, type Context, type Row } from './core'
 import { DEFAULT_ZONE, usZone } from './zones'
 
 /** "12-3456789" or "123456789" -> "12-3456789". */
@@ -18,7 +18,7 @@ const OPEN = 'SELECT id FROM tt_tenancies WHERE currency_confirmed=0'
 export async function companyCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'currency.confirm') {
   // PORT-001 legacy currency: the installation owner confirms, once, whether earlier records were AUD or USD.
-  owner(c)
+  allow(c, command)
   const currency = String(p.currency ?? '')
   insist(['AUD', 'USD'].includes(currency), 'invalid_currency', 'Confirm AUD or USD.')
   insist(!await one(c, 'SELECT 1 FROM tt_currency_confirmation'), 'already_confirmed', 'The currency of earlier records was already confirmed for this installation.', 409)
@@ -37,7 +37,7 @@ export async function companyCommand(c: Context, command: string, p: Row): Promi
   return { notice: `Confirmed: money on ${n} earlier ${n === 1 ? 'tenancy is' : 'tenancies is'} ${currency}. Labels changed only; no amount was converted.` }
  }
  if (command === 'company.save') {
-  manager(c)
+  allow(c, command); everywhere(c)
   const current = await one(c, 'SELECT version FROM tt_company WHERE singleton=1')
   const values = [text(p.name, 'Company name', 200), usZone(p.timeZone), email(p.officeEmail), text(p.officePhone, 'Office phone', 40), text(p.officeAddress, 'Office address', 300)]
   await commit(c, [current
@@ -47,7 +47,7 @@ export async function companyCommand(c: Context, command: string, p: Row): Promi
   return { notice: 'Company saved. Money for new tenancies is USD.' }
  }
  if (command === 'entity.add') {
-  manager(c)
+  allow(c, command); everywhere(c)
   const key = id()
   await commit(c, [
    guard(c, 'EXISTS(SELECT 1 FROM tt_company WHERE singleton=1)'),
@@ -56,7 +56,7 @@ export async function companyCommand(c: Context, command: string, p: Row): Promi
   return { id: key, notice: 'Legal entity recorded. The EIN is format-checked only; Terrace has not verified it with the IRS.' }
  }
  if (command === 'account.add') {
-  manager(c)
+  allow(c, command); everywhere(c)
   const key = id(), entity = await one(c, 'SELECT id FROM tt_entities WHERE id=?', text(p.entityId, 'Legal entity', 100))
   insist(entity, 'not_found', 'Legal entity not found.', 404)
   const last4 = text(p.last4, 'Account last four digits', 4)
@@ -65,7 +65,7 @@ export async function companyCommand(c: Context, command: string, p: Row): Promi
   return { id: key, notice: 'USD operating account recorded. Terrace has not verified it with the bank and moves no money.' }
  }
  if (command === 'tenancy.timezone') {
-  manager(c)
+  allow(c, command)
   const t = await tenancy(c, p.tenancyId), zone = usZone(p.timeZone)
   await commit(c, [
    guard(c, 'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)', t.id, t.version),
@@ -83,7 +83,9 @@ export async function companyData(c: Context) {
   one<{ n: number }>(c, 'SELECT COUNT(*) AS n FROM tt_tenancies WHERE currency_confirmed=0'),
   one(c, 'SELECT k.currency,k.tenancies,k.confirmed_at,COALESCE(o.display_name,k.confirmed_by) AS confirmed_by FROM tt_currency_confirmation k LEFT JOIN oa_operators o ON o.id=k.confirmed_by'),
  ])
- return { company: company ?? null, entities, accounts, legacyCurrency: { unconfirmed: open?.n ?? 0, confirmation: confirmation ?? null } }
+ // ROLE-001: legal entities (EINs) and operating accounts are shown only to roles that read accounts.
+ const books = can(c, 'accounts.read')
+ return { company: company ?? null, entities: books ? entities : [], accounts: books ? accounts : [], legacyCurrency: { unconfirmed: open?.n ?? 0, confirmation: confirmation ?? null } }
 }
 
 /** The office zone dates the home and header; America/New_York until the company sets one. */

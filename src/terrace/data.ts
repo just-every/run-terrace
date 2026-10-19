@@ -1,10 +1,10 @@
 import { createPortability, readArchive, type Manifest, type Part, type Closing, type LaterJournal } from '../modules/portability/index.mjs'
 import policy from './archive-policy.mjs'
-import { audit, Fault, guard, insist, owner, sha256, sql, tenancy, text, type Context, type Row } from './core'
+import { audit, Fault, guard, insist, allow, sha256, sql, tenancy, text, type Context, type Row } from './core'
 import { retireTenancy } from './imports'
 export const portable = (c:Context) => createPortability({db:c.db,policy})
 export async function backup(c:Context) {
- owner(c)
+ allow(c,'data.restore')
  const service=await portable(c), job=await service.exports.create('role:owner')
  try { while((await service.exports.advance(job,{maxParts:16})).phase==='building') {} return new Response(await service.exports.download(job),{headers:{'content-type':'application/x-ndjson','content-disposition':'attachment; filename="terrace-backup.rer"','cache-control':'no-store'}}) }
  catch(e) {await service.exports.abort(job);throw e}
@@ -16,7 +16,7 @@ async function archive(file:unknown) {
 }
 export async function dataCommand(c:Context,command:string,p:Row):Promise<Row|undefined> {
  if(command==='data.restore') {
-  owner(c);insist(p.confirm==='RESTORE','confirmation','Type RESTORE to confirm importing into an empty installation.')
+  allow(c, command);insist(p.confirm==='RESTORE','confirmation','Type RESTORE to confirm importing into an empty installation.')
   const records=await archive(p.backup),manifest=records[0] as Manifest,closing=records.at(-1) as Closing
   let laterJournal:LaterJournal|undefined
   if(p.journal instanceof File && p.journal.size>0) { const latest=(await archive(p.journal))[0] as Manifest;laterJournal={sourceIdentity:latest.sourceIdentity,epoch:latest.epoch,journal:latest.journal} }
@@ -26,7 +26,7 @@ export async function dataCommand(c:Context,command:string,p:Row):Promise<Row|un
   return {notice:'Archive restored. Your current sign-in remains in this installation.'}
  }
  if(command==='tenancy.erase') {
-  owner(c);const row=await tenancy(c,p.tenancyId)
+  allow(c, command);const row=await tenancy(c,p.tenancyId)
   insist(p.confirm===row.tenant_email,'confirmation','Type the exact tenant email to confirm permanent tenancy erasure.')
   const service=await portable(c)
   const checkpoint=await service.redactionStatements()

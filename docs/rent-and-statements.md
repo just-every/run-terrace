@@ -1,6 +1,6 @@
 # Rent, arrears and owner statements
 
-Use **Rent & arrears** for the selected tenancy's charges, recorded receipts and corrections. An owner or admin records these entries and downloads statements. Members can read the ledger and prepare an arrears follow-up.
+Use **Rent & arrears** for the selected tenancy's charges, recorded receipts and corrections. An owner, portfolio manager or bookkeeper records these entries and downloads statements. Members can read the ledger and prepare an arrears follow-up.
 
 Terrace records money already received elsewhere. Collection, bank reconciliation, trust accounting and disbursements stay in your existing systems.
 
@@ -27,11 +27,11 @@ Open **Reduce an incorrect charge**, choose the unpaid charge and enter the redu
 
 **Outstanding** shows unpaid charges after receipts and reductions. **Overdue as of today** shows unpaid balances for charges with a due date before today at the property, in the property's time zone.
 
-Under **Prepare arrears follow-up**, enter a message and follow-up date. Select **Prepare follow-up**. An owner or admin reviews it in the tenancy's **Prepared decisions**. No message is sent by preparation or approval; handle communication in your established workflow.
+Under **Prepare arrears follow-up**, enter a message and follow-up date. Select **Prepare follow-up**. An owner or portfolio manager reviews it in the tenancy's **Prepared decisions**. No message is sent by preparation or approval; handle communication in your established workflow.
 
 ## Post recurring charges
 
-Under **Recurring charges**, an owner or admin adds the tenancy's lease charge terms: rent, utility, pet, parking or a concession, each with an amount per billing period and a start date (and an end date if it stops before the lease ends). A monthly tenancy bills calendar months; a weekly or fortnightly tenancy bills 7- or 14-day periods from its lease start.
+Under **Recurring charges**, an owner, portfolio manager or bookkeeper adds the tenancy's lease charge terms: rent, utility, pet, parking or a concession, each with an amount per billing period and a start date (and an end date if it stops before the lease ends). A monthly tenancy bills calendar months; a weekly or fortnightly tenancy bills 7- or 14-day periods from its lease start.
 
 Under **Charge run**, choose a month and select **Preview charge run**. The preview lists every line for periods starting that month across the portfolio, marked new or posted, and any period with no rent term under **Missing terms**. A partly covered period, such as a mid-month move-in, is prorated by days and rounded half up to the cent; a concession reduces that period's rent charge. Select **Post** to record the new lines. Posting again, or previewing a month already posted, never records a period twice.
 

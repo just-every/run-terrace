@@ -5,7 +5,7 @@
 // amount × covered days ÷ period days, rounded half up to the cent. A concession posts as a reduction of the same
 // period's rent charge. Each line has a reference from its term and period start, so a replayed or retried run
 // posts nothing twice, and a term is amended only from a period that has not been posted.
-import { all, cents, commit, date, guard, id, insist, manager, one, sha256, sql, tenancy, text, type Context, type Row, shown } from './core'
+import { all, cents, commit, date, guard, id, insist, allow, one, sha256, sql, tenancy, text, type Context, type Row, shown, reaches } from './core'
 import { BALANCE } from './ledger'
 
 export const KINDS = ['rent','utility','pet','parking','concession'] as const
@@ -28,10 +28,10 @@ export function periods(t: Row, m: string) {
 
 /** The run's lines and missing terms for one month, each line marked new or already posted. */
 export async function preview(c: Context, value: unknown) {
- manager(c)
+ allow(c, 'charges.preview')
  const m = month(value)
  const [tenancies, terms, posted] = await Promise.all([
-  all(c, 'SELECT * FROM tt_tenancies ORDER BY address,tenant_name'),
+  all(c, 'SELECT * FROM tt_tenancies ORDER BY address,tenant_name').then(rows => rows.filter(t => reaches(c, t.unit_id))),
   all(c, 'SELECT * FROM tt_lease_terms ORDER BY starts'),
   all(c, "SELECT id,tenancy_id,reference FROM tt_charges WHERE reference LIKE 'RUN-%'"),
  ])
@@ -60,7 +60,7 @@ export async function preview(c: Context, value: unknown) {
 
 export async function chargeRunCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'term.add' || command === 'term.amend') {
-  manager(c)
+  allow(c, command)
   const old = command === 'term.amend' ? await one(c, 'SELECT * FROM tt_lease_terms WHERE id=?', text(p.termId, 'Lease term', 100)) : null
   insist(command === 'term.add' || old, 'not_found', 'Lease term not found.', 404)
   const t = await tenancy(c, old?.tenancy_id ?? p.tenancyId), key = id(), kind = old?.kind ?? p.kind

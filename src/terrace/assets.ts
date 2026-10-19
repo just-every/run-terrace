@@ -1,7 +1,7 @@
 // WORK-002: asset register, warranty and replacement history. A repair is linked to the asset it is for;
 // its approved estimate is attributed to the warranty when the job's due date is on or before the warranty
 // end, otherwise to the property owner. Terrace flags coverage; it does not file or confirm a warranty claim.
-import { all, cents, commit, date, guard, id, insist, manager, one, sql, tenancy, text, type Context, type Row } from './core'
+import { all, cents, commit, date, guard, id, insist, allow, one, sql, tenancy, text, type Context, type Row } from './core'
 
 const optional = (v: unknown, label: string, max = 300) => v === undefined || v === null || String(v).trim() === '' ? null : text(v, label, max)
 function details(p: Row) {
@@ -17,13 +17,13 @@ const insert = (c: Context, key: string, t: Row, values: unknown[], replaces: st
 
 export async function assetCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'asset.add') {
-  manager(c)
+  allow(c, command)
   const t = await tenancy(c, p.tenancyId), key = id()
   await commit(c, [insert(c, key, t, details(p), null, t.unit_id ?? null)], command, key)
   return { id: key, tenancyId: t.id, notice: 'Asset recorded.' }
  }
  if (command === 'asset.replace') {
-  manager(c)
+  allow(c, command)
   const old = await one(c, 'SELECT * FROM tt_assets WHERE id=?', text(p.assetId, 'Asset', 100))
   insist(old, 'not_found', 'Asset not found.', 404)
   insist(old.state === 'in_service', 'asset_state', 'This asset has already been replaced.', 409)

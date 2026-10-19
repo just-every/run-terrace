@@ -5,7 +5,7 @@
 // and occupants get neither.
 // A member is current from the day they join to the day they leave, in the property's time zone. Moving a
 // member to another lease ends their membership the day before and adds them there; balances stay with each lease.
-import { all, commit, date, email, guard, id, insist, manager, one, sql, tenancy, text, type Context, type Row, shown } from './core'
+import { all, commit, date, email, guard, id, insist, allow, one, sql, tenancy, text, type Context, type Row, shown } from './core'
 import { localDate } from './zones'
 
 export const ROLES = ['co_tenant','guarantor','occupant','emergency_contact','authorized_contact'] as const
@@ -13,7 +13,7 @@ const LIABLE = ['resident','co_tenant','guarantor'], INFORMED = ['resident','co_
 const dayBefore = (d: string) => new Date(Date.parse(d + 'T00:00:00Z') - 86400000).toISOString().slice(0, 10)
 export const rights = (role: string, contactBy: string, current: boolean) => ({ liable: LIABLE.includes(role), recipient: current && INFORMED.includes(role) && contactBy !== 'none', documents: current && INFORMED.includes(role) })
 
-async function member(c: Context, v: unknown) { const row = await one(c, 'SELECT * FROM tt_household_members WHERE id=?', text(v, 'Household member', 100)); insist(row, 'not_found', 'Household member not found.', 404); return row }
+async function member(c: Context, v: unknown) { const row = await one(c, 'SELECT * FROM tt_household_members WHERE id=?', text(v, 'Household member', 100)); insist(row, 'not_found', 'Household member not found.', 404); await tenancy(c, row.tenancy_id); return row }
 function contact(p: Row) {
  const mail = p.email ? email(p.email) : null, phone = p.phone ? text(p.phone, 'Phone', 40) : null, by = p.contactBy ?? (mail ? 'email' : phone ? 'phone' : 'none')
  insist(['email','phone','mail','none'].includes(by), 'invalid_input', 'Contact by email, phone, mail or none.')
@@ -24,7 +24,7 @@ function contact(p: Row) {
 
 export async function householdCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'household.add') {
-  manager(c)
+  allow(c, command)
   const t = await tenancy(c, p.tenancyId), key = id(), k = contact(p), joined = date(p.joined ?? t.start_date, 'Joined')
   insist(ROLES.includes(p.role), 'invalid_role', `Role is one of ${ROLES.join(', ')}.`)
   insist(joined >= t.start_date && joined <= (t.ended_on ?? t.end_date), 'invalid_date', 'A member joins during the lease.')
@@ -32,7 +32,7 @@ export async function householdCommand(c: Context, command: string, p: Row): Pro
   return { id: key, tenancyId: t.id, notice: 'Household member added.' }
  }
  if (command === 'household.leave' || command === 'household.move') {
-  manager(c)
+  allow(c, command)
   const m = await member(c, p.memberId), on = date(command === 'household.move' ? p.date : p.left, command === 'household.move' ? 'Move date' : 'Leaving date')
   insist(!m.left_on, 'member_left', 'This person has already left the household.', 409)
   const left = command === 'household.move' ? dayBefore(on) : on
@@ -53,7 +53,8 @@ export async function householdCommand(c: Context, command: string, p: Row): Pro
 }
 
 /** A lease's household with each person's role, dates and rights today, and the lease balance they share. */
-export async function householdData(c: Context, t: Row, balanceCents: number) {
+/** balanceCents is null for a role that does not read ledgers (ROLE-001). */
+export async function householdData(c: Context, t: Row, balanceCents: number | null) {
  const today = localDate(c.now, t.time_zone), rows = await all(c, 'SELECT * FROM tt_household_members WHERE tenancy_id=? ORDER BY joined,name', t.id)
  const current = (m: Row) => m.joined <= today && (!m.left_on || m.left_on >= today)
  const primary = { id: null, role: 'resident', name: t.tenant_name, email: t.tenant_email, contact_by: 'email', joined: t.start_date, left_on: t.ended_on ?? null, current: !t.ended_on || t.ended_on >= today }

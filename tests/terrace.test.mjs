@@ -7,7 +7,7 @@ let h,member,admin,t,inspection,job,imported,archiveBefore,journalAfter
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jz1sAAAAASUVORK5CYII=','base64')
 before(async()=>{h=await installation();member=await h.invite('member','preparer@example.test');admin=await h.invite('admin','manager@example.test')})
 after(async()=>{await h?.close()})
-test('ordinary sign-in, per-handler roles, CSRF and revocation',async()=>{
+test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned portfolios, CSRF and revocation',async()=>{
  assert.equal((await h.request('/api/state',{as:''})).status,401)
  assert.equal((await h.request('/api/commands',{method:'POST',body:{command:'tenancy.create',...tenancyInput},originHeader:'https://elsewhere.test'})).status,403)
  for(const command of ['tenancy.create','rent.charge','rent.receipt','rent.adjust','proposal.approve','proposal.reject','inspection.create','inspection.photo','inspection.complete','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.check','turnover.publish','household.add','household.leave','household.move'])await h.command(command,{}, {as:member,status:403})
@@ -25,6 +25,72 @@ test('ordinary sign-in, per-handler roles, CSRF and revocation',async()=>{
  assert.ok(m)
  assert.equal((await h.request('/auth/operator/status',{method:'POST',body:{operatorId:m.id,status:'inactive'}})).status,200)
  assert.equal((await h.request('/api/state',{as:admin})).status,401)
+ // ROLE-001: staff rights by responsibility. Three portfolios; every staff role is assigned North and South only.
+ const r=await installation()
+ try {
+  const place=async(name,unit)=>{const f=await r.command('portfolio.add',{name}),p=await r.command('property.add',{portfolioId:f.id,name:name+' House',address:`${unit} ${name} Road, Oakland, CA 94607`,kind:'duplex',timeZone:'America/Los_Angeles'}),u=await r.command('unit.add',{propertyId:p.id,identifier:'A',bedrooms:'2',bathrooms:'1'});return {f,p,u,t:await r.command('tenancy.create',{...tenancyInput,unitId:u.id,tenantEmail:name.toLowerCase()+'@example.test'})}}
+  const north=await place('North','1'),south=await place('South','2'),west=await place('West','3'),loose=await r.command('tenancy.create',{...tenancyInput,tenantEmail:'no-unit@example.test'})
+  const charge=await r.command('rent.charge',{tenancyId:west.t.id,dueDate:'2026-09-01',amount:'620.00',description:'September rent',reference:'WEST-SEP'})
+  const staff={}
+  for(const role of ['portfolio_manager','leasing','bookkeeper','accountant','maintenance_coordinator','member']){
+   const email=role.replace('_','-')+'@example.test'
+   await r.command('operator.invite',{displayName:role,email,role,['portfolio:'+north.f.id]:'1',['portfolio:'+south.f.id]:'1'})
+   staff[role]=await r.accept(email)
+  }
+  const as=role=>({as:staff[role]}),get=(role,path)=>r.request(path,as(role))
+  // Out of scope answers 404 on every door: the West tenancy, its page, state, statement, rent roll and the unit-less tenancy.
+  for(const role of Object.keys(staff)){
+   const s=await(await get(role,'/api/state')).json(),ids=s.tenancies.map(x=>x.id).sort()
+   assert.deepEqual(ids,[north.t.id,south.t.id].sort(),role+' lists only its two portfolios')
+   assert.deepEqual(s.portfolios.map(f=>f.name).sort(),['North','South'])
+   assert.equal((await get(role,'/api/state?tenancy='+west.t.id)).status,404)
+   assert.equal((await get(role,'/api/state?tenancy='+loose.id)).status,404)
+   assert.equal((await get(role,'/app?tab=tenancy&tenancy='+west.t.id)).status,404)
+   assert.ok(!(await(await get(role,'/app?tab=properties')).text()).includes('West House'))
+  }
+  for(const role of ['portfolio_manager','bookkeeper','accountant']){
+   assert.equal((await get(role,`/api/statement?tenancyId=${west.t.id}&from=2026-09-01&to=2026-09-30`)).status,404,role+' cannot download another property statement')
+   const roll=await(await get(role,'/api/rent-roll?asOf=2026-09-15&format=csv')).text();assert.ok(roll.includes('North')&&roll.includes('South')&&!roll.includes('West')&&!roll.includes('no-unit'),role+' rent roll covers its portfolios')
+   assert.ok(!JSON.stringify(await(await get(role,'/api/collections?month=2026-09')).json()).includes('WEST-SEP'))
+  }
+  await r.command('rent.receipt',{chargeId:charge.id,amount:'1.00',receivedDate:'2026-09-02',reference:'WEST-1'},{...as('bookkeeper'),status:404})
+  await r.command('maintenance.prepare',{tenancyId:west.t.id,title:'Gutter',tradeName:'Any Trade',tradeEmail:'trade@example.test',dueDate:'2026-10-22',estimate:'100.00'},{...as('maintenance_coordinator'),status:404})
+  await r.command('household.add',{tenancyId:west.t.id,role:'occupant',name:'Lee'},{...as('leasing'),status:404})
+  // In role: each role works in both assigned portfolios.
+  const pm=await r.command('tenancy.create',{...tenancyInput,unitId:south.u.id,tenantEmail:'pm-made@example.test',startDate:'2037-01-01',endDate:'2037-12-31'},as('portfolio_manager'))
+  await r.command('tenancy.create',{...tenancyInput,tenantEmail:'pm-loose@example.test'},{...as('portfolio_manager'),status:403})
+  await r.command('household.add',{tenancyId:north.t.id,role:'occupant',name:'Jo Park'},as('leasing'))
+  await r.command('household.add',{tenancyId:pm.id,role:'occupant',name:'Kai Park'},as('leasing'))
+  const sc=await r.command('rent.charge',{tenancyId:south.t.id,dueDate:'2026-09-01',amount:'620.00',description:'September rent',reference:'SOUTH-SEP'},as('bookkeeper'))
+  await r.command('rent.receipt',{chargeId:sc.id,amount:'620.00',receivedDate:'2026-09-02',reference:'SOUTH-1'},as('bookkeeper'))
+  assert.equal((await get('accountant',`/api/statement?tenancyId=${south.t.id}&from=2026-09-01&to=2026-09-30`)).status,200)
+  assert.equal((await get('accountant','/api/rent-roll?asOf=2026-09-15&format=xlsx')).status,200)
+  const fix=await r.command('maintenance.prepare',{tenancyId:north.t.id,title:'Porch light',tradeName:'Bright Electric',tradeEmail:'bright@example.test',dueDate:'2026-10-22',estimate:'90.00'},as('maintenance_coordinator'))
+  await r.command('inspection.create',{tenancyId:south.t.id,date:'2026-09-20',notes:'Move-in condition'},as('maintenance_coordinator'))
+  await r.command('renewal.prepare',{tenancyId:south.t.id,endDate:'2027-12-31',rent:'650.00',source:'Lease page 2'},as('member'))
+  // Out of role answers 403: leasing posts no money and reads no ledger; bookkeepers change no access; coordinators approve no spend; accountants post nothing.
+  await r.command('rent.receipt',{chargeId:sc.id,amount:'1.00',receivedDate:'2026-09-03',reference:'SOUTH-2'},{...as('leasing'),status:403})
+  await r.command('charges.post',{month:'2026-10'},{...as('leasing'),status:403})
+  assert.equal((await get('leasing',`/api/statement?tenancyId=${south.t.id}&from=2026-09-01&to=2026-09-30`)).status,403)
+  assert.equal((await get('leasing','/app?tab=ledger&tenancy='+south.t.id)).status,403)
+  const seen=await(await get('leasing','/api/state?tenancy='+south.t.id)).json();assert.equal(seen.ledger,undefined);assert.equal(seen.household.balanceCents,null);assert.deepEqual(seen.accounts,[])
+  for(const [command,body] of [['operator.invite',{displayName:'x',email:'x@example.test',role:'member'}],['operator.role',{operatorId:'x',role:'member'}],['operator.status',{operatorId:'x',status:'inactive'}]])await r.command(command,body,{...as('bookkeeper'),status:403})
+  assert.equal((await r.request('/auth/invite',{method:'POST',body:{email:'y@example.test',displayName:'y',role:'member'},...as('portfolio_manager')})).status,403,'Base invitation door is owner-only')
+  await r.command('maintenance.approve',{tenancyId:north.t.id,jobId:fix.id,version:1},{...as('maintenance_coordinator'),status:403})
+  await r.command('rent.charge',{tenancyId:north.t.id,dueDate:'2026-09-01',amount:'1.00',description:'x',reference:'AC-1'},{...as('accountant'),status:403})
+  await r.command('company.save',{name:'Co',timeZone:'America/New_York',officeEmail:'o@example.test',officePhone:'1',officeAddress:'1 Main'},{...as('portfolio_manager'),status:403})
+  await r.command('proposal.approve',{proposalId:'none'},{...as('member'),status:403})
+  // The owner's role change applies at once and is recorded; an admin invited through Base becomes a portfolio manager over every portfolio.
+  const people=await(await r.request('/auth/operators')).json(),id=email=>people.find(x=>x.email===email).id
+  await r.command('operator.role',{operatorId:id('bookkeeper@example.test'),role:'leasing',['portfolio:'+north.f.id]:'1'})
+  await r.command('rent.charge',{tenancyId:north.t.id,dueDate:'2026-09-01',amount:'1.00',description:'x',reference:'BK-1'},{...as('bookkeeper'),status:403})
+  assert.equal((await get('bookkeeper','/api/state?tenancy='+south.t.id)).status,404)
+  assert.ok((await(await r.request('/app?tab=settings')).text()).includes('to Leasing'))
+  await r.command('operator.role',{operatorId:id('portfolio-manager@example.test'),role:'member',allPortfolios:'1'})
+  assert.equal((await get('portfolio_manager','/api/state')).status,401,'a change of sign-in tier ends the session')
+  const admin=await r.invite('admin','old-admin@example.test'),wide=await(await r.request('/api/state',{as:admin})).json()
+  assert.equal(wide.actor.staffRole,'portfolio_manager');assert.equal(wide.tenancies.length,5)
+ } finally { await r.close() }
 })
 test('rent charges, external receipts and corrections preserve balances under races and duplicates',async()=>{
  await h.command('rent.charge',{tenancyId:t.id,dueDate:'2026-09-01',amount:'1.234',description:'Rent',reference:'invalid'},{status:400})

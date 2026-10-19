@@ -19,7 +19,7 @@ The new job reads **Prepared · awaiting approval**. Preparing does not approve 
 
 ## Approve and send the packet
 
-1. An owner or admin reviews the scope, vendor details, date and estimate, then selects **Approve maintenance**.
+1. An owner or portfolio manager reviews the scope, vendor details, date and estimate, then selects **Approve maintenance**.
 2. Terrace saves an approval snapshot and changes the job to **Approved · awaiting external handoff**.
 3. Select **Download approved email packet (.eml)**.
 4. Open the packet in your own email client, check it and send it to the vendor.
@@ -35,19 +35,19 @@ Approvals and changes check the current version. If another action changed the r
 
 ## Recurring maintenance
 
-Under **Recurring maintenance**, an owner or admin adds a schedule: the work, trade, directory vendor, an optional asset or completed inspection it comes from, how many months between occurrences, the first due date, a budget per occurrence and how many days ahead orders are created.
+Under **Recurring maintenance**, an owner, portfolio manager or maintenance coordinator adds a schedule: the work, trade, directory vendor, an optional asset or completed inspection it comes from, how many months between occurrences, the first due date, a budget per occurrence and how many days ahead orders are created.
 
 Select **Run the scheduler** to create one order, awaiting approval, for each occurrence due within its lead days. Running it again never creates a second order for the same occurrence. Before an occurrence has an order you can defer it to a later date with a reason. An occurrence past its due date whose order has not been handed off appears under **Overdue occurrences**. When an asset is replaced, its schedules follow the replacement.
 
 ## Vendors
 
-Under **Vendors**, an owner or admin keeps the vendor directory: name and contact details, specialties (trades such as plumbing or hvac), service areas (ZIP codes or cities), W-9 status, insurance and license expiry, availability, hourly rate and standing (preferred, approved or blocked).
+Under **Vendors**, an owner, portfolio manager or maintenance coordinator keeps the vendor directory: name and contact details, specialties (trades such as plumbing or hvac), service areas (ZIP codes or cities), W-9 status, insurance and license expiry, availability, hourly rate and standing (preferred, approved or blocked).
 
 When preparing maintenance, choose a directory vendor and the trade. Terrace checks that the vendor has that specialty, serves the property, has a received W-9 and is insured (and licensed, when a license is recorded) through the due date. Work for a vendor that does not qualify, or for an unlisted vendor, is held: the job shows each issue, and approval and the recorded handoff are refused until an owner or admin records a documented exception for those issues. Qualification is checked again at approval and handoff, so a vendor whose insurance lapses after preparation is held too. Prepared work can be reassigned to another vendor before approval.
 
 ## Assets and warranties
 
-Under **Assets & warranties**, an owner or admin records the selected tenancy's installed equipment: what it is, where it is, make, model, serial number and installed date, with an optional warranty provider and end date, a manual link or where the manual is kept, and a planned replacement date and cost.
+Under **Assets & warranties**, an owner, portfolio manager or maintenance coordinator records the selected tenancy's installed equipment: what it is, where it is, make, model, serial number and installed date, with an optional warranty provider and end date, a manual link or where the manual is kept, and a planned replacement date and cost.
 
 When preparing maintenance, choose the asset the repair is for. A repair due on or before the asset's warranty end is listed as **under warranty** with the provider to claim from; any other repair is listed as the owner's cost. Approved estimates are totalled per asset. Terrace flags warranty coverage; it does not file or confirm a claim.
 

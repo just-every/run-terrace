@@ -4,7 +4,7 @@
 // days run from the day after move-out to the ready date. Anyone may submit a task; only an owner or admin checks
 // it, and only once its dependencies are checked. A board is published, setting the unit's available date, only
 // when every task is checked: available from the later of the planned ready date and the day after the last check.
-import { all, cents, commit, date, guard, id, insist, manager, one, sql, text, type Context, type Row } from './core'
+import { all, cents, commit, date, guard, id, insist, allow, one, sql, text, reaches, type Context, type Row } from './core'
 import { localDate } from './zones'
 
 const DAY = 86400000
@@ -33,16 +33,16 @@ export function plan(board: Row, tasks: Row[]) {
 
 async function task(c: Context, v: unknown) {
  const row = await one(c, 'SELECT t.*,b.state AS board_state,b.unit_id FROM tt_turnover_tasks t JOIN tt_turnovers b ON b.id=t.turnover_id WHERE t.id=?', text(v, 'Task', 100))
- insist(row, 'not_found', 'Task not found.', 404)
+ insist(row && reaches(c, row.unit_id), 'not_found', 'Task not found.', 404)
  insist(row.board_state === 'open', 'board_published', 'This board is published.', 409)
  return row
 }
 
 export async function turnoverCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'turnover.open') {
-  manager(c)
+  allow(c, command)
   const unit = await one(c, 'SELECT id FROM tt_units WHERE id=?', text(p.unitId, 'Unit', 100))
-  insist(unit, 'not_found', 'Unit not found.', 404)
+  insist(unit && reaches(c, unit.id), 'not_found', 'Unit not found.', 404)
   const moveOut = date(p.moveOut, 'Move-out date'), key = id(), ids = new Map(STANDARD.map(([kind]) => [kind, id()]))
   // The unit must be vacant the day after the move-out.
   insist(!(await one(c, 'SELECT 1 FROM tt_tenancies WHERE unit_id=? AND start_date<=? AND COALESCE(ended_on,end_date)>=?', unit.id, shift(moveOut, 1), shift(moveOut, 1))), 'unit_occupied', 'A lease occupies this unit the day after that move-out date.', 409)
@@ -54,7 +54,7 @@ export async function turnoverCommand(c: Context, command: string, p: Row): Prom
   return { id: key, notice: 'Make-ready board opened with its standard tasks.' }
  }
  if (command === 'turnover.task.update') {
-  manager(c)
+  allow(c, command)
   const row = await task(c, p.taskId), duration = Number(p.durationDays ?? row.duration_days), delay = Number(p.delayDays ?? row.delay_days)
   insist(Number.isInteger(duration) && duration >= 1 && duration <= 60, 'invalid_task', 'Duration is 1 to 60 days.')
   insist(Number.isInteger(delay) && delay >= 0 && delay <= 120, 'invalid_task', 'Delay is 0 to 120 days.')
@@ -69,7 +69,7 @@ export async function turnoverCommand(c: Context, command: string, p: Row): Prom
   return { id: row.id, notice: 'Task submitted for an owner or admin to check.' }
  }
  if (command === 'turnover.task.check') {
-  manager(c)
+  allow(c, command)
   const row = await task(c, p.taskId), deps: string[] = JSON.parse(row.depends_on)
   insist(row.state === 'submitted', 'task_state', 'Only a submitted task can be checked.', 409)
   await commit(c, [
@@ -79,9 +79,9 @@ export async function turnoverCommand(c: Context, command: string, p: Row): Prom
   return { id: row.id, notice: 'Task checked.' }
  }
  if (command === 'turnover.publish') {
-  manager(c)
+  allow(c, command)
   const board = await one(c, 'SELECT b.*,p.time_zone FROM tt_turnovers b JOIN tt_units u ON u.id=b.unit_id JOIN tt_properties p ON p.id=u.property_id WHERE b.id=?', text(p.turnoverId, 'Board', 100))
-  insist(board && board.state === 'open', 'not_found', 'Open board not found.', 404)
+  insist(board && board.state === 'open' && reaches(c, board.unit_id), 'not_found', 'Open board not found.', 404)
   const tasks = await all(c, 'SELECT * FROM tt_turnover_tasks WHERE turnover_id=?', board.id)
   insist(tasks.every(t => t.state === 'checked'), 'not_ready', 'Every task must be checked before the unit is ready.', 409)
   const planned = plan(board, tasks).readyDate, checked = shift(localDate(tasks.map(t => t.checked_at).sort().at(-1)!, board.time_zone), 1), available = planned > checked ? planned : checked
@@ -95,6 +95,6 @@ export async function turnoverCommand(c: Context, command: string, p: Row): Prom
 }
 
 export async function turnoverData(c: Context) {
- const [boards, tasks] = await Promise.all([all(c, 'SELECT * FROM tt_turnovers ORDER BY created_at DESC'), all(c, 'SELECT * FROM tt_turnover_tasks ORDER BY position')])
+ const [boards, tasks] = await Promise.all([all(c, 'SELECT * FROM tt_turnovers ORDER BY created_at DESC').then(rows => rows.filter(b => reaches(c, b.unit_id))), all(c, 'SELECT * FROM tt_turnover_tasks ORDER BY position')])
  return boards.map(b => ({ ...b, ...plan(b, tasks.filter(t => t.turnover_id === b.id)) }))
 }

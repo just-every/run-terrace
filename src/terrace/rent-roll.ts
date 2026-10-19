@@ -4,14 +4,14 @@
 // ends, then the current rent. Recurring charges and concessions are the PAY-001 terms in effect that day.
 // Collections count charges due in the month and the recorded external receipts against them; Terrace holds
 // no pending funds (PAY-002 adds them), so pending is always reported as none.
-import { all, date, insist, manager, money, shown, text, type Context, type Row } from './core'
+import { all, date, insist, allow, money, shown, text, type Context, type Row, reaches } from './core'
 import { occupiedTo } from './properties'
 
 const covers = (l: Row, d: string) => l.start_date <= d && occupiedTo(l) >= d
 const METHOD: Record<string, string> = { ach: 'ACH', card: 'card', cash: 'cash', check: 'check', other: 'other' }
 
 export async function rentRoll(c: Context, q: Row) {
- manager(c)
+ allow(c, 'reports.read')
  const asOf = date(q.asOf, 'As of date'), property = q.propertyId ? text(q.propertyId, 'Property', 100) : '', occupancy = q.occupancy ? String(q.occupancy) : ''
  insist(['', 'occupied', 'vacant'].includes(occupancy), 'invalid_filter', 'Occupancy is occupied or vacant.')
  const [units, leases, history, terms] = await Promise.all([
@@ -29,8 +29,8 @@ export async function rentRoll(c: Context, q: Row) {
    deposit: 'not recorded', nextLease: next ? { tenancyId: next.id, resident: next.tenant_name, start: next.start_date } : null }
  }
  const rows = [
-  ...units.map(u => { const on = leases.filter(l => l.unit_id === u.id); return line(u, on.find(l => covers(l, asOf)), on.find(l => l.start_date > asOf)) }),
-  ...leases.filter(l => !l.unit_id && covers(l, asOf)).map(l => line(null, l, undefined)),
+  ...units.filter(u => reaches(c, u.id)).map(u => { const on = leases.filter(l => l.unit_id === u.id); return line(u, on.find(l => covers(l, asOf)), on.find(l => l.start_date > asOf)) }),
+  ...leases.filter(l => !l.unit_id && covers(l, asOf) && reaches(c, null)).map(l => line(null, l, undefined)),
  ].filter(r => (!property || r.propertyId === property) && (!occupancy || (occupancy === 'occupied' ? r.state === 'occupied' : r.state !== 'occupied')))
  const unitRows = rows.filter(r => r.unitId), occupied = rows.filter(r => r.state === 'occupied')
  const sums = (pick: (r: Row) => number | null, list: Row[]) => Object.entries(list.reduce((m: Record<string, number>, r) => { const v = pick(r); if (v) m[r.currency] = (m[r.currency] ?? 0) + v; return m }, {})).map(([currency, cents]) => ({ currency, cents }))
@@ -38,14 +38,14 @@ export async function rentRoll(c: Context, q: Row) {
 }
 
 export async function collections(c: Context, m: unknown) {
- manager(c)
+ allow(c, 'reports.read')
  const month = text(m, 'Month', 7); insist(/^\d{4}-(0[1-9]|1[0-2])$/.test(month), 'invalid_month', 'Choose a month as YYYY-MM.')
  const [charges, receipts, adjustments] = await Promise.all([
-  all(c, "SELECT q.*,t.address,t.tenant_name,t.currency_confirmed,u.identifier AS unit FROM tt_charges q JOIN tt_tenancies t ON t.id=q.tenancy_id LEFT JOIN tt_units u ON u.id=t.unit_id WHERE substr(q.due_date,1,7)=? ORDER BY t.address", month),
+  all(c, "SELECT q.*,t.address,t.tenant_name,t.currency_confirmed,t.unit_id AS tenancy_unit,u.identifier AS unit FROM tt_charges q JOIN tt_tenancies t ON t.id=q.tenancy_id LEFT JOIN tt_units u ON u.id=t.unit_id WHERE substr(q.due_date,1,7)=? ORDER BY t.address", month),
   all(c, "SELECT r.* FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE substr(q.due_date,1,7)=?", month),
   all(c, "SELECT a.* FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id WHERE substr(q.due_date,1,7)=?", month),
  ])
- const leases = [...new Set(charges.map(q => q.tenancy_id))].map(id => {
+ const leases = [...new Set(charges.filter(q => reaches(c, q.tenancy_unit)).map(q => q.tenancy_id))].map(id => {
   const mine = charges.filter(q => q.tenancy_id === id), ids = new Set(mine.map(q => q.id)), paid = receipts.filter(r => ids.has(r.charge_id))
   const billed = mine.reduce((s, q) => s + q.amount_cents, 0), reduced = adjustments.filter(a => ids.has(a.charge_id)).reduce((s, a) => s + a.amount_cents, 0), collected = paid.reduce((s, r) => s + r.amount_cents, 0)
   const outstanding = billed - reduced - collected, methods = [...new Set(paid.map(r => r.method ? METHOD[r.method] : 'method not recorded'))]
