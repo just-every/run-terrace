@@ -5,6 +5,7 @@
 // force on their received date (property-local), with the management fee and reserve requirement of the agreement
 // in force that day. Owner records are installation-wide: the owner and all-portfolio staff keep them (ROLE-001).
 import { all, allow, can, commit, date, email, everywhere, guard, id, insist, one, reachesPortfolio, shown, sql, text, cents, type Context, type Row } from './core'
+import { ownerFees } from './fees'
 
 const W9 = ['requested', 'received']
 /** "60" or "33.33" percent -> basis points; never rounded. */
@@ -23,7 +24,7 @@ export function split(amount: number, shares: Row[]) {
  return out
 }
 /** A fee in cents at basis points, rounded half up to the cent. */
-const fee = (cents: number, bp: number) => Math.floor((cents * bp + 5000) / 10000)
+export const fee = (cents: number, bp: number) => Math.floor((cents * bp + 5000) / 10000)
 const inForce = <T extends Row>(rows: T[], day: string, key: string) => rows.filter(r => r[key] <= day).at(-1)
 const dayBefore = (d: string) => new Date(Date.parse(d + 'T00:00:00Z') - 86400000).toISOString().slice(0, 10)
 
@@ -79,10 +80,12 @@ export async function ownerCommand(c: Context, command: string, p: Row): Promise
  if (command === 'agreement.set') {
   allow(c, command); everywhere(c)
   const prop = await property(c, p.propertyId), starts = date(p.starts, 'Agreement starts'), key = id()
-  const reserve = String(p.reserve ?? '').trim() === '0' || String(p.reserve ?? '').trim() === '0.00' ? 0 : cents(p.reserve)
+  const money = (v: unknown) => ['', '0', '0.00'].includes(String(v ?? '').trim()) ? 0 : cents(v), reserve = money(p.reserve)
+  // ACCT-009: optional fee terms; a blank term is none.
+  const rate = (v: unknown, label: string) => String(v ?? '').trim() === '' ? 0 : basisPoints(v, label)
   await commit(c, [
    guard(c, 'NOT EXISTS(SELECT 1 FROM tt_management_agreements WHERE property_id=? AND starts>=?)', prop.id, starts),
-   sql(c, 'INSERT INTO tt_management_agreements(id,property_id,starts,fee_bp,reserve_cents,reference,created_by,created_at) VALUES(?,?,?,?,?,?,?,?)', key, prop.id, starts, basisPoints(p.feePercent, 'Management fee'), reserve, text(p.reference, 'Agreement reference', 300), c.actor.id, c.now),
+   sql(c, 'INSERT INTO tt_management_agreements(id,property_id,starts,fee_bp,reserve_cents,reference,created_by,created_at,leasing_fee_cents,renewal_fee_cents,minimum_fee_cents,fee_tax_bp,markup_bp) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)', key, prop.id, starts, basisPoints(p.feePercent, 'Management fee'), reserve, text(p.reference, 'Agreement reference', 300), c.actor.id, c.now, money(p.leasingFee), money(p.renewalFee), money(p.minimumFee), rate(p.feeTaxPercent, 'Tax on fees'), rate(p.markupPercent, 'Vendor bill markup')),
   ], command, key).catch(e => { if (e.code === 'conflict') e.message = 'An agreement already starts on or after that date.'; throw e })
   return { id: key, notice: `Management agreement from ${starts} recorded.` }
  }
@@ -123,7 +126,7 @@ export async function ownerStatement(c: Context, ownerId: unknown, fromValue: un
    const set = sharesOn(d, r.received_date), mine = set ? split(r.amount_cents, set.shares).find(s => s.ownerId === o.id) : undefined
    if (!mine) continue
    const a = agreementOn(d, r.received_date), feeCents = a ? fee(mine.cents, a.fee_bp) : 0
-   rows.push({ date: r.received_date, property: p.name, address: r.address, reference: r.reference, currency: shown(r), receiptCents: r.amount_cents, shareBp: mine.bp, allocatedCents: mine.cents, feeBp: a?.fee_bp ?? 0, feeCents, netCents: mine.cents - feeCents })
+   rows.push({ date: r.received_date, property: p.name, address: r.address, reference: r.reference, currency: shown(r), receiptCents: r.amount_cents, shareBp: mine.bp, allocatedCents: mine.cents, feeBp: a?.fee_bp ?? 0, feeCents, netCents: mine.cents - feeCents, agreementReference: a?.reference ?? null })
   }
   // The reserve requirement is split like income: per stretch of the period with one share set and one agreement in force.
   const cuts = [...new Set([from, ...(d?.sets ?? []).map((s: Row) => s.effective_from), ...(d?.agreements ?? []).map((a: Row) => a.starts)].filter(x => x >= from && x <= to))].sort()
@@ -133,7 +136,12 @@ export async function ownerStatement(c: Context, ownerId: unknown, fromValue: un
   })
  }
  const totals = [...new Set(rows.map(r => r.currency))].map(currency => { const mine = rows.filter(r => r.currency === currency); return { currency, allocatedCents: mine.reduce((t, r) => t + r.allocatedCents, 0), feeCents: mine.reduce((t, r) => t + r.feeCents, 0), netCents: mine.reduce((t, r) => t + r.netCents, 0) } })
- return { owner: { id: o.id, name: o.legal_name, kind: o.kind, w9: o.w9_status }, from, to, rows, totals, reserves, boundary: 'Recorded receipts allocated by ownership share on each received date, less the agreement fee. Reserve lines are each owner’s share of the requirement, not cash held. Not a trust disbursement, bank reconciliation or tax statement; expenses are not included yet.' }
+ // ACCT-009: the fee lines fee runs recorded, and the owner's USD cash left after them and the reserve share in force at the period end.
+ const fees = (await ownerFees(c, o.id, props.map(p => p.id), from, to)).map(f => ({ date: f.day, property: f.property, kind: f.kind, source: f.source_label, baseCents: f.base_cents, rateBp: f.rate_bp, amountCents: f.amount_cents, taxBp: f.tax_bp, taxCents: f.tax_cents, agreementReference: f.agreement_reference, override: f.override_reason }))
+ const usd = rows.filter(r => r.currency === 'USD').reduce((t, r) => t + r.allocatedCents, 0), charged = fees.reduce((t, f) => t + f.amountCents, 0), tax = fees.reduce((t, f) => t + f.taxCents, 0)
+ const floor = props.reduce((t, p) => t + (reserves.filter(r => r.property === p.name).at(-1)?.ownerReserveCents ?? 0), 0)
+ const cash = { currency: 'USD', collectedCents: usd, feesCents: charged, taxCents: tax, reserveFloorCents: floor, availableCents: usd - charged - tax - floor }
+ return { owner: { id: o.id, name: o.legal_name, kind: o.kind, w9: o.w9_status }, from, to, rows, totals, reserves, fees, cash, boundary: 'Recorded receipts allocated by ownership share on each received date, less the agreement fee. Reserve lines are each owner’s share of the requirement, not cash held. Not a trust disbursement, bank reconciliation or tax statement; expenses are not included yet. Tax on fees is at the agreement’s recorded rate; Terrace files and remits no tax.' }
 }
 const amount = (n: number) => (n / 100).toFixed(2)
 const pct = (bp: number) => (bp / 100).toFixed(2) + '%'
@@ -143,5 +151,8 @@ export const ownerStatementTable = (s: Awaited<ReturnType<typeof ownerStatement>
  ...s.rows.map(r => [r.date, r.property, r.address, r.reference, r.currency, amount(r.receiptCents), pct(r.shareBp), amount(r.allocatedCents), pct(r.feeBp), amount(r.feeCents), amount(r.netCents)]),
  ...s.totals.map(t => ['Total', '', '', '', t.currency, '', '', amount(t.allocatedCents), '', amount(t.feeCents), amount(t.netCents)]),
  ...s.reserves.map(r => ['Reserve requirement share', r.property, `${r.from} to ${r.to}`, '', r.currency, amount(r.reserveCents), pct(r.shareBp), amount(r.ownerReserveCents), '', '', '']),
+ ['Fee charged', 'Property', 'Kind', 'Source', 'Agreement', 'Base', 'Rate', 'Fee', 'Tax rate', 'Tax', 'Override'],
+ ...s.fees.map(f => [f.date, f.property, f.kind, f.source, f.agreementReference, amount(f.baseCents), f.rateBp === null ? '' : pct(f.rateBp), amount(f.amountCents), pct(f.taxBp), amount(f.taxCents), f.override ?? '']),
+ ['Cash available before expenses and distributions', 'USD', `collected share ${amount(s.cash.collectedCents)}`, `fees ${amount(s.cash.feesCents)}`, `tax on fees ${amount(s.cash.taxCents)}`, `reserve floor ${amount(s.cash.reserveFloorCents)}`, '', amount(s.cash.availableCents)],
  [s.boundary],
 ]

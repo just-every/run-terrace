@@ -147,7 +147,7 @@ test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned 
   await r.command('factor.reset',{operatorId:id('accountant@example.test')});assert.equal((await r.request('/api/state',{as:again})).status,403,'a reset authenticator must be set up again')
  } finally { await r.close() }
 })
-test('rent charges, external receipts and corrections preserve balances under races and duplicates',async()=>{
+test('rent charges, external receipts and corrections preserve balances under races and duplicates; ACCT-011 month close',async()=>{
  await h.command('rent.charge',{tenancyId:t.id,dueDate:'2026-09-01',amount:'1.234',description:'Rent',reference:'invalid'},{status:400})
  const charge=await h.command('rent.charge',{tenancyId:t.id,dueDate:'2026-09-01',amount:'620.00',description:'September rent',reference:'RENT-SEP-01'})
  await h.command('rent.receipt',{chargeId:charge.id,amount:'200.00',receivedDate:'2026-09-02',reference:'BANK-001'})
@@ -486,7 +486,7 @@ test('BOUND-004: residential only — no commercial, CAM or association-dues doo
  await h.command('import.apply',{csv:residential,namespace:'bound-004',fingerprint:reviewed.fingerprint})
  const after=(await h.state()).tenancies;assert.equal(after.length,before+1);assert.ok(!after.some(t=>t.address.startsWith('Suite 200')))
 })
-test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; legacy money currency unconfirmed until the owner confirms it; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready; PORT-004 households; REPORT-001 rent roll',async()=>{
+test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; legacy money currency unconfirmed until the owner confirms it; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready; PORT-004 households; REPORT-001 rent roll; ACCT-009 fees',async()=>{
  const company={name:'Alder Court Property Management',officeAddress:'1840 Alder Street, Oakland, CA 94610',officeEmail:'office@example.test',officePhone:'(510) 555-0142',timeZone:'America/Los_Angeles'}
  await h.command('company.save',{...company,timeZone:'Australia/Sydney'},{status:400})
  await h.command('company.save',company)
@@ -719,5 +719,29 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  assert.deepEqual([aud.billedCents,aud.collectedCents,aud.paidInFull],[185000,185000,1])
  const rollPage=await(await h.request(`/app?tab=properties&asOf=2026-12-15&propertyId=${duplex.id}&month=2026-02`)).text()
  assert.ok(rollPage.includes('As of Dec 15, 2026: 2 units · 2 occupied · 0 vacant'));assert.ok(rollPage.includes('A$1,850.00 collected of A$1,850.00 billed · 1 of 1 leases paid in full'))
+ // ACCT-009: a dated 2026 fee schedule on the duplex; February's rent receipt and a new lease, then this month's approved renewal; replay charges nothing twice; the owner's override holds; each owner statement names the agreement.
+ await h.command('agreement.set',{propertyId:duplex.id,starts:'2026-02-01',feePercent:'8',reserve:'500.00',leasingFee:'1000.00',renewalFee:'250.00',minimumFee:'300.00',feeTaxPercent:'4.5',markupPercent:'10',reference:'Management agreement 2026, schedule A'})
+ await h.command('tenancy.create',{...tenancyInput,unitId:upper.id,tenantName:'Jo Lane',tenantEmail:'jo@example.test',startDate:'2026-02-15',endDate:'2026-11-30',rent:'2400.00',cadence:'monthly'})
+ await h.command('fees.run',{propertyId:duplex.id,month:'2026-02'},{as:member,status:403})
+ const febFees=await h.command('fees.run',{propertyId:duplex.id,month:'2026-02'}),feeLine=l=>[l.kind,l.ownerId,l.amountCents,l.taxCents]
+ assert.equal(febFees.posted,6)
+ assert.deepEqual(febFees.lines.map(feeLine),[['management',ito.id,12801,576],['management',holdings.id,6399,288],['leasing',ito.id,66670,3000],['leasing',holdings.id,33330,1500],['minimum',ito.id,7201,324],['minimum',holdings.id,3599,162]],'8% of each owner share, a flat leasing fee by share, and the top-up to the $300 minimum with the remainder cent on the larger share; 4.5% tax half up')
+ assert.deepEqual([febFees.lines[0].sourceLabel,febFees.lines[0].baseCents,febFees.lines[0].rateBp,febFees.lines[0].agreementReference],['Receipt ACH-ROSA-02',160008,800,'Management agreement 2026, schedule A'],'each line shows its source and agreement')
+ assert.equal((await h.command('fees.run',{propertyId:duplex.id,month:'2026-02'})).posted,0,'a replayed run charges nothing twice')
+ const renewalMonth=local.slice(0,7),nowFees=await h.command('fees.run',{propertyId:duplex.id,month:renewalMonth})
+ assert.deepEqual(nowFees.lines.map(feeLine),[['renewal',ito.id,16668,750],['renewal',holdings.id,8332,375]],'the renewal approved this month; no minimum until the month ends')
+ const feeRows=(await(await h.mf.getD1Database('DB')).prepare("SELECT id,owner_id,kind FROM tt_fees WHERE property_id=? AND month='2026-02'").bind(duplex.id).all()).results,waived=feeRows.find(f=>f.kind==='minimum'&&f.owner_id===holdings.id)
+ await h.command('fee.override',{feeId:waived.id,amount:'0',reason:'Minimum waived per owner email'},{as:member,status:403})
+ await h.command('fee.override',{feeId:waived.id,amount:'0',reason:'Minimum waived per owner email'})
+ assert.equal((await h.command('fees.run',{propertyId:duplex.id,month:'2026-02'})).posted,0,'a later run leaves the override alone')
+ const feeStatement=async o=>(await(await h.request(`/api/owner-statement?ownerId=${o.id}&from=2026-02-01&to=${local}`)).json())
+ const [itoFees,holdingsFees]=[await feeStatement(ito),await feeStatement(holdings)]
+ assert.deepEqual(itoFees.rows.map(r=>[r.reference,r.allocatedCents,r.agreementReference]),[['ACH-ROSA-02',160008,'Management agreement 2026, schedule A']])
+ assert.deepEqual(itoFees.fees.map(f=>[f.kind,f.amountCents,f.agreementReference]),[['management',12801,'Management agreement 2026, schedule A'],['leasing',66670,'Management agreement 2026, schedule A'],['minimum',7201,'Management agreement 2026, schedule A'],['renewal',16668,'Management agreement 2026, schedule A']])
+ assert.deepEqual(holdingsFees.fees.filter(f=>f.kind==='minimum').map(f=>[f.amountCents,f.taxCents,f.override]),[[3599,162,null],[-3599,-162,'Minimum waived per owner email']])
+ assert.deepEqual([itoFees.cash.availableCents,holdingsFees.cash.availableCents],[160008-103340-4650-33335,79992-48061-2163-16665],'owner cash after fees, tax and the reserve floor')
+ const feeCsv=await(await h.request(`/api/owner-statement?ownerId=${holdings.id}&from=2026-02-01&to=${local}&format=csv`)).text()
+ for(const text of ['Management agreement 2026, schedule A','Minimum waived per owner email','Cash available before expenses and distributions','"131.03"'])assert.ok(feeCsv.includes(text),text)
+ assert.ok((await(await h.request('/app?tab=properties')).text()).includes('leasing fee $1,000.00 · renewal fee $250.00 · monthly minimum $300.00 · tax on fees 4.50% · vendor bill markup 10%'))
 
 })
