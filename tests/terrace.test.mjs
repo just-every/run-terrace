@@ -10,7 +10,7 @@ after(async()=>{await h?.close()})
 test('ordinary sign-in, per-handler roles, CSRF and revocation',async()=>{
  assert.equal((await h.request('/api/state',{as:''})).status,401)
  assert.equal((await h.request('/api/commands',{method:'POST',body:{command:'tenancy.create',...tenancyInput},originHeader:'https://elsewhere.test'})).status,403)
- for(const command of ['tenancy.create','rent.charge','rent.receipt','rent.adjust','proposal.approve','proposal.reject','inspection.create','inspection.photo','inspection.complete','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post'])await h.command(command,{}, {as:member,status:403})
+ for(const command of ['tenancy.create','rent.charge','rent.receipt','rent.adjust','proposal.approve','proposal.reject','inspection.create','inspection.photo','inspection.complete','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer'])await h.command(command,{}, {as:member,status:403})
  assert.equal((await h.request('/api/backup',{as:member})).status,403)
  t=await h.command('tenancy.create',tenancyInput,{as:admin})
  const listing=await h.request('/app'),listHtml=await listing.text()
@@ -197,7 +197,7 @@ test('BOUND-004: residential only — no commercial, CAM or association-dues doo
  await h.command('import.apply',{csv:residential,namespace:'bound-004',fingerprint:reviewed.fingerprint})
  const after=(await h.state()).tenancies;assert.equal(after.length,before+1);assert.ok(!after.some(t=>t.address.startsWith('Suite 200')))
 })
-test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; PAY-001 runs post each period once',async()=>{
+test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; PAY-001 runs post each period once; PORT-002 units keep their history',async()=>{
  const company={name:'Alder Court Property Management',officeAddress:'1840 Alder Street, Oakland, CA 94610',officeEmail:'office@example.test',officePhone:'(510) 555-0142',timeZone:'America/Los_Angeles'}
  await h.command('company.save',{...company,timeZone:'Australia/Sydney'},{status:400})
  await h.command('company.save',company)
@@ -273,4 +273,25 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  assert.deepEqual(la.charges.filter(q=>q.term_id&&q.description.startsWith('Rent')).map(q=>q.amount_cents),[106667,200000,210000],'posted rent history is kept after the amendment')
  assert.deepEqual(la.adjustments.map(x=>x.amount_cents),[5333,10000]);assert.equal(la.balanceCents,106667+1333+200000+2500+210000+2500-5333-10000)
  assert.equal(lb.charges.filter(q=>q.period_start==='2026-12-31').length,1,'a period crossing a month boundary posts once');assert.equal(new Set(lb.charges.map(q=>q.reference)).size,lb.charges.length)
+ // PORT-002: a duplex with two units; end one lease, move a resident to the other unit, read each unit's dated history.
+ const portfolio=await h.command('portfolio.add',{name:'East Bay'})
+ const duplex=await h.command('property.add',{portfolioId:portfolio.id,name:'Linden Duplex',address:'412 Linden Street, Oakland, CA 94607',kind:'duplex',timeZone:'America/Los_Angeles'})
+ const upper=await h.command('unit.add',{propertyId:duplex.id,identifier:'A',bedrooms:'2',bathrooms:'1',amenities:'Washer/dryer, Parking'})
+ const lower=await h.command('unit.add',{propertyId:duplex.id,identifier:'B',bedrooms:'3',bathrooms:'1.5',amenities:'Yard'})
+ await h.command('unit.add',{propertyId:duplex.id,identifier:'A',bedrooms:'1',bathrooms:'1'},{status:409})
+ const leaseA=await h.command('tenancy.create',{...tenancyInput,unitId:upper.id,tenantName:'Rosa Diaz',tenantEmail:'linden-a@example.test',startDate:'2025-06-01',endDate:'2036-05-31',rent:'2400.00',cadence:'monthly'})
+ const leaseB=await h.command('tenancy.create',{...tenancyInput,unitId:lower.id,tenantName:'Sam Okoro',tenantEmail:'linden-b@example.test',startDate:'2025-03-01',endDate:'2027-02-28',rent:'2900.00',cadence:'monthly'})
+ await h.command('tenancy.create',{...tenancyInput,unitId:upper.id,tenantEmail:'overlap@example.test',startDate:'2026-01-01',endDate:'2026-12-31',rent:'2400.00'},{status:409})
+ const placed=(await h.state()).tenancies.find(x=>x.id===leaseA.id);assert.deepEqual([placed.address,placed.time_zone,placed.unit_id],['Unit A, 412 Linden Street, Oakland, CA 94607','America/Los_Angeles',upper.id])
+ await h.command('tenancy.transfer',{tenancyId:leaseA.id,unitId:lower.id,moveIn:'2026-01-15'},{status:409})
+ await h.command('tenancy.end',{tenancyId:leaseB.id,moveOut:'2025-12-31',reason:'Moved out early with notice'})
+ const transfer=await h.command('tenancy.transfer',{tenancyId:leaseA.id,unitId:lower.id,moveIn:'2026-01-15'})
+ const units=(await h.state()).portfolios.find(f=>f.id===portfolio.id).properties[0].units,unitA=units.find(u=>u.id===upper.id),unitB=units.find(u=>u.id===lower.id)
+ assert.deepEqual([unitA.bedrooms,unitA.amenities,unitA.occupancy,unitB.occupancy],[2,['Washer/dryer','Parking'],'vacant','occupied'])
+ assert.deepEqual(unitA.history.map(l=>[l.id,l.start_date,l.occupiedTo,l.end_reason,l.state]),[[leaseA.id,'2025-06-01','2026-01-14','Transferred to unit B','past']])
+ assert.deepEqual(unitB.history.map(l=>[l.id,l.start_date,l.occupiedTo,l.state,l.transferred_from]),[[leaseB.id,'2025-03-01','2025-12-31','past',null],[transfer.id,'2026-01-15','2036-05-31','current',leaseA.id]])
+ assert.ok((await h.state()).tenancies.some(x=>x.id===leaseA.id&&x.ended_on==='2026-01-14'),'the ended lease is kept')
+ const page=await(await h.request('/app?tab=properties')).text()
+ for(const text of ['Linden Duplex','Unit A · 2 bd · 1 ba · Washer/dryer, Parking','Unit B · 3 bd · 1.5 ba · Yard','Moved out early with notice','Transferred to unit B'])assert.ok(page.includes(text),text)
+
 })

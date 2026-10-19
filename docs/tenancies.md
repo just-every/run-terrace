@@ -8,6 +8,12 @@ In **Tenancies**, open **Add a tenancy**. Enter the property address, owner and 
 
 For existing records in bulk, use the [Move in CSV kit](move-in.md).
 
+## Properties and units
+
+Under **Properties**, an owner or admin adds a portfolio, its properties (name, address, kind and time zone) and each property's units (identifier, bedrooms, bathrooms, amenities and whether it is rentable). When adding a tenancy, choose its unit: the tenancy takes the unit's address and the property's time zone. A unit holds one lease at a time; a unit that is not rentable takes no new lease.
+
+Each unit shows its occupancy today (occupied, vacant with a future lease, or vacant) and every lease it has held, with dates. To end a lease early, open **End lease or transfer** on it and enter the move-out date and reason; the lease record and its original end date are kept. To move a resident to another unit, choose the unit and move-in date and select **Transfer resident**: the first lease ends the day before and a linked lease starts on the new unit with the same terms.
+
 ## Prepare a renewal
 
 1. Open the tenancy in **Tenancies**.

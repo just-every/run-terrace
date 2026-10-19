@@ -18,10 +18,11 @@ const prorate = (amount: number, covered: number, length: number) => covered ===
 /** Periods of a tenancy that start within the month. */
 export function periods(t: Row, m: string) {
  const first = m + '-01', last = iso(Date.UTC(+m.slice(0, 4), +m.slice(5, 7), 0)), out: [string, string][] = []
- if (t.cadence === 'monthly') return t.start_date <= last && t.end_date >= first ? [[first, last] as [string, string]] : out
+ const end = t.ended_on ?? t.end_date
+ if (t.cadence === 'monthly') return t.start_date <= last && end >= first ? [[first, last] as [string, string]] : out
  const step = t.cadence === 'weekly' ? 7 : 14
  const k = Math.floor(Math.max(0, days(t.start_date, first) - 1) / step)
- for (let s = addDays(t.start_date, k * step); s <= last && s <= t.end_date; s = addDays(s, step)) if (s >= first) out.push([s, addDays(s, step - 1)])
+ for (let s = addDays(t.start_date, k * step); s <= last && s <= end; s = addDays(s, step)) if (s >= first) out.push([s, addDays(s, step - 1)])
  return out
 }
 
@@ -36,7 +37,7 @@ export async function preview(c: Context, value: unknown) {
  ])
  const lines: Row[] = [], missing: Row[] = []
  for (const t of tenancies) for (const [ps, pe] of periods(t, m)) {
-  const from = ps > t.start_date ? ps : t.start_date, to = pe < t.end_date ? pe : t.end_date, length = days(ps, pe)
+  const from = ps > t.start_date ? ps : t.start_date, end = t.ended_on ?? t.end_date, to = pe < end ? pe : end, length = days(ps, pe)
   let rent: Row | undefined
   for (const term of terms.filter(x => x.tenancy_id === t.id && x.starts <= to && (x.ends ?? '9999-12-31') >= from).sort((a, b) => KINDS.indexOf(a.kind) - KINDS.indexOf(b.kind))) {
    const a = term.starts > from ? term.starts : from, b = term.ends && term.ends < to ? term.ends : to, covered = days(a, b)

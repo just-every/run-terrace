@@ -6,7 +6,12 @@ All reads and writes authenticate a current Base operator session. Send the sess
 
 | Command | Fields | Authority |
 | --- | --- | --- |
-| `tenancy.create` | address, ownerName, ownerEmail, tenantName, tenantEmail, startDate, endDate, rent, cadence, optional timeZone (a US IANA zone; default the office zone). Always USD. | Owner/admin |
+| `tenancy.create` | address (or unitId: the unit's address and property zone are used), ownerName, ownerEmail, tenantName, tenantEmail, startDate, endDate, rent, cadence, optional timeZone (a US IANA zone; default the office zone). Always USD. | Owner/admin |
+| `portfolio.add` | name | Owner/admin |
+| `property.add` | portfolioId, name, address, kind (single_family/duplex/multifamily/townhouse/condo), timeZone | Owner/admin |
+| `unit.add`, `unit.update` | propertyId, identifier (add) or unitId, version (update); bedrooms, bathrooms, amenities, rentable | Owner/admin |
+| `tenancy.end` | tenancyId, moveOut, reason; the lease is kept | Owner/admin |
+| `tenancy.transfer` | tenancyId, unitId, moveIn, optional endDate and rent | Owner/admin |
 | `tenancy.timezone` | tenancyId, timeZone (US IANA zone); recorded dates and currency do not change | Owner/admin |
 | `company.save` | name, officeAddress, officeEmail, officePhone, timeZone (office, US IANA zone). Country US, currency USD | Owner/admin |
 | `entity.add` | legalName, ein (nine digits; format checked, not verified with the IRS); needs a saved company | Owner/admin |

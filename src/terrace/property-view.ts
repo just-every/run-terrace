@@ -1,0 +1,24 @@
+// PORT-002: the Properties page: portfolios, properties and units with occupancy, rentable status and each unit's
+// dated lease history, and the manager's add, end-lease and transfer actions.
+import { escape as e, money, type Row } from './core'
+import { usDate } from './format'
+import { PROPERTY_KINDS } from './properties'
+import { zoneSelect } from './tenancy-view'
+import { DEFAULT_ZONE } from './zones'
+
+const hidden = (name: string, value: unknown) => `<input type="hidden" name="${e(name)}" value="${e(value)}">`
+const form = (command: string, body: string) => `<form method="post" action="/app/command">${hidden('command', command)}${hidden('tab', 'properties')}${body}</form>`
+const field = (label: string, name: string, type = 'text', extra = '') => `<label>${e(label)}<input name="${e(name)}" type="${type}" required ${extra}></label>`
+
+function lease(l: Row, units: Row[], manage: boolean) {
+ const span = `${usDate(l.start_date)} to ${usDate(l.occupiedTo)}${l.ended_on ? ` (lease to ${usDate(l.end_date)}; moved out: ${e(l.end_reason)})` : ''}`
+ const actions = manage && l.state !== 'past' && !l.ended_on ? `<details><summary>End lease or transfer</summary>${form('tenancy.end', hidden('tenancyId', l.id) + field('Move-out date', 'moveOut', 'date') + field('Reason', 'reason') + '<button type="submit">End lease</button>')}${units.length ? form('tenancy.transfer', hidden('tenancyId', l.id) + `<label>Move to unit<select name="unitId">${units.filter(u => u.id !== l.unit_id).map(u => `<option value="${e(u.id)}">${e(u.property_name)} · ${e(u.identifier)}</option>`).join('')}</select></label>` + field('Move-in date', 'moveIn', 'date') + '<button type="submit">Transfer resident</button>') : ''}</details>` : ''
+ return `<li><a href="/app?tab=tenancy&amp;tenancy=${e(l.id)}">${e(l.tenant_name)}</a> · ${span} · ${money(l.rent_cents, l.currency)} ${e(l.cadence)} · <span class="pill${l.state === 'current' ? ' paid' : ''}">${l.state}</span>${l.transferred_from ? ' · transferred in' : ''}${actions}</li>`
+}
+
+export function propertiesView(data: Row, units: Row[], manage: boolean) {
+ const portfolios: Row[] = data.portfolios
+ const body = portfolios.map(f => `<section><h2>${e(f.name)}</h2>${f.properties.map((p: Row) => `<article class="card"><h3>${e(p.name)} <span class="muted">· ${e(p.kind.replace('_', ' '))}</span></h3><p>${e(p.address)} · ${e(p.time_zone)}</p>${p.units.map((u: Row) => `<div class="unit"><h4>Unit ${e(u.identifier)} · ${u.bedrooms} bd · ${u.bathrooms} ba${u.amenities.length ? ` · ${e(u.amenities.join(', '))}` : ''}</h4><p>${u.rentable ? 'Rentable' : 'Not rentable'} · ${e(u.occupancy)}${u.nextMoveIn ? ` from ${usDate(u.nextMoveIn)}` : ''} as of ${usDate(p.today)}</p>${u.history.length ? `<ol class="unit-history">${u.history.map((l: Row) => lease(l, units, manage)).join('')}</ol>` : '<p class="muted">No leases on this unit.</p>'}${manage ? `<details><summary>Edit unit</summary>${form('unit.update', hidden('unitId', u.id) + hidden('version', u.version) + field('Bedrooms', 'bedrooms', 'number', `min="0" max="20" value="${u.bedrooms}"`) + field('Bathrooms', 'bathrooms', 'number', `min="0" max="20" step="0.5" value="${u.bathrooms}"`) + `<label>Amenities<input name="amenities" value="${e(u.amenities.join(', '))}"></label><label>Rentable<select name="rentable"><option value="yes"${u.rentable ? ' selected' : ''}>Yes</option><option value="no"${u.rentable ? '' : ' selected'}>No</option></select></label>` + '<button type="submit">Save unit</button>')}</details>` : ''}</div>`).join('')}${manage ? `<details><summary>Add a unit</summary>${form('unit.add', hidden('propertyId', p.id) + field('Unit identifier', 'identifier') + field('Bedrooms', 'bedrooms', 'number', 'min="0" max="20"') + field('Bathrooms', 'bathrooms', 'number', 'min="0" max="20" step="0.5"') + '<label>Amenities (comma-separated)<input name="amenities"></label>' + '<button type="submit">Add unit</button>')}</details>` : ''}</article>`).join('')}${manage ? `<details><summary>Add a property</summary>${form('property.add', hidden('portfolioId', f.id) + field('Property name', 'name') + field('Address', 'address') + `<label>Kind<select name="kind">${PROPERTY_KINDS.map(k => `<option value="${k}">${k.replace('_', ' ')}</option>`).join('')}</select></label>` + zoneSelect('Time zone', DEFAULT_ZONE) + '<button type="submit">Add property</button>')}</details>` : ''}</section>`).join('')
+ const add = manage ? `<details><summary>Add a portfolio</summary>${form('portfolio.add', field('Portfolio name', 'name') + '<button type="submit">Add portfolio</button>')}</details>` : ''
+ return `${body || '<p class="muted">No portfolios yet. Add one, then its properties and units; tenancies can then be placed on a unit.</p>'}${add}`
+}

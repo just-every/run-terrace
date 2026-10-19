@@ -1,6 +1,7 @@
 import { all, audit, cents, commit, date, email, guard, id, insist, manager, one, sha256, sql, tenancy, text, type Context, type Row } from './core'
 import { officeZone } from './company'
 import { usZone } from './zones'
+import { freeUnit, unitAddress, unitFor } from './properties'
 
 export async function tenancyCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'tenancy.create') {
@@ -9,11 +10,14 @@ export async function tenancyCommand(c: Context, command: string, p: Row): Promi
   insist(end >= start,'lease_dates','Lease end must follow its start.')
   insist(['weekly','fortnightly','monthly'].includes(p.cadence),'cadence','Choose a rent cadence.')
   const tenantEmail=email(p.tenantEmail)
-  // PORT-001: a new tenancy is USD; its property zone defaults to the office zone.
-  const zone=usZone(p.timeZone??await officeZone(c))
+  // PORT-001: a new tenancy is USD. PORT-002: on a unit it takes the unit's address and its property's zone;
+  // otherwise the given address and zone (default the office zone).
+  const unit=p.unitId?await unitFor(c,p.unitId):null
+  const zone=unit?unit.time_zone:usZone(p.timeZone??await officeZone(c))
   await commit(c,[
    guard(c,'NOT EXISTS(SELECT 1 FROM tt_erasures WHERE subject=?)',await sha256(new TextEncoder().encode(tenantEmail))),
-   sql(c,"INSERT INTO tt_tenancies(id,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,rent_cents,cadence,created_at,currency,time_zone) VALUES(?,?,?,?,?,?,?,?,?,?,?,'USD',?)",key,text(p.address,'Property address',300),text(p.ownerName,'Owner name',150),email(p.ownerEmail),text(p.tenantName,'Tenant name',150),tenantEmail,start,end,cents(p.rent),p.cadence,c.now,zone)
+   ...(unit?[freeUnit(c,unit.id,start,end)]:[]),
+   sql(c,"INSERT INTO tt_tenancies(id,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,rent_cents,cadence,created_at,currency,time_zone,unit_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,'USD',?,?)",key,unit?unitAddress(unit):text(p.address,'Property address',300),text(p.ownerName,'Owner name',150),email(p.ownerEmail),text(p.tenantName,'Tenant name',150),tenantEmail,start,end,cents(p.rent),p.cadence,c.now,zone,unit?.id??null)
   ],command,key)
   return {id:key}
  }

@@ -12,13 +12,14 @@ function details(p: Row) {
  insist(!replaceBy || replaceBy > installed, 'replace_by', 'The planned replacement must follow the installed date.')
  return [text(p.kind, 'Equipment', 100), text(p.location, 'Location', 150), text(p.make, 'Make', 100), text(p.model, 'Model', 100), text(p.serial, 'Serial number', 100), installed, provider, ends, optional(p.manual, 'Manual (link or where it is kept)', 500), replaceBy, p.replacementCost ? cents(p.replacementCost) : null]
 }
-const insert = (c: Context, key: string, t: Row, values: unknown[], replaces: string | null) => sql(c, 'INSERT INTO tt_assets(id,tenancy_id,kind,location,make,model,serial,installed_date,warranty_provider,warranty_ends,manual,replace_by,replacement_cents,currency,replaces,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', key, t.id, ...values, t.currency, replaces, c.actor.id, c.now)
+// PORT-002: equipment recorded on a unit's tenancy is also the unit's, and shows on every tenancy of that unit.
+const insert = (c: Context, key: string, t: Row, values: unknown[], replaces: string | null, unitId: string | null) => sql(c, 'INSERT INTO tt_assets(id,tenancy_id,kind,location,make,model,serial,installed_date,warranty_provider,warranty_ends,manual,replace_by,replacement_cents,currency,replaces,created_by,created_at,unit_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', key, t.id, ...values, t.currency, replaces, c.actor.id, c.now, unitId)
 
 export async function assetCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'asset.add') {
   manager(c)
   const t = await tenancy(c, p.tenancyId), key = id()
-  await commit(c, [insert(c, key, t, details(p), null)], command, key)
+  await commit(c, [insert(c, key, t, details(p), null, t.unit_id ?? null)], command, key)
   return { id: key, tenancyId: t.id, notice: 'Asset recorded.' }
  }
  if (command === 'asset.replace') {
@@ -30,7 +31,7 @@ export async function assetCommand(c: Context, command: string, p: Row): Promise
   insist(replaced >= old.installed_date, 'replace_date', 'The replacement must be installed on or after the old asset.')
   await commit(c, [
    guard(c, "EXISTS(SELECT 1 FROM tt_assets WHERE id=? AND version=? AND state='in_service')", old.id, old.version),
-   insert(c, key, t, values, old.id),
+   insert(c, key, t, values, old.id, old.unit_id ?? null),
    sql(c, "UPDATE tt_assets SET state='replaced',replaced_by=?,replaced_date=?,version=version+1 WHERE id=?", key, replaced, old.id),
   ], command, key)
   return { id: key, tenancyId: t.id, replaced: old.id, notice: 'Replacement recorded. The old asset and its service history are kept.' }
@@ -40,7 +41,7 @@ export async function assetCommand(c: Context, command: string, p: Row): Promise
 /** An in-service asset of this tenancy, for linking a repair request. */
 export async function serviceableAsset(c: Context, tenancyId: string, v: unknown) {
  if (v === undefined || v === null || v === '') return null
- const row = await one(c, 'SELECT * FROM tt_assets WHERE id=? AND tenancy_id=?', text(v, 'Asset', 100), tenancyId)
+ const row = await one(c, 'SELECT a.* FROM tt_assets a WHERE a.id=? AND (a.tenancy_id=? OR a.unit_id=(SELECT unit_id FROM tt_tenancies WHERE id=?))', text(v, 'Asset', 100), tenancyId, tenancyId)
  insist(row, 'not_found', 'Asset not found for this tenancy.', 404)
  insist(row.state === 'in_service', 'asset_state', 'This asset has been replaced. Link the repair to its replacement.', 409)
  return row
@@ -48,8 +49,8 @@ export async function serviceableAsset(c: Context, tenancyId: string, v: unknown
 
 export async function assetData(c: Context, t: Row) {
  const [assets, jobs] = await Promise.all([
-  all(c, 'SELECT * FROM tt_assets WHERE tenancy_id=? ORDER BY kind,installed_date', t.id),
-  all(c, 'SELECT id,asset_id,title,trade_name,due_date,estimate_cents,currency,state FROM tt_maintenance_jobs WHERE tenancy_id=? AND asset_id IS NOT NULL ORDER BY due_date', t.id),
+  all(c, 'SELECT * FROM tt_assets WHERE tenancy_id=? OR (unit_id IS NOT NULL AND unit_id IS ?) ORDER BY kind,installed_date', t.id, t.unit_id ?? null),
+  all(c, 'SELECT j.id,j.asset_id,j.title,j.trade_name,j.due_date,j.estimate_cents,j.currency,j.state FROM tt_maintenance_jobs j JOIN tt_assets a ON a.id=j.asset_id WHERE a.tenancy_id=? OR (a.unit_id IS NOT NULL AND a.unit_id IS ?) ORDER BY j.due_date', t.id, t.unit_id ?? null),
  ])
  return assets.map(a => {
   const history: Row[] = jobs.filter(j => j.asset_id === a.id).map(j => {
