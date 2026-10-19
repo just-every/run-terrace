@@ -40,14 +40,15 @@ export async function propertyCommand(c: Context, command: string, p: Row): Prom
   insist(Number.isInteger(bedrooms) && bedrooms >= 0 && bedrooms <= 20, 'invalid_unit', 'Bedrooms is a whole number from 0 to 20.')
   insist(Number.isFinite(bathrooms) && bathrooms >= 0 && bathrooms <= 20 && bathrooms * 2 === Math.round(bathrooms * 2), 'invalid_unit', 'Bathrooms is 0 to 20 in halves.')
   insist(amenities.length <= 30 && amenities.every(a => a.length <= 60), 'invalid_unit', 'List up to 30 amenities.')
+  const market = p.marketRent ? cents(p.marketRent) : null
   const rentable = p.rentable === undefined || p.rentable === true || p.rentable === 'yes' || p.rentable === '1' ? 1 : 0
   if (old) {
-   await commit(c, [guard(c, 'EXISTS(SELECT 1 FROM tt_units WHERE id=? AND version=?)', old.id, Number(p.version ?? old.version)), sql(c, 'UPDATE tt_units SET bedrooms=?,bathrooms=?,amenities=?,rentable=?,version=version+1 WHERE id=?', bedrooms, bathrooms, JSON.stringify(amenities), rentable, old.id)], command, old.id)
+   await commit(c, [guard(c, 'EXISTS(SELECT 1 FROM tt_units WHERE id=? AND version=?)', old.id, Number(p.version ?? old.version)), sql(c, 'UPDATE tt_units SET bedrooms=?,bathrooms=?,amenities=?,rentable=?,market_rent_cents=?,version=version+1 WHERE id=?', bedrooms, bathrooms, JSON.stringify(amenities), rentable, market, old.id)], command, old.id)
    return { id: old.id, notice: 'Unit updated.' }
   }
   const key = id()
   insist(await one(c, 'SELECT 1 FROM tt_properties WHERE id=?', text(p.propertyId, 'Property', 100)), 'not_found', 'Property not found.', 404)
-  await commit(c, [sql(c, 'INSERT INTO tt_units(id,property_id,identifier,bedrooms,bathrooms,amenities,rentable,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?)', key, p.propertyId, text(p.identifier, 'Unit identifier', 40), bedrooms, bathrooms, JSON.stringify(amenities), rentable, c.actor.id, c.now)], command, key)
+  await commit(c, [sql(c, 'INSERT INTO tt_units(id,property_id,identifier,bedrooms,bathrooms,amenities,rentable,market_rent_cents,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?,?)', key, p.propertyId, text(p.identifier, 'Unit identifier', 40), bedrooms, bathrooms, JSON.stringify(amenities), rentable, market, c.actor.id, c.now)], command, key)
   return { id: key, notice: 'Unit added.' }
  }
  if (command === 'tenancy.end') {

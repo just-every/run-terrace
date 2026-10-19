@@ -28,7 +28,7 @@ All reads and writes authenticate a current Base operator session. Send the sess
 | `arrears.prepare` | tenancyId, message, followUpDate | Any operator |
 | `proposal.approve`, `proposal.reject` | proposalId | Owner/admin; current tenancy version required by saved proposal |
 | `rent.charge` | tenancyId, dueDate, amount, description, reference | Owner/admin |
-| `rent.receipt` | chargeId, amount, receivedDate, reference | Owner/admin |
+| `rent.receipt` | chargeId, amount, receivedDate, reference, optional method (ach/card/cash/check/other) | Owner/admin |
 | `rent.adjust` | chargeId, amount, reason | Owner/admin |
 | `term.add` | tenancyId, kind (rent/utility/pet/parking/concession), description, amount per period, starts, optional ends | Owner/admin |
 | `term.amend` | termId, effective (after the term's last posted period), amount | Owner/admin |
@@ -54,6 +54,6 @@ All reads and writes authenticate a current Base operator session. Send the sess
 
 Amounts are decimal strings with at most two decimal places in the tenancy's stored currency (USD for new tenancies; AUD kept for records entered before PORT-001, never converted); dates are YYYY-MM-DD property-local days. Charges and receipt references are unique; duplicate retries are refused without duplicating money. Current versions are returned in `/api/state`; stale approvals and changes fail. A prepared proposal has no effect until approval. Agents use member accounts to prepare, then hand the proposal/job ID to a person. Approval records the actual authenticated actor and time; sending a `role` field cannot grant authority.
 
-Downloads: `GET /api/statement?tenancyId=ID&from=YYYY-MM-DD&to=YYYY-MM-DD` (owner/admin CSV), `/api/inspections/photos/ID` (authenticated image), `/api/maintenance/ID/packet` (approved `.eml`), `/api/backup` (owner-only archive). Downloads are private and not cacheable. An `.eml` is an unsent packet; its download is not delivery evidence.
+Reports: `GET /api/rent-roll?asOf=YYYY-MM-DD&propertyId=ID&occupancy=occupied|vacant&format=json|csv|xlsx|pdf` and `GET /api/collections?month=YYYY-MM` (owner/admin). Downloads: `GET /api/statement?tenancyId=ID&from=YYYY-MM-DD&to=YYYY-MM-DD` (owner/admin CSV), `/api/inspections/photos/ID` (authenticated image), `/api/maintenance/ID/packet` (approved `.eml`), `/api/backup` (owner-only archive). Downloads are private and not cacheable. An `.eml` is an unsent packet; its download is not delivery evidence.
 
 Auth is Base's ordinary API: owner `POST /auth/invite` with email, displayName and role; invitee confirms the mailed link. `/auth/operator/status` changes active/inactive state and `/auth/operator/role` changes role. Use the app's **Data & access** forms for these jobs without crafting HTTP.

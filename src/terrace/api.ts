@@ -24,13 +24,17 @@ import { propertiesView } from './property-view'
 import { turnoverCommand,turnoverData } from './turnovers'
 import { householdCommand,householdData } from './households'
 import { householdSection } from './household-view'
+import { collections,rentRoll,rentRollTable } from './rent-roll'
+import { rentRollSection } from './rent-roll-view'
+import { csv,pdf,xlsx } from './exports'
+import { localDate } from './zones'
 import { companyView } from './company-view'
 const json=(body:unknown,status=200)=>Response.json(body,{status,headers:{'cache-control':'no-store','x-content-type-options':'nosniff','referrer-policy':'no-referrer'}})
 async function render(c:Context,url:URL,notice='',result:Row={},status=200,request?:Request,env?:Bindings) {
  const tab=url.searchParams.get('tab')??'tenancy',rows=await tenancyData(c),selected=rows.find(t=>t.id===url.searchParams.get('tenancy'))??rows[0],manage=['owner','admin'].includes(c.actor.role)
  let body='',title='Tenancies',head={}
  if(tab==='import'){owner(c);title='Move in';body=importView({...await importData(c),...result})}
- else if(tab==='properties'){title='Properties';body=propertiesView(await propertyData(c),await unitChoices(c),manage,await turnoverData(c))}
+ else if(tab==='properties'){title='Properties';const data=await propertyData(c);body=propertiesView(data,await unitChoices(c),manage,await turnoverData(c));if(manage){const today=localDate(c.now,c.zone!);body+=rentRollSection(await rentRoll(c,{asOf:url.searchParams.get('asOf')||today,propertyId:url.searchParams.get('propertyId'),occupancy:url.searchParams.get('occupancy')}),await collections(c,url.searchParams.get('month')||today.slice(0,7)),data.portfolios.flatMap((f:Row)=>f.properties))}}
  else if(tab==='settings'){title='Data & access';body=companyView(await companyData(c),manage)+settingsView(rows,c.actor.role==='owner');if(c.actor.role==='owner'&&request&&env)body+=await peopleView(request,env,c);body=`<div class="settings-layout">${body}</div>`}
  else {
   if(tab==='tenancy') {
@@ -58,7 +62,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
  const url=new URL(request.url),isApi=url.pathname.startsWith('/api/'),isPage=url.pathname==='/app'||url.pathname==='/app/command'
  if(!isApi&&!isPage)return null
  // Unknown API paths retain a genuine 404 without leaking installation data.
- if(isApi&&!['/api/state','/api/commands','/api/statement','/api/backup'].includes(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
+ if(isApi&&!['/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections'].includes(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
  let c:Context|undefined,p:Row={}
  try {
   insist(url.origin===env.AUTH_ORIGIN,'origin','The request origin does not match this installation.',403)
@@ -86,6 +90,14 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
    return json({actor:{role:c.actor.role},...await companyData(c),...await propertyData(c),turnovers:await turnoverData(c),tenancies,...(tenancyId?{ledger,household:await householdData(c,await tenancy(c,tenancyId),ledger!.balanceCents),proposals:await proposals(c,tenancyId),work:await workData(c,tenancyId)}:{})})
   }
   if(url.pathname==='/api/backup')return await backup(c)
+  if(url.pathname==='/api/collections')return json(await collections(c,url.searchParams.get('month')))
+  if(url.pathname==='/api/rent-roll') {
+   const r=await rentRoll(c,Object.fromEntries(url.searchParams)),f=url.searchParams.get('format')??'json',file='terrace-rent-roll-'+r.asOf,head=(type:string,ext:string)=>({'content-type':type,'content-disposition':`attachment; filename="${file}.${ext}"`,'cache-control':'no-store'})
+   if(f==='csv')return new Response(csv(rentRollTable(r)),{headers:head('text/csv;charset=utf-8','csv')})
+   if(f==='xlsx')return new Response(xlsx(rentRollTable(r),'Rent roll'),{headers:head('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','xlsx')})
+   if(f==='pdf')return new Response(pdf('Terrace rent roll as of '+r.asOf,rentRollTable(r).slice(1)),{headers:head('application/pdf','pdf')})
+   return json(r)
+  }
   if(url.pathname==='/api/statement') {const s=await statement(c,text(url.searchParams.get('tenancyId'),'Tenancy'),text(url.searchParams.get('from'),'From'),text(url.searchParams.get('to'),'To'));return new Response(statementCsv(s),{headers:{'content-type':'text/csv;charset=utf-8','content-disposition':'attachment; filename="terrace-owner-statement.csv"','cache-control':'no-store'}})}
   if(url.pathname.startsWith('/api/inspections/photos/'))return await photoResponse(c,url.pathname.split('/').at(-1)!)
   if(url.pathname.startsWith('/api/maintenance/'))return await workPacket(c,url.pathname.split('/')[3])

@@ -37,6 +37,12 @@ Under **Charge run**, choose a month and select **Preview charge run**. The prev
 
 To change rent from a future date, open **Amend from a date** on the term and enter the effective date and new amount. The date must follow the term's last posted period; posted charges never change. Approving a renewal does not change these terms: amend the rent term for the renewal's new rent.
 
+## Rent roll and collections
+
+On **Properties**, owners and admins see the **Rent roll** as of a chosen date: each unit's state (occupied, vacant, or vacant with a future lease), resident, lease dates, contract rent on that date (a renewal's new rent starts when the earlier period ends), market rent, recurring charges and concessions, with totals. Filter by property or occupancy and download the same rows as CSV, XLSX or PDF. Deposits are not recorded yet.
+
+**Collections** for a month shows, per lease and in total, what was collected of what was billed for charges due that month, how many leases are paid in full, and each lease's state: paid by ACH, card, cash or check (as recorded with the receipt), partial or unpaid. Record the method when you record a receipt. Terrace holds no pending funds.
+
 ## Download an owner statement
 
 Under **Owner statement**, choose **Period start** and **Period end**, then select **Download owner statement**. The end must be on or after the start. The CSV includes the owner and property, the tenancy's currency and the property's time zone, the exact start and end of the period with their UTC offsets (a period crossing a daylight-saving change shows both offsets), opening receivable, charges, external receipts, reductions within the inclusive period and closing receivable.

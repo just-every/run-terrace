@@ -20,7 +20,10 @@ export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|
   if(command==='rent.receipt') {
    const received=date(p.receivedDate,'Received date')
    insist(received<=localDate(c.now,charge.time_zone),'future_receipt','A receipt records money already received; its date cannot be later than today at the property.')
-   writes.push(sql(c,'INSERT INTO tt_receipts(id,charge_id,amount_cents,received_date,reference,created_at,currency) VALUES(?,?,?,?,?,?,?)',key,charge.id,amount,received,text(p.reference,'External receipt reference',150),c.now,charge.currency))
+   // REPORT-001: how the money arrived, as the manager records it (no method: "method not recorded").
+   const method=p.method?String(p.method):null
+   insist(!method||['ach','card','cash','check','other'].includes(method),'invalid_method','Method is ach, card, cash, check or other.')
+   writes.push(sql(c,'INSERT INTO tt_receipts(id,charge_id,amount_cents,received_date,reference,created_at,currency,method) VALUES(?,?,?,?,?,?,?,?)',key,charge.id,amount,received,text(p.reference,'External receipt reference',150),c.now,charge.currency,method))
   } else writes.push(sql(c,'INSERT INTO tt_adjustments(id,charge_id,amount_cents,reason,at,currency) VALUES(?,?,?,?,?,?)',key,charge.id,amount,text(p.reason,'Adjustment reason',1000),c.now,charge.currency))
   await commit(c,writes,command,key)
  }

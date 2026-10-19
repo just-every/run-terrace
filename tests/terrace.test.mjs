@@ -197,7 +197,7 @@ test('BOUND-004: residential only — no commercial, CAM or association-dues doo
  await h.command('import.apply',{csv:residential,namespace:'bound-004',fingerprint:reviewed.fingerprint})
  const after=(await h.state()).tenancies;assert.equal(after.length,before+1);assert.ok(!after.some(t=>t.address.startsWith('Suite 200')))
 })
-test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready; PORT-004 households',async()=>{
+test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready; PORT-004 households; REPORT-001 rent roll',async()=>{
  const company={name:'Alder Court Property Management',officeAddress:'1840 Alder Street, Oakland, CA 94610',officeEmail:'office@example.test',officePhone:'(510) 555-0142',timeZone:'America/Los_Angeles'}
  await h.command('company.save',{...company,timeZone:'Australia/Sydney'},{status:400})
  await h.command('company.save',company)
@@ -333,5 +333,40 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  assert.deepEqual([ana.balanceCents,ana.recipients,ana.liable,who(ana,'Lee Park').joined,who(ana,'Lee Park').documents],[150000,['Ana Pine','Lee Park'],['Ana Pine','Lee Park'],'2026-02-01',true])
  const leasePage=await(await h.request('/app?tab=tenancy&tenancy='+transfer.id)).text()
  for(const text of ['<strong>Maria Diaz</strong> · guarantor','liable for the balance · receives notices by mail · sees lease documents','<strong>Tomas Diaz</strong> · occupant','no lease rights','Balance $2,400.00 is this lease’s; liable: Rosa Diaz, Maria Diaz.'])assert.ok(leasePage.includes(text),text)
+
+ // REPORT-001: an as-of rent roll before and after a scheduled move-in and renewal, its downloads, and one month's collections.
+ await h.command('unit.update',{unitId:upper.id,bedrooms:'2',bathrooms:'1',amenities:'Washer/dryer, Parking',marketRent:'2500.00'})
+ await h.command('unit.update',{unitId:lower.id,bedrooms:'3',bathrooms:'1.5',amenities:'Yard',marketRent:'2950.00'})
+ const moveIn=await h.command('tenancy.create',{...tenancyInput,unitId:upper.id,tenantName:'Kai Moreno',tenantEmail:'kai@example.test',startDate:'2026-12-01',endDate:'2027-11-30',rent:'2550.00',cadence:'monthly'})
+ const renewal=await h.command('renewal.prepare',{tenancyId:transfer.id,endDate:'2037-05-31',rent:'2500.00',source:'Renewal letter'},{as:member});await h.command('proposal.approve',{proposalId:renewal.id})
+ const roll=async asOf=>(await(await h.request(`/api/rent-roll?asOf=${asOf}&propertyId=${duplex.id}`)).json())
+ const before=await roll('2026-11-15'),after=await roll('2026-12-15'),renewed=await roll('2036-06-15')
+ const st=(r,id)=>r.rows.find(x=>x.unitId===id)
+ assert.deepEqual([before.totals.units,before.totals.occupiedUnits,before.totals.vacantUnits,before.totals.contractRent],[2,1,1,[{currency:'USD',cents:240000}]])
+ assert.deepEqual([st(before,upper.id).state,st(before,upper.id).nextLease.tenancyId],['vacant, leased',moveIn.id])
+ assert.deepEqual([after.totals.occupiedUnits,after.totals.vacantUnits,after.totals.contractRent,after.totals.marketRent],[2,0,[{currency:'USD',cents:495000}],[{currency:'USD',cents:545000}]])
+ assert.deepEqual([st(renewed,lower.id).contractRentCents,st(after,lower.id).contractRentCents],[250000,240000],'the renewed rent applies after the earlier period ends')
+ const vacantOnly=await(await h.request(`/api/rent-roll?asOf=2026-11-15&propertyId=${duplex.id}&occupancy=vacant`)).json();assert.deepEqual(vacantOnly.rows.map(x=>x.unitId),[upper.id])
+ const dl=async f=>Buffer.from(await(await h.request(`/api/rent-roll?asOf=2026-11-15&propertyId=${duplex.id}&occupancy=vacant&format=${f}`)).arrayBuffer())
+ const [rollCsv,rollXlsx,rollPdf]=[await dl('csv'),await dl('xlsx'),await dl('pdf')]
+ assert.match(rollCsv.toString(),/"East Bay","Linden Duplex","A","2","vacant, leased"/);assert.ok(!rollCsv.toString().includes('"B"'),'the download keeps the filter')
+ assert.equal(rollXlsx.subarray(0,2).toString(),'PK');assert.ok(rollXlsx.toString('latin1').includes('<t>vacant, leased</t>'))
+ assert.equal(rollPdf.subarray(0,8).toString(),'%PDF-1.4');assert.ok(rollPdf.toString('latin1').includes('vacant, leased'))
+ await h.command('rent.charge',{tenancyId:west.id,dueDate:'2026-02-01',amount:'620.00',description:'February rent',reference:'5B-2026-02'})
+ await h.command('rent.charge',{tenancyId:east.id,dueDate:'2026-02-01',amount:'2400.00',description:'February rent',reference:'5A-2026-02'})
+ const audFeb=await h.command('rent.charge',{tenancyId:old.id,dueDate:'2026-02-01',amount:'1850.00',description:'February rent',reference:'HIST-2026-02'})
+ const feb=async id=>(await h.state(id)).ledger.charges.find(q=>q.due_date==='2026-02-01').id
+ await h.command('rent.receipt',{chargeId:await feb(transfer.id),amount:'2400.00',receivedDate:'2026-02-02',reference:'ACH-ROSA-02',method:'ach'})
+ await h.command('rent.receipt',{chargeId:await feb(west.id),amount:'620.00',receivedDate:'2026-02-03',reference:'CARD-5B-02',method:'card'})
+ await h.command('rent.receipt',{chargeId:audFeb.id,amount:'1850.00',receivedDate:'2026-02-03',reference:'CASH-HIST-02',method:'cash'})
+ await h.command('rent.receipt',{chargeId:await feb(pine.id),amount:'1000.00',receivedDate:'2026-02-04',reference:'CASH-PINE-02',method:'cash'})
+ const month=await(await h.request('/api/collections?month=2026-02')).json(),lease=id=>month.leases.find(l=>l.tenancyId===id)
+ assert.deepEqual([transfer.id,west.id,old.id,pine.id,east.id].map(id=>lease(id).state),['paid by ACH','paid by card','paid by cash','partial','unpaid'])
+ for(const id of [transfer.id,west.id,old.id,pine.id,east.id]){const l=(await h.state(id)).ledger,ids=new Set(l.charges.filter(q=>q.due_date.startsWith('2026-02')).map(q=>q.id));assert.equal(lease(id).collectedCents,l.receipts.filter(r=>ids.has(r.charge_id)).reduce((s,r)=>s+r.amount_cents,0))}
+ const usd=month.totals.find(x=>x.currency==='USD'),aud=month.totals.find(x=>x.currency==='AUD'),mine=month.leases.filter(l=>l.currency==='USD')
+ assert.deepEqual([usd.billedCents,usd.collectedCents,usd.paidInFull,usd.leases,usd.pendingCents],[mine.reduce((s,l)=>s+l.billedCents,0),mine.reduce((s,l)=>s+l.collectedCents,0),mine.filter(l=>l.paidInFull).length,mine.length,0])
+ assert.deepEqual([aud.billedCents,aud.collectedCents,aud.paidInFull],[185000,185000,1])
+ const rollPage=await(await h.request(`/app?tab=properties&asOf=2026-12-15&propertyId=${duplex.id}&month=2026-02`)).text()
+ assert.ok(rollPage.includes('As of Dec 15, 2026: 2 units · 2 occupied · 0 vacant'));assert.ok(rollPage.includes('A$1,850.00 collected of A$1,850.00 billed · 1 of 1 leases paid in full'))
 
 })

@@ -226,7 +226,7 @@ This contract describes the product being built towards. Missing capability neve
 
 ### Reports and portfolio performance
 
-- **REPORT-001 — Explain the complete rent roll.** Report every unit, resident, lease dates, market/contract rent, concessions, recurring charges, deposit obligations and occupancy state as of a chosen date, including vacant and future leases. Totals drill to effective terms and export to CSV/XLSX/PDF. A collection view of the same rent roll for a period shows, per unit and in total, rent collected against rent billed, the share of leases paid in full and each lease’s payment state (paid by ACH, card or cash, partial or unpaid) from settled receipts, with pending funds shown separately. **Acceptance evidence:** Run an as-of rent roll before and after a scheduled renewal and move-in, reconcile occupied/vacant unit counts and effective rents and download the same filtered data. For one month, show collected of billed and leases paid for the portfolio and, per unit, the ACH, card, cash, partial and unpaid states, reconciling every total to resident-ledger receipts.
+- **REPORT-001 — Explain the complete rent roll.** Report every unit, resident, lease dates, market/contract rent, concessions, recurring charges, deposit obligations and occupancy state as of a chosen date, including vacant and future leases. Totals drill to effective terms and export to CSV/XLSX/PDF. A collection view of the same rent roll for a period shows, per unit and in total, rent collected against rent billed, the share of leases paid in full and each lease’s payment state (paid by ACH, card or cash, partial or unpaid) from settled receipts, with pending funds shown separately. Exact semantics: the rent roll lists every unit (PORT-002) and every lease without a unit record that is in effect, as of the chosen date in the property’s calendar. A unit is occupied when a lease covers that day (its start to its move-out day or end date), otherwise vacant, naming any future lease. Contract rent on the day is the rent of the lease period covering it: a renewal’s earlier terms until that period ends, then the renewed rent (TER-003). Market rent is the unit’s recorded market rent. Recurring charges and concessions are the PAY-001 terms in effect that day, linked by term to the lease they drill to. Totals count units, occupied and vacant units, and sum contract and market rent per currency, never across currencies. Filters by property and occupancy apply to the page and to the CSV, XLSX and PDF downloads alike. The collection view for a month takes the charges due in that month: billed is their amount, collected is the recorded external receipts against them, a lease is paid in full when nothing remains after receipts and reductions, and its payment state is paid by the recorded method (ACH, card, cash, check or other; “method not recorded” for receipts entered before this rule), partial or unpaid. The method is what a manager records; Terrace has not processed or verified it. Pending funds are reported as none because Terrace holds none; PAY-002, PAY-003 and PAY-007 add processor receipts and pending funds, and ACCT-003 adds deposit obligations to the roll (shown as not recorded until then), before they ship. **Acceptance evidence:** Run an as-of rent roll before and after a scheduled renewal and move-in, reconcile occupied/vacant unit counts and effective rents and download the same filtered data. For one month, show collected of billed and leases paid for the portfolio and, per unit, the ACH, card, cash, partial and unpaid states, reconciling every total to resident-ledger receipts.
 
 - **REPORT-002 — Report delinquency and collection performance.** Show current/past-due ageing with tenant arrears separate from housing-authority arrears (PAY-013), pending payments, broken promises, payment plans, notices and collection outcomes by household/property/owner. Separate settled cash from attempted collection and permit authorized drilldown/export without exposing screening reports. **Acceptance evidence:** Filter delinquency to one owner, include a returned ACH, an active plan and a voucher lease with unpaid HAP, reconcile ageing to resident balances and show follow-up owner and next permitted action for each overdue household.
 
@@ -359,7 +359,7 @@ The scope authority is the owner-approved 16 October 2026 Terrace entry in LIST.
 
 ## Homepage claims
 
-Every capability claim on the approved homepage (`src/site/landing/`, checked against br’s claims truth table of 18 October 2026, 50 claims in page order) maps to the clauses that promise exactly it, and row 51 maps the “Try the demo” link, which is navigation rather than a claim. A claim’s status is `done` when every mapped clause is done, `missing` when every one is missing and `partial` otherwise; it describes the implementation, not whether the claim may appear on the homepage. The sample names and figures in the drawings are illustrations, not claims. Claims 1–50: 3 done, 31 partial, 16 missing.
+Every capability claim on the approved homepage (`src/site/landing/`, checked against br’s claims truth table of 18 October 2026, 50 claims in page order) maps to the clauses that promise exactly it, and row 51 maps the “Try the demo” link, which is navigation rather than a claim. A claim’s status is `done` when every mapped clause is done, `missing` when every one is missing and `partial` otherwise; it describes the implementation, not whether the claim may appear on the homepage. The sample names and figures in the drawings are illustrations, not claims. Claims 1–50: 4 done, 30 partial, 16 missing.
 
 | # | Claim | Clause(s) | Status |
 | --- | --- | --- | --- |
@@ -377,7 +377,7 @@ Every capability claim on the approved homepage (`src/site/landing/`, checked ag
 | 12 | "Rent comes in on its own." | `PAY-001`, `PAY-002`, `PAY-004` | partial |
 | 13 | "Residents pay by bank transfer, card or cash at a store." | `PAY-002`, `PAY-003`, `PAY-007` | partial |
 | 14 | "Autopay, partial payments and late fees follow your rules." | `PAY-004`, `PAY-005`, `PAY-006` | partial |
-| 15 | Rent roll: collected of billed, leases paid, ACH / card / cash / partial / unpaid per unit | `REPORT-001` | partial |
+| 15 | Rent roll: collected of billed, leases paid, ACH / card / cash / partial / unpaid per unit | `REPORT-001` | done |
 | 16 | "One listing goes to Zillow, Apartments.com and your own site." | `LEASE-001`, `LEASE-002`, `LEASE-003` | missing |
 | 17 | "Applications, screening and the lease all happen in Terrace." | `LEASE-007`, `LEASE-008`, `LEASE-010`, `LEASE-011` | missing |
 | 18 | Applicants approved or declined by Kim Lee, TransUnion report, income rule, notice sent | `LEASE-008`, `LEASE-009` | missing |
@@ -441,11 +441,13 @@ Revised 19 October 2026: WORK-013 is done. The Properties page opens a make-read
 
 Revised 19 October 2026: PORT-004 is done. Each tenancy page keeps its household (co-tenants, guarantors, occupants, emergency and authorized contacts with contact preferences and dates) and shows who is liable, who receives notices and who holds document rights; a member can leave or move to another lease, and balances stay with each lease. The exact semantics are written into the clause. `tests/terrace.test.mjs` (PORT-004) asserts each acceptance point.
 
+Revised 19 October 2026: REPORT-001 is done, and homepage claim 15 with it. The Properties page and `/api/rent-roll` give the as-of rent roll (units, occupancy, future leases, contract and market rent, recurring charges and concessions) with property and occupancy filters and CSV, XLSX and PDF downloads of the same rows; `/api/collections` and the page give a month’s collected of billed, leases paid in full and each lease’s paid-by-method, partial or unpaid state from recorded receipts. The exact semantics are written into the clause. `tests/terrace.test.mjs` (REPORT-001) asserts each acceptance point.
+
 | Clauses | Done | Partial | Missing | Total |
 | --- | ---: | ---: | ---: | ---: |
 | Published | 12 | 0 | 0 | 12 |
-| Target and push further | 9 | 40 | 79 | 128 |
-| All | 21 | 40 | 79 | 140 |
+| Target and push further | 10 | 39 | 79 | 128 |
+| All | 22 | 39 | 79 | 140 |
 
 | Clause | Title | Kind | Status | Evidence | Gap |
 | --- | --- | --- | --- | --- | --- |
@@ -539,7 +541,7 @@ Revised 19 October 2026: PORT-004 is done. Each tenancy page keeps its household
 | `WORK-012` | Integrate HappyCo inspection evidence | target | missing |  | HappyCo adapter and provider inspection reconciliation are absent. |
 | `WORK-013` | Run make-ready and turnover boards | target | done | `migrations/core/0024_turnovers.sql`; `src/terrace/turnovers.ts`; `src/terrace/turnover-view.ts`; `tests/terrace.test.mjs` |  |
 | `WORK-014` | Control maintenance budgets inventory and chargebacks | target | missing |  | Maintenance budgets, stock/purchase links and chargeback accounting are absent. |
-| `REPORT-001` | Explain the complete rent roll | target | partial | `src/terrace/tenancies.ts`; `src/terrace/tenancy-view.ts` | Current tenancy list exists; historical rent roll, vacancy/future leases and report exports are absent. |
+| `REPORT-001` | Explain the complete rent roll | target | done | `migrations/core/0026_rent_roll.sql`; `src/terrace/rent-roll.ts`; `src/terrace/rent-roll-view.ts`; `src/terrace/exports.ts`; `tests/terrace.test.mjs` |  |
 | `REPORT-002` | Report delinquency and collection performance | target | partial | `src/terrace/ledger.ts` | Basic arrears totals exist; ageing buckets, plan/notice outcomes and portfolio reporting are absent. |
 | `REPORT-003` | Measure vacancy leasing and renewal performance | target | missing |  | Vacancy, acquisition funnel and renewal performance reporting are absent. |
 | `REPORT-004` | Report maintenance service and cost | target | missing |  | Maintenance resolution/cost analytics are absent. |
