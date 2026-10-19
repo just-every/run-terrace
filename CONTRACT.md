@@ -19,7 +19,7 @@ This contract describes the product being built towards. Missing capability neve
 ## Operating rules
 
 - Fresh installations start empty. Operators enter real records or perform a reviewed migration; production never fabricates data, provider results, delivery or completion.
-- Target money is USD in exact cents, with explicit effective dates, allocation and rounding. Current released AUD records remain honestly labeled until a reviewed transition; they are not evidence of US money support.
+- Target money is USD in exact cents, with explicit effective dates, allocation and rounding. New tenancies use USD; records entered before PORT-001 remain “currency unconfirmed” until the installation owner confirms AUD or USD once, without converting amounts (PORT-001).
 - Approval identifies the exact version, amount, recipient/payee, destination and authority. Changed inputs invalidate approval. Scheduled debits require a person-authorized mandate; owners/managers approve spend and payouts, and agents never approve themselves.
 - Financial history is append-only with reversals/corrections. Duplicate requests, restarts, provider callbacks and migration replays cannot create a second charge, payment, payout or filing.
 - A draft is not delivery, a submitted payment is not settled cash, an appointment is not a repair, and a closed vendor status is not resident-confirmed resolution. Uncertain results stay open with an accountable next action.
