@@ -46,3 +46,8 @@ After [erasing a tenancy](roles-and-erasure.md#erase-a-tenancy), download a new 
 An offline old archive cannot know that a tenancy was erased later. Supplying the later journal carries that decision to the new installation. Erasure in Terrace does not delete copies of archives you have stored elsewhere; manage those copies under your own retention process.
 
 `rer reset --yes` removes local data and settings. Export anything you need to keep before a deliberate reset. Do not reset an existing installation merely to make it an empty restore destination.
+
+## Readable export
+
+**Download readable export (.zip)** under **Backup and restore** gives the same records in a form you can open without Terrace: one CSV per table, every photograph as its original file (its SHA-256 is in the CSV cell and in manifest.json), and a README listing what to reconnect after a restore (mail delivery, people and their roles, authenticators, any identity provider). Sessions, operator accounts and sign-in secrets are never exported. Restore from the .rer backup, not from the readable export.
+

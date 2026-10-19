@@ -5,13 +5,14 @@ export const csv = (rows: Cell[][]) => rows.map(r => r.map(cell).join(',')).join
 
 const CRC = Array.from({ length: 256 }, (_, n) => { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; return c >>> 0 })
 const crc32 = (b: Uint8Array) => { let c = 0xffffffff; for (const x of b) c = CRC[(c ^ x) & 0xff] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0 }
-function zip(files: [string, string][]) {
+/** A stored (uncompressed) zip of named text or binary files. */
+export function zip(files: [string, string | Uint8Array][]) {
  const enc = new TextEncoder(), parts: Uint8Array[] = [], central: Uint8Array[] = []
  let offset = 0
  const le = (n: number, size: number) => { const b = new Uint8Array(size); for (let i = 0; i < size; i++) b[i] = (n >>> (8 * i)) & 0xff; return b }
  const cat = (xs: Uint8Array[]) => { const out = new Uint8Array(xs.reduce((s, x) => s + x.length, 0)); let o = 0; for (const x of xs) { out.set(x, o); o += x.length } return out }
  for (const [name, text] of files) {
-  const n = enc.encode(name), d = enc.encode(text), crc = crc32(d)
+  const n = enc.encode(name), d = typeof text === 'string' ? enc.encode(text) : text, crc = crc32(d)
   const head = cat([le(0x04034b50, 4), le(20, 2), le(0, 2), le(0, 2), le(0, 2), le(0x21, 2), le(crc, 4), le(d.length, 4), le(d.length, 4), le(n.length, 2), le(0, 2), n])
   central.push(cat([le(0x02014b50, 4), le(20, 2), le(20, 2), le(0, 2), le(0, 2), le(0, 2), le(0x21, 2), le(crc, 4), le(d.length, 4), le(d.length, 4), le(n.length, 2), le(0, 2), le(0, 2), le(0, 2), le(0, 2), le(0, 4), le(offset, 4), n]))
   parts.push(head, d); offset += head.length + d.length

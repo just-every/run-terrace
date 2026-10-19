@@ -328,6 +328,17 @@ test('complete backup restores into a fresh owner installation, preserving photo
   const photo=restored.work.photos[0];assert.deepEqual(Buffer.from(await(await fresh.request('/api/inspections/photos/'+photo.id)).arrayBuffer()),png)
   await fresh.command('import.undo',{jobId:imported.id});const afterUndo=await fresh.state();assert.equal(afterUndo.tenancies.length,original.tenancies.length-2);assert.ok(afterUndo.tenancies.find(x=>x.id===t.id))
   await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archiveBefore],'backup.rer')},{status:409})
+  // SAFE-005: the source's sessions do not come across, and the readable export carries the same records, original files and what to reconnect.
+  assert.equal((await fresh.request('/api/state',{as:h.cookie})).status,401,'sessions are never restored')
+  const zip=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer()),entries=new Map()
+  for(let o=0;zip.readUInt32LE(o)===0x04034b50;){const size=zip.readUInt32LE(o+18),n=zip.readUInt16LE(o+26),x=zip.readUInt16LE(o+28),name=zip.subarray(o+30,o+30+n).toString();entries.set(name,zip.subarray(o+30+n+x,o+30+n+x+size));o+=30+n+x+size}
+  const manifest=JSON.parse(entries.get('manifest.json')),tenancyCsv=entries.get('tables/tt_tenancies.csv').toString(),photoCsv=entries.get('tables/tt_inspection_photos.csv').toString()
+  for(const x of original.tenancies)assert.ok(tenancyCsv.includes(x.id)&&tenancyCsv.includes(x.tenant_email),'every tenancy is in its CSV')
+  assert.equal(manifest.tables.find(x=>x.name==='tt_tenancies').rows,original.tenancies.length)
+  for(const p of original.work.photos){const file=manifest.files.find(f=>f.path===`files/tt_inspection_photos/${p.id}.png`);assert.deepEqual(entries.get(file.path),png);assert.equal(file.sha256,p.sha256);assert.ok(photoCsv.includes(`file:${file.path} sha256:${p.sha256}`))}
+  const chargeCsv=entries.get('tables/tt_charges.csv').toString();for(const q of original.ledger.charges)assert.ok(chargeCsv.includes(q.reference)&&chargeCsv.includes(String(q.amount_cents)))
+  assert.ok(!manifest.tables.some(x=>/^(oa_|tt_totp|tt_recovery_codes|tt_factor_sessions)/.test(x.name)),'no sign-in secrets or sessions');assert.ok(manifest.tables.find(x=>x.name==='ik_jobs').rows>=1,'move-in import custody is exported');assert.match(entries.get('README.md').toString(),/Reconnect after a restore[\s\S]*MAIL_PROVIDER[\s\S]*invites each person again[\s\S]*moves no money/)
+  assert.equal((await h.request('/api/readable-export',{as:member})).status,403)
  }finally{await fresh.close()}
 })
 test('owner erasure removes tenancy and photo custody and later journal rejects an older backup',async()=>{
