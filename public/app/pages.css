@@ -47,7 +47,7 @@
 .erase-rows details{margin:0;border-top:1px solid var(--rule);padding:0 16px}.erase-rows details:first-child{border-top:0}
 .erase-rows summary{color:var(--ink);font-weight:400;min-height:46px}.erase-rows summary::before{display:none}
 .erase-rows summary>.icon{margin-left:auto;color:var(--muted);width:16px;height:16px;transition:transform .15s}.erase-rows details[open] summary>.icon{transform:rotate(90deg)}
-.erase-rows strong{font-weight:600}.erase-rows form{max-width:520px;padding-bottom:16px}
+.erase-who{min-width:0}.erase-rows strong{font-weight:600}.erase-rows form{max-width:520px;padding-bottom:16px}
 @media(max-width:1180px){.detail-layout,.ledger-layout{grid-template-columns:1fr}.definition-strip dl{grid-template-columns:1fr 1fr}.definition-strip dl>div:nth-child(3){border-left:0;padding-left:0}.settings-layout{grid-template-columns:1fr 1fr}.settings-operators{grid-column:1 / -1;grid-row:2}.settings-invite{grid-column:2;grid-row:1}.settings-erase{grid-row:3}}
 @media(max-width:860px){
  .definition-strip{padding:16px 18px}.definition-strip dl{grid-template-columns:1fr;gap:14px}.definition-strip dl>div+div{border-left:0;border-top:1px solid var(--rule);padding:14px 0 0}
@@ -62,4 +62,5 @@
  .settings-layout{grid-template-columns:1fr;gap:16px}.settings-layout>section{grid-column:auto;grid-row:auto}.settings-backup{order:1}.settings-operators{order:2}.settings-invite{order:3}.settings-erase{order:4}
  .operator-row{grid-template-columns:32px minmax(0,1fr) auto;grid-template-areas:"av who status" "av role role" "av act act"}.operator-row form{justify-items:start}
  .work-columns .card{padding:18px}
+ .erase-rows summary{gap:12px;padding:10px 0}.erase-who{display:grid;gap:2px}.erase-who .muted{font-size:13.5px}.erase-sep{display:none}
 }

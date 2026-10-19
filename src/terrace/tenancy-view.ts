@@ -1,17 +1,18 @@
 import { escape as e,money,type Row } from './core'
-import { place,usDate } from './format'
+import { monthName,place,usDate } from './format'
 import { icon } from './icons'
 import { avatar,button,form,hidden,input,pill } from './view'
 export function chooser(rows:Row[],selected:Row|undefined,tab:string) {
- if(!rows.length) return `<section class="empty-state">${emptyMark}<h2>No tenancies yet.</h2><p>Add your first tenancy or use the Move in kit.</p><p><a href="/app">Add a tenancy</a> · <a href="/app?tab=import">Move in</a></p></section>`
+ if(!rows.length) return `<section class="empty-state">${emptyMark}<h2 class="empty-title">No tenancies yet<span class="dot" aria-hidden="true">.</span></h2><p>Add your first tenancy or use the Move in kit.</p><p><a href="/app">Add a tenancy</a> · <a href="/app?tab=import">Move in</a></p></section>`
  return `<form class="tenancy-chooser" method="get" action="/app"><input type="hidden" name="tab" value="${e(tab)}"><label>Choose tenancy<select name="tenancy">${rows.map(t=>`<option value="${e(t.id)}" ${t.id===selected?.id?'selected':''}>${e(t.address)} · ${e(t.tenant_name)}</option>`).join('')}</select></label><button class="secondary" type="submit">Open tenancy</button></form>`
 }
 const emptyMark='<img class="empty-mark" src="/brand/mark.svg" alt="" width="72" height="48">'
+const example=(text:string)=>`placeholder="e.g. ${e(text)}"`
 export function createTenancy(open:boolean) {
- return `<details class="panel add-tenancy" id="add-tenancy"${open?' open':''}><summary>Add a tenancy</summary>${form('tenancy.create',`<div class="form-columns"><div>${input('Property address','address')}${input('Property owner','ownerName')}${input('Owner email','ownerEmail','email')}${input('Tenant name','tenantName')}${input('Tenant email','tenantEmail','email')}</div><div>${input('Lease starts','startDate','date')}${input('Lease ends','endDate','date')}${input('Rent (USD)','rent','number','','min="0.01" step="0.01"')}<label>Rent cadence<select name="cadence"><option value="monthly" selected>Monthly</option><option value="fortnightly">Every two weeks</option><option value="weekly">Weekly</option></select></label>${button('Add tenancy')}</div></div>`)}</details>`
+ return `<details class="panel add-tenancy" id="add-tenancy"${open?' open':''}><summary>Add a tenancy</summary>${form('tenancy.create',`<div class="form-columns"><div>${input('Property address','address','text','',example('123 Maple St, Oakland, CA 94610'))}${input('Property owner','ownerName','text','',example('Okafor Family Trust'))}${input('Owner email','ownerEmail','email','',example('owner@example.com'))}${input('Tenant name','tenantName','text','',example('Jane Doe'))}${input('Tenant email','tenantEmail','email','',example('tenant@example.com'))}</div><div>${input('Lease starts','startDate','date')}${input('Lease ends','endDate','date')}${input('Rent (USD)','rent','number','',`min="0.01" step="0.01" ${example('1850.00')}`)}<label>Rent cadence<select name="cadence"><option value="monthly" selected>Monthly</option><option value="fortnightly">Every two weeks</option><option value="weekly">Weekly</option></select></label>${button('Add tenancy')}</div></div>`)}</details>`
 }
-export function emptyView(create:string) {
- return `<div class="empty-layout"><section class="empty-state">${emptyMark}<h2>No tenancies yet.</h2><p>Add your first tenancy or use the Move in kit.</p><p><a class="arrow-link" href="/app?tab=import">Move in →</a></p><ol class="empty-steps"><li>Add a tenancy</li><li>Record this month's rent</li><li>Prepare renewals for approval</li></ol></section>${create}</div>`
+export function emptyView(create:string,today:string) {
+ return `<div class="empty-layout"><section class="empty-state">${emptyMark}<h2 class="empty-title">No tenancies yet<span class="dot" aria-hidden="true">.</span></h2><p>Add your first tenancy or use the Move in kit.</p><p><a class="arrow-link" href="/app?tab=import">Move in →</a></p><ol class="empty-steps"><li>Add a tenancy</li><li>Record ${e(monthName(today))} rent</li><li>Prepare renewals for approval</li></ol></section>${create}</div>`
 }
 function decision(r:Row,t:Row,manage:boolean) {
  const p=JSON.parse(r.payload),tone=r.state==='pending'?'pending':r.state==='approved'?'paid':'closed'

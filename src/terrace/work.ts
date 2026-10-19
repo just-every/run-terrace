@@ -125,6 +125,11 @@ export async function workData(c: Context, tenancyId: string) {
   return { inspections, photos, jobs, role: c.actor.role }
 }
 
+/** Operator ids to display names, for showing who prepared, approved, uploaded or handed off work. */
+export async function operatorNames(c: Context): Promise<Record<string, string>> {
+  return Object.fromEntries((await all(c, 'SELECT id,display_name FROM oa_operators')).filter(o => o.display_name).map(o => [o.id, o.display_name]))
+}
+
 export async function photoResponse(c: Context, photoId: string): Promise<Response> {
   await readAccess(c)
   const row = await one(c, 'SELECT media_type,bytes FROM tt_inspection_photos WHERE id=?', text(photoId, 'Photo', 100))

@@ -39,8 +39,12 @@ export async function monthData(c: Context, tenancies: Row[]) {
   ...inspections.filter(i => i.state === 'draft').map(i => ({ kind: 'inspection', tenancyId: i.tenancy_id, unit: unit(i.tenancy_id), inspection: i })),
  ]
 
- // Interleave kinds so the first cards show one of each kind waiting.
- const kinds = [...new Set(waiting.map(w => w.kind))], order = new Map<Row, number>()
+ // Most pressing first within each kind: the earliest current lease end for renewals, the earliest follow-up
+ // for arrears, the earliest due date for maintenance and the earliest draft for inspections.
+ const urgency = (w: Row): string => w.kind === 'renewal' ? byId.get(w.tenancyId)?.end_date ?? '' : w.kind === 'arrears' ? w.payload.followUpDate : w.kind === 'maintenance' ? w.job.due_date : w.inspection.inspection_date
+ waiting.sort((a, b) => urgency(a).localeCompare(urgency(b)))
+ // Then interleave kinds so the first cards show one of each kind waiting.
+ const kinds = ['renewal', 'arrears', 'maintenance', 'inspection'].filter(k => waiting.some(w => w.kind === k)), order = new Map<Row, number>()
  for (const k of kinds) waiting.filter(w => w.kind === k).forEach((w, i) => order.set(w, i * kinds.length + kinds.indexOf(k)))
  waiting.sort((a, b) => order.get(a)! - order.get(b)!)
 

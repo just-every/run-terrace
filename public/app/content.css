@@ -30,7 +30,7 @@ th{color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:upperca
 tbody tr:last-child td{border-bottom:0}
 .empty-layout{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:20px;align-items:stretch}.empty-layout>.add-tenancy{margin:0}
 .empty-state{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:420px}
-.empty-mark{width:72px;height:48px;opacity:.6;margin-bottom:22px}.empty-state h2{font-size:24px;margin-bottom:8px}.empty-state p{color:var(--body)}
+.empty-mark{width:72px;height:48px;opacity:.6;margin-bottom:22px}.empty-state h2{font-size:40px;font-weight:800;letter-spacing:-.045em;line-height:1.08;margin-bottom:10px}.empty-state h2 .dot{color:var(--accent)}.empty-state p{color:var(--body)}
 .empty-state .arrow-link{margin-top:4px}
 .empty-steps{list-style:none;counter-reset:step;padding:24px 0 0;margin:32px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;width:100%;border-top:1px solid var(--rule);font-size:13px;color:var(--body)}
 .empty-steps li{counter-increment:step;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
@@ -41,4 +41,4 @@ details.panel>summary{font:700 20px/1.2 var(--rer-font-heading);letter-spacing:-
 .photo{width:100%;height:130px;object-fit:cover;border-radius:10px;border:1px solid var(--rule)}.photo-list details{margin:6px 0}.photo-list summary{font-size:12px}.photo-list a{font-size:13px}
 pre{overflow:auto;font:400 13px/1.7 var(--rer-font-mono);background:var(--card-inset);padding:16px;border-radius:10px;max-height:420px}
 code{font:400 12.5px/1.5 var(--rer-font-mono);overflow-wrap:anywhere}.preserve-lines{white-space:pre-wrap}
-@media(max-width:860px){section,article,.panel{padding:18px;border-radius:14px}.grid,.empty-layout{grid-template-columns:1fr;gap:16px}.empty-state{min-height:300px}.empty-steps{grid-template-columns:1fr;gap:10px}.empty-steps li{flex-direction:row;text-align:left}.photo{height:110px}.photo-list>li{flex-basis:120px}}
+@media(max-width:860px){section,article,.panel{padding:18px;border-radius:14px}.grid,.empty-layout{grid-template-columns:1fr;gap:16px}.empty-state{min-height:300px}.empty-state h2{font-size:32px}.empty-steps{grid-template-columns:1fr;gap:10px}.empty-steps li{flex-direction:row;text-align:left}.photo{height:110px}.photo-list>li{flex-basis:120px}}

@@ -30,9 +30,9 @@ export async function seedDemo(env: Bindings, { ownerEmail, now }: { ownerEmail:
    // Monthly rent falls due on the 1st: two past months, this month, next month.
    const chargeId = `${id}-rent-${period}`, due = p.cadence === 'monthly' ? firstOfMonth(period - 2) : (period - 3) * interval + 3
    const received = Math.min(due + index % 3, 0)
-   insert('tt_charges', { id: chargeId, tenancy_id: id, due_date: day(due), amount_cents: p.rent, description: `${p.cadence[0].toUpperCase() + p.cadence.slice(1)} rent`, reference: `${p.id.toUpperCase()}-${period + 1}`, created_at: at(due - 4) })
+   insert('tt_charges', { id: chargeId, tenancy_id: id, due_date: day(due), amount_cents: p.rent, description: `${p.cadence[0].toUpperCase() + p.cadence.slice(1)} rent`, reference: `${p.ref}-${day(due).slice(0, 7)}`, created_at: at(due - 4) })
    if (period < 3 && !(p.id === 'maple' && period === 2)) {
-    insert('tt_receipts', { id: `${chargeId}-receipt`, charge_id: chargeId, amount_cents: p.id === 'banksia' && period === 2 ? 90000 : p.rent, received_date: day(received), reference: `BANK-${p.id.toUpperCase()}-${period + 1}`, created_at: at(received) })
+    insert('tt_receipts', { id: `${chargeId}-receipt`, charge_id: chargeId, amount_cents: p.id === 'banksia' && period === 2 ? 90000 : p.rent, received_date: day(received), reference: `BANK-${77100 + period * 10 + index}`, created_at: at(received) })
    }
   }
   const renewal = index % 2 === 0

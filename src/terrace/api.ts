@@ -2,7 +2,7 @@ import { operatorAuth,type Bindings } from '../auth.server'
 import { Fault, insist, manager, owner, text, type Context, type Row } from './core'
 import { tenancyCommand,tenancyData,proposals } from './tenancies'
 import { ledgerCommand,ledgerData,statement,statementCsv } from './ledger'
-import { workCommand,workData,photoResponse,workPacket } from './work'
+import { workCommand,workData,operatorNames,photoResponse,workPacket } from './work'
 import { importCommand,importData,importView } from './imports'
 import { backup,dataCommand } from './data'
 import { page } from './view'
@@ -24,13 +24,13 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
    if(url.searchParams.get('tenancy')&&selected){title=selected.address;body=tenancyView(selected,await proposals(c,selected.id),manage,await ledgerData(c,selected.id),await workData(c,selected.id),c.now.slice(0,10));head={eyebrow:selected.owner_name,back:backToTenancies}}
    else {
     const create=manage?createTenancy(!rows.length||url.searchParams.get('add')==='1'):''
-    body=rows.length?homeView(await monthData(c,rows),manage,create):emptyView(create)
+    body=rows.length?homeView(await monthData(c,rows),manage,create):emptyView(create,c.now)
     if(manage&&rows.length)head={actions:addTenancyAction}
    }
   }
   else body=chooser(rows,selected,tab)
   if(tab==='ledger'){title='Rent & arrears';if(selected)body+=ledgerView(selected,await ledgerData(c,selected.id),manage)}
-  else if(tab==='work'){title='Inspections & maintenance';if(selected)body+=workView(selected,await workData(c,selected.id))}
+  else if(tab==='work'){title='Inspections & maintenance';if(selected)body+=workView(selected,{...await workData(c,selected.id),names:await operatorNames(c)})}
   else if(tab!=='tenancy') throw new Fault('not_found','Page not found.',404)
  }
  return page(c,title,body,notice,status,tab,head)
