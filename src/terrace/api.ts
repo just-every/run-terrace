@@ -50,6 +50,8 @@ import { BILL_COMMANDS,billCommand,billData,billAttachment } from './bills'
 import { billSection } from './bills-view'
 import { LEASE_COMMANDS,leaseCommand,leaseData,leaseSource } from './lease-versions'
 import { leaseSection } from './lease-view'
+import { scenarioReport } from './scenarios'
+import { scenarioSection } from './scenario-view'
 import { APPOINTMENT_COMMANDS,appointmentCommand } from './appointments'
 import { RETENTION_COMMANDS,retentionCommand,retentionData,residentAccess } from './retention'
 const json=(body:unknown,status=200)=>Response.json(body,{status,headers:{'cache-control':'no-store','x-content-type-options':'nosniff','referrer-policy':'no-referrer'}})
@@ -68,7 +70,7 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
  else if(tab==='settings'){title='Data & access';body=companyView(await companyData(c),can(c,'company.save')&&(c.actor.role==='owner'||!!c.actor.staff?.all),c.actor.role==='owner')+settingsView(rows,c.actor.role==='owner',await retentionData(c,rows))+'<section><h2>Two-step sign-in</h2><p>Authenticator codes and recovery codes for each sign-in.</p><p><a href="/app?tab=security">Set up or manage two-step sign-in</a></p></section>'+(can(c,'reports.read')?'<section><h2>Month close</h2><p>Month-end checklist, exceptions, closed months and close corrections.</p><p><a href="/app?tab=close">Open month close</a></p></section>':'')+(can(c,'history.read')?'<section><h2>History</h2><p>Who changed, read or exported what, with their role and source.</p><p><a href="/app?tab=history">Open history</a></p></section>':'');if(can(c,'operator.role')&&request&&env)body+=await peopleView(request,env,c);body=`<div class="settings-layout">${body}</div>`}
  else {
   if(tab==='tenancy') {
-   if(url.searchParams.get('tenancy')&&selected){title=selected.address;const ledger=ledgers?await ledgerData(c,selected.id):null;body=tenancyView(selected,await proposals(c,selected.id),{approve:can(c,'proposal.approve'),zone:can(c,'tenancy.timezone'),renew:can(c,'renewal.prepare')},ledger,await workData(c,selected.id),today(c.now,selected.time_zone))+((can(c,'lease.read')||can(c,'lease.metadata'))?leaseSection(selected,await leaseData(c,selected.id),a=>can(c,a),result):'')+householdSection(selected,await householdData(c,selected,ledger?.balanceCents??null),can(c,'household.add'),rows);head={eyebrow:selected.owner_name,back:backToTenancies}}
+   if(url.searchParams.get('tenancy')&&selected){title=selected.address;const ledger=ledgers?await ledgerData(c,selected.id):null;body=tenancyView(selected,await proposals(c,selected.id),{approve:can(c,'proposal.approve'),zone:can(c,'tenancy.timezone'),renew:can(c,'renewal.prepare')},ledger,await workData(c,selected.id),today(c.now,selected.time_zone))+((can(c,'lease.read')||can(c,'lease.metadata'))?leaseSection(selected,await leaseData(c,selected.id),a=>can(c,a),result):'')+(can(c,'reports.read')?scenarioSection(selected,url.searchParams.get('scenario')==='1'?await scenarioReport(c,{...Object.fromEntries(url.searchParams),tenancyId:selected.id}):undefined,Object.fromEntries(url.searchParams)):'')+householdSection(selected,await householdData(c,selected,ledger?.balanceCents??null),can(c,'household.add'),rows);head={eyebrow:selected.owner_name,back:backToTenancies}}
    else {
     const create=manage?createTenancy(!rows.length||url.searchParams.get('add')==='1',c.zone!,await unitChoices(c)):''
     body=rows.length?(ledgers?homeView(await monthData(c,rows),can(c,'proposal.approve'),create):chooser(rows,undefined,'tenancy')+create):emptyView(create,c.now)
@@ -94,7 +96,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
  const url=new URL(request.url),isApi=url.pathname.startsWith('/api/'),isPage=url.pathname==='/app'||url.pathname==='/app/command'
  if(!isApi&&!isPage)return null
  // Unknown API paths retain a genuine 404 without leaking installation data.
- if(isApi&&!['/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment'].includes(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
+ if(isApi&&!['/api/cash-scenario','/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment'].includes(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
  let c:Context|undefined,p:Row={}
  try {
   insist(url.origin===env.AUTH_ORIGIN,'origin','The request origin does not match this installation.',403)
@@ -134,6 +136,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
    const tenancies=await tenancyData(c),tenancyId=url.searchParams.get('tenancy'),t=tenancyId?await tenancy(c,tenancyId):undefined,ledger=t&&can(c,'ledger.read')?await ledgerData(c,t.id):undefined
    return json({actor:{role:c.actor.role,staffRole:c.actor.staff?.role??'owner',allPortfolios:c.actor.role==='owner'||!!c.actor.staff?.all},...await companyData(c),...await propertyData(c),turnovers:await turnoverData(c),ownership:await ownershipData(c),tenancies,...(t?{ledger,household:await householdData(c,t,ledger?.balanceCents??null),proposals:await proposals(c,t.id),work:await workData(c,t.id),...((can(c,'lease.read')||can(c,'lease.metadata'))?{leaseVersions:await leaseData(c,t.id)}:{})}:{})})
   }
+  if(url.pathname==='/api/cash-scenario')return json(await scenarioReport(c,Object.fromEntries(url.searchParams)))
   if(url.pathname==='/api/lease-source')return await leaseSource(c,url.searchParams.get('id'))
   if(url.pathname==='/api/bills'){const data=await billData(c);await recordRead(c,'bills.read','bills');return json(data)}
   if(url.pathname==='/api/bill-attachment')return await billAttachment(c,url.searchParams.get('id'))

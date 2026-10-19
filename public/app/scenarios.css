@@ -1,0 +1,6 @@
+/* REPORT-007 keeps each figure readable beside long labels on phones. */
+#cash-scenario dl{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)}
+@media(max-width:860px){
+ #cash-scenario dl{grid-template-columns:minmax(0,1fr);gap:4px}
+ #cash-scenario dd{margin-bottom:12px}
+}

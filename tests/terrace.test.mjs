@@ -2,6 +2,7 @@ import {test,before,after} from 'node:test'
 import assert from 'node:assert/strict'
 import {readFile} from 'node:fs/promises'
 import {createHash,createHmac} from 'node:crypto'
+import {journey as scenarioJourney} from './scenarios.mjs'
 import {journey as leaseJourney} from './leases.mjs'
 import {journey as billsJourney} from './bills.mjs'
 import {journey as appointmentJourney} from './appointments.mjs'
@@ -483,7 +484,7 @@ test('BOUND-004: residential only — no commercial, CAM or association-dues doo
  await h.command('import.apply',{csv:residential,namespace:'bound-004',fingerprint:reviewed.fingerprint})
  const after=(await h.state()).tenancies;assert.equal(after.length,before+1);assert.ok(!after.some(t=>t.address.startsWith('Suite 200')))
 })
-test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; legacy money currency unconfirmed until the owner confirms it; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready; PORT-004 households; REPORT-001 rent roll; ACCT-009 fees; ACCT-016 recoveries; ACCT-007 vendor bills',async()=>{
+test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; legacy money currency unconfirmed until the owner confirms it; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready; PORT-004 households; REPORT-001 rent roll; ACCT-009 fees; ACCT-016 recoveries; ACCT-007 vendor bills; REPORT-007 cash and vacancy scenarios',async()=>{
  const company={name:'Alder Court Property Management',officeAddress:'1840 Alder Street, Oakland, CA 94610',officeEmail:'office@example.test',officePhone:'(510) 555-0142',timeZone:'America/Los_Angeles'}
  await h.command('company.save',{...company,timeZone:'Australia/Sydney'},{status:400})
  await h.command('company.save',company)
@@ -772,4 +773,5 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  for(const text of ['water · EBMUD invoice EBMUD-2026-03','Oakland parking tax · parking · 10.00%','Leases authorizing recovery'])assert.ok(recoveryPage.includes(text),text)
 
  await billsJourney()
+ await scenarioJourney()
 })

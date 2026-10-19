@@ -65,3 +65,9 @@ Open a tenancy’s **Signed lease versions** and choose **Record a signed lease 
 Choose **Preview lease charges** for a month at or after the effective date. A different owner or portfolio manager reviews and approves that exact preview (a sole operator’s approval is labelled). Then use **Rent & arrears → Preview charge run** to post those same charges. A mid-month amendment prorates each effective portion by its covered days. Posted periods and earlier signed versions remain unchanged; signed amendments cannot be bypassed through the old add/amend-term forms.
 
 Owners, portfolio managers, bookkeepers and accountants can download original PDFs within their portfolio scope. Downloads are private and audited. Backups and readable exports include versions, original PDFs and hashes. The lease retention period and legal holds apply before erasure.
+
+## Compare cash and vacancy plans
+
+On a property-linked USD tenancy, **Cash and vacancy scenarios** compares repairing before listing with immediate marketing and a concession. Enter both plans’ dated, sourced assumptions, including zero values. Rent and an assumed renewal use the tenancy’s cadence; make-ready precedes letting for the repair plan and overlaps it for immediate marketing. Current approved property payables and the reserve requirement come from records. Opening cash and deposit balances are your assumptions, never inferred bank balances.
+
+**Compare cash and vacant days** shows ready dates, gross/expected collected rent, costs, reserves and planned distributions. Deposit liability cash stays separate. Expand **Change assumptions and recalculate** to test another vacancy assumption. A shortfall is a forecast, not permission to spend; no lease pricing, approvals or actual books change.
