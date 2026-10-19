@@ -453,6 +453,37 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  const page=await(await h.request('/app?tab=properties')).text()
  for(const text of ['Linden Duplex','Unit A · 2 bd · 1 ba · Washer/dryer, Parking','Unit B · 3 bd · 1.5 ba · Yard','Moved out early with notice','Transferred to unit B'])assert.ok(page.includes(text),text)
 
+ // PORT-003: owners with shares, a dated transfer, and income, fee and reserve allocated on each side of the transfer date.
+ const addOwner=p=>h.command('owner.add',{kind:'individual',mailingAddress:'1 Elm Street, Oakland, CA 94607',...p})
+ const ruiz=await addOwner({legalName:'Ana Ruiz',email:'ana@example.test'}),holdings=await addOwner({kind:'entity',legalName:'Linden Holdings LLC',email:'llc@example.test'}),ito=await addOwner({legalName:'Ben Ito',email:'ben@example.test'})
+ await h.command('owner.w9',{ownerId:ruiz.id,status:'requested',date:'2025-11-01'});await h.command('owner.w9',{ownerId:ruiz.id,status:'received',date:'2025-11-10',location:'Owner files: Ruiz W-9'})
+ await h.command('owner.w9',{ownerId:holdings.id,status:'received',date:'2025-11-10'},{status:400})
+ const setShares=(from,reason,list,opts)=>h.command('ownership.set',{propertyId:duplex.id,effectiveFrom:from,reason,...Object.fromEntries(list.map(([o,pct])=>['share:'+o.id,pct]))},opts)
+ await setShares('2025-01-01','Deed 2019',[[ruiz,'60'],[holdings,'30']],{status:400})
+ await setShares('2025-01-01','Deed 2019',[[ruiz,'66.67'],[holdings,'33.33']])
+ await h.command('agreement.set',{propertyId:duplex.id,starts:'2025-01-01',feePercent:'8',reserve:'500.00',reference:'Management agreement 2025, section 4'})
+ await setShares('2025-10-01','Grant deed 2025-0142: Ana Ruiz to Ben Ito',[[ito,'66.67'],[holdings,'33.33']])
+ await setShares('2025-09-15','Earlier date',[[ito,'100']],{status:409})
+ const linSep=await h.command('rent.charge',{tenancyId:leaseB.id,dueDate:'2025-09-01',amount:'1000.01',description:'September rent',reference:'LIN-SEP'})
+ await h.command('rent.receipt',{chargeId:linSep.id,amount:'1000.01',receivedDate:'2025-09-30',reference:'LIN-R1'})
+ const linOct=await h.command('rent.charge',{tenancyId:leaseB.id,dueDate:'2025-10-01',amount:'1000.00',description:'October rent',reference:'LIN-OCT'})
+ await h.command('rent.receipt',{chargeId:linOct.id,amount:'1000.00',receivedDate:'2025-10-01',reference:'LIN-R2'})
+ const allocation=async o=>(await(await h.request(`/api/owner-statement?ownerId=${o.id}&from=2025-09-01&to=2025-10-31`)).json())
+ const [ruizStatement,itoStatement,holdingsStatement]=await Promise.all([ruiz,ito,holdings].map(allocation)),allocLine=r=>[r.date,r.reference,r.receiptCents,r.shareBp,r.allocatedCents,r.feeCents,r.netCents]
+ assert.deepEqual(ruizStatement.rows.map(allocLine),[['2025-09-30','LIN-R1',100001,6667,66671,5334,61337]],'before the transfer the seller earns, with the remainder cent on the larger share')
+ assert.deepEqual(itoStatement.rows.map(allocLine),[['2025-10-01','LIN-R2',100000,6667,66670,5334,61336]],'from the transfer date the buyer earns')
+ assert.deepEqual(holdingsStatement.rows.map(allocLine),[['2025-09-30','LIN-R1',100001,3333,33330,2666,30664],['2025-10-01','LIN-R2',100000,3333,33330,2666,30664]])
+ const reserve=r=>[r.from,r.to,r.reserveCents,r.shareBp,r.ownerReserveCents]
+ assert.deepEqual([ruizStatement,itoStatement,holdingsStatement].map(x=>x.reserves.map(reserve)),[[['2025-09-01','2025-09-30',50000,6667,33335]],[['2025-10-01','2025-10-31',50000,6667,33335]],[['2025-09-01','2025-09-30',50000,3333,16665],['2025-10-01','2025-10-31',50000,3333,16665]]],'the reserve requirement is shared on each side of the transfer')
+ const ownerCsv=await(await h.request(`/api/owner-statement?ownerId=${holdings.id}&from=2025-09-01&to=2025-10-31&format=csv`)).text()
+ for(const text of ['Linden Holdings LLC','LIN-R2','"666.60"','"613.28"','Reserve requirement share','"166.65"','not cash held'])assert.ok(ownerCsv.includes(text),text)
+ assert.equal((await h.request(`/api/owner-statement?ownerId=${ruiz.id}&from=2025-09-01&to=2025-10-31`,{as:member})).status,403)
+ const heldShares=(await h.state()).ownership,memberShares=(await(await h.request('/api/state',{as:member})).json()).ownership
+ assert.deepEqual(heldShares.byProperty[duplex.id].sets.map(s=>[s.effective_from,s.shares.map(x=>[x.legal_name,x.share_bp])]),[['2025-01-01',[['Ana Ruiz',6667],['Linden Holdings LLC',3333]]],['2025-10-01',[['Ben Ito',6667],['Linden Holdings LLC',3333]]]])
+ assert.equal(memberShares.directory,null);assert.equal(memberShares.byProperty[duplex.id].sets.length,2)
+ const ownersPage=await(await h.request('/app?tab=properties')).text()
+ for(const text of ['Owners:</strong> Ben Ito 66.67%, Linden Holdings LLC 33.33% from Oct 1, 2025','Ana Ruiz 66.67%','W-9 received Nov 10, 2025','Management fee 8% of collected rent','reserve requirement $500.00'])assert.ok(ownersPage.includes(text),text)
+
  // WORK-013: make-ready unit A after its resident moved out; delay the repair and read the cleaning, listing and ready-date effects.
  await h.command('turnover.open',{unitId:lower.id,moveOut:'2026-01-14'},{status:409})
  const board=await h.command('turnover.open',{unitId:upper.id,moveOut:'2026-01-14'})

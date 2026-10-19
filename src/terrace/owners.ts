@@ -1,0 +1,147 @@
+// PORT-003. Owners and management agreements. An owner is an individual or entity apart from a tenancy's recorded
+// owner contact. Each property has dated share sets: the set in force on a day is the one with the latest
+// effective date on or before it, and its shares total exactly 100%. A transfer is a new set from its date, so the
+// seller's share ends the day before. Recorded receipts on the property's tenancies are allocated by the set in
+// force on their received date (property-local), with the management fee and reserve requirement of the agreement
+// in force that day. Owner records are installation-wide: the owner and all-portfolio staff keep them (ROLE-001).
+import { all, allow, can, commit, date, email, everywhere, guard, id, insist, one, reachesPortfolio, shown, sql, text, cents, type Context, type Row } from './core'
+
+const W9 = ['requested', 'received']
+/** "60" or "33.33" percent -> basis points; never rounded. */
+export function basisPoints(v: unknown, label: string) {
+ const s = text(String(v ?? ''), label, 6)
+ insist(/^\d{1,3}(\.\d{1,2})?$/.test(s), 'invalid_share', `${label} is a percent with at most two decimal places.`)
+ const [a, b = ''] = s.split('.'), n = Number(a) * 100 + Number(b.padEnd(2, '0'))
+ insist(n >= 0 && n <= 10000, 'invalid_share', `${label} is between 0 and 100 percent.`)
+ return n
+}
+/** Splits exact cents by basis points: each share gets the floor, and the remainder cents go to the largest share (ties: the earlier position). */
+export function split(amount: number, shares: Row[]) {
+ const out = shares.map(s => ({ ownerId: s.owner_id, bp: s.share_bp, cents: Math.floor(amount * s.share_bp / 10000) }))
+ const rest = amount - out.reduce((t, s) => t + s.cents, 0)
+ if (rest > 0 && out.length) out.reduce((best, s) => s.bp > best.bp ? s : best, out[0]).cents += rest
+ return out
+}
+/** A fee in cents at basis points, rounded half up to the cent. */
+const fee = (cents: number, bp: number) => Math.floor((cents * bp + 5000) / 10000)
+const inForce = <T extends Row>(rows: T[], day: string, key: string) => rows.filter(r => r[key] <= day).at(-1)
+const dayBefore = (d: string) => new Date(Date.parse(d + 'T00:00:00Z') - 86400000).toISOString().slice(0, 10)
+
+async function owner(c: Context, v: unknown) {
+ const row = await one(c, 'SELECT * FROM tt_owners WHERE id=?', text(v, 'Owner', 100))
+ insist(row, 'not_found', 'Owner not found.', 404)
+ return row
+}
+async function property(c: Context, v: unknown) {
+ const row = await one(c, 'SELECT * FROM tt_properties WHERE id=?', text(v, 'Property', 100))
+ insist(row && reachesPortfolio(c, row.portfolio_id), 'not_found', 'Property not found.', 404)
+ return row
+}
+
+export async function ownerCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
+ if (command === 'owner.add') {
+  allow(c, command); everywhere(c)
+  insist(['individual', 'entity'].includes(p.kind), 'invalid_kind', 'An owner is an individual or an entity.')
+  const key = id()
+  await commit(c, [sql(c, 'INSERT INTO tt_owners(id,kind,legal_name,email,mailing_address,created_by,created_at) VALUES(?,?,?,?,?,?,?)', key, p.kind, text(p.legalName, 'Legal name', 200), email(p.email), text(p.mailingAddress, 'Mailing address', 300), c.actor.id, c.now)], command, key)
+  return { id: key, notice: 'Owner added. W-9 not requested yet.' }
+ }
+ if (command === 'owner.w9') {
+  allow(c, command); everywhere(c)
+  const o = await owner(c, p.ownerId), status = String(p.status ?? ''), on = date(p.date, 'W-9 date')
+  insist(W9.includes(status), 'invalid_status', 'Record the W-9 as requested or received.')
+  const location = status === 'received' ? text(p.location, 'Where the W-9 is kept', 300) : null
+  await commit(c, [
+   guard(c, 'EXISTS(SELECT 1 FROM tt_owners WHERE id=? AND version=?)', o.id, o.version),
+   sql(c, 'INSERT INTO tt_w9_events(id,owner_id,status,on_date,location,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?)', id(), o.id, status, on, location, c.actor.id, c.now),
+   sql(c, 'UPDATE tt_owners SET w9_status=?,w9_date=?,w9_location=?,version=version+1 WHERE id=?', status, on, location, o.id),
+  ], command, o.id)
+  return { id: o.id, notice: `W-9 recorded as ${status} by staff. Terrace stores no TIN and has not validated one.` }
+ }
+ if (command === 'ownership.set') {
+  allow(c, command); everywhere(c)
+  const prop = await property(c, p.propertyId), from = date(p.effectiveFrom, 'Effective from'), reason = text(p.reason, 'Reason or transfer reference', 500)
+  const given: Row[] = Array.isArray(p.shares) ? p.shares : Object.keys(p).filter(k => k.startsWith('share:') && String(p[k]).trim() !== '').map(k => ({ ownerId: k.slice(6), percent: p[k] }))
+  const shares = given.map(s => ({ ownerId: text(s.ownerId, 'Owner', 100), bp: basisPoints(s.percent, 'Share') })).filter(s => s.bp > 0)
+  insist(shares.length > 0 && new Set(shares.map(s => s.ownerId)).size === shares.length, 'invalid_share', 'Give each owner one share.')
+  insist(shares.reduce((t, s) => t + s.bp, 0) === 10000, 'shares_total', 'Shares must total exactly 100%.')
+  const known = await all(c, `SELECT id FROM tt_owners WHERE id IN (${shares.map(() => '?').join(',')})`, ...shares.map(s => s.ownerId))
+  insist(known.length === shares.length, 'not_found', 'Owner not found.', 404)
+  const key = id()
+  // History is never rewritten: a new set starts after the latest one.
+  await commit(c, [
+   guard(c, 'NOT EXISTS(SELECT 1 FROM tt_ownership_sets WHERE property_id=? AND effective_from>=?)', prop.id, from),
+   sql(c, 'INSERT INTO tt_ownership_sets(id,property_id,effective_from,reason,created_by,created_at) VALUES(?,?,?,?,?,?)', key, prop.id, from, reason, c.actor.id, c.now),
+   ...shares.map((s, i) => sql(c, 'INSERT INTO tt_ownership_shares(set_id,owner_id,share_bp,position) VALUES(?,?,?,?)', key, s.ownerId, s.bp, i)),
+  ], command, key).catch(e => { if (e.code === 'conflict') e.message = 'Ownership already changes on or after that date. A transfer starts after the latest one.'; throw e })
+  return { id: key, notice: `Ownership from ${from} recorded.` }
+ }
+ if (command === 'agreement.set') {
+  allow(c, command); everywhere(c)
+  const prop = await property(c, p.propertyId), starts = date(p.starts, 'Agreement starts'), key = id()
+  const reserve = String(p.reserve ?? '').trim() === '0' || String(p.reserve ?? '').trim() === '0.00' ? 0 : cents(p.reserve)
+  await commit(c, [
+   guard(c, 'NOT EXISTS(SELECT 1 FROM tt_management_agreements WHERE property_id=? AND starts>=?)', prop.id, starts),
+   sql(c, 'INSERT INTO tt_management_agreements(id,property_id,starts,fee_bp,reserve_cents,reference,created_by,created_at) VALUES(?,?,?,?,?,?,?,?)', key, prop.id, starts, basisPoints(p.feePercent, 'Management fee'), reserve, text(p.reference, 'Agreement reference', 300), c.actor.id, c.now),
+  ], command, key).catch(e => { if (e.code === 'conflict') e.message = 'An agreement already starts on or after that date.'; throw e })
+  return { id: key, notice: `Management agreement from ${starts} recorded.` }
+ }
+}
+
+/** Share sets (with owner names) and agreements per reachable property; the owner directory only for the owner and all-portfolio staff. */
+export async function ownershipData(c: Context) {
+ const [props, sets, shares, agreements] = await Promise.all([
+  all(c, 'SELECT id,portfolio_id FROM tt_properties'),
+  all(c, 'SELECT * FROM tt_ownership_sets ORDER BY effective_from'),
+  all(c, 'SELECT h.*,o.legal_name,o.kind FROM tt_ownership_shares h JOIN tt_owners o ON o.id=h.owner_id ORDER BY h.position'),
+  all(c, 'SELECT * FROM tt_management_agreements ORDER BY starts'),
+ ])
+ const byProperty: Record<string, Row> = {}
+ for (const p of props.filter(p => reachesPortfolio(c, p.portfolio_id))) byProperty[p.id] = {
+  sets: sets.filter(s => s.property_id === p.id).map(s => ({ ...s, shares: shares.filter(h => h.set_id === s.id) })),
+  agreements: agreements.filter(a => a.property_id === p.id),
+ }
+ // Leasing, maintenance and members see owner names and shares on their properties, never the directory's contact or W-9 details.
+ const directory = c.actor.role === 'owner' || (c.actor.staff?.all && (can(c, 'owner.add') || can(c, 'reports.read'))) ? await all(c, 'SELECT id,kind,legal_name,email,mailing_address,w9_status,w9_date,w9_location FROM tt_owners ORDER BY legal_name') : null
+ return { byProperty, directory }
+}
+export const sharesOn = (data: Row | undefined, day: string) => inForce(data?.sets ?? [], day, 'effective_from')
+export const agreementOn = (data: Row | undefined, day: string) => inForce(data?.agreements ?? [], day, 'starts')
+
+/** One owner's allocated receipts from..to (inclusive, property-local received dates) on properties the viewer reaches. */
+export async function ownerStatement(c: Context, ownerId: unknown, fromValue: unknown, toValue: unknown) {
+ allow(c, 'reports.read')
+ const o = await owner(c, ownerId), from = date(fromValue, 'Period start'), to = date(toValue, 'Period end')
+ insist(to >= from, 'period', 'Period end must follow its start.')
+ const props = (await all(c, 'SELECT DISTINCT p.* FROM tt_properties p JOIN tt_ownership_sets s ON s.property_id=p.id JOIN tt_ownership_shares h ON h.set_id=s.id WHERE h.owner_id=? ORDER BY p.name', o.id)).filter(p => reachesPortfolio(c, p.portfolio_id))
+ insist(props.length || c.actor.role === 'owner' || c.actor.staff?.all, 'not_found', 'Owner not found.', 404)
+ const data = await ownershipData(c), rows: Row[] = [], reserves: Row[] = []
+ for (const p of props) {
+  const d = data.byProperty[p.id]
+  const receipts = await all(c, 'SELECT r.amount_cents,r.received_date,r.reference,t.address,t.currency,t.currency_confirmed FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND r.received_date BETWEEN ? AND ? ORDER BY r.received_date,r.created_at', p.id, from, to)
+  for (const r of receipts) {
+   const set = sharesOn(d, r.received_date), mine = set ? split(r.amount_cents, set.shares).find(s => s.ownerId === o.id) : undefined
+   if (!mine) continue
+   const a = agreementOn(d, r.received_date), feeCents = a ? fee(mine.cents, a.fee_bp) : 0
+   rows.push({ date: r.received_date, property: p.name, address: r.address, reference: r.reference, currency: shown(r), receiptCents: r.amount_cents, shareBp: mine.bp, allocatedCents: mine.cents, feeBp: a?.fee_bp ?? 0, feeCents, netCents: mine.cents - feeCents })
+  }
+  // The reserve requirement is split like income: per stretch of the period with one share set and one agreement in force.
+  const cuts = [...new Set([from, ...(d?.sets ?? []).map((s: Row) => s.effective_from), ...(d?.agreements ?? []).map((a: Row) => a.starts)].filter(x => x >= from && x <= to))].sort()
+  cuts.forEach((start, i) => {
+   const end = i + 1 < cuts.length ? dayBefore(cuts[i + 1]) : to, set = sharesOn(d, start), a = agreementOn(d, start), mine = set && a ? split(a.reserve_cents, set.shares).find(s => s.ownerId === o.id) : undefined
+   if (mine) reserves.push({ property: p.name, from: start, to: end, reserveCents: a!.reserve_cents, shareBp: mine.bp, ownerReserveCents: mine.cents, currency: 'USD' })
+  })
+ }
+ const totals = [...new Set(rows.map(r => r.currency))].map(currency => { const mine = rows.filter(r => r.currency === currency); return { currency, allocatedCents: mine.reduce((t, r) => t + r.allocatedCents, 0), feeCents: mine.reduce((t, r) => t + r.feeCents, 0), netCents: mine.reduce((t, r) => t + r.netCents, 0) } })
+ return { owner: { id: o.id, name: o.legal_name, kind: o.kind, w9: o.w9_status }, from, to, rows, totals, reserves, boundary: 'Recorded receipts allocated by ownership share on each received date, less the agreement fee. Reserve lines are each owner’s share of the requirement, not cash held. Not a trust disbursement, bank reconciliation or tax statement; expenses are not included yet.' }
+}
+const amount = (n: number) => (n / 100).toFixed(2)
+const pct = (bp: number) => (bp / 100).toFixed(2) + '%'
+export const ownerStatementTable = (s: Awaited<ReturnType<typeof ownerStatement>>): (string | number)[][] => [
+ ['Terrace owner allocation statement', s.owner.name], ['Period', s.from, s.to],
+ ['Received', 'Property', 'Tenancy', 'Reference', 'Currency', 'Receipt', 'Share', 'Allocated', 'Fee rate', 'Fee', 'Net'],
+ ...s.rows.map(r => [r.date, r.property, r.address, r.reference, r.currency, amount(r.receiptCents), pct(r.shareBp), amount(r.allocatedCents), pct(r.feeBp), amount(r.feeCents), amount(r.netCents)]),
+ ...s.totals.map(t => ['Total', '', '', '', t.currency, '', '', amount(t.allocatedCents), '', amount(t.feeCents), amount(t.netCents)]),
+ ...s.reserves.map(r => ['Reserve requirement share', r.property, `${r.from} to ${r.to}`, '', r.currency, amount(r.reserveCents), pct(r.shareBp), amount(r.ownerReserveCents), '', '', '']),
+ [s.boundary],
+]

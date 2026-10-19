@@ -14,6 +14,15 @@ Under **Properties**, an owner or portfolio manager adds a portfolio, its proper
 
 Each unit shows its occupancy today (occupied, vacant with a future lease, or vacant) and every lease it has held, with dates. To end a lease early, open **End lease or transfer** on it and enter the move-out date and reason; the lease record and its original end date are kept. To move a resident to another unit, choose the unit and move-in date and select **Transfer resident**: the first lease ends the day before and a linked lease starts on the new unit with the same terms.
 
+
+## Owners and management agreements
+
+Under **Owners** on the Properties page, the owner or a portfolio manager over all portfolios adds each property owner (an individual or an entity) and records their W-9 as requested, then received with where the signed form is kept. Terrace stores no taxpayer identification number and has not validated one.
+
+On each property, **Change ownership** records the owners' shares from a date; they must total exactly 100%. To record a sale, enter the new shares from the transfer date: the seller's share ends the day before. Earlier ownership stays in **Ownership history** and cannot be edited. **Record management agreement** sets the fee as a percent of collected rent and the reserve requirement from a start date.
+
+**Download allocation statement** lists, for one owner and period, each recorded receipt on their properties split by the shares in force on its received date (the remainder cent goes to the largest share), the management fee and net, and the owner's share of the reserve requirement on each side of any transfer. Reserve lines are requirements, not cash held. Expenses are not included until vendor bills are recorded.
+
 ## Households
 
 On a tenancy page, **Household** lists the tenant (the primary resident) and anyone added with **Add a household member**: co-tenants, guarantors, occupants, emergency contacts and authorized contacts, with contact details, how they prefer to be contacted and the day they joined. The page shows who is liable for this lease's balance (the resident, co-tenants and guarantors), who receives lease notices and statements (the resident, co-tenants, guarantors and authorized contacts, except anyone who asked not to be contacted), and who may see lease documents (the same people, whatever their contact preference). Terrace lists recipients; it sends nothing.
