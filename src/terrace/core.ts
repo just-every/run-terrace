@@ -3,7 +3,8 @@ export type Row = Record<string, any>
 export type Staff = { role: string; all: boolean; version: number; actions: string[]; portfolios: string[]; units: Set<string> }
 export type Actor = { id: string; role: 'owner' | 'admin' | 'member'; displayName: string; version?: number; staff?: Staff }
 /** zone: the company's office time zone (PORT-001), which dates the Tenancies home and page header. action: the command or read door being served. */
-export type Context = { db: D1Database; actor: Actor; now: string; zone?: string; action?: string }
+/** session: the sign-in's hashed id and kind; secret: the installation's session secret (SAFE-001 sealing); gated: a second factor is still owed this sign-in. */
+export type Context = { db: D1Database; actor: Actor; now: string; zone?: string; action?: string; session?: { hash: string; kind: string }; secret?: string; gated?: boolean }
 export class Fault extends Error { constructor(public code: string, message: string, public status = 400) { super(message) } }
 export function insist(ok: unknown, code: string, message: string, status = 400): asserts ok { if (!ok) throw new Fault(code, message, status) }
 export const text = (v: unknown, label: string, max = 500) => { insist(typeof v === 'string' && v.trim().length > 0 && v.trim().length <= max, 'invalid_input', `${label} is required (up to ${max} characters).`); return v.trim() }

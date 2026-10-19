@@ -4,6 +4,8 @@ All reads and writes authenticate a current Base operator session. Send the sess
 
 ROLE-001: the Authority column lists the roles whose rows in the capability table (`tt_role_actions`, migration 0030) grant each command; the owner holds every command. Staff with assigned portfolios reach only tenancies on units in those portfolios: any other record answers `404`, and a command outside their role answers `403` before any record is read. Company, legal entity, operating account and portfolio changes and tenancies without a unit need all-portfolio scope. `operator.invite` (displayName, email, role, allPortfolios or `portfolio:<id>` fields), `operator.role` (operatorId, role, scope as for invite) and `operator.status` (operatorId, status) are the owner's alone and recorded.
 
+SAFE-001: `entity.add`, `account.add`, `operator.invite`, `operator.role`, `operator.status`, `factor.require` and `factor.reset` also need Base's fresh email-link proof: the sign-in link that created the session, or `POST /auth/step-up` with `{"action":"credentials:mint"}` and then that link opened in the same browser, within 10 minutes; otherwise `403 step_up_required`. A person with a confirmed authenticator, or anyone signing in by email link while the owner requires a second factor, gets `403 second_factor_required` on every other door until `factor.verify` passes for that sign-in (or, if not enrolled, `factor.start` and `factor.confirm`). Identity-provider (OIDC) sign-ins count as passed.
+
 `GET /api/commands` lists commands. `GET /api/state` lists the company, legal entities, operating accounts and tenancies (each with its `currency` and `time_zone`); `GET /api/state?tenancy=ID` adds its rent, household, proposals, inspections and maintenance. `POST /api/commands` accepts JSON `{ "command": "name", ...fields }` and returns `{ "ok": true, "result": ... }`, or a non-200 `{ "ok": false, "error", "message" }`. Uploads use multipart form data to the same URL.
 
 | Command | Fields | Authority |
@@ -59,6 +61,11 @@ ROLE-001: the Authority column lists the roles whose rows in the capability tabl
 | `owner.w9` | ownerId, status (requested/received), date, location (where the signed W-9 is kept; required when received). Recorded by staff; no TIN is stored or validated | Owner, portfolio manager; all portfolios |
 | `ownership.set` | propertyId, effectiveFrom, reason, and `share:<ownerId>` percents (or `shares`: [{ownerId, percent}]) totalling exactly 100; starts after the latest set | Owner, portfolio manager; all portfolios |
 | `agreement.set` | propertyId, starts, feePercent (of collected rent), reserve (USD requirement), reference; starts after the latest agreement | Owner, portfolio manager; all portfolios |
+| `factor.start` | none. Returns a new authenticator key once (`secret`, `uri`) for the signed-in person (SAFE-001) | Everyone, for themselves |
+| `factor.confirm` | code (6 digits from the authenticator). Returns ten single-use recovery codes once | Everyone, for themselves |
+| `factor.verify` | code (6 digits) or one unused recovery code; passes the second factor for this sign-in | Everyone, for themselves |
+| `factor.require` | required (on/off); needs the owner's own authenticator passed this sign-in and a fresh email-link proof | Owner |
+| `factor.reset` | operatorId; needs a fresh email-link proof | Owner |
 | `currency.confirm` | currency (AUD/USD) | Owner, once per installation (PORT-001 legacy currency) |
 | `completion.record` | jobId, completedDate, summary, reference, callback (warranty/billable, return visits) | Owner, portfolio manager, maintenance coordinator, member, after handoff; the vendor's report recorded by staff (WORK-008) |
 | `completion.check` | jobId, outcome (confirmed/unresolved/no_response), note, satisfaction?, safetyConcern? | Owner, portfolio manager, maintenance coordinator, member; the resident's answer recorded by staff, resident not contacted by Terrace |

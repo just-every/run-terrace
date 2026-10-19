@@ -29,6 +29,14 @@ When Terrace was upgraded to these roles, existing admins became portfolio manag
 
 During local development, invitations arrive only in the development outbox. A deployed installation needs working mail provider configuration to deliver invitations; see the repository's [operating instructions](../README.md).
 
+## Two-step sign-in
+
+Open **Data & access**, then **Set up or manage two-step sign-in**. Select **Set up an authenticator**, add the key to an authenticator app (Google Authenticator, 1Password, Authy or similar), enter the 6-digit code it shows, and save the ten recovery codes: each works once and they are not shown again. From then on each new sign-in asks for a code (or one recovery code) before anything else. Five wrong codes in 15 minutes pause attempts for 15 minutes.
+
+As owner, after passing your own authenticator, you can require a second factor for everyone who signs in with an email link; people without one set it up at their next request. People who sign in through your organisation's identity provider follow that provider's MFA instead. If someone loses their device and recovery codes, **Reset authenticator** next to their name lets them set up a new one.
+
+Changing bank references, legal entities, invitations, roles, deactivation, the requirement or a reset also asks you to confirm by email: Terrace sends a link to your address, and the change works for 10 minutes after you open it in the same browser. Signing in by email link counts for its first 10 minutes.
+
 ## Remove access
 
 Under **Operators**, select **Deactivate operator** for the person whose access should stop. Their sessions are invalidated. **Activate operator** allows an inactive operator to regain access. Only the owner invites, deactivates or changes roles. Each person should use their own sign-in identity; do not share the owner's sign-in link or credentials.

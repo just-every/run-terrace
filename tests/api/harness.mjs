@@ -29,12 +29,16 @@ export async function installation({legacy}={}){
    return accept(email)
   }
   /** Follows the newest invitation link sent to email and returns the new operator's session cookie. */
-  const accept=async email=>{
+  const accept=async(email,as='')=>{
    const message=messages.findLast(message=>message.to.includes(email));assert.ok(message,'Invitation reached the provider edge')
    const match=(message.html??message.text).match(/(?:href=")?([^"\s<>]*\/auth\/confirm\?token=[^"\s<>]+)/);assert.ok(match,'Invitation includes a confirmation link')
-   const token=new URL(match[1].replaceAll('&amp;','&'),origin).searchParams.get('token');const confirm=await request('/auth/confirm',{method:'POST',as:'',body:{token}});assert.equal(confirm.status,303,await confirm.text());return confirm.headers.getSetCookie().map(v=>v.split(';')[0]).join('; ')
+   const token=new URL(match[1].replaceAll('&amp;','&'),origin).searchParams.get('token');const confirm=await request('/auth/confirm',{method:'POST',as,body:{token}});assert.equal(confirm.status,303,await confirm.text());return confirm.headers.getSetCookie().map(v=>v.split(';')[0]).join('; ')
   }
-  return {mf,origin,request,command,formCommand,state,invite,accept,cookie,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
+  /** A new sign-in by email link: a fresh session cookie for email. */
+  const signIn=async email=>{const r=await request('/auth/magic-link',{method:'POST',as:'',body:{email}});assert.equal(r.status,202,await r.text());return accept(email)}
+  /** Base's step-up: the email link completes in the session that asked (default the owner's). */
+  const stepUp=async(email='owner@example.test',as=cookie)=>{const r=await request('/auth/step-up',{method:'POST',as,body:{action:'credentials:mint'}});assert.equal(r.status,202,await r.text());await accept(email,as)}
+  return {mf,origin,request,command,formCommand,state,invite,accept,signIn,stepUp,cookie,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
  }catch(e){await mf.dispose();await rm(root,{recursive:true,force:true});throw e}
 }
 export const tenancyInput={address:'Unit 1C, 1840 Alder Street, Oakland, CA',ownerName:'Rowan Ellis',ownerEmail:'rowan@example.test',tenantName:'Alex Chen',tenantEmail:'alex@example.test',startDate:'2025-01-01',endDate:'2026-12-31',rent:'620.00',cadence:'weekly'}

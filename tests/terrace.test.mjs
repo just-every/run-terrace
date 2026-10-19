@@ -1,9 +1,11 @@
 import {test,before,after} from 'node:test'
 import assert from 'node:assert/strict'
 import {readFile} from 'node:fs/promises'
-import {createHash} from 'node:crypto'
+import {createHash,createHmac} from 'node:crypto'
 import {installation,tenancyInput} from './api/harness.mjs'
 let h,member,admin,t,inspection,job,imported,archiveBefore,journalAfter
+/** RFC 6238 code for a base32 key at now plus offset steps, as an authenticator app shows it. */
+const totp=(key,offset=0)=>{let bits=0,v=0;const bytes=[];for(const ch of key){v=(v<<5)|'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'.indexOf(ch);bits+=5;if(bits>=8){bytes.push((v>>>(bits-8))&255);bits-=8}}const msg=Buffer.alloc(8);msg.writeBigUInt64BE(BigInt(Math.floor(Date.now()/30000)+offset));const h=createHmac('sha1',Buffer.from(bytes)).update(msg).digest(),o=h[19]&15;return String((h.readUInt32BE(o)&0x7fffffff)%1000000).padStart(6,'0')}
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jz1sAAAAASUVORK5CYII=','base64')
 before(async()=>{h=await installation();member=await h.invite('member','preparer@example.test');admin=await h.invite('admin','manager@example.test')})
 after(async()=>{await h?.close()})
@@ -31,6 +33,11 @@ test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned 
   const place=async(name,unit)=>{const f=await r.command('portfolio.add',{name}),p=await r.command('property.add',{portfolioId:f.id,name:name+' House',address:`${unit} ${name} Road, Oakland, CA 94607`,kind:'duplex',timeZone:'America/Los_Angeles'}),u=await r.command('unit.add',{propertyId:p.id,identifier:'A',bedrooms:'2',bathrooms:'1'});return {f,p,u,t:await r.command('tenancy.create',{...tenancyInput,unitId:u.id,tenantEmail:name.toLowerCase()+'@example.test'})}}
   const north=await place('North','1'),south=await place('South','2'),west=await place('West','3'),loose=await r.command('tenancy.create',{...tenancyInput,tenantEmail:'no-unit@example.test'})
   const charge=await r.command('rent.charge',{tenancyId:west.t.id,dueDate:'2026-09-01',amount:'620.00',description:'September rent',reference:'WEST-SEP'})
+  // SAFE-001: access and bank changes need a fresh email-link proof first, and never cross-site.
+  await r.command('operator.invite',{displayName:'x',email:'early@example.test',role:'member'},{status:403})
+  await r.command('entity.add',{legalName:'North LLC',ein:'123456789'},{status:403})
+  assert.equal((await r.request('/api/commands',{method:'POST',body:{command:'entity.add',legalName:'North LLC',ein:'123456789'},headers:{'sec-fetch-site':'cross-site'}})).status,403)
+  await r.stepUp();await r.command('company.save',{name:'Bay Homes',timeZone:'America/Los_Angeles',officeEmail:'office@example.test',officePhone:'510-555-0100',officeAddress:'1 Main Street, Oakland, CA'});await r.command('entity.add',{legalName:'North LLC',ein:'123456789'})
   const staff={}
   for(const role of ['portfolio_manager','leasing','bookkeeper','accountant','maintenance_coordinator','member']){
    const email=role.replace('_','-')+'@example.test'
@@ -90,6 +97,32 @@ test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned 
   assert.equal((await get('portfolio_manager','/api/state')).status,401,'a change of sign-in tier ends the session')
   const admin=await r.invite('admin','old-admin@example.test'),wide=await(await r.request('/api/state',{as:admin})).json()
   assert.equal(wide.actor.staffRole,'portfolio_manager');assert.equal(wide.tenancies.length,5)
+  // SAFE-001: signed out, every private door refuses.
+  for(const path of ['/api/state','/api/commands','/api/backup','/api/rent-roll?asOf=2026-09-15','/api/collections?month=2026-09',`/api/statement?tenancyId=${north.t.id}&from=2026-09-01&to=2026-09-30`,'/api/owner-statement?ownerId=x&from=2026-09-01&to=2026-09-30','/api/inspections/photos/x','/api/maintenance/x/packet'])assert.equal((await r.request(path,{as:''})).status,401,path)
+  assert.equal((await r.request('/api/commands',{method:'POST',as:'',body:{command:'rent.charge'}})).status,401)
+  for(const tab of ['tenancy','ledger','work','properties','settings','security','import'])assert.equal((await r.request('/app?tab='+tab,{as:''})).status,303,tab)
+  // A confirmed authenticator gates each new sign-in until a code passes; codes never replay; recovery codes work once.
+  const key=(await r.command('factor.start',{},as('accountant'))).secret,first=totp(key)
+  const {codes}=await r.command('factor.confirm',{code:first},as('accountant'));assert.equal(codes.length,10)
+  assert.equal((await get('accountant','/api/state')).status,200,'the sign-in that confirmed has passed')
+  const again=await r.signIn('accountant@example.test')
+  assert.equal((await r.request('/api/state',{as:again})).status,403)
+  assert.equal((await r.request('/api/rent-roll?asOf=2026-09-15&format=csv',{as:again})).status,403)
+  assert.ok((await(await r.request('/app?tab=ledger',{as:again})).text()).includes('Enter the 6-digit code'),'every page shows the second-factor step')
+  await r.command('factor.verify',{code:first},{as:again,status:400})
+  await r.command('factor.verify',{code:codes[0]},{as:again});assert.equal((await r.request('/api/state',{as:again})).status,200)
+  await r.command('factor.verify',{code:codes[0]},{as:await r.signIn('accountant@example.test'),status:400})
+  // The owner requires a second factor for everyone (after passing their own); the member must enrol before anything else.
+  await r.command('factor.require',{required:'on'},{status:409})
+  const ownerKey=(await r.command('factor.start',{})).secret;await r.command('factor.confirm',{code:totp(ownerKey)});await r.command('factor.require',{required:'on'})
+  assert.equal((await get('member','/api/state')).status,403);await r.command('renewal.prepare',{tenancyId:south.t.id,endDate:'2027-12-31',rent:'650.00',source:'Lease page 2'},{...as('member'),status:403})
+  const memberKey=(await r.command('factor.start',{},as('member'))).secret;await r.command('factor.confirm',{code:totp(memberKey)},as('member'))
+  assert.equal((await get('member','/api/state')).status,200)
+  const ownerAgain=await r.signIn('owner@example.test')
+  for(const path of ['/auth/operators','/api/state'])assert.equal((await r.request(path,{as:ownerAgain})).status,403,path+' waits for the owner\u2019s second factor too')
+  assert.equal((await r.request('/auth/invite',{method:'POST',as:ownerAgain,body:{email:'z@example.test',displayName:'z',role:'member'}})).status,403)
+  await r.command('factor.verify',{code:totp(ownerKey,1)},{as:ownerAgain});assert.equal((await r.request('/auth/operators',{as:ownerAgain})).status,200)
+  await r.command('factor.reset',{operatorId:id('accountant@example.test')});assert.equal((await r.request('/api/state',{as:again})).status,403,'a reset authenticator must be set up again')
  } finally { await r.close() }
 })
 test('rent charges, external receipts and corrections preserve balances under races and duplicates',async()=>{
@@ -330,6 +363,7 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  const company={name:'Alder Court Property Management',officeAddress:'1840 Alder Street, Oakland, CA 94610',officeEmail:'office@example.test',officePhone:'(510) 555-0142',timeZone:'America/Los_Angeles'}
  await h.command('company.save',{...company,timeZone:'Australia/Sydney'},{status:400})
  await h.command('company.save',company)
+ await h.stepUp()
  await h.command('entity.add',{legalName:'Alder Court LLC',ein:'12-34567'},{status:400})
  const entity=await h.command('entity.add',{legalName:'Alder Court LLC',ein:'123456789'})
  await h.command('account.add',{entityId:entity.id,name:'Operating',bankName:'First Bay Bank',last4:'4421'})

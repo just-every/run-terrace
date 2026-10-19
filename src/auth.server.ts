@@ -8,6 +8,7 @@ import { themeFrame } from './base/theme-frame'
 import { createOperatorAuth, createAuthHandler, createSignInHandler, defaultRolePolicy, devNotFound, type AuthConfig } from './modules/operator-auth/index.mjs'
 import { operatorMail } from './mail.server.mjs'
 import branding from './branding.json'
+import { owesSecondFactor } from './terrace/second-factor'
 
 // The edition's declared theme (public/rer-theme.css), as Base frames link it.
 const theme = { href: '/rer-theme.css', productName: branding.name, accentColor: branding.primaryColor }
@@ -51,6 +52,7 @@ export function operatorAuth(env: Bindings) {
  return createOperatorAuth({ db: env.DB, config: authConfig(env), mailSender: operatorMail(env), clientIp: request => request.headers.get('CF-Connecting-IP') ?? '', rolePolicy: ownerControlsAccess })
 }
 
+const SECOND_FACTOR_DOORS = new Set(['/auth/operators', '/auth/sessions', '/auth/session/revoke', '/auth/invite', '/auth/invite/cancel', '/auth/operator/status', '/auth/operator/role', '/auth/domain-rules', '/auth/settings/identity', '/auth/providers', '/auth/providers/unlink', '/auth/providers/relink', '/auth/email', '/auth/display-name'])
 const privateHeaders = { 'cache-control': 'no-store', 'referrer-policy': 'no-referrer', 'x-content-type-options': 'nosniff', 'x-robots-tag': 'noindex, nofollow' }
 const escape = (value: string) => value.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!))
 async function html(body: string) {
@@ -76,7 +78,11 @@ async function handleAuthResponse(request: Request, original: Bindings): Promise
   })(request)
   if (page) return fontDocumentResponse(page)
  }
- if (url.pathname.startsWith('/auth/')) return fontDocumentResponse(await createAuthHandler(operatorAuth(env))(request))
+ if (url.pathname.startsWith('/auth/')) {
+  // SAFE-001: Base's account and access doors are refused to a sign-in that still owes Terrace's second factor.
+  if (SECOND_FACTOR_DOORS.has(url.pathname)) { const session = await operatorAuth(env).getSession(request); if (session && await owesSecondFactor(env.DB, session)) return Response.json({ error: 'second_factor_required', message: 'Pass your second factor first: open /app?tab=security.' }, { status: 403, headers: privateHeaders }) }
+  return fontDocumentResponse(await createAuthHandler(operatorAuth(env))(request))
+ }
  if (url.pathname === '/setup' || url.pathname === '/app' || url.pathname.startsWith('/app/')) {
   const setup = await firstRunResponse(request, env, operatorAuth(env), { theme })
   if (setup) return setup

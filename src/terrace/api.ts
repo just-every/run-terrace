@@ -1,6 +1,8 @@
 import { operatorAuth,type Bindings } from '../auth.server'
-import { allow, can, Fault, insist, tenancy, text, type Context, type Row } from './core'
+import { all, allow, can, Fault, insist, sha256, tenancy, text, type Context, type Row } from './core'
 import { loadStaff } from './roles'
+import { FACTOR_COMMANDS,factorCommand,factorState } from './second-factor'
+import { securityView } from './security-view'
 import { localDate as today } from './zones'
 import { tenancyCommand,tenancyData,proposals } from './tenancies'
 import { ledgerCommand,ledgerData,statement,statementCsv } from './ledger'
@@ -36,13 +38,15 @@ import { ownerCommand,ownershipData,ownerStatement,ownerStatementTable } from '.
 import { ownerDirectory,propertyOwners } from './owner-view'
 const json=(body:unknown,status=200)=>Response.json(body,{status,headers:{'cache-control':'no-store','x-content-type-options':'nosniff','referrer-policy':'no-referrer'}})
 async function render(c:Context,url:URL,notice='',result:Row={},status=200,request?:Request,env?:Bindings) {
- const tab=url.searchParams.get('tab')??'tenancy',rows=await tenancyData(c),asked=url.searchParams.get('tenancy'),selected=rows.find(t=>t.id===asked)??rows[0],manage=can(c,'tenancy.create'),ledgers=can(c,'ledger.read')
+ // SAFE-001: a sign-in that still owes its second factor sees only the security page, whatever it asked for.
+ const tab=c.gated?'security':url.searchParams.get('tab')??'tenancy',rows=await tenancyData(c),asked=url.searchParams.get('tenancy'),selected=rows.find(t=>t.id===asked)??rows[0],manage=can(c,'tenancy.create'),ledgers=can(c,'ledger.read')
  // ROLE-001: a named tenancy outside the viewer's portfolios (or erased) answers 404, never another tenancy.
  insist(!asked||rows.some(t=>t.id===asked),'not_found','Tenancy not found.',404)
  let body='',title='Tenancies',head={}
- if(tab==='import'){allow(c,'import.preview');title='Move in';body=importView({...await importData(c),...result})}
+ if(tab==='security'){title='Two-step sign-in';body=securityView(await factorState(c),result,c.actor.role==='owner',c.actor.role==='owner'?await all(c,'SELECT o.id,o.display_name FROM tt_totp t JOIN oa_operators o ON o.id=t.operator_id WHERE t.confirmed_at IS NOT NULL AND o.id<>? ORDER BY o.display_name',c.actor.id):[])}
+ else if(tab==='import'){allow(c,'import.preview');title='Move in';body=importView({...await importData(c),...result})}
  else if(tab==='properties'){title='Properties';const data=await propertyData(c);const owners=await ownershipData(c),keep=can(c,'ownership.set')&&!!owners.directory;body=ownerDirectory(owners.directory,can(c,'owner.add'),can(c,'reports.read'))+propertiesView(data,await unitChoices(c),can(c,'unit.add'),await turnoverData(c),p=>propertyOwners(p,owners.byProperty[p.id],owners.directory,keep));if(can(c,'reports.read')){const day=today(c.now,c.zone!);body+=rentRollSection(await rentRoll(c,{asOf:url.searchParams.get('asOf')||day,propertyId:url.searchParams.get('propertyId'),occupancy:url.searchParams.get('occupancy')}),await collections(c,url.searchParams.get('month')||day.slice(0,7)),data.portfolios.flatMap((f:Row)=>f.properties))}}
- else if(tab==='settings'){title='Data & access';body=companyView(await companyData(c),can(c,'company.save')&&(c.actor.role==='owner'||!!c.actor.staff?.all),c.actor.role==='owner')+settingsView(rows,c.actor.role==='owner');if(can(c,'operator.role')&&request&&env)body+=await peopleView(request,env,c);body=`<div class="settings-layout">${body}</div>`}
+ else if(tab==='settings'){title='Data & access';body=companyView(await companyData(c),can(c,'company.save')&&(c.actor.role==='owner'||!!c.actor.staff?.all),c.actor.role==='owner')+settingsView(rows,c.actor.role==='owner')+'<section><h2>Two-step sign-in</h2><p>Authenticator codes and recovery codes for each sign-in.</p><p><a href="/app?tab=security">Set up or manage two-step sign-in</a></p></section>';if(can(c,'operator.role')&&request&&env)body+=await peopleView(request,env,c);body=`<div class="settings-layout">${body}</div>`}
  else {
   if(tab==='tenancy') {
    if(url.searchParams.get('tenancy')&&selected){title=selected.address;const ledger=ledgers?await ledgerData(c,selected.id):null;body=tenancyView(selected,await proposals(c,selected.id),{approve:can(c,'proposal.approve'),zone:can(c,'tenancy.timezone'),renew:can(c,'renewal.prepare')},ledger,await workData(c,selected.id),today(c.now,selected.time_zone))+householdSection(selected,await householdData(c,selected,ledger?.balanceCents??null),can(c,'household.add'),rows);head={eyebrow:selected.owner_name,back:backToTenancies}}
@@ -59,9 +63,10 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
  }
  return page(c,title,body,notice,status,tab,head)
 }
-const COMMANDS=['tenancy.create','renewal.prepare','arrears.prepare','proposal.approve','proposal.reject','rent.charge','rent.receipt','rent.adjust','inspection.create','inspection.photo','inspection.complete','maintenance.prepare','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.submit','turnover.task.check','turnover.publish','household.add','household.leave','household.move','currency.confirm','work.limits','quote.add','quote.select','maintenance.revise','maintenance.owner','completion.record','completion.check','completion.close','owner.add','owner.w9','ownership.set','agreement.set','operator.invite','operator.status','operator.role']
+const COMMANDS=['tenancy.create','renewal.prepare','arrears.prepare','proposal.approve','proposal.reject','rent.charge','rent.receipt','rent.adjust','inspection.create','inspection.photo','inspection.complete','maintenance.prepare','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.submit','turnover.task.check','turnover.publish','household.add','household.leave','household.move','currency.confirm','work.limits','quote.add','quote.select','maintenance.revise','maintenance.owner','completion.record','completion.check','completion.close','owner.add','owner.w9','ownership.set','agreement.set','factor.start','factor.confirm','factor.verify','factor.require','factor.reset','operator.invite','operator.status','operator.role']
+const STEPPED=['entity.add','account.add','operator.invite','operator.role','operator.status','factor.require','factor.reset']
 async function command(c:Context,name:string,p:Row) {
- for(const handler of [tenancyCommand,ledgerCommand,workCommand,importCommand,dataCommand,companyCommand,assetCommand,vendorCommand,scheduleCommand,chargeRunCommand,propertyCommand,turnoverCommand,householdCommand,quoteCommand,completionCommand,ownerCommand]) {
+ for(const handler of [tenancyCommand,ledgerCommand,workCommand,importCommand,dataCommand,companyCommand,assetCommand,vendorCommand,scheduleCommand,chargeRunCommand,propertyCommand,turnoverCommand,householdCommand,quoteCommand,completionCommand,ownerCommand,factorCommand]) {
   const result=await handler(c,name,p); if(result!==undefined)return result
  }
  throw new Fault('unknown_command','Unknown Terrace command.',404)
@@ -77,7 +82,8 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   const session=await operatorAuth(env).getSession(request)
   if(!session) return isApi?json({error:'unauthorized',message:'Sign in first.'},401):new Response(null,{status:303,headers:{location:'/signin'}})
   insist(['owner','admin','member'].includes(session.operator.role),'forbidden','Access denied.',403)
-  c={db:env.DB,actor:session.operator,now:new Date().toISOString()};await loadStaff(c);c.zone=await officeZone(c)
+  c={db:env.DB,actor:session.operator,now:new Date().toISOString(),session:{hash:await sha256(new TextEncoder().encode(session.id)),kind:session.kind},secret:env.SESSION_SECRET};await loadStaff(c);c.zone=await officeZone(c)
+  const factor=await factorState(c);c.gated=factor.needed&&!factor.satisfied
   if(request.method==='POST') {
    insist(url.pathname==='/api/commands'||url.pathname==='/app/command','method','Use the command endpoint.',405)
    insist(request.headers.get('origin')===env.AUTH_ORIGIN&&request.headers.get('sec-fetch-site')!=='cross-site','origin','Same-origin confirmation is required.',403)
@@ -87,14 +93,18 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
    const name=text(p.command,'Command',100)
    // ROLE-001: an unknown command is 404; a known command outside the actor's role is 403 before any record is read.
    insist(COMMANDS.includes(name),'unknown_command','Unknown Terrace command.',404);allow(c,name);c.action=name
+   insist(!c.gated||FACTOR_COMMANDS.includes(name),'second_factor_required','Pass your second factor first: open /app?tab=security.',403)
+   // SAFE-001: bank references, legal entities and access changes need Base's fresh email-link proof (10 minutes). Base's proof is per sign-in, not per action; Terrace asks under 'credentials:mint'.
+   if(STEPPED.includes(name))await operatorAuth(env).requireStepUp(request,'credentials:mint').catch(e=>{throw e?.code==='step_up_required'?new Fault('step_up_required','Confirm it is you: request a link at /auth/step-up, open it in this browser, then try again within 10 minutes.',403):e})
    const result:Row=await peopleCommand(request,env,c,name,p)??await command(c,name,p)
    if(isApi)return json({ok:true,result})
    const dest=new URL('/app',url);dest.searchParams.set('tab',String(p.tab??'tenancy'));dest.searchParams.set('tenancy',String(result.tenancyId??(name==='tenancy.create'?result.id:p.tenancyId)??''))
-   if(name==='import.preview'||name==='import.journal')return await render(c,dest,result.notice??'Review the result below.',result)
+   if(name==='import.preview'||name==='import.journal'||name==='factor.start'||name==='factor.confirm')return await render(c,dest,result.notice??'Review the result below.',result)
    dest.searchParams.set('notice',result.notice??'Saved.');return new Response(null,{status:303,headers:{location:dest.pathname+dest.search,'cache-control':'no-store'}})
   }
   insist(request.method==='GET','method','Method not allowed.',405)
   if(url.pathname==='/app')return await render(c,url,url.searchParams.get('notice')??'',{},200,request,env)
+  insist(!c.gated,'second_factor_required','Pass your second factor first: open /app?tab=security.',403)
   if(url.pathname==='/api/commands')return json({commands:COMMANDS.filter(name=>can(c!,name))})
   if(url.pathname==='/api/state') {
    const tenancies=await tenancyData(c),tenancyId=url.searchParams.get('tenancy'),t=tenancyId?await tenancy(c,tenancyId):undefined,ledger=t&&can(c,'ledger.read')?await ledgerData(c,t.id):undefined
