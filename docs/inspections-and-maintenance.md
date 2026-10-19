@@ -19,7 +19,7 @@ The new job reads **Prepared · awaiting approval**. Preparing does not approve 
 
 ## Approve and send the packet
 
-1. An owner or portfolio manager reviews the scope, vendor details, date and estimate, then selects **Approve maintenance**.
+1. An owner or portfolio manager reviews the scope, vendor details, date and estimate, then selects **Approve maintenance**. Whoever prepared the work, or last changed its terms (scope, estimate, quote or vendor), cannot approve it; another approver must. If nobody else could approve, Terrace keeps your own approval labelled “self-approved: no second person”.
 2. Terrace saves an approval snapshot and changes the job to **Approved · awaiting external handoff**.
 3. Select **Download approved email packet (.eml)**.
 4. Open the packet in your own email client, check it and send it to the vendor.
@@ -52,6 +52,10 @@ Under **Assets & warranties**, an owner, portfolio manager or maintenance coordi
 When preparing maintenance, choose the asset the repair is for. A repair due on or before the asset's warranty end is listed as **under warranty** with the provider to claim from; any other repair is listed as the owner's cost. Approved estimates are totalled per asset. Terrace flags warranty coverage; it does not file or confirm a claim.
 
 To replace equipment, open **Record a replacement** on the asset and enter the new equipment. The old asset stays, marked replaced on the new installed date, with its service history; new repairs link to the replacement.
+
+## Quote requirement
+
+With the owner's spending limit you can record how many quotes the owner wants above an amount (for example two quotes above $400). Work above that amount cannot be approved until that many quotes are recorded on it.
 
 ## Service report
 

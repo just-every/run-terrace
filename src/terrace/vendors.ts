@@ -71,7 +71,7 @@ export async function vendorCommand(c: Context, command: string, p: Row): Promis
   await commit(c, [
    guard(c, "EXISTS(SELECT 1 FROM tt_maintenance_jobs WHERE id=? AND version=? AND state='pending')", job.id, Number(p.version ?? job.version)),
    guard(c, 'EXISTS(SELECT 1 FROM tt_vendors WHERE id=? AND version=?)', v.id, v.version),
-   sql(c, 'UPDATE tt_maintenance_jobs SET vendor_id=?,trade=?,trade_name=?,trade_email=?,qualification=?,version=version+1 WHERE id=?', v.id, work.trade, v.name, v.email, JSON.stringify(found), job.id),
+   sql(c, 'UPDATE tt_maintenance_jobs SET vendor_id=?,trade=?,trade_name=?,trade_email=?,qualification=?,revised_by=?,version=version+1 WHERE id=?', v.id, work.trade, v.name, v.email, JSON.stringify(found), c.actor.id, job.id),
    sql(c, "UPDATE tt_proposals SET payload=json_set(payload,'$.tradeName',?,'$.tradeEmail',?) WHERE id=?", v.name, v.email, job.proposal_id),
    assignment(c, job.id, v.id, v.name, work.trade, found),
   ], command, job.id)

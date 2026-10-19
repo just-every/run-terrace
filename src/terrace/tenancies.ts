@@ -1,3 +1,4 @@
+import { independence } from './dual-control'
 import { all, audit, cents, commit, date, email, guard, id, insist, allow, one, sha256, sql, tenancy, text, reaches, everywhere, type Context, type Row } from './core'
 import { officeZone } from './company'
 import { usZone } from './zones'
@@ -39,10 +40,10 @@ export async function tenancyCommand(c: Context, command: string, p: Row): Promi
   const r=await one(c,'SELECT * FROM tt_proposals WHERE id=?',text(p.proposalId,'Proposal',100))
   insist(r && ['renewal','arrears'].includes(r.kind),'not_found','Proposal not found.',404)
   insist(r.state==='pending','proposal_state','This proposal has already been decided.',409)
-  const t=await tenancy(c,r.tenancy_id), payload=JSON.parse(r.payload), approved=command==='proposal.approve'
+  const t=await tenancy(c,r.tenancy_id), payload=JSON.parse(r.payload), approved=command==='proposal.approve', solo=approved?await independence(c,command,[r.prepared_by]):{label:null,guards:[]}
   // Adapted from Locket obligations.ts confirmTermsWrites: a proposal names the
   // exact term revision; confirmation preserves its source and superseded terms.
-  const writes=[guard(c,"EXISTS(SELECT 1 FROM tt_proposals WHERE id=? AND state='pending')",r.id),guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)',t.id,r.tenancy_version),sql(c,'UPDATE tt_proposals SET state=?,approved_by=?,approved_at=? WHERE id=?',approved?'approved':'rejected',c.actor.id,c.now,r.id)]
+  const writes=[guard(c,"EXISTS(SELECT 1 FROM tt_proposals WHERE id=? AND state='pending')",r.id),guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)',t.id,r.tenancy_version),...solo.guards,sql(c,'UPDATE tt_proposals SET state=?,approved_by=?,approved_at=?,approval_label=? WHERE id=?',approved?'approved':'rejected',c.actor.id,c.now,solo.label,r.id)]
   if(approved && r.kind==='renewal') {
    writes.push(sql(c,'INSERT INTO tt_lease_history(id,tenancy_id,start_date,end_date,rent_cents,proposal_id,confirmed_by,confirmed_at,currency) VALUES(?,?,?,?,?,?,?,?,?)',id(),t.id,t.start_date,t.end_date,t.rent_cents,r.id,c.actor.id,c.now,t.currency),sql(c,'UPDATE tt_tenancies SET end_date=?,rent_cents=?,version=version+1 WHERE id=?',payload.endDate,payload.rentCents,t.id))
   }

@@ -49,7 +49,7 @@ async function reopen(c: Context, j: Row, version: number, changes: Row, vendorC
  const payload = JSON.stringify({ jobId: j.id, title: next.title, scope: next.scope, tradeName: next.trade_name, tradeEmail: next.trade_email, dueDate: next.due_date, estimateCents: next.estimate_cents })
  return { found, statements: [
   guard(c, "EXISTS(SELECT 1 FROM tt_maintenance_jobs WHERE id=? AND version=? AND state IN ('pending','approved'))", j.id, version),
-  sql(c, "UPDATE tt_maintenance_jobs SET title=?,scope=?,vendor_id=?,trade_name=?,trade_email=?,due_date=?,estimate_cents=?,quote_id=?,qualification=?,state='pending',version=version+1 WHERE id=?", next.title, next.scope ?? null, next.vendor_id ?? null, next.trade_name, next.trade_email, next.due_date, next.estimate_cents, next.quote_id ?? null, JSON.stringify(found), j.id),
+  sql(c, "UPDATE tt_maintenance_jobs SET title=?,scope=?,vendor_id=?,trade_name=?,trade_email=?,due_date=?,estimate_cents=?,quote_id=?,qualification=?,revised_by=?,state='pending',version=version+1 WHERE id=?", next.title, next.scope ?? null, next.vendor_id ?? null, next.trade_name, next.trade_email, next.due_date, next.estimate_cents, next.quote_id ?? null, JSON.stringify(found), c.actor.id, j.id),
   sql(c, "UPDATE tt_proposals SET state='pending',approved_by=NULL,approved_at=NULL,tenancy_version=?,payload=? WHERE id=?", t.version, payload, j.proposal_id),
   ...(vendorChanged ? [assignment(c, j.id, next.vendor_id ?? null, next.trade_name, j.trade, found)] : []),
  ] }
@@ -60,7 +60,10 @@ export async function quoteCommand(c: Context, command: string, p: Row): Promise
  if (command === 'work.limits') {
   allow(c, command)
   const t = await tenancy(c, p.tenancyId), scope = await limitScope(c, t), budget = p.budget ? cents(p.budget) : null
-  await commit(c, [sql(c, 'INSERT INTO tt_work_limits(scope,limit_cents,budget_cents,currency,set_by,set_at) VALUES(?,?,?,?,?,?) ON CONFLICT(scope) DO UPDATE SET limit_cents=excluded.limit_cents,budget_cents=excluded.budget_cents,version=version+1,set_by=excluded.set_by,set_at=excluded.set_at', scope, cents(p.limit), budget, t.currency, c.actor.id, c.now)], command, scope)
+  // ROLE-003: optionally, the owner's quote requirement: at least quotesNeeded quotes when the estimate is above quotesAbove.
+  const needed = p.quotesNeeded ? Number(p.quotesNeeded) : null, above = needed ? (String(p.quotesAbove ?? '').trim().match(/^0(\.0{1,2})?$/) ? 0 : cents(p.quotesAbove)) : null
+  insist(needed === null || (Number.isInteger(needed) && needed >= 2 && needed <= 10), 'invalid_input', 'Quotes needed is a whole number from 2 to 10.')
+  await commit(c, [sql(c, 'INSERT INTO tt_work_limits(scope,limit_cents,budget_cents,currency,quotes_needed,quotes_above_cents,set_by,set_at) VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(scope) DO UPDATE SET limit_cents=excluded.limit_cents,budget_cents=excluded.budget_cents,quotes_needed=excluded.quotes_needed,quotes_above_cents=excluded.quotes_above_cents,version=version+1,set_by=excluded.set_by,set_at=excluded.set_at', scope, cents(p.limit), budget, t.currency, needed, above, c.actor.id, c.now)], command, scope)
   return { tenancyId: t.id, scope, notice: `Owner’s spending limit ${OWNER_LABEL}. Work above it, or over the year’s budget, needs the owner’s decision.` }
  }
  if (command === 'quote.add') {

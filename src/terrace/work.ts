@@ -1,4 +1,5 @@
-import { all, cents, commit, date, email, guard, id, insist, allow, money, one, sha256, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
+import { independence } from './dual-control'
+import { all, can, cents, commit, date, email, guard, id, insist, allow, money, one, sha256, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
 import { assetData, serviceableAsset } from './assets'
 import { hold, trade, vendor, vendorData, vendorGuard } from './vendors'
 import { jobWrites } from './job-writes'
@@ -104,15 +105,17 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
       allow(c, command)
       const row = await job(c, p), version = validVersion(p.version), t = await tenancy(c, row.tenancy_id), h = await qualified(c, row, t)
       // WORK-003: above the owner's limit or budget, a manager approves only the exact terms the owner approved.
-      const a = await authority(c, row, t), owner = a.decision
+      const a = await authority(c, row, t), owner = a.decision, solo = await independence(c, command, [row.prepared_by, row.revised_by])
+      // ROLE-003: the owner's quote requirement for estimates above a set amount.
+      if (a.limit?.quotes_needed && row.estimate_cents > a.limit.quotes_above_cents) { const n = (await one<{ n: number }>(c, 'SELECT COUNT(*) AS n FROM tt_job_quotes WHERE job_id=?', row.id))!.n; insist(n >= a.limit.quotes_needed, 'quotes_required', `The owner requires ${a.limit.quotes_needed} quotes above ${money(a.limit.quotes_above_cents, a.limit.currency)}; this job has ${n}.`, 409) }
       insist(!a.needsOwner || owner?.decision === 'approved', owner ? 'owner_declined' : 'owner_approval_required', owner ? 'The owner declined these terms. Change the scope, vendor or price, or record a new owner decision on new terms.' : `Needs the owner’s decision: ${a.reasons.join('; ')}. Record the owner’s approval of these exact terms first.`, 409)
-      const snapshot = JSON.stringify({ jobId: row.id, version, tenancyId: t.id, tenancyVersion: t.version, address: t.address, title: row.title, scope: row.scope ?? null, quoteId: row.quote_id ?? null, ownerLimit: a.limit ? { limitCents: a.limit.limit_cents, budgetCents: a.limit.budget_cents, spentCents: a.spentCents, reasons: a.reasons } : null, ownerDecision: owner ? { decision: owner.decision, source: owner.source, reference: owner.reference, recordedBy: owner.recorded_by, recordedAt: owner.recorded_at, termsSha256: owner.terms_sha256, label: OWNER_LABEL } : null, tradeName: row.trade_name, tradeEmail: row.trade_email, vendorId: row.vendor_id, trade: row.trade, qualificationIssues: h.issues, qualificationException: h.exception ? { id: h.exception.id, reason: h.exception.reason, approvedBy: h.exception.approved_by } : null, dueDate: row.due_date, estimateCents: row.estimate_cents, currency: row.currency, preparedBy: row.prepared_by, preparedAt: row.prepared_at, approvedBy: c.actor.id, approvedRole: c.actor.role, approvedAt: c.now })
+      const snapshot = JSON.stringify({ jobId: row.id, version, tenancyId: t.id, tenancyVersion: t.version, address: t.address, title: row.title, scope: row.scope ?? null, quoteId: row.quote_id ?? null, ownerLimit: a.limit ? { limitCents: a.limit.limit_cents, budgetCents: a.limit.budget_cents, spentCents: a.spentCents, reasons: a.reasons } : null, ownerDecision: owner ? { decision: owner.decision, source: owner.source, reference: owner.reference, recordedBy: owner.recorded_by, recordedAt: owner.recorded_at, termsSha256: owner.terms_sha256, label: OWNER_LABEL } : null, tradeName: row.trade_name, tradeEmail: row.trade_email, vendorId: row.vendor_id, trade: row.trade, qualificationIssues: h.issues, qualificationException: h.exception ? { id: h.exception.id, reason: h.exception.reason, approvedBy: h.exception.approved_by } : null, dueDate: row.due_date, estimateCents: row.estimate_cents, currency: row.currency, preparedBy: row.prepared_by, preparedAt: row.prepared_at, revisedBy: row.revised_by ?? null, approvedBy: c.actor.id, approvedRole: c.actor.role, approvedAt: c.now, approvalLabel: solo.label })
       const digest = await sha256(new TextEncoder().encode(snapshot))
       await commit(c, [
-        jobGuard(c, row, version, 'pending'), vendorGuard(c, row, h.vendorVersion),
+        jobGuard(c, row, version, 'pending'), vendorGuard(c, row, h.vendorVersion), ...solo.guards,
         ...(a.needsOwner ? [guard(c, "EXISTS(SELECT 1 FROM tt_owner_decisions WHERE job_id=? AND job_version=? AND terms_sha256=? AND decision='approved')", row.id, version, a.sha)] : []),
         guard(c, "EXISTS(SELECT 1 FROM tt_proposals p JOIN tt_tenancies t ON t.id=p.tenancy_id WHERE p.id=? AND p.kind='maintenance' AND p.state='pending' AND p.tenancy_version=t.version AND t.version=?)", row.proposal_id, t.version),
-        sql(c, 'INSERT INTO tt_maintenance_approvals(id,job_id,job_version,snapshot,sha256,approved_by,approved_role,approved_at) VALUES(?,?,?,?,?,?,?,?)', id(), row.id, version, snapshot, digest, c.actor.id, c.actor.role, c.now),
+        sql(c, 'INSERT INTO tt_maintenance_approvals(id,job_id,job_version,snapshot,sha256,approved_by,approved_role,approved_at,approval_label) VALUES(?,?,?,?,?,?,?,?,?)', id(), row.id, version, snapshot, digest, c.actor.id, c.actor.role, c.now, solo.label),
         sql(c, "UPDATE tt_proposals SET state='approved',approved_by=?,approved_at=? WHERE id=?", c.actor.id, c.now, row.proposal_id),
         sql(c, "UPDATE tt_maintenance_jobs SET state='approved',version=version+1 WHERE id=?", row.id),
       ], command, row.id)
@@ -143,7 +146,7 @@ export async function workData(c: Context, tenancyId: string) {
     all(c, 'SELECT j.*,a.job_version AS approved_version,a.approved_by,a.approved_role,a.approved_at,a.sha256 AS approval_sha256,a.snapshot AS approval_snapshot FROM tt_maintenance_jobs j LEFT JOIN tt_maintenance_approvals a ON a.job_id=j.id AND j.state<>\'pending\' AND a.job_version=(SELECT MAX(job_version) FROM tt_maintenance_approvals WHERE job_id=j.id) WHERE j.tenancy_id=? ORDER BY j.prepared_at DESC', t.id),
   ])
   const today = localDate(c.now, t.time_zone)
-  return { inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), ...await quoteData(c, t, jobs), ...await completionData(c, t.id), role: c.actor.role }
+  return { inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), ...await quoteData(c, t, jobs), ...await completionData(c, t.id), role: c.actor.role, may: Object.fromEntries(['maintenance.approve', 'inspection.create', 'quote.add', 'schedule.add', 'work.limits', 'vendor.add', 'asset.add'].map(a => [a, can(c, a)])) }
 }
 
 /** Operator ids to display names, for showing who prepared, approved, uploaded or handed off work. */

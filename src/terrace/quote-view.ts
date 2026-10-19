@@ -11,13 +11,13 @@ const field = (label: string, name: string, type = 'text', required = true, extr
 
 export function limitSection(t: Row, data: Row, manage: boolean) {
  const l = data.limit, k = shown(t)
- const facts = l ? `<p>Owner’s per-job limit ${money(l.limit_cents, k)}${l.budget_cents ? ` · yearly maintenance budget ${money(l.budget_cents, k)}` : ''} <span class="muted">(${OWNER_LABEL})</span></p>` : '<p class="muted">No owner spending limit recorded: a manager’s approval stands for any amount.</p>'
- const set = manage ? `<details><summary>Record the owner’s limit and budget</summary><form method="post" action="/app/command">${hidden('command', 'work.limits')}${hidden('tenancyId', t.id)}${hidden('tab', 'work')}${field('Per-job limit', 'limit', 'number', true, 'min="0.01" step="0.01"')}${field('Yearly budget (optional)', 'budget', 'number', false, 'min="0.01" step="0.01"')}<button type="submit">Save limit</button></form></details>` : ''
+ const facts = l ? `<p>Owner’s per-job limit ${money(l.limit_cents, k)}${l.budget_cents ? ` · yearly maintenance budget ${money(l.budget_cents, k)}` : ''}${l.quotes_needed ? ` · ${l.quotes_needed} quotes needed above ${money(l.quotes_above_cents, k)}` : ''} <span class="muted">(${OWNER_LABEL})</span></p>` : '<p class="muted">No owner spending limit recorded: a manager’s approval stands for any amount.</p>'
+ const set = manage ? `<details><summary>Record the owner’s limit and budget</summary><form method="post" action="/app/command">${hidden('command', 'work.limits')}${hidden('tenancyId', t.id)}${hidden('tab', 'work')}${field('Per-job limit', 'limit', 'number', true, 'min="0.01" step="0.01"')}${field('Yearly budget (optional)', 'budget', 'number', false, 'min="0.01" step="0.01"')}${field('Quotes needed (optional, 2 to 10)', 'quotesNeeded', 'number', false, 'min="2" max="10" step="1"')}${field('Above this estimate', 'quotesAbove', 'number', false, 'min="0" step="0.01"')}<button type="submit">Save limit</button></form></details>` : ''
  return `<section><h2>Owner spending limit</h2>${facts}${set}</section>`
 }
 
 export function quoteSection(t: Row, row: Row, data: Row, manage: boolean) {
- const prepare = ['owner', 'admin', 'member'].includes(data.role), open = row.state !== 'sent', k = shown(t)
+ const prepare = !!data.may?.['quote.add'], open = row.state !== 'sent', k = shown(t)
  const quotes = (data.quotes as Row[]).filter(q => q.job_id === row.id), a = data.authorities[row.id]
  const lines = quotes.map((q, i) => `<tr><td>${e(q.vendor_name)}${i === 0 && quotes.length > 1 ? ' <span class="pill paid">lowest</span>' : ''}${row.quote_id === q.id ? ' <span class="pill">selected</span>' : ''}</td><td>${e(q.scope)}</td><td>${usDate(q.available_date)}</td><td>${money(q.amount_cents, k)}</td><td>${money(q.tax_cents, k)}</td><td>${money(q.amount_cents + q.tax_cents, k)}</td><td>${prepare && open && row.quote_id !== q.id ? form('quote.select', t, row, hidden('quoteId', q.id) + '<button class="secondary" type="submit">Select</button>') : ''}</td></tr>`).join('')
  const table = quotes.length ? `<div class="scroll"><table><thead><tr><th>Vendor</th><th>Scope</th><th>Available</th><th>Price</th><th>Tax</th><th>Total</th><th></th></tr></thead><tbody>${lines}</tbody></table></div>` : ''
