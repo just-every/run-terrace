@@ -55,7 +55,7 @@ export async function feeCommand(c: Context, command: string, p: Row): Promise<R
   const { lines, skipped } = await wanted(c, prop, m, today), recorded = await all(c, 'SELECT * FROM tt_fees WHERE property_id=? AND month=?', prop.id, m)
   const held = new Set(recorded.filter(r => r.override_reason).map(key)), run = id(), writes: D1PreparedStatement[] = []
   const sum = (k: string, col: string) => recorded.filter(r => key(r) === k).reduce((s, r) => s + r[col], 0)
-  const keys = new Set([...lines.map(key), ...recorded.map(key)])
+  const keys = new Set([...lines.map(key), ...recorded.filter(r => r.kind !== 'markup').map(key)])
   for (const k of keys) {
    if (held.has(k)) continue
    const want = lines.find(l => key(l) === k), last = recorded.filter(r => key(r) === k).at(-1)!

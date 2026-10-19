@@ -2,6 +2,7 @@
 import { all, audit, guard, insist, one, sha256, sql, tenancy, type Context, type Row } from './core'
 import { retentionReview } from './retention'
 import { retireTenancy } from './imports'
+import { billErasureStatements } from './bills-retention'
 import { portable } from './data'
 export async function eraseTenancy(c:Context,p:Row){
  const t=await tenancy(c,p.tenancyId)
@@ -18,7 +19,7 @@ export async function eraseTenancy(c:Context,p:Row){
  ...['tt_schedules','tt_maintenance_jobs','tt_inspections','tt_assets','tt_household_members','tt_lease_history','tt_recovery_authorizations'].map(table=>sql(c,`DELETE FROM ${table} WHERE tenancy_id=?`,t.id)),
  sql(c,'UPDATE tt_privacy_requests SET completed_at=? WHERE id=?',c.now,request.id),sql(c,'UPDATE tt_tenancies SET custody_retired_at=?,import_revision=NULL WHERE id=?',c.now,t.id)]
  if(!review.personalRetained){
-  native.push(guard(c,"NOT EXISTS(SELECT 1 FROM tt_legal_holds WHERE tenancy_id=? AND released_at IS NULL AND class IN ('all','accounting'))",t.id),sql(c,'INSERT INTO tt_erasure_work(tenancy_id) VALUES(?)',t.id),
+  native.push(guard(c,"NOT EXISTS(SELECT 1 FROM tt_legal_holds WHERE tenancy_id=? AND released_at IS NULL AND class IN ('all','accounting'))",t.id),sql(c,'INSERT INTO tt_erasure_work(tenancy_id) VALUES(?)',t.id),...await billErasureStatements(c,t.id),
    sql(c,"UPDATE tt_fees SET source_label='Retained accounting record',override_reason=NULL WHERE source='lease:'||? OR source IN (SELECT 'receipt:'||r.id FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=?) OR source IN (SELECT 'renewal:'||p.id FROM tt_proposals p WHERE p.tenancy_id=?)",t.id,t.id,t.id),
    sql(c,"UPDATE tt_charges SET description='Retained accounting record',reference=id WHERE tenancy_id=?",t.id),
    sql(c,'UPDATE tt_receipts SET reference=id WHERE charge_id IN (SELECT id FROM tt_charges WHERE tenancy_id=?)',t.id),
