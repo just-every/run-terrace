@@ -7,7 +7,7 @@ import { allow, sha256, type Context } from './core'
 import { backup } from './data'
 import { csv, zip } from './exports'
 
-const EXT: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg' }
+const EXT: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', 'application/pdf':'pdf' }
 const bytes = (b64: string) => Uint8Array.from(atob(b64), ch => ch.charCodeAt(0))
 
 export const RECONNECT = [

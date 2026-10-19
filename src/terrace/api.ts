@@ -48,6 +48,8 @@ import { taxCommand } from './tax'
 import { periodView } from './periods-view'
 import { BILL_COMMANDS,billCommand,billData,billAttachment } from './bills'
 import { billSection } from './bills-view'
+import { LEASE_COMMANDS,leaseCommand,leaseData,leaseSource } from './lease-versions'
+import { leaseSection } from './lease-view'
 import { APPOINTMENT_COMMANDS,appointmentCommand } from './appointments'
 import { RETENTION_COMMANDS,retentionCommand,retentionData,residentAccess } from './retention'
 const json=(body:unknown,status=200)=>Response.json(body,{status,headers:{'cache-control':'no-store','x-content-type-options':'nosniff','referrer-policy':'no-referrer'}})
@@ -66,7 +68,7 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
  else if(tab==='settings'){title='Data & access';body=companyView(await companyData(c),can(c,'company.save')&&(c.actor.role==='owner'||!!c.actor.staff?.all),c.actor.role==='owner')+settingsView(rows,c.actor.role==='owner',await retentionData(c,rows))+'<section><h2>Two-step sign-in</h2><p>Authenticator codes and recovery codes for each sign-in.</p><p><a href="/app?tab=security">Set up or manage two-step sign-in</a></p></section>'+(can(c,'reports.read')?'<section><h2>Month close</h2><p>Month-end checklist, exceptions, closed months and close corrections.</p><p><a href="/app?tab=close">Open month close</a></p></section>':'')+(can(c,'history.read')?'<section><h2>History</h2><p>Who changed, read or exported what, with their role and source.</p><p><a href="/app?tab=history">Open history</a></p></section>':'');if(can(c,'operator.role')&&request&&env)body+=await peopleView(request,env,c);body=`<div class="settings-layout">${body}</div>`}
  else {
   if(tab==='tenancy') {
-   if(url.searchParams.get('tenancy')&&selected){title=selected.address;const ledger=ledgers?await ledgerData(c,selected.id):null;body=tenancyView(selected,await proposals(c,selected.id),{approve:can(c,'proposal.approve'),zone:can(c,'tenancy.timezone'),renew:can(c,'renewal.prepare')},ledger,await workData(c,selected.id),today(c.now,selected.time_zone))+householdSection(selected,await householdData(c,selected,ledger?.balanceCents??null),can(c,'household.add'),rows);head={eyebrow:selected.owner_name,back:backToTenancies}}
+   if(url.searchParams.get('tenancy')&&selected){title=selected.address;const ledger=ledgers?await ledgerData(c,selected.id):null;body=tenancyView(selected,await proposals(c,selected.id),{approve:can(c,'proposal.approve'),zone:can(c,'tenancy.timezone'),renew:can(c,'renewal.prepare')},ledger,await workData(c,selected.id),today(c.now,selected.time_zone))+((can(c,'lease.read')||can(c,'lease.metadata'))?leaseSection(selected,await leaseData(c,selected.id),a=>can(c,a),result):'')+householdSection(selected,await householdData(c,selected,ledger?.balanceCents??null),can(c,'household.add'),rows);head={eyebrow:selected.owner_name,back:backToTenancies}}
    else {
     const create=manage?createTenancy(!rows.length||url.searchParams.get('add')==='1',c.zone!,await unitChoices(c)):''
     body=rows.length?(ledgers?homeView(await monthData(c,rows),can(c,'proposal.approve'),create):chooser(rows,undefined,'tenancy')+create):emptyView(create,c.now)
@@ -74,16 +76,16 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
    }
   }
   else body=chooser(rows,selected,tab)
-  if(tab==='ledger'){allow(c,'ledger.read');title='Rent & arrears';if(selected){const run=url.searchParams.get('run'),ledger=await ledgerData(c,selected.id),post=can(c,'rent.charge');body+=ledgerView(selected,ledger,post,can(c,'reports.read'))+termSection(selected,await terms(c,selected.id),post)+runSection(selected,post&&run?await preview(c,run):null,post,run??ledger.today.slice(0,7))}}
+  if(tab==='ledger'){allow(c,'ledger.read');title='Rent & arrears';if(selected){const run=url.searchParams.get('run'),ledger=await ledgerData(c,selected.id),post=can(c,'rent.charge');body+=ledgerView(selected,ledger,post,can(c,'reports.read'))+termSection(selected,await terms(c,selected.id),post&&!(await terms(c,selected.id)).some(x=>x.lease_version_id))+runSection(selected,post&&run?await preview(c,run):null,post,run??ledger.today.slice(0,7))}}
   else if(tab==='work'){allow(c,'work.read');title='Inspections & maintenance';if(selected)body+=workView(selected,{...await workData(c,selected.id),names:await operatorNames(c)})}
   else if(tab!=='tenancy') throw new Fault('not_found','Page not found.',404)
  }
  return page(c,title,body,notice,status,tab,head)
 }
-const COMMANDS=['tenancy.create','renewal.prepare','arrears.prepare','proposal.approve','proposal.reject','rent.charge','rent.receipt','rent.adjust','inspection.create','inspection.photo','inspection.complete','maintenance.prepare','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.submit','turnover.task.check','turnover.publish','household.add','household.leave','household.move','currency.confirm','work.limits','quote.add','quote.select','maintenance.revise','maintenance.owner','completion.record','completion.check','completion.close','owner.add','owner.w9','ownership.set','agreement.set','factor.start','factor.confirm','factor.verify','factor.require','factor.reset','operator.invite','operator.status','operator.role',...BILL_COMMANDS,...APPOINTMENT_COMMANDS,...RETENTION_COMMANDS,...PERIOD_COMMANDS,'fees.run','fee.override',...RECOVERY_COMMANDS,'tax.prepare','tax.review']
+const COMMANDS=['tenancy.create','renewal.prepare','arrears.prepare','proposal.approve','proposal.reject','rent.charge','rent.receipt','rent.adjust','inspection.create','inspection.photo','inspection.complete','maintenance.prepare','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.submit','turnover.task.check','turnover.publish','household.add','household.leave','household.move','currency.confirm','work.limits','quote.add','quote.select','maintenance.revise','maintenance.owner','completion.record','completion.check','completion.close','owner.add','owner.w9','ownership.set','agreement.set','factor.start','factor.confirm','factor.verify','factor.require','factor.reset','operator.invite','operator.status','operator.role',...LEASE_COMMANDS,...BILL_COMMANDS,...APPOINTMENT_COMMANDS,...RETENTION_COMMANDS,...PERIOD_COMMANDS,'fees.run','fee.override',...RECOVERY_COMMANDS,'tax.prepare','tax.review']
 const STEPPED=['entity.add','account.add','operator.invite','operator.role','operator.status','factor.require','factor.reset']
 async function command(c:Context,name:string,p:Row) {
- for(const handler of [tenancyCommand,ledgerCommand,workCommand,importCommand,dataCommand,companyCommand,assetCommand,vendorCommand,scheduleCommand,chargeRunCommand,propertyCommand,turnoverCommand,householdCommand,quoteCommand,completionCommand,ownerCommand,factorCommand,periodCommand,feeCommand,recoveryCommand,taxCommand,retentionCommand,appointmentCommand,billCommand]) {
+ for(const handler of [tenancyCommand,ledgerCommand,workCommand,importCommand,dataCommand,companyCommand,assetCommand,vendorCommand,scheduleCommand,chargeRunCommand,propertyCommand,turnoverCommand,householdCommand,quoteCommand,completionCommand,ownerCommand,factorCommand,periodCommand,feeCommand,recoveryCommand,taxCommand,retentionCommand,appointmentCommand,billCommand,leaseCommand]) {
   const result=await handler(c,name,p); if(result!==undefined)return result
  }
  throw new Fault('unknown_command','Unknown Terrace command.',404)
@@ -92,7 +94,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
  const url=new URL(request.url),isApi=url.pathname.startsWith('/api/'),isPage=url.pathname==='/app'||url.pathname==='/app/command'
  if(!isApi&&!isPage)return null
  // Unknown API paths retain a genuine 404 without leaking installation data.
- if(isApi&&!['/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment'].includes(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
+ if(isApi&&!['/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment'].includes(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
  let c:Context|undefined,p:Row={}
  try {
   insist(url.origin===env.AUTH_ORIGIN,'origin','The request origin does not match this installation.',403)
@@ -121,7 +123,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
    if(isApi)return json({ok:true,result})
    const dest=new URL('/app',url);dest.searchParams.set('tab',String(p.tab??'tenancy'));dest.searchParams.set('tenancy',String(result.tenancyId??(name==='tenancy.create'?result.id:p.tenancyId)??''))
    if(name==='privacy.review')return await render(c,dest,result.notice,result)
-   if(name==='import.preview'||name==='import.journal'||name==='factor.start'||name==='factor.confirm')return await render(c,dest,result.notice??'Review the result below.',result)
+   if(name==='import.preview'||name==='import.journal'||name==='factor.start'||name==='factor.confirm'||name==='lease.preview')return await render(c,dest,result.notice??'Review the result below.',result)
    if(result.month)dest.searchParams.set('month',result.month);dest.searchParams.set('notice',result.notice??'Saved.');return new Response(null,{status:303,headers:{location:dest.pathname+dest.search,'cache-control':'no-store'}})
   }
   insist(request.method==='GET','method','Method not allowed.',405)
@@ -130,8 +132,9 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   if(url.pathname==='/api/commands')return json({commands:COMMANDS.filter(name=>can(c!,name))})
   if(url.pathname==='/api/state') {
    const tenancies=await tenancyData(c),tenancyId=url.searchParams.get('tenancy'),t=tenancyId?await tenancy(c,tenancyId):undefined,ledger=t&&can(c,'ledger.read')?await ledgerData(c,t.id):undefined
-   return json({actor:{role:c.actor.role,staffRole:c.actor.staff?.role??'owner',allPortfolios:c.actor.role==='owner'||!!c.actor.staff?.all},...await companyData(c),...await propertyData(c),turnovers:await turnoverData(c),ownership:await ownershipData(c),tenancies,...(t?{ledger,household:await householdData(c,t,ledger?.balanceCents??null),proposals:await proposals(c,t.id),work:await workData(c,t.id)}:{})})
+   return json({actor:{role:c.actor.role,staffRole:c.actor.staff?.role??'owner',allPortfolios:c.actor.role==='owner'||!!c.actor.staff?.all},...await companyData(c),...await propertyData(c),turnovers:await turnoverData(c),ownership:await ownershipData(c),tenancies,...(t?{ledger,household:await householdData(c,t,ledger?.balanceCents??null),proposals:await proposals(c,t.id),work:await workData(c,t.id),...((can(c,'lease.read')||can(c,'lease.metadata'))?{leaseVersions:await leaseData(c,t.id)}:{})}:{})})
   }
+  if(url.pathname==='/api/lease-source')return await leaseSource(c,url.searchParams.get('id'))
   if(url.pathname==='/api/bills'){const data=await billData(c);await recordRead(c,'bills.read','bills');return json(data)}
   if(url.pathname==='/api/bill-attachment')return await billAttachment(c,url.searchParams.get('id'))
   if(url.pathname==='/api/resident-access'){const r=await residentAccess(c,url.searchParams.get('tenancyId'));await recordRead(c,'export:resident-access',String(url.searchParams.get('tenancyId')));return r}

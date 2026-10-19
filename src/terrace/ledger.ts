@@ -33,7 +33,7 @@ export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|
 // PORT-001: amounts are in the tenancy's currency; "today" is the property-local day.
 export async function ledgerData(c:Context,tenancyId:string) {
  const t=await tenancy(c,tenancyId),today=localDate(c.now,t.time_zone)
- const charges=await all(c,`SELECT q.*,${BALANCE} AS balance_cents FROM tt_charges q WHERE tenancy_id=? ORDER BY due_date,created_at`,tenancyId)
+ const charges=await all(c,`SELECT q.*,lt.source_clause,lt.lease_version_id,${BALANCE} AS balance_cents FROM tt_charges q LEFT JOIN tt_lease_terms lt ON lt.id=q.term_id WHERE q.tenancy_id=? ORDER BY due_date,created_at`,tenancyId)
  const receipts=await all(c,'SELECT r.* FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=? ORDER BY received_date,created_at',tenancyId)
  const adjustments=await all(c,'SELECT a.* FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id WHERE q.tenancy_id=? ORDER BY at',tenancyId)
  return {currency:shown(t),timeZone:t.time_zone as string,today,charges,receipts,adjustments,balanceCents:charges.reduce((s,r)=>s+r.balance_cents,0),arrearsCents:charges.filter(q=>q.due_date<today).reduce((s,r)=>s+r.balance_cents,0)}

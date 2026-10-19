@@ -57,3 +57,11 @@ A proposal refers to the tenancy version that was current when it was prepared. 
 [Rent & arrears](rent-and-statements.md) contains **Prepare arrears follow-up**. Its message and follow-up date appear in **Prepared decisions** on the tenancy. An owner or portfolio manager reviews and approves or rejects it there. Approval records the follow-up decision; it does not send a message.
 
 Terrace does not generate or serve statutory notices. Keep any required legal notice and delivery process in your established workflow.
+
+## Signed lease versions and amendments
+
+Open a tenancy’s **Signed lease versions** and choose **Record a signed lease or amendment**. Record the effective date, signer names, signed date and reference, upload the original PDF, and enter the complete charge schedule and other obligations. Each line names the source clause; use an explicit “none” for obligation kinds absent from the signed document. HAP obligations record authority and payer portions, while their actual posting belongs to the voucher-rent workflow. These are signatures recorded by staff, not signatures collected or verified by Terrace.
+
+Choose **Preview lease charges** for a month at or after the effective date. A different owner or portfolio manager reviews and approves that exact preview (a sole operator’s approval is labelled). Then use **Rent & arrears → Preview charge run** to post those same charges. A mid-month amendment prorates each effective portion by its covered days. Posted periods and earlier signed versions remain unchanged; signed amendments cannot be bypassed through the old add/amend-term forms.
+
+Owners, portfolio managers, bookkeepers and accountants can download original PDFs within their portfolio scope. Downloads are private and audited. Backups and readable exports include versions, original PDFs and hashes. The lease retention period and legal holds apply before erasure.

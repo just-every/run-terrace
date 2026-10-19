@@ -3,16 +3,16 @@ import {unstable_splitSqlQuery} from 'wrangler'
 import {build} from 'esbuild'
 import {mkdtemp,readFile,readdir,rm} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
-import {join} from 'node:path'
+import {join,resolve} from 'node:path'
 import {randomBytes} from 'node:crypto'
 import assert from 'node:assert/strict'
 /** legacy(db): writes rows as an older release would, before migration 0018 (PORT-001) runs. */
-export async function installation({legacy}={}){
+export async function installation({legacy,assets=false}={}){
  const root=await mkdtemp(join(tmpdir(),'terrace-api-')),bundle=await build({entryPoints:['tests/api/worker.ts'],bundle:true,write:false,format:'esm',platform:'neutral',target:'es2022',external:['node:*','cloudflare:*'],loader:{'.css':'text','.svg':'text'}})
  const secret=()=>randomBytes(32).toString('hex'),setup=secret(),devKey=secret(),sessionSecret=secret()
  const messages=[]
  let origin='http://localhost'
- const options=port=>({...convertV4MiniflareOptions({host:'127.0.0.1',port,modules:true,script:bundle.outputFiles[0].text,compatibilityDate:'2026-09-08',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{AUTH_LOCAL:'true',AUTH_ORIGIN:origin,OWNER_EMAIL:'owner@example.test',SESSION_SECRET:sessionSecret,SETUP_TOKEN:setup,MAIL_PROVIDER:'resend',MAIL_API_KEY:'example-test-mail',MAIL_FROM:'auth@localhost.test',RER_DEV_KEY:devKey},outboundService:async request=>{assert.equal(new URL(request.url).hostname,'api.resend.com');messages.push(await request.json());return Response.json({id:crypto.randomUUID()})}}),resourcePersistencePath:root})
+ const options=port=>({...convertV4MiniflareOptions({host:'127.0.0.1',port,modules:true,script:bundle.outputFiles[0].text,compatibilityDate:'2026-09-08',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{AUTH_LOCAL:'true',AUTH_ORIGIN:origin,OWNER_EMAIL:'owner@example.test',SESSION_SECRET:sessionSecret,SETUP_TOKEN:setup,MAIL_PROVIDER:'resend',MAIL_API_KEY:'example-test-mail',MAIL_FROM:'auth@localhost.test',RER_DEV_KEY:devKey},...(assets?{assets:{directory:resolve('public'),routerConfig:{has_user_worker:true}}}:{}),outboundService:async request=>{assert.equal(new URL(request.url).hostname,'api.resend.com');messages.push(await request.json());return Response.json({id:crypto.randomUUID()})}}),resourcePersistencePath:root})
  const mf=new Miniflare(options(0));let cookie=''
  try {
   const address=await mf.ready;origin=address.origin;await mf.setOptions(options(Number(address.port)))

@@ -1,0 +1,25 @@
+/** PORT-005 extends the existing tenancy forms with signed sources and reviewed effective terms. */
+import { escape as e, money, shown, type Row } from './core'
+import { usDate } from './format'
+import { form,hidden,input,button } from './view'
+
+const area=(label:string,name:string,help:string)=>`<label>${e(label)}<textarea name="${e(name)}" rows="5" required aria-describedby="${e(name)}-help"></textarea></label><p class="muted" id="${e(name)}-help">${e(help)}</p>`
+export function leaseSection(t:Row,versions:Row[],can:(action:string)=>boolean,result:Row={}) {
+ const rows=versions.map(v=>{
+  const payload=v.parsed??(typeof v.payload==='string'?JSON.parse(v.payload):v.payload),approved=!!v.approved_at
+  const lines=(payload.terms??[]).map((x:Row)=>`<li>${e(x.kind)} · ${e(x.description)} · ${money(x.amountCents,shown(t))} · ${usDate(x.starts)} to ${x.ends?usDate(x.ends):'lease end'} · ${e(x.sourceClause)}</li>`).join('')
+  const obligations=(payload.obligations??[]).map((x:Row)=>`<li>${e(x.kind)} · ${e(x.details)} · ${usDate(x.starts)}${x.ends?' to '+usDate(x.ends):''} · ${e(x.sourceClause)}${x.amountCents?` · ${money(x.amountCents,shown(t))}`:''}</li>`).join('')
+  const preview=!approved&&can('lease.preview')?form('lease.preview',hidden('leaseId',v.id)+input('Preview month','month','month',v.effective.slice(0,7))+button('Preview lease charges'),t.id):''
+  return `<article><h3>${e(payload.reference)} · ${approved?'Approved':'Prepared'}</h3><p>Effective ${usDate(v.effective)} · signed ${usDate(payload.signedDate)} · ${e((payload.signers??[]).map((x:Row)=>x.name).join(', '))}</p><p class="muted">Signatures recorded by staff from the original document; Terrace has not verified or collected them.${v.approval_label?' '+e(v.approval_label):''}</p><p>${can('lease.source')?`<a href="/api/lease-source?id=${e(v.id)}">Download signed source PDF</a>`:''}${v.source_sha256?` · SHA-256 <span class="file-hash">${e(v.source_sha256)}</span>`:''}</p><details><summary>Charges and obligations</summary><ul>${lines}${obligations}</ul></details>${preview}</article>`
+ }).join('')
+ const draft=can('lease.prepare')?`<details><summary>Record a signed lease or amendment</summary>${form('lease.prepare',
+  input('Effective date','effective','date',t.start_date)+input('Signed date','signedDate','date')+input('Signers recorded on the document','signers')+input('Signed lease reference','reference')+
+  '<label>Original signed PDF (up to 5 MB)<input type="file" name="source" accept="application/pdf" required></label>'+
+  area('Recurring charge terms','chargeLines','One line per term: kind | description | amount per period | starts (YYYY-MM-DD) | ends (optional) | source clause. Kinds: rent, utility, pet, parking, concession. Include the complete schedule from the effective date. Amounts use this lease’s currency.')+
+  area('Other lease obligations','obligationLines','One line per obligation: kind | starts (YYYY-MM-DD) | ends (optional) | source clause | details | amount (optional). Record deposit, pet, utility, parking, insurance and addendum and hap terms, including an explicit “none” where the signed lease has none. For a HAP obligation, describe its terms here and fill Housing assistance contract below. Use none when absent. Payer splitting is not posted here.')+
+  '<details><summary>Housing assistance contract (if applicable)</summary><label>Housing authority<input name="hapAuthority"></label><label>HAP contract reference<input name="hapReference"></label><label>Tenant portion per period<input name="hapTenantPortion" type="number" min="0" step="0.01"></label><label>HAP portion per period<input name="hapPortion" type="number" min="0" step="0.01"></label></details>'+
+  button('Prepare signed version'),t.id,'tenancy','enctype="multipart/form-data"')}</details>`:''
+ const run=result.lines?result:result.run??result.preview
+ const review=run&&result.leaseId?`<section aria-label="Lease amendment preview"><h3>Review future charges · ${e(run.month)}</h3><p>Approval activates these terms. Post the ordinary charge run to enter them in the resident ledger.</p><ul>${run.lines.map((l:Row)=>`<li>${e(l.kind)} · ${e(l.description)} · ${l.kind==='concession'?'−':''}${money(l.amountCents,shown(t))} · ${l.coveredDays}/${l.periodDays} days · ${e(l.sourceClause??'')}</li>`).join('')}</ul>${run.missing.length?`<p role="alert">${run.missing.map((x:Row)=>e(x.reason)).join('; ')}</p>`:''}${can('lease.approve')?form('lease.approve',hidden('leaseId',result.leaseId)+hidden('month',run.month)+hidden('fingerprint',result.fingerprint)+button('Approve reviewed lease version'),t.id):''}</section>`:''
+ return `<section id="lease-versions"><h2>Signed lease versions</h2><p class="muted">Keep the signed original and source clauses. Amendments preserve earlier versions and preview future charges before approval. Deposit and HAP obligations are recorded terms; this does not collect or split their payments.</p>${rows||'<p>No signed versions recorded.</p>'}${review}${draft}</section>`
+}
