@@ -1,7 +1,8 @@
 // PORT-004: households. The tenancy's tenant is its primary resident. Co-tenants and guarantors are liable for
 // that lease's balance; occupants and emergency or authorized contacts are not. Lease notices and statements go
 // to the primary resident and current co-tenants, guarantors and authorized contacts whose preference is not
-// "none"; lease and ledger documents are open to the same people; emergency contacts and occupants get neither.
+// "none"; lease and ledger documents are open to those people whatever their preference; emergency contacts
+// and occupants get neither.
 // A member is current from the day they join to the day they leave, in the property's time zone. Moving a
 // member to another lease ends their membership the day before and adds them there; balances stay with each lease.
 import { all, commit, date, email, guard, id, insist, manager, one, sql, tenancy, text, type Context, type Row } from './core'

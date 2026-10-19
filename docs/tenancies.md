@@ -16,7 +16,7 @@ Each unit shows its occupancy today (occupied, vacant with a future lease, or va
 
 ## Households
 
-On a tenancy page, **Household** lists the tenant (the primary resident) and anyone added with **Add a household member**: co-tenants, guarantors, occupants, emergency contacts and authorized contacts, with contact details, how they prefer to be contacted and the day they joined. The page shows who is liable for this lease's balance (the resident, co-tenants and guarantors), who receives lease notices and statements, and who may see lease documents (the same people plus authorized contacts, unless they asked not to be contacted). Terrace lists recipients; it sends nothing.
+On a tenancy page, **Household** lists the tenant (the primary resident) and anyone added with **Add a household member**: co-tenants, guarantors, occupants, emergency contacts and authorized contacts, with contact details, how they prefer to be contacted and the day they joined. The page shows who is liable for this lease's balance (the resident, co-tenants and guarantors), who receives lease notices and statements (the resident, co-tenants, guarantors and authorized contacts, except anyone who asked not to be contacted), and who may see lease documents (the same people, whatever their contact preference). Terrace lists recipients; it sends nothing.
 
 Use **Leave or move** to record that someone left, or to move them to another lease from a date: they leave this household the day before and join the other one. Each lease keeps its own balance.
 
