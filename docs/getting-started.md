@@ -2,6 +2,10 @@
 
 Run Terrace locally, confirm the installation owner and record your first tenancy. You need Git and Node.js 22 or newer; the project command selects its pinned Node runtime.
 
+## Residential rentals only
+
+Terrace manages residential rentals only: it has no commercial leases, CAM reconciliation or homeowners’-association dues and association accounting. Keep commercial leases, CAM recoveries and association books in a specialist system. A residential owner’s own HOA dues are an ordinary bill the owner pays, not association accounting. The Move in kit holds any row marked as a non-residential lease as an exception rather than importing it.
+
 ## Get Terrace and start it
 
 One line installs the RER command, clones the source and runs it:

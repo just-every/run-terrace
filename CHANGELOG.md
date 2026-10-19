@@ -2,6 +2,7 @@
 
 ## 2026-10-19
 
+- State that Terrace is for residential rentals only (no commercial leases, CAM reconciliation or HOA dues) on the first-run Tenancies page, the Move in screen and the getting-started guide. Terrace tenancy CSV v1 accepts an optional `lease_type` column: empty or `residential` imports, any other value is held as an exception. Files without the column are unchanged.
 - Carry the approved homepage look through the app: top tabs under the stepped-blocks lockup, heavy Geist titles with the violet stop, quiet 1 px fields with a violet focus ring, navy pill actions, US dates.
 - Open Tenancies on the month: October's recorded rent against what is due with a dated month track, the renewals, follow-ups, maintenance and inspection drafts waiting on a person (approve or reject a renewal or follow-up from its card), and the rent roll grouped by property with each tenancy's standing this month.
 - Show a tenancy's rent and work beside its decisions, operator names instead of ids, and the sign-in and setup frames in the same look. The app's styles are split into shell, controls, content, home and pages sheets.

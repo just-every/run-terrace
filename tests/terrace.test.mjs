@@ -111,3 +111,27 @@ test('a renewal waiting on the home is approved from its card and the manager la
  assert.equal(state.proposals.find(p=>p.id===proposal.id).state,'approved')
  assert.equal(state.tenancies.find(x=>x.id===own.id).end_date,'2027-12-31')
 })
+test('BOUND-004: residential only — no commercial, CAM or association-dues door, the limit is stated and a commercial lease row is held',async()=>{
+ const banned=/commercial|\bcam\b|association|\bhoa\b/i
+ const {commands}=await(await h.request('/api/commands')).json()
+ assert.ok(commands.length&&!commands.some(c=>banned.test(c)),'no API command offers commercial, CAM or association work')
+ for(const tab of ['tenancy','ledger','work','import','settings']){
+  const html=await(await h.request('/app?tab='+tab)).text(),controls=[...html.matchAll(/<(?:input|select|textarea|option)\b[^>]*>/g)].map(m=>m[0])
+  assert.ok(controls.length&&!controls.some(c=>banned.test(c)),`${tab} offers no commercial, CAM or association field`)
+ }
+ assert.match(await(await h.request('/app?tab=import')).text(),/residential rentals only: it has no commercial leases, CAM reconciliation or homeowners’-association dues/)
+ const fresh=await installation()
+ try{assert.match(await(await fresh.request('/app')).text(),/residential rentals only: it has no commercial leases, CAM reconciliation or homeowners’-association dues/,'the first-run portfolio setup states the limit')}finally{await fresh.close()}
+ const header='ref,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,rent,cadence,created_at,lease_type'
+ const home='RES-1,"Unit 4A, 22 Birch Lane, Austin, TX 78701",Lark Holdings,lark@example.test,Ivy Moreno,ivy@example.test,2026-03-01,2027-02-28,1600.00,monthly,2026-02-10T00:00:00.000Z,residential'
+ const office='COM-1,"Suite 200, 22 Birch Lane, Austin, TX 78701",Lark Holdings,lark@example.test,Birch Dental LLC,office@example.test,2026-01-01,2030-12-31,5400.00,monthly,2025-12-01T00:00:00.000Z,Commercial'
+ const before=(await h.state()).tenancies.length,mixed=[header,home,office].join('\n')
+ const preview=await h.command('import.preview',{csv:mixed,namespace:'bound-004'})
+ assert.equal(preview.counts.rejected,1)
+ const held=preview.rows.find(r=>r.ref==='COM-1');assert.match(held.rejection,/^Held as an exception: lease_type "Commercial" is not residential/);assert.equal(held.value,undefined)
+ await h.command('import.apply',{csv:mixed,namespace:'bound-004',fingerprint:preview.fingerprint},{status:400})
+ assert.equal((await h.state()).tenancies.length,before,'a file holding a commercial lease loads nothing')
+ const residential=[header,home].join('\n'),reviewed=await h.command('import.preview',{csv:residential,namespace:'bound-004'})
+ await h.command('import.apply',{csv:residential,namespace:'bound-004',fingerprint:reviewed.fingerprint})
+ const after=(await h.state()).tenancies;assert.equal(after.length,before+1);assert.ok(!after.some(t=>t.address.startsWith('Suite 200')))
+})

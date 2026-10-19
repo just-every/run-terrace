@@ -7,6 +7,9 @@ export const IMPORT_VERSION = 'terrace-tenancy-csv-v1'
 export const IMPORT_DESTINATION = 'terrace-tenancies'
 export const TENANCY_KIND = 'tenancy'
 export const CSV_HEADERS = ['ref','address','owner_name','owner_email','tenant_name','tenant_email','start_date','end_date','rent','cadence','created_at'] as const
+/** Optional; empty or `residential` imports. Any other value is held as an exception (BOUND-004). */
+export const LEASE_TYPE_HEADER = 'lease_type'
+export const RESIDENTIAL_ONLY = 'Terrace manages residential rentals only: it has no commercial leases, CAM reconciliation or homeowners’-association dues.'
 export const importNamespace = (v: unknown) => {
   const namespace = text(v, 'Source namespace', 100)
   insist(/^[A-Za-z0-9][A-Za-z0-9_.-]*$/.test(namespace), 'invalid_namespace', 'Namespace must use letters, digits, dots, hyphens or underscores.')
@@ -48,7 +51,7 @@ export function tenancySource(input: unknown, namespace: string): SourceBundle {
   const bytes = new TextEncoder().encode(input)
   insist(bytes.length > 0 && bytes.length <= 256_000, 'invalid_csv', 'CSV must contain between 1 and 256,000 UTF-8 bytes.')
   const rows = parseCsv(input), headers = rows.shift()
-  insist(headers && headers.length === CSV_HEADERS.length && CSV_HEADERS.every(h => headers.includes(h)) && new Set(headers).size === headers.length, 'invalid_csv', `CSV requires these exact columns: ${CSV_HEADERS.join(',')}.`)
+  insist(headers && headers.length === CSV_HEADERS.length + Number(headers.includes(LEASE_TYPE_HEADER)) && CSV_HEADERS.every(h => headers.includes(h)) && new Set(headers).size === headers.length, 'invalid_csv', `CSV requires these exact columns: ${CSV_HEADERS.join(',')}, plus an optional ${LEASE_TYPE_HEADER}.`)
   insist(rows.length > 0 && rows.length <= 100, 'invalid_csv', 'Import between 1 and 100 tenancies at a time.')
   const digest = sha256(bytes), name = 'terrace-tenancies.csv'
   let binary = ''
@@ -73,6 +76,8 @@ export const tenancyMapping: ImportMapping = {
   version: IMPORT_VERSION,
   map(record) {
     const p = record.payload as Record<string,Json>
+    const leaseType = String(p[LEASE_TYPE_HEADER] ?? '').trim()
+    if (leaseType && leaseType.toLowerCase() !== 'residential') return { effects: [], rejection: `Held as an exception: lease_type "${leaseType.slice(0,40)}" is not residential. ${RESIDENTIAL_ONLY} Keep this lease in your commercial or association system and remove the row to import the rest.` }
     try {
       const start_date = date(p.start_date, 'Start date'), end_date = date(p.end_date, 'End date')
       insist(end_date >= start_date, 'invalid_date', 'End date must be on or after start date.')

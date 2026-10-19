@@ -33,7 +33,7 @@ Keep a [backup](backup-and-restore.md) when the imported records are in order.
 ## Source shape
 
 Use UTF-8 CSV with this header (column ordering may differ, but all columns are
-required exactly once):
+required exactly once; an optional `lease_type` column may be added):
 
 ```csv
 ref,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,rent,cadence,created_at
@@ -49,6 +49,10 @@ ref,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,
 - `rent`: positive USD decimal with at most two decimal places, up to
   `1000000.00`. It becomes integer `rent_cents`.
 - `cadence`: `weekly`, `fortnightly` (every two weeks) or `monthly`.
+- `lease_type` (optional column): empty or `residential`. Terrace manages
+  residential rentals only, so any other value, such as `commercial`, is held as
+  an exception in the dry run and never imported as a tenancy; remove that row to
+  import the rest.
 - `created_at`: the source tenancy record's creation time, expressed exactly as
   an ISO UTC timestamp such as `2026-01-15T00:00:00.000Z`. This preserves the
   complete native row without putting the time of preview into its fingerprint.

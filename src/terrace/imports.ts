@@ -4,7 +4,7 @@ import { Context, Fault, Row, all, insist, one, owner, text } from './core'
 import { IMPORT_DESTINATION, IMPORT_KIT, TENANCY_KIND, importNamespace, tenancyMapping, tenancySource } from './imports-source'
 import { tenancyImportContext } from './imports-target'
 export { importView } from './imports-view'
-export { IMPORT_KIT, CSV_HEADERS, tenancySource, tenancyMapping, tenancyImportId } from './imports-source'
+export { IMPORT_KIT, CSV_HEADERS, LEASE_TYPE_HEADER, RESIDENTIAL_ONLY, tenancySource, tenancyMapping, tenancyImportId } from './imports-source'
 
 async function importOwner(c: Context) {
   owner(c)

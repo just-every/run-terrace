@@ -20,6 +20,7 @@ test('the run site builds, its actions open /run and /docs, and every link and f
   assert.match(home, /href="\/docs">Read the docs</, 'the homepage links the docs')
   assert.doesNotMatch(home, /\b(?:127\.0\.0\.1|localhost|\[::1\]):\d+|\bRER_[A-Z_]+\b/, 'the homepage shows no local dev output')
   assert.ok(served('run') && served('docs'), '/run and /docs are built')
+  assert.match(readFileSync(join(site, 'docs/getting-started.html'), 'utf8'), /residential rentals only: it has no commercial leases, CAM reconciliation or homeowners’-association dues/, 'BOUND-004: the docs state the residential-only limit')
   for (const file of pages(site)) {
     const html = readFileSync(file, 'utf8'), where = relative(site, file)
     const refs = [...attrs(html, 'href'), ...attrs(html, 'src'), ...attrs(html, 'srcset').flatMap(set => set.split(',').map(part => part.trim().split(/\s+/)[0]))]
