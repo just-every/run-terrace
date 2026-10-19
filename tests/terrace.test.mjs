@@ -10,7 +10,7 @@ after(async()=>{await h?.close()})
 test('ordinary sign-in, per-handler roles, CSRF and revocation',async()=>{
  assert.equal((await h.request('/api/state',{as:''})).status,401)
  assert.equal((await h.request('/api/commands',{method:'POST',body:{command:'tenancy.create',...tenancyInput},originHeader:'https://elsewhere.test'})).status,403)
- for(const command of ['tenancy.create','rent.charge','rent.receipt','rent.adjust','proposal.approve','proposal.reject','inspection.create','inspection.photo','inspection.complete','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer'])await h.command(command,{}, {as:member,status:403})
+ for(const command of ['tenancy.create','rent.charge','rent.receipt','rent.adjust','proposal.approve','proposal.reject','inspection.create','inspection.photo','inspection.complete','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.check','turnover.publish'])await h.command(command,{}, {as:member,status:403})
  assert.equal((await h.request('/api/backup',{as:member})).status,403)
  t=await h.command('tenancy.create',tenancyInput,{as:admin})
  const listing=await h.request('/app'),listHtml=await listing.text()
@@ -197,7 +197,7 @@ test('BOUND-004: residential only — no commercial, CAM or association-dues doo
  await h.command('import.apply',{csv:residential,namespace:'bound-004',fingerprint:reviewed.fingerprint})
  const after=(await h.state()).tenancies;assert.equal(after.length,before+1);assert.ok(!after.some(t=>t.address.startsWith('Suite 200')))
 })
-test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; PAY-001 runs post each period once; PORT-002 units keep their history',async()=>{
+test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready',async()=>{
  const company={name:'Alder Court Property Management',officeAddress:'1840 Alder Street, Oakland, CA 94610',officeEmail:'office@example.test',officePhone:'(510) 555-0142',timeZone:'America/Los_Angeles'}
  await h.command('company.save',{...company,timeZone:'Australia/Sydney'},{status:400})
  await h.command('company.save',company)
@@ -293,5 +293,25 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  assert.ok((await h.state()).tenancies.some(x=>x.id===leaseA.id&&x.ended_on==='2026-01-14'),'the ended lease is kept')
  const page=await(await h.request('/app?tab=properties')).text()
  for(const text of ['Linden Duplex','Unit A · 2 bd · 1 ba · Washer/dryer, Parking','Unit B · 3 bd · 1.5 ba · Yard','Moved out early with notice','Transferred to unit B'])assert.ok(page.includes(text),text)
+
+ // WORK-013: make-ready unit A after its resident moved out; delay the repair and read the cleaning, listing and ready-date effects.
+ await h.command('turnover.open',{unitId:lower.id,moveOut:'2026-01-14'},{status:409})
+ const board=await h.command('turnover.open',{unitId:upper.id,moveOut:'2026-01-14'})
+ await h.command('turnover.open',{unitId:upper.id,moveOut:'2026-01-14'},{status:409})
+ const read=async()=>(await h.state()).turnovers.find(x=>x.id===board.id),kind=(x,k)=>x.tasks.find(t=>t.kind===k),dates=(x,ks)=>ks.map(k=>[kind(x,k).start,kind(x,k).end])
+ const planned=await read()
+ assert.deepEqual(dates(planned,['inspection','repair','cleaning','listing']),[['2026-01-15','2026-01-15'],['2026-01-16','2026-01-18'],['2026-01-19','2026-01-19'],['2026-01-20','2026-01-20']]);assert.deepEqual([planned.readyDate,planned.vacancyDays],['2026-01-21',6])
+ await h.command('turnover.task.update',{taskId:kind(planned,'repair').id,delayDays:'2',durationDays:'4',assignee:'River Plumbing',quote:'640.00'})
+ const revised=await read()
+ assert.deepEqual(dates(revised,['repair','cleaning','listing']),[['2026-01-18','2026-01-21'],['2026-01-22','2026-01-22'],['2026-01-23','2026-01-23']]);assert.deepEqual([revised.readyDate,revised.vacancyDays],['2026-01-24',9])
+ for(const t of revised.tasks)await h.command('turnover.task.submit',{taskId:t.id},{as:member})
+ await h.command('turnover.task.check',{taskId:kind(revised,'cleaning').id},{status:409})
+ await h.command('turnover.task.check',{taskId:kind(revised,'inspection').id},{as:member,status:403})
+ await h.command('turnover.publish',{turnoverId:board.id},{status:409})
+ for(const k of ['inspection','utility','deposit','repair','cleaning','listing'])await h.command('turnover.task.check',{taskId:kind(revised,k).id})
+ const local=(await h.state()).portfolios.find(f=>f.id===portfolio.id).properties[0].today,tomorrow=new Date(Date.parse(local+'T00:00:00Z')+864e5).toISOString().slice(0,10)
+ const published=await h.command('turnover.publish',{turnoverId:board.id});assert.equal(published.availableOn,tomorrow>'2026-01-24'?tomorrow:'2026-01-24')
+ assert.equal((await h.state()).portfolios.find(f=>f.id===portfolio.id).properties[0].units.find(u=>u.id===upper.id).available_on,published.availableOn)
+ assert.ok((await(await h.request('/app?tab=properties')).text()).includes('Ready: available from '),'the board shows the published date')
 
 })

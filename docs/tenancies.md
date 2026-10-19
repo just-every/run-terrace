@@ -14,6 +14,12 @@ Under **Properties**, an owner or admin adds a portfolio, its properties (name, 
 
 Each unit shows its occupancy today (occupied, vacant with a future lease, or vacant) and every lease it has held, with dates. To end a lease early, open **End lease or transfer** on it and enter the move-out date and reason; the lease record and its original end date are kept. To move a resident to another unit, choose the unit and move-in date and select **Transfer resident**: the first lease ends the day before and a linked lease starts on the new unit with the same terms.
 
+## Make a unit ready
+
+When a unit is vacant (or a resident has given notice), open **Open make-ready board** on it with the move-out date. The board lists the standard tasks: move-out inspection and utility transfer, then the deposit disposition and repairs, then cleaning and the listing. Each task shows its planned dates; edit a task's assignee, duration, delay or quote and the dependent tasks and the planned ready date move with it. The board shows how many days the unit stays vacant.
+
+Anyone can mark a task done with **Submit done**; an owner or admin then checks it, and only once the tasks before it are checked. When every task is checked, **Publish available date** records when the unit is ready: the later of the planned ready date and the day after the last check. The deposit and listing tasks prepare those decisions; Terrace does not move deposit money or publish listings.
+
 ## Prepare a renewal
 
 1. Open the tenancy in **Tenancies**.

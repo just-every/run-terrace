@@ -220,7 +220,7 @@ This contract describes the product being built towards. Missing capability neve
 
 - **WORK-012 — Integrate HappyCo inspection evidence.** Connect authorized HappyCo accounts, map properties/units and import inspection findings, media, timestamps and author identity through supported interfaces or reviewed provider exports. Preserve source IDs and compare versions; a vendor closed status does not overwrite resident resolution. **Acceptance evidence:** Bring a HappyCo inspection into the correct unit, replay it and update one finding, then create approved repair work with original media/provenance and a visible unmapped-unit exception.
 
-- **WORK-013 — Run make-ready and turnover boards.** From notice/vacancy create dependent inspection, deposit, cleaning, repair, utility and listing tasks with owners, durations, quotes and target ready date. Show blockers and vacancy-day impact; a unit becomes ready only after authorized completion checks, not merely after task submission. **Acceptance evidence:** Move out a resident, delay a repair dependent on inspection, revise the ready date and show cleaning/listing effects; complete checks and publish the true available date.
+- **WORK-013 — Run make-ready and turnover boards.** From notice/vacancy create dependent inspection, deposit, cleaning, repair, utility and listing tasks with owners, durations, quotes and target ready date. Show blockers and vacancy-day impact; a unit becomes ready only after authorized completion checks, not merely after task submission. Exact semantics: an owner or admin opens a make-ready board for a unit (PORT-002) from a move-out date, on notice or after vacancy, when no lease occupies the unit the day after; it creates the standard tasks: move-out inspection and utility transfer first, deposit disposition and repairs after the inspection, cleaning after repairs and the listing after cleaning, each with an assignee, a duration in whole days, an optional delay and quote. A task starts the day after its last dependency ends (the first tasks the day after move-out) plus its delay; the planned ready date is the day after the last task ends, and vacancy days count from the day after move-out to it. Any operator submits a task; only an owner or admin checks it, and only after the tasks it depends on are checked; a task whose dependencies are unchecked is shown as blocked. Publishing needs every task checked and sets the unit’s available date to the later of the planned ready date and the day after the last check, in the property’s time zone. The deposit task prepares a decision only (ACCT-004 disposes the money) and the listing task prepares one (LEASE-001 publishes it); PORT-006 move-out opens the board automatically before it ships. **Acceptance evidence:** Move out a resident, delay a repair dependent on inspection, revise the ready date and show cleaning/listing effects; complete checks and publish the true available date.
 
 - **WORK-014 — Control maintenance budgets inventory and chargebacks.** Track property/asset spend versus approved operating/capital budgets, in-house stock use and purchasing, and authorized resident/owner/insurance chargebacks. Record approvals and tax treatment so a cost is never recovered twice or assigned to the wrong beneficiary. **Acceptance evidence:** Consume a stocked part on a repair, cross a budget limit, propose a resident chargeback and approve one allocation; reconcile stock, payable, receivable and owner cost.
 
@@ -437,11 +437,13 @@ Revised 19 October 2026: PAY-001 is done. Rent & arrears keeps lease charge term
 
 Revised 19 October 2026: PORT-002 is done. A Properties page keeps portfolios, properties (kind, address, time zone) and units (identifier, bedrooms, bathrooms, amenities, rentable); a tenancy can be placed on a unit, a lease can be ended early or transferred to another unit, and each unit shows its occupancy and dated lease history. PORT-001’s and WORK-002’s sentences about properties now describe this. The exact semantics are written into the clause. `tests/terrace.test.mjs` (PORT-002) asserts each acceptance point.
 
+Revised 19 October 2026: WORK-013 is done. The Properties page opens a make-ready board for a vacated unit with dependent inspection, utility, deposit, repair, cleaning and listing tasks; edits to durations and delays move the dependent tasks and the planned ready date; tasks need a manager’s check after their dependencies, and publishing sets the unit’s true available date. The exact semantics are written into the clause. `tests/terrace.test.mjs` (WORK-013) asserts each acceptance point.
+
 | Clauses | Done | Partial | Missing | Total |
 | --- | ---: | ---: | ---: | ---: |
 | Published | 12 | 0 | 0 | 12 |
-| Target and push further | 7 | 41 | 80 | 128 |
-| All | 19 | 41 | 80 | 140 |
+| Target and push further | 8 | 41 | 79 | 128 |
+| All | 20 | 41 | 79 | 140 |
 
 | Clause | Title | Kind | Status | Evidence | Gap |
 | --- | --- | --- | --- | --- | --- |
@@ -533,7 +535,7 @@ Revised 19 October 2026: PORT-002 is done. A Properties page keeps portfolios, p
 | `WORK-010` | Schedule preventive and recurring maintenance | target | done | `migrations/core/0021_schedules.sql`; `src/terrace/schedules.ts`; `src/terrace/schedule-view.ts`; `src/terrace/job-writes.ts`; `tests/terrace.test.mjs` |  |
 | `WORK-011` | Complete mobile move-in and move-out inspections | target | partial | `src/terrace/work.ts`; `src/terrace/work-view.ts`; `tests/terrace.test.mjs` | Dated photo inspections ship; structured comparisons, acknowledgement, video and offline journeys are absent. |
 | `WORK-012` | Integrate HappyCo inspection evidence | target | missing |  | HappyCo adapter and provider inspection reconciliation are absent. |
-| `WORK-013` | Run make-ready and turnover boards | target | missing |  | Turnover boards, dependencies and ready-date controls are absent. |
+| `WORK-013` | Run make-ready and turnover boards | target | done | `migrations/core/0024_turnovers.sql`; `src/terrace/turnovers.ts`; `src/terrace/turnover-view.ts`; `tests/terrace.test.mjs` |  |
 | `WORK-014` | Control maintenance budgets inventory and chargebacks | target | missing |  | Maintenance budgets, stock/purchase links and chargeback accounting are absent. |
 | `REPORT-001` | Explain the complete rent roll | target | partial | `src/terrace/tenancies.ts`; `src/terrace/tenancy-view.ts` | Current tenancy list exists; historical rent roll, vacancy/future leases and report exports are absent. |
 | `REPORT-002` | Report delinquency and collection performance | target | partial | `src/terrace/ledger.ts` | Basic arrears totals exist; ageing buckets, plan/notice outcomes and portfolio reporting are absent. |

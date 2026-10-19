@@ -12,6 +12,11 @@ All reads and writes authenticate a current Base operator session. Send the sess
 | `unit.add`, `unit.update` | propertyId, identifier (add) or unitId, version (update); bedrooms, bathrooms, amenities, rentable | Owner/admin |
 | `tenancy.end` | tenancyId, moveOut, reason; the lease is kept | Owner/admin |
 | `tenancy.transfer` | tenancyId, unitId, moveIn, optional endDate and rent | Owner/admin |
+| `turnover.open` | unitId, moveOut (the unit must be vacant the next day) | Owner/admin |
+| `turnover.task.update` | taskId, optional assignee, durationDays, delayDays, quote | Owner/admin |
+| `turnover.task.submit` | taskId | Any operator |
+| `turnover.task.check` | taskId; its dependencies must be checked | Owner/admin |
+| `turnover.publish` | turnoverId; every task checked | Owner/admin |
 | `tenancy.timezone` | tenancyId, timeZone (US IANA zone); recorded dates and currency do not change | Owner/admin |
 | `company.save` | name, officeAddress, officeEmail, officePhone, timeZone (office, US IANA zone). Country US, currency USD | Owner/admin |
 | `entity.add` | legalName, ein (nine digits; format checked, not verified with the IRS); needs a saved company | Owner/admin |
