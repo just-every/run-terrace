@@ -17,6 +17,8 @@ import { companyCommand,companyData,officeZone } from './company'
 import { assetCommand } from './assets'
 import { vendorCommand } from './vendors'
 import { scheduleCommand } from './schedules'
+import { chargeRunCommand,preview,terms } from './charge-run'
+import { runSection,termSection } from './charge-run-view'
 import { companyView } from './company-view'
 const json=(body:unknown,status=200)=>Response.json(body,{status,headers:{'cache-control':'no-store','x-content-type-options':'nosniff','referrer-policy':'no-referrer'}})
 async function render(c:Context,url:URL,notice='',result:Row={},status=200,request?:Request,env?:Bindings) {
@@ -34,14 +36,14 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
    }
   }
   else body=chooser(rows,selected,tab)
-  if(tab==='ledger'){title='Rent & arrears';if(selected)body+=ledgerView(selected,await ledgerData(c,selected.id),manage)}
+  if(tab==='ledger'){title='Rent & arrears';if(selected){const run=url.searchParams.get('run'),ledger=await ledgerData(c,selected.id);body+=ledgerView(selected,ledger,manage)+termSection(selected,await terms(c,selected.id),manage)+runSection(selected,manage&&run?await preview(c,run):null,manage,run??ledger.today.slice(0,7))}}
   else if(tab==='work'){title='Inspections & maintenance';if(selected)body+=workView(selected,{...await workData(c,selected.id),names:await operatorNames(c)})}
   else if(tab!=='tenancy') throw new Fault('not_found','Page not found.',404)
  }
  return page(c,title,body,notice,status,tab,head)
 }
 async function command(c:Context,name:string,p:Row) {
- for(const handler of [tenancyCommand,ledgerCommand,workCommand,importCommand,dataCommand,companyCommand,assetCommand,vendorCommand,scheduleCommand]) {
+ for(const handler of [tenancyCommand,ledgerCommand,workCommand,importCommand,dataCommand,companyCommand,assetCommand,vendorCommand,scheduleCommand,chargeRunCommand]) {
   const result=await handler(c,name,p); if(result!==undefined)return result
  }
  throw new Fault('unknown_command','Unknown Terrace command.',404)
@@ -72,7 +74,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   }
   insist(request.method==='GET','method','Method not allowed.',405)
   if(url.pathname==='/app')return await render(c,url,url.searchParams.get('notice')??'',{},200,request,env)
-  if(url.pathname==='/api/commands')return json({commands:['tenancy.create','renewal.prepare','arrears.prepare','proposal.approve','proposal.reject','rent.charge','rent.receipt','rent.adjust','inspection.create','inspection.photo','inspection.complete','maintenance.prepare','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run']})
+  if(url.pathname==='/api/commands')return json({commands:['tenancy.create','renewal.prepare','arrears.prepare','proposal.approve','proposal.reject','rent.charge','rent.receipt','rent.adjust','inspection.create','inspection.photo','inspection.complete','maintenance.prepare','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post']})
   if(url.pathname==='/api/state') {
    const tenancies=await tenancyData(c),tenancyId=url.searchParams.get('tenancy')
    return json({actor:{role:c.actor.role},...await companyData(c),tenancies,...(tenancyId?{ledger:await ledgerData(c,tenancyId),proposals:await proposals(c,tenancyId),work:await workData(c,tenancyId)}:{})})

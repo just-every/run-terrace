@@ -108,7 +108,7 @@ This contract describes the product being built towards. Missing capability neve
 
 ### Rent collection and receivables
 
-- **PAY-001 — Post recurring rent and lease charges.** Generate recurring rent, utilities, pet/parking charges, concessions and move-in/out prorations from effective lease terms in USD. Preview a run, surface missing terms and prevent duplicate posting across retries, amendments and month boundaries. **Acceptance evidence:** Preview and post rent for leases with a concession and mid-month move-in, replay the run and amend future rent; verify each period posts once and posted history is preserved.
+- **PAY-001 — Post recurring rent and lease charges.** Generate recurring rent, utilities, pet/parking charges, concessions and move-in/out prorations from effective lease terms in USD. Preview a run, surface missing terms and prevent duplicate posting across retries, amendments and month boundaries. Exact semantics: lease charge terms (rent, utility, pet, parking or concession) hold an amount per billing period in the tenancy’s stored currency (USD for new tenancies, PORT-001) and an effective start and optional end. A monthly tenancy bills calendar months; a weekly or fortnightly tenancy bills 7- or 14-day periods counted from its lease start; a month’s run covers the periods that start in that month, so a period crossing a month boundary belongs to one run. A term covers the days of a period inside both the lease (its move-in and move-out dates) and the term; a partly covered period is prorated as amount × covered days ÷ period days, rounded half up to the cent, and falls due on its first covered day. A concession posts as a reduction of the same period’s rent charge and never exceeds it. A preview lists every line as new or posted and each period with no rent term as missing; posting requires the preview’s fingerprint, and each line’s reference (term and period start) is unique, so a retried or replayed run posts nothing twice. A term is amended from an effective date after its last posted period; posted charges never change. An owner or admin previews and posts. A renewal approval (TER-003) does not change terms; PORT-005 and LEASE-012 make a lease amendment or renewal write its terms here before they ship, and PAY-006 late fees and PAY-013 voucher splits post through the same run. **Acceptance evidence:** Preview and post rent for leases with a concession and mid-month move-in, replay the run and amend future rent; verify each period posts once and posted history is preserved.
 
 - **PAY-002 — Collect rent through ACH.** Connect the manager’s authorized Stripe ACH account or contracted rent processor using hosted bank authorization and required onboarding. Residents see USD fees and authorization before paying; pending, submitted and settled states remain distinct and each attempt has one provider identity. Each receipt type settles to the bank account ACCT-002 maps it to, using a separate processor connected account per receiving bank account where the processor pays out to one account, so an online security deposit never lands in the rent-trust account. **Acceptance evidence:** Pay a resident balance through ACH sandbox authorization, restart after provider submission and reconcile pending then settled callbacks without a second debit or exposing bank credentials. In a property whose deposit and rent-trust accounts differ, pay a security deposit and the first month's rent online and show the deposit payout settling to the deposit bank account and the rent payout to the trust account.
 
@@ -433,11 +433,13 @@ Revised 19 October 2026: WORK-004 is done. Inspections & maintenance keeps a ven
 
 Revised 19 October 2026: WORK-010 is done. Inspections & maintenance keeps recurring schedules (asset interval, seasonal or from an inspection finding) with a vendor, budget, interval and lead days; a scheduler run creates one order per due occurrence and never a second on replay; occurrences can be deferred, follow a replaced asset and show as overdue until handed off. The exact semantics are written into the clause. `tests/terrace.test.mjs` (WORK-010) asserts each acceptance point.
 
+Revised 19 October 2026: PAY-001 is done. Rent & arrears keeps lease charge terms per tenancy and a monthly charge run that previews lines (prorated by days, with concessions as rent reductions), surfaces missing rent terms and posts a reviewed fingerprint once per period; terms are amended only from unposted periods. The exact semantics are written into the clause. `tests/terrace.test.mjs` (PAY-001) asserts each acceptance point.
+
 | Clauses | Done | Partial | Missing | Total |
 | --- | ---: | ---: | ---: | ---: |
 | Published | 12 | 0 | 0 | 12 |
-| Target and push further | 5 | 43 | 80 | 128 |
-| All | 17 | 43 | 80 | 140 |
+| Target and push further | 6 | 42 | 80 | 128 |
+| All | 18 | 42 | 80 | 140 |
 
 | Clause | Title | Kind | Status | Evidence | Gap |
 | --- | --- | --- | --- | --- | --- |
@@ -476,7 +478,7 @@ Revised 19 October 2026: WORK-010 is done. Inspections & maintenance keeps recur
 | `LEASE-010` | Compose jurisdiction-reviewed lease templates | target | missing |  | Lease template assembly and reviewed jurisdiction packs are absent. |
 | `LEASE-011` | Collect legally evidenced electronic signatures | target | missing |  | E-signature provider/sibling integration and execution lifecycle are absent. |
 | `LEASE-012` | Run renewal and retention campaigns | target | partial | `src/terrace/tenancies.ts`; `tests/terrace.test.mjs` | Reviewed term proposals exist; scheduled campaigns, delivery, reply handling and signatures are absent. |
-| `PAY-001` | Post recurring rent and lease charges | target | partial | `src/terrace/ledger.ts`; `tests/terrace.test.mjs` | Manual charges exist; recurring schedules, proration and USD runs are absent. |
+| `PAY-001` | Post recurring rent and lease charges | target | done | `migrations/core/0022_recurring_charges.sql`; `src/terrace/charge-run.ts`; `src/terrace/charge-run-view.ts`; `tests/terrace.test.mjs` |  |
 | `PAY-002` | Collect rent through ACH | target | missing |  | ACH collection and processor reconciliation are absent. |
 | `PAY-003` | Collect rent by card | target | missing |  | Card collection and hosted payment fields are absent. |
 | `PAY-004` | Manage resident autopay mandates | target | missing |  | Autopay mandates, schedules and notices are absent. |

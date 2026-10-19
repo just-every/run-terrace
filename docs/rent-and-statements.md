@@ -29,6 +29,14 @@ Open **Reduce an incorrect charge**, choose the unpaid charge and enter the redu
 
 Under **Prepare arrears follow-up**, enter a message and follow-up date. Select **Prepare follow-up**. An owner or admin reviews it in the tenancy's **Prepared decisions**. No message is sent by preparation or approval; handle communication in your established workflow.
 
+## Post recurring charges
+
+Under **Recurring charges**, an owner or admin adds the tenancy's lease charge terms: rent, utility, pet, parking or a concession, each with an amount per billing period and a start date (and an end date if it stops before the lease ends). A monthly tenancy bills calendar months; a weekly or fortnightly tenancy bills 7- or 14-day periods from its lease start.
+
+Under **Charge run**, choose a month and select **Preview charge run**. The preview lists every line for periods starting that month across the portfolio, marked new or posted, and any period with no rent term under **Missing terms**. A partly covered period, such as a mid-month move-in, is prorated by days and rounded half up to the cent; a concession reduces that period's rent charge. Select **Post** to record the new lines. Posting again, or previewing a month already posted, never records a period twice.
+
+To change rent from a future date, open **Amend from a date** on the term and enter the effective date and new amount. The date must follow the term's last posted period; posted charges never change. Approving a renewal does not change these terms: amend the rent term for the renewal's new rent.
+
 ## Download an owner statement
 
 Under **Owner statement**, choose **Period start** and **Period end**, then select **Download owner statement**. The end must be on or after the start. The CSV includes the owner and property, the tenancy's currency and the property's time zone, the exact start and end of the period with their UTC offsets (a period crossing a daylight-saving change shows both offsets), opening receivable, charges, external receipts, reductions within the inclusive period and closing receivable.

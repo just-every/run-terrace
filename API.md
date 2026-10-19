@@ -17,6 +17,10 @@ All reads and writes authenticate a current Base operator session. Send the sess
 | `rent.charge` | tenancyId, dueDate, amount, description, reference | Owner/admin |
 | `rent.receipt` | chargeId, amount, receivedDate, reference | Owner/admin |
 | `rent.adjust` | chargeId, amount, reason | Owner/admin |
+| `term.add` | tenancyId, kind (rent/utility/pet/parking/concession), description, amount per period, starts, optional ends | Owner/admin |
+| `term.amend` | termId, effective (after the term's last posted period), amount | Owner/admin |
+| `charges.preview` | month (YYYY-MM); returns lines, missing terms and the fingerprint | Owner/admin |
+| `charges.post` | month, fingerprint from the preview | Owner/admin |
 | `inspection.create` | tenancyId, date, notes | Owner/admin |
 | `inspection.photo` | inspectionId, version, file (multipart JPEG/PNG) | Owner/admin |
 | `inspection.complete` | inspectionId, version, notes | Owner/admin |
