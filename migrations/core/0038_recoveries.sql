@@ -43,6 +43,8 @@ CREATE TABLE tt_tax_rules (
  UNIQUE(property_id,kind,starts)
 );
 ALTER TABLE tt_charges ADD COLUMN tax_rule_id TEXT;
+-- ACCT-011 x ACCT-009: a closed month takes no new fee lines either.
+CREATE TRIGGER tt_fee_period BEFORE INSERT ON tt_fees WHEN EXISTS(SELECT 1 FROM tt_period_closes WHERE month=NEW.month AND reopened_at IS NULL) BEGIN SELECT RAISE(ABORT,'period_closed'); END;
 CREATE TRIGGER tt_allocation_immutable BEFORE UPDATE ON tt_utility_allocations BEGIN SELECT RAISE(ABORT,'An allocation is never edited'); END;
 CREATE TRIGGER tt_tax_rule_immutable BEFORE UPDATE ON tt_tax_rules WHEN OLD.reviewed_at IS NOT NULL OR NEW.kind<>OLD.kind OR NEW.rate_bp<>OLD.rate_bp OR NEW.starts<>OLD.starts OR NEW.property_id<>OLD.property_id OR NEW.label<>OLD.label BEGIN SELECT RAISE(ABORT,'A tax rule is never edited'); END;
 INSERT INTO tt_role_actions(role,action) VALUES

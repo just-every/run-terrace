@@ -734,6 +734,7 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  await h.command('fee.override',{feeId:waived.id,amount:'0',reason:'Minimum waived per owner email'},{as:member,status:403})
  await h.command('fee.override',{feeId:waived.id,amount:'0',reason:'Minimum waived per owner email'})
  assert.equal((await h.command('fees.run',{propertyId:duplex.id,month:'2026-02'})).posted,0,'a later run leaves the override alone')
+ assert.equal((await h.command('fees.run',{propertyId:duplex.id,month:'2026-09'},{status:409})).error,'period_closed','September is closed (ACCT-011)')
  const feeStatement=async o=>(await(await h.request(`/api/owner-statement?ownerId=${o.id}&from=2026-02-01&to=${local}`)).json())
  const [itoFees,holdingsFees]=[await feeStatement(ito),await feeStatement(holdings)]
  assert.deepEqual(itoFees.rows.map(r=>[r.reference,r.allocatedCents,r.agreementReference]),[['ACH-ROSA-02',160008,'Management agreement 2026, schedule A']])
