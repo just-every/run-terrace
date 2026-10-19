@@ -4,6 +4,7 @@ import { hold, trade, vendor, vendorData, vendorGuard } from './vendors'
 import { jobWrites } from './job-writes'
 import { scheduleData } from './schedules'
 import { localDate } from './zones'
+import { authority, OWNER_LABEL, quoteData } from './quotes'
 
 // Adapted evidence storage/version guards from gasket/src/gasket/work.ts
 // at 3f87ba0fdba9955f2b7d018d10afafcd50afa919; proposal preparation and
@@ -99,10 +100,14 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
     case 'maintenance.approve': {
       manager(c)
       const row = await job(c, p), version = validVersion(p.version), t = await tenancy(c, row.tenancy_id), h = await qualified(c, row, t)
-      const snapshot = JSON.stringify({ jobId: row.id, version, tenancyId: t.id, tenancyVersion: t.version, address: t.address, title: row.title, tradeName: row.trade_name, tradeEmail: row.trade_email, vendorId: row.vendor_id, trade: row.trade, qualificationIssues: h.issues, qualificationException: h.exception ? { id: h.exception.id, reason: h.exception.reason, approvedBy: h.exception.approved_by } : null, dueDate: row.due_date, estimateCents: row.estimate_cents, currency: row.currency, preparedBy: row.prepared_by, preparedAt: row.prepared_at, approvedBy: c.actor.id, approvedRole: c.actor.role, approvedAt: c.now })
+      // WORK-003: above the owner's limit or budget, a manager approves only the exact terms the owner approved.
+      const a = await authority(c, row, t), owner = a.decision
+      insist(!a.needsOwner || owner?.decision === 'approved', owner ? 'owner_declined' : 'owner_approval_required', owner ? 'The owner declined these terms. Change the scope, vendor or price, or record a new owner decision on new terms.' : `Needs the owner’s decision: ${a.reasons.join('; ')}. Record the owner’s approval of these exact terms first.`, 409)
+      const snapshot = JSON.stringify({ jobId: row.id, version, tenancyId: t.id, tenancyVersion: t.version, address: t.address, title: row.title, scope: row.scope ?? null, quoteId: row.quote_id ?? null, ownerLimit: a.limit ? { limitCents: a.limit.limit_cents, budgetCents: a.limit.budget_cents, spentCents: a.spentCents, reasons: a.reasons } : null, ownerDecision: owner ? { decision: owner.decision, source: owner.source, reference: owner.reference, recordedBy: owner.recorded_by, recordedAt: owner.recorded_at, termsSha256: owner.terms_sha256, label: OWNER_LABEL } : null, tradeName: row.trade_name, tradeEmail: row.trade_email, vendorId: row.vendor_id, trade: row.trade, qualificationIssues: h.issues, qualificationException: h.exception ? { id: h.exception.id, reason: h.exception.reason, approvedBy: h.exception.approved_by } : null, dueDate: row.due_date, estimateCents: row.estimate_cents, currency: row.currency, preparedBy: row.prepared_by, preparedAt: row.prepared_at, approvedBy: c.actor.id, approvedRole: c.actor.role, approvedAt: c.now })
       const digest = await sha256(new TextEncoder().encode(snapshot))
       await commit(c, [
         jobGuard(c, row, version, 'pending'), vendorGuard(c, row, h.vendorVersion),
+        ...(a.needsOwner ? [guard(c, "EXISTS(SELECT 1 FROM tt_owner_decisions WHERE job_id=? AND job_version=? AND terms_sha256=? AND decision='approved')", row.id, version, a.sha)] : []),
         guard(c, "EXISTS(SELECT 1 FROM tt_proposals p JOIN tt_tenancies t ON t.id=p.tenancy_id WHERE p.id=? AND p.kind='maintenance' AND p.state='pending' AND p.tenancy_version=t.version AND t.version=?)", row.proposal_id, t.version),
         sql(c, 'INSERT INTO tt_maintenance_approvals(id,job_id,job_version,snapshot,sha256,approved_by,approved_role,approved_at) VALUES(?,?,?,?,?,?,?,?)', id(), row.id, version, snapshot, digest, c.actor.id, c.actor.role, c.now),
         sql(c, "UPDATE tt_proposals SET state='approved',approved_by=?,approved_at=? WHERE id=?", c.actor.id, c.now, row.proposal_id),
@@ -113,6 +118,7 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
     case 'maintenance.sent': {
       manager(c)
       const row = await job(c, p), version = validVersion(p.version), reference = text(p.reference, 'External handoff reference', 500)
+      insist(row.state === 'approved', 'not_approved', 'Approve the current terms before recording the handoff.', 409)
       // Qualification is checked again at handoff: a vendor that lapsed after approval is held, never silently dispatched.
       const h = await qualified(c, row, await tenancy(c, row.tenancy_id))
       await commit(c, [
@@ -131,10 +137,10 @@ export async function workData(c: Context, tenancyId: string) {
   const [inspections, photos, jobs] = await Promise.all([
     all(c, 'SELECT * FROM tt_inspections WHERE tenancy_id=? ORDER BY inspection_date DESC,created_at DESC', t.id),
     all(c, 'SELECT p.id,p.inspection_id,p.filename,p.media_type,p.size,p.sha256,p.uploaded_by,p.uploaded_at FROM tt_inspection_photos p JOIN tt_inspections i ON i.id=p.inspection_id WHERE i.tenancy_id=? ORDER BY p.uploaded_at', t.id),
-    all(c, 'SELECT j.*,a.job_version AS approved_version,a.approved_by,a.approved_role,a.approved_at,a.sha256 AS approval_sha256,a.snapshot AS approval_snapshot FROM tt_maintenance_jobs j LEFT JOIN tt_maintenance_approvals a ON a.job_id=j.id WHERE j.tenancy_id=? ORDER BY j.prepared_at DESC', t.id),
+    all(c, 'SELECT j.*,a.job_version AS approved_version,a.approved_by,a.approved_role,a.approved_at,a.sha256 AS approval_sha256,a.snapshot AS approval_snapshot FROM tt_maintenance_jobs j LEFT JOIN tt_maintenance_approvals a ON a.job_id=j.id AND j.state<>\'pending\' AND a.job_version=(SELECT MAX(job_version) FROM tt_maintenance_approvals WHERE job_id=j.id) WHERE j.tenancy_id=? ORDER BY j.prepared_at DESC', t.id),
   ])
   const today = localDate(c.now, t.time_zone)
-  return { inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), role: c.actor.role }
+  return { inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), ...await quoteData(c, t, jobs), role: c.actor.role }
 }
 
 /** Operator ids to display names, for showing who prepared, approved, uploaded or handed off work. */
@@ -154,13 +160,14 @@ export async function photoResponse(c: Context, photoId: string): Promise<Respon
 
 export async function workPacket(c: Context, jobId: string): Promise<Response> {
   await readAccess(c)
-  const row = await one(c, "SELECT a.*,j.currency,t.currency_confirmed FROM tt_maintenance_approvals a JOIN tt_maintenance_jobs j ON j.id=a.job_id JOIN tt_tenancies t ON t.id=j.tenancy_id WHERE j.id=? AND j.state IN ('approved','sent')", text(jobId, 'Maintenance job', 100))
+  const row = await one(c, "SELECT a.*,j.currency,t.currency_confirmed FROM tt_maintenance_approvals a JOIN tt_maintenance_jobs j ON j.id=a.job_id JOIN tt_tenancies t ON t.id=j.tenancy_id WHERE j.id=? AND j.state IN ('approved','sent') ORDER BY a.job_version DESC LIMIT 1", text(jobId, 'Maintenance job', 100))
   insist(row, 'not_approved', 'An approved maintenance job is required to download a handoff packet.', 409)
   const s = JSON.parse(row.snapshot)
   insist(await sha256(new TextEncoder().encode(row.snapshot)) === row.sha256, 'conflict', 'The approval evidence could not be verified.', 409)
   const body = [
     `Hello ${s.tradeName},`, '', `Please arrange the approved maintenance work at ${s.address}.`, '',
-    `Work: ${s.title}`, `Due date: ${s.dueDate}`, `Approved estimate: ${money(s.estimateCents, row.currency_confirmed === 0 ? UNCONFIRMED : row.currency)}`,
+    `Work: ${s.title}`, ...(s.scope ? [`Scope: ${s.scope}`] : []), `Due date: ${s.dueDate}`, `Approved estimate: ${money(s.estimateCents, row.currency_confirmed === 0 ? UNCONFIRMED : row.currency)}`,
+    ...(s.ownerDecision ? [`Owner approval: ${s.ownerDecision.label} (${s.ownerDecision.source}: ${s.ownerDecision.reference})`] : []),
     '', `Job reference: ${s.jobId}`, `Approved version: ${s.version}`, `Approved by: ${s.approvedBy} (${s.approvedRole})`,
     `Approved at: ${s.approvedAt}`, `Approval SHA-256: ${row.sha256}`, '',
     'Please reply to the sender to arrange access and confirm the work.',

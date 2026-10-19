@@ -48,6 +48,12 @@ All reads and writes authenticate a current Base operator session. Send the sess
 | `asset.replace` | assetId plus the replacement's asset.add fields; installedDate is the replacement date | Owner/admin |
 | `maintenance.approve` | jobId, version | Owner/admin |
 | `maintenance.sent` | jobId, version, reference | Owner/admin, after external handoff |
+| `work.limits` | tenancyId, limit, budget? | Owner/admin; the owner's per-job limit and yearly budget, recorded by staff for the owner (WORK-003) |
+| `quote.add` | jobId, vendorId or vendorName + vendorEmail, scope, availableDate, amount, tax? | Owner/admin/member, before handoff |
+| `quote.select` | jobId, version, quoteId | Owner/admin/member; reopens approval |
+| `maintenance.revise` | jobId, version, scope?, title?, estimate?, dueDate? | Owner/admin/member; reopens approval |
+| `maintenance.owner` | jobId, version, decision (approved/declined), source (email/document/call), reference | Owner/admin, only above the limit or budget; recorded by staff for the owner |
+| `currency.confirm` | currency (AUD/USD) | Owner, once per installation (PORT-001 legacy currency) |
 | `import.preview`, `import.apply`, `import.journal`, `import.undo` | See [move-in contract](docs/move-in.md) | Owner |
 | `tenancy.erase` | tenancyId, confirm (exact tenant email) | Owner |
 | `data.restore` | backup file, optional journal file, confirm=RESTORE (multipart) | Owner, empty product destination |
