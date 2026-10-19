@@ -421,11 +421,13 @@ Judged from the code and tests at commit `656ff5a4f0aea9cf8e2320e45f73e15a7407ea
 
 Revised 17 October 2026 so every capability claim on the approved homepage has a clause (see [Homepage claims](#homepage-claims)): MOVE-011, PORTAL-010, AGENT-009, BOUND-004, OPEN-001 and DEMO-001 were added and judged from the commit above; the acceptance evidence of LEASE-001, LEASE-009, LEASE-012, REPORT-001, ACCT-001, ACCT-012, ACCT-014, MOVE-001 and WORK-005 was sharpened. No existing clause changed status: `src/terrace` is unchanged since the earlier audit commit `7a13504`.
 
+Revised 19 October 2026: TER-012 is done. `tests/app-journey.mjs` serves the built run site and the emitted app through Cloudflare's asset server, opens /, /run, /docs and a missing path (a real 404 document), and in the signed-in app enters a tenancy, follows its linked row and ledger action, records rent and reads the ledger at 1440 and 390 pixels.
+
 | Clauses | Done | Partial | Missing | Total |
 | --- | ---: | ---: | ---: | ---: |
-| Published | 11 | 1 | 0 | 12 |
+| Published | 12 | 0 | 0 | 12 |
 | Target and push further | 0 | 46 | 82 | 128 |
-| All | 11 | 47 | 82 | 140 |
+| All | 12 | 46 | 82 | 140 |
 
 | Clause | Title | Kind | Status | Evidence | Gap |
 | --- | --- | --- | --- | --- | --- |
@@ -440,7 +442,7 @@ Revised 17 October 2026 so every capability claim on the approved homepage has a
 | `TER-009` | Review and undo tenancy CSV move-in | published | done | `src/terrace/imports.ts`; `src/terrace/imports-source.ts`; `src/terrace/imports-target.ts`; `tests/terrace.test.mjs` |  |
 | `TER-010` | Export and restore product custody | published | done | `src/terrace/data.ts`; `src/terrace/archive-policy.mjs`; `tests/terrace.test.mjs` |  |
 | `TER-011` | Erase tenancy custody with a restore fence | published | done | `src/terrace/data.ts`; `src/terrace/imports.ts`; `src/terrace/archive-policy.mjs`; `tests/terrace.test.mjs` |  |
-| `TER-012` | Preserve the installed app and run site | published | partial | `src/terrace/view.ts`; `src/terrace/ledger-view.ts`; `src/site/docs.ts`; `src/site/run.ts`; `tests/terrace.test.mjs` | Site and responsive source exist; complete public-site and phone user journeys are not covered by the product tests. |
+| `TER-012` | Preserve the installed app and run site | published | done | `src/terrace/view.ts`; `src/terrace/ledger-view.ts`; `src/site/docs.ts`; `src/site/run.ts`; `tests/terrace.test.mjs`; `tests/app-journey.mjs` |  |
 | `PORT-001` | Run a US portfolio in USD | target | partial | `src/terrace/core.ts`; `src/terrace/tenancies.ts` | Existing amounts and displays are AUD; US settings, USD migration and property timezones are absent. |
 | `PORT-002` | Separate properties buildings and units | target | partial | `src/terrace/tenancies.ts`; `src/terrace/tenancy-view.ts` | Only a tenancy address exists; independent property/unit records and occupancy lifecycle are absent. |
 | `PORT-003` | Manage owners and management agreements | target | partial | `src/terrace/tenancies.ts` | Tenancies hold one owner name/email; owner entities, shares, agreements and reserves are absent. |

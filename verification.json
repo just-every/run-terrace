@@ -32,7 +32,8 @@
       "commands": [
         "pnpm run build",
         "pnpm run test:runtime",
-        "pnpm run test:email-link"
+        "pnpm run test:email-link",
+        "pnpm run test:app-journey"
       ]
     }
   ],

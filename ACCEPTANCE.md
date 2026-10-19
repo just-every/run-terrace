@@ -44,7 +44,7 @@ Run the existing seven integration tests with `pnpm run test:terrace`. Run the r
 
 11. **TER-011 — Erase tenancy custody with a restore fence.** **Status: done.** Reject an incorrect confirmation, erase the tenancy, verify absent state and photo 404, export the later journal and refuse an older archive plus that journal in a clean destination. **Current evidence:** `src/terrace/data.ts`; `src/terrace/imports.ts`; `src/terrace/archive-policy.mjs`; `tests/terrace.test.mjs`
 
-12. **TER-012 — Preserve the installed app and run site.** **Status: partial.** Build the site and open /, /run, /docs and a missing path; in the signed-in app use linked tenancy actions and inspect the rent ledger at 1440 and 390 pixels with real entered records. **Current evidence:** `src/terrace/view.ts`; `src/terrace/ledger-view.ts`; `src/site/docs.ts`; `src/site/run.ts`; `tests/terrace.test.mjs` **Remaining:** Site and responsive source exist; complete public-site and phone user journeys are not covered by the product tests.
+12. **TER-012 — Preserve the installed app and run site.** **Status: done.** Build the site and open /, /run, /docs and a missing path; in the signed-in app use linked tenancy actions and inspect the rent ledger at 1440 and 390 pixels with real entered records. **Current evidence:** `src/terrace/view.ts`; `src/terrace/ledger-view.ts`; `src/site/docs.ts`; `src/site/run.ts`; `tests/terrace.test.mjs`; `tests/app-journey.mjs`
 
 ### Portfolio, leases and operating rights
 
