@@ -1,6 +1,8 @@
 import { all, cents, commit, date, email, guard, id, insist, manager, money, one, sha256, sql, tenancy, text, type Context, type Row } from './core'
 import { assetData, serviceableAsset } from './assets'
-import { assignment, hold, issues, trade, vendor, vendorData, vendorGuard } from './vendors'
+import { hold, trade, vendor, vendorData, vendorGuard } from './vendors'
+import { jobWrites } from './job-writes'
+import { scheduleData } from './schedules'
 import { localDate } from './zones'
 
 // Adapted evidence storage/version guards from gasket/src/gasket/work.ts
@@ -85,20 +87,13 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
     }
     case 'maintenance.prepare': {
       insist(['owner','admin','member'].includes(c.actor.role), 'forbidden', 'You cannot prepare maintenance.', 403)
-      const t = await tenancy(c, p.tenancyId), jobId = id(), proposalId = id()
+      const t = await tenancy(c, p.tenancyId)
       // WORK-004: a directory vendor is checked for the job's trade; a typed-in vendor is held as unlisted.
       const listed = p.vendorId ? await vendor(c, p.vendorId) : null, work = listed || p.trade ? trade(p.trade) : null
-      const details = { title: text(p.title, 'Work required', 200), tradeName: listed ? listed.name : text(p.tradeName, 'Vendor name', 200), tradeEmail: listed ? listed.email : email(p.tradeEmail), dueDate: date(p.dueDate, 'Due date'), estimateCents: cents(p.estimate) }
-      insist(!/[<>"(),:;\\]/.test(details.tradeEmail), 'invalid_email', 'Enter a plain vendor email address.')
-      const asset = await serviceableAsset(c, t.id, p.assetId), found = issues(listed, { trade: work, due_date: details.dueDate }, t)
-      await commit(c, [
-        guard(c, 'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)', t.id, t.version),
-        ...(asset ? [guard(c, "EXISTS(SELECT 1 FROM tt_assets WHERE id=? AND state='in_service')", asset.id)] : []),
-        ...(listed ? [guard(c, 'EXISTS(SELECT 1 FROM tt_vendors WHERE id=? AND version=?)', listed.id, listed.version)] : []),
-        sql(c, "INSERT INTO tt_proposals(id,tenancy_id,kind,payload,tenancy_version,prepared_by,prepared_at) VALUES(?,?,'maintenance',?,?,?,?)", proposalId, t.id, JSON.stringify({ jobId, ...details }), t.version, c.actor.id, c.now),
-        sql(c, 'INSERT INTO tt_maintenance_jobs(id,tenancy_id,proposal_id,title,trade_name,trade_email,due_date,estimate_cents,prepared_by,prepared_at,currency,asset_id,vendor_id,trade,qualification) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', jobId, t.id, proposalId, details.title, details.tradeName, details.tradeEmail, details.dueDate, details.estimateCents, c.actor.id, c.now, t.currency, asset?.id ?? null, listed?.id ?? null, work, JSON.stringify(found)),
-        assignment(c, jobId, listed?.id ?? null, details.tradeName, work, found),
-      ], command, jobId)
+      const tradeEmail = listed ? listed.email : email(p.tradeEmail)
+      insist(!/[<>"(),:;\\]/.test(tradeEmail), 'invalid_email', 'Enter a plain vendor email address.')
+      const { jobId, proposalId, found, statements } = jobWrites(c, t, { title: text(p.title, 'Work required', 200), listed, trade: work, tradeName: listed ? listed.name : text(p.tradeName, 'Vendor name', 200), tradeEmail, dueDate: date(p.dueDate, 'Due date'), estimateCents: cents(p.estimate), asset: await serviceableAsset(c, t.id, p.assetId) })
+      await commit(c, statements, command, jobId)
       return { id: jobId, tenancyId: t.id, proposalId, version: 1, issues: found, notice: found.length ? `Maintenance prepared and held: ${found.join('; ')}. A manager's documented exception is needed before approval.` : 'Maintenance prepared. An owner or administrator must approve it before handoff.' }
     }
     case 'maintenance.approve': {
@@ -139,7 +134,7 @@ export async function workData(c: Context, tenancyId: string) {
     all(c, 'SELECT j.*,a.job_version AS approved_version,a.approved_by,a.approved_role,a.approved_at,a.sha256 AS approval_sha256,a.snapshot AS approval_snapshot FROM tt_maintenance_jobs j LEFT JOIN tt_maintenance_approvals a ON a.job_id=j.id WHERE j.tenancy_id=? ORDER BY j.prepared_at DESC', t.id),
   ])
   const today = localDate(c.now, t.time_zone)
-  return { inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), role: c.actor.role }
+  return { inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), role: c.actor.role }
 }
 
 /** Operator ids to display names, for showing who prepared, approved, uploaded or handed off work. */

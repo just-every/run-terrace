@@ -23,6 +23,9 @@ All reads and writes authenticate a current Base operator session. Send the sess
 | `maintenance.prepare` | tenancyId, title, vendorId and trade (a directory vendor) or tradeName and tradeEmail (an unlisted vendor, held), dueDate, estimate, optional assetId (an in-service asset of the tenancy). Returns the qualification `issues` | Any operator |
 | `vendor.add`, `vendor.update` | name, email, phone, specialties, serviceAreas, w9 (received/missing), insuranceExpires, optional licenseNumber with licenseExpires, availability, rate, standing (preferred/approved/blocked); update adds vendorId, version | Owner/admin |
 | `maintenance.reassign` | jobId, vendorId, optional trade, version; prepared work only | Owner/admin |
+| `schedule.add` | tenancyId, title, trade, vendorId, optional assetId or inspectionId, intervalMonths, firstDue, budget, optional leadDays (default 30) | Owner/admin |
+| `schedule.defer` | scheduleId, dueDate (an occurrence without an order), deferTo, reason | Owner/admin |
+| `schedule.run` | none; returns created and existing order counts | Owner/admin |
 | `maintenance.exception` | jobId, reason; records a documented exception for the job's current qualification issues | Owner/admin |
 | `asset.add` | tenancyId, kind, location, make, model, serial, installedDate, optional warrantyProvider with warrantyEnds, manual, replaceBy, replacementCost | Owner/admin |
 | `asset.replace` | assetId plus the replacement's asset.add fields; installedDate is the replacement date | Owner/admin |

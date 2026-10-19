@@ -214,7 +214,7 @@ This contract describes the product being built towards. Missing capability neve
 
 - **WORK-009 — Match invoice work and owner charge.** Extract invoice lines with source locations, match vendor, approved estimate, labor/materials, completion and duplicate history, then propose an owner/property allocation. Differences, unapproved extras and incomplete work hold the bill; human approval posts it and links the later settlement. **Acceptance evidence:** Submit a completed repair invoice exceeding its quote, flag the unmatched line, approve a corrected invoice and trace work, payable, payment and owner statement without double entry.
 
-- **WORK-010 — Schedule preventive and recurring maintenance.** Generate dated work from asset intervals, seasonal tasks and inspection findings, with budgets, owner permissions, vendor schedules and recurrence history. Track missed occurrences and equipment changes without creating duplicate work orders on scheduler replay. **Acceptance evidence:** Schedule annual HVAC service and quarterly safety work, replay a scheduler run, defer one occurrence and replace an asset; inspect exactly one order per due occurrence and an explicit overdue exception.
+- **WORK-010 — Schedule preventive and recurring maintenance.** Generate dated work from asset intervals, seasonal tasks and inspection findings, with budgets, owner permissions, vendor schedules and recurrence history. Track missed occurrences and equipment changes without creating duplicate work orders on scheduler replay. Exact semantics: a schedule belongs to a tenancy, names a directory vendor (WORK-004 qualification applies to every order), a trade, a budget per occurrence in the tenancy’s currency, an interval of 1 to 60 months from its first due date (the same day of the month, or the month’s last day when shorter; a seasonal task is an annual schedule anchored in its season’s month) and 0 to 90 lead days, and may follow an asset (WORK-002) or come from a completed inspection’s finding. A scheduler run, started by an owner or admin, creates one pending order for the budget for each occurrence whose effective due date (its deferred date, if deferred) is on or before the property-local today plus the lead days; a unique occurrence key means a replayed or concurrent run never creates a second order. An order is work an owner or admin must approve, as for any maintenance. An occurrence can be deferred, with a reason, only before it has an order. An occurrence past its effective due date whose order has not been handed off is listed as overdue. When a followed asset is replaced the schedule follows the replacement, and each occurrence keeps the asset it was ordered for. OPS-003 adds an unattended timed run, and WORK-005 vendor calendars, before they ship. **Acceptance evidence:** Schedule annual HVAC service and quarterly safety work, replay a scheduler run, defer one occurrence and replace an asset; inspect exactly one order per due occurrence and an explicit overdue exception.
 
 - **WORK-011 — Complete mobile move-in and move-out inspections.** Use configurable room/asset checklists, dated original photos/video, notes, readings and resident acknowledgement. Compare entry and exit condition side by side, retain disagreements and propose evidenced work or deposit deductions for a person to approve. **Acceptance evidence:** Inspect on a phone offline, sync photos, compare move-out damage to the entry record and reject an unsupported deduction while retaining the resident’s disputed finding.
 
@@ -431,11 +431,13 @@ Revised 19 October 2026: WORK-002 is done. Inspections & maintenance keeps an as
 
 Revised 19 October 2026: WORK-004 is done. Inspections & maintenance keeps a vendor directory (specialties, service areas, W-9 status, insurance and license expiry, availability, rate, preferred/approved/blocked); preparing, reassigning, approving and recording a handoff check the vendor’s qualification, and unqualified or unlisted vendors are held until a manager records a documented exception. The exact semantics are written into the clause. `tests/terrace.test.mjs` (WORK-004) asserts each acceptance point.
 
+Revised 19 October 2026: WORK-010 is done. Inspections & maintenance keeps recurring schedules (asset interval, seasonal or from an inspection finding) with a vendor, budget, interval and lead days; a scheduler run creates one order per due occurrence and never a second on replay; occurrences can be deferred, follow a replaced asset and show as overdue until handed off. The exact semantics are written into the clause. `tests/terrace.test.mjs` (WORK-010) asserts each acceptance point.
+
 | Clauses | Done | Partial | Missing | Total |
 | --- | ---: | ---: | ---: | ---: |
 | Published | 12 | 0 | 0 | 12 |
-| Target and push further | 4 | 43 | 81 | 128 |
-| All | 16 | 43 | 81 | 140 |
+| Target and push further | 5 | 43 | 80 | 128 |
+| All | 17 | 43 | 80 | 140 |
 
 | Clause | Title | Kind | Status | Evidence | Gap |
 | --- | --- | --- | --- | --- | --- |
@@ -524,7 +526,7 @@ Revised 19 October 2026: WORK-004 is done. Inspections & maintenance keeps a ven
 | `WORK-007` | Capture field labor materials and completion evidence | target | partial | `src/terrace/work.ts` | Inspection photos exist; technician labor/materials, video, offline sync and completion submission are absent. |
 | `WORK-008` | Verify repair with the resident | target | missing |  | Resident completion checks, reopening and callback tracking are absent. |
 | `WORK-009` | Match invoice work and owner charge | target | missing |  | Invoice extraction, three-way work/bill match and owner-ledger linkage are absent. |
-| `WORK-010` | Schedule preventive and recurring maintenance | target | missing |  | Preventive maintenance schedules and generated work are absent. |
+| `WORK-010` | Schedule preventive and recurring maintenance | target | done | `migrations/core/0021_schedules.sql`; `src/terrace/schedules.ts`; `src/terrace/schedule-view.ts`; `src/terrace/job-writes.ts`; `tests/terrace.test.mjs` |  |
 | `WORK-011` | Complete mobile move-in and move-out inspections | target | partial | `src/terrace/work.ts`; `src/terrace/work-view.ts`; `tests/terrace.test.mjs` | Dated photo inspections ship; structured comparisons, acknowledgement, video and offline journeys are absent. |
 | `WORK-012` | Integrate HappyCo inspection evidence | target | missing |  | HappyCo adapter and provider inspection reconciliation are absent. |
 | `WORK-013` | Run make-ready and turnover boards | target | missing |  | Turnover boards, dependencies and ready-date controls are absent. |

@@ -33,6 +33,12 @@ Downloading an `.eml` file does not send it. The final state, **Sent · external
 
 Approvals and changes check the current version. If another action changed the record, reopen the current page and review it before acting. [Backups](backup-and-restore.md) include photographs and approval records.
 
+## Recurring maintenance
+
+Under **Recurring maintenance**, an owner or admin adds a schedule: the work, trade, directory vendor, an optional asset or completed inspection it comes from, how many months between occurrences, the first due date, a budget per occurrence and how many days ahead orders are created.
+
+Select **Run the scheduler** to create one order, awaiting approval, for each occurrence due within its lead days. Running it again never creates a second order for the same occurrence. Before an occurrence has an order you can defer it to a later date with a reason. An occurrence past its due date whose order has not been handed off appears under **Overdue occurrences**. When an asset is replaced, its schedules follow the replacement.
+
 ## Vendors
 
 Under **Vendors**, an owner or admin keeps the vendor directory: name and contact details, specialties (trades such as plumbing or hvac), service areas (ZIP codes or cities), W-9 status, insurance and license expiry, availability, hourly rate and standing (preferred, approved or blocked).
