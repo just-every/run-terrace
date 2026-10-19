@@ -14,6 +14,12 @@ Under **Properties**, an owner or admin adds a portfolio, its properties (name, 
 
 Each unit shows its occupancy today (occupied, vacant with a future lease, or vacant) and every lease it has held, with dates. To end a lease early, open **End lease or transfer** on it and enter the move-out date and reason; the lease record and its original end date are kept. To move a resident to another unit, choose the unit and move-in date and select **Transfer resident**: the first lease ends the day before and a linked lease starts on the new unit with the same terms.
 
+## Households
+
+On a tenancy page, **Household** lists the tenant (the primary resident) and anyone added with **Add a household member**: co-tenants, guarantors, occupants, emergency contacts and authorized contacts, with contact details, how they prefer to be contacted and the day they joined. The page shows who is liable for this lease's balance (the resident, co-tenants and guarantors), who receives lease notices and statements, and who may see lease documents (the same people plus authorized contacts, unless they asked not to be contacted). Terrace lists recipients; it sends nothing.
+
+Use **Leave or move** to record that someone left, or to move them to another lease from a date: they leave this household the day before and join the other one. Each lease keeps its own balance.
+
 ## Make a unit ready
 
 When a unit is vacant (or a resident has given notice), open **Open make-ready board** on it with the move-out date. The board lists the standard tasks: move-out inspection and utility transfer, then the deposit disposition and repairs, then cleaning and the listing. Each task shows its planned dates; edit a task's assignee, duration, delay or quote and the dependent tasks and the planned ready date move with it. The board shows how many days the unit stays vacant.

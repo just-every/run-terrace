@@ -1,0 +1,15 @@
+// PORT-004 on the tenancy page: the household, each person's role, dates and rights, and the manager's actions.
+import { escape as e, money, type Row } from './core'
+import { usDate } from './format'
+import { ROLES } from './households'
+
+const hidden = (name: string, value: unknown) => `<input type="hidden" name="${e(name)}" value="${e(value)}">`
+const form = (command: string, tenancyId: string, body: string) => `<form method="post" action="/app/command">${hidden('command', command)}${hidden('tenancyId', tenancyId)}${hidden('tab', 'tenancy')}${body}</form>`
+const label = (r: string) => r.replace('_', ' ')
+
+export function householdSection(t: Row, h: Row, manage: boolean, leases: Row[]) {
+ const others = leases.filter(l => l.id !== t.id)
+ const rows = h.members.map((m: Row) => `<li><strong>${e(m.name)}</strong> · ${e(label(m.role))} · ${usDate(m.joined)}${m.left_on ? ` to ${usDate(m.left_on)}` : ''}${m.current ? '' : ' · not current'} · ${[m.liable && 'liable for the balance', m.recipient && `receives notices by ${e(m.contact_by)}`, m.documents && 'sees lease documents'].filter(Boolean).join(' · ') || 'no lease rights'}${manage && m.id && !m.left_on ? `<details><summary>Leave or move</summary>${form('household.leave', t.id, hidden('memberId', m.id) + '<label>Leaving date<input name="left" type="date" required></label><button class="secondary" type="submit">Record leaving</button>')}${others.length ? form('household.move', t.id, hidden('memberId', m.id) + `<label>Move to lease<select name="toTenancyId">${others.map(l => `<option value="${e(l.id)}">${e(l.address)} · ${e(l.tenant_name)}</option>`).join('')}</select></label><label>Move date<input name="date" type="date" required></label><button class="secondary" type="submit">Move to lease</button>`) : ''}</details>` : ''}</li>`).join('')
+ const add = manage ? `<details><summary>Add a household member</summary>${form('household.add', t.id, `<label>Role<select name="role">${ROLES.map(r => `<option value="${r}">${label(r)}</option>`).join('')}</select></label><label>Name<input name="name" required maxlength="150"></label><label>Email<input name="email" type="email"></label><label>Phone<input name="phone" type="tel"></label><label>Contact by<select name="contactBy"><option value="email">Email</option><option value="phone">Phone</option><option value="mail">Mail</option><option value="none">Do not contact</option></select></label><label>Joined<input name="joined" type="date" value="${e(t.start_date)}" required></label><button type="submit">Add member</button>`)}</details>` : ''
+ return `<section class="household"><h2>Household</h2><p class="muted">Balance ${money(h.balanceCents, h.currency)} is this lease’s; liable: ${e(h.liable.join(', '))}.</p><ul>${rows}</ul>${add}</section>`
+}

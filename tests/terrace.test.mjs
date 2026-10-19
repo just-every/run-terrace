@@ -10,7 +10,7 @@ after(async()=>{await h?.close()})
 test('ordinary sign-in, per-handler roles, CSRF and revocation',async()=>{
  assert.equal((await h.request('/api/state',{as:''})).status,401)
  assert.equal((await h.request('/api/commands',{method:'POST',body:{command:'tenancy.create',...tenancyInput},originHeader:'https://elsewhere.test'})).status,403)
- for(const command of ['tenancy.create','rent.charge','rent.receipt','rent.adjust','proposal.approve','proposal.reject','inspection.create','inspection.photo','inspection.complete','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.check','turnover.publish'])await h.command(command,{}, {as:member,status:403})
+ for(const command of ['tenancy.create','rent.charge','rent.receipt','rent.adjust','proposal.approve','proposal.reject','inspection.create','inspection.photo','inspection.complete','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.check','turnover.publish','household.add','household.leave','household.move'])await h.command(command,{}, {as:member,status:403})
  assert.equal((await h.request('/api/backup',{as:member})).status,403)
  t=await h.command('tenancy.create',tenancyInput,{as:admin})
  const listing=await h.request('/app'),listHtml=await listing.text()
@@ -197,7 +197,7 @@ test('BOUND-004: residential only — no commercial, CAM or association-dues doo
  await h.command('import.apply',{csv:residential,namespace:'bound-004',fingerprint:reviewed.fingerprint})
  const after=(await h.state()).tenancies;assert.equal(after.length,before+1);assert.ok(!after.some(t=>t.address.startsWith('Suite 200')))
 })
-test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready',async()=>{
+test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready; PORT-004 households',async()=>{
  const company={name:'Alder Court Property Management',officeAddress:'1840 Alder Street, Oakland, CA 94610',officeEmail:'office@example.test',officePhone:'(510) 555-0142',timeZone:'America/Los_Angeles'}
  await h.command('company.save',{...company,timeZone:'Australia/Sydney'},{status:400})
  await h.command('company.save',company)
@@ -313,5 +313,25 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  const published=await h.command('turnover.publish',{turnoverId:board.id});assert.equal(published.availableOn,tomorrow>'2026-01-24'?tomorrow:'2026-01-24')
  assert.equal((await h.state()).portfolios.find(f=>f.id===portfolio.id).properties[0].units.find(u=>u.id===upper.id).available_on,published.availableOn)
  assert.ok((await(await h.request('/app?tab=properties')).text()).includes('Ready: available from '),'the board shows the published date')
+
+ // PORT-004: co-tenants, a guarantor and others on Rosa's lease; move the co-tenant to another lease; balances, recipients and document rights stay with each household.
+ const pine=await h.command('tenancy.create',{...tenancyInput,address:'Unit 2, 9 Pine Street, Oakland, CA',tenantName:'Ana Pine',tenantEmail:'pine@example.test',startDate:'2025-01-01',endDate:'2036-12-31',rent:'1500.00',cadence:'monthly'})
+ const lee=await h.command('household.add',{tenancyId:transfer.id,role:'co_tenant',name:'Lee Park',email:'lee@example.test',joined:'2026-01-15'})
+ await h.command('household.add',{tenancyId:transfer.id,role:'guarantor',name:'Maria Diaz',contactBy:'mail',joined:'2026-01-15'})
+ await h.command('household.add',{tenancyId:transfer.id,role:'occupant',name:'Tomas Diaz',contactBy:'none',joined:'2026-01-15'})
+ await h.command('household.add',{tenancyId:transfer.id,role:'emergency_contact',name:'Ines Diaz',phone:'(510) 555-0199',joined:'2026-01-15'})
+ await h.command('household.add',{tenancyId:transfer.id,role:'co_tenant',name:'Nobody',contactBy:'email',joined:'2026-01-15'},{status:400})
+ await h.command('rent.charge',{tenancyId:transfer.id,dueDate:'2026-02-01',amount:'2400.00',description:'February rent',reference:'LINDEN-B-2026-02'})
+ await h.command('rent.charge',{tenancyId:pine.id,dueDate:'2026-02-01',amount:'1500.00',description:'February rent',reference:'PINE-2026-02'})
+ await h.command('household.move',{memberId:lee.id,toTenancyId:transfer.id,date:'2026-02-01'},{status:400})
+ const moveLee=await h.command('household.move',{memberId:lee.id,toTenancyId:pine.id,date:'2026-02-01'})
+ const rosa=(await h.state(transfer.id)).household,ana=(await h.state(pine.id)).household,who=(hh,name)=>hh.members.find(m=>m.name===name)
+ assert.deepEqual([rosa.balanceCents,rosa.recipients,rosa.liable],[240000,['Rosa Diaz','Maria Diaz'],['Rosa Diaz','Maria Diaz']])
+ assert.deepEqual([who(rosa,'Lee Park').left_on,who(rosa,'Lee Park').current,who(rosa,'Lee Park').documents,who(rosa,'Lee Park').moved_to],['2026-01-31',false,false,moveLee.id])
+ assert.deepEqual(['Tomas Diaz','Ines Diaz'].map(n=>[who(rosa,n).liable,who(rosa,n).recipient,who(rosa,n).documents]),[[false,false,false],[false,false,false]])
+ assert.deepEqual([who(rosa,'Maria Diaz').liable,who(rosa,'Maria Diaz').recipient,who(rosa,'Maria Diaz').contact_by],[true,true,'mail'])
+ assert.deepEqual([ana.balanceCents,ana.recipients,ana.liable,who(ana,'Lee Park').joined,who(ana,'Lee Park').documents],[150000,['Ana Pine','Lee Park'],['Ana Pine','Lee Park'],'2026-02-01',true])
+ const leasePage=await(await h.request('/app?tab=tenancy&tenancy='+transfer.id)).text()
+ for(const text of ['<strong>Maria Diaz</strong> · guarantor','liable for the balance · receives notices by mail · sees lease documents','<strong>Tomas Diaz</strong> · occupant','no lease rights','Balance $2,400.00 is this lease’s; liable: Rosa Diaz, Maria Diaz.'])assert.ok(leasePage.includes(text),text)
 
 })

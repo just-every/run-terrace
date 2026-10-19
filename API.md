@@ -2,7 +2,7 @@
 
 All reads and writes authenticate a current Base operator session. Send the session cookie privately, never in a URL. Mutations require `Origin` equal to the installation origin, including command-line requests. Revoking an operator or changing their role invalidates their sessions. There is no anonymous or implicit agent authority.
 
-`GET /api/commands` lists commands. `GET /api/state` lists the company, legal entities, operating accounts and tenancies (each with its `currency` and `time_zone`); `GET /api/state?tenancy=ID` adds its rent, proposals, inspections and maintenance. `POST /api/commands` accepts JSON `{ "command": "name", ...fields }` and returns `{ "ok": true, "result": ... }`, or a non-200 `{ "ok": false, "error", "message" }`. Uploads use multipart form data to the same URL.
+`GET /api/commands` lists commands. `GET /api/state` lists the company, legal entities, operating accounts and tenancies (each with its `currency` and `time_zone`); `GET /api/state?tenancy=ID` adds its rent, household, proposals, inspections and maintenance. `POST /api/commands` accepts JSON `{ "command": "name", ...fields }` and returns `{ "ok": true, "result": ... }`, or a non-200 `{ "ok": false, "error", "message" }`. Uploads use multipart form data to the same URL.
 
 | Command | Fields | Authority |
 | --- | --- | --- |
@@ -17,6 +17,9 @@ All reads and writes authenticate a current Base operator session. Send the sess
 | `turnover.task.submit` | taskId | Any operator |
 | `turnover.task.check` | taskId; its dependencies must be checked | Owner/admin |
 | `turnover.publish` | turnoverId; every task checked | Owner/admin |
+| `household.add` | tenancyId, role (co_tenant/guarantor/occupant/emergency_contact/authorized_contact), name, optional email, phone, contactBy, joined | Owner/admin |
+| `household.leave` | memberId, left | Owner/admin |
+| `household.move` | memberId, toTenancyId, date | Owner/admin |
 | `tenancy.timezone` | tenancyId, timeZone (US IANA zone); recorded dates and currency do not change | Owner/admin |
 | `company.save` | name, officeAddress, officeEmail, officePhone, timeZone (office, US IANA zone). Country US, currency USD | Owner/admin |
 | `entity.add` | legalName, ein (nine digits; format checked, not verified with the IRS); needs a saved company | Owner/admin |

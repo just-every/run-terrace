@@ -64,7 +64,7 @@ This contract describes the product being built towards. Missing capability neve
 
 - **PORT-003 — Manage owners and management agreements.** Track individual/entity owners, joint ownership shares with effective dates, W-9 collection status, management agreements, reserve requirements and property allocations. A mid-period ownership change preserves who earned income and owed expenses before and after transfer. **Acceptance evidence:** Add two owners with shares, change ownership on a dated transfer and inspect the income, reserve and statement allocation on each side of that date.
 
-- **PORT-004 — Keep resident households and occupants.** Separate residents, co-tenants, guarantors, nonpaying occupants, emergency contacts and authorized contacts; track communication preferences and household membership dates. A person on multiple leases has distinct liabilities and portal access for each. **Acceptance evidence:** Add co-tenants and a guarantor, transfer one person between leases and verify balances, recipients and document rights stay with the correct household.
+- **PORT-004 — Keep resident households and occupants.** Separate residents, co-tenants, guarantors, nonpaying occupants, emergency contacts and authorized contacts; track communication preferences and household membership dates. A person on multiple leases has distinct liabilities and portal access for each. Exact semantics: a lease’s tenant is its primary resident; its household adds co-tenants, guarantors, occupants, emergency contacts and authorized contacts, each with contact details, a contact preference (email, phone, mail or none) and the days they joined and left. The primary resident, co-tenants and guarantors are liable for that lease’s balance; occupants and contacts are not. The recipients of lease notices and statements are the current primary resident, co-tenants, guarantors and authorized contacts whose preference is not none, and the same current people hold lease document rights; emergency contacts and occupants have neither. Current means joined on or before the property-local today and not yet left. A person on two leases has a separate household row on each, so liabilities and rights are per lease. Moving a member ends their membership the day before the move and adds them to the other lease from that day; each lease keeps its balance. Erasing a tenancy erases its household. Terrace lists recipients and sends nothing: PORTAL-005 and PORTAL-009 deliver to this list, and PORTAL-001 portal access and PORT-007 documents enforce these rights, before they ship. **Acceptance evidence:** Add co-tenants and a guarantor, transfer one person between leases and verify balances, recipients and document rights stay with the correct household.
 
 - **PORT-005 — Version complete lease obligations.** Record signed lease versions, recurring rent schedules, proration, concessions, deposits, pets, utilities, parking, insurance, addenda and any Housing Choice Voucher HAP contract (housing authority, tenant portion and HAP portion, PAY-013) with effective dates and source documents. Amendments preserve old terms and preview their future charges before approval. **Acceptance evidence:** Enter a lease with a concession and pet charge, approve a mid-month amendment, and reconcile previewed charges and source clauses to the resident ledger while retaining the signed prior version.
 
@@ -439,11 +439,13 @@ Revised 19 October 2026: PORT-002 is done. A Properties page keeps portfolios, p
 
 Revised 19 October 2026: WORK-013 is done. The Properties page opens a make-ready board for a vacated unit with dependent inspection, utility, deposit, repair, cleaning and listing tasks; edits to durations and delays move the dependent tasks and the planned ready date; tasks need a manager’s check after their dependencies, and publishing sets the unit’s true available date. The exact semantics are written into the clause. `tests/terrace.test.mjs` (WORK-013) asserts each acceptance point.
 
+Revised 19 October 2026: PORT-004 is done. Each tenancy page keeps its household (co-tenants, guarantors, occupants, emergency and authorized contacts with contact preferences and dates) and shows who is liable, who receives notices and who holds document rights; a member can leave or move to another lease, and balances stay with each lease. The exact semantics are written into the clause. `tests/terrace.test.mjs` (PORT-004) asserts each acceptance point.
+
 | Clauses | Done | Partial | Missing | Total |
 | --- | ---: | ---: | ---: | ---: |
 | Published | 12 | 0 | 0 | 12 |
-| Target and push further | 8 | 41 | 79 | 128 |
-| All | 20 | 41 | 79 | 140 |
+| Target and push further | 9 | 40 | 79 | 128 |
+| All | 21 | 40 | 79 | 140 |
 
 | Clause | Title | Kind | Status | Evidence | Gap |
 | --- | --- | --- | --- | --- | --- |
@@ -462,7 +464,7 @@ Revised 19 October 2026: WORK-013 is done. The Properties page opens a make-read
 | `PORT-001` | Run a US portfolio in USD | target | done | `migrations/core/0018_us_portfolio.sql`; `src/terrace/company.ts`; `src/terrace/zones.ts`; `src/terrace/ledger.ts`; `src/terrace/tenancies.ts`; `src/terrace/imports-source.ts`; `tests/terrace.test.mjs` |  |
 | `PORT-002` | Separate properties buildings and units | target | done | `migrations/core/0023_properties.sql`; `src/terrace/properties.ts`; `src/terrace/property-view.ts`; `src/terrace/tenancies.ts`; `tests/terrace.test.mjs` |  |
 | `PORT-003` | Manage owners and management agreements | target | partial | `src/terrace/tenancies.ts` | Tenancies hold one owner name/email; owner entities, shares, agreements and reserves are absent. |
-| `PORT-004` | Keep resident households and occupants | target | partial | `src/terrace/tenancies.ts` | One tenant contact exists; household identities, guarantors and membership rights are absent. |
+| `PORT-004` | Keep resident households and occupants | target | done | `migrations/core/0025_households.sql`; `src/terrace/households.ts`; `src/terrace/household-view.ts`; `tests/terrace.test.mjs` |  |
 | `PORT-005` | Version complete lease obligations | target | partial | `src/terrace/tenancies.ts`; `tests/terrace.test.mjs` | Basic dates/rent and renewal history exist; complete obligations, attachments, amendment preview and US proration are absent. |
 | `PORT-006` | Complete move-in transfers and move-out | target | missing |  | Full occupancy transitions and final-account workflows are absent. |
 | `PORT-007` | Store searchable operating documents | target | partial | `src/terrace/work.ts`; `src/terrace/api.ts` | Inspection image custody exists; general documents, video, search and document-specific rights are absent. |
