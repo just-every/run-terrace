@@ -4,7 +4,7 @@ export type Staff = { role: string; all: boolean; version: number; actions: stri
 export type Actor = { id: string; role: 'owner' | 'admin' | 'member'; displayName: string; version?: number; staff?: Staff }
 /** zone: the company's office time zone (PORT-001), which dates the Tenancies home and page header. action: the command or read door being served. */
 /** session: the sign-in's hashed id and kind; secret: the installation's session secret (SAFE-001 sealing); gated: a second factor is still owed this sign-in. */
-export type Context = { db: D1Database; actor: Actor; now: string; zone?: string; action?: string; session?: { hash: string; kind: string }; secret?: string; gated?: boolean }
+export type Context = { db: D1Database; actor: Actor; now: string; zone?: string; action?: string; session?: { hash: string; kind: string }; secret?: string; gated?: boolean; tenancyId?: string; source?: string | null }
 export class Fault extends Error { constructor(public code: string, message: string, public status = 400) { super(message) } }
 export function insist(ok: unknown, code: string, message: string, status = 400): asserts ok { if (!ok) throw new Fault(code, message, status) }
 export const text = (v: unknown, label: string, max = 500) => { insist(typeof v === 'string' && v.trim().length > 0 && v.trim().length <= max, 'invalid_input', `${label} is required (up to ${max} characters).`); return v.trim() }
@@ -24,11 +24,15 @@ export const reachesPortfolio = (c: Context, portfolioId: string) => c.actor.rol
 /** Installation-wide changes (company, legal entities, bank accounts, new portfolios) need every-portfolio scope. */
 export function everywhere(c: Context) { insist(c.actor.role === 'owner' || !!c.actor.staff?.all, 'forbidden', 'This changes every portfolio. Ask the owner or a manager over all portfolios.', 403) }
 export const guard = (c: Context, condition: string, ...params: any[]) => sql(c,`INSERT INTO tt_guard(ok) VALUES(CASE WHEN ${condition} THEN 1 ELSE 0 END)`,...params)
-export const audit = (c: Context, action: string, subject: string) => sql(c,'INSERT INTO tt_audit(id,actor,action,subject,at) VALUES(?,?,?,?,?)',id(),c.actor.id,action,subject,c.now)
+/** SAFE-002: the policy a person acted under is their role and its version (ROLE-001); the owner's is "owner". */
+export const policy = (c: Context) => c.actor.staff ? `${c.actor.staff.role} v${c.actor.staff.version}` : c.actor.role
+export const audit = (c: Context, action: string, subject: string, outcome = 'recorded') => sql(c,'INSERT INTO tt_audit(id,actor,action,subject,at,role,policy,tenancy_id,source,outcome) VALUES(?,?,?,?,?,?,?,?,?,?)',id(),c.actor.id,action,subject,c.now,c.actor.staff?.role ?? c.actor.role,policy(c),c.tenancyId ?? null,c.source ?? null,outcome)
+/** SAFE-002: a sensitive read or export, recorded after it succeeds. */
+export const recordRead = (c: Context, action: string, subject: string) => audit(c, action, subject, action.startsWith('export:') ? 'exported' : 'read').run()
 /** ROLE-001: every write rechecks, in the same D1 batch, the live operator, the role version it was read at and the capability table row for the command served. */
 export const authority = (c: Context, action: string) => guard(c,"EXISTS(SELECT 1 FROM oa_operators o WHERE o.id=? AND o.status='active' AND o.role=? AND o.version=? AND (o.role='owner' OR EXISTS(SELECT 1 FROM tt_staff_roles r JOIN tt_role_actions k ON k.role=r.role WHERE r.operator_id=o.id AND r.version=? AND k.action=?)))",c.actor.id,c.actor.role,c.actor.version ?? 1,c.actor.staff?.version ?? 0,c.action ?? action)
 export async function commit(c: Context, statements: D1PreparedStatement[], action: string, subject: string) { try { await c.db.batch([authority(c,action),...statements,audit(c,action,subject)]); } catch(e) { if(String(e).includes('CHECK constraint')) throw new Fault('conflict','The record or your access changed. Reload and review again.',409); throw e } }
-export async function tenancy(c: Context, value: unknown) { const row = await one(c,'SELECT * FROM tt_tenancies WHERE id=?',text(value,'Tenancy',100)); insist(row && reaches(c,row.unit_id),'not_found','Tenancy not found.',404); return row }
+export async function tenancy(c: Context, value: unknown) { const row = await one(c,'SELECT * FROM tt_tenancies WHERE id=?',text(value,'Tenancy',100)); insist(row && reaches(c,row.unit_id),'not_found','Tenancy not found.',404); c.tenancyId ??= row.id; return row }
 /** PORT-001: an AUD tenancy recorded while Terrace labelled money both A$ and $ is "currency unconfirmed" until the owner confirms it. */
 export const UNCONFIRMED = 'unconfirmed'
 /** The currency a tenancy's money is shown and totalled in: its stored currency, or UNCONFIRMED. */

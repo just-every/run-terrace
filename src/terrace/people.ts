@@ -1,5 +1,5 @@
 import { operatorAuth,type Bindings } from '../auth.server'
-import { allow,escape as e,insist,one,text,type Context,type Row } from './core'
+import { allow,audit,escape as e,insist,one,text,type Context,type Row } from './core'
 import { icon } from './icons'
 import { ROLES,requestedRole,roleData,roleLabel,setRole,tier } from './roles'
 import { avatar,button,form,hidden,input,pill } from './view'
@@ -33,5 +33,7 @@ export async function peopleCommand(request:Request,env:Bindings,c:Context,name:
   return {notice:`Role set to ${roleLabel(want.role).toLowerCase()}.`}
  }
  insist(['active','inactive'].includes(p.status),'status','Choose active or inactive.');await auth.setOperatorStatus(request,text(p.operatorId,'Operator'),p.status)
+ // SAFE-002: Base made the change; Terrace's history records it once it succeeded.
+ await audit(c,`${name}:${p.status}`,String(p.operatorId)).run()
  return {notice:'Operator access updated.'}
 }

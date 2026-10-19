@@ -55,3 +55,8 @@ This is a data deletion tool, not an assessment of your record-retention obligat
 If a retained import CSV contains the erased tenancy alongside others, that original file is withdrawn in full. Other tenancies and their remaining import plans continue to work. See [Move in](move-in.md#authority-archive-restore-and-erasure) for the custody details.
 
 When [restoring an older backup](backup-and-restore.md#keep-erasure-decisions-with-your-backups), provide the later archive as the erasure journal. Offline copies do not learn about erasures automatically.
+
+## History
+
+**Data & access** links to **History** for the owner, portfolio managers and accountants. It lists every change, with who made it, their role and its version at the time, the tenancy, the source they gave (a lease reference, receipt reference or reason) and the outcome, plus sensitive reads (statements, rent rolls, collections, photo and packet downloads) and exports (backups, readable exports, history exports). Portfolio managers and accountants see history about tenancies in their portfolios; the owner and accountants can export it as CSV, and each export is itself recorded. History, rent charges, receipts and corrections cannot be edited or deleted; only erasing a tenancy or undoing a move-in removes that tenancy's money records.
+
