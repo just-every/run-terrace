@@ -206,7 +206,7 @@ test('rent charges, external receipts and corrections preserve balances under ra
  assert.deepEqual(['actorName','subject'].map(k=>row('period.close')[k]),['bookkeeper','2026-09 v2']);assert.equal(trail.filter(x=>x.action==='period.signoff').length,6)
  assert.deepEqual([trail.find(x=>x.action==='correction.prepare'&&x.subject===fix.id).actorName,trail.find(x=>x.action==='correction.approve'&&x.subject===fix.id).actorName],['accountant','bookkeeper'])
 })
-test('PORT-005: signed lease versions and reviewed effective amendments; member prepares renewal and arrears; human approval records actor and refuses stale terms',async()=>{
+test('PORT-005: signed lease versions and reviewed effective amendments, PAY-001 concessions across rent segments; member prepares renewal and arrears; human approval records actor and refuses stale terms',async()=>{
  const renewal=await h.command('renewal.prepare',{tenancyId:t.id,endDate:'2027-12-31',rent:'650.00',source:'Signed lease schedule page 2'},{as:member})
  const stale=await h.command('renewal.prepare',{tenancyId:t.id,endDate:'2027-06-30',rent:'630.00',source:'Earlier proposal'},{as:member})
  await h.command('proposal.approve',{proposalId:renewal.id},{as:member,status:403})

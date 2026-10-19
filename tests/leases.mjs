@@ -112,6 +112,7 @@ export async function journey({inspect,assets=false}={}) {
    assert.deepEqual((await fresh.state(t.id)).leaseVersions,(await h.state(t.id)).leaseVersions)
    assert.deepEqual(Buffer.from(await(await fresh.request('/api/lease-source?id='+first.leaseId)).arrayBuffer()),originalBytes)
   }finally{await fresh.close()}
+  await legacyConcession(h)
   await preserveImportedSource(h)
   await erasure(h)
   if(inspect)await inspect({h,t,manager,input,amendedInput,first,amendment})
@@ -144,4 +145,23 @@ async function preserveImportedSource(h){
  await h.command('import.undo',{jobId:applied.job.id},{status:409})
  assert.equal((await h.request('/api/lease-source?id='+v.leaseId)).status,200,'PORT-005 signed source survives refused import undo')
  assert.ok((await h.state(t.id)).leaseVersions.some(x=>x.id===v.leaseId))
+}
+
+/** Existing unsigned terms still keep a full concession when rent changes within a period. */
+async function legacyConcession(h){
+ const t=await h.command('tenancy.create',{...tenancyInput,tenantEmail:'legacy-concession@example.test',startDate:'2026-08-01',endDate:'2027-07-31',cadence:'monthly'})
+ const rent=await h.command('term.add',{tenancyId:t.id,kind:'rent',description:'Original rent',amount:'1800',starts:'2026-08-01'})
+ await h.command('term.add',{tenancyId:t.id,kind:'concession',description:'Existing concession',amount:'150.01',starts:'2026-08-01'})
+ await h.command('term.amend',{termId:rent.id,effective:'2026-09-16',amount:'2100'})
+ const run=await h.command('charges.preview',{month:'2026-09'})
+ assert.equal(run.missing.length,0)
+ assert.deepEqual(run.lines.filter(x=>x.tenancyId===t.id&&x.kind==='concession').map(x=>x.amountCents),[7501,7500],'PAY-001 keeps the once-rounded concession total, with the remainder on the earlier equal segment')
+ await h.command('charges.post',{month:run.month,fingerprint:run.fingerprint})
+ assert.equal((await h.state(t.id)).ledger.balanceCents,195000-15001)
+ assert.equal((await h.command('charges.preview',{month:'2026-09'})).newLines,0)
+ await h.command('term.add',{tenancyId:t.id,kind:'concession',description:'Excessive concession held',amount:'5000',starts:'2026-09-01',ends:'2026-09-30'})
+ const held=await h.command('charges.preview',{month:'2026-09'})
+ assert.ok(held.missing.some(x=>x.tenancyId===t.id&&x.reason.startsWith('Concession')))
+ assert.equal((await h.command('charges.post',{month:held.month,fingerprint:held.fingerprint},{status:409})).error,'concession_hold')
+ assert.equal((await h.state(t.id)).ledger.balanceCents,195000-15001)
 }

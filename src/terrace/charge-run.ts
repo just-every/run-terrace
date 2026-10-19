@@ -8,6 +8,7 @@
 import { all, cents, commit, date, guard, id, insist, allow, one, sha256, sql, tenancy, text, type Context, type Row, shown, reaches } from './core'
 import { BALANCE } from './ledger'
 import { taxCharge } from './tax'
+import { concessionLines } from './charge-concessions'
 
 export const KINDS = ['rent','utility','pet','parking','concession'] as const
 const DAY = 86400000
@@ -54,11 +55,10 @@ async function runFor(c:Context,m:string,tenancies:Row[],terms:Row[],posted:Row[
    const line = { tenancyId: t.id, address: t.address, termId: term.id, kind: term.kind, description: term.description, currency: t.currency, shown: shown(t), periodStart: ps, periodEnd: pe, dueDate: a, coveredDays: covered, periodDays: length, amountCents: amount, termVersion:term.version, sourceClause: term.source_clause ?? null, leaseVersionId: term.lease_version_id ?? null, coveredFrom:a, coveredTo:b, reference, posted: posted.some(q => q.tenancy_id === t.id && q.reference === reference) } as Row
    if (term.kind === 'rent') rents.push(line)
    if (term.kind === 'concession') {
-    const rent=rents.find(r=>r.coveredFrom<=a&&r.coveredTo>=b)
-    if (!rent) { missing.push({ tenancyId: t.id, address: t.address, period: [ps, pe], reason: 'Concession without a rent term in this period' }); continue }
-    if (amount > rent.amountCents) { missing.push({ tenancyId: t.id, address: t.address, period: [ps, pe], reason: 'Concession exceeds the period rent' }); continue }
-    line.rentReference = rent.reference
-    line.posted = !!(await one(c, 'SELECT 1 FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id WHERE q.tenancy_id=? AND q.reference=? AND a.reference=?', t.id, rent.reference, reference))
+    const result=await concessionLines(c,line,rents)
+    if(result.reason)missing.push({tenancyId:t.id,address:t.address,period:[ps,pe],reason:result.reason})
+    lines.push(...result.lines)
+    continue
    }
    lines.push(line)
    // ACCT-016: a parking or utility term's charge carries the tax its reviewed rule calls for, as its own line.
@@ -98,6 +98,7 @@ export async function chargeRunCommand(c: Context, command: string, p: Row): Pro
  if (command === 'charges.post') {
   const run = await preview(c, p.month)
   insist(p.fingerprint === run.fingerprint, 'review_changed', 'The run changed since its preview. Preview it again and post the new lines.', 409)
+  insist(!run.missing.some(x=>x.reason.startsWith('Concession')), 'concession_hold', 'Resolve the concession coverage or amount before posting this run.',409)
   const writes: D1PreparedStatement[] = [], chargeIds = new Map<string, string>()
   for(const l of run.lines.filter(l=>!l.posted&&l.termId))writes.push(guard(c,'EXISTS(SELECT 1 FROM tt_lease_terms WHERE id=? AND version=? AND superseded_by IS NULL)',l.termId,l.termVersion))
   for (const l of run.lines.filter(l => !l.posted && l.kind !== 'concession')) {
