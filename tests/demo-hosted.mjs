@@ -28,7 +28,10 @@ try {
   await capture(page,'production-signed-out')
  } finally {await publicContext.close()}
 
- ;[owner,preparer]=await Promise.all([start(browser,origin,measurement),start(browser,origin,measurement)])
+ const admissions=await Promise.allSettled([start(browser,origin,measurement,'owner'),start(browser,origin,measurement,'preparer')])
+ if(admissions[0].status==='fulfilled')owner=admissions[0].value
+ if(admissions[1].status==='fulfilled')preparer=admissions[1].value
+ for(const admission of admissions)if(admission.status==='rejected')throw admission.reason
  const before=await read(owner.context,origin)
  assert.ok(before.tenancies.length,'the owner receives a lived-in portfolio')
  const states=await Promise.all(before.tenancies.map(t=>read(owner.context,origin,'/api/state?tenancy='+encodeURIComponent(t.id))))

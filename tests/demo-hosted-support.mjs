@@ -18,19 +18,33 @@ export async function read(context, origin, path='/api/state') {
  assert.equal(response.status(),200,`DEMO-001 reads ${path.split('?')[0]}`)
  return response.json()
 }
-export async function start(browser, origin, measurement) {
+export async function start(browser, origin, measurement, name) {
  const context=await browser.newContext({viewport:{width:1440,height:900}})
  await context.addCookies([{name:'rer_demo_measure',value:measurement,url:origin,secure:true,httpOnly:true,sameSite:'Strict'}])
  const page=await context.newPage()
  page.setDefaultTimeout(60000)
+ const network=[]
+ page.on('requestfailed',request=>network.push(`${new URL(request.url()).origin}${new URL(request.url()).pathname}: ${request.failure()?.errorText}`))
+ page.on('response',response=>{const path=new URL(response.url()).pathname;if(path.startsWith('/__demo/'))network.push(`${path}: ${response.status()}`)})
  try {
   assert.equal((await page.goto(origin)).status(),200)
   // The real widget runs with the official test host's published test keys.
   // Its normal callback submits the form; no token or callback is injected.
-  await page.waitForURL(url=>url.pathname==='/app',{timeout:180000})
+  await Promise.race([
+   page.waitForURL(url=>url.pathname==='/app',{timeout:180000}),
+   page.locator('#start[data-state="failed"] #notice:visible').waitFor({timeout:180000}).then(async()=>{throw Error(await page.locator('#notice').innerText())}),
+  ])
   assert.equal((await read(context,origin)).actor.role,'owner')
   return {context,page}
- } catch(error) {await context.close();throw error}
+ } catch(error) {
+  let notice=''
+  const location=new URL(page.url()).pathname
+  try {
+   await capture(page,`${name}-admission-failure`)
+   notice=await page.evaluate(()=>document.getElementById('notice')?.textContent??'')
+  } finally {await stop({context},origin)}
+  throw new Error(`DEMO-001 ${name} admission failed at ${location}: ${notice||'no start-page notice'}; network: ${network.slice(-20).join('; ')}`,{cause:error})
+ }
 }
 export async function stop(visitor, origin) {
  if(!visitor)return
