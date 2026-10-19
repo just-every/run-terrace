@@ -13,17 +13,19 @@ import { ledgerView } from './ledger-view'
 import { workView } from './work-view'
 import { settingsView } from './settings-view'
 import { peopleView,peopleCommand } from './people'
+import { companyCommand,companyData,officeZone } from './company'
+import { companyView } from './company-view'
 const json=(body:unknown,status=200)=>Response.json(body,{status,headers:{'cache-control':'no-store','x-content-type-options':'nosniff','referrer-policy':'no-referrer'}})
 async function render(c:Context,url:URL,notice='',result:Row={},status=200,request?:Request,env?:Bindings) {
  const tab=url.searchParams.get('tab')??'tenancy',rows=await tenancyData(c),selected=rows.find(t=>t.id===url.searchParams.get('tenancy'))??rows[0],manage=['owner','admin'].includes(c.actor.role)
  let body='',title='Tenancies',head={}
  if(tab==='import'){owner(c);title='Move in';body=importView({...await importData(c),...result})}
- else if(tab==='settings'){title='Data & access';body=settingsView(rows,c.actor.role==='owner');if(c.actor.role==='owner'&&request&&env)body+=await peopleView(request,env,c);body=`<div class="settings-layout">${body}</div>`}
+ else if(tab==='settings'){title='Data & access';body=companyView(await companyData(c),manage)+settingsView(rows,c.actor.role==='owner');if(c.actor.role==='owner'&&request&&env)body+=await peopleView(request,env,c);body=`<div class="settings-layout">${body}</div>`}
  else {
   if(tab==='tenancy') {
-   if(url.searchParams.get('tenancy')&&selected){title=selected.address;body=tenancyView(selected,await proposals(c,selected.id),manage,await ledgerData(c,selected.id),await workData(c,selected.id),c.now.slice(0,10));head={eyebrow:selected.owner_name,back:backToTenancies}}
+   if(url.searchParams.get('tenancy')&&selected){title=selected.address;body=tenancyView(selected,await proposals(c,selected.id),manage,await ledgerData(c,selected.id),await workData(c,selected.id));head={eyebrow:selected.owner_name,back:backToTenancies}}
    else {
-    const create=manage?createTenancy(!rows.length||url.searchParams.get('add')==='1'):''
+    const create=manage?createTenancy(!rows.length||url.searchParams.get('add')==='1',c.zone!):''
     body=rows.length?homeView(await monthData(c,rows),manage,create):emptyView(create,c.now)
     if(manage&&rows.length)head={actions:addTenancyAction}
    }
@@ -36,7 +38,7 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
  return page(c,title,body,notice,status,tab,head)
 }
 async function command(c:Context,name:string,p:Row) {
- for(const handler of [tenancyCommand,ledgerCommand,workCommand,importCommand,dataCommand]) {
+ for(const handler of [tenancyCommand,ledgerCommand,workCommand,importCommand,dataCommand,companyCommand]) {
   const result=await handler(c,name,p); if(result!==undefined)return result
  }
  throw new Fault('unknown_command','Unknown Terrace command.',404)
@@ -52,7 +54,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   const session=await operatorAuth(env).getSession(request)
   if(!session) return isApi?json({error:'unauthorized',message:'Sign in first.'},401):new Response(null,{status:303,headers:{location:'/signin'}})
   insist(['owner','admin','member'].includes(session.operator.role),'forbidden','Access denied.',403)
-  c={db:env.DB,actor:session.operator,now:new Date().toISOString()}
+  c={db:env.DB,actor:session.operator,now:new Date().toISOString()};c.zone=await officeZone(c)
   if(request.method==='POST') {
    insist(url.pathname==='/api/commands'||url.pathname==='/app/command','method','Use the command endpoint.',405)
    insist(request.headers.get('origin')===env.AUTH_ORIGIN&&request.headers.get('sec-fetch-site')!=='cross-site','origin','Same-origin confirmation is required.',403)
@@ -67,10 +69,10 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   }
   insist(request.method==='GET','method','Method not allowed.',405)
   if(url.pathname==='/app')return await render(c,url,url.searchParams.get('notice')??'',{},200,request,env)
-  if(url.pathname==='/api/commands')return json({commands:['tenancy.create','renewal.prepare','arrears.prepare','proposal.approve','proposal.reject','rent.charge','rent.receipt','rent.adjust','inspection.create','inspection.photo','inspection.complete','maintenance.prepare','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore']})
+  if(url.pathname==='/api/commands')return json({commands:['tenancy.create','renewal.prepare','arrears.prepare','proposal.approve','proposal.reject','rent.charge','rent.receipt','rent.adjust','inspection.create','inspection.photo','inspection.complete','maintenance.prepare','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone']})
   if(url.pathname==='/api/state') {
    const tenancies=await tenancyData(c),tenancyId=url.searchParams.get('tenancy')
-   return json({actor:{role:c.actor.role},tenancies,...(tenancyId?{ledger:await ledgerData(c,tenancyId),proposals:await proposals(c,tenancyId),work:await workData(c,tenancyId)}:{})})
+   return json({actor:{role:c.actor.role},...await companyData(c),tenancies,...(tenancyId?{ledger:await ledgerData(c,tenancyId),proposals:await proposals(c,tenancyId),work:await workData(c,tenancyId)}:{})})
   }
   if(url.pathname==='/api/backup')return await backup(c)
   if(url.pathname==='/api/statement') {const s=await statement(c,text(url.searchParams.get('tenancyId'),'Tenancy'),text(url.searchParams.get('from'),'From'),text(url.searchParams.get('to'),'To'));return new Response(statementCsv(s),{headers:{'content-type':'text/csv;charset=utf-8','content-disposition':'attachment; filename="terrace-owner-statement.csv"','cache-control':'no-store'}})}

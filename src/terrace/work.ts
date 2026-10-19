@@ -83,14 +83,14 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
       await commit(c, [
         guard(c, 'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)', t.id, t.version),
         sql(c, "INSERT INTO tt_proposals(id,tenancy_id,kind,payload,tenancy_version,prepared_by,prepared_at) VALUES(?,?,'maintenance',?,?,?,?)", proposalId, t.id, JSON.stringify({ jobId, ...details }), t.version, c.actor.id, c.now),
-        sql(c, 'INSERT INTO tt_maintenance_jobs(id,tenancy_id,proposal_id,title,trade_name,trade_email,due_date,estimate_cents,prepared_by,prepared_at) VALUES(?,?,?,?,?,?,?,?,?,?)', jobId, t.id, proposalId, details.title, details.tradeName, details.tradeEmail, details.dueDate, details.estimateCents, c.actor.id, c.now),
+        sql(c, 'INSERT INTO tt_maintenance_jobs(id,tenancy_id,proposal_id,title,trade_name,trade_email,due_date,estimate_cents,prepared_by,prepared_at,currency) VALUES(?,?,?,?,?,?,?,?,?,?,?)', jobId, t.id, proposalId, details.title, details.tradeName, details.tradeEmail, details.dueDate, details.estimateCents, c.actor.id, c.now, t.currency),
       ], command, jobId)
       return { id: jobId, tenancyId: t.id, proposalId, version: 1, notice: 'Maintenance prepared. An owner or administrator must approve it before handoff.' }
     }
     case 'maintenance.approve': {
       manager(c)
       const row = await job(c, p), version = validVersion(p.version), t = await tenancy(c, row.tenancy_id)
-      const snapshot = JSON.stringify({ jobId: row.id, version, tenancyId: t.id, tenancyVersion: t.version, address: t.address, title: row.title, tradeName: row.trade_name, tradeEmail: row.trade_email, dueDate: row.due_date, estimateCents: row.estimate_cents, preparedBy: row.prepared_by, preparedAt: row.prepared_at, approvedBy: c.actor.id, approvedRole: c.actor.role, approvedAt: c.now })
+      const snapshot = JSON.stringify({ jobId: row.id, version, tenancyId: t.id, tenancyVersion: t.version, address: t.address, title: row.title, tradeName: row.trade_name, tradeEmail: row.trade_email, dueDate: row.due_date, estimateCents: row.estimate_cents, currency: row.currency, preparedBy: row.prepared_by, preparedAt: row.prepared_at, approvedBy: c.actor.id, approvedRole: c.actor.role, approvedAt: c.now })
       const digest = await sha256(new TextEncoder().encode(snapshot))
       await commit(c, [
         jobGuard(c, row, version, 'pending'),
@@ -142,13 +142,13 @@ export async function photoResponse(c: Context, photoId: string): Promise<Respon
 
 export async function workPacket(c: Context, jobId: string): Promise<Response> {
   await readAccess(c)
-  const row = await one(c, "SELECT a.* FROM tt_maintenance_approvals a JOIN tt_maintenance_jobs j ON j.id=a.job_id WHERE j.id=? AND j.state IN ('approved','sent')", text(jobId, 'Maintenance job', 100))
+  const row = await one(c, "SELECT a.*,j.currency FROM tt_maintenance_approvals a JOIN tt_maintenance_jobs j ON j.id=a.job_id WHERE j.id=? AND j.state IN ('approved','sent')", text(jobId, 'Maintenance job', 100))
   insist(row, 'not_approved', 'An approved maintenance job is required to download a handoff packet.', 409)
   const s = JSON.parse(row.snapshot)
   insist(await sha256(new TextEncoder().encode(row.snapshot)) === row.sha256, 'conflict', 'The approval evidence could not be verified.', 409)
   const body = [
     `Hello ${s.tradeName},`, '', `Please arrange the approved maintenance work at ${s.address}.`, '',
-    `Work: ${s.title}`, `Due date: ${s.dueDate}`, `Approved estimate: ${money(s.estimateCents)}`,
+    `Work: ${s.title}`, `Due date: ${s.dueDate}`, `Approved estimate: ${money(s.estimateCents, row.currency)}`,
     '', `Job reference: ${s.jobId}`, `Approved version: ${s.version}`, `Approved by: ${s.approvedBy} (${s.approvedRole})`,
     `Approved at: ${s.approvedAt}`, `Approval SHA-256: ${row.sha256}`, '',
     'Please reply to the sender to arrange access and confirm the work.',

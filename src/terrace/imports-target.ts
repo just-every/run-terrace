@@ -4,7 +4,7 @@ import { Context } from './core'
 import { IMPORT_DESTINATION, IMPORT_VERSION, TENANCY_KIND } from './imports-source'
 
 export const kitSql = (sql: string, ...params: unknown[]): D1Sql => ({ sql, params })
-const fields = ['address','owner_name','owner_email','tenant_name','tenant_email','start_date','end_date','rent_cents','cadence','created_at','version'] as const
+const fields = ['address','owner_name','owner_email','tenant_name','tenant_email','start_date','end_date','rent_cents','cadence','created_at','version','currency','time_zone'] as const
 const children = ['tt_charges','tt_proposals','tt_lease_history','tt_inspections','tt_maintenance_jobs']
 const related = (column: string) => children.map(table => `EXISTS(SELECT 1 FROM ${table} WHERE tenancy_id=${column})`).join(' OR ')
 const relatedMarker = '|related-work'
@@ -28,7 +28,9 @@ export const tenancyTargets: D1TargetAdapter = {
     if (!row) return kitSql('NOT EXISTS(SELECT 1 FROM tt_tenancies WHERE id=?)', id)
     const value = row.value as Record<string,any>, hasRelated = row.revision.endsWith(relatedMarker)
     const revision = hasRelated ? row.revision.slice(0,-relatedMarker.length) : row.revision
-    return kitSql(`EXISTS(SELECT 1 FROM tt_tenancies t WHERE t.id=? AND ${fields.map(field => `t.${field} IS ?`).join(' AND ')} AND t.import_revision IS ? AND (${related('t.id')})=?)`, id, ...fields.map(field => value[field]), revision || null, hasRelated ? 1 : 0)
+    // Journals written before PORT-001 hold no currency or time_zone; those match on the fields they hold.
+    const held = fields.filter(field => field in value)
+    return kitSql(`EXISTS(SELECT 1 FROM tt_tenancies t WHERE t.id=? AND ${held.map(field => `t.${field} IS ?`).join(' AND ')} AND t.import_revision IS ? AND (${related('t.id')})=?)`, id, ...held.map(field => value[field]), revision || null, hasRelated ? 1 : 0)
   },
   matchesCount(count) { return kitSql('(SELECT count(*) FROM tt_tenancies WHERE import_revision IS NOT NULL)=?', count) },
   write(row) {

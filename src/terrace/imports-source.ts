@@ -1,6 +1,7 @@
 import { canonicalJson, sha256 } from '../modules/import-kit/src/d1/index.ts'
 import type { ImportMapping, Json, SourceBundle } from '../modules/import-kit/src/d1/index.ts'
 import { Fault, cents, date, email, insist, text } from './core'
+import { anyZone } from './zones'
 
 export const IMPORT_KIT = 'Terrace tenancy CSV v1'
 export const IMPORT_VERSION = 'terrace-tenancy-csv-v1'
@@ -9,6 +10,9 @@ export const TENANCY_KIND = 'tenancy'
 export const CSV_HEADERS = ['ref','address','owner_name','owner_email','tenant_name','tenant_email','start_date','end_date','rent','cadence','created_at'] as const
 /** Optional; empty or `residential` imports. Any other value is held as an exception (BOUND-004). */
 export const LEASE_TYPE_HEADER = 'lease_type'
+/** Optional (PORT-001): `currency` is USD (default when empty) or AUD for a historical AUD tenancy, kept as AUD and never
+ * converted; `time_zone` is the property's IANA zone (default when empty: the office zone at preview). */
+export const OPTIONAL_HEADERS = [LEASE_TYPE_HEADER, 'currency', 'time_zone'] as const
 export const RESIDENTIAL_ONLY = 'Terrace manages residential rentals only: it has no commercial leases, CAM reconciliation or homeowners’-association dues.'
 export const importNamespace = (v: unknown) => {
   const namespace = text(v, 'Source namespace', 100)
@@ -51,7 +55,7 @@ export function tenancySource(input: unknown, namespace: string): SourceBundle {
   const bytes = new TextEncoder().encode(input)
   insist(bytes.length > 0 && bytes.length <= 256_000, 'invalid_csv', 'CSV must contain between 1 and 256,000 UTF-8 bytes.')
   const rows = parseCsv(input), headers = rows.shift()
-  insist(headers && headers.length === CSV_HEADERS.length + Number(headers.includes(LEASE_TYPE_HEADER)) && CSV_HEADERS.every(h => headers.includes(h)) && new Set(headers).size === headers.length, 'invalid_csv', `CSV requires these exact columns: ${CSV_HEADERS.join(',')}, plus an optional ${LEASE_TYPE_HEADER}.`)
+  insist(headers && CSV_HEADERS.every(h => headers.includes(h)) && headers.every(h => (CSV_HEADERS as readonly string[]).includes(h) || (OPTIONAL_HEADERS as readonly string[]).includes(h)) && new Set(headers).size === headers.length, 'invalid_csv', `CSV requires these exact columns: ${CSV_HEADERS.join(',')}, plus optional ${OPTIONAL_HEADERS.join(', ')}.`)
   insist(rows.length > 0 && rows.length <= 100, 'invalid_csv', 'Import between 1 and 100 tenancies at a time.')
   const digest = sha256(bytes), name = 'terrace-tenancies.csv'
   let binary = ''
@@ -72,7 +76,8 @@ export function tenancySource(input: unknown, namespace: string): SourceBundle {
   }
 }
 
-export const tenancyMapping: ImportMapping = {
+/** zone: the office zone, for rows without a time_zone. It is part of the reviewed preview. */
+export const tenancyMapping = (zone: string): ImportMapping => ({
   version: IMPORT_VERSION,
   map(record) {
     const p = record.payload as Record<string,Json>
@@ -85,11 +90,14 @@ export const tenancyMapping: ImportMapping = {
       insist(['weekly','fortnightly','monthly'].includes(cadence), 'invalid_cadence', 'Cadence must be weekly, fortnightly or monthly.')
       const created_at = text(p.created_at, 'Created timestamp', 24)
       insist(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(created_at) && Number.isFinite(Date.parse(created_at)) && new Date(created_at).toISOString() === created_at, 'invalid_date', 'created_at must be an ISO UTC timestamp, for example 2025-01-01T00:00:00.000Z.')
-      const value = { address: text(p.address, 'Address', 500), owner_name: text(p.owner_name, 'Owner name', 200), owner_email: email(p.owner_email), tenant_name: text(p.tenant_name, 'Tenant name', 200), tenant_email: email(p.tenant_email), start_date, end_date, rent_cents: cents(p.rent), cadence, created_at, version: 1 }
+      const currency = String(p.currency ?? '').trim().toUpperCase() || 'USD'
+      insist(['USD','AUD'].includes(currency), 'invalid_currency', 'currency must be USD, or AUD for a historical AUD tenancy (kept as AUD, never converted).')
+      const time_zone = String(p.time_zone ?? '').trim() ? anyZone(p.time_zone) : zone
+      const value = { address: text(p.address, 'Address', 500), owner_name: text(p.owner_name, 'Owner name', 200), owner_email: email(p.owner_email), tenant_name: text(p.tenant_name, 'Tenant name', 200), tenant_email: email(p.tenant_email), start_date, end_date, rent_cents: cents(p.rent), cadence, created_at, version: 1, currency, time_zone }
       return { effects: [{ targetKind: TENANCY_KIND, targetId: tenancyImportId(record.namespace, record.sourceId), value }] }
     } catch (error) {
       if (!(error instanceof Fault)) throw error
       return { effects: [], rejection: error.message }
     }
   },
-}
+})

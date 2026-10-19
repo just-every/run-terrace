@@ -2,11 +2,15 @@
 
 All reads and writes authenticate a current Base operator session. Send the session cookie privately, never in a URL. Mutations require `Origin` equal to the installation origin, including command-line requests. Revoking an operator or changing their role invalidates their sessions. There is no anonymous or implicit agent authority.
 
-`GET /api/commands` lists commands. `GET /api/state` lists tenancies; `GET /api/state?tenancy=ID` adds its rent, proposals, inspections and maintenance. `POST /api/commands` accepts JSON `{ "command": "name", ...fields }` and returns `{ "ok": true, "result": ... }`, or a non-200 `{ "ok": false, "error", "message" }`. Uploads use multipart form data to the same URL.
+`GET /api/commands` lists commands. `GET /api/state` lists the company, legal entities, operating accounts and tenancies (each with its `currency` and `time_zone`); `GET /api/state?tenancy=ID` adds its rent, proposals, inspections and maintenance. `POST /api/commands` accepts JSON `{ "command": "name", ...fields }` and returns `{ "ok": true, "result": ... }`, or a non-200 `{ "ok": false, "error", "message" }`. Uploads use multipart form data to the same URL.
 
 | Command | Fields | Authority |
 | --- | --- | --- |
-| `tenancy.create` | address, ownerName, ownerEmail, tenantName, tenantEmail, startDate, endDate, rent, cadence | Owner/admin |
+| `tenancy.create` | address, ownerName, ownerEmail, tenantName, tenantEmail, startDate, endDate, rent, cadence, optional timeZone (a US IANA zone; default the office zone). Always USD. | Owner/admin |
+| `tenancy.timezone` | tenancyId, timeZone (US IANA zone); recorded dates and currency do not change | Owner/admin |
+| `company.save` | name, officeAddress, officeEmail, officePhone, timeZone (office, US IANA zone). Country US, currency USD | Owner/admin |
+| `entity.add` | legalName, ein (nine digits; format checked, not verified with the IRS); needs a saved company | Owner/admin |
+| `account.add` | entityId, name, bankName, last4. A USD reference; no full account number; no money moves | Owner/admin |
 | `renewal.prepare` | tenancyId, endDate, rent, source | Any operator |
 | `arrears.prepare` | tenancyId, message, followUpDate | Any operator |
 | `proposal.approve`, `proposal.reject` | proposalId | Owner/admin; current tenancy version required by saved proposal |
@@ -23,7 +27,7 @@ All reads and writes authenticate a current Base operator session. Send the sess
 | `tenancy.erase` | tenancyId, confirm (exact tenant email) | Owner |
 | `data.restore` | backup file, optional journal file, confirm=RESTORE (multipart) | Owner, empty product destination |
 
-Amounts are USD decimal strings, dates YYYY-MM-DD. Charges and receipt references are unique; duplicate retries are refused without duplicating money. Current versions are returned in `/api/state`; stale approvals and changes fail. A prepared proposal has no effect until approval. Agents use member accounts to prepare, then hand the proposal/job ID to a person. Approval records the actual authenticated actor and time; sending a `role` field cannot grant authority.
+Amounts are decimal strings with at most two decimal places in the tenancy's stored currency (USD for new tenancies; AUD kept for records entered before PORT-001, never converted); dates are YYYY-MM-DD property-local days. Charges and receipt references are unique; duplicate retries are refused without duplicating money. Current versions are returned in `/api/state`; stale approvals and changes fail. A prepared proposal has no effect until approval. Agents use member accounts to prepare, then hand the proposal/job ID to a person. Approval records the actual authenticated actor and time; sending a `role` field cannot grant authority.
 
 Downloads: `GET /api/statement?tenancyId=ID&from=YYYY-MM-DD&to=YYYY-MM-DD` (owner/admin CSV), `/api/inspections/photos/ID` (authenticated image), `/api/maintenance/ID/packet` (approved `.eml`), `/api/backup` (owner-only archive). Downloads are private and not cacheable. An `.eml` is an unsent packet; its download is not delivery evidence.
 

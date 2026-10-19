@@ -46,8 +46,13 @@ ref,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,
 - `owner_name`, `tenant_name`: names, up to 200 characters.
 - `owner_email`, `tenant_email`: valid email addresses, normalized to lowercase.
 - `start_date`, `end_date`: real `YYYY-MM-DD` dates; end must not precede start.
-- `rent`: positive USD decimal with at most two decimal places, up to
-  `1000000.00`. It becomes integer `rent_cents`.
+- `rent`: positive decimal with at most two decimal places, up to
+  `1000000.00`, in the row's currency. It becomes integer `rent_cents`.
+- `currency` (optional column): empty or `USD` for USD; `AUD` for a historical
+  AUD tenancy, which stays AUD and is never converted. The dry run shows each
+  row's currency before you approve it.
+- `time_zone` (optional column): the property's IANA time zone, for example
+  `America/Chicago`; empty uses the office time zone. The dry run shows it.
 - `cadence`: `weekly`, `fortnightly` (every two weeks) or `monthly`.
 - `lease_type` (optional column): empty or `residential`. Terrace manages
   residential rentals only, so any other value, such as `commercial`, is held as

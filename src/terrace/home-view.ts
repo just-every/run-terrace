@@ -10,9 +10,9 @@ type Month = Awaited<ReturnType<typeof monthData>>
 type RollRow = Month['rows'][number]
 
 function monthCard(m: Month) {
- const t = m.totals, pct = t.due ? Math.floor(t.received / t.due * 100) : 0
- const summary = t.charged
-  ? `<p class="month-total"><strong>${money(t.received)}</strong> recorded of ${money(t.due)} due</p><div class="progress-row"><progress max="100" value="${pct}">${pct}%</progress><span class="progress-pct">${pct}%</span></div><p class="month-note">${t.paid} of ${t.charged} ${t.charged === 1 ? 'tenancy' : 'tenancies'} paid in full · ${money(t.outstanding)} outstanding</p>`
+ // One summary per currency (PORT-001): USD and legacy AUD are never summed.
+ const summary = m.totals.length
+  ? m.totals.map(t => { const pct = t.due ? Math.floor(t.received / t.due * 100) : 0; return `<p class="month-total"><strong>${money(t.received, t.currency)}</strong> recorded of ${money(t.due, t.currency)} due</p><div class="progress-row"><progress max="100" value="${pct}">${pct}%</progress><span class="progress-pct">${pct}%</span></div><p class="month-note">${t.paid} of ${t.charged} ${t.charged === 1 ? 'tenancy' : 'tenancies'} paid in full · ${money(t.outstanding, t.currency)} outstanding</p>` }).join('')
   : `<p class="month-note">No rent charges recorded for ${monthName(m.today)} yet.</p>`
  const track = `<ol class="track" aria-label="${e(monthName(m.today))} so far">${m.track.map(s => `<li class="stop ${s.tone}${s.today ? ' today' : ''}"><span class="stop-date">${s.today ? `<b>Today</b><span>${shortDate(s.date)}</span>` : shortDate(s.date)}</span><span class="stop-dot" aria-hidden="true"></span><span class="stop-label">${e(s.label)}</span></li>`).join('')}</ol>`
  return `<section class="month-card"><div class="month-rent"><h2>${e(monthName(m.today))} rent</h2>${summary}</div><div class="month-track"><h2>${e(monthName(m.today))}</h2>${track}</div></section>`
@@ -24,12 +24,12 @@ function waitingCard(w: Row, manage: boolean) {
  let kind = '', title = '', lines = '', href = detail, actions = ''
  if (w.kind === 'renewal') {
   const change = w.rentCents ? (w.payload.rentCents - w.rentCents) / w.rentCents * 100 : 0
-  kind = 'renewal'; title = 'Renewal'; lines = `<p>${e(w.unit)} · to ${usDate(w.payload.endDate)} at ${money(w.payload.rentCents)}${change ? ` (${change > 0 ? '+' : ''}${change.toFixed(1)}%)` : ''}</p>${who}`
+  kind = 'renewal'; title = 'Renewal'; lines = `<p>${e(w.unit)} · to ${usDate(w.payload.endDate)} at ${money(w.payload.rentCents, w.currency)}${change ? ` (${change > 0 ? '+' : ''}${change.toFixed(1)}%)` : ''}</p>${who}`
  } else if (w.kind === 'arrears') {
   kind = 'arrears'; title = 'Arrears follow-up'; lines = `<p>${e(w.unit)} · follow-up ${shortDate(w.payload.followUpDate)}</p>${who}`
  } else if (w.kind === 'maintenance') {
   const j = w.job; kind = 'maintenance'; title = 'Maintenance'; href = work
-  lines = `<p>${e(w.unit)} · ${e(j.title)}</p><p class="muted">${e(j.trade_name)} · est. ${money(j.estimate_cents)}</p><p class="state amber">${j.state === 'pending' ? 'Prepared · awaiting approval' : 'Approved · awaiting external handoff'}</p>`
+  lines = `<p>${e(w.unit)} · ${e(j.title)}</p><p class="muted">${e(j.trade_name)} · est. ${money(j.estimate_cents, j.currency)}</p><p class="state amber">${j.state === 'pending' ? 'Prepared · awaiting approval' : 'Approved · awaiting external handoff'}</p>`
  } else {
   const i = w.inspection; kind = 'inspection'; title = 'Inspection draft'; href = work
   lines = `<p>${e(w.unit)} · ${shortDate(i.inspection_date)}</p><p class="muted">${i.photos} ${i.photos === 1 ? 'photo' : 'photos'}</p>`
@@ -45,19 +45,19 @@ function waitingStrip(m: Month, manage: boolean) {
  return `<section class="waiting" aria-labelledby="waiting-heading"><h2 class="eyebrow" id="waiting-heading">Waiting on a person</h2><div class="waiting-grid">${cards.slice(0, 4).join('')}</div>${more.length ? `<details class="waiting-more"><summary>Show ${more.length} more</summary><div class="waiting-grid">${more.join('')}</div></details>` : ''}</section>`
 }
 
-function standing(r: RollRow, today: string) {
+function standing(r: RollRow) {
  if (r.standing === 'paid') return pill('Paid', 'paid')
  if (r.standing === 'partial') return pill('Partial', 'pending')
- if (r.standing === 'overdue') return pill(`Overdue · ${daysBetween(r.oldest, today)} days`, 'overdue')
+ if (r.standing === 'overdue') return pill(`Overdue · ${daysBetween(r.oldest, r.today)} days`, 'overdue')
  if (r.standing === 'due') return pill(`Due ${shortDate(r.oldest)}`, 'due')
  return '<span class="muted">No charge this month</span>'
 }
 
-function rollRow(r: RollRow, today: string) {
- const t = r.tenancy, ending = daysBetween(today, t.end_date) <= 60
- const recorded = r.standing === 'none' ? '<span class="muted">—</span>' : r.standing === 'paid' ? `${money(r.received)}<small>${r.receivedDate ? `on ${shortDate(r.receivedDate)}` : 'reduced'}</small>` : `${money(r.received)} <span class="muted">of ${money(r.due)}</span>`
+function rollRow(r: RollRow) {
+ const t = r.tenancy, ending = daysBetween(r.today, t.end_date) <= 60
+ const recorded = r.standing === 'none' ? '<span class="muted">—</span>' : r.standing === 'paid' ? `${money(r.received, r.currency)}<small>${r.receivedDate ? `on ${shortDate(r.receivedDate)}` : 'reduced'}</small>` : `${money(r.received, r.currency)} <span class="muted">of ${money(r.due, r.currency)}</span>`
  const pending = r.pending.length ? pill(r.pending.some(p => p.kind === 'renewal') ? 'Renewal pending' : 'Arrears pending', 'pending') : ''
- return `<a class="roll-row tenancy-row" href="/app?tab=tenancy&amp;tenancy=${e(t.id)}">${avatar(t.tenant_name)}<span class="roll-who"><strong>${r.unit ? `${e(r.unit)} · ` : ''}${e(t.tenant_name)}</strong></span><span class="roll-rent" data-label="Rent">${money(t.rent_cents)} <span class="muted">${e(t.cadence)}</span></span><span class="roll-recorded" data-label="Recorded">${recorded}</span><span class="roll-status">${standing(r, today)}</span><span class="roll-lease${ending ? ' soon' : ''}" data-label="Lease end">${usDate(t.end_date)}${pending}</span>${icon('chevron')}</a>`
+ return `<a class="roll-row tenancy-row" href="/app?tab=tenancy&amp;tenancy=${e(t.id)}">${avatar(t.tenant_name)}<span class="roll-who"><strong>${r.unit ? `${e(r.unit)} · ` : ''}${e(t.tenant_name)}</strong></span><span class="roll-rent" data-label="Rent">${money(t.rent_cents, t.currency)} <span class="muted">${e(t.cadence)}</span></span><span class="roll-recorded" data-label="Recorded">${recorded}</span><span class="roll-status">${standing(r)}</span><span class="roll-lease${ending ? ' soon' : ''}" data-label="Lease end">${usDate(t.end_date)}${pending}</span>${icon('chevron')}</a>`
 }
 
 function rentRoll(m: Month) {
@@ -67,7 +67,7 @@ function rentRoll(m: Month) {
  const sorted = [...groups].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0])).map(([k, rows]) => [k, rows.sort((a, b) => a.unit.localeCompare(b.unit, 'en', { numeric: true }))] as const)
  const body = sorted.map(([property, rows]) => {
   const owners = [...new Set(rows.map(r => r.tenancy.owner_name))].join(', ')
-  return `<div class="roll-group" role="group" aria-label="${e(property)}"><h3>${icon('building')}<span>${e(property)}</span><span class="owner">Owner: ${e(owners)}</span></h3>${rows.map(r => rollRow(r, m.today)).join('')}</div>`
+  return `<div class="roll-group" role="group" aria-label="${e(property)}"><h3>${icon('building')}<span>${e(property)}</span><span class="owner">Owner: ${e(owners)}</span></h3>${rows.map(r => rollRow(r)).join('')}</div>`
  }).join('')
  return `<section class="rent-roll" aria-labelledby="roll-heading"><h2 id="roll-heading">Rent roll</h2><div class="roll-head" aria-hidden="true"><span>Tenancy</span><span>Rent</span><span>Recorded · ${e(monthName(m.today))}</span><span>Status</span><span>Lease end</span></div>${body}</section>`
 }

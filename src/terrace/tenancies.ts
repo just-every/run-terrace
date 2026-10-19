@@ -1,4 +1,6 @@
 import { all, audit, cents, commit, date, email, guard, id, insist, manager, one, sha256, sql, tenancy, text, type Context, type Row } from './core'
+import { officeZone } from './company'
+import { usZone } from './zones'
 
 export async function tenancyCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'tenancy.create') {
@@ -7,9 +9,11 @@ export async function tenancyCommand(c: Context, command: string, p: Row): Promi
   insist(end >= start,'lease_dates','Lease end must follow its start.')
   insist(['weekly','fortnightly','monthly'].includes(p.cadence),'cadence','Choose a rent cadence.')
   const tenantEmail=email(p.tenantEmail)
+  // PORT-001: a new tenancy is USD; its property zone defaults to the office zone.
+  const zone=usZone(p.timeZone??await officeZone(c))
   await commit(c,[
    guard(c,'NOT EXISTS(SELECT 1 FROM tt_erasures WHERE subject=?)',await sha256(new TextEncoder().encode(tenantEmail))),
-   sql(c,'INSERT INTO tt_tenancies(id,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,rent_cents,cadence,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)',key,text(p.address,'Property address',300),text(p.ownerName,'Owner name',150),email(p.ownerEmail),text(p.tenantName,'Tenant name',150),tenantEmail,start,end,cents(p.rent),p.cadence,c.now)
+   sql(c,"INSERT INTO tt_tenancies(id,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,rent_cents,cadence,created_at,currency,time_zone) VALUES(?,?,?,?,?,?,?,?,?,?,?,'USD',?)",key,text(p.address,'Property address',300),text(p.ownerName,'Owner name',150),email(p.ownerEmail),text(p.tenantName,'Tenant name',150),tenantEmail,start,end,cents(p.rent),p.cadence,c.now,zone)
   ],command,key)
   return {id:key}
  }
@@ -35,7 +39,7 @@ export async function tenancyCommand(c: Context, command: string, p: Row): Promi
   // exact term revision; confirmation preserves its source and superseded terms.
   const writes=[guard(c,"EXISTS(SELECT 1 FROM tt_proposals WHERE id=? AND state='pending')",r.id),guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)',t.id,r.tenancy_version),sql(c,'UPDATE tt_proposals SET state=?,approved_by=?,approved_at=? WHERE id=?',approved?'approved':'rejected',c.actor.id,c.now,r.id)]
   if(approved && r.kind==='renewal') {
-   writes.push(sql(c,'INSERT INTO tt_lease_history(id,tenancy_id,start_date,end_date,rent_cents,proposal_id,confirmed_by,confirmed_at) VALUES(?,?,?,?,?,?,?,?)',id(),t.id,t.start_date,t.end_date,t.rent_cents,r.id,c.actor.id,c.now),sql(c,'UPDATE tt_tenancies SET end_date=?,rent_cents=?,version=version+1 WHERE id=?',payload.endDate,payload.rentCents,t.id))
+   writes.push(sql(c,'INSERT INTO tt_lease_history(id,tenancy_id,start_date,end_date,rent_cents,proposal_id,confirmed_by,confirmed_at,currency) VALUES(?,?,?,?,?,?,?,?,?)',id(),t.id,t.start_date,t.end_date,t.rent_cents,r.id,c.actor.id,c.now,t.currency),sql(c,'UPDATE tt_tenancies SET end_date=?,rent_cents=?,version=version+1 WHERE id=?',payload.endDate,payload.rentCents,t.id))
   }
   await commit(c,writes,command,r.id)
   return {id:r.id,state:approved?'approved':'rejected'}

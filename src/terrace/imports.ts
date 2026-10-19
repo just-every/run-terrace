@@ -3,8 +3,9 @@ import { toD1Sql } from '../modules/erasure/index.mjs'
 import { Context, Fault, Row, all, insist, one, owner, text } from './core'
 import { IMPORT_DESTINATION, IMPORT_KIT, TENANCY_KIND, importNamespace, tenancyMapping, tenancySource } from './imports-source'
 import { tenancyImportContext } from './imports-target'
+import { officeZone } from './company'
 export { importView } from './imports-view'
-export { IMPORT_KIT, CSV_HEADERS, LEASE_TYPE_HEADER, RESIDENTIAL_ONLY, tenancySource, tenancyMapping, tenancyImportId } from './imports-source'
+export { IMPORT_KIT, CSV_HEADERS, LEASE_TYPE_HEADER, OPTIONAL_HEADERS, RESIDENTIAL_ONLY, tenancySource, tenancyMapping, tenancyImportId } from './imports-source'
 
 async function importOwner(c: Context) {
   owner(c)
@@ -41,7 +42,7 @@ export async function importCommand(c: Context, command: string, p: Row): Promis
     if (command === 'import.preview' || command === 'import.apply') {
       const namespace = importNamespace(p.namespace), csv = csvInput(p)
       const context = tenancyImportContext(c, namespace)
-      const plan = await planD1Import(tenancySource(csv,namespace), tenancyMapping, context)
+      const plan = await planD1Import(tenancySource(csv,namespace), tenancyMapping(await officeZone(c)), context)
       const rows = plan.entries.map(entry => ({ ref: entry.source.sourceId, sourceRow: entry.source.location.row, targetId: entry.effects[0]?.targetId, value: entry.effects[0]?.value, rejection: entry.rejection ?? null }))
       if (command === 'import.preview') {
         const original = plan.source.artifacts[0].original

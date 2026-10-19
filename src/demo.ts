@@ -4,6 +4,7 @@ import sink from './terrace/demo/sink.txt?raw'
 import tap from './terrace/demo/tap.txt?raw'
 import { sha256 } from './terrace/core'
 
+const zone = 'America/Los_Angeles'
 const intervals: Record<'weekly' | 'fortnightly' | 'monthly', number> = { weekly: 7, fortnightly: 14, monthly: 30 }
 
 /** Real records in the visitor's disposable database. No requests or random IDs. */
@@ -23,16 +24,18 @@ export async function seedDemo(env: Bindings, { ownerEmail, now }: { ownerEmail:
   insert('oa_operators', { id, display_name: name, email: `${id}@example.test`, role, status: 'active', version: 1, created_at: now.getTime() - 90 * 86400000 })
  }
  insert('oa_first_run', { singleton: 1, completed_by: owner.id, completed_at: now.getTime() })
+ // A US company in Pacific time; every demo amount is USD (PORT-001).
+ insert('tt_company', { singleton: 1, name: 'Alder Court Property Management', country: 'US', currency: 'USD', time_zone: zone, office_email: 'office@example.test', office_phone: '(510) 555-0142', office_address: '1840 Alder Street, Oakland, CA 94610', updated_by: owner.id, updated_at: at(-90) })
  for (const [index, p] of portfolio.entries()) {
   const id = `demo-${p.id}`, interval = intervals[p.cadence]
-  insert('tt_tenancies', { id, address: p.address, owner_name: p.owner, owner_email: `${p.owner.toLowerCase().replaceAll(' ', '.')}@example.test`, tenant_name: p.tenant, tenant_email: `${p.tenant.toLowerCase().replaceAll(' ', '.')}@example.test`, start_date: day(-280), end_date: day(p.end), rent_cents: p.rent, cadence: p.cadence, version: 1, created_at: at(-290) })
+  insert('tt_tenancies', { id, address: p.address, owner_name: p.owner, owner_email: `${p.owner.toLowerCase().replaceAll(' ', '.')}@example.test`, tenant_name: p.tenant, tenant_email: `${p.tenant.toLowerCase().replaceAll(' ', '.')}@example.test`, start_date: day(-280), end_date: day(p.end), rent_cents: p.rent, cadence: p.cadence, version: 1, created_at: at(-290), currency: 'USD', time_zone: zone })
   for (let period = 0; period < 4; period++) {
    // Monthly rent falls due on the 1st: two past months, this month, next month.
    const chargeId = `${id}-rent-${period}`, due = p.cadence === 'monthly' ? firstOfMonth(period - 2) : (period - 3) * interval + 3
    const received = Math.min(due + index % 3, 0)
-   insert('tt_charges', { id: chargeId, tenancy_id: id, due_date: day(due), amount_cents: p.rent, description: `${p.cadence[0].toUpperCase() + p.cadence.slice(1)} rent`, reference: `${p.ref}-${day(due).slice(0, 7)}`, created_at: at(due - 4) })
+   insert('tt_charges', { id: chargeId, tenancy_id: id, due_date: day(due), amount_cents: p.rent, description: `${p.cadence[0].toUpperCase() + p.cadence.slice(1)} rent`, reference: `${p.ref}-${day(due).slice(0, 7)}`, created_at: at(due - 4), currency: 'USD' })
    if (period < 3 && !(p.id === 'maple' && period === 2)) {
-    insert('tt_receipts', { id: `${chargeId}-receipt`, charge_id: chargeId, amount_cents: p.id === 'banksia' && period === 2 ? 90000 : p.rent, received_date: day(received), reference: `BANK-${77100 + period * 10 + index}`, created_at: at(received) })
+    insert('tt_receipts', { id: `${chargeId}-receipt`, charge_id: chargeId, amount_cents: p.id === 'banksia' && period === 2 ? 90000 : p.rent, received_date: day(received), reference: `BANK-${77100 + period * 10 + index}`, created_at: at(received), currency: 'USD' })
    }
   }
   const renewal = index % 2 === 0
@@ -47,7 +50,7 @@ export async function seedDemo(env: Bindings, { ownerEmail, now }: { ownerEmail:
   const jobId = `demo-maintenance-${index}`, proposalId = `${jobId}-proposal`, tenancyId = `demo-${m.property}`, p = portfolio.find(p => p.id === m.property)!
   const details = { jobId, title: m.title, tradeName: m.trade, tradeEmail: m.email, dueDate: day(m.due), estimateCents: m.estimate }
   insert('tt_proposals', { id: proposalId, tenancy_id: tenancyId, kind: 'maintenance', payload: JSON.stringify(details), tenancy_version: 1, state: m.state === 'pending' ? 'pending' : 'approved', prepared_by: 'demo-preparer', prepared_at: at(-5), approved_by: m.state === 'pending' ? null : owner.id, approved_at: m.state === 'pending' ? null : at(-4) })
-  insert('tt_maintenance_jobs', { id: jobId, tenancy_id: tenancyId, proposal_id: proposalId, title: m.title, trade_name: m.trade, trade_email: m.email, due_date: day(m.due), estimate_cents: m.estimate, state: m.state, version: m.state === 'pending' ? 1 : m.state === 'approved' ? 2 : 3, prepared_by: 'demo-preparer', prepared_at: at(-5), sent_by: m.state === 'sent' ? owner.id : null, sent_at: m.state === 'sent' ? at(-4) : null, sent_reference: m.state === 'sent' ? 'Email handoff · Bayline accepted job WO-2291' : null })
+  insert('tt_maintenance_jobs', { id: jobId, tenancy_id: tenancyId, proposal_id: proposalId, title: m.title, trade_name: m.trade, trade_email: m.email, due_date: day(m.due), estimate_cents: m.estimate, state: m.state, version: m.state === 'pending' ? 1 : m.state === 'approved' ? 2 : 3, prepared_by: 'demo-preparer', prepared_at: at(-5), sent_by: m.state === 'sent' ? owner.id : null, sent_at: m.state === 'sent' ? at(-4) : null, sent_reference: m.state === 'sent' ? 'Email handoff · Bayline accepted job WO-2291' : null, currency: 'USD' })
   if (m.state !== 'pending') {
    const snapshot = JSON.stringify({ ...details, version: 1, tenancyId, tenancyVersion: 1, address: p.address, preparedBy: 'demo-preparer', preparedAt: at(-5), approvedBy: owner.id, approvedRole: 'owner', approvedAt: at(-4) })
    insert('tt_maintenance_approvals', { id: `${jobId}-approval`, job_id: jobId, job_version: 1, snapshot, sha256: await sha256(new TextEncoder().encode(snapshot)), approved_by: owner.id, approved_role: 'owner', approved_at: at(-4) })

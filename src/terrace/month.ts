@@ -4,17 +4,19 @@
 import { all, type Context, type Row } from './core'
 import { BALANCE } from './ledger'
 import { place } from './format'
+import { DEFAULT_ZONE, localDate } from './zones'
 
 export type Standing = 'paid' | 'partial' | 'overdue' | 'due' | 'none'
 export type Stop = { date: string; label: string; tone: 'green' | 'blue' | 'amber' | 'red' | 'violet'; today?: boolean }
 
 export async function monthData(c: Context, tenancies: Row[]) {
- const today = c.now.slice(0, 10), first = today.slice(0, 8) + '01'
+ // The month and "Today" are the office's day; each tenancy's overdue state uses its own property's day.
+ const today = localDate(c.now, c.zone ?? DEFAULT_ZONE), first = today.slice(0, 8) + '01'
  const last = new Date(Date.UTC(Number(today.slice(0, 4)), Number(today.slice(5, 7)), 0)).toISOString().slice(0, 10)
  const [charges, proposals, jobs, inspections] = await Promise.all([
   all(c, `SELECT q.id,q.tenancy_id,q.due_date,q.amount_cents,${BALANCE} AS balance_cents,COALESCE((SELECT SUM(amount_cents) FROM tt_receipts WHERE charge_id=q.id),0) AS received_cents,(SELECT MAX(received_date) FROM tt_receipts WHERE charge_id=q.id) AS received_date FROM tt_charges q WHERE q.due_date BETWEEN ? AND ? ORDER BY q.due_date`, first, last),
   all(c, "SELECT p.id,p.tenancy_id,p.kind,p.payload,p.prepared_at,COALESCE(o.display_name,p.prepared_by) AS prepared_name FROM tt_proposals p LEFT JOIN oa_operators o ON o.id=p.prepared_by WHERE p.state='pending' AND p.kind IN ('renewal','arrears') ORDER BY p.prepared_at DESC"),
-  all(c, "SELECT id,tenancy_id,title,trade_name,estimate_cents,due_date,state,sent_at FROM tt_maintenance_jobs ORDER BY prepared_at DESC"),
+  all(c, "SELECT id,tenancy_id,title,trade_name,estimate_cents,currency,due_date,state,sent_at FROM tt_maintenance_jobs ORDER BY prepared_at DESC"),
   all(c, "SELECT i.id,i.tenancy_id,i.inspection_date,i.state,i.completed_at,(SELECT COUNT(*) FROM tt_inspection_photos p WHERE p.inspection_id=i.id) AS photos FROM tt_inspections i ORDER BY i.inspection_date DESC"),
  ])
  const byId = new Map(tenancies.map(t => [t.id, t]))
@@ -23,18 +25,23 @@ export async function monthData(c: Context, tenancies: Row[]) {
  const short = (tenancyId: string) => unit(tenancyId).replace(/^Unit /, '')
 
  const rows = tenancies.map(t => {
+  const local = localDate(c.now, t.time_zone)
   const mine = charges.filter(q => q.tenancy_id === t.id)
   const due = mine.reduce((s, q) => s + q.amount_cents, 0), balance = mine.reduce((s, q) => s + q.balance_cents, 0), received = mine.reduce((s, q) => s + q.received_cents, 0)
   const unpaid = mine.filter(q => q.balance_cents > 0), oldest = unpaid[0]?.due_date
-  const standing: Standing = !mine.length ? 'none' : balance === 0 ? 'paid' : received > 0 ? 'partial' : oldest < today ? 'overdue' : 'due'
+  const standing: Standing = !mine.length ? 'none' : balance === 0 ? 'paid' : received > 0 ? 'partial' : oldest < local ? 'overdue' : 'due'
   const receivedDate = mine.map(q => q.received_date).filter(Boolean).sort().at(-1) ?? ''
-  return { tenancy: t, ...place(t.address), due, balance, received, standing, oldest, receivedDate, pending: proposals.filter(p => p.tenancy_id === t.id) }
+  return { tenancy: t, currency: t.currency as string, today: local, ...place(t.address), due, balance, received, standing, oldest, receivedDate, pending: proposals.filter(p => p.tenancy_id === t.id) }
  })
  const charged = rows.filter(r => r.standing !== 'none')
- const totals = { due: charged.reduce((s, r) => s + r.due, 0), received: charged.reduce((s, r) => s + r.received, 0), outstanding: charged.reduce((s, r) => s + r.balance, 0), paid: charged.filter(r => r.standing === 'paid').length, charged: charged.length }
+ // One total per currency, USD first: amounts in different currencies are never added together or converted.
+ const totals = [...new Set(charged.map(r => r.currency))].sort((a, b) => a === 'USD' ? -1 : b === 'USD' ? 1 : a.localeCompare(b)).map(currency => {
+  const mine = charged.filter(r => r.currency === currency)
+  return { currency, due: mine.reduce((s, r) => s + r.due, 0), received: mine.reduce((s, r) => s + r.received, 0), outstanding: mine.reduce((s, r) => s + r.balance, 0), paid: mine.filter(r => r.standing === 'paid').length, charged: mine.length }
+ })
 
  const waiting: Row[] = [
-  ...proposals.map(p => ({ kind: p.kind, tenancyId: p.tenancy_id, unit: unit(p.tenancy_id), payload: JSON.parse(p.payload), id: p.id, preparedBy: p.prepared_name, rentCents: byId.get(p.tenancy_id)?.rent_cents })),
+  ...proposals.map(p => ({ kind: p.kind, tenancyId: p.tenancy_id, unit: unit(p.tenancy_id), payload: JSON.parse(p.payload), id: p.id, preparedBy: p.prepared_name, rentCents: byId.get(p.tenancy_id)?.rent_cents, currency: byId.get(p.tenancy_id)?.currency })),
   ...jobs.filter(j => j.state !== 'sent').map(j => ({ kind: 'maintenance', tenancyId: j.tenancy_id, unit: unit(j.tenancy_id), job: j })),
   ...inspections.filter(i => i.state === 'draft').map(i => ({ kind: 'inspection', tenancyId: i.tenancy_id, unit: unit(i.tenancy_id), inspection: i })),
  ]

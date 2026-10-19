@@ -4,7 +4,7 @@ The tenancy holds the property address, owner and tenant details, lease dates, r
 
 ## Record a tenancy
 
-In **Tenancies**, open **Add a tenancy**. Enter the property address, owner and tenant names and emails, lease start and end dates, rent in USD and weekly, every-two-weeks or monthly cadence. Check the saved details before recording rent or inspection work.
+In **Tenancies**, open **Add a tenancy**. Enter the property address, owner and tenant names and emails, lease start and end dates, rent in USD, the property's time zone and weekly, every-two-weeks or monthly cadence. Check the saved details before recording rent or inspection work.
 
 For existing records in bulk, use the [Move in CSV kit](move-in.md).
 
