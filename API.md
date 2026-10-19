@@ -82,6 +82,12 @@ SAFE-001: `entity.add`, `account.add`, `operator.invite`, `operator.role`, `oper
 | `correction.approve` / `correction.reject` | correctionId (reject: optional reason); the preparer never approves, and approval is refused while the month is closed | Owner, portfolio manager, bookkeeper |
 | `fees.run` | propertyId, month (YYYY-MM, this month or earlier); returns the lines the month calls for, how many were posted and any skipped receipts | Owner, portfolio manager, bookkeeper |
 | `fee.override` | feeId, amount (the owner's fee for that source; 0 waives), reason | Owner |
+| `recovery.authorize` | tenancyId, utility (water, sewer, trash, gas or electric), reference (the lease clause) | Owner, portfolio manager, bookkeeper |
+| `utility.prepare` | propertyId, utility, vendor, invoiceReference, periodStart, periodEnd, dueDate, amount, formula (occupants, bedrooms, equal or submeter; submeter takes reading:<unitId> fields), optional recoverablePercent and cap; returns the allocation and its fingerprint | Owner, portfolio manager, bookkeeper |
+| `utility.approve` | billId, fingerprint (from the reviewed allocation); never by its preparer | Owner, portfolio manager, bookkeeper |
+| `ancillary.charge` | tenancyId, kind (parking, storage or other), description, amount, dueDate, reference; adds the reviewed tax charge when a rule applies | Owner, portfolio manager, bookkeeper |
+| `tax.prepare` | propertyId, kind (utility, parking, storage or other), ratePercent, label, starts | Owner, portfolio manager, bookkeeper |
+| `tax.review` | ruleId; the rule applies from then on | Owner, accountant |
 
 Amounts are decimal strings with at most two decimal places in the tenancy's stored currency (USD for new tenancies; records entered before PORT-001 are shown as “currency unconfirmed” until the installation owner confirms AUD or USD with `currency.confirm` {currency}, which converts nothing); dates are YYYY-MM-DD property-local days. Charges and receipt references are unique; duplicate retries are refused without duplicating money. Current versions are returned in `/api/state`; stale approvals and changes fail. A prepared proposal has no effect until approval. Agents use member accounts to prepare, then hand the proposal/job ID to a person. Approval records the actual authenticated actor and time; sending a `role` field cannot grant authority.
 

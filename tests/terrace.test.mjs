@@ -486,7 +486,7 @@ test('BOUND-004: residential only — no commercial, CAM or association-dues doo
  await h.command('import.apply',{csv:residential,namespace:'bound-004',fingerprint:reviewed.fingerprint})
  const after=(await h.state()).tenancies;assert.equal(after.length,before+1);assert.ok(!after.some(t=>t.address.startsWith('Suite 200')))
 })
-test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; legacy money currency unconfirmed until the owner confirms it; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready; PORT-004 households; REPORT-001 rent roll; ACCT-009 fees',async()=>{
+test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; legacy money currency unconfirmed until the owner confirms it; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready; PORT-004 households; REPORT-001 rent roll; ACCT-009 fees; ACCT-016 recoveries',async()=>{
  const company={name:'Alder Court Property Management',officeAddress:'1840 Alder Street, Oakland, CA 94610',officeEmail:'office@example.test',officePhone:'(510) 555-0142',timeZone:'America/Los_Angeles'}
  await h.command('company.save',{...company,timeZone:'Australia/Sydney'},{status:400})
  await h.command('company.save',company)
@@ -721,7 +721,7 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  assert.ok(rollPage.includes('As of Dec 15, 2026: 2 units · 2 occupied · 0 vacant'));assert.ok(rollPage.includes('A$1,850.00 collected of A$1,850.00 billed · 1 of 1 leases paid in full'))
  // ACCT-009: a dated 2026 fee schedule on the duplex; February's rent receipt and a new lease, then this month's approved renewal; replay charges nothing twice; the owner's override holds; each owner statement names the agreement.
  await h.command('agreement.set',{propertyId:duplex.id,starts:'2026-02-01',feePercent:'8',reserve:'500.00',leasingFee:'1000.00',renewalFee:'250.00',minimumFee:'300.00',feeTaxPercent:'4.5',markupPercent:'10',reference:'Management agreement 2026, schedule A'})
- await h.command('tenancy.create',{...tenancyInput,unitId:upper.id,tenantName:'Jo Lane',tenantEmail:'jo@example.test',startDate:'2026-02-15',endDate:'2026-11-30',rent:'2400.00',cadence:'monthly'})
+ const jo=await h.command('tenancy.create',{...tenancyInput,unitId:upper.id,tenantName:'Jo Lane',tenantEmail:'jo@example.test',startDate:'2026-02-15',endDate:'2026-11-30',rent:'2400.00',cadence:'monthly'})
  await h.command('fees.run',{propertyId:duplex.id,month:'2026-02'},{as:member,status:403})
  const febFees=await h.command('fees.run',{propertyId:duplex.id,month:'2026-02'}),feeLine=l=>[l.kind,l.ownerId,l.amountCents,l.taxCents]
  assert.equal(febFees.posted,6)
@@ -743,5 +743,34 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  const feeCsv=await(await h.request(`/api/owner-statement?ownerId=${holdings.id}&from=2026-02-01&to=${local}&format=csv`)).text()
  for(const text of ['Management agreement 2026, schedule A','Minimum waived per owner email','Cash available before expenses and distributions','"131.03"'])assert.ok(feeCsv.includes(text),text)
  assert.ok((await(await h.request('/app?tab=properties')).text()).includes('leasing fee $1,000.00 · renewal fee $250.00 · monthly minimum $300.00 · tax on fees 4.50% · vendor bill markup 10%'))
+ // ACCT-016: March's water invoice split by occupant-days across the duplex's leases that authorize water recovery, approved by a second person; a reviewed parking tax rule taxes parking, not storage; tax collected is never owner income.
+ const bk=await h.signIn('bookkeeper@example.test'),ac=await h.signIn('accountant@example.test')
+ for(const lease of [transfer,jo])await h.command('recovery.authorize',{tenancyId:lease.id,utility:'water',reference:'Lease section 12: water by occupants'},{as:bk})
+ const water=await h.command('utility.prepare',{propertyId:duplex.id,utility:'water',vendor:'EBMUD',invoiceReference:'EBMUD-2026-03',periodStart:'2026-03-01',periodEnd:'2026-03-31',dueDate:'2026-04-15',amount:'180.00',formula:'occupants'},{as:bk})
+ assert.deepEqual(water.lines.map(x=>[x.tenancyId,x.basisLabel,x.chargeCents]),[[jo.id,'31 occupant-days',6000],[transfer.id,'62 occupant-days',12000]],'Rosa and the occupant Tomas for 31 days; the guarantor and the co-tenant who left in January do not count')
+ assert.deepEqual([water.recoverableCents,water.chargedCents,water.unrecoveredCents],[18000,18000,0])
+ await h.command('utility.approve',{billId:water.id,fingerprint:water.fingerprint},{as:bk,status:403})
+ await h.command('utility.approve',{billId:water.id,fingerprint:water.fingerprint},{as:member,status:403})
+ await h.command('utility.approve',{billId:water.id,fingerprint:'0'.repeat(64)},{status:409})
+ await h.command('utility.approve',{billId:water.id,fingerprint:water.fingerprint})
+ const recovered=[transfer,jo].map(async lease=>(await h.state(lease.id)).ledger.charges.find(q=>q.reference.startsWith('UTIL-EBMUD-2026-03')))
+ const [rosaWater,joWater]=await Promise.all(recovered)
+ assert.deepEqual([rosaWater.reference,rosaWater.amount_cents,joWater.reference,joWater.amount_cents],['UTIL-EBMUD-2026-03-B',12000,'UTIL-EBMUD-2026-03-A',6000])
+ assert.equal(rosaWater.amount_cents+joWater.amount_cents,water.recoverableCents,'source-linked allocations equal the approved recoverable total');assert.match(rosaWater.description,/EBMUD-2026-03 2026-03-01 to 2026-03-31 \(Occupant-days/)
+ const rule=await h.command('tax.prepare',{propertyId:duplex.id,kind:'parking',ratePercent:'10',label:'Oakland parking tax',starts:'2026-01-01'},{as:bk})
+ assert.equal((await h.command('ancillary.charge',{tenancyId:jo.id,kind:'parking',description:'Parking space 4, February',amount:'75.00',dueDate:'2026-02-15',reference:'PARK-A-2026-02'},{as:bk})).taxCents,0,'an unreviewed rule adds no tax')
+ await h.command('tax.review',{ruleId:rule.id},{as:bk,status:403});await h.command('tax.review',{ruleId:rule.id},{as:ac})
+ const parking=await h.command('ancillary.charge',{tenancyId:jo.id,kind:'parking',description:'Parking space 4, March',amount:'75.00',dueDate:'2026-03-01',reference:'PARK-A-2026-03'},{as:bk})
+ assert.deepEqual([parking.taxCents,(await h.command('ancillary.charge',{tenancyId:jo.id,kind:'storage',description:'Storage locker, March',amount:'40.00',dueDate:'2026-03-01',reference:'STOR-A-2026-03'},{as:bk})).taxCents],[750,0])
+ const joLedger=(await h.state(jo.id)).ledger,taxLine=joLedger.charges.find(q=>q.reference==='PARK-A-2026-03-TAX')
+ assert.deepEqual([taxLine.amount_cents,taxLine.description,taxLine.tax_rule_id],[750,'Oakland parking tax 10.00% on Parking space 4, March',rule.id])
+ await h.command('rent.receipt',{chargeId:parking.id,amount:'75.00',receivedDate:'2026-03-05',reference:'PARK-PAY-1',method:'card'})
+ await h.command('rent.receipt',{chargeId:taxLine.id,amount:'7.50',receivedDate:'2026-03-05',reference:'PARK-TAX-PAY-1',method:'card'})
+ const itoMarch=await(await h.request(`/api/owner-statement?ownerId=${ito.id}&from=2026-03-01&to=2026-03-31`)).json()
+ assert.deepEqual(itoMarch.rows.map(r=>[r.reference,r.allocatedCents]),[['PARK-PAY-1',5001]],'parking is owner income; the tax collected is not')
+ await h.command('term.add',{tenancyId:jo.id,kind:'parking',description:'Parking space 4',amount:'75.00',starts:'2026-04-01'})
+ const april=await h.command('charges.preview',{month:'2026-04'});assert.deepEqual(line(april,jo.id,'tax').map(l=>[l.amountCents,l.taxRuleId]),[[750,rule.id]],'a recurring parking charge carries the reviewed tax')
+ const recoveryPage=await(await h.request('/app?tab=properties')).text()
+ for(const text of ['water · EBMUD invoice EBMUD-2026-03','Oakland parking tax · parking · 10.00%','Leases authorizing recovery'])assert.ok(recoveryPage.includes(text),text)
 
 })

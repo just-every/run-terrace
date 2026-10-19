@@ -7,6 +7,7 @@
 // posts nothing twice, and a term is amended only from a period that has not been posted.
 import { all, cents, commit, date, guard, id, insist, allow, one, sha256, sql, tenancy, text, type Context, type Row, shown, reaches } from './core'
 import { BALANCE } from './ledger'
+import { taxCharge } from './tax'
 
 export const KINDS = ['rent','utility','pet','parking','concession'] as const
 const DAY = 86400000
@@ -51,6 +52,9 @@ export async function preview(c: Context, value: unknown) {
     line.posted = !!(await one(c, 'SELECT 1 FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id WHERE q.tenancy_id=? AND q.reference=? AND a.reference=?', t.id, rent.reference, reference))
    }
    lines.push(line)
+   // ACCT-016: a parking or utility term's charge carries the tax its reviewed rule calls for, as its own line.
+   const tax = term.kind === 'parking' || term.kind === 'utility' ? await taxCharge(c, t, term.kind, a, amount, reference, term.description) : null
+   if (tax) lines.push({ ...line, kind: 'tax', termId: null, description: tax.description, amountCents: tax.amount, reference: tax.reference, taxRuleId: tax.rule.id, posted: posted.some(q => q.tenancy_id === t.id && q.reference === tax.reference) })
   }
   if (!rent) missing.push({ tenancyId: t.id, address: t.address, period: [ps, pe], reason: 'No rent term covers this period' })
  }
@@ -86,7 +90,7 @@ export async function chargeRunCommand(c: Context, command: string, p: Row): Pro
   const writes: D1PreparedStatement[] = [], chargeIds = new Map<string, string>()
   for (const l of run.lines.filter(l => !l.posted && l.kind !== 'concession')) {
    const key = id(); chargeIds.set(l.tenancyId + l.reference, key)
-   writes.push(sql(c, 'INSERT INTO tt_charges(id,tenancy_id,due_date,amount_cents,description,reference,created_at,currency,term_id,period_start,period_end) VALUES(?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(tenancy_id,reference) DO NOTHING', key, l.tenancyId, l.dueDate, l.amountCents, `${l.description} ${l.periodStart} to ${l.periodEnd}${l.coveredDays < l.periodDays ? ` (${l.coveredDays} of ${l.periodDays} days)` : ''}`, l.reference, c.now, l.currency, l.termId, l.periodStart, l.periodEnd))
+   writes.push(sql(c, 'INSERT INTO tt_charges(id,tenancy_id,due_date,amount_cents,description,reference,created_at,currency,term_id,period_start,period_end,tax_rule_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(tenancy_id,reference) DO NOTHING', key, l.tenancyId, l.dueDate, l.amountCents, `${l.description} ${l.periodStart} to ${l.periodEnd}${l.coveredDays < l.periodDays ? ` (${l.coveredDays} of ${l.periodDays} days)` : ''}`, l.reference, c.now, l.currency, l.termId, l.periodStart, l.periodEnd, l.taxRuleId ?? null))
   }
   for (const l of run.lines.filter(l => !l.posted && l.kind === 'concession')) {
    const charge = chargeIds.get(l.tenancyId + l.rentReference) ?? (await one(c, 'SELECT id FROM tt_charges WHERE tenancy_id=? AND reference=?', l.tenancyId, l.rentReference))?.id

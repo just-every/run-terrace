@@ -27,7 +27,7 @@ async function wanted(c: Context, p: Row, m: string, today: string) {
   for (const s of split(total, set.shares)) { const amount = per(s.cents); if (amount > 0) out.push({ ownerId: s.ownerId, day, kind, source, sourceLabel, baseCents: rateBp === null ? total : s.cents, rateBp, amountCents: rateBp === null ? s.cents : amount, taxBp: a.fee_tax_bp, agreement: a }) }
  }
  const [receipts, leases, renewals] = await Promise.all([
-  all(c, 'SELECT r.id,r.amount_cents,r.received_date,r.reference,r.currency,t.currency_confirmed FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND r.received_date BETWEEN ? AND ? ORDER BY r.received_date,r.id', p.id, from, to),
+  all(c, 'SELECT r.id,r.amount_cents,r.received_date,r.reference,r.currency,t.currency_confirmed FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND r.received_date BETWEEN ? AND ? AND q.tax_rule_id IS NULL ORDER BY r.received_date,r.id', p.id, from, to),
   all(c, 'SELECT t.id,t.address,t.start_date FROM tt_tenancies t JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND t.start_date BETWEEN ? AND ? AND t.transferred_from IS NULL ORDER BY t.start_date,t.id', p.id, from, to),
   all(c, "SELECT r.id,r.approved_at,t.address FROM tt_proposals r JOIN tt_tenancies t ON t.id=r.tenancy_id JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND r.kind='renewal' AND r.state='approved' ORDER BY r.approved_at,r.id", p.id),
  ])
