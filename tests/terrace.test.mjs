@@ -2,6 +2,7 @@ import {test,before,after} from 'node:test'
 import assert from 'node:assert/strict'
 import {readFile} from 'node:fs/promises'
 import {createHash,createHmac} from 'node:crypto'
+import {journey as appointmentJourney} from './appointments.mjs'
 import {retentionJourney} from './retention.mjs'
 import {installation,tenancyInput} from './api/harness.mjs'
 let h,member,admin,t,inspection,job,imported,archiveBefore,journalAfter
@@ -211,7 +212,7 @@ test('member prepares renewal and arrears; human approval records actor and refu
  const arrears=await h.command('arrears.prepare',{tenancyId:t.id,message:'Please confirm the remaining September rent.',followUpDate:'2026-10-20'},{as:member});await h.command('proposal.approve',{proposalId:arrears.id})
  const s=await h.state(t.id);assert.equal(s.tenancies.find(x=>x.id===t.id).rent_cents,65000);assert.ok(s.proposals.find(x=>x.id===renewal.id).approved_by)
 })
-test('photographed inspection, WORK-004 qualified vendor handoff, WORK-003 quotes and owner approval, WORK-008 resident completion checks, the WORK-002 asset history and WORK-010 recurring work retain exact evidence',async()=>{
+test('photographed inspection, WORK-004 qualified vendor handoff, WORK-003 quotes and owner approval, WORK-008 resident completion checks, WORK-005 appointments, the WORK-002 asset history and WORK-010 recurring work retain exact evidence',async()=>{
  const riverFields={name:'River Plumbing',email:'trade@example.test',phone:'(510) 555-0111',specialties:'plumbing',serviceAreas:'Oakland, 94610',w9:'received',insuranceExpires:'2036-12-31',licenseNumber:'CSLB-1001',licenseExpires:'2036-12-31',availability:'Weekdays',rate:'95.00',standing:'preferred'}
  const river=await h.command('vendor.add',riverFields),bay=await h.command('vendor.add',{...riverFields,name:'Bay HVAC',email:'hvac@example.test',specialties:'hvac, appliance',licenseNumber:'',standing:'approved'})
  inspection=await h.command('inspection.create',{tenancyId:t.id,date:'2026-10-01',notes:'Kitchen tap drips.'})
@@ -400,6 +401,7 @@ test('photographed inspection, WORK-004 qualified vendor handoff, WORK-003 quote
   const next=await solo.command('renewal.prepare',{tenancyId:lease.id,endDate:'2028-12-31',rent:'680.00',source:'Lease page 3'})
   assert.equal((await solo.command('proposal.approve',{proposalId:next.id},{status:403})).error,'preparer_cannot_approve')
  } finally { await solo.close() }
+ await appointmentJourney()
 })
 test('move-in previews exact source, requires reviewed fingerprint, journals, and undoes unchanged records',async()=>{
  const csv=await readFile('fixtures/terrace-tenancies.csv','utf8'),preview=await h.command('import.preview',{csv,namespace:'archive-a'})

@@ -7,6 +7,7 @@ import { scheduleData } from './schedules'
 import { localDate } from './zones'
 import { authority, OWNER_LABEL, quoteData } from './quotes'
 import { completionData } from './completions'
+import { appointmentData } from './appointments'
 
 // Adapted evidence storage/version guards from gasket/src/gasket/work.ts
 // at 3f87ba0fdba9955f2b7d018d10afafcd50afa919; proposal preparation and
@@ -146,7 +147,7 @@ export async function workData(c: Context, tenancyId: string) {
     all(c, 'SELECT j.*,a.job_version AS approved_version,a.approved_by,a.approved_role,a.approved_at,a.sha256 AS approval_sha256,a.snapshot AS approval_snapshot FROM tt_maintenance_jobs j LEFT JOIN tt_maintenance_approvals a ON a.job_id=j.id AND j.state<>\'pending\' AND a.job_version=(SELECT MAX(job_version) FROM tt_maintenance_approvals WHERE job_id=j.id) WHERE j.tenancy_id=? ORDER BY j.prepared_at DESC', t.id),
   ])
   const today = localDate(c.now, t.time_zone)
-  return { inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), ...await quoteData(c, t, jobs), ...await completionData(c, t.id), role: c.actor.role, may: Object.fromEntries(['maintenance.approve', 'inspection.create', 'quote.add', 'schedule.add', 'work.limits', 'vendor.add', 'asset.add'].map(a => [a, can(c, a)])) }
+  return { inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), ...await quoteData(c, t, jobs), ...await completionData(c, t.id), ...await appointmentData(c, t), role: c.actor.role, may: Object.fromEntries(['maintenance.approve', 'inspection.create', 'quote.add', 'schedule.add', 'work.limits', 'vendor.add', 'asset.add', 'appointment.book', 'appointment.confirm', 'appointment.cancel', 'appointment.no-show', 'appointment.reassign'].map(a => [a, can(c, a)])) }
 }
 
 /** Operator ids to display names, for showing who prepared, approved, uploaded or handed off work. */
