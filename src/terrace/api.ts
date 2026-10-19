@@ -66,7 +66,7 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
  let body='',title='Tenancies',head={}
  if(tab==='security'){title='Two-step sign-in';body=securityView(await factorState(c),result,c.actor.role==='owner',c.actor.role==='owner'?await all(c,'SELECT o.id,o.display_name FROM tt_totp t JOIN oa_operators o ON o.id=t.operator_id WHERE t.confirmed_at IS NOT NULL AND o.id<>? ORDER BY o.display_name',c.actor.id):[])}
  else if(tab==='close'){allow(c,'reports.read');title='Month close';body=periodView(await periodData(c,url.searchParams.get('month')),{signoff:can(c,'period.signoff'),close:can(c,'period.close'),reopen:can(c,'period.reopen'),prepare:can(c,'correction.prepare'),approve:can(c,'correction.approve')},await operatorNames(c),rows)}
- else if(tab==='emergencies'){title='Safety & emergencies';const names=await operatorNames(c);body=emergencyView(await emergencyData(c),c.actor.id,a=>can(c,a),id=>names[id]??id)}
+ else if(tab==='emergencies'){title='Safety & emergencies';const names=await operatorNames(c);body=emergencyView(await emergencyData(c),c.actor.id,a=>can(c,a)&&(a!=='emergency.guidance'||c.actor.role==='owner'||!!c.actor.staff?.all),id=>names[id]??id)}
  else if(tab==='bills'){title='Vendor bills';body=billSection(await billData(c),a=>can(c,a));await recordRead(c,'bills.read','bills')}
  else if(tab==='history'){title='History';const q=Object.fromEntries(url.searchParams);body=historyView(c,await history(c,q),q)}
  else if(tab==='import'){allow(c,'import.preview');title='Move in';body=importView({...await importData(c),...result})}
