@@ -2,6 +2,7 @@ import {test,before,after} from 'node:test'
 import assert from 'node:assert/strict'
 import {readFile} from 'node:fs/promises'
 import {createHash,createHmac} from 'node:crypto'
+import {retentionJourney} from './retention.mjs'
 import {installation,tenancyInput} from './api/harness.mjs'
 let h,member,admin,t,inspection,job,imported,archiveBefore,journalAfter
 /** RFC 6238 code for a base32 key at now plus offset steps, as an authenticator app shows it. */
@@ -437,16 +438,7 @@ test('complete backup restores into a fresh owner installation, preserving photo
   assert.equal((await h.request('/api/readable-export',{as:member})).status,403)
  }finally{await fresh.close()}
 })
-test('owner erasure removes tenancy and photo custody and later journal rejects an older backup',async()=>{
- const before=await h.state(t.id),photo=before.work.photos[0]
- await h.command('tenancy.erase',{tenancyId:t.id,confirm:'wrong'},{status:400});await h.command('tenancy.erase',{tenancyId:t.id,confirm:tenancyInput.tenantEmail})
- assert.ok(!(await h.state()).tenancies.find(x=>x.id===t.id));assert.equal((await h.request('/api/inspections/photos/'+photo.id)).status,404)
- const importedTenancy=(await h.state()).tenancies.find(x=>x.address.includes(''))
- await h.command('tenancy.erase',{tenancyId:importedTenancy.id,confirm:importedTenancy.tenant_email})
- journalAfter=await(await h.request('/api/backup')).text()
- assert.ok(!journalAfter.includes(tenancyInput.address))
- const fresh=await installation();try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archiveBefore],'old.rer'),journal:new File([journalAfter],'later.rer')},{status:409});assert.equal((await fresh.state()).tenancies.length,0)}finally{await fresh.close()}
-})
+test('SAFE-004: reviewed resident retention, owner legal holds, eligible media erasure, opaque accounting and restore fence',retentionJourney)
 test('a renewal waiting on the home is approved from its card and the manager lands back on the home',async()=>{
  const own=await h.command('tenancy.create',{...tenancyInput,address:'Unit 1D, 1840 Alder Street, Oakland, CA',tenantEmail:'sam@example.test'})
  const proposal=await h.command('renewal.prepare',{tenancyId:own.id,endDate:'2027-12-31',rent:'640.00',source:'Annual review'},{as:member})

@@ -20,17 +20,17 @@ const toTarget = (r: Record<string,any>): TargetRow => ({
 export const tenancyTargets: D1TargetAdapter = {
   async read(db, destination, kind, id) {
     if (destination !== IMPORT_DESTINATION || kind !== TENANCY_KIND) return undefined
-    const row = await db.prepare(`SELECT t.*, (${related('t.id')}) AS related_work FROM tt_tenancies t WHERE t.id=?`).bind(id).first()
+    const row = await db.prepare(`SELECT t.*, (${related('t.id')}) AS related_work FROM tt_tenancies t WHERE t.id=? AND t.custody_retired_at IS NULL`).bind(id).first()
     return row ? toTarget(row) : undefined
   },
   matches(row, destination, kind, id) {
     if (destination !== IMPORT_DESTINATION || kind !== TENANCY_KIND) return kitSql('0')
-    if (!row) return kitSql('NOT EXISTS(SELECT 1 FROM tt_tenancies WHERE id=?)', id)
+    if (!row) return kitSql('NOT EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND custody_retired_at IS NULL)', id)
     const value = row.value as Record<string,any>, hasRelated = row.revision.endsWith(relatedMarker)
     const revision = hasRelated ? row.revision.slice(0,-relatedMarker.length) : row.revision
     // Journals written before PORT-001 hold no currency or time_zone; those match on the fields they hold.
     const held = fields.filter(field => field in value)
-    return kitSql(`EXISTS(SELECT 1 FROM tt_tenancies t WHERE t.id=? AND ${held.map(field => `t.${field} IS ?`).join(' AND ')} AND t.import_revision IS ? AND (${related('t.id')})=?)`, id, ...held.map(field => value[field]), revision || null, hasRelated ? 1 : 0)
+    return kitSql(`EXISTS(SELECT 1 FROM tt_tenancies t WHERE t.id=? AND t.custody_retired_at IS NULL AND ${held.map(field => `t.${field} IS ?`).join(' AND ')} AND t.import_revision IS ? AND (${related('t.id')})=?)`, id, ...held.map(field => value[field]), revision || null, hasRelated ? 1 : 0)
   },
   matchesCount(count) { return kitSql('(SELECT count(*) FROM tt_tenancies WHERE import_revision IS NOT NULL)=?', count) },
   write(row) {
@@ -42,7 +42,7 @@ export const tenancyTargets: D1TargetAdapter = {
   },
   remove(_destination, _kind, id) {
     return [
-      kitSql(`INSERT INTO tt_guard(ok) VALUES(CASE WHEN NOT EXISTS(SELECT 1 FROM tt_tenancies t WHERE t.id=? AND (${related('t.id')})) THEN 1 ELSE 0 END)`, id),
+      kitSql(`INSERT INTO tt_guard(ok) VALUES(CASE WHEN NOT EXISTS(SELECT 1 FROM tt_tenancies t WHERE t.id=? AND t.custody_retired_at IS NULL AND (${related('t.id')})) THEN 1 ELSE 0 END)`, id),
       kitSql('DELETE FROM tt_tenancies WHERE id=?', id),
     ]
   },

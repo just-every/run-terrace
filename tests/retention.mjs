@@ -1,0 +1,69 @@
+import assert from 'node:assert/strict'
+import {readFile} from 'node:fs/promises'
+import {installation,tenancyInput} from './api/harness.mjs'
+const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jz1sAAAAASUVORK5CYII=','base64')
+export async function retentionJourney(){
+ const h=await installation();try{
+  const member=await h.invite('member','privacy-member@example.test')
+  const current=await h.command('tenancy.create',{...tenancyInput,tenantEmail:'current@example.test'})
+  await h.command('privacy.hold',{tenancyId:current.id,class:'all',reason:'forbidden'},{as:member,status:403})
+  assert.equal((await h.request('/api/resident-access?tenancyId='+current.id,{as:member})).status,403)
+  assert.equal((await h.request('/api/resident-access?tenancyId='+current.id,{as:''})).status,401)
+  const cr=await h.command('privacy.request',{tenancyId:current.id,kind:'erase',source:'Resident request CURRENT'})
+  const reviewCurrent=await h.command('privacy.review',{tenancyId:current.id,requestId:cr.id})
+  assert.ok(reviewCurrent.review.classes.find(c=>c.class==='lease').retained,'SAFE-004: current lease retention prevents erasure')
+  await h.command('tenancy.erase',{tenancyId:current.id,requestId:cr.id,fingerprint:reviewCurrent.review.fingerprint,confirm:'current@example.test'},{status:409})
+  const header=(await readFile('fixtures/terrace-tenancies.csv','utf8')).split('\n')[0]
+  const csv=header+'\ncasey,31 Brook Lane Oakland CA,Rowan Ellis,rowan@example.test,Casey Historic,casey-history@example.test,2010-01-01,2011-12-31,620.00,weekly,2010-01-01T00:00:00.000Z\n'
+  const preview=await h.command('import.preview',{csv,namespace:'privacy-historic'})
+  const applied=await h.command('import.apply',{csv,namespace:'privacy-historic',fingerprint:preview.fingerprint})
+  const oldId=preview.rows[0].targetId
+  const charge=await h.command('rent.charge',{tenancyId:oldId,dueDate:'2011-04-01',amount:'100',description:'Casey Historic rent',reference:'casey-history@example.test invoice'})
+  await h.command('rent.receipt',{chargeId:charge.id,receivedDate:'2011-04-02',amount:'60',reference:'Casey Historic bank receipt'})
+  const inspection=await h.command('inspection.create',{tenancyId:oldId,date:'2011-03-01',notes:'Casey Historic inspection'})
+  const photo=await h.formCommand('inspection.photo',{inspectionId:inspection.id,file:new File([png],'casey-history.png',{type:'image/png'})})
+  for(const item of ['receipts','deposits','exceptions'])await h.command('period.signoff',{month:'2011-04',item,note:'Recorded book checks'})
+  await h.command('period.close',{month:'2011-04'})
+  const accessResponse=await h.request('/api/resident-access?tenancyId='+oldId),access=await accessResponse.json()
+  assert.equal(access.resident.name,'Casey Historic');assert.equal(access.charges[0].id,charge.id);assert.equal(access.receipts[0].amount_cents,6000);assert.equal(access.lease.id,oldId);assert.equal(access.owner,undefined);assert.match(accessResponse.headers.get('cache-control'),/no-store/)
+  const request=await h.command('privacy.request',{tenancyId:oldId,kind:'erase',source:'Signed resident request REF-88'})
+  const lh=await h.command('privacy.hold',{tenancyId:oldId,class:'lease',reason:'Lease litigation hold REF-5'})
+  let review=await h.command('privacy.review',{tenancyId:oldId,requestId:request.id})
+  assert.equal(review.review.eligible,false);assert.ok(review.review.kept.some(k=>k.reasons.some(r=>r.includes('REF-5'))))
+  await h.command('tenancy.erase',{tenancyId:oldId,requestId:request.id,fingerprint:review.review.fingerprint,confirm:'casey-history@example.test'},{status:409})
+  await h.command('privacy.release',{tenancyId:oldId,holdId:lh.id,reason:'Counsel release REF-6'})
+  await h.command('tenancy.erase',{tenancyId:oldId,requestId:request.id,fingerprint:review.review.fingerprint,confirm:'casey-history@example.test'},{status:409})
+  const ah=await h.command('privacy.hold',{tenancyId:oldId,class:'accounting',reason:'Accounting investigation REF-9'})
+  review=await h.command('privacy.review',{tenancyId:oldId,requestId:request.id})
+  assert.equal(review.review.eligible,true);assert.equal(review.review.personalRetained,true)
+  assert.ok(review.review.kept.find(k=>k.class==='accounting').reasons.some(r=>r.includes('REF-9')))
+  const oldArchive=await(await h.request('/api/backup')).text()
+  await h.command('tenancy.erase',{tenancyId:oldId,requestId:request.id,fingerprint:review.review.fingerprint,confirm:'incorrect@example.test'},{status:400})
+  const partial=await h.command('tenancy.erase',{tenancyId:oldId,requestId:request.id,fingerprint:review.review.fingerprint,confirm:'casey-history@example.test'})
+  assert.ok(partial.kept.find(k=>k.class==='accounting'));assert.equal((await h.state(oldId)).ledger.balanceCents,4000)
+  assert.equal((await h.request('/api/inspections/photos/'+photo.photoId)).status,404,'SAFE-004: eligible media actually deleted')
+  assert.equal((await h.state(oldId)).work.inspections.length,0,'SAFE-004: lease search/list has no deleted inspection')
+  const retired=await h.command('import.journal',{jobId:applied.job.id})
+  assert.ok(retired.originals.every(o=>o.original.status==='unavailable'),'SAFE-004: source originals withdrawn, no retained bytes')
+  assert.equal(retired.provenance.length,0,'SAFE-004: source search/provenance erased')
+  await h.command('privacy.release',{tenancyId:oldId,holdId:ah.id,reason:'Investigation resolved REF-10'})
+  const next=await h.command('privacy.request',{tenancyId:oldId,kind:'erase',source:'Finish resident request REF-88'})
+  review=await h.command('privacy.review',{tenancyId:oldId,requestId:next.id})
+  assert.equal(review.review.personalRetained,false)
+  const result=await h.command('tenancy.erase',{tenancyId:oldId,requestId:next.id,fingerprint:review.review.fingerprint,confirm:'casey-history@example.test'})
+  assert.match(result.alias,/^resident-/);assert.ok(!(await h.state()).tenancies.some(t=>t.id===oldId));assert.ok((await h.state()).tenancies.some(t=>t.id===current.id))
+  assert.equal((await h.request('/api/state?tenancy='+oldId)).status,404)
+  const journal=await(await h.request('/api/backup')).text();assert.ok(!journal.includes('Casey Historic'));assert.ok(!journal.includes('casey-history@example.test'));assert.ok(journal.includes(result.alias))
+  const fresh=await installation();try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([oldArchive],'before.rer'),journal:new File([journal],'after.rer')},{status:409});assert.equal((await fresh.state()).tenancies.length,0)}finally{await fresh.close()}
+  await h.command('tenancy.create',{...tenancyInput,tenantEmail:'casey-history@example.test'},{status:409})
+  const restored=await installation();try{
+   await restored.formCommand('data.restore',{confirm:'RESTORE',backup:new File([journal],'after.rer')})
+   const db=await restored.mf.getD1Database('DB'),q=await db.prepare('SELECT * FROM tt_charges WHERE id=?').bind(charge.id).first()
+   assert.equal(q.amount_cents,10000);assert.equal(q.description,'Retained accounting record');assert.equal(q.reference,charge.id)
+   const receipts=(await db.prepare('SELECT * FROM tt_receipts WHERE charge_id=?').bind(charge.id).all()).results;assert.equal(receipts[0].amount_cents,6000)
+   const close=await db.prepare("SELECT statement FROM tt_period_closes WHERE month='2011-04'").first();assert.ok(!close.statement.includes('Casey Historic'));assert.ok(JSON.parse(close.statement).some(l=>l.id===charge.id&&l.amountCents===10000&&l.reference===charge.id))
+   await assert.rejects(db.prepare('UPDATE tt_charges SET amount_cents=1 WHERE id=?').bind(charge.id).run(),/Accounting history/)
+   await assert.rejects(db.prepare('DELETE FROM tt_tenancies WHERE id=?').bind(oldId).run(),/Retain accounting/)
+  }finally{await restored.close()}
+ }finally{await h.close()}
+}
