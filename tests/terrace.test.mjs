@@ -6,6 +6,7 @@ import {journey as scenarioJourney} from './scenarios.mjs'
 import {journey as leaseJourney} from './leases.mjs'
 import {journey as billsJourney} from './bills.mjs'
 import {journey as appointmentJourney} from './appointments.mjs'
+import {journey as emergencyJourney} from './emergencies.mjs'
 import {retentionJourney} from './retention.mjs'
 import {installation,tenancyInput} from './api/harness.mjs'
 let h,member,admin,t,inspection,job,imported,archiveBefore,journalAfter
@@ -216,7 +217,7 @@ test('PORT-005: signed lease versions and reviewed effective amendments, PAY-001
  const s=await h.state(t.id);assert.equal(s.tenancies.find(x=>x.id===t.id).rent_cents,65000);assert.ok(s.proposals.find(x=>x.id===renewal.id).approved_by)
  await leaseJourney()
 })
-test('photographed inspection, WORK-004 qualified vendor handoff, WORK-003 quotes and owner approval, WORK-008 resident completion checks, WORK-005 appointments, the WORK-002 asset history and WORK-010 recurring work retain exact evidence',async()=>{
+test('photographed inspection, WORK-004 qualified vendor handoff, WORK-003 quotes and owner approval, WORK-008 resident completion checks, WORK-005 appointments, WORK-001 and BOUND-003 safety triage with on-call acknowledgement, the WORK-002 asset history and WORK-010 recurring work retain exact evidence',async()=>{
  const riverFields={name:'River Plumbing',email:'trade@example.test',phone:'(510) 555-0111',specialties:'plumbing',serviceAreas:'Oakland, 94610',w9:'received',insuranceExpires:'2036-12-31',licenseNumber:'CSLB-1001',licenseExpires:'2036-12-31',availability:'Weekdays',rate:'95.00',standing:'preferred'}
  const river=await h.command('vendor.add',riverFields),bay=await h.command('vendor.add',{...riverFields,name:'Bay HVAC',email:'hvac@example.test',specialties:'hvac, appliance',licenseNumber:'',standing:'approved'})
  inspection=await h.command('inspection.create',{tenancyId:t.id,date:'2026-10-01',notes:'Kitchen tap drips.'})
@@ -366,7 +367,7 @@ test('photographed inspection, WORK-004 qualified vendor handoff, WORK-003 quote
  for(const r of [tap,boiler]){assert.ok(r.firstApprovedAt&&r.handedOffAt);assert.equal(r.responseHours,Math.round((Date.parse(r.firstApprovedAt)-Date.parse(r.preparedAt))/360000)/10);assert.equal(r.handoffHours,Math.round((Date.parse(r.handedOffAt)-Date.parse(r.preparedAt))/360000)/10);assert.ok(r.missing.includes('booking not recorded (WORK-005)'))}
  assert.equal(boiler.estimateCents,(await h.state(t.id)).work.jobs.find(j=>j.id===heater.id).estimate_cents);assert.equal(boiler.costBasis,'approved estimate, not invoiced')
  assert.equal(report.summary.resolved,report.rows.filter(r=>r.status==='resolved').length);assert.ok(report.summary.reopened>=1&&report.summary.closedWithoutConfirmation>=1&&report.summary.repeatRepairs>=1)
- assert.match(report.summary.openEmergencies,/not recorded.*WORK-001/)
+ assert.equal(report.summary.openEmergencies,0)
  const riverService=report.vendors.find(v=>v.vendor==='River Plumbing');assert.ok(riverService.reopened>=1&&riverService.callbacks>=1)
  const approvedOn=async id=>{const jobs=(await h.state(t.id)).work.jobs.filter(j=>j.asset_id===id&&['approved','sent'].includes(j.state));return [jobs.length,jobs.reduce((n,j)=>n+j.estimate_cents,0)]}
  for(const a of [hvac,replacement])assert.deepEqual(report.assetCost.filter(x=>x.assetId===a.id).map(x=>[x.jobs,x.approvedEstimateCents]),[await approvedOn(a.id)])
@@ -406,6 +407,7 @@ test('photographed inspection, WORK-004 qualified vendor handoff, WORK-003 quote
   assert.equal((await solo.command('proposal.approve',{proposalId:next.id},{status:403})).error,'preparer_cannot_approve')
  } finally { await solo.close() }
  await appointmentJourney()
+ await emergencyJourney()
 })
 test('move-in previews exact source, requires reviewed fingerprint, journals, and undoes unchanged records',async()=>{
  const csv=await readFile('fixtures/terrace-tenancies.csv','utf8'),preview=await h.command('import.preview',{csv,namespace:'archive-a'})

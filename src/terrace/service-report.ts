@@ -3,10 +3,12 @@
 // A job counts as resolved only when the resident's confirmation is its current outcome (WORK-008); a vendor's
 // completion report alone, or a closure without confirmation, never shortens resolution time. Costs are approved
 // estimates, not invoiced amounts (WORK-009 carries invoices). Booking time uses the first appointment
-// confirmed by both parties externally and recorded by staff. Emergency triage arrives with WORK-001.
+// confirmed by both parties externally and recorded by staff. Open emergencies (WORK-001) count, with
+// their age from the report, until a person resolves them; acknowledgement alone keeps them open.
 import { all, allow, date, insist, shown, type Context, type Row } from './core'
 import { localDate } from './zones'
 import { tenancyData } from './tenancies'
+import { openEmergencies } from './emergencies'
 
 const HOUR = 3600000
 const hours = (from: string, to: string | null | undefined) => to ? Math.round((Date.parse(to) - Date.parse(from)) / HOUR * 10) / 10 : null
@@ -52,10 +54,11 @@ export async function serviceReport(c: Context, q: Row) {
   const name = l.scope.startsWith('property:') ? units.find(u => u.property_id === l.scope.slice(9))?.property_name : tenancies.get(l.scope.slice(8))?.address
   return years.map(year => { const spent = committed.filter(j => String(j.due_date).slice(0, 4) === year).reduce((n, j) => n + j.estimate_cents, 0); return { scope: name, year, currency: l.currency, budgetCents: l.budget_cents, committedCents: spent, varianceCents: l.budget_cents - spent } })
  })
+ const emergencies = (await openEmergencies(c)).filter(x => !property || x.propertyId === property)
  return {
   filters: { from: q.from ?? null, to: q.to ?? null, propertyId: property || null, status: only || null }, today, rows,
-  summary: { jobs: rows.length, open: rows.filter(r => OPEN(r.status)).length, resolved: resolved.length, closedWithoutConfirmation: rows.filter(r => r.status === 'closed').length, reopened: rows.filter(r => r.status === 'reopened').length, repeatRepairs: rows.filter(r => r.callbacks.length).length, averageResponseHours: avg(rows.filter(r => r.responseHours !== null).map(r => r.responseHours!)), averageResolutionHours: avg(resolved.map(r => r.resolutionHours!)), oldestOpenDays: Math.max(0, ...rows.filter(r => r.ageDays !== null).map(r => r.ageDays!)), openEmergencies: 'not recorded: emergency triage arrives with WORK-001', averageBookingHours: avg(rows.filter(r => r.bookingHours !== null).map(r => r.bookingHours!)), bookingTime: 'preparation to first appointment confirmed by both parties, recorded by staff; Terrace did not contact either party' },
-  vendors, assetCost, budgets,
+  summary: { jobs: rows.length, open: rows.filter(r => OPEN(r.status)).length, resolved: resolved.length, closedWithoutConfirmation: rows.filter(r => r.status === 'closed').length, reopened: rows.filter(r => r.status === 'reopened').length, repeatRepairs: rows.filter(r => r.callbacks.length).length, averageResponseHours: avg(rows.filter(r => r.responseHours !== null).map(r => r.responseHours!)), averageResolutionHours: avg(resolved.map(r => r.resolutionHours!)), oldestOpenDays: Math.max(0, ...rows.filter(r => r.ageDays !== null).map(r => r.ageDays!)), openEmergencies: emergencies.length, oldestOpenEmergencyHours: emergencies.length ? emergencies[0].ageHours : null, averageBookingHours: avg(rows.filter(r => r.bookingHours !== null).map(r => r.bookingHours!)), bookingTime: 'preparation to first appointment confirmed by both parties, recorded by staff; Terrace did not contact either party' },
+  emergencies, vendors, assetCost, budgets,
   boundary: 'Durations run from preparation to the first approval, the first appointment confirmed by both parties (recorded by staff), the handoff and the resident’s current confirmation; a completion report or a closure without confirmation is not a resolution. Costs are estimates, not invoices.',
  }
 }
@@ -63,5 +66,6 @@ const amount = (n: number) => (n / 100).toFixed(2)
 export const serviceTable = (r: Awaited<ReturnType<typeof serviceReport>>): (string | number)[][] => [
  ['Job', 'Property', 'Tenancy', 'Work', 'Vendor', 'Asset', 'Status', 'Prepared', 'First approved', 'First confirmed appointment', 'Booking (h)', 'Handed off', 'Resident confirmed', 'Closed', 'Age (days)', 'Response (h)', 'Resolution (h)', 'Attempts', 'Callbacks', 'Currency', 'Estimate', 'Cost basis', 'Missing'],
  ...r.rows.map(x => [x.jobId, x.property, x.address, x.title, x.vendor, x.asset ?? '', x.label, x.preparedAt, x.firstApprovedAt ?? '', x.firstConfirmedAppointmentAt ?? '', x.bookingHours ?? '', x.handedOffAt ?? '', x.confirmedAt ?? '', x.closedAt ?? '', x.ageDays ?? '', x.responseHours ?? '', x.resolutionHours ?? '', x.attempts, x.callbacks.join(' '), x.currency, amount(x.estimateCents), x.costBasis, x.missing.join('; ')]),
+ ...r.emergencies.map(x => ['Open emergency', x.address, x.risk, x.state, x.reportedAt, x.acknowledgedAt ?? 'not acknowledged', `${x.ageHours} h open`]),
  [r.boundary],
 ]

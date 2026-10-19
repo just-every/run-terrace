@@ -54,6 +54,9 @@ import { scenarioReport } from './scenarios'
 import { scenarioSection } from './scenario-view'
 import { APPOINTMENT_COMMANDS,appointmentCommand } from './appointments'
 import { RETENTION_COMMANDS,retentionCommand,retentionData,residentAccess } from './retention'
+import { EMERGENCY_COMMANDS,emergencyCommand,emergencyData } from './emergencies'
+import { emergencyView } from './emergency-view'
+import { deliverAlert } from './emergency-alert'
 const json=(body:unknown,status=200)=>Response.json(body,{status,headers:{'cache-control':'no-store','x-content-type-options':'nosniff','referrer-policy':'no-referrer'}})
 async function render(c:Context,url:URL,notice='',result:Row={},status=200,request?:Request,env?:Bindings) {
  // SAFE-001: a sign-in that still owes its second factor sees only the security page, whatever it asked for.
@@ -63,6 +66,7 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
  let body='',title='Tenancies',head={}
  if(tab==='security'){title='Two-step sign-in';body=securityView(await factorState(c),result,c.actor.role==='owner',c.actor.role==='owner'?await all(c,'SELECT o.id,o.display_name FROM tt_totp t JOIN oa_operators o ON o.id=t.operator_id WHERE t.confirmed_at IS NOT NULL AND o.id<>? ORDER BY o.display_name',c.actor.id):[])}
  else if(tab==='close'){allow(c,'reports.read');title='Month close';body=periodView(await periodData(c,url.searchParams.get('month')),{signoff:can(c,'period.signoff'),close:can(c,'period.close'),reopen:can(c,'period.reopen'),prepare:can(c,'correction.prepare'),approve:can(c,'correction.approve')},await operatorNames(c),rows)}
+ else if(tab==='emergencies'){title='Safety & emergencies';const names=await operatorNames(c);body=emergencyView(await emergencyData(c),c.actor.id,a=>can(c,a),id=>names[id]??id)}
  else if(tab==='bills'){title='Vendor bills';body=billSection(await billData(c),a=>can(c,a));await recordRead(c,'bills.read','bills')}
  else if(tab==='history'){title='History';const q=Object.fromEntries(url.searchParams);body=historyView(c,await history(c,q),q)}
  else if(tab==='import'){allow(c,'import.preview');title='Move in';body=importView({...await importData(c),...result})}
@@ -79,15 +83,15 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
   }
   else body=chooser(rows,selected,tab)
   if(tab==='ledger'){allow(c,'ledger.read');title='Rent & arrears';if(selected){const run=url.searchParams.get('run'),ledger=await ledgerData(c,selected.id),post=can(c,'rent.charge');body+=ledgerView(selected,ledger,post,can(c,'reports.read'))+termSection(selected,await terms(c,selected.id),post&&!(await terms(c,selected.id)).some(x=>x.lease_version_id))+runSection(selected,post&&run?await preview(c,run):null,post,run??ledger.today.slice(0,7))}}
-  else if(tab==='work'){allow(c,'work.read');title='Inspections & maintenance';if(selected)body+=workView(selected,{...await workData(c,selected.id),names:await operatorNames(c)})}
+  else if(tab==='work'){allow(c,'work.read');title='Inspections & maintenance';if(can(c,'emergency.read'))body=`<section><h2>Safety & emergencies</h2><p>Record a safety report, give approved guidance and see urgent cases until a person acknowledges and resolves them.</p><a href="/app?tab=emergencies">Open safety & emergencies</a></section>`+body;if(selected)body+=workView(selected,{...await workData(c,selected.id),names:await operatorNames(c)})}
   else if(tab!=='tenancy') throw new Fault('not_found','Page not found.',404)
  }
  return page(c,title,body,notice,status,tab,head)
 }
-const COMMANDS=['tenancy.create','renewal.prepare','arrears.prepare','proposal.approve','proposal.reject','rent.charge','rent.receipt','rent.adjust','inspection.create','inspection.photo','inspection.complete','maintenance.prepare','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.submit','turnover.task.check','turnover.publish','household.add','household.leave','household.move','currency.confirm','work.limits','quote.add','quote.select','maintenance.revise','maintenance.owner','completion.record','completion.check','completion.close','owner.add','owner.w9','ownership.set','agreement.set','factor.start','factor.confirm','factor.verify','factor.require','factor.reset','operator.invite','operator.status','operator.role',...LEASE_COMMANDS,...BILL_COMMANDS,...APPOINTMENT_COMMANDS,...RETENTION_COMMANDS,...PERIOD_COMMANDS,'fees.run','fee.override',...RECOVERY_COMMANDS,'tax.prepare','tax.review']
+const COMMANDS=['tenancy.create','renewal.prepare','arrears.prepare','proposal.approve','proposal.reject','rent.charge','rent.receipt','rent.adjust','inspection.create','inspection.photo','inspection.complete','maintenance.prepare','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.submit','turnover.task.check','turnover.publish','household.add','household.leave','household.move','currency.confirm','work.limits','quote.add','quote.select','maintenance.revise','maintenance.owner','completion.record','completion.check','completion.close','owner.add','owner.w9','ownership.set','agreement.set','factor.start','factor.confirm','factor.verify','factor.require','factor.reset','operator.invite','operator.status','operator.role',...LEASE_COMMANDS,...BILL_COMMANDS,...APPOINTMENT_COMMANDS,...RETENTION_COMMANDS,...EMERGENCY_COMMANDS,...PERIOD_COMMANDS,'fees.run','fee.override',...RECOVERY_COMMANDS,'tax.prepare','tax.review']
 const STEPPED=['entity.add','account.add','operator.invite','operator.role','operator.status','factor.require','factor.reset']
 async function command(c:Context,name:string,p:Row) {
- for(const handler of [tenancyCommand,ledgerCommand,workCommand,importCommand,dataCommand,companyCommand,assetCommand,vendorCommand,scheduleCommand,chargeRunCommand,propertyCommand,turnoverCommand,householdCommand,quoteCommand,completionCommand,ownerCommand,factorCommand,periodCommand,feeCommand,recoveryCommand,taxCommand,retentionCommand,appointmentCommand,billCommand,leaseCommand]) {
+ for(const handler of [tenancyCommand,ledgerCommand,workCommand,importCommand,dataCommand,companyCommand,assetCommand,vendorCommand,scheduleCommand,chargeRunCommand,propertyCommand,turnoverCommand,householdCommand,quoteCommand,completionCommand,ownerCommand,factorCommand,periodCommand,feeCommand,recoveryCommand,taxCommand,retentionCommand,appointmentCommand,billCommand,leaseCommand,emergencyCommand]) {
   const result=await handler(c,name,p); if(result!==undefined)return result
  }
  throw new Fault('unknown_command','Unknown Terrace command.',404)
@@ -96,7 +100,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
  const url=new URL(request.url),isApi=url.pathname.startsWith('/api/'),isPage=url.pathname==='/app'||url.pathname==='/app/command'
  if(!isApi&&!isPage)return null
  // Unknown API paths retain a genuine 404 without leaking installation data.
- if(isApi&&!['/api/cash-scenario','/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment'].includes(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
+ if(isApi&&!['/api/cash-scenario','/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment','/api/emergencies'].includes(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
  let c:Context|undefined,p:Row={}
  try {
   insist(url.origin===env.AUTH_ORIGIN,'origin','The request origin does not match this installation.',403)
@@ -120,6 +124,8 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
    // SAFE-001: bank references, legal entities and access changes need Base's fresh email-link proof (10 minutes). Base's proof is per sign-in, not per action; Terrace asks under 'credentials:mint'.
    if(STEPPED.includes(name))await operatorAuth(env).requireStepUp(request,'credentials:mint').catch(e=>{throw e?.code==='step_up_required'?new Fault('step_up_required','Confirm it is you: request a link at /auth/step-up, open it in this browser, then try again within 10 minutes.',403):e})
    const result:Row=await peopleCommand(request,env,c,name,p)??await command(c,name,p)
+   // WORK-001: the alert goes after its case is committed, and its provider outcome is recorded either way.
+   if(result.alert){const sent=await deliverAlert(c,env,result.alert);result.alertOutcome=sent.outcome;result.notice=`${result.notice} Alert: ${sent.label}.`}
    // SAFE-002: move-in applies and undos and restores keep custody in Base's import journal; history records each once it succeeds.
    if(['import.apply','import.undo','data.restore'].includes(name))await audit(c,name,String(result.job?.id??result.jobId??p.jobId??'installation')).run()
    if(isApi)return json({ok:true,result})
@@ -138,6 +144,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   }
   if(url.pathname==='/api/cash-scenario')return json(await scenarioReport(c,Object.fromEntries(url.searchParams)))
   if(url.pathname==='/api/lease-source')return await leaseSource(c,url.searchParams.get('id'))
+  if(url.pathname==='/api/emergencies')return json(await emergencyData(c))
   if(url.pathname==='/api/bills'){const data=await billData(c);await recordRead(c,'bills.read','bills');return json(data)}
   if(url.pathname==='/api/bill-attachment')return await billAttachment(c,url.searchParams.get('id'))
   if(url.pathname==='/api/resident-access'){const r=await residentAccess(c,url.searchParams.get('tenancyId'));await recordRead(c,'export:resident-access',String(url.searchParams.get('tenancyId')));return r}
