@@ -1,5 +1,6 @@
 import { all, cents, commit, date, email, guard, id, insist, manager, money, one, sha256, sql, tenancy, text, type Context, type Row } from './core'
 import { assetData, serviceableAsset } from './assets'
+import { assignment, hold, issues, trade, vendor, vendorData, vendorGuard } from './vendors'
 import { localDate } from './zones'
 
 // Adapted evidence storage/version guards from gasket/src/gasket/work.ts
@@ -36,6 +37,11 @@ const inspectionGuard = (c: Context, row: Row, version = row.version) => guard(c
 const jobGuard = (c: Context, row: Row, version: number, state: string) => guard(c,
   'EXISTS(SELECT 1 FROM tt_maintenance_jobs WHERE id=? AND version=? AND state=?)', row.id, version, state)
 const result = (row: Row, notice: string) => ({ id: row.id, tenancyId: row.tenancy_id, notice })
+async function qualified(c: Context, row: Row, t: Row) {
+  const h = await hold(c, row, t)
+  insist(!h.held, 'qualification_hold', `Held: ${h.issues.join('; ')}. A manager records a documented exception for these issues first.`, 409)
+  return h
+}
 
 /** Unknown commands are left for the next module. All writes include the live operator guard in commit. */
 export async function workCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
@@ -80,24 +86,28 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
     case 'maintenance.prepare': {
       insist(['owner','admin','member'].includes(c.actor.role), 'forbidden', 'You cannot prepare maintenance.', 403)
       const t = await tenancy(c, p.tenancyId), jobId = id(), proposalId = id()
-      const details = { title: text(p.title, 'Work required', 200), tradeName: text(p.tradeName, 'Vendor name', 200), tradeEmail: email(p.tradeEmail), dueDate: date(p.dueDate, 'Due date'), estimateCents: cents(p.estimate) }
+      // WORK-004: a directory vendor is checked for the job's trade; a typed-in vendor is held as unlisted.
+      const listed = p.vendorId ? await vendor(c, p.vendorId) : null, work = listed || p.trade ? trade(p.trade) : null
+      const details = { title: text(p.title, 'Work required', 200), tradeName: listed ? listed.name : text(p.tradeName, 'Vendor name', 200), tradeEmail: listed ? listed.email : email(p.tradeEmail), dueDate: date(p.dueDate, 'Due date'), estimateCents: cents(p.estimate) }
       insist(!/[<>"(),:;\\]/.test(details.tradeEmail), 'invalid_email', 'Enter a plain vendor email address.')
-      const asset = await serviceableAsset(c, t.id, p.assetId)
+      const asset = await serviceableAsset(c, t.id, p.assetId), found = issues(listed, { trade: work, due_date: details.dueDate }, t)
       await commit(c, [
         guard(c, 'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)', t.id, t.version),
         ...(asset ? [guard(c, "EXISTS(SELECT 1 FROM tt_assets WHERE id=? AND state='in_service')", asset.id)] : []),
+        ...(listed ? [guard(c, 'EXISTS(SELECT 1 FROM tt_vendors WHERE id=? AND version=?)', listed.id, listed.version)] : []),
         sql(c, "INSERT INTO tt_proposals(id,tenancy_id,kind,payload,tenancy_version,prepared_by,prepared_at) VALUES(?,?,'maintenance',?,?,?,?)", proposalId, t.id, JSON.stringify({ jobId, ...details }), t.version, c.actor.id, c.now),
-        sql(c, 'INSERT INTO tt_maintenance_jobs(id,tenancy_id,proposal_id,title,trade_name,trade_email,due_date,estimate_cents,prepared_by,prepared_at,currency,asset_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)', jobId, t.id, proposalId, details.title, details.tradeName, details.tradeEmail, details.dueDate, details.estimateCents, c.actor.id, c.now, t.currency, asset?.id ?? null),
+        sql(c, 'INSERT INTO tt_maintenance_jobs(id,tenancy_id,proposal_id,title,trade_name,trade_email,due_date,estimate_cents,prepared_by,prepared_at,currency,asset_id,vendor_id,trade,qualification) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', jobId, t.id, proposalId, details.title, details.tradeName, details.tradeEmail, details.dueDate, details.estimateCents, c.actor.id, c.now, t.currency, asset?.id ?? null, listed?.id ?? null, work, JSON.stringify(found)),
+        assignment(c, jobId, listed?.id ?? null, details.tradeName, work, found),
       ], command, jobId)
-      return { id: jobId, tenancyId: t.id, proposalId, version: 1, notice: 'Maintenance prepared. An owner or administrator must approve it before handoff.' }
+      return { id: jobId, tenancyId: t.id, proposalId, version: 1, issues: found, notice: found.length ? `Maintenance prepared and held: ${found.join('; ')}. A manager's documented exception is needed before approval.` : 'Maintenance prepared. An owner or administrator must approve it before handoff.' }
     }
     case 'maintenance.approve': {
       manager(c)
-      const row = await job(c, p), version = validVersion(p.version), t = await tenancy(c, row.tenancy_id)
-      const snapshot = JSON.stringify({ jobId: row.id, version, tenancyId: t.id, tenancyVersion: t.version, address: t.address, title: row.title, tradeName: row.trade_name, tradeEmail: row.trade_email, dueDate: row.due_date, estimateCents: row.estimate_cents, currency: row.currency, preparedBy: row.prepared_by, preparedAt: row.prepared_at, approvedBy: c.actor.id, approvedRole: c.actor.role, approvedAt: c.now })
+      const row = await job(c, p), version = validVersion(p.version), t = await tenancy(c, row.tenancy_id), h = await qualified(c, row, t)
+      const snapshot = JSON.stringify({ jobId: row.id, version, tenancyId: t.id, tenancyVersion: t.version, address: t.address, title: row.title, tradeName: row.trade_name, tradeEmail: row.trade_email, vendorId: row.vendor_id, trade: row.trade, qualificationIssues: h.issues, qualificationException: h.exception ? { id: h.exception.id, reason: h.exception.reason, approvedBy: h.exception.approved_by } : null, dueDate: row.due_date, estimateCents: row.estimate_cents, currency: row.currency, preparedBy: row.prepared_by, preparedAt: row.prepared_at, approvedBy: c.actor.id, approvedRole: c.actor.role, approvedAt: c.now })
       const digest = await sha256(new TextEncoder().encode(snapshot))
       await commit(c, [
-        jobGuard(c, row, version, 'pending'),
+        jobGuard(c, row, version, 'pending'), vendorGuard(c, row, h.vendorVersion),
         guard(c, "EXISTS(SELECT 1 FROM tt_proposals p JOIN tt_tenancies t ON t.id=p.tenancy_id WHERE p.id=? AND p.kind='maintenance' AND p.state='pending' AND p.tenancy_version=t.version AND t.version=?)", row.proposal_id, t.version),
         sql(c, 'INSERT INTO tt_maintenance_approvals(id,job_id,job_version,snapshot,sha256,approved_by,approved_role,approved_at) VALUES(?,?,?,?,?,?,?,?)', id(), row.id, version, snapshot, digest, c.actor.id, c.actor.role, c.now),
         sql(c, "UPDATE tt_proposals SET state='approved',approved_by=?,approved_at=? WHERE id=?", c.actor.id, c.now, row.proposal_id),
@@ -108,8 +118,10 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
     case 'maintenance.sent': {
       manager(c)
       const row = await job(c, p), version = validVersion(p.version), reference = text(p.reference, 'External handoff reference', 500)
+      // Qualification is checked again at handoff: a vendor that lapsed after approval is held, never silently dispatched.
+      const h = await qualified(c, row, await tenancy(c, row.tenancy_id))
       await commit(c, [
-        jobGuard(c, row, version, 'approved'),
+        jobGuard(c, row, version, 'approved'), vendorGuard(c, row, h.vendorVersion),
         guard(c, 'EXISTS(SELECT 1 FROM tt_maintenance_approvals WHERE job_id=? AND job_version=?)', row.id, version - 1),
         sql(c, "UPDATE tt_maintenance_jobs SET state='sent',version=version+1,sent_by=?,sent_at=?,sent_reference=? WHERE id=?", c.actor.id, c.now, reference, row.id),
       ], command, row.id)
@@ -126,7 +138,8 @@ export async function workData(c: Context, tenancyId: string) {
     all(c, 'SELECT p.id,p.inspection_id,p.filename,p.media_type,p.size,p.sha256,p.uploaded_by,p.uploaded_at FROM tt_inspection_photos p JOIN tt_inspections i ON i.id=p.inspection_id WHERE i.tenancy_id=? ORDER BY p.uploaded_at', t.id),
     all(c, 'SELECT j.*,a.job_version AS approved_version,a.approved_by,a.approved_role,a.approved_at,a.sha256 AS approval_sha256,a.snapshot AS approval_snapshot FROM tt_maintenance_jobs j LEFT JOIN tt_maintenance_approvals a ON a.job_id=j.id WHERE j.tenancy_id=? ORDER BY j.prepared_at DESC', t.id),
   ])
-  return { inspections, photos, jobs, assets: await assetData(c, t), today: localDate(c.now, t.time_zone), role: c.actor.role }
+  const today = localDate(c.now, t.time_zone)
+  return { inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), role: c.actor.role }
 }
 
 /** Operator ids to display names, for showing who prepared, approved, uploaded or handed off work. */

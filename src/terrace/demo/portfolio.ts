@@ -13,8 +13,8 @@ export const portfolio = [
 ] as const
 
 export const maintenance = [
- { property: 'garden', title: 'Replace kitchen faucet cartridge', trade: 'Harper Plumbing', email: 'harper@example.test', estimate: 24500, state: 'pending', due: 4 },
- { property: 'garden', title: 'Service living room air conditioner', trade: 'Bay City Cooling', email: 'cooling@example.test', estimate: 18000, state: 'approved', due: 8 },
- { property: 'fern', title: 'Replace kitchen sink P-trap', trade: 'Bayline Plumbing', email: 'bayline@example.test', estimate: 38500, state: 'sent', due: -3 },
- { property: 'banksia', title: 'Replace smoke alarm battery', trade: 'Bright Electric', email: 'bright@example.test', estimate: 9500, state: 'pending', due: 2 },
+ { property: 'garden', title: 'Replace kitchen faucet cartridge', trade: 'Harper Plumbing', specialty: 'plumbing', email: 'harper@example.test', estimate: 24500, state: 'pending', due: 4 },
+ { property: 'garden', title: 'Service living room air conditioner', trade: 'Bay City Cooling', specialty: 'hvac', email: 'cooling@example.test', estimate: 18000, state: 'approved', due: 8 },
+ { property: 'fern', title: 'Replace kitchen sink P-trap', trade: 'Bayline Plumbing', specialty: 'plumbing', email: 'bayline@example.test', estimate: 38500, state: 'sent', due: -3 },
+ { property: 'banksia', title: 'Replace smoke alarm battery', trade: 'Bright Electric', specialty: 'electrical', email: 'bright@example.test', estimate: 9500, state: 'pending', due: 2 },
 ] as const

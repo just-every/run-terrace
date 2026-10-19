@@ -20,7 +20,10 @@ All reads and writes authenticate a current Base operator session. Send the sess
 | `inspection.create` | tenancyId, date, notes | Owner/admin |
 | `inspection.photo` | inspectionId, version, file (multipart JPEG/PNG) | Owner/admin |
 | `inspection.complete` | inspectionId, version, notes | Owner/admin |
-| `maintenance.prepare` | tenancyId, title, tradeName, tradeEmail, dueDate, estimate, optional assetId (an in-service asset of the tenancy) | Any operator |
+| `maintenance.prepare` | tenancyId, title, vendorId and trade (a directory vendor) or tradeName and tradeEmail (an unlisted vendor, held), dueDate, estimate, optional assetId (an in-service asset of the tenancy). Returns the qualification `issues` | Any operator |
+| `vendor.add`, `vendor.update` | name, email, phone, specialties, serviceAreas, w9 (received/missing), insuranceExpires, optional licenseNumber with licenseExpires, availability, rate, standing (preferred/approved/blocked); update adds vendorId, version | Owner/admin |
+| `maintenance.reassign` | jobId, vendorId, optional trade, version; prepared work only | Owner/admin |
+| `maintenance.exception` | jobId, reason; records a documented exception for the job's current qualification issues | Owner/admin |
 | `asset.add` | tenancyId, kind, location, make, model, serial, installedDate, optional warrantyProvider with warrantyEnds, manual, replaceBy, replacementCost | Owner/admin |
 | `asset.replace` | assetId plus the replacement's asset.add fields; installedDate is the replacement date | Owner/admin |
 | `maintenance.approve` | jobId, version | Owner/admin |
