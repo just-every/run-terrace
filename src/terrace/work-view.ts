@@ -1,4 +1,4 @@
-import { escape as e, money, type Row } from './core'
+import { escape as e, money, shown, type Row } from './core'
 import { usDate } from './format'
 import { assetSection, assetSelect } from './asset-view'
 import { jobQualification, vendorChoice, vendorSection } from './vendor-view'
@@ -35,7 +35,7 @@ function maintenanceCard(t: Row, row: Row, canManage: boolean, who: Who, data: R
     actions = `<p><a href="/api/maintenance/${encodeURIComponent(row.id)}/packet" download>Download approved email packet (.eml)</a></p>`
     if (row.state === 'approved' && canManage) actions += form('maintenance.sent', t.id, `<p>Open the packet in your email client and send it to the vendor. Record the handoff after you send it.</p>${input('Email or external handoff reference', 'reference', 'text', 'maxlength="500"')}<button type="submit">Record external handoff</button>`, { jobId: row.id, version: row.version })
   }
-  return `<article class="card"><h3>${e(row.title)}</h3><p><span class="pill ${row.state === 'pending' ? 'pending' : ''}">${state}</span></p><dl><dt>Vendor</dt><dd>${e(row.trade_name)} · ${e(row.trade_email)}</dd><dt>Due</dt><dd>${usDate(row.due_date)}</dd><dt>Estimate</dt><dd>${e(money(row.estimate_cents, row.currency))}</dd><dt>Prepared</dt><dd>${usDate(row.prepared_at)} by ${e(who(row.prepared_by))}</dd></dl>${jobQualification(t, row, data, canManage, who)}${evidence}${row.sent_at ? `<p>External handoff recorded ${usDate(row.sent_at)} by ${e(who(row.sent_by))}.</p><p>Reference: ${e(row.sent_reference)}</p>` : ''}${actions}</article>`
+  return `<article class="card"><h3>${e(row.title)}</h3><p><span class="pill ${row.state === 'pending' ? 'pending' : ''}">${state}</span></p><dl><dt>Vendor</dt><dd>${e(row.trade_name)} · ${e(row.trade_email)}</dd><dt>Due</dt><dd>${usDate(row.due_date)}</dd><dt>Estimate</dt><dd>${e(money(row.estimate_cents, shown(t) === 'unconfirmed' ? shown(t) : row.currency))}</dd><dt>Prepared</dt><dd>${usDate(row.prepared_at)} by ${e(who(row.prepared_by))}</dd></dl>${jobQualification(t, row, data, canManage, who)}${evidence}${row.sent_at ? `<p>External handoff recorded ${usDate(row.sent_at)} by ${e(who(row.sent_by))}.</p><p>Reference: ${e(row.sent_reference)}</p>` : ''}${actions}</article>`
 }
 
 /** HTML fragment inside the app's Base theme frame; every action preserves the selected tenancy and tab. data is workData plus names. */

@@ -18,7 +18,11 @@ export const guard = (c: Context, condition: string, ...params: any[]) => sql(c,
 export const audit = (c: Context, action: string, subject: string) => sql(c,'INSERT INTO tt_audit(id,actor,action,subject,at) VALUES(?,?,?,?,?)',id(),c.actor.id,action,subject,c.now)
 export async function commit(c: Context, statements: D1PreparedStatement[], action: string, subject: string) { try { await c.db.batch([guard(c,"EXISTS(SELECT 1 FROM oa_operators WHERE id=? AND status='active' AND role=? AND version=?)",c.actor.id,c.actor.role,c.actor.version ?? 1),...statements,audit(c,action,subject)]); } catch(e) { if(String(e).includes('CHECK constraint')) throw new Fault('conflict','The record or your access changed. Reload and review again.',409); throw e } }
 export async function tenancy(c: Context, value: unknown) { const row = await one(c,'SELECT * FROM tt_tenancies WHERE id=?',text(value,'Tenancy',100)); insist(row,'not_found','Tenancy not found.',404); return row }
-/** Exact cents in the record's own currency: $1,850.00 (USD) or A$1,850.00 (AUD). Never converted. */
-export const money = (n: number, currency: string) => new Intl.NumberFormat('en-US',{style:'currency',currency}).format(n/100)
+/** PORT-001: an AUD tenancy recorded while Terrace labelled money both A$ and $ is "currency unconfirmed" until the owner confirms it. */
+export const UNCONFIRMED = 'unconfirmed'
+/** The currency a tenancy's money is shown and totalled in: its stored currency, or UNCONFIRMED. */
+export const shown = (t: Row | undefined): string => t?.currency_confirmed === 0 ? UNCONFIRMED : t?.currency ?? 'USD'
+/** Exact cents in the record's own currency: $1,850.00 (USD), A$1,850.00 (AUD) or 1,850.00 (currency unconfirmed). Never converted. */
+export const money = (n: number, currency: string) => currency === UNCONFIRMED ? `${new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n/100)} (currency unconfirmed)` : new Intl.NumberFormat('en-US',{style:'currency',currency}).format(n/100)
 export const escape = (v: unknown) => String(v ?? '').replace(/[&<>"']/g, x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]!))
 export const sha256 = async (bytes: Uint8Array) => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new Uint8Array(bytes).buffer))).map(x=>x.toString(16).padStart(2,'0')).join('')

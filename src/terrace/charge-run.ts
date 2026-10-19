@@ -5,7 +5,7 @@
 // amount × covered days ÷ period days, rounded half up to the cent. A concession posts as a reduction of the same
 // period's rent charge. Each line has a reference from its term and period start, so a replayed or retried run
 // posts nothing twice, and a term is amended only from a period that has not been posted.
-import { all, cents, commit, date, guard, id, insist, manager, one, sha256, sql, tenancy, text, type Context, type Row } from './core'
+import { all, cents, commit, date, guard, id, insist, manager, one, sha256, sql, tenancy, text, type Context, type Row, shown } from './core'
 import { BALANCE } from './ledger'
 
 export const KINDS = ['rent','utility','pet','parking','concession'] as const
@@ -42,7 +42,7 @@ export async function preview(c: Context, value: unknown) {
   for (const term of terms.filter(x => x.tenancy_id === t.id && x.starts <= to && (x.ends ?? '9999-12-31') >= from).sort((a, b) => KINDS.indexOf(a.kind) - KINDS.indexOf(b.kind))) {
    const a = term.starts > from ? term.starts : from, b = term.ends && term.ends < to ? term.ends : to, covered = days(a, b)
    const reference = `RUN-${term.id.slice(0, 8)}-${ps}`, amount = prorate(term.amount_cents, covered, length)
-   const line = { tenancyId: t.id, address: t.address, termId: term.id, kind: term.kind, description: term.description, currency: t.currency, periodStart: ps, periodEnd: pe, dueDate: a, coveredDays: covered, periodDays: length, amountCents: amount, reference, posted: posted.some(q => q.tenancy_id === t.id && q.reference === reference) } as Row
+   const line = { tenancyId: t.id, address: t.address, termId: term.id, kind: term.kind, description: term.description, currency: t.currency, shown: shown(t), periodStart: ps, periodEnd: pe, dueDate: a, coveredDays: covered, periodDays: length, amountCents: amount, reference, posted: posted.some(q => q.tenancy_id === t.id && q.reference === reference) } as Row
    if (term.kind === 'rent') rent = line
    if (term.kind === 'concession') {
     if (!rent) { missing.push({ tenancyId: t.id, address: t.address, period: [ps, pe], reason: 'Concession without a rent term in this period' }); continue }

@@ -1,6 +1,6 @@
 // WORK-002: the asset register on Inspections & maintenance: warranty, manual, replacement plan, service
 // history with warranty or owner attribution, and replacement that keeps the old asset.
-import { escape as e, money, type Row } from './core'
+import { escape as e, money, shown, type Row } from './core'
 import { usDate } from './format'
 
 const hidden = (name: string, value: unknown) => `<input type="hidden" name="${e(name)}" value="${e(value)}">`
@@ -9,7 +9,7 @@ const fields = (currency: string) => `${field('Equipment (for example HVAC furna
 const form = (command: string, tenancyId: string, body: string) => `<form method="post" action="/app/command">${hidden('command', command)}${hidden('tenancyId', tenancyId)}${hidden('tab', 'work')}${body}</form>`
 
 function assetCard(t: Row, a: Row, all: Row[], today: string, manage: boolean) {
- const k = a.currency as string, m = (n: number) => money(n, k)
+ const k = shown(t) === 'unconfirmed' ? shown(t) : a.currency as string, m = (n: number) => money(n, k)
  const warranty = a.warranty_ends ? `${e(a.warranty_provider)} · ${a.warranty_ends >= today ? 'active' : 'expired'} until ${usDate(a.warranty_ends)}` : 'None recorded'
  const link = (id: string | null, label: string) => { const x = all.find(y => y.id === id); return x ? `<dt>${label}</dt><dd>${e(x.kind)} · ${e(x.make)} ${e(x.model)} · serial ${e(x.serial)}</dd>` : '' }
  const history = a.history.length ? `<ul class="asset-history">${a.history.map((j: Row) => `<li>${usDate(j.due_date)} · ${e(j.title)} · ${e(j.trade_name)} · ${m(j.estimate_cents)} ${j.state === 'pending' ? '(prepared, not yet approved)' : 'approved estimate'} · ${j.attribution === 'warranty' ? `under warranty: claim with ${e(j.payer)}` : `owner cost: ${e(j.payer)}`}</li>`).join('')}</ul>` : '<p class="muted">No repairs linked to this asset.</p>'

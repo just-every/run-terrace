@@ -1,4 +1,4 @@
-import { all, cents, commit, date, email, guard, id, insist, manager, money, one, sha256, sql, tenancy, text, type Context, type Row } from './core'
+import { all, cents, commit, date, email, guard, id, insist, manager, money, one, sha256, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
 import { assetData, serviceableAsset } from './assets'
 import { hold, trade, vendor, vendorData, vendorGuard } from './vendors'
 import { jobWrites } from './job-writes'
@@ -154,13 +154,13 @@ export async function photoResponse(c: Context, photoId: string): Promise<Respon
 
 export async function workPacket(c: Context, jobId: string): Promise<Response> {
   await readAccess(c)
-  const row = await one(c, "SELECT a.*,j.currency FROM tt_maintenance_approvals a JOIN tt_maintenance_jobs j ON j.id=a.job_id WHERE j.id=? AND j.state IN ('approved','sent')", text(jobId, 'Maintenance job', 100))
+  const row = await one(c, "SELECT a.*,j.currency,t.currency_confirmed FROM tt_maintenance_approvals a JOIN tt_maintenance_jobs j ON j.id=a.job_id JOIN tt_tenancies t ON t.id=j.tenancy_id WHERE j.id=? AND j.state IN ('approved','sent')", text(jobId, 'Maintenance job', 100))
   insist(row, 'not_approved', 'An approved maintenance job is required to download a handoff packet.', 409)
   const s = JSON.parse(row.snapshot)
   insist(await sha256(new TextEncoder().encode(row.snapshot)) === row.sha256, 'conflict', 'The approval evidence could not be verified.', 409)
   const body = [
     `Hello ${s.tradeName},`, '', `Please arrange the approved maintenance work at ${s.address}.`, '',
-    `Work: ${s.title}`, `Due date: ${s.dueDate}`, `Approved estimate: ${money(s.estimateCents, row.currency)}`,
+    `Work: ${s.title}`, `Due date: ${s.dueDate}`, `Approved estimate: ${money(s.estimateCents, row.currency_confirmed === 0 ? UNCONFIRMED : row.currency)}`,
     '', `Job reference: ${s.jobId}`, `Approved version: ${s.version}`, `Approved by: ${s.approvedBy} (${s.approvedRole})`,
     `Approved at: ${s.approvedAt}`, `Approval SHA-256: ${row.sha256}`, '',
     'Please reply to the sender to arrange access and confirm the work.',

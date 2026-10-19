@@ -70,7 +70,7 @@ export async function propertyCommand(c: Context, command: string, p: Row): Prom
   await commit(c, [
    guard(c, 'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)', t.id, t.version), freeUnit(c, u.id, moveIn, end),
    sql(c, 'UPDATE tt_tenancies SET ended_on=?,end_reason=?,version=version+1 WHERE id=?', dayBefore(moveIn), `Transferred to unit ${u.identifier}`, t.id),
-   sql(c, 'INSERT INTO tt_tenancies(id,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,rent_cents,cadence,created_at,currency,time_zone,unit_id,transferred_from) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', key, unitAddress(u), t.owner_name, t.owner_email, t.tenant_name, t.tenant_email, moveIn, end, rent, t.cadence, c.now, t.currency, u.time_zone, u.id, t.id),
+   sql(c, 'INSERT INTO tt_tenancies(id,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,rent_cents,cadence,created_at,currency,time_zone,unit_id,transferred_from,currency_confirmed) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', key, unitAddress(u), t.owner_name, t.owner_email, t.tenant_name, t.tenant_email, moveIn, end, rent, t.cadence, c.now, t.currency, u.time_zone, u.id, t.id, t.currency_confirmed),
   ], command, key)
   return { id: key, tenancyId: key, notice: `Transferred to unit ${u.identifier} from ${moveIn}. Both leases are kept.` }
  }
@@ -80,7 +80,7 @@ export async function propertyCommand(c: Context, command: string, p: Row): Prom
 export async function propertyData(c: Context) {
  const [portfolios, properties, units, leases] = await Promise.all([
   all(c, 'SELECT * FROM tt_portfolios ORDER BY name'), all(c, 'SELECT * FROM tt_properties ORDER BY name'), all(c, 'SELECT * FROM tt_units ORDER BY identifier'),
-  all(c, 'SELECT id,unit_id,tenant_name,start_date,end_date,ended_on,end_reason,transferred_from,rent_cents,currency,cadence FROM tt_tenancies WHERE unit_id IS NOT NULL ORDER BY start_date'),
+  all(c, 'SELECT id,unit_id,tenant_name,start_date,end_date,ended_on,end_reason,transferred_from,rent_cents,currency,currency_confirmed,cadence FROM tt_tenancies WHERE unit_id IS NOT NULL ORDER BY start_date'),
  ])
  return { portfolios: portfolios.map(f => ({ ...f, properties: properties.filter(p => p.portfolio_id === f.id).map(p => {
   const today = localDate(c.now, p.time_zone)

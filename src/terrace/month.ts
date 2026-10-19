@@ -1,7 +1,7 @@
 // The Tenancies home: this calendar month's recorded rent per tenancy, the work and decisions waiting on a
 // person, and the month's dated events. Every figure is read from recorded charges, receipts, proposals,
 // inspections and maintenance; nothing is estimated.
-import { all, type Context, type Row } from './core'
+import { all, shown, type Context, type Row } from './core'
 import { BALANCE } from './ledger'
 import { place } from './format'
 import { DEFAULT_ZONE, localDate } from './zones'
@@ -31,18 +31,18 @@ export async function monthData(c: Context, tenancies: Row[]) {
   const unpaid = mine.filter(q => q.balance_cents > 0), oldest = unpaid[0]?.due_date
   const standing: Standing = !mine.length ? 'none' : balance === 0 ? 'paid' : received > 0 ? 'partial' : oldest < local ? 'overdue' : 'due'
   const receivedDate = mine.map(q => q.received_date).filter(Boolean).sort().at(-1) ?? ''
-  return { tenancy: t, currency: t.currency as string, today: local, ...place(t.address), due, balance, received, standing, oldest, receivedDate, pending: proposals.filter(p => p.tenancy_id === t.id) }
+  return { tenancy: t, currency: shown(t), today: local, ...place(t.address), due, balance, received, standing, oldest, receivedDate, pending: proposals.filter(p => p.tenancy_id === t.id) }
  })
  const charged = rows.filter(r => r.standing !== 'none')
- // One total per currency, USD first: amounts in different currencies are never added together or converted.
+ // One total per currency, USD first and unconfirmed last: amounts in different currencies are never added together or converted.
  const totals = [...new Set(charged.map(r => r.currency))].sort((a, b) => a === 'USD' ? -1 : b === 'USD' ? 1 : a.localeCompare(b)).map(currency => {
   const mine = charged.filter(r => r.currency === currency)
   return { currency, due: mine.reduce((s, r) => s + r.due, 0), received: mine.reduce((s, r) => s + r.received, 0), outstanding: mine.reduce((s, r) => s + r.balance, 0), paid: mine.filter(r => r.standing === 'paid').length, charged: mine.length }
  })
 
  const waiting: Row[] = [
-  ...proposals.map(p => ({ kind: p.kind, tenancyId: p.tenancy_id, unit: unit(p.tenancy_id), payload: JSON.parse(p.payload), id: p.id, preparedBy: p.prepared_name, rentCents: byId.get(p.tenancy_id)?.rent_cents, currency: byId.get(p.tenancy_id)?.currency })),
-  ...jobs.filter(j => j.state !== 'sent').map(j => ({ kind: 'maintenance', tenancyId: j.tenancy_id, unit: unit(j.tenancy_id), job: j })),
+  ...proposals.map(p => ({ kind: p.kind, tenancyId: p.tenancy_id, unit: unit(p.tenancy_id), payload: JSON.parse(p.payload), id: p.id, preparedBy: p.prepared_name, rentCents: byId.get(p.tenancy_id)?.rent_cents, currency: shown(byId.get(p.tenancy_id)) })),
+  ...jobs.filter(j => j.state !== 'sent').map(j => ({ kind: 'maintenance', tenancyId: j.tenancy_id, unit: unit(j.tenancy_id), job: byId.has(j.tenancy_id) ? { ...j, currency: shown(byId.get(j.tenancy_id)) } : j })),
   ...inspections.filter(i => i.state === 'draft').map(i => ({ kind: 'inspection', tenancyId: i.tenancy_id, unit: unit(i.tenancy_id), inspection: i })),
  ]
 

@@ -1,7 +1,7 @@
 // Adapted from Nectar c76a60ccffa39cc1a207b52c152bda16d6d7b1df
 // src/nectar/receivables.ts: integer cents, immutable charges and receipts,
 // with a balance guard in the same batch as every allocation or adjustment.
-import { all, cents, commit, date, guard, id, insist, manager, one, sql, tenancy, text, type Context, type Row } from './core'
+import { all, cents, commit, date, guard, id, insist, manager, one, shown, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
 import { dayStart, localDate, nextDay } from './zones'
 export const BALANCE = `(q.amount_cents - COALESCE((SELECT SUM(amount_cents) FROM tt_receipts WHERE charge_id=q.id),0) - COALESCE((SELECT SUM(amount_cents) FROM tt_adjustments WHERE charge_id=q.id),0))`
 export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|undefined> {
@@ -35,7 +35,7 @@ export async function ledgerData(c:Context,tenancyId:string) {
  const charges=await all(c,`SELECT q.*,${BALANCE} AS balance_cents FROM tt_charges q WHERE tenancy_id=? ORDER BY due_date,created_at`,tenancyId)
  const receipts=await all(c,'SELECT r.* FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=? ORDER BY received_date,created_at',tenancyId)
  const adjustments=await all(c,'SELECT a.* FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id WHERE q.tenancy_id=? ORDER BY at',tenancyId)
- return {currency:t.currency as string,timeZone:t.time_zone as string,today,charges,receipts,adjustments,balanceCents:charges.reduce((s,r)=>s+r.balance_cents,0),arrearsCents:charges.filter(q=>q.due_date<today).reduce((s,r)=>s+r.balance_cents,0)}
+ return {currency:shown(t),timeZone:t.time_zone as string,today,charges,receipts,adjustments,balanceCents:charges.reduce((s,r)=>s+r.balance_cents,0),arrearsCents:charges.filter(q=>q.due_date<today).reduce((s,r)=>s+r.balance_cents,0)}
 }
 // Every amount is period-based, with no pagination cap in a statement.
 export async function statement(c:Context,tenancyId:string,from:string,to:string) {
@@ -50,6 +50,6 @@ export async function statement(c:Context,tenancyId:string,from:string,to:string
 }
 export function statementCsv(s:Awaited<ReturnType<typeof statement>>) {
  const cell=(v:unknown)=>'"'+String(v??'').replaceAll('"','""').replace(/^[=+@-]/,"'$&")+'"'
- const k=s.currency,rows:unknown[][]=[['Terrace owner statement',s.tenancy.owner_name],['Property',s.tenancy.address],['Currency',k],['Property time zone',s.timeZone],['Period',s.from,s.to],['Period starts',s.startsAt],['Period ends before',s.endsBefore],[`Opening receivable ${k}`,(s.openingCents/100).toFixed(2)],['Date','Kind','Reference',`Charges ${k}`,`Receipts ${k}`,`Adjustments ${k}`],...s.events.map(e=>[e.date,e.kind,e.reference,(e.chargeCents/100).toFixed(2),(e.receiptCents/100).toFixed(2),(e.adjustmentCents/100).toFixed(2)]),[`Closing receivable ${k}`,(s.closingCents/100).toFixed(2)],[s.boundary]]
+ const k=s.currency===UNCONFIRMED?'currency unconfirmed':s.currency,rows:unknown[][]=[['Terrace owner statement',s.tenancy.owner_name],['Property',s.tenancy.address],['Currency',k],['Property time zone',s.timeZone],['Period',s.from,s.to],['Period starts',s.startsAt],['Period ends before',s.endsBefore],[`Opening receivable ${k}`,(s.openingCents/100).toFixed(2)],['Date','Kind','Reference',`Charges ${k}`,`Receipts ${k}`,`Adjustments ${k}`],...s.events.map(e=>[e.date,e.kind,e.reference,(e.chargeCents/100).toFixed(2),(e.receiptCents/100).toFixed(2),(e.adjustmentCents/100).toFixed(2)]),[`Closing receivable ${k}`,(s.closingCents/100).toFixed(2)],[s.boundary]]
  return rows.map(r=>r.map(cell).join(',')).join('\r\n')+'\r\n'
 }

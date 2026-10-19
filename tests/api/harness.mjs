@@ -6,7 +6,8 @@ import {tmpdir} from 'node:os'
 import {join} from 'node:path'
 import {randomBytes} from 'node:crypto'
 import assert from 'node:assert/strict'
-export async function installation(){
+/** legacy(db): writes rows as an older release would, before migration 0018 (PORT-001) runs. */
+export async function installation({legacy}={}){
  const root=await mkdtemp(join(tmpdir(),'terrace-api-')),bundle=await build({entryPoints:['tests/api/worker.ts'],bundle:true,write:false,format:'esm',platform:'neutral',target:'es2022',external:['node:*','cloudflare:*'],loader:{'.css':'text','.svg':'text'}})
  const secret=()=>randomBytes(32).toString('hex'),setup=secret(),devKey=secret(),sessionSecret=secret()
  const messages=[]
@@ -16,7 +17,7 @@ export async function installation(){
  try {
   const address=await mf.ready;origin=address.origin;await mf.setOptions(options(Number(address.port)))
   const db=await mf.getD1Database('DB')
-  for(const f of (await readdir('migrations/core')).filter(f=>f.endsWith('.sql')).sort()){await db.batch(unstable_splitSqlQuery(await readFile('migrations/core/'+f,'utf8')).map(q=>db.prepare(q)))}
+  for(const f of (await readdir('migrations/core')).filter(f=>f.endsWith('.sql')).sort()){if(legacy&&f.startsWith('0018'))await legacy(db);await db.batch(unstable_splitSqlQuery(await readFile('migrations/core/'+f,'utf8')).map(q=>db.prepare(q)))}
   const request=(path,{method='GET',body,as=cookie,originHeader=origin,form,headers={}}={})=>fetch(origin+path,{method,redirect:'manual',headers:{origin:originHeader,...(!form?{'content-type':'application/json'}:{}),...(as?{cookie:as}:{}),...headers},...(form?{body:form}:body!==undefined?{body:JSON.stringify(body)}:{})})
   const boot=await request('/auth/bootstrap',{method:'POST',body:{token:setup,displayName:'Terrace owner'}});assert.equal(boot.status,303,await boot.text());cookie=boot.headers.getSetCookie().map(v=>v.split(';')[0]).join('; ')
   const first=await request('/setup',{method:'POST',form:new URLSearchParams({confirm:'yes'})});assert.equal(first.status,303)

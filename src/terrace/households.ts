@@ -5,7 +5,7 @@
 // and occupants get neither.
 // A member is current from the day they join to the day they leave, in the property's time zone. Moving a
 // member to another lease ends their membership the day before and adds them there; balances stay with each lease.
-import { all, commit, date, email, guard, id, insist, manager, one, sql, tenancy, text, type Context, type Row } from './core'
+import { all, commit, date, email, guard, id, insist, manager, one, sql, tenancy, text, type Context, type Row, shown } from './core'
 import { localDate } from './zones'
 
 export const ROLES = ['co_tenant','guarantor','occupant','emergency_contact','authorized_contact'] as const
@@ -58,5 +58,5 @@ export async function householdData(c: Context, t: Row, balanceCents: number) {
  const current = (m: Row) => m.joined <= today && (!m.left_on || m.left_on >= today)
  const primary = { id: null, role: 'resident', name: t.tenant_name, email: t.tenant_email, contact_by: 'email', joined: t.start_date, left_on: t.ended_on ?? null, current: !t.ended_on || t.ended_on >= today }
  const members: Row[] = ([primary, ...rows.map(m => ({ ...m, current: current(m) }))] as Row[]).map(m => ({ ...m, ...rights(m.role, m.contact_by, m.current) }))
- return { tenancyId: t.id, balanceCents, currency: t.currency, members, recipients: members.filter(m => m.recipient).map(m => m.name), liable: members.filter(m => m.liable && m.current).map(m => m.name) }
+ return { tenancyId: t.id, balanceCents, currency: shown(t), members, recipients: members.filter(m => m.recipient).map(m => m.name), liable: members.filter(m => m.liable && m.current).map(m => m.name) }
 }

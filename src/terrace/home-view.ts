@@ -1,6 +1,6 @@
 // The Tenancies home: the month card (recorded rent and the month's dated stops), the decisions and work
 // waiting on a person, and the rent roll grouped by property.
-import { escape as e, money, type Row } from './core'
+import { escape as e, money, shown, type Row } from './core'
 import { daysBetween, monthName, place, shortDate, usDate } from './format'
 import { icon } from './icons'
 import type { monthData } from './month'
@@ -57,7 +57,7 @@ function rollRow(r: RollRow) {
  const t = r.tenancy, ending = daysBetween(r.today, t.end_date) <= 60
  const recorded = r.standing === 'none' ? '<span class="muted">—</span>' : r.standing === 'paid' ? `${money(r.received, r.currency)}<small>${r.receivedDate ? `on ${shortDate(r.receivedDate)}` : 'reduced'}</small>` : `${money(r.received, r.currency)} <span class="muted">of ${money(r.due, r.currency)}</span>`
  const pending = r.pending.length ? pill(r.pending.some(p => p.kind === 'renewal') ? 'Renewal pending' : 'Arrears pending', 'pending') : ''
- return `<a class="roll-row tenancy-row" href="/app?tab=tenancy&amp;tenancy=${e(t.id)}">${avatar(t.tenant_name)}<span class="roll-who"><strong>${r.unit ? `${e(r.unit)} · ` : ''}${e(t.tenant_name)}</strong></span><span class="roll-rent" data-label="Rent">${money(t.rent_cents, t.currency)} <span class="muted">${e(t.cadence)}</span></span><span class="roll-recorded" data-label="Recorded">${recorded}</span><span class="roll-status">${standing(r)}</span><span class="roll-lease${ending ? ' soon' : ''}" data-label="Lease end">${usDate(t.end_date)}${pending}</span>${icon('chevron')}</a>`
+ return `<a class="roll-row tenancy-row" href="/app?tab=tenancy&amp;tenancy=${e(t.id)}">${avatar(t.tenant_name)}<span class="roll-who"><strong>${r.unit ? `${e(r.unit)} · ` : ''}${e(t.tenant_name)}</strong></span><span class="roll-rent" data-label="Rent">${money(t.rent_cents, shown(t))} <span class="muted">${e(t.cadence)}</span></span><span class="roll-recorded" data-label="Recorded">${recorded}</span><span class="roll-status">${standing(r)}</span><span class="roll-lease${ending ? ' soon' : ''}" data-label="Lease end">${usDate(t.end_date)}${pending}</span>${icon('chevron')}</a>`
 }
 
 function rentRoll(m: Month) {

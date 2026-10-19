@@ -6,7 +6,7 @@ Terrace records money already received elsewhere. Collection, bank reconciliatio
 
 ## Add a rent charge
 
-Choose the tenancy, then use **Add rent charge**. Enter the due date, amount in the tenancy's currency (USD; a tenancy recorded before USD keeps AUD and is never converted), description and a unique charge reference. Select **Record charge**.
+Choose the tenancy, then use **Add rent charge**. Enter the due date, amount in the tenancy's currency (USD; a tenancy recorded before Terrace stored a currency shows “currency unconfirmed” until the installation owner confirms AUD or USD on Data & access, and is never converted), description and a unique charge reference. Select **Record charge**.
 
 The tenancy's rent fills the amount as a starting value; check it before saving. Enter each charge you intend to record. A saved tenancy or renewal does not itself create rent charges.
 

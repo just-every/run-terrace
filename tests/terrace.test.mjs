@@ -197,7 +197,7 @@ test('BOUND-004: residential only — no commercial, CAM or association-dues doo
  await h.command('import.apply',{csv:residential,namespace:'bound-004',fingerprint:reviewed.fingerprint})
  const after=(await h.state()).tenancies;assert.equal(after.length,before+1);assert.ok(!after.some(t=>t.address.startsWith('Suite 200')))
 })
-test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready; PORT-004 households; REPORT-001 rent roll',async()=>{
+test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; legacy money currency unconfirmed until the owner confirms it; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready; PORT-004 households; REPORT-001 rent roll',async()=>{
  const company={name:'Alder Court Property Management',officeAddress:'1840 Alder Street, Oakland, CA 94610',officeEmail:'office@example.test',officePhone:'(510) 555-0142',timeZone:'America/Los_Angeles'}
  await h.command('company.save',{...company,timeZone:'Australia/Sydney'},{status:400})
  await h.command('company.save',company)
@@ -243,6 +243,36 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  await h.command('rent.charge',{tenancyId:east.id,dueDate:first,amount:'2400.00',description:'Rent',reference:'5A-NOW'})
  const home=await(await h.request('/app')).text()
  assert.match(home,/<strong>A\$0\.00<\/strong> recorded of A\$1,850\.00 due/);assert.match(home,/<strong>\$[\d,.]+<\/strong> recorded of \$[\d,.]+ due/)
+ // Legacy currency: a tenancy recorded before PORT-001, while money showed as A$ and then $, is "currency unconfirmed":
+ // shown with that label and totalled apart from USD until the owner confirms AUD or USD once (audited, no conversion).
+ const legacy=await installation({legacy:db=>db.batch([
+  db.prepare("INSERT INTO tt_tenancies(id,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,rent_cents,cadence,created_at) VALUES('legacy-1','Unit 2, 40 Pine Street, Oakland, CA 94610','Rowan Ellis','rowan@example.test','Sam Lee','sam@example.test','2025-01-01','2027-12-31',150000,'monthly','2025-01-01T00:00:00.000Z')"),
+  db.prepare("INSERT INTO tt_charges(id,tenancy_id,due_date,amount_cents,description,reference,created_at) VALUES('legacy-c1','legacy-1',?,150000,'Rent','L-NOW','2025-01-01T00:00:00.000Z')").bind(first),
+  db.prepare("INSERT INTO tt_receipts(id,charge_id,amount_cents,received_date,reference,created_at) VALUES('legacy-r1','legacy-c1',50000,?,'L-ACH-1','2025-01-01T00:00:00.000Z')").bind(first)])})
+ try {
+  const legacyAdmin=await legacy.invite('admin','legacy-admin@example.test')
+  const usd=await legacy.command('tenancy.create',{...tenancyInput,tenantEmail:'usd@example.test',timeZone:'America/Los_Angeles'})
+  await legacy.command('rent.charge',{tenancyId:usd.id,dueDate:first,amount:'620.00',description:'Rent',reference:'USD-NOW'})
+  const before=await legacy.state('legacy-1')
+  assert.deepEqual([before.tenancies.find(x=>x.id==='legacy-1').currency_confirmed,before.ledger.currency,before.legacyCurrency.unconfirmed],[0,'unconfirmed',1])
+  const legacyPage=await(await legacy.request('/app?tab=tenancy&tenancy=legacy-1')).text()
+  assert.match(legacyPage,/1,500\.00 \(currency unconfirmed\) monthly<small>currency unconfirmed/);assert.doesNotMatch(legacyPage,/A?\$1,500\.00/)
+  const legacyHome=await(await legacy.request('/app')).text()
+  assert.match(legacyHome,/<strong>\$0\.00<\/strong> recorded of \$620\.00 due/);assert.match(legacyHome,/<strong>500\.00 \(currency unconfirmed\)<\/strong> recorded of 1,500\.00 \(currency unconfirmed\) due/)
+  const month=first.slice(0,7),split=(await(await legacy.request('/api/collections?month='+month)).json()).totals
+  assert.deepEqual(split.map(x=>[x.currency,x.billedCents,x.collectedCents]).sort(),[['USD',62000,0],['unconfirmed',150000,50000]])
+  assert.match(await(await legacy.request('/app?tab=settings')).text(),/1 tenancy was recorded before Terrace stored a currency[\s\S]*name="command" value="currency\.confirm"/)
+  await legacy.command('currency.confirm',{currency:'USD'},{as:legacyAdmin,status:403})
+  await legacy.command('currency.confirm',{currency:'EUR'},{status:400})
+  assert.match((await legacy.command('currency.confirm',{currency:'USD'})).notice,/1 earlier tenancy is USD\. Labels changed only; no amount was converted/)
+  await legacy.command('currency.confirm',{currency:'AUD'},{status:409})
+  const after=await legacy.state('legacy-1')
+  assert.deepEqual([after.ledger.currency,after.ledger.charges[0].currency,after.ledger.charges[0].amount_cents,after.ledger.receipts[0].currency,after.ledger.receipts[0].amount_cents,after.legacyCurrency.unconfirmed,after.legacyCurrency.confirmation.currency],['USD','USD',150000,'USD',50000,0,'USD'])
+  assert.match(await(await legacy.request('/app')).text(),/<strong>\$500\.00<\/strong> recorded of \$2,120\.00 due/)
+  assert.match(await(await legacy.request('/app?tab=settings')).text(),/1 earlier tenancy was confirmed as USD by Terrace owner on/)
+  const audit=await(await legacy.mf.getD1Database('DB')).prepare("SELECT action,subject FROM tt_audit WHERE action='currency.confirm'").all()
+  assert.deepEqual(audit.results,[{action:'currency.confirm',subject:'currency:USD'}])
+ } finally { await legacy.close() }
  // A property's zone can move between US zones; its currency cannot change.
  await h.command('tenancy.timezone',{tenancyId:old.id,timeZone:'Australia/Perth'},{status:400})
  await h.command('tenancy.timezone',{tenancyId:west.id,timeZone:'America/Phoenix'})

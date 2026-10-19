@@ -1,6 +1,6 @@
 // PORT-002: the Properties page: portfolios, properties and units with occupancy, rentable status and each unit's
 // dated lease history, and the manager's add, end-lease and transfer actions.
-import { escape as e, money, type Row } from './core'
+import { escape as e, money, shown, type Row } from './core'
 import { usDate } from './format'
 import { PROPERTY_KINDS } from './properties'
 import { zoneSelect } from './tenancy-view'
@@ -14,7 +14,7 @@ const field = (label: string, name: string, type = 'text', extra = '') => `<labe
 function lease(l: Row, units: Row[], manage: boolean) {
  const span = `${usDate(l.start_date)} to ${usDate(l.occupiedTo)}${l.ended_on ? ` (lease to ${usDate(l.end_date)}; moved out: ${e(l.end_reason)})` : ''}`
  const actions = manage && l.state !== 'past' && !l.ended_on ? `<details><summary>End lease or transfer</summary>${form('tenancy.end', hidden('tenancyId', l.id) + field('Move-out date', 'moveOut', 'date') + field('Reason', 'reason') + '<button type="submit">End lease</button>')}${units.length ? form('tenancy.transfer', hidden('tenancyId', l.id) + `<label>Move to unit<select name="unitId">${units.filter(u => u.id !== l.unit_id).map(u => `<option value="${e(u.id)}">${e(u.property_name)} · ${e(u.identifier)}</option>`).join('')}</select></label>` + field('Move-in date', 'moveIn', 'date') + '<button type="submit">Transfer resident</button>') : ''}</details>` : ''
- return `<li><a href="/app?tab=tenancy&amp;tenancy=${e(l.id)}">${e(l.tenant_name)}</a> · ${span} · ${money(l.rent_cents, l.currency)} ${e(l.cadence)} · <span class="pill${l.state === 'current' ? ' paid' : ''}">${l.state}</span>${l.transferred_from ? ' · transferred in' : ''}${actions}</li>`
+ return `<li><a href="/app?tab=tenancy&amp;tenancy=${e(l.id)}">${e(l.tenant_name)}</a> · ${span} · ${money(l.rent_cents, shown(l))} ${e(l.cadence)} · <span class="pill${l.state === 'current' ? ' paid' : ''}">${l.state}</span>${l.transferred_from ? ' · transferred in' : ''}${actions}</li>`
 }
 
 export function propertiesView(data: Row, units: Row[], manage: boolean, boards: Row[] = []) {
