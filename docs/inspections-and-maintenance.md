@@ -32,3 +32,12 @@ Downloading an `.eml` file does not send it. The final state, **Sent · external
 **Approval evidence** shows the reviewer, role, approval time, approved version, snapshot and snapshot fingerprint. The approved email packet remains downloadable, and the job retains the external handoff reference and recording actor and time.
 
 Approvals and changes check the current version. If another action changed the record, reopen the current page and review it before acting. [Backups](backup-and-restore.md) include photographs and approval records.
+
+## Assets and warranties
+
+Under **Assets & warranties**, an owner or admin records the selected tenancy's installed equipment: what it is, where it is, make, model, serial number and installed date, with an optional warranty provider and end date, a manual link or where the manual is kept, and a planned replacement date and cost.
+
+When preparing maintenance, choose the asset the repair is for. A repair due on or before the asset's warranty end is listed as **under warranty** with the provider to claim from; any other repair is listed as the owner's cost. Approved estimates are totalled per asset. Terrace flags warranty coverage; it does not file or confirm a claim.
+
+To replace equipment, open **Record a replacement** on the asset and enter the new equipment. The old asset stays, marked replaced on the new installed date, with its service history; new repairs link to the replacement.
+

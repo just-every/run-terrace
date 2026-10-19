@@ -198,7 +198,7 @@ This contract describes the product being built towards. Missing capability neve
 
 - **WORK-001 — Triage safety and emergency requests.** Classify intake by property, asset, habitability risk and emergency policy, give approved safe guidance and alert the human on-call service with acknowledged escalation. Tell residents when to call 911 or utilities for immediate danger; no agent diagnoses safety or closes an emergency by inference. **Acceptance evidence:** Submit a gas-smell request outside office hours, show approved emergency guidance and escalate to an acknowledged human; an unanswered alert remains urgent and open.
 
-- **WORK-002 — Maintain property asset and warranty history.** Track installed equipment, model/serial, location, service history, warranties, manuals and replacement plans. Link requests and costs to assets, flag warranty coverage and keep old assets after replacement for historical cost and failure analysis. **Acceptance evidence:** Add an HVAC asset and warranty, open a repair, replace the asset and inspect both service histories with warranty and owner-cost attribution.
+- **WORK-002 — Maintain property asset and warranty history.** Track installed equipment, model/serial, location, service history, warranties, manuals and replacement plans. Link requests and costs to assets, flag warranty coverage and keep old assets after replacement for historical cost and failure analysis. Exact semantics: an asset belongs to a tenancy’s unit until PORT-002 adds property and unit records, which then carry it. Its manual is recorded as a link or the place it is kept; PORT-007 adds stored manual files. A replacement is recorded as a new asset installed on the replacement date; the old asset is marked replaced on that date, linked both ways, and keeps its service history. A repair request (a maintenance job) links to one in-service asset of the same tenancy; a replaced asset takes no new requests. A linked repair is attributed to the warranty when its due date falls on or after the installed date and on or before the warranty end (inclusive), otherwise to the property owner; Terrace flags coverage and never files or confirms a warranty claim. Costs are approved estimates in the tenancy’s currency (a prepared, unapproved job is listed but not counted); WORK-009 links matched invoices and REPORT-004 the failure analytics, and PORTAL-004 resident requests inherit the asset link before they ship. **Acceptance evidence:** Add an HVAC asset and warranty, open a repair, replace the asset and inspect both service histories with warranty and owner-cost attribution.
 
 - **WORK-003 — Estimate work and obtain owner approval.** Collect comparable vendor quotes, scope, availability, tax and proposed spend against owner limits and property budgets. A manager approves within authority; over-limit work needs the owner’s exact approval. Scope, vendor or price changes reopen authorization. **Acceptance evidence:** Compare two repair quotes, request an owner decision above the spending limit, then change the approved scope and verify dispatch remains blocked until the new terms are approved.
 
@@ -427,11 +427,13 @@ Revised 19 October 2026: BOUND-004 is done. The app’s first-run Tenancies page
 
 Revised 19 October 2026: PORT-001 is done. Migration `0018_us_portfolio.sql` stores a currency on every money record (existing rows keep AUD; triggers refuse a currency change or a child in another currency), the Data & access page sets up the US company, legal entities with EIN references and USD operating accounts, tenancies carry property time zones, and the ledger, statement, Tenancies home and CSV import follow the clause’s exact semantics, now written into it. TER-002 now says new tenancies are USD. `tests/terrace.test.mjs` (PORT-001) asserts each acceptance point.
 
+Revised 19 October 2026: WORK-002 is done. Inspections & maintenance keeps an asset register per tenancy (equipment, location, make, model, serial, installed date, warranty, manual and replacement plan); a maintenance job links to an in-service asset; a replacement keeps the old asset; each asset shows its service history with warranty or owner attribution of approved estimates. The exact semantics are written into the clause. `tests/terrace.test.mjs` (WORK-002) asserts each acceptance point.
+
 | Clauses | Done | Partial | Missing | Total |
 | --- | ---: | ---: | ---: | ---: |
 | Published | 12 | 0 | 0 | 12 |
-| Target and push further | 2 | 44 | 82 | 128 |
-| All | 14 | 44 | 82 | 140 |
+| Target and push further | 3 | 44 | 81 | 128 |
+| All | 15 | 44 | 81 | 140 |
 
 | Clause | Title | Kind | Status | Evidence | Gap |
 | --- | --- | --- | --- | --- | --- |
@@ -512,7 +514,7 @@ Revised 19 October 2026: PORT-001 is done. Migration `0018_us_portfolio.sql` sto
 | `PORTAL-009` | Print mail and record service of notices | target | missing |  | Batch letter PDFs, Lob first-class/certified mail, tracking and recorded physical service are absent. |
 | `PORTAL-010` | Tell owners what was fixed, at what cost, with photos | target | missing |  | Owner completion notices are absent; no owner portal, repair completion or invoiced cost exists to notify from. |
 | `WORK-001` | Triage safety and emergency requests | target | missing |  | Safety triage, emergency guidance and on-call acknowledgment are absent. |
-| `WORK-002` | Maintain property asset and warranty history | target | missing |  | Asset register, warranties and replacement history are absent. |
+| `WORK-002` | Maintain property asset and warranty history | target | done | `migrations/core/0019_assets.sql`; `src/terrace/assets.ts`; `src/terrace/asset-view.ts`; `src/terrace/work.ts`; `tests/terrace.test.mjs` |  |
 | `WORK-003` | Estimate work and obtain owner approval | target | partial | `src/terrace/work.ts`; `tests/terrace.test.mjs` | Single trade estimate and revision approval exist; competing quotes, budgets and owner thresholds are absent. |
 | `WORK-004` | Qualify and assign vendors | target | partial | `src/terrace/work.ts` | Jobs store trade name/email; vendor directory, qualifications and assignment rules are absent. |
 | `WORK-005` | Book appointments and resident access | target | partial | `src/terrace/work.ts` | A due date exists; appointments, access consent, confirmation and rescheduling are absent. |

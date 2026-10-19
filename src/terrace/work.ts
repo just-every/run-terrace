@@ -1,4 +1,6 @@
 import { all, cents, commit, date, email, guard, id, insist, manager, money, one, sha256, sql, tenancy, text, type Context, type Row } from './core'
+import { assetData, serviceableAsset } from './assets'
+import { localDate } from './zones'
 
 // Adapted evidence storage/version guards from gasket/src/gasket/work.ts
 // at 3f87ba0fdba9955f2b7d018d10afafcd50afa919; proposal preparation and
@@ -80,10 +82,12 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
       const t = await tenancy(c, p.tenancyId), jobId = id(), proposalId = id()
       const details = { title: text(p.title, 'Work required', 200), tradeName: text(p.tradeName, 'Vendor name', 200), tradeEmail: email(p.tradeEmail), dueDate: date(p.dueDate, 'Due date'), estimateCents: cents(p.estimate) }
       insist(!/[<>"(),:;\\]/.test(details.tradeEmail), 'invalid_email', 'Enter a plain vendor email address.')
+      const asset = await serviceableAsset(c, t.id, p.assetId)
       await commit(c, [
         guard(c, 'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)', t.id, t.version),
+        ...(asset ? [guard(c, "EXISTS(SELECT 1 FROM tt_assets WHERE id=? AND state='in_service')", asset.id)] : []),
         sql(c, "INSERT INTO tt_proposals(id,tenancy_id,kind,payload,tenancy_version,prepared_by,prepared_at) VALUES(?,?,'maintenance',?,?,?,?)", proposalId, t.id, JSON.stringify({ jobId, ...details }), t.version, c.actor.id, c.now),
-        sql(c, 'INSERT INTO tt_maintenance_jobs(id,tenancy_id,proposal_id,title,trade_name,trade_email,due_date,estimate_cents,prepared_by,prepared_at,currency) VALUES(?,?,?,?,?,?,?,?,?,?,?)', jobId, t.id, proposalId, details.title, details.tradeName, details.tradeEmail, details.dueDate, details.estimateCents, c.actor.id, c.now, t.currency),
+        sql(c, 'INSERT INTO tt_maintenance_jobs(id,tenancy_id,proposal_id,title,trade_name,trade_email,due_date,estimate_cents,prepared_by,prepared_at,currency,asset_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)', jobId, t.id, proposalId, details.title, details.tradeName, details.tradeEmail, details.dueDate, details.estimateCents, c.actor.id, c.now, t.currency, asset?.id ?? null),
       ], command, jobId)
       return { id: jobId, tenancyId: t.id, proposalId, version: 1, notice: 'Maintenance prepared. An owner or administrator must approve it before handoff.' }
     }
@@ -122,7 +126,7 @@ export async function workData(c: Context, tenancyId: string) {
     all(c, 'SELECT p.id,p.inspection_id,p.filename,p.media_type,p.size,p.sha256,p.uploaded_by,p.uploaded_at FROM tt_inspection_photos p JOIN tt_inspections i ON i.id=p.inspection_id WHERE i.tenancy_id=? ORDER BY p.uploaded_at', t.id),
     all(c, 'SELECT j.*,a.job_version AS approved_version,a.approved_by,a.approved_role,a.approved_at,a.sha256 AS approval_sha256,a.snapshot AS approval_snapshot FROM tt_maintenance_jobs j LEFT JOIN tt_maintenance_approvals a ON a.job_id=j.id WHERE j.tenancy_id=? ORDER BY j.prepared_at DESC', t.id),
   ])
-  return { inspections, photos, jobs, role: c.actor.role }
+  return { inspections, photos, jobs, assets: await assetData(c, t), today: localDate(c.now, t.time_zone), role: c.actor.role }
 }
 
 /** Operator ids to display names, for showing who prepared, approved, uploaded or handed off work. */

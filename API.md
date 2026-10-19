@@ -20,7 +20,9 @@ All reads and writes authenticate a current Base operator session. Send the sess
 | `inspection.create` | tenancyId, date, notes | Owner/admin |
 | `inspection.photo` | inspectionId, version, file (multipart JPEG/PNG) | Owner/admin |
 | `inspection.complete` | inspectionId, version, notes | Owner/admin |
-| `maintenance.prepare` | tenancyId, title, tradeName, tradeEmail, dueDate, estimate | Any operator |
+| `maintenance.prepare` | tenancyId, title, tradeName, tradeEmail, dueDate, estimate, optional assetId (an in-service asset of the tenancy) | Any operator |
+| `asset.add` | tenancyId, kind, location, make, model, serial, installedDate, optional warrantyProvider with warrantyEnds, manual, replaceBy, replacementCost | Owner/admin |
+| `asset.replace` | assetId plus the replacement's asset.add fields; installedDate is the replacement date | Owner/admin |
 | `maintenance.approve` | jobId, version | Owner/admin |
 | `maintenance.sent` | jobId, version, reference | Owner/admin, after external handoff |
 | `import.preview`, `import.apply`, `import.journal`, `import.undo` | See [move-in contract](docs/move-in.md) | Owner |

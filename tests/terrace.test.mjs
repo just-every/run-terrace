@@ -10,7 +10,7 @@ after(async()=>{await h?.close()})
 test('ordinary sign-in, per-handler roles, CSRF and revocation',async()=>{
  assert.equal((await h.request('/api/state',{as:''})).status,401)
  assert.equal((await h.request('/api/commands',{method:'POST',body:{command:'tenancy.create',...tenancyInput},originHeader:'https://elsewhere.test'})).status,403)
- for(const command of ['tenancy.create','rent.charge','rent.receipt','rent.adjust','proposal.approve','proposal.reject','inspection.create','inspection.photo','inspection.complete','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone'])await h.command(command,{}, {as:member,status:403})
+ for(const command of ['tenancy.create','rent.charge','rent.receipt','rent.adjust','proposal.approve','proposal.reject','inspection.create','inspection.photo','inspection.complete','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace'])await h.command(command,{}, {as:member,status:403})
  assert.equal((await h.request('/api/backup',{as:member})).status,403)
  t=await h.command('tenancy.create',tenancyInput,{as:admin})
  const listing=await h.request('/app'),listHtml=await listing.text()
@@ -47,7 +47,7 @@ test('member prepares renewal and arrears; human approval records actor and refu
  const arrears=await h.command('arrears.prepare',{tenancyId:t.id,message:'Please confirm the remaining September rent.',followUpDate:'2026-10-20'},{as:member});await h.command('proposal.approve',{proposalId:arrears.id})
  const s=await h.state(t.id);assert.equal(s.tenancies.find(x=>x.id===t.id).rent_cents,65000);assert.ok(s.proposals.find(x=>x.id===renewal.id).approved_by)
 })
-test('photographed inspection and approved trade handoff retain exact evidence',async()=>{
+test('photographed inspection, approved trade handoff and the WORK-002 asset history retain exact evidence',async()=>{
  inspection=await h.command('inspection.create',{tenancyId:t.id,date:'2026-10-01',notes:'Kitchen tap drips.'})
  await h.command('inspection.complete',{inspectionId:inspection.id,notes:'Kitchen tap drips.'},{status:409})
  await h.formCommand('inspection.photo',{inspectionId:inspection.id,file:new File(['not an image'],'tap.png')},{status:400})
@@ -61,6 +61,22 @@ test('photographed inspection and approved trade handoff retain exact evidence',
  const packet=await(await h.request('/api/maintenance/'+job.id+'/packet')).text();assert.ok(packet.includes('To: trade@example.test'))
  await h.command('maintenance.sent',{jobId:job.id,version:2,reference:'Message in external Sent folder / trade handoff 401'})
  const s=await h.state(t.id);assert.equal(s.work.inspections[0].state,'completed');assert.equal(s.work.jobs[0].state,'sent');assert.ok(s.work.jobs[0].approval_sha256)
+ // WORK-002: an HVAC asset with its warranty, manual and replacement plan; a repair under warranty; a replacement that keeps the old asset; an owner-paid repair on the new one.
+ const hvac=await h.command('asset.add',{tenancyId:t.id,kind:'HVAC furnace',location:'Hall closet',make:'Carrier',model:'59SC5',serial:'CR-2291',installedDate:'2024-05-01',warrantyProvider:'Carrier Warranty Services',warrantyEnds:'2036-04-30',manual:'https://example.test/manuals/59sc5.pdf',replaceBy:'2039-05-01',replacementCost:'6200.00'})
+ await h.command('asset.add',{tenancyId:t.id,kind:'Water heater',location:'Garage',make:'Rheem',model:'XE50',serial:'RH-1',installedDate:'2025-01-01',warrantyProvider:'Rheem'},{status:400})
+ const repair=await h.command('maintenance.prepare',{tenancyId:t.id,title:'Furnace igniter repair',tradeName:'Bay HVAC',tradeEmail:'hvac@example.test',dueDate:'2026-11-03',estimate:'240.00',assetId:hvac.id},{as:member})
+ await h.command('maintenance.approve',{jobId:repair.id,version:1})
+ const swap={assetId:hvac.id,kind:'HVAC furnace',location:'Hall closet',make:'Lennox',model:'ML180',serial:'LX-0042',installedDate:'2026-11-10',manual:'Binder in the owner office'}
+ const replacement=await h.command('asset.replace',swap);await h.command('asset.replace',swap,{status:409})
+ await h.command('maintenance.prepare',{tenancyId:t.id,title:'Old furnace',tradeName:'Bay HVAC',tradeEmail:'hvac@example.test',dueDate:'2026-11-12',estimate:'50.00',assetId:hvac.id},{as:member,status:409})
+ const service=await h.command('maintenance.prepare',{tenancyId:t.id,title:'Thermostat wiring',tradeName:'Bay HVAC',tradeEmail:'hvac@example.test',dueDate:'2026-11-20',estimate:'95.50',assetId:replacement.id},{as:member})
+ await h.command('maintenance.approve',{jobId:service.id,version:1})
+ const assets=(await h.state(t.id)).work.assets,old=assets.find(a=>a.id===hvac.id),fresh=assets.find(a=>a.id===replacement.id)
+ assert.deepEqual([old.state,old.replaced_by,old.replaced_date,fresh.state,fresh.replaces],['replaced',fresh.id,'2026-11-10','in_service',old.id])
+ assert.deepEqual(old.history.map(j=>[j.id,j.attribution,j.payer]),[[repair.id,'warranty','Carrier Warranty Services']]);assert.deepEqual([old.warrantyCostCents,old.ownerCostCents],[24000,0])
+ assert.deepEqual(fresh.history.map(j=>[j.id,j.attribution,j.payer]),[[service.id,'owner',tenancyInput.ownerName]]);assert.deepEqual([fresh.warrantyCostCents,fresh.ownerCostCents],[0,9550])
+ const page=await(await h.request('/app?tab=work&tenancy='+t.id)).text()
+ for(const text of ['Replaced Nov 10, 2026','Carrier Warranty Services · active until Apr 30, 2036','https://example.test/manuals/59sc5.pdf','May 1, 2039 · $6,200.00','Furnace igniter repair · Bay HVAC · $240.00 approved estimate · under warranty: claim with Carrier Warranty Services','Thermostat wiring · Bay HVAC · $95.50 approved estimate · owner cost: '+tenancyInput.ownerName,'Owner $95.50 · under warranty $0.00'])assert.ok(page.includes(text),text)
 })
 test('move-in previews exact source, requires reviewed fingerprint, journals, and undoes unchanged records',async()=>{
  const csv=await readFile('fixtures/terrace-tenancies.csv','utf8'),preview=await h.command('import.preview',{csv,namespace:'archive-a'})
