@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-10-20
+
+- REPORT-003: add scoped leasing-performance reports with dated occupancy/vacancy sources, source conversion and drop-off, recorded renewal retention, market-rent assumptions and honest receipt/listing coverage.
+
 ## 2026-10-19
 
 - State that Terrace is for residential rentals only (no commercial leases, CAM reconciliation or HOA dues) on the first-run Tenancies page, the Move in screen and the getting-started guide. Terrace tenancy CSV v1 accepts an optional `lease_type` column: empty or `residential` imports, any other value is held as an exception. Files without the column are unchanged.
