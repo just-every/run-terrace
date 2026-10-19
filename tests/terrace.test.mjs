@@ -47,7 +47,7 @@ test('member prepares renewal and arrears; human approval records actor and refu
  const arrears=await h.command('arrears.prepare',{tenancyId:t.id,message:'Please confirm the remaining September rent.',followUpDate:'2026-10-20'},{as:member});await h.command('proposal.approve',{proposalId:arrears.id})
  const s=await h.state(t.id);assert.equal(s.tenancies.find(x=>x.id===t.id).rent_cents,65000);assert.ok(s.proposals.find(x=>x.id===renewal.id).approved_by)
 })
-test('photographed inspection, WORK-004 qualified vendor handoff, WORK-003 quotes and owner approval, the WORK-002 asset history and WORK-010 recurring work retain exact evidence',async()=>{
+test('photographed inspection, WORK-004 qualified vendor handoff, WORK-003 quotes and owner approval, WORK-008 resident completion checks, the WORK-002 asset history and WORK-010 recurring work retain exact evidence',async()=>{
  const riverFields={name:'River Plumbing',email:'trade@example.test',phone:'(510) 555-0111',specialties:'plumbing',serviceAreas:'Oakland, 94610',w9:'received',insuranceExpires:'2036-12-31',licenseNumber:'CSLB-1001',licenseExpires:'2036-12-31',availability:'Weekdays',rate:'95.00',standing:'preferred'}
  const river=await h.command('vendor.add',riverFields),bay=await h.command('vendor.add',{...riverFields,name:'Bay HVAC',email:'hvac@example.test',specialties:'hvac, appliance',licenseNumber:'',standing:'approved'})
  inspection=await h.command('inspection.create',{tenancyId:t.id,date:'2026-10-01',notes:'Kitchen tap drips.'})
@@ -119,6 +119,31 @@ test('photographed inspection, WORK-004 qualified vendor handoff, WORK-003 quote
  await h.command('maintenance.owner',{...ownerDecision,jobId:withinBudget.id,version:1},{status:409})
  await h.command('maintenance.approve',{jobId:withinBudget.id,version:1})
  await h.command('work.limits',{tenancyId:t.id,limit:'10000.00'})
+ // WORK-008: the vendor reports the tap fixed, the resident says it still leaks and the job reopens; after a return visit the resident confirms. Both attempts and the resolution are kept.
+ await h.command('completion.record',{jobId:withinBudget.id,completedDate:'2026-11-02',summary:'Done',reference:'x'},{as:member,status:409})
+ await h.command('completion.check',{jobId:job.id,outcome:'confirmed'},{as:member,status:409})
+ assert.match((await h.command('completion.record',{jobId:job.id,completedDate:'2026-10-22',summary:'Replaced the tap cartridge',reference:'River Plumbing email 22 Oct with two photos'},{as:member})).notice,/Terrace has not contacted them\.$/)
+ await h.command('completion.record',{jobId:job.id,completedDate:'2026-10-23',summary:'Again',reference:'x'},{as:member,status:409})
+ assert.equal((await h.command('completion.check',{jobId:job.id,outcome:'no_response',note:'Left a voicemail 23 Oct'},{as:member})).resolution,'awaiting_check','no response is not a confirmation')
+ assert.equal((await h.command('completion.check',{jobId:job.id,outcome:'unresolved',note:'Tap still leaks at the base'},{as:member})).resolution,'reopened')
+ await h.command('completion.check',{jobId:job.id,outcome:'confirmed'},{as:member,status:409})
+ await h.command('completion.record',{jobId:job.id,completedDate:'2026-10-27',summary:'Replaced the base seal',reference:'River Plumbing email 27 Oct'},{as:member,status:400})
+ await h.command('completion.record',{jobId:job.id,completedDate:'2026-10-27',summary:'Replaced the base seal',reference:'River Plumbing email 27 Oct',callback:'warranty'},{as:member})
+ assert.equal((await h.command('completion.check',{jobId:job.id,outcome:'confirmed',note:'All dry.',satisfaction:'5'},{as:member})).resolution,'resolved')
+ const checked=(await h.state(t.id)).work
+ assert.deepEqual(checked.attempts.filter(a=>a.job_id===job.id).map(a=>[a.attempt,a.summary,a.callback]),[[1,'Replaced the tap cartridge',null],[2,'Replaced the base seal','warranty']])
+ assert.deepEqual(checked.checks.filter(r=>r.job_id===job.id).map(r=>[r.outcome,r.note,r.label]),[['no_response','Left a voicemail 23 Oct','no response, recorded by staff, resident not contacted by Terrace'],['unresolved','Tap still leaks at the base','not resolved, recorded by staff, resident not contacted by Terrace'],['confirmed','All dry.','confirmed by staff, resident not contacted by Terrace']])
+ assert.deepEqual([checked.jobs.find(j=>j.id===job.id).resolution,checked.callbacks.filter(x=>x.jobId===job.id).map(x=>x.kind)],['resolved',['warranty']])
+ // A recurring issue reopens resolved work; only an owner or admin closes without the resident's confirmation, with a reason, and a safety concern stays listed.
+ assert.equal((await h.command('completion.check',{jobId:job.id,outcome:'unresolved',note:'Drip is back a week later'},{as:member})).resolution,'reopened')
+ await h.command('completion.record',{jobId:heater.id,completedDate:'2026-10-28',summary:'Heater and tank installed',reference:'Delta invoice email 28 Oct'},{as:member})
+ await h.command('completion.check',{jobId:heater.id,outcome:'no_response',note:'No answer to two calls',safetyConcern:'Resident earlier reported a gas smell'},{as:member})
+ await h.command('completion.close',{jobId:heater.id,reason:'Vendor inspected'},{as:member,status:403})
+ await h.command('completion.close',{jobId:heater.id},{status:400})
+ await h.command('completion.close',{jobId:heater.id,reason:'Gas company safety check passed 29 Oct; resident unreachable'})
+ await h.command('completion.close',{jobId:heater.id,reason:'again'},{status:409})
+ const checkBoard=await(await h.request('/app?tab=work&tenancy='+t.id)).text()
+ for(const text of ['Reopened · return visit needed','Return visit · warranty callback','Resident reported not resolved: Tap still leaks at the base','Resident confirmed resolved: All dry. · satisfaction 5 of 5 <span class="muted">(confirmed by staff, resident not contacted by Terrace','Closed without the resident’s confirmation','Gas company safety check passed 29 Oct; resident unreachable','Unresolved safety concern: Resident earlier reported a gas smell'])assert.ok(checkBoard.includes(text),text)
  // WORK-002: an HVAC asset with its warranty, manual and replacement plan; a repair under warranty; a replacement that keeps the old asset; an owner-paid repair on the new one.
  const hvac=await h.command('asset.add',{tenancyId:t.id,kind:'HVAC furnace',location:'Hall closet',make:'Carrier',model:'59SC5',serial:'CR-2291',installedDate:'2024-05-01',warrantyProvider:'Carrier Warranty Services',warrantyEnds:'2036-04-30',manual:'https://example.test/manuals/59sc5.pdf',replaceBy:'2039-05-01',replacementCost:'6200.00'})
  await h.command('asset.add',{tenancyId:t.id,kind:'Water heater',location:'Garage',make:'Rheem',model:'XE50',serial:'RH-1',installedDate:'2025-01-01',warrantyProvider:'Rheem'},{status:400})

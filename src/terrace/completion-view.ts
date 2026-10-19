@@ -1,0 +1,23 @@
+// WORK-008 on a handed-off maintenance card: each vendor completion report with the resident's answers,
+// return visits (callbacks), unresolved safety concerns and the final resolution.
+import { escape as e, type Row } from './core'
+import { usDate } from './format'
+import { CONFIRMED_LABEL } from './completions'
+
+const hidden = (name: string, value: unknown) => `<input type="hidden" name="${e(name)}" value="${e(value)}">`
+const form = (command: string, t: Row, row: Row, body: string) => `<form method="post" action="/app/command">${hidden('command', command)}${hidden('tenancyId', t.id)}${hidden('tab', 'work')}${hidden('jobId', row.id)}${body}</form>`
+const field = (label: string, name: string, type = 'text', required = true, extra = '') => `<label>${e(label)}<input name="${e(name)}" type="${type}"${required ? ' required' : ''} ${extra}></label>`
+const STATE: Record<string, string> = { awaiting_check: 'Completed by the vendor · awaiting the resident’s check', reopened: 'Reopened · return visit needed', resolved: `Resolved · ${CONFIRMED_LABEL}`, closed: 'Closed without the resident’s confirmation' }
+const ANSWER: Record<string, string> = { confirmed: 'Resident confirmed resolved', unresolved: 'Resident reported not resolved', no_response: 'No response from the resident' }
+
+export function completionSection(t: Row, row: Row, data: Row, manage: boolean, who: (id: string) => string) {
+ if (row.state !== 'sent') return ''
+ const attempts = (data.attempts as Row[]).filter(a => a.job_id === row.id), checks = (data.checks as Row[]).filter(r => r.job_id === row.id)
+ const closure = (data.closures as Row[]).filter(x => x.job_id === row.id).at(-1), concerns = (data.concerns as Row[]).filter(x => x.jobId === row.id && x.unresolved)
+ const list = attempts.map(a => `<li><strong>${a.attempt === 1 ? 'Attempt 1' : `Return visit · ${a.callback === 'warranty' ? 'warranty callback' : 'billable callback'}`}</strong> · completed ${usDate(a.completed_date)} · ${e(a.summary)} <span class="muted">(vendor’s report recorded by ${e(who(a.recorded_by))}; evidence: ${e(a.reference)})</span>${checks.filter(r => r.attempt_id === a.id).map(r => `<p>${ANSWER[r.outcome]}${r.note ? `: ${e(r.note)}` : ''}${r.satisfaction ? ` · satisfaction ${r.satisfaction} of 5` : ''} <span class="muted">(${e(r.label)}, ${usDate(r.recorded_at)})</span></p>`).join('')}</li>`).join('')
+ const open = row.resolution === null || row.resolution === 'reopened', awaiting = row.resolution === 'awaiting_check', done = row.resolution === 'resolved' || row.resolution === 'closed'
+ const record = open ? `<details><summary>${attempts.length ? 'Record the return visit' : 'Record the vendor’s completion'}</summary>${form('completion.record', t, row, field('Completed on', 'completedDate', 'date') + field('What the vendor reports', 'summary') + field('Where their evidence is (email, photos)', 'reference') + (attempts.length ? '<label>Callback<select name="callback"><option value="warranty">Warranty callback (no charge)</option><option value="billable">Billable</option></select></label>' : '') + '<button type="submit">Record completion</button>')}</details>` : ''
+ const answer = awaiting || done ? `<details><summary>${done ? 'Record a recurring issue' : 'Record the resident’s answer'}</summary><p class="muted">Ask the resident whether the original issue is resolved. Terrace has not contacted them.</p>${form('completion.check', t, row, (done ? hidden('outcome', 'unresolved') : '<label>Answer<select name="outcome"><option value="confirmed">Resolved</option><option value="unresolved">Not resolved</option><option value="no_response">No response</option></select></label>') + field('Note', 'note', 'text', done) + (done ? '' : field('Satisfaction 1 to 5 (optional)', 'satisfaction', 'number', false, 'min="1" max="5"')) + field('Safety concern (optional)', 'safetyConcern', 'text', false) + '<button type="submit">Record answer</button>')}</details>` : ''
+ const close = manage && !done && attempts.length ? `<details><summary>Close without the resident’s confirmation</summary>${form('completion.close', t, row, field('Reason', 'reason') + '<button class="secondary" type="submit">Close work</button>')}</details>` : ''
+ return `<section class="completion"><h4>Completion check</h4>${row.resolution ? `<p><span class="pill${row.resolution === 'resolved' ? ' paid' : row.resolution === 'reopened' ? ' overdue' : ''}">${STATE[row.resolution]}</span></p>` : ''}${closure ? `<p>Closed by ${e(who(closure.closed_by))} on ${usDate(closure.closed_at)}: ${e(closure.reason)}</p>` : ''}${concerns.map(x => `<p class="state red">Unresolved safety concern: ${e(x.concern)}</p>`).join('')}${list ? `<ol>${list}</ol>` : ''}${record}${answer}${close}</section>`
+}

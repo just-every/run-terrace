@@ -54,6 +54,9 @@ All reads and writes authenticate a current Base operator session. Send the sess
 | `maintenance.revise` | jobId, version, scope?, title?, estimate?, dueDate? | Owner/admin/member; reopens approval |
 | `maintenance.owner` | jobId, version, decision (approved/declined), source (email/document/call), reference | Owner/admin, only above the limit or budget; recorded by staff for the owner |
 | `currency.confirm` | currency (AUD/USD) | Owner, once per installation (PORT-001 legacy currency) |
+| `completion.record` | jobId, completedDate, summary, reference, callback (warranty/billable, return visits) | Owner/admin/member, after handoff; the vendor's report recorded by staff (WORK-008) |
+| `completion.check` | jobId, outcome (confirmed/unresolved/no_response), note, satisfaction?, safetyConcern? | Owner/admin/member; the resident's answer recorded by staff, resident not contacted by Terrace |
+| `completion.close` | jobId, reason | Owner/admin; closes without the resident's confirmation |
 | `import.preview`, `import.apply`, `import.journal`, `import.undo` | See [move-in contract](docs/move-in.md) | Owner |
 | `tenancy.erase` | tenancyId, confirm (exact tenant email) | Owner |
 | `data.restore` | backup file, optional journal file, confirm=RESTORE (multipart) | Owner, empty product destination |
