@@ -27,8 +27,8 @@ export async function journey({inspect,assets=false}={}) {
   const a=await h.command('appointment.book',window)
   await h.command('appointment.confirm',{appointmentId:a.id,version:1,party:'vendor',outcome:'confirmed',reference:'River email confirms arrival'})
   await h.command('appointment.confirm',{appointmentId:a.id,version:2,party:'resident',outcome:'confirmed',reference:'Jordan telephone confirmation'})
-  if(inspect)await inspect({phase:'approved',h,t,j,manager,replacement,tasks})
   await h.command('maintenance.dispatch',{jobId:j.id,version:1},{status:409})
+  if(inspect)await inspect({phase:'approved',h,t,j,manager,replacement,tasks})
   const count=()=>h.messages.filter(m=>m.to.includes(vendorFields.email)).length
   const sent=await h.command('maintenance.dispatch',{jobId:j.id,version:2})
   assert.equal(sent.emailOutcome??sent.outcome,'accepted');assert.equal(count(),1)

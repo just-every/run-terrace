@@ -40,7 +40,7 @@ try {
    return true
   }
   if(phase==='replacement-complete'){
-   assert.equal(await card.getByText('completed',{exact:true}).count(),1)
+   assert.equal(await card.locator('strong').filter({hasText:/^completed$/}).count(),1)
    assert.ok((await card.innerText()).includes('parts needed'))
    assert.ok((await card.innerText()).includes('resident issue'))
    // SAFE-005 inheritance: dispatch snapshots and sourced replies survive a real public restore, with no send replay.
