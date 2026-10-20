@@ -7,9 +7,9 @@ export const mark = (className = 'mark') => `<svg class="${className}" viewBox="
 export const lockup = `<a class="lockup" href="/">${mark()}<span>Terrace</span></a>`
 
 export function siteHeader(current?: 'docs', className = '') {
- return `<header class="site-header${className ? ` ${className}` : ''}"><a class="skip-link" href="#main">Skip to content</a><div class="wrap site-header-row">${lockup}<nav aria-label="Site"><a href="/docs"${current === 'docs' ? ' aria-current="page"' : ''}>Docs</a><a href="${escape(repository)}">Source</a></nav></div></header>`
+ return `<header class="site-header${className ? ` ${className}` : ''}"><a class="skip-link" href="#main">Skip to content</a><div class="wrap site-header-row">${lockup}<nav aria-label="Site"><a href="/docs"${current === 'docs' ? ' aria-current="page"' : ''}>Docs</a><a href="/contract">Contract</a><a href="${escape(repository)}">Source</a></nav></div></header>`
 }
 
 export function siteFooter() {
- return `<footer class="site-footer"><div class="wrap site-footer-row">${lockup}<nav aria-label="Footer"><a href="/docs">Docs</a><a href="${escape(repository)}">Source</a><a href="${escape(repository)}/blob/HEAD/LICENSE">MIT licensed</a></nav></div></footer>`
+ return `<footer class="site-footer"><div class="wrap site-footer-row">${lockup}<nav aria-label="Footer"><a href="/docs">Docs</a><a href="/contract">Contract</a><a href="${escape(repository)}">Source</a><a href="${escape(repository)}/blob/HEAD/LICENSE">MIT licensed</a></nav></div></footer>`
 }
