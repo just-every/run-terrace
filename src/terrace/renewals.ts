@@ -66,7 +66,7 @@ export async function offerInput(c: Context, t: Row, p: Row) {
 export function nextAction(r: Row, offer: Row | undefined, sends: Row[], today: string) {
  if (r.state === 'executed') return null
  if (r.state === 'accepted') return 'Record the signed renewal original, then approve its charge preview to activate the renewed terms'
- if (r.state === 'declined') return 'Declined: record nonrenewal or month-to-month, or prepare a revised offer'
+ if (r.state === 'declined') return 'Declined: record nonrenewal or month-to-month'
  if (r.state === 'countered') return 'Counteroffer received: prepare a revised offer'
  if (r.state === 'no_response') return 'No response by the deadline: decide nonrenewal or month-to-month and tell the household yourself'
  if (r.state === 'nonrenewal') return 'Nonrenewal: plan the move-out inspection and turnover. Terrace sends no legal notice'
