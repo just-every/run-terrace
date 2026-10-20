@@ -13,6 +13,7 @@ const guides = [
   { file: 'docs/inspections-and-maintenance.md', path: '/docs/inspections-and-maintenance', label: 'Inspections & maintenance', title: 'Inspections and maintenance', description: 'Complete photo inspections and send approved maintenance through your own email client.' },
   { file: 'docs/move-in.md', path: '/docs/move-in', label: 'Move in with CSV', title: 'Move into Terrace', description: 'Preview and approve the Terrace tenancy CSV, inspect custody and undo unchanged imports.' },
   { file: 'docs/backup-and-restore.md', path: '/docs/backup-and-restore', label: 'Backup & restore', title: 'Backup and restore', description: 'Export Terrace records and photographs and restore into an empty installation.' },
+  { file: 'docs/upgrades.md', path: '/docs/upgrades', label: 'Reviewed upgrades', title: 'Reviewed upgrades and diagnostics', description: 'Back up, review an upstream merge and preserve owner changes in your own Terrace installation.' },
   { file: 'docs/roles-and-erasure.md', path: '/docs/roles-and-erasure', label: 'People & erasure', title: 'People, roles and erasure', description: 'Invite operators, choose roles, remove access and permanently erase a tenancy.' },
   { file: 'API.md', path: '/docs/api', label: 'Command API', title: 'Terrace commands', description: 'Authenticated commands, downloads and approval boundaries for Terrace integrations.' },
 ]
@@ -64,7 +65,7 @@ function renderMarkdown(source: string, file: string, repository: string) {
 const sections: [string, string[]][] = [
   ['Start here', ['/docs', '/docs/getting-started']],
   ['Everyday work', ['/docs/tenancies', '/docs/rent-and-statements', '/docs/inspections-and-maintenance']],
-  ['Your records', ['/docs/move-in', '/docs/backup-and-restore', '/docs/roles-and-erasure']],
+  ['Your records', ['/docs/move-in', '/docs/backup-and-restore', '/docs/upgrades', '/docs/roles-and-erasure']],
   ['Integrations', ['/docs/api']],
 ]
 

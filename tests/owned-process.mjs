@@ -30,7 +30,7 @@ export async function launch(cwd,rer){
   for(let i=0;i<1800;i++){
    if(error)throw error
    const open=output.match(/RER_OPEN\s+(https?:\/\/\S+)/)?.[1]
-   if(open)return {open,origin:new URL(open).origin,stop}
+   if(open)return {open,origin:new URL(open).origin,site:output.match(/RER_SITE\s+(https?:\/\/\S+)/)?.[1],stop}
    assert.equal(p.exitCode,null,redact(output).slice(-6000));await delay(500)
   }
   throw Error('SAFE-007: rer dev did not become ready in 15 minutes: '+redact(output).slice(-6000))

@@ -13,6 +13,7 @@ Keep tenancies, recorded rent, inspections and maintenance in good order. These 
 
 - [Move into Terrace](move-in.md): preview and approve the tenancy CSV, inspect its journal and undo unchanged imports.
 - [Backup and restore](backup-and-restore.md): save your records and photographs, then restore into an empty installation.
+- [Reviewed upgrades](upgrades.md): preserve owner source changes and data through a separate review installation, and read operational diagnostics.
 - [People, roles and erasure](roles-and-erasure.md): invite a manager or preparer, remove access and erase a tenancy.
 - [Command API](../API.md): authenticated commands for integrations and member-account agents.
 

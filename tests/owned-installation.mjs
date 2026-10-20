@@ -10,7 +10,7 @@ import {command,commandEnv,git,launch} from './owned-process.mjs'
 
 const source=resolve('.'),target=git(source,'rev-parse','HEAD'),prior=git(source,'rev-parse','HEAD^')
 const rer=resolve('node_modules/@runeditrun/rer/global/rer.mjs'),root=await mkdtemp(join(tmpdir(),'terrace-owned-'))
-const screenshots=process.env.SAFE_SCREENSHOTS?resolve(process.env.SAFE_SCREENSHOTS):null
+const screenshots=resolve(process.env.SAFE_SCREENSHOTS??'.rer/owned-screens')
 if(screenshots)await mkdir(screenshots,{recursive:true})
 const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
 let active
@@ -93,6 +93,10 @@ try {
  assert.deepEqual((await(await page.request.get(active.origin+'/api/state')).json()).tenancies,expected)
  await page.goto(active.origin+'/app?tab=tenancy&tenancy='+tenancyId);await picture(page,'upgraded-tenancy')
  const unsigned=await fetch(active.origin+'/api/state');assert.equal(unsigned.status,401)
+ // The public upgrade guide uses the existing docs screen and navigation.
+ const docs=await browser.newPage();assert.ok(active.site,'rer dev exposes the run site')
+ assert.equal((await docs.goto(active.site+'/docs/upgrades')).status(),200)
+ await picture(docs,'upgrade-guide');await docs.close()
  const privateKey=new URL(active.open).hash.slice(1),sentinel=randomBytes(32).toString('hex')
  const diagnostic=await command(review,process.execPath,[rer,'doctor','--json'],{status:3,env:{...commandEnv,MAIL_API_KEY:sentinel}})
  assert.ok(!diagnostic.includes(sentinel)&&!diagnostic.includes(privateKey),'health/doctor never publish private credentials')
