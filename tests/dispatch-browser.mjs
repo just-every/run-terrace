@@ -52,7 +52,8 @@ try {
    await picture('replacement-history')
    assert.equal(await card.locator('strong').filter({hasText:/^completed$/}).count(),1)
    assert.ok((await card.innerText()).includes('parts needed'))
-   assert.ok((await card.innerText()).includes('resident issue'))
+   assert.ok(await card.getByRole('status',{name:'Resident issue',exact:true}).isVisible())
+   assert.match(await card.getByRole('status',{name:'Resident issue',exact:true}).innerText(),/open/)
    // SAFE-005 inheritance: dispatch snapshots and sourced replies survive a real public restore, with no send replay.
    const archive=await(await h.request('/api/backup')).text(),fresh=await installation()
    try{
