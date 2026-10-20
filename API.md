@@ -35,6 +35,8 @@ SAFE-001: `entity.add`, `account.add`, `operator.invite`, `operator.role`, `oper
 | `renewal.send` | renewalId; emails the approved offer through the installation mail provider, never resending an accepted or uncertain attempt | Owner, portfolio manager, leasing |
 | `renewal.reply` | renewalId, outcome (accepted/declined/counteroffer/unknown), on, source, optional note | Owner, portfolio manager, leasing |
 | `renewal.close` | renewalId, outcome (no_response after the deadline/nonrenewal/month_to_month), on, source | Owner, portfolio manager, leasing |
+| `sibling.origin` | product (cabin/chest), origin (https host name only) | Owner |
+| `sibling.link` | propertyId, product, url (a record address on the configured origin), label; `sibling.unlink` takes linkId | Owner, portfolio manager in the property’s portfolio |
 | `arrears.prepare` | tenancyId, message, followUpDate | Owner, portfolio manager, bookkeeper, member |
 | `proposal.approve`, `proposal.reject` | proposalId | Owner, portfolio manager; current tenancy version required by saved proposal |
 | `rent.charge` | tenancyId, dueDate, amount, description, reference | Owner, portfolio manager, bookkeeper |

@@ -12,6 +12,7 @@ import {journey as emergencyJourney} from './emergencies.mjs'
 import {journey as prospectJourney} from './prospects.mjs'
 import {retentionJourney} from './retention.mjs'
 import {journey as renewalJourney} from './renewals.mjs'
+import {journey as siblingJourney} from './siblings.mjs'
 import {installation,tenancyInput} from './api/harness.mjs'
 let h,member,admin,t,inspection,job,imported,archiveBefore,journalAfter
 /** RFC 6238 code for a base32 key at now plus offset steps, as an authenticator app shows it. */
@@ -468,7 +469,7 @@ test('a renewal waiting on the home is approved from its card and the manager la
  assert.equal(state.proposals.find(p=>p.id===proposal.id).state,'approved')
  assert.equal(state.tenancies.find(x=>x.id===own.id).end_date,'2027-12-31')
 })
-test('BOUND-004: residential only — no commercial, CAM or association-dues door, the limit is stated and a commercial lease row is held',async()=>{
+test('BOUND-004: residential only — no commercial, CAM or association-dues door, the limit is stated and a commercial lease row is held; OPS-007 sibling links by address only',async()=>{
  const banned=/commercial|\bcam\b|association|\bhoa\b/i
  const {commands}=await(await h.request('/api/commands')).json()
  assert.ok(commands.length&&!commands.some(c=>banned.test(c)),'no API command offers commercial, CAM or association work')
@@ -491,6 +492,7 @@ test('BOUND-004: residential only — no commercial, CAM or association-dues doo
  const residential=[header,home].join('\n'),reviewed=await h.command('import.preview',{csv:residential,namespace:'bound-004'})
  await h.command('import.apply',{csv:residential,namespace:'bound-004',fingerprint:reviewed.fingerprint})
  const after=(await h.state()).tenancies;assert.equal(after.length,before+1);assert.ok(!after.some(t=>t.address.startsWith('Suite 200')))
+ await siblingJourney()
 })
 test('PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; legacy money currency unconfirmed until the owner confirms it; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready; PORT-004 households; REPORT-001 rent roll; ACCT-009 fees; ACCT-016 recoveries; ACCT-007 vendor bills; REPORT-007 cash and vacancy scenarios; REPORT-003 dated leasing performance; REPORT-002 delinquency',async()=>{
  const company={name:'Alder Court Property Management',officeAddress:'1840 Alder Street, Oakland, CA 94610',officeEmail:'office@example.test',officePhone:'(510) 555-0142',timeZone:'America/Los_Angeles'}
