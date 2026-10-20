@@ -8,6 +8,7 @@ import { localDate } from './zones'
 import { authority, OWNER_LABEL, quoteData } from './quotes'
 import { completionData } from './completions'
 import { appointmentData } from './appointments'
+import { checklist, dispatchData } from './dispatch'
 
 // Adapted evidence storage/version guards from gasket/src/gasket/work.ts
 // at 3f87ba0fdba9955f2b7d018d10afafcd50afa919; proposal preparation and
@@ -98,8 +99,9 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
       const listed = p.vendorId ? await vendor(c, p.vendorId) : null, work = listed || p.trade ? trade(p.trade) : null
       const tradeEmail = listed ? listed.email : email(p.tradeEmail)
       insist(!/[<>"(),:;\\]/.test(tradeEmail), 'invalid_email', 'Enter a plain vendor email address.')
+      const tasks = checklist(p.checklist || p.title)
       const { jobId, proposalId, found, statements } = jobWrites(c, t, { title: text(p.title, 'Work required', 200), listed, trade: work, tradeName: listed ? listed.name : text(p.tradeName, 'Vendor name', 200), tradeEmail, dueDate: date(p.dueDate, 'Due date'), estimateCents: cents(p.estimate), asset: await serviceableAsset(c, t.id, p.assetId) })
-      await commit(c, statements, command, jobId)
+      await commit(c, [...statements, sql(c, 'UPDATE tt_maintenance_jobs SET checklist=?,scope=? WHERE id=?', JSON.stringify(tasks), p.scope ? text(p.scope,'Scope',2000) : null, jobId)], command, jobId)
       return { id: jobId, tenancyId: t.id, proposalId, version: 1, issues: found, notice: found.length ? `Maintenance prepared and held: ${found.join('; ')}. A manager's documented exception is needed before approval.` : 'Maintenance prepared. An owner or administrator must approve it before handoff.' }
     }
     case 'maintenance.approve': {
@@ -110,7 +112,8 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
       // ROLE-003: the owner's quote requirement for estimates above a set amount.
       if (a.limit?.quotes_needed && row.estimate_cents > a.limit.quotes_above_cents) { const n = (await one<{ n: number }>(c, 'SELECT COUNT(*) AS n FROM tt_job_quotes WHERE job_id=?', row.id))!.n; insist(n >= a.limit.quotes_needed, 'quotes_required', `The owner requires ${a.limit.quotes_needed} quotes above ${money(a.limit.quotes_above_cents, a.limit.currency)}; this job has ${n}.`, 409) }
       insist(!a.needsOwner || owner?.decision === 'approved', owner ? 'owner_declined' : 'owner_approval_required', owner ? 'The owner declined these terms. Change the scope, vendor or price, or record a new owner decision on new terms.' : `Needs the owner’s decision: ${a.reasons.join('; ')}. Record the owner’s approval of these exact terms first.`, 409)
-      const snapshot = JSON.stringify({ jobId: row.id, version, tenancyId: t.id, tenancyVersion: t.version, address: t.address, title: row.title, scope: row.scope ?? null, quoteId: row.quote_id ?? null, ownerLimit: a.limit ? { limitCents: a.limit.limit_cents, budgetCents: a.limit.budget_cents, spentCents: a.spentCents, reasons: a.reasons } : null, ownerDecision: owner ? { decision: owner.decision, source: owner.source, reference: owner.reference, recordedBy: owner.recorded_by, recordedAt: owner.recorded_at, termsSha256: owner.terms_sha256, label: OWNER_LABEL } : null, tradeName: row.trade_name, tradeEmail: row.trade_email, vendorId: row.vendor_id, trade: row.trade, qualificationIssues: h.issues, qualificationException: h.exception ? { id: h.exception.id, reason: h.exception.reason, approvedBy: h.exception.approved_by } : null, dueDate: row.due_date, estimateCents: row.estimate_cents, currency: row.currency, preparedBy: row.prepared_by, preparedAt: row.prepared_at, revisedBy: row.revised_by ?? null, approvedBy: c.actor.id, approvedRole: c.actor.role, approvedAt: c.now, approvalLabel: solo.label })
+      const contact = await one(c, 'SELECT display_name,email FROM oa_operators WHERE id=?', c.actor.id)
+      const snapshot = JSON.stringify({ checklist: JSON.parse(row.checklist).length ? JSON.parse(row.checklist) : [row.title], permittedContact: contact, jobId: row.id, version, tenancyId: t.id, tenancyVersion: t.version, address: t.address, title: row.title, scope: row.scope ?? null, quoteId: row.quote_id ?? null, ownerLimit: a.limit ? { limitCents: a.limit.limit_cents, budgetCents: a.limit.budget_cents, spentCents: a.spentCents, reasons: a.reasons } : null, ownerDecision: owner ? { decision: owner.decision, source: owner.source, reference: owner.reference, recordedBy: owner.recorded_by, recordedAt: owner.recorded_at, termsSha256: owner.terms_sha256, label: OWNER_LABEL } : null, tradeName: row.trade_name, tradeEmail: row.trade_email, vendorId: row.vendor_id, trade: row.trade, qualificationIssues: h.issues, qualificationException: h.exception ? { id: h.exception.id, reason: h.exception.reason, approvedBy: h.exception.approved_by } : null, dueDate: row.due_date, estimateCents: row.estimate_cents, currency: row.currency, preparedBy: row.prepared_by, preparedAt: row.prepared_at, revisedBy: row.revised_by ?? null, approvedBy: c.actor.id, approvedRole: c.actor.role, approvedAt: c.now, approvalLabel: solo.label })
       const digest = await sha256(new TextEncoder().encode(snapshot))
       await commit(c, [
         jobGuard(c, row, version, 'pending'), vendorGuard(c, row, h.vendorVersion), ...solo.guards,
@@ -120,7 +123,7 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
         sql(c, "UPDATE tt_proposals SET state='approved',approved_by=?,approved_at=? WHERE id=?", c.actor.id, c.now, row.proposal_id),
         sql(c, "UPDATE tt_maintenance_jobs SET state='approved',version=version+1 WHERE id=?", row.id),
       ], command, row.id)
-      return { ...result(row, 'Maintenance approved. Download the email packet and send it using your email client.'), version: version + 1 }
+      return { ...result(row, 'Maintenance approved. Dispatch by installation email or download the packet for an external handoff.'), version: version + 1 }
     }
     case 'maintenance.sent': {
       allow(c, command)
@@ -147,7 +150,7 @@ export async function workData(c: Context, tenancyId: string) {
     all(c, 'SELECT j.*,a.job_version AS approved_version,a.approved_by,a.approved_role,a.approved_at,a.sha256 AS approval_sha256,a.snapshot AS approval_snapshot FROM tt_maintenance_jobs j LEFT JOIN tt_maintenance_approvals a ON a.job_id=j.id AND j.state<>\'pending\' AND a.job_version=(SELECT MAX(job_version) FROM tt_maintenance_approvals WHERE job_id=j.id) WHERE j.tenancy_id=? ORDER BY j.prepared_at DESC', t.id),
   ])
   const today = localDate(c.now, t.time_zone)
-  return { inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), ...await quoteData(c, t, jobs), ...await completionData(c, t.id), ...await appointmentData(c, t), role: c.actor.role, may: Object.fromEntries(['maintenance.approve', 'inspection.create', 'quote.add', 'schedule.add', 'work.limits', 'vendor.add', 'asset.add', 'appointment.book', 'appointment.confirm', 'appointment.cancel', 'appointment.no-show', 'appointment.reassign'].map(a => [a, can(c, a)])) }
+  return { inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), ...await quoteData(c, t, jobs), ...await completionData(c, t.id), ...await appointmentData(c, t), ...await dispatchData(c, t), role: c.actor.role, may: Object.fromEntries(['maintenance.dispatch', 'maintenance.progress', 'maintenance.escalate', 'maintenance.approve', 'inspection.create', 'quote.add', 'schedule.add', 'work.limits', 'vendor.add', 'asset.add', 'appointment.book', 'appointment.confirm', 'appointment.cancel', 'appointment.no-show', 'appointment.reassign'].map(a => [a, can(c, a)])) }
 }
 
 /** Operator ids to display names, for showing who prepared, approved, uploaded or handed off work. */

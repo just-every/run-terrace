@@ -1,3 +1,4 @@
+import { checklist } from './dispatch'
 // WORK-003: comparable vendor quotes for a job, the owner's per-job spending limit and annual maintenance
 // budget, the owner's decision on work above them (recorded by staff for the owner: Terrace has no owner
 // portal and contacts no one), and changes to scope, vendor or price, which reopen authorization.
@@ -25,7 +26,7 @@ const inScope = (scope: string): [string, string] => scope.startsWith('property:
  : ['SELECT ?', scope.slice(8)]
 
 /** The exact terms an approval or an owner's decision covers. */
-const terms = (j: Row) => JSON.stringify({ jobId: j.id, version: j.version, title: j.title, scope: j.scope ?? null, vendorId: j.vendor_id ?? null, tradeName: j.trade_name, tradeEmail: j.trade_email, dueDate: j.due_date, estimateCents: j.estimate_cents, quoteId: j.quote_id ?? null })
+const terms = (j: Row) => JSON.stringify({ jobId: j.id, version: j.version, title: j.title, scope: j.scope ?? null, checklist: j.checklist, vendorId: j.vendor_id ?? null, tradeName: j.trade_name, tradeEmail: j.trade_email, dueDate: j.due_date, estimateCents: j.estimate_cents, quoteId: j.quote_id ?? null })
 const digest = (j: Row) => sha256(new TextEncoder().encode(terms(j)))
 
 /** Whether a manager may approve this job version alone. The owner decides when the estimate is above the
@@ -49,7 +50,7 @@ async function reopen(c: Context, j: Row, version: number, changes: Row, vendorC
  const payload = JSON.stringify({ jobId: j.id, title: next.title, scope: next.scope, tradeName: next.trade_name, tradeEmail: next.trade_email, dueDate: next.due_date, estimateCents: next.estimate_cents })
  return { found, statements: [
   guard(c, "EXISTS(SELECT 1 FROM tt_maintenance_jobs WHERE id=? AND version=? AND state IN ('pending','approved'))", j.id, version),
-  sql(c, "UPDATE tt_maintenance_jobs SET title=?,scope=?,vendor_id=?,trade_name=?,trade_email=?,due_date=?,estimate_cents=?,quote_id=?,qualification=?,revised_by=?,state='pending',version=version+1 WHERE id=?", next.title, next.scope ?? null, next.vendor_id ?? null, next.trade_name, next.trade_email, next.due_date, next.estimate_cents, next.quote_id ?? null, JSON.stringify(found), c.actor.id, j.id),
+  sql(c, "UPDATE tt_maintenance_jobs SET title=?,scope=?,checklist=?,vendor_id=?,trade_name=?,trade_email=?,due_date=?,estimate_cents=?,quote_id=?,qualification=?,revised_by=?,state='pending',version=version+1 WHERE id=?", next.title, next.scope ?? null, next.checklist ?? j.checklist, next.vendor_id ?? null, next.trade_name, next.trade_email, next.due_date, next.estimate_cents, next.quote_id ?? null, JSON.stringify(found), c.actor.id, j.id),
   sql(c, "UPDATE tt_proposals SET state='pending',approved_by=NULL,approved_at=NULL,tenancy_version=?,payload=? WHERE id=?", t.version, payload, j.proposal_id),
   ...(vendorChanged ? [assignment(c, j.id, next.vendor_id ?? null, next.trade_name, j.trade, found)] : []),
  ] }
@@ -94,6 +95,7 @@ export async function quoteCommand(c: Context, command: string, p: Row): Promise
   insist(j.state !== 'sent', 'job_state', 'This work has already been handed off.', 409)
   const changes: Row = {}
   if (p.title) changes.title = text(p.title, 'Work required', 200)
+  if (p.checklist) changes.checklist = JSON.stringify(checklist(p.checklist))
   if (p.scope) changes.scope = text(p.scope, 'Scope', 2000)
   if (p.estimate) changes.estimate_cents = cents(p.estimate)
   if (p.dueDate) changes.due_date = date(p.dueDate, 'Due date')

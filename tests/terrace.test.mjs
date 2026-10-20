@@ -1,3 +1,4 @@
+import {journey as dispatchJourney,failedDispatchJourney} from './dispatch.mjs'
 import {test,before,after} from 'node:test'
 import assert from 'node:assert/strict'
 import {readFile} from 'node:fs/promises'
@@ -21,6 +22,7 @@ const totp=(key,offset=0)=>{let bits=0,v=0;const bytes=[];for(const ch of key){v
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jz1sAAAAASUVORK5CYII=','base64')
 before(async()=>{h=await installation();member=await h.invite('member','preparer@example.test');admin=await h.invite('admin','manager@example.test')})
 after(async()=>{await h?.close()})
+test('WORK-006: approved email dispatch, technician progress, parts hold, missed visit and reassignment',async()=>{await dispatchJourney();await failedDispatchJourney()})
 test('REPORT-005: typed custom fields, governed reports, frozen merges and hidden-field refusal',customReportJourney)
 test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned portfolios, CSRF and revocation',async()=>{
  assert.equal((await h.request('/api/state',{as:''})).status,401)

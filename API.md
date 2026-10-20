@@ -49,7 +49,7 @@ SAFE-001: `entity.add`, `account.add`, `operator.invite`, `operator.role`, `oper
 | `inspection.create` | tenancyId, date, notes | Owner, portfolio manager, maintenance coordinator |
 | `inspection.photo` | inspectionId, version, file (multipart JPEG/PNG) | Owner, portfolio manager, maintenance coordinator |
 | `inspection.complete` | inspectionId, version, notes | Owner, portfolio manager, maintenance coordinator |
-| `maintenance.prepare` | tenancyId, title, vendorId and trade (a directory vendor) or tradeName and tradeEmail (an unlisted vendor, held), dueDate, estimate, optional assetId (an in-service asset of the tenancy). Returns the qualification `issues` | Owner, portfolio manager, maintenance coordinator, member |
+| `maintenance.prepare` | tenancyId, title, vendorId and trade (a directory vendor) or tradeName and tradeEmail (an unlisted vendor, held), dueDate, estimate, optional scope, checklist (one task per line), assetId (an in-service asset of the tenancy). Returns the qualification `issues` | Owner, portfolio manager, maintenance coordinator, member |
 | `vendor.add`, `vendor.update` | name, email, phone, specialties, serviceAreas, w9 (received/missing), insuranceExpires, optional licenseNumber with licenseExpires, availability, rate, standing (preferred/approved/blocked); update adds vendorId, version | Owner, portfolio manager, maintenance coordinator |
 | `maintenance.reassign` | jobId, vendorId, optional trade, version; prepared work only | Owner, portfolio manager, maintenance coordinator |
 | `schedule.add` | tenancyId, title, trade, vendorId, optional assetId or inspectionId, intervalMonths, firstDue, budget, optional leadDays (default 30) | Owner, portfolio manager, maintenance coordinator |
@@ -58,6 +58,9 @@ SAFE-001: `entity.add`, `account.add`, `operator.invite`, `operator.role`, `oper
 | `maintenance.exception` | jobId, reason; records a documented exception for the job's current qualification issues | Owner, portfolio manager |
 | `asset.add` | tenancyId, kind, location, make, model, serial, installedDate, optional warrantyProvider with warrantyEnds, manual, replaceBy, replacementCost | Owner, portfolio manager, maintenance coordinator |
 | `asset.replace` | assetId plus the replacement's asset.add fields; installedDate is the replacement date | Owner, portfolio manager, maintenance coordinator |
+| `maintenance.dispatch` | jobId, version; send the exact approved packet once through installation mail; outcome is recorded, uncertain attempts never automatically retry | Same roles as maintenance.sent, scoped to the job |
+| `maintenance.progress` | jobId, state (accepted/en_route/started/blocked/parts_needed/completed), reference (external reply source and next action), optional completedTasks (one approved task per line); completion needs every task | Same roles as maintenance.sent, scoped to the job |
+| `maintenance.escalate` | jobId, reference (human contact evidence and next action); missed arrival window or past due date required | Same roles as maintenance.sent, scoped to the job |
 | `maintenance.approve` | jobId, version | Owner, portfolio manager |
 | `maintenance.sent` | jobId, version, reference | Owner, portfolio manager, maintenance coordinator, after external handoff |
 | `work.limits` | optional quotesNeeded (2 to 10) and quotesAbove (estimate amount) for the owner's quote requirement (ROLE-003); tenancyId, limit, budget? | Owner, portfolio manager; the owner's per-job limit and yearly budget, recorded by staff for the owner (WORK-003) |
