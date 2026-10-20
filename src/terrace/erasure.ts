@@ -36,7 +36,7 @@ export async function eraseTenancy(c:Context,p:Row){
    const payload=JSON.parse(correction.payload);if(payload.description)payload.description='Retained accounting record';if(payload.reference)payload.reference=correction.id
    native.push(sql(c,"UPDATE tt_close_corrections SET payload=?,reason='Retained accounting record' WHERE id=?",JSON.stringify(payload),correction.id))
   }
-  native.push(sql(c,'DELETE FROM tt_proposals WHERE tenancy_id=?',t.id),sql(c,'DELETE FROM tt_lease_terms WHERE tenancy_id=?',t.id),
+  native.push(sql(c,'DELETE FROM tt_delinquency_assignments WHERE tenancy_id=?',t.id),sql(c,'DELETE FROM tt_delinquency_assignment_events WHERE tenancy_id=?',t.id),sql(c,'DELETE FROM tt_proposals WHERE tenancy_id=?',t.id),sql(c,'DELETE FROM tt_lease_terms WHERE tenancy_id=?',t.id),
    sql(c,"UPDATE tt_tenancies SET tenant_name=?,tenant_email=?,address=?,owner_name='Retained owner',owner_email='retained@invalid.test',import_revision=NULL,erased_at=?,version=version+1 WHERE id=?",alias,alias+'@invalid.test','Retained tenancy '+t.id,c.now,t.id),
    sql(c,"UPDATE tt_legal_holds SET reason='Released legal hold',release_reason=CASE WHEN released_at IS NULL THEN NULL ELSE 'Released by owner' END WHERE tenancy_id=?",t.id),
    sql(c,"UPDATE tt_privacy_requests SET source='Resident request recorded by staff',review=NULL WHERE tenancy_id=?",t.id),sql(c,'DELETE FROM tt_erasure_work WHERE tenancy_id=?',t.id))

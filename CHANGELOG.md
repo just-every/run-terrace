@@ -2,6 +2,8 @@
 
 ## 2026-10-20
 
+- REPORT-002: add as-of household aging, dated-owner filtering, private source CSV and scoped operational follow-up assignments with retained custody and honest missing-workflow labels.
+
 - REPORT-003: add scoped leasing-performance reports with dated occupancy/vacancy sources, source conversion and drop-off, recorded renewal retention, market-rent assumptions and honest receipt/listing coverage.
 
 ## 2026-10-19
