@@ -1,6 +1,6 @@
 {
   "cap": 200,
   "productIntegrationTests": 11,
-  "emittedWorkerChecks": 4,
-  "rationale": "Public HTTP journeys over real D1 and migrations, including demo isolation and no-egress; emitted and hosted Worker journeys. No copied Base unit suites."
+  "emittedWorkerChecks": 5,
+  "rationale": "Public HTTP journeys over real D1 and migrations, including demo isolation and no-egress; emitted and hosted Worker journeys. No copied Base unit suites. SAFE-007 adds one release/nightly real CLI installation and reviewed-upgrade journey."
 }

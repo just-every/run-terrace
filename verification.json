@@ -38,5 +38,14 @@
       ]
     }
   ],
-  "nightly": []
+  "nightly": [
+    {
+      "name": "owned-installation",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/owned-installation.mjs"
+      ]
+    }
+  ]
 }

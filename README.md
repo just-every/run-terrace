@@ -58,7 +58,7 @@ rer verify
 
 Archives include all product tables, original import bytes, journals and photograph BLOBs. Auth sessions, credentials, development outbox and private configuration are excluded. Restore preserves the destination owner and refuses a nonempty product destination, corrupt archives and a supplied erasure fence. Keep backups private. An offline archive cannot know about a later erasure unless you supply the later journal. `rer reset --yes` removes local data and settings; export first if they matter.
 
-Verification builds the app, typechecks it and runs seven public-door integration tests, the run-site build test, plus the emitted-Worker runtime and ordinary email-link checks at the mail provider boundary. Build and deploy do not run tests. Test cap: 200. Push and PR Verify runs source/site, typecheck, product and emitted-Worker shards in parallel. Release tags (`v*`), nightly and manual Nightly journeys run the full plan; this seed currently has no separate slow installer/README journey files. See [VERIFY-WORKFLOW.md](VERIFY-WORKFLOW.md) to add them without dropping checks. `rer describe`, `rer check --profile first-party` and `rer doctor` explain the declared operations and local setup.
+Verification builds the app, typechecks it and runs seven public-door integration tests, the run-site build test, plus the emitted-Worker runtime and ordinary email-link checks at the mail provider boundary. Build and deploy do not run tests. Test cap: 200. Push and PR Verify runs source/site, typecheck, product and emitted-Worker shards in parallel. Release tags (`v*`), nightly and manual Nightly journeys run the full plan; the SAFE-007 clean-install and reviewed-upgrade journey runs there, outside the push wall. See [VERIFY-WORKFLOW.md](VERIFY-WORKFLOW.md) to add them without dropping checks. `rer describe`, `rer check --profile first-party` and `rer doctor` explain the declared operations and local setup.
 
 ## Deploy to your Cloudflare account
 
@@ -77,6 +77,10 @@ rer deploy
 The dry run builds and validates without contacting providers. Real deploy provisions declared D1 resources, applies migrations, uploads the Worker/assets and checks deployment identity and asset health. Keep the returned workers.dev address. On the new installation, claim its first owner at **Finish setup** with the configured setup token, then use the emailed sign-in link. If the provider settings are incomplete, fix them before calling the deployment ready.
 
 The static run site includes the Terrace homepage, `/run` instructions and repository Markdown guides. Build it with `rer build --site`. The public site is at https://run-terrace.com and updates automatically through GitHub Actions on pushes to `main`. Email delivery remains unverified.
+
+## Reviewed upgrades
+
+Back up first and merge the chosen upstream commit in a separate review installation, preserving owner changes and private configuration. Follow [the upgrade and diagnostics guide](docs/upgrades.md) before changing a live installation.
 
 ## Source
 

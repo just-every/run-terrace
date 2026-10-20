@@ -1,6 +1,7 @@
 import {queuedEntrypoint} from '@runeditrun/rer/queued-entry';
 const queued=await queuedEntrypoint(import.meta.url,'verify:email-link');if(queued!==null)process.exit(queued);
-// The emitted Worker follows ordinary email-link sign-in. Only the paid mail
+// SAFE-007: the emitted Worker follows ordinary email-link sign-in; only an
+// explicitly requested message contacts the configured mail provider. Only the paid mail
 // provider is replaced; development mail is deliberately suppressed by Base.
 import assert from 'node:assert/strict'
 import { randomBytes } from 'node:crypto'
@@ -20,8 +21,12 @@ try {
  const origin=(await worker.ready).origin;vars.AUTH_ORIGIN=origin;await worker.setOptions(options(Number(new URL(origin).port)))
  const db=await worker.getD1Database('DB')
  for(const file of (await readdir('migrations/core')).filter(f=>f.endsWith('.sql')).sort())await db.batch(unstable_splitSqlQuery(await readFile('migrations/core/'+file,'utf8')).map(sql=>db.prepare(sql)))
+ const health=await fetch(origin+'/health');assert.equal(health.status,200)
+ assert.ok(!JSON.stringify(await health.json()).includes(vars.MAIL_API_KEY))
+ assert.equal(messages.length,0,'SAFE-007: runtime health makes no unsolicited outbound request')
  const post=(path,body)=>fetch(origin+path,{method:'POST',redirect:'manual',headers:{origin,'content-type':'application/json'},body:JSON.stringify(body)})
  assert.equal((await post('/auth/bootstrap',{token:vars.SETUP_TOKEN,displayName:'Owner'})).status,303)
+ assert.equal(messages.length,0,'SAFE-007: claiming the installation sends no telemetry or provider request')
  assert.equal((await post('/auth/magic-link',{email:owner})).status,202)
  assert.equal(messages.length,1,'one sign-in message reached the provider edge')
  const message=messages[0],match=(message.html??message.text).match(/(?:href=")?([^"\s<>]*\/auth\/confirm\?token=[^"\s<>]+)/)
