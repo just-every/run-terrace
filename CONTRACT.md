@@ -417,9 +417,9 @@ Every capability claim on the approved homepage (`src/site/landing/`, checked ag
 
 ## Status
 
-Revised 20 October 2026: REPORT-003 is done under ct’s current-capability ruling. The scoped leasing report uses recorded unit/lease/prospect/renewal sources, exposes exact formulas and economic assumptions/coverage, and retains unknown listing freshness and recorded-term labels. LEASE-001/002/003 and LEASE-012 inherit their additional report sources by name; `tests/leasing-report.mjs`, folded into the REPORT-003 integration journey, asserts the public path.
-
 Judged from the code and tests at commit `656ff5a4f0aea9cf8e2320e45f73e15a7407ea16` (17 October 2026).
+
+Revised 20 October 2026: REPORT-003 is done under ct’s current-capability ruling. The scoped leasing report uses recorded unit/lease/prospect/renewal sources, exposes exact formulas and economic assumptions/coverage, and retains unknown listing freshness and recorded-term labels. LEASE-001/002/003 and LEASE-012 inherit their additional report sources by name; `tests/leasing-report.mjs`, folded into the REPORT-003 integration journey, asserts the public path.
 
 Revised 17 October 2026 so every capability claim on the approved homepage has a clause (see [Homepage claims](#homepage-claims)): MOVE-011, PORTAL-010, AGENT-009, BOUND-004, OPEN-001 and DEMO-001 were added and judged from the commit above; the acceptance evidence of LEASE-001, LEASE-009, LEASE-012, REPORT-001, ACCT-001, ACCT-012, ACCT-014, MOVE-001 and WORK-005 was sharpened. No existing clause changed status: `src/terrace` is unchanged since the earlier audit commit `7a13504`.
 
