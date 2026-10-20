@@ -21,7 +21,7 @@ test('OPEN-001 TER-012: the built run site, MIT product, ungated source and prov
   assert.doesNotMatch(home, /\b(?:127\.0\.0\.1|localhost|\[::1\]):\d+|\bRER_[A-Z_]+\b/, 'the homepage shows no local dev output')
   assert.ok(served('run') && served('docs'), '/run and /docs are built')
   const run = readFileSync(join(site, 'run.html'), 'utf8')
-  assert.ok(run.includes('npx -y @runeditrun/rer dev just-every/run-terrace'), 'OPEN-001: /run publishes the usable one-command installation')
+  assert.ok(run.replace(/<[^>]*>/g,'').includes('npx -y @runeditrun/rer dev just-every/run-terrace'), 'OPEN-001: /run publishes the usable one-command installation')
   assert.equal(JSON.parse(readFileSync(join(root, 'rer-project.json'))).license, 'MIT')
   const license = readFileSync(join(root, 'LICENSE'), 'utf8')
   assert.match(license, /MIT License/)
