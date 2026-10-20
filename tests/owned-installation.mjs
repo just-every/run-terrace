@@ -6,7 +6,7 @@ import {tmpdir} from 'node:os'
 import {join,resolve} from 'node:path'
 import {randomBytes} from 'node:crypto'
 import {chromium} from '@playwright/test'
-import {command,commandEnv,git,launch} from './owned-process.mjs'
+import {command,commandEnv,git,launch,reviewedMerge} from './owned-process.mjs'
 
 const source=resolve('.'),target=git(source,'rev-parse','HEAD'),prior=git(source,'rev-parse','HEAD^')
 const rer=resolve('node_modules/@runeditrun/rer/global/rer.mjs'),root=await mkdtemp(join(tmpdir(),'terrace-owned-'))
@@ -89,7 +89,7 @@ try {
  await writeFile(ownerView,customView)
  git(review,'add','src/ext/OWNER.md','src/terrace/tenancy-view.ts','README.md');git(review,'commit','-m','Keep installation owner operating instructions')
  const ownerCommit=git(review,'rev-parse','HEAD')
- git(review,'fetch','origin');git(review,'merge','--no-edit',target)
+ git(review,'fetch','origin');await reviewedMerge(review,target,await readFile(join(source,'README.md'),'utf8'),ownerNote)
  assert.equal(git(review,'merge-base','--is-ancestor',ownerCommit,'HEAD'),'')
  assert.equal(git(review,'merge-base','--is-ancestor',target,'HEAD'),'')
  assert.equal(await readFile(join(review,'src/ext/OWNER.md'),'utf8'),ownerNote)
