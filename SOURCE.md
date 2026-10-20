@@ -2,7 +2,7 @@
 
 MIT sources, copied or adapted into Terrace; no sibling was edited.
 
-- Base `fc0e1041efa55771142bbb57c4ab4743147e264d`: generated committed foundation, then composed its runtime. `composition.lock.json` records copied foundation files. CLI uses package mode, currently pinned to exact RER `0.2.30`. Operator auth, theme/frame, deployment, portability and import-kit retain their shared implementations.
+- Base `fc0e1041efa55771142bbb57c4ab4743147e264d`: generated committed foundation, then composed its runtime. `composition.lock.json` records copied foundation files. CLI uses package mode; `package.json` records its exact `@runeditrun/rer` devDependency. Operator auth, theme/frame, deployment, portability and import-kit retain their shared implementations.
 - `run-gasket` `3f87ba0fdba9955f2b7d018d10afafcd50afa919`, `src/gasket/work.ts`: bounded photograph custody, content hashes and version-guarded inspection writes in `src/terrace/work.ts`.
 - `run-glove` `778474d80bf5f440b42fb8f3364a191908d0e4b9`, `src/glove/commands/dispatch.ts`: reviewed trade assignment and version-bound handoff, adapted to immutable approval snapshots in `src/terrace/work.ts`.
 - `run-locket` `82478229f356d017bda62b4944b584138ef9671c`, `src/locket/obligations.ts`: proposed/confirmed lease terms with previous terms retained in `src/terrace/tenancies.ts`.
