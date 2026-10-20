@@ -6,6 +6,7 @@ import { commandAdapter as createCommandAdapter } from '@runeditrun/rer/adapter'
 import { ownerDeploy } from '@runeditrun/rer/deploy';
 import { localPortability } from '@runeditrun/rer/portability';
 import * as model from './ui/seed.mjs';
+import { discloseProviderCosts } from './provider-costs.mjs';
 
 export { selectLocalState };
 const lifecycle = operatorInstaller({
@@ -20,7 +21,7 @@ const lifecycle = operatorInstaller({
 export const adapter = lifecycle;
 export const { install } = lifecycle;
 export const commandAdapter = createCommandAdapter(lifecycle, {
- dev: developmentTarget, preview: previewTarget, verify: ['pnpm', ['run', 'verify:app']], deploy: ownerDeploy('deploy.json', lifecycle),
+ dev: developmentTarget, preview: previewTarget, verify: ['pnpm', ['run', 'verify:app']], deploy: discloseProviderCosts(ownerDeploy('deploy.json', lifecycle)),
  portability: localPortability({ database: 'foundation', policyModule: 'src/terrace/archive-policy.mjs', transient: ['local runtime caches and logs'] }),
  site: { entry: 'src/site/pages.ts', output: 'dist/site', declaration: 'deploy-site.json' },
  setup: { manifestFile: 'rer-setup.json' }, browserModule: 'scripts/installer/ui/seed.mjs',

@@ -30,7 +30,13 @@ export async function command(cwd,exe,args,{status=0,env=commandEnv}={}){
  assert.equal(code,status,redact(output).slice(-6000));return output
 }
 export async function launch(cwd,rer){
- const p=spawn(process.execPath,[rer,'dev','--foreground'],{cwd,env:commandEnv,stdio:['ignore','pipe','pipe']});let output='',error
+ return start(cwd,process.execPath,[rer,'dev','--foreground'])
+}
+export async function launchPublished(cwd){
+ return start(cwd,'npx',['-y','@runeditrun/rer','dev','just-every/run-terrace','--foreground'])
+}
+async function start(cwd,exe,args){
+ const p=spawn(exe,args,{cwd,env:commandEnv,stdio:['ignore','pipe','pipe']});let output='',error
  p.stdout.on('data',b=>output+=b);p.stderr.on('data',b=>output+=b);p.on('error',e=>error=e)
  const stop=async()=>{
   // ps supplies ancestry, not a command-name pattern. Every signalled PID is

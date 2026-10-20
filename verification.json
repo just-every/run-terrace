@@ -44,7 +44,8 @@
       "browser": true,
       "hosted": false,
       "commands": [
-        "node tests/owned-installation.mjs"
+        "node tests/owned-installation.mjs",
+        "node tests/open-installation.mjs"
       ]
     }
   ]
