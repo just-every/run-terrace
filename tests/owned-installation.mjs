@@ -52,6 +52,7 @@ try {
  const tenancyId=new URL(page.url()).searchParams.get('tenancy')
  const expected=(await(await page.request.get(active.origin+'/api/state')).json()).tenancies
  assert.equal(expected.length,1);assert.equal(expected[0].tenant_name,'Maya Chen')
+ const firstOwner=(await(await page.request.get(active.origin+'/auth/session')).json()).operator.id
  await picture(page,'entered-tenancy')
  const health=await(await page.request.get(active.origin+'/health')).json();assert.equal(health.ok,true)
  const forbidden=await page.request.post(active.origin+'/api/commands',{headers:{origin:'https://other.example.test'},data:{command:'tenancy.create'}})
@@ -67,11 +68,13 @@ try {
  console.log('SAFE-007: separate owned review installation and private backup restore')
  active=await launch(review,rer);({context,page}=await openOwner(active));await finishSetup(page)
  await page.goto(active.origin+'/app?tab=settings')
+ await page.getByText('Restore an archive into this empty installation',{exact:true}).click()
  const restore=page.locator('form:has(input[name="command"][value="data.restore"])')
  await restore.locator('input[name="backup"]').setInputFiles(archive)
  await restore.getByLabel('Type RESTORE',{exact:true}).fill('RESTORE')
  await restore.getByRole('button',{name:'Restore archive'}).click();await page.waitForURL(u=>u.searchParams.has('notice'))
  assert.deepEqual((await(await page.request.get(active.origin+'/api/state')).json()).tenancies,expected)
+ assert.notEqual((await(await page.request.get(active.origin+'/auth/session')).json()).operator.id,firstOwner,'restore keeps the separate installation owner')
  await picture(page,'restored-installation')
  await context.close();await active.stop();active=null
 
@@ -96,11 +99,16 @@ try {
  // The public upgrade guide uses the existing docs screen and navigation.
  const docs=await browser.newPage();assert.ok(active.site,'rer dev exposes the run site')
  assert.equal((await docs.goto(active.site+'/docs/upgrades')).status(),200)
- await picture(docs,'upgrade-guide');await docs.close()
+ const guides=await docs.locator('.guide-nav a').evaluateAll(links=>links.map(a=>new URL(a.href).pathname))
+ for(const path of guides){
+  assert.equal((await docs.goto(active.site+path)).status(),200)
+  await picture(docs,path==='/docs/upgrades'?'upgrade-guide':'docs-'+(path.split('/').at(-1)||'index'))
+ }
+ await docs.close()
  const privateKey=new URL(active.open).hash.slice(1),sentinel=randomBytes(32).toString('hex')
  const diagnostic=await command(review,process.execPath,[rer,'doctor','--json'],{status:3,env:{...commandEnv,MAIL_API_KEY:sentinel}})
  assert.ok(!diagnostic.includes(sentinel)&&!diagnostic.includes(privateKey),'health/doctor never publish private credentials')
- const events=diagnostic.trim().split('\n').map(line=>JSON.parse(line)),result=events.findLast(e=>e.event==='result')?.diagnostics
+ const events=diagnostic.trim().split('\n').filter(line=>line.startsWith('{')).map(line=>JSON.parse(line)),result=events.findLast(e=>e.event==='result')?.diagnostics
  assert.ok(result&&result.missingInputs.length>0,'doctor reports actionable missing production inputs')
  assert.ok(result.missingInputs.some(name=>result.sources[name]),'diagnostics point to repair instructions')
  await context.close();await active.stop();active=null
