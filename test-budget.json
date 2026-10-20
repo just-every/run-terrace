@@ -1,6 +1,6 @@
 {
   "cap": 200,
-  "productIntegrationTests": 11,
+  "productIntegrationTests": 12,
   "emittedWorkerChecks": 6,
-  "rationale": "Public HTTP journeys over real D1 and migrations, including demo isolation and no-egress; emitted and hosted Worker journeys. No copied Base unit suites. SAFE-007 adds a release/nightly real CLI installation and reviewed-upgrade journey; OPEN-001 adds the public npm command journey."
+  "rationale": "Public HTTP journeys over real D1 and migrations, including demo isolation and no-egress; emitted and hosted Worker journeys. No copied Base unit suites. REPORT-005 adds a public-door custom-report journey. SAFE-007 adds a release/nightly real CLI installation and reviewed-upgrade journey; OPEN-001 adds the public npm command journey."
 }

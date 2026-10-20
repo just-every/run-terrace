@@ -1,0 +1,85 @@
+// REPORT-005: use the native forms with real Worker/D1 records at desktop and phone widths.
+import assert from 'node:assert/strict'
+import {mkdir} from 'node:fs/promises'
+import {resolve,join} from 'node:path'
+import {chromium} from '@playwright/test'
+import {journey} from './custom-reports.mjs'
+const pictures=resolve(process.env.CUSTOM_SCREENSHOTS??'.rer/custom-screens')
+await mkdir(pictures,{recursive:true})
+const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
+async function picture(page,name){
+ for(const [width,height]of [[1440,900],[390,844]]){
+  await page.setViewportSize({width,height})
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'REPORT-005 '+name+' fits '+width)
+  await page.screenshot({path:join(pictures,`${name}-${width}.png`),fullPage:true})
+ }
+ await page.setViewportSize({width:1440,height:900})
+}
+try {await journey({assets:true,inspect:async({h,staff,visibleReport})=>{
+ const context=await browser.newContext({viewport:{width:1440,height:900}})
+ const cookies=cookie=>cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return {name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}})
+ await context.addCookies(cookies(h.cookie))
+ const page=await context.newPage()
+ await page.goto(h.origin+'/app?tab=properties');await page.getByRole('link',{name:'Open custom reports & documents'}).click()
+ await picture(page,'catalog')
+ await page.getByText('Define a custom field',{exact:true}).click()
+ let form=page.locator('form:has(input[value="custom.field.define"])')
+ await form.getByLabel('Portfolio',{exact:true}).selectOption({label:'Inspection portfolio'})
+ await form.getByLabel('Record type',{exact:true}).selectOption('unit')
+ await form.getByLabel('Stable field key',{exact:true}).fill('meter_reading')
+ await form.getByLabel('Label',{exact:true}).fill('Move-out water meter')
+ await form.getByLabel('Value type',{exact:true}).selectOption('number')
+ await form.getByLabel('Number minimum',{exact:true}).fill('0')
+ await form.getByLabel('Change reason',{exact:true}).fill('Capture the original move-out meter photo')
+ await picture(page,'define-field')
+ await form.getByRole('button',{name:'Define field',exact:true}).click()
+ await page.getByRole('heading',{name:/Move-out water meter/}).waitFor()
+ const card=page.locator('article').filter({has:page.getByRole('heading',{name:/Move-out water meter/})})
+ await card.getByText('Record a value',{exact:true}).click()
+ form=card.locator('form:has(input[value="custom.value.set"])')
+ await form.getByLabel('Subject',{exact:true}).selectOption({label:'Inspection duplex · A'})
+ await form.getByLabel('Value (true/false for boolean)',{exact:true}).fill('412.8')
+ await form.getByLabel('Source reference',{exact:true}).fill('Move-out meter photo, 20 October 2026')
+ await form.getByRole('button',{name:'Record validated value'}).click()
+ await picture(page,'recorded-value')
+ await page.getByText('Save a custom report',{exact:true}).click()
+ form=page.locator('form:has(input[value="custom.report.save"])')
+ await form.getByLabel('Portfolio',{exact:true}).selectOption({label:'Inspection portfolio'})
+ await form.getByLabel('Record type',{exact:true}).selectOption('unit')
+ await form.getByLabel('Report name',{exact:true}).fill('Move-out meter readings')
+ await form.getByLabel('Report specification (JSON)',{exact:true}).fill(JSON.stringify({columns:[{key:'reading',label:'Water meter reading',field:'meter_reading'}],groupBy:[],aggregates:[],filters:[]}))
+ await form.getByLabel('Definition reason',{exact:true}).fill('Review move-out meter readings against photographs')
+ await picture(page,'save-report')
+ await form.getByRole('button',{name:'Save report',exact:true}).click()
+ await page.locator('article').filter({has:page.getByRole('heading',{name:/^Move-out meter readings/})}).getByRole('link',{name:'Run report',exact:true}).click()
+ await page.getByRole('cell',{name:'412.8',exact:true}).waitFor()
+ await picture(page,'report')
+ await page.getByText('Source lineage',{exact:true}).click();await picture(page,'lineage')
+ await page.goto(h.origin+'/app?tab=custom')
+ await page.getByText('Save a document template',{exact:true}).click()
+ form=page.locator('form:has(input[value="custom.template.save"])')
+ await form.getByLabel('Portfolio',{exact:true}).selectOption({label:'Inspection portfolio'})
+ await form.getByLabel('Record type',{exact:true}).selectOption('unit')
+ await form.getByLabel('Template name',{exact:true}).fill('Move-out reading note')
+ await form.getByLabel('Document text; {{field_key}} inserts a custom field',{exact:true}).fill('Move-out water meter: {{meter_reading}}.')
+ await form.getByLabel('Definition reason',{exact:true}).fill('Retain a dated meter handover note')
+ await picture(page,'save-template')
+ await form.getByRole('button',{name:'Save template',exact:true}).click()
+ form=page.locator('article').filter({has:page.getByRole('heading',{name:/^Move-out reading note/})}).locator('form:has(input[value="custom.document.generate"])')
+ await form.getByLabel('Subject',{exact:true}).selectOption({label:'Inspection duplex · A'})
+ await form.getByRole('button',{name:'Generate frozen document',exact:true}).click()
+ await page.getByRole('status').filter({hasText:'Document generated and frozen'}).waitFor()
+ const href=await page.getByRole('link',{name:'Download document',exact:true}).first().getAttribute('href')
+ assert.equal(await(await page.request.get(h.origin+href)).text(),'Move-out water meter: 412.8.')
+ await picture(page,'generated-document')
+
+ // Read the same public report as a scoped leasing person. Sensitive owner and
+ // historical manager-only source fields never appear in their catalogue.
+ const leasing=await browser.newContext({viewport:{width:390,height:844}})
+ await leasing.addCookies(cookies(staff.leasing));const read=await leasing.newPage()
+ await read.goto(h.origin+'/app?tab=custom&reportId='+visibleReport.id)
+ assert.equal(await read.getByText('PRIVATE-OWNER-REVIEW-472',{exact:false}).count(),0)
+ await picture(read,'leasing-report')
+ await leasing.close();await context.close()
+}});console.log('REPORT-005 native forms passed at 1440/390')}
+finally{await browser.close()}
