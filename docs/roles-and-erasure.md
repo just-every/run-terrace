@@ -27,7 +27,7 @@ To change someone's role or portfolios later, open **Change role or portfolios**
 
 When Terrace was upgraded to these roles, existing admins became portfolio managers over all portfolios and existing members stayed members over all portfolios.
 
-During local development, invitations arrive only in the development outbox. A deployed installation needs working mail provider configuration to deliver invitations; see the repository's [operating instructions](../README.md).
+Local development suppresses invitation email. Use a configured deployment when an invitation must reach another person. A deployed installation needs working mail provider configuration to deliver invitations; see the repository's [operating instructions](../README.md).
 
 ## Two-step sign-in
 

@@ -18,7 +18,7 @@ Without Node, `curl -fsSL https://runeditrun.com/install.sh | sh -s -- dev just-
 
 The first launch can take several minutes. `rer dev` installs dependencies, prepares the local database and development owner, applies migrations and starts the app. It prints the local address as `RER_READY` and a private sign-in link as `RER_OPEN`.
 
-Open `RER_OPEN` on this computer. It is a credential: keep it private. On **Finish setup**, confirm the owner and finish setup to enter Terrace. Local sign-in and invitations use the development outbox; they send no external email.
+Open `RER_OPEN` on this computer. It is a credential: keep it private. On **Finish setup**, confirm the owner and finish setup to enter Terrace. Local development mail is suppressed and sends no external email.
 
 For a new installation using your real owner mailbox, run `npx -y @runeditrun/rer install just-every/run-terrace`, then `rer setup` from the checkout before its first `rer dev`, and enter the mailbox at the prompt. Preserve the owner identity in an existing installation. The repository's [operating instructions](../README.md) cover deployment and provider configuration.
 
