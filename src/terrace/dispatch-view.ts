@@ -8,7 +8,7 @@ export function dispatchSection(t: Row, j: Row, data: Row, who: (id: string) => 
  const approval = j.approval_snapshot ? JSON.parse(j.approval_snapshot) : null
  const current = latest && approval?.version === JSON.parse(latest.snapshot).version && j.state !== 'pending'
  const appointment = data.appointments.filter((a: Row) => a.job_id === j.id && a.current).at(-1)
- const warning = missed({now:data.dispatchNow} as any,t,j,appointment)
+ const warning = missed({now:data.appointmentNow} as any,t,j,appointment)
  const history = rows.map(d => `<details${d.id === latest?.id ? ' open' : ''}><summary>Dispatch ${usDate(d.recorded_at)} · ${e(d.outcome)}</summary><p>${e(d.label)}</p><p>Requested by ${e(who(d.recorded_by))}. ${d.provider_id ? `Provider reference: ${e(d.provider_id)}` : ''}</p><details><summary>Frozen work packet</summary><pre>${e(JSON.stringify(JSON.parse(d.snapshot),null,2))}</pre></details><ol>${data.dispatchEvents.filter((v: Row) => v.dispatch_id === d.id).map((v: Row) => `<li><strong>${e(v.kind.replaceAll('_',' '))}</strong> · ${usDate(v.recorded_at)} · ${e(who(v.recorded_by))}<p>${e(v.reference)}</p>${JSON.parse(v.checklist).length ? `<p>Completed tasks: ${e(JSON.parse(v.checklist).join('; '))}</p>` : ''}</li>`).join('')}</ol></details>`).join('')
  let actions = ''
  if (j.state === 'approved' && !current && data.may['maintenance.dispatch']) actions += form('maintenance.dispatch',t,j,'<p>Email the approved task checklist, scope, spend limit, due/arrival times and approving staff contact to the assigned technician. Provider acceptance is not confirmed delivery.</p><button type="submit">Dispatch approved work by email</button>')

@@ -69,5 +69,5 @@ export async function dispatchData(c: Context, t: Row) {
   all(c, 'SELECT d.* FROM tt_dispatches d JOIN tt_maintenance_jobs j ON j.id=d.job_id WHERE j.tenancy_id=? ORDER BY d.recorded_at,d.rowid', t.id),
   all(c, 'SELECT e.* FROM tt_dispatch_events e JOIN tt_dispatches d ON d.id=e.dispatch_id JOIN tt_maintenance_jobs j ON j.id=d.job_id WHERE j.tenancy_id=? ORDER BY e.recorded_at,e.rowid', t.id),
  ])
- return { dispatches, dispatchEvents, dispatchNow: c.now }
+ return { dispatches, dispatchEvents }
 }
