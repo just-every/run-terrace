@@ -80,7 +80,7 @@ PORT-006: `tenancy.end` and `tenancy.transfer` return `turnoverId` for the sourc
 | `factor.require` | required (on/off); needs the owner's own authenticator passed this sign-in and a fresh email-link proof | Owner |
 | `factor.reset` | operatorId; needs a fresh email-link proof | Owner |
 | `currency.confirm` | currency (AUD/USD) | Owner, once per installation (PORT-001 legacy currency) |
-| `completion.record` | jobId, completedDate, summary, reference, callback (warranty/billable, return visits) | Owner, portfolio manager, maintenance coordinator, member, after handoff; the vendor's report recorded by staff (WORK-008) |
+| `completion.record` | jobId, completedDate, summary, reference, callback (warranty/billable, return visits); optional WORK-007 attachment: fieldEvidence=yes, jobVersion, approvalId, laborMinutes (whole minutes), materials (or explicit none), accessOutcome (granted/not_needed/no_access), completedTasks (every approved task, one per line), beforePhotoId, afterPhotoId (distinct originals from this tenancy) | Owner, portfolio manager, maintenance coordinator, member, after handoff; the vendor's report recorded by staff (WORK-008) |
 | `completion.check` | jobId, outcome (confirmed/unresolved/no_response), note, satisfaction?, safetyConcern? | Owner, portfolio manager, maintenance coordinator, member; the resident's answer recorded by staff, resident not contacted by Terrace |
 | `completion.close` | jobId, reason | Owner, portfolio manager; closes without the resident's confirmation |
 | `import.preview`, `import.apply`, `import.journal`, `import.undo` | See [move-in contract](docs/move-in.md) | Owner |

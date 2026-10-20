@@ -1,3 +1,4 @@
+import {journey as fieldEvidenceJourney} from './field-evidence.mjs'
 import {journey as moveOutJourney} from './move-out.mjs'
 import {journey as dispatchJourney,failedDispatchJourney} from './dispatch.mjs'
 import {test,before,after} from 'node:test'
@@ -24,7 +25,7 @@ const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42
 before(async()=>{h=await installation();member=await h.invite('member','preparer@example.test');admin=await h.invite('admin','manager@example.test')})
 after(async()=>{await h?.close()})
 test('PORT-006: move-out and transfer open linked make-ready tasks without losing leases or duplicating work',moveOutJourney)
-test('WORK-006: approved email dispatch, technician progress, parts hold, missed visit and reassignment',async()=>{await dispatchJourney();await failedDispatchJourney()})
+test('WORK-006: approved email dispatch, technician progress, parts hold, missed visit and reassignment; WORK-007 staff-recorded field evidence bound to approved scope',async()=>{await dispatchJourney({inspect:async c=>{if(c.phase==='replacement-complete')await fieldEvidenceJourney(c)}});await failedDispatchJourney()})
 test('REPORT-005: typed custom fields, governed reports, frozen merges and hidden-field refusal',customReportJourney)
 test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned portfolios, CSRF and revocation',async()=>{
  assert.equal((await h.request('/api/state',{as:''})).status,401)

@@ -3,6 +3,7 @@
 // residents (PORTAL-005), so every row says it was recorded by staff. An unresolved or recurring issue
 // reopens the work for a return visit (a callback to the vendor); only an owner or admin closes work without
 // the resident's confirmation, with a reason.
+import {fieldEvidence} from './field-evidence'
 import { all, commit, date, guard, id, insist, allow, one, sql, text, tenancy, type Context, type Row } from './core'
 
 export const CONFIRMED_LABEL = 'confirmed by staff, resident not contacted by Terrace'
@@ -28,10 +29,10 @@ export async function completionCommand(c: Context, command: string, p: Row): Pr
   const attempt = ((await one<{ n: number }>(c, 'SELECT COUNT(*) AS n FROM tt_completion_attempts WHERE job_id=?', j.id))!.n) + 1
   const callback = attempt > 1 ? String(p.callback ?? '') : null
   insist(callback === null || ['warranty', 'billable'].includes(callback), 'invalid_input', 'A return visit is a warranty callback (no charge) or billable.')
-  const key = id()
+  const key = id(), evidence = await fieldEvidence(c, j, p)
   await commit(c, [
-   resolutionIs(c, j),
-   sql(c, 'INSERT INTO tt_completion_attempts(id,job_id,attempt,completed_date,summary,reference,callback,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?,?,?)', key, j.id, attempt, date(p.completedDate, 'Completed date'), text(p.summary, 'Vendor’s completion report', 2000), text(p.reference, 'Where the vendor’s evidence is', 500), callback, c.actor.id, c.now),
+   resolutionIs(c, j), ...evidence.guards,
+   sql(c, 'INSERT INTO tt_completion_attempts(id,job_id,attempt,completed_date,summary,reference,callback,recorded_by,recorded_at,field_evidence) VALUES(?,?,?,?,?,?,?,?,?,?)', key, j.id, attempt, date(p.completedDate, 'Completed date'), text(p.summary, 'Vendor’s completion report', 2000), text(p.reference, 'Where the vendor’s evidence is', 500), callback, c.actor.id, c.now, evidence.value ? JSON.stringify(evidence.value) : null),
    sql(c, "UPDATE tt_maintenance_jobs SET resolution='awaiting_check' WHERE id=?", j.id),
   ], command, j.id)
   return { id: key, tenancyId: j.tenancy_id, attempt, notice: `Vendor’s completion report ${attempt > 1 ? `for return visit ${attempt - 1} ` : ''}recorded. Ask the resident whether the original issue is resolved: Terrace has not contacted them.` }
