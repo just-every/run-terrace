@@ -47,6 +47,14 @@
         "node tests/owned-installation.mjs",
         "node tests/open-installation.mjs"
       ]
+    },
+    {
+      "name": "custom-reports",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/custom-browser.mjs"
+      ]
     }
   ]
 }
