@@ -11,6 +11,7 @@ import {journey as appointmentJourney} from './appointments.mjs'
 import {journey as emergencyJourney} from './emergencies.mjs'
 import {journey as prospectJourney} from './prospects.mjs'
 import {retentionJourney} from './retention.mjs'
+import {journey as renewalJourney} from './renewals.mjs'
 import {installation,tenancyInput} from './api/harness.mjs'
 let h,member,admin,t,inspection,job,imported,archiveBefore,journalAfter
 /** RFC 6238 code for a base32 key at now plus offset steps, as an authenticator app shows it. */
@@ -211,7 +212,7 @@ test('rent charges, external receipts and corrections preserve balances under ra
  assert.deepEqual(['actorName','subject'].map(k=>row('period.close')[k]),['bookkeeper','2026-09 v2']);assert.equal(trail.filter(x=>x.action==='period.signoff').length,6)
  assert.deepEqual([trail.find(x=>x.action==='correction.prepare'&&x.subject===fix.id).actorName,trail.find(x=>x.action==='correction.approve'&&x.subject===fix.id).actorName],['accountant','bookkeeper'])
 })
-test('PORT-005: signed lease versions and reviewed effective amendments, PAY-001 concessions across rent segments; member prepares renewal and arrears; human approval records actor and refuses stale terms; LEASE-005 prospects through duplicate review and stages',async()=>{
+test('PORT-005: signed lease versions and reviewed effective amendments, PAY-001 concessions across rent segments; member prepares renewal and arrears; human approval records actor and refuses stale terms; LEASE-005 prospects through duplicate review and stages; LEASE-012 renewal campaigns through signed activation',async()=>{
  const renewal=await h.command('renewal.prepare',{tenancyId:t.id,endDate:'2027-12-31',rent:'650.00',source:'Signed lease schedule page 2'},{as:member})
  const stale=await h.command('renewal.prepare',{tenancyId:t.id,endDate:'2027-06-30',rent:'630.00',source:'Earlier proposal'},{as:member})
  await h.command('proposal.approve',{proposalId:renewal.id},{as:member,status:403})
@@ -220,6 +221,7 @@ test('PORT-005: signed lease versions and reviewed effective amendments, PAY-001
  const s=await h.state(t.id);assert.equal(s.tenancies.find(x=>x.id===t.id).rent_cents,65000);assert.ok(s.proposals.find(x=>x.id===renewal.id).approved_by)
  await leaseJourney()
  await prospectJourney()
+ await renewalJourney()
 })
 test('photographed inspection, WORK-004 qualified vendor handoff, WORK-003 quotes and owner approval, WORK-008 resident completion checks, WORK-005 appointments, WORK-001 and BOUND-003 safety triage with on-call acknowledgement, the WORK-002 asset history and WORK-010 recurring work retain exact evidence',async()=>{
  const riverFields={name:'River Plumbing',email:'trade@example.test',phone:'(510) 555-0111',specialties:'plumbing',serviceAreas:'Oakland, 94610',w9:'received',insuranceExpires:'2036-12-31',licenseNumber:'CSLB-1001',licenseExpires:'2036-12-31',availability:'Weekdays',rate:'95.00',standing:'preferred'}

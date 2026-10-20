@@ -60,7 +60,18 @@ export async function scenarioReport(c: Context, q: Row): Promise<Row> {
  const horizonDays = daysBetween(from, to) + 1
  insist(horizonDays > 0 && horizonDays <= 3660, 'scenario_horizon', 'Use an inclusive horizon of 1 to 3660 property-local days.')
  const assumptions = { date: date(q.assumptionsDate, 'Assumptions date'), reference: text(q.reference, 'Comparison source reference', 1000), confidence: text(q.confidence, 'Confidence and uncertainty note', 1000), kind: 'User estimates, not measured confidence' }
- const inputs = (['repair', 'market'] as const).map(key => planInput(q, key, from, to))
+ // LEASE-012: an executed renewal starting in the horizon is the actual dated source; unexecuted offers stay labelled assumptions.
+ const [executed, offers] = await Promise.all([
+  all(c, "SELECT detail,reference,happened_on FROM tt_renewal_events WHERE tenancy_id=? AND kind='executed' ORDER BY recorded_at,rowid", t.id),
+  all(c, "SELECT p.id,p.state,p.payload FROM tt_proposals p WHERE p.tenancy_id=? AND p.kind='renewal' AND p.state IN ('pending','approved') AND json_extract(p.payload,'$.renewalId') IS NOT NULL AND NOT EXISTS(SELECT 1 FROM tt_lease_history h WHERE h.proposal_id=p.id) ORDER BY p.prepared_at,p.id", t.id),
+ ])
+ const actualRenewals = executed.map(x => ({ ...JSON.parse(x.detail), reference: x.reference, activatedOn: x.happened_on, basis: 'Actual: executed renewal with a staff-recorded signed original' }))
+ const proposedRenewals = offers.map(o => { const p = JSON.parse(o.payload); return { proposalId: o.id, state: o.state, endDate: p.endDate, rentCents: p.rentCents, basis: 'Assumption: renewal offer not executed' } })
+ const actual = actualRenewals.filter(x => x.effective >= from && x.effective <= to).at(-1)
+ const inputs = (['repair', 'market'] as const).map((key): Row => {
+  const p: Row = planInput(q, key, from, to)
+  return actual ? { ...p, renewalDate: actual.effective, renewalRentCents: actual.rentCents, renewalBasis: actual.basis } : { ...p, renewalBasis: p.renewalDate ? 'Assumption: entered renewal date and rent' : 'No renewal assumed' }
+ })
  insist(t.currency_confirmed !== 0, 'scenario_currency', 'Confirm the tenancy currency before comparing cash. No conversion is performed.', 409)
  // Current agreement reserves and vendor bills are recorded only in USD. Never relabel or convert them.
  insist(t.currency === 'USD', 'scenario_currency', 'Current management-agreement reserves and vendor payables are USD. This tenancy uses another currency; a mixed-currency comparison cannot be calculated.', 409)
@@ -89,7 +100,7 @@ export async function scenarioReport(c: Context, q: Row): Promise<Row> {
  })
  return {
   tenancyId: t.id, from, to, horizonDays, currency: t.currency, zone: t.time_zone, assumptions,
-  facts: { tenancy: { id: t.id, rentCents: t.rent_cents, cadence: t.cadence, currency: t.currency, zone: t.time_zone, leaseEnd: t.end_date, version: t.version }, property, payables, payableCents, agreement: { id: agreement.id, starts: agreement.starts, reference: agreement.reference, reserveRequirementCents: reserveCents, currency: 'USD' }, reserveSchedule: [firstAgreement, ...agreements.filter(a => a.starts > from)] },
+  facts: { renewals: { actual: actualRenewals, proposed: proposedRenewals }, tenancy: { id: t.id, rentCents: t.rent_cents, cadence: t.cadence, currency: t.currency, zone: t.time_zone, leaseEnd: t.end_date, version: t.version }, property, payables, payableCents, agreement: { id: agreement.id, starts: agreement.starts, reference: agreement.reference, reserveRequirementCents: reserveCents, currency: 'USD' }, reserveSchedule: [firstAgreement, ...agreements.filter(a => a.starts > from)] },
   plans,
   difference: { direction: 'Immediate marketing minus repair before listing', cashCents: plans[1].afterDistributionsCents - plans[0].afterDistributionsCents, vacantDays: plans[1].vacantDaysInHorizon - plans[0].vacantDaysInHorizon, readyDays: daysBetween(plans[0].readyDate, plans[1].readyDate) },
   boundary: 'Read-only estimates, not bank balances or lease-pricing/distribution approval. Dates are inclusive property-local days. All current approved unpaid vendor allocations are deducted once, regardless of invoice date; do not repeat them in capital assumptions. Reserve is the dated requirement at horizon end, not cash held. Opening operating cash, deposits, new rent and renewals are source-labelled assumptions, not inferred history. Make-ready and letting run sequentially for repairs and concurrently for immediate marketing. Ready date is the first assumed rent day. Collection percent is a user estimate applied only to exact gross rent; concessions and all costs are deducted at their full assumed amount. No other fees, taxes, arrears or bank reconciliation are inferred; include additional expected operating costs in capital with a source note. Actual books remain unchanged.',

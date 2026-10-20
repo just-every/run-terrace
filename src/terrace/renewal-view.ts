@@ -1,0 +1,39 @@
+// LEASE-012 screen: the renewal follow-up queue, each offer's comparison, sends, replies and named next actions.
+import { escape as e, money, type Row } from './core'
+import { usDate } from './format'
+import { SIGNED_LABEL } from './renewals'
+
+const hidden = (name: string, value: unknown) => `<input type="hidden" name="${e(name)}" value="${e(value)}">`
+const form = (command: string, body: string, fields: Row = {}) => `<form method="post" action="/app/command">${hidden('command', command)}${hidden('tab', 'renewals')}${Object.entries(fields).map(([k, v]) => hidden(k, v)).join('')}${body}</form>`
+const field = (label: string, name: string, extra = 'required') => `<label>${e(label)}<input name="${e(name)}" ${extra}></label>`
+const select = (label: string, name: string, options: [string, string][]) => `<label>${e(label)}<select name="${e(name)}" required>${options.map(([v, l]) => `<option value="${e(v)}">${e(l)}</option>`).join('')}</select></label>`
+const pct = (bp: number) => `${bp > 0 ? '+' : ''}${(bp / 100).toFixed(2)}%`
+const signed = (n: number, cur: string) => `${n > 0 ? '+' : n < 0 ? '−' : ''}${money(Math.abs(n), cur)}`
+
+function offerView(o: Row, cur: string) {
+ const p = o.payload, k = p.comparison
+ return `<dl class="facts"><div><dt>Offer</dt><dd>${money(p.rentCents, cur)} through ${usDate(p.endDate)} · reply by ${usDate(p.deadline)} · ${e(o.state)}${o.approval_label ? ` (${e(o.approval_label)})` : ''}</dd></div>
+<div><dt>Change from current rent</dt><dd>${signed(k.changeCents, cur)} (${pct(k.changeBp)})</dd></div>
+<div><dt>Against market rent</dt><dd>${money(p.market.cents, cur)} dated ${usDate(p.market.asOf)} (assumption: ${e(p.market.source)}) · offer ${signed(k.marketGapCents, cur)} (${pct(k.marketGapBp)})</dd></div>
+<div><dt>Estimated turnover cost</dt><dd>${money(k.turnoverCents, cur)} = ${p.vacantDays} vacant days ${money(k.vacancyCents, cur)} + make-ready ${money(p.makeReady.cents, cur)} (${e(p.makeReady.source)}) + leasing ${money(p.leasing.cents, cur)} (${e(p.leasing.source)})</dd></div>
+<div><dt>Recipients</dt><dd>${p.recipients.map((r: Row) => `${e(r.name)} &lt;${e(r.email)}&gt;`).join(', ')}</dd></div></dl><p class="muted">${e(k.formula)}</p>`
+}
+
+function card(x: Row, may: (a: string) => boolean) {
+ const f = { renewalId: x.id, tenancyId: x.tenancy_id }, cur = x.currency, o = x.offer, waiting = ['open', 'countered'].includes(x.state)
+ let actions = ''
+ if (may('renewal.prepare') && waiting && (!o || o.state !== 'pending' && (o.state === 'rejected' || x.state === 'countered'))) actions += `<details><summary>Prepare offer</summary>${form('renewal.prepare', `${field('Proposed lease end', 'endDate', 'type="date" required')}${field('Proposed rent per ' + e(x.cadence) + ' period', 'rent', 'inputmode="decimal" required')}${field('Reply deadline', 'deadline', 'type="date" required')}${field('Market rent', 'marketRent', 'inputmode="decimal" required')}${field('Market rent dated', 'marketRentDate', 'type="date" required')}${field('Market rent source', 'marketRentSource', 'maxlength="500" required')}${field('Vacant days if not renewed', 'vacantDays', 'inputmode="numeric" required')}${field('Make-ready cost', 'makeReadyCost', 'inputmode="decimal" required')}${field('Make-ready source', 'makeReadySource', 'maxlength="500" required')}${field('Leasing cost', 'leasingCost', 'inputmode="decimal" required')}${field('Leasing cost source', 'leasingSource', 'maxlength="500" required')}${field('Reason or reference', 'source', 'maxlength="1000" required')}<button type="submit">Prepare offer</button>`, f)}</details>`
+ if (may('proposal.approve') && o?.state === 'pending') actions += form('proposal.approve', `<button type="submit">Approve offer</button>`, { proposalId: o.id, tenancyId: x.tenancy_id }) + form('proposal.reject', `<button type="submit">Reject offer</button>`, { proposalId: o.id, tenancyId: x.tenancy_id })
+ if (may('renewal.send') && o?.state === 'approved' && waiting) actions += form('renewal.send', `<p class="muted">Sends the approved offer through this installation’s mail provider to the recipients above. Replies go to your email. An accepted or uncertain attempt is never sent again.</p><button type="submit">Send offer</button>`, f)
+ if (may('renewal.reply') && o?.state === 'approved' && ['open', 'countered', 'no_response'].includes(x.state)) actions += `<details><summary>Record reply</summary>${form('renewal.reply', `${select('Reply', 'outcome', [['accepted', 'accepted'], ['declined', 'declined'], ['counteroffer', 'counteroffer'], ['unknown', 'unclear']])}${field('Received on', 'on', 'type="date" required')}${field('Where the reply is kept', 'source', 'maxlength="500" required')}${field('Note', 'note', 'maxlength="2000"')}<button type="submit">Record reply</button>`, f)}</details>`
+ if (may('renewal.close') && x.state !== 'executed' && !['nonrenewal', 'month_to_month'].includes(x.state)) actions += `<details><summary>Record outcome</summary>${form('renewal.close', `${select('Outcome', 'outcome', [['no_response', 'no response by the deadline'], ['nonrenewal', 'nonrenewal'], ['month_to_month', 'month-to-month']])}${field('On', 'on', 'type="date" required')}${field('Source', 'source', 'maxlength="500" required')}<button type="submit">Record outcome</button>`, f)}</details>`
+ if (x.state === 'accepted') actions += `<p>Record the signed renewal under <a href="/app?tab=tenancy&amp;tenancy=${e(x.tenancy_id)}">the tenancy’s signed lease versions</a>, choosing this renewal, effective the day after ${usDate(x.lease_end)}. It is labelled “${e(SIGNED_LABEL)}”.</p>`
+ const history = x.events.map((h: Row) => `<li>${usDate(h.happened_on)} · ${e(h.recorded_name)} · ${e(h.kind.replace('_', ' '))}${h.detail.to ? ' → ' + e(h.detail.to) : ''}${h.detail.outcome ? ': ' + e(h.detail.outcome) : ''} · ${e(h.reference)}<br><span class="muted">${e(h.label)}</span></li>`).join('')
+ return `<article class="card" id="renewal-${e(x.id)}"><h3>${e(x.address)} <span class="pill ${x.state === 'executed' ? '' : 'pending'}">${e(x.state.replace(/_/g, ' '))}</span></h3><p>${e(x.tenant_name)} · lease ends ${usDate(x.lease_end)} · current rent ${money(x.rent_cents, cur)} per ${e(x.cadence)} period</p>${x.nextAction ? `<p><strong>Next:</strong> ${e(x.nextAction)}</p>` : '<p>Renewed terms active.</p>'}${o ? offerView(o, cur) : ''}${actions}${history ? `<details><summary>History</summary><ul>${history}</ul></details>` : ''}</article>`
+}
+
+export function renewalsView(items: Row[], properties: Row[], may: (a: string) => boolean) {
+ const schedule = may('renewal.schedule') ? `<section><h2>Schedule renewals</h2><p>Creates one renewal for each current lease ending in the window. Nothing is sent until an offer is approved and a person sends it.</p>${form('renewal.schedule', `${field('Lease ends from', 'from', 'type="date" required')}${field('Lease ends to', 'to', 'type="date" required')}<label>Property<select name="propertyId"><option value="">All properties in my portfolios</option>${properties.map(p => `<option value="${e(p.id)}">${e(p.name)}</option>`).join('')}</select></label><button type="submit">Schedule renewals</button>`)}</section>` : ''
+ const open = items.filter(x => x.nextAction), done = items.filter(x => !x.nextAction)
+ return `${schedule}<section><h2>Follow-up queue</h2>${open.length ? open.map(x => card(x, may)).join('') : '<p>No renewal is waiting on anyone.</p>'}</section>${done.length ? `<section><h2>Renewed</h2>${done.map(x => card(x, may)).join('')}</section>` : ''}`
+}

@@ -1,5 +1,5 @@
 // REPORT-003: read-only performance from recorded inventory, lease intervals, external receipts,
-// staff-recorded prospect stages and approved renewal history. No delivery, signature or bank settlement is inferred.
+// staff-recorded prospect stages, approved renewal history and LEASE-012 campaign events. No delivery, signature or bank settlement is inferred.
 import { all, allow, can, date, insist, reaches, reachesPortfolio, text, type Context, type Row } from './core'
 import { localDate } from './zones'
 import { turnoverData } from './turnovers'
@@ -11,7 +11,7 @@ export async function leasingReport(c: Context, q: Row) {
  insist(to >= from && dayDistance(from, to) < 732, 'invalid_window', 'Choose an inclusive window of 1 to 732 days, with To on or after From.')
  const propertyId = q.propertyId ? text(q.propertyId, 'Property', 100) : null
  const unitId = q.unitId ? text(q.unitId, 'Unit', 100) : null
- const [propertyRows, unitRows, leaseRows, historyRows, proposalRows, prospectRows, events, receipts, boards] = await Promise.all([
+ const [propertyRows, unitRows, leaseRows, historyRows, proposalRows, prospectRows, events, receipts, boards, campaignRows] = await Promise.all([
   all(c, 'SELECT id,portfolio_id,name,time_zone FROM tt_properties ORDER BY name,id'),
   all(c, 'SELECT id,property_id,identifier,rentable,market_rent_cents,created_at,version,available_on FROM tt_units ORDER BY identifier,id'),
   all(c, 'SELECT id,unit_id,start_date,end_date,ended_on,created_at,currency,currency_confirmed FROM tt_tenancies WHERE unit_id IS NOT NULL ORDER BY start_date,id'),
@@ -26,6 +26,7 @@ export async function leasingReport(c: Context, q: Row) {
    LEFT JOIN tt_lease_terms term ON term.id=q.term_id WHERE r.received_date>=? AND r.received_date<=?
    ORDER BY r.received_date,r.id`, from, to),
   turnoverData(c),
+  all(c, 'SELECT e.id,e.kind,e.happened_on,e.detail,e.reference,e.label,e.recorded_at,r.tenancy_id,r.lease_end FROM tt_renewal_events e JOIN tt_renewals r ON r.id=e.renewal_id ORDER BY e.recorded_at,e.rowid'),
  ])
  const visibleProperties = propertyRows.filter(p => reachesPortfolio(c, p.portfolio_id))
  insist(!propertyId || visibleProperties.some(p => p.id === propertyId), 'not_found', 'Property not found.', 404)
@@ -94,9 +95,10 @@ export async function leasingReport(c: Context, q: Row) {
  const scopedProspects = prospectRows.filter(p => propertyMap.has(p.property_id))
  const acquisition = unitId ? { funnel: [], excludedProspects: [], reviewedSeparate: [] } : funnelMetrics(scopedProspects, events, propertyMap, from, to)
  if (unitId) gaps.push({ code: 'prospect_unit_attribution_missing', unitId, message: 'Prospects are attributed to properties, not units; unit drill-down excludes the acquisition funnel.' })
- const renewals = renewalMetrics(leases, history, proposals, unitMap, from, to)
+ const renewals = renewalMetrics(leases, history, proposals, unitMap, from, to, campaignRows)
  sources.push(...renewals.flatMap(r => [{ kind: 'lease_expiry', tenancyId: r.tenancyId, unitId: r.unitId, date: r.leaseEnd, leaseHistoryId: r.leaseHistoryId },
-  ...r.sources.map(p => ({ kind: 'renewal_proposal', tenancyId: r.tenancyId, unitId: r.unitId, ...p }))]))
+  ...r.sources.map(p => ({ kind: 'renewal_proposal', tenancyId: r.tenancyId, unitId: r.unitId, ...p })),
+  ...r.campaign.map(e => ({ kind: 'renewal_campaign', tenancyId: r.tenancyId, unitId: r.unitId, ...e }))]))
  const hasProspectRead = can(c, 'prospect.read')
  if (hasProspectRead) sources.push(...acquisition.funnel.flatMap(f => f.prospects.flatMap(p => [{ kind: 'prospect_first_contact', prospectId: p.prospectId, propertyId: p.propertyId, date: p.createdOn, source: f.source, reference: p.firstReference }, ...p.events.map(e => ({ kind: 'prospect_stage', prospectId: p.prospectId, ...e }))])))
  const accepted = renewals.filter(r => r.status === 'accepted').length
@@ -124,7 +126,7 @@ export async function leasingReport(c: Context, q: Row) {
    economicAssumptions: `Current market rent and rentable status are snapshots taken at ${c.now}; historical market rents are not recorded. Missing-market units are excluded from both potential and receipts. Only term-classified rent charges and confirmed USD receipts qualify; unclassified, unconfirmed and other-currency receipts are excluded and surfaced. Adjustments reduce receivables, never external cash receipts. This is recorded cash collection, not bank settlement, accrual vacancy or a reconciliation.`,
    leadConversion: 'Leased / leads × 100 in first-source cohorts created within the inclusive window. Merged and held duplicate rows are excluded; reviewed separate leads remain distinct. Only stage events with effective and recorded local dates on or before To count. Stages are staff-recorded, not independently verified; skipped stages are never fabricated.',
    dropoff: 'Showing drop-off counts leads with a shown event but no applied event; application drop-off counts leads with an applied event but no leased event. Percentages divide by shown and applied leads respectively; no inferred intermediate events.',
-   retention: 'Accepted approved recorded renewals / original lease-term expiries in the window × 100. Prior ends come from tt_lease_history and current/ended tenancies. Approval must be recorded locally on or before To and linked to the original term history. Pending, rejected and nonrenewed are separate. No delivered offer or electronic signature is inferred.',
+   retention: 'Accepted approved recorded renewals / original lease-term expiries in the window × 100. Prior ends come from tt_lease_history and current/ended tenancies. Approval must be recorded locally on or before To and linked to the original term history. Pending, rejected and nonrenewed are separate. LEASE-012 campaign offers count as accepted only once their staff-recorded signed renewal activated by To; scheduling, mail-provider results, staff-recorded replies and outcomes are dated sources. A provider acceptance is never delivery, and a signature is staff-recorded, never electronic-signature evidence.',
    turnover: 'availableOn is the published actual availability record; forecastReadyDate is the current task plan as of the report instant. Ready-by-window-end also requires publication and availability by To. Listing publication and freshness are unknown (LEASE-001).',
   }, gaps,
  }

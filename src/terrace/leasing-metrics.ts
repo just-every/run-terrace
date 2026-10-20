@@ -95,7 +95,7 @@ export function funnelMetrics(prospects: Row[], events: Row[], properties: Map<s
 }
 
 /** Each original term expiry stays in its cohort after an approved renewal extends the current end. */
-export function renewalMetrics(leases: Row[], history: Row[], proposals: Row[], units: Map<string, Row>, from: string, to: string) {
+export function renewalMetrics(leases: Row[], history: Row[], proposals: Row[], units: Map<string, Row>, from: string, to: string, campaignEvents: Row[] = []) {
  return leases.flatMap(t => {
   const u = units.get(t.unit_id), zone = u!.time_zone
   const past = history.filter(h => h.tenancy_id === t.id).sort((a, b) => a.confirmed_at.localeCompare(b.confirmed_at))
@@ -107,12 +107,18 @@ export function renewalMetrics(leases: Row[], history: Row[], proposals: Row[], 
     return originalEnd === e.leaseEnd || e.history?.proposal_id === p.id
    }).map(p => ({ proposalId: p.id, preparedOn: localDate(p.prepared_at, zone), preparedAt: p.prepared_at,
     decisionOn: p.approved_at ? localDate(p.approved_at, zone) : null, state: p.approved_at && localDate(p.approved_at, zone) <= to ? p.state : 'pending',
-    source: JSON.parse(p.payload).source, proposedEnd: JSON.parse(p.payload).endDate }))
-   const approved = candidates.find(p => p.state === 'approved' && past.some(h => h.proposal_id === p.proposalId && h.end_date === e.leaseEnd && localDate(h.confirmed_at, zone) <= to))
-   const status = approved ? 'accepted' : candidates.some(p => p.state === 'pending') ? 'pending' : candidates.some(p => p.state === 'rejected') ? 'rejected' : 'nonrenewed'
+    source: JSON.parse(p.payload).source, proposedEnd: JSON.parse(p.payload).endDate, campaign: !!JSON.parse(p.payload).renewalId }))
+   // LEASE-012: campaign events known by To; an approved campaign offer is pending until its signed renewal activates.
+   const campaign = campaignEvents.filter(x => x.tenancy_id === t.id && x.lease_end === e.leaseEnd && x.happened_on <= to && localDate(x.recorded_at, zone) <= to)
+    .map(x => ({ eventId: x.id, event: x.kind, date: x.happened_on, detail: JSON.parse(x.detail), reference: x.reference, label: x.label }))
+   const activated = (p: Row) => past.some(h => h.proposal_id === p.proposalId && h.end_date === e.leaseEnd && localDate(h.confirmed_at, zone) <= to)
+   for (const p of candidates) if (p.campaign && p.state === 'approved' && !activated(p)) p.state = 'pending'
+   const approved = candidates.find(p => p.state === 'approved' && activated(p))
+   const outcome = campaign.filter(x => x.event === 'outcome' || x.event === 'reply' && ['declined', 'accepted', 'counteroffer'].includes(x.detail.outcome)).at(-1)?.detail.outcome ?? null
+   const status = approved ? 'accepted' : ['declined', 'nonrenewal', 'no_response', 'month_to_month'].includes(outcome) ? 'nonrenewed' : candidates.some(p => p.state === 'pending') ? 'pending' : candidates.some(p => p.state === 'rejected') ? 'rejected' : 'nonrenewed'
    return { tenancyId: t.id, unitId: t.unit_id, propertyId: u!.property_id, leaseEnd: e.leaseEnd, leaseHistoryId: e.history?.id ?? null,
     status, proposalId: approved?.proposalId ?? candidates.at(-1)?.proposalId ?? null, approvedOn: approved?.decisionOn ?? null,
-    signedStatus: 'not_known', endedOn: t.ended_on ?? null, sources: candidates }
+    campaignOutcome: outcome, signedStatus: approved && campaign.some(x => x.event === 'executed') ? 'staff_recorded_original' : 'not_known', endedOn: t.ended_on ?? null, sources: candidates, campaign }
   })
  })
 }

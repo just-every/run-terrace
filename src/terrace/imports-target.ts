@@ -5,7 +5,7 @@ import { IMPORT_DESTINATION, IMPORT_VERSION, TENANCY_KIND } from './imports-sour
 
 export const kitSql = (sql: string, ...params: unknown[]): D1Sql => ({ sql, params })
 const fields = ['address','owner_name','owner_email','tenant_name','tenant_email','start_date','end_date','rent_cents','cadence','created_at','version','currency','time_zone'] as const
-const children = ['tt_charges','tt_proposals','tt_lease_history','tt_inspections','tt_maintenance_jobs','tt_assets','tt_schedules','tt_household_members','tt_lease_terms','tt_lease_versions','tt_delinquency_assignments','tt_delinquency_assignment_events']
+const children = ['tt_charges','tt_proposals','tt_lease_history','tt_inspections','tt_maintenance_jobs','tt_assets','tt_schedules','tt_household_members','tt_lease_terms','tt_lease_versions','tt_delinquency_assignments','tt_delinquency_assignment_events','tt_renewals']
 const related = (column: string) => children.map(table => `EXISTS(SELECT 1 FROM ${table} WHERE tenancy_id=${column})`).join(' OR ')
 const relatedMarker = '|related-work'
 const toTarget = (r: Record<string,any>): TargetRow => ({

@@ -17,7 +17,7 @@ export async function eraseTenancy(c:Context,p:Row){
  const native=[guard(c,"EXISTS(SELECT 1 FROM oa_operators WHERE id=? AND status='active' AND role='owner' AND version=?)",c.actor.id,c.actor.version??1),guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)',t.id,t.version),
  guard(c,"NOT EXISTS(SELECT 1 FROM tt_legal_holds WHERE tenancy_id=? AND released_at IS NULL AND class IN ('all','lease'))",t.id),
  sql(c,'INSERT INTO tt_erasures(subject,erased_at) VALUES(?,?) ON CONFLICT DO NOTHING',await sha256(new TextEncoder().encode(t.tenant_email)),c.now),
- ...['tt_emergencies','tt_schedules','tt_maintenance_jobs','tt_inspections','tt_assets','tt_household_members','tt_lease_history','tt_recovery_authorizations'].map(table=>sql(c,`DELETE FROM ${table} WHERE tenancy_id=?`,t.id)),
+ ...['tt_emergencies','tt_schedules','tt_maintenance_jobs','tt_inspections','tt_assets','tt_household_members','tt_renewal_events','tt_renewals','tt_lease_history','tt_recovery_authorizations'].map(table=>sql(c,`DELETE FROM ${table} WHERE tenancy_id=?`,t.id)),
  ...await leaseErasureStatements(c,t.id),
  sql(c,'UPDATE tt_privacy_requests SET completed_at=? WHERE id=?',c.now,request.id),sql(c,'UPDATE tt_tenancies SET custody_retired_at=?,import_revision=NULL WHERE id=?',c.now,t.id)]
  if(!review.personalRetained){

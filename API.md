@@ -30,7 +30,11 @@ SAFE-001: `entity.add`, `account.add`, `operator.invite`, `operator.role`, `oper
 | `company.save` | name, officeAddress, officeEmail, officePhone, timeZone (office, US IANA zone). Country US, currency USD | Owner, portfolio manager |
 | `entity.add` | legalName, ein (nine digits; format checked, not verified with the IRS); needs a saved company | Owner, portfolio manager, bookkeeper |
 | `account.add` | entityId, name, bankName, last4. A USD reference; no full account number; no money moves | Owner, portfolio manager, bookkeeper |
-| `renewal.prepare` | tenancyId, endDate, rent, source | Owner, portfolio manager, leasing, member |
+| `renewal.prepare` | tenancyId, endDate, rent, source; for scheduled renewal work (LEASE-012) also renewalId, deadline, marketRent, marketRentDate, marketRentSource, vacantDays, makeReadyCost, makeReadySource, leasingCost, leasingSource | Owner, portfolio manager, leasing, member |
+| `renewal.schedule` | from, to (lease end dates, inclusive, at most 367 days), optional propertyId | Owner, portfolio manager, leasing, member |
+| `renewal.send` | renewalId; emails the approved offer through the installation mail provider, never resending an accepted or uncertain attempt | Owner, portfolio manager, leasing |
+| `renewal.reply` | renewalId, outcome (accepted/declined/counteroffer/unknown), on, source, optional note | Owner, portfolio manager, leasing |
+| `renewal.close` | renewalId, outcome (no_response after the deadline/nonrenewal/month_to_month), on, source | Owner, portfolio manager, leasing |
 | `arrears.prepare` | tenancyId, message, followUpDate | Owner, portfolio manager, bookkeeper, member |
 | `proposal.approve`, `proposal.reject` | proposalId | Owner, portfolio manager; current tenancy version required by saved proposal |
 | `rent.charge` | tenancyId, dueDate, amount, description, reference | Owner, portfolio manager, bookkeeper |
@@ -113,7 +117,7 @@ Owner only: `privacy.request` takes tenancyId, kind (access/erase), source; `pri
 
 ### Signed lease versions (PORT-005)
 
-`lease.prepare` accepts tenancyId, effective, signedDate, signers, reference, source (PDF file in multipart or `{name,type,base64}`), terms and obligations. The HTML forms also accept `chargeLines` and `obligationLines` in the displayed pipe-delimited formats. Each term names kind, description, exact amount, starts/ends and sourceClause; obligations record deposit, pet, utility, parking, insurance, addendum and hap (explicit none when absent). A HAP obligation names housingAuthority, reference, tenantPortion and hapPortion. It records terms without posting payer splits.
+`lease.prepare` accepts tenancyId, effective, signedDate, signers, reference, source (PDF file in multipart or `{name,type,base64}`), terms and obligations. With renewalId (LEASE-012) it records the signed renewal of an accepted offer: effective the day after the current end, through the offer’s end, rent equal to the offer; approving its preview activates the renewal once. The HTML forms also accept `chargeLines` and `obligationLines` in the displayed pipe-delimited formats. Each term names kind, description, exact amount, starts/ends and sourceClause; obligations record deposit, pet, utility, parking, insurance, addendum and hap (explicit none when absent). A HAP obligation names housingAuthority, reference, tenantPortion and hapPortion. It records terms without posting payer splits.
 
 `lease.preview` accepts leaseId and month and returns the exact future charge lines and fingerprint. `lease.approve` accepts those three values and independently approves that unchanged snapshot. The existing `charges.preview`/`charges.post` run then posts the reviewed amounts once. Only owners/portfolio managers prepare, preview or approve. Owners, in-scope portfolio managers, bookkeepers and accountants read `leaseVersions` on `/api/state?tenancy=ID` and retrieve private original PDFs at `/api/lease-source?id=LEASE_VERSION_ID`. Leasing staff receive only nonfinancial version and obligation metadata, never original downloads or charge/HAP amounts. Signed originals and versions are included in backup, restore and readable export.
 
