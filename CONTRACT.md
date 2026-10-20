@@ -359,7 +359,7 @@ The scope authority is the owner-approved 16 October 2026 Terrace entry in LIST.
 
 ## Homepage claims
 
-Every capability claim on the approved homepage (`src/site/landing/`, checked against br’s claims truth table of 18 October 2026, 50 claims in page order) maps to the clauses that promise exactly it, and row 51 maps the “Try the demo” link, which is navigation rather than a claim. A claim’s status is `done` when every mapped clause is done, `missing` when every one is missing and `partial` otherwise; it describes the implementation, not whether the claim may appear on the homepage. The sample names and figures in the drawings are illustrations, not claims. Claims 1–50: 4 done, 30 partial, 16 missing.
+Every capability claim on the approved homepage (`src/site/landing/`, checked against br’s claims truth table of 18 October 2026, 50 claims in page order) maps to the clauses that promise exactly it, and row 51 maps the “Try the demo” link, which is navigation rather than a claim. A claim’s status is `done` when every mapped clause is done, `missing` when every one is missing and `partial` otherwise; it describes the implementation, not whether the claim may appear on the homepage. The sample names and figures in the drawings are illustrations, not claims. Claims 1–50: 4 done, 31 partial, 15 missing.
 
 | # | Claim | Clause(s) | Status |
 | --- | --- | --- | --- |
@@ -412,7 +412,7 @@ Every capability claim on the approved homepage (`src/site/landing/`, checked ag
 | 47 | "Run it yourself": `npx -y @runeditrun/rer dev just-every/run-terrace` | `OPEN-001`, `SAFE-007` | done |
 | 48 | "Built for homes. Residential rentals only: no commercial leases, CAM reconciliation or HOA dues." | `BOUND-004`, `OPS-008` | partial |
 | 49 | "Open source property management you run yourself." / "Free and open source, MIT licensed." | `OPEN-001`, `TER-012` | done |
-| 50 | "Unit 4B · Moved in Nov 1" · "Owners paid · Nov 3 · 14 owners" | `PORT-006`, `ACCT-010` | missing |
+| 50 | "Unit 4B · Moved in Nov 1" · "Owners paid · Nov 3 · 14 owners" | `PORT-006`, `ACCT-010` | partial |
 | 51 | “Try the demo” (navigation: hosted demo at https://demo.run-terrace.com/) | `DEMO-001` | done |
 
 ## Status
