@@ -1,7 +1,7 @@
 // Page 02: the month ribbon (one stop per dated section, worded as its eyebrow) and the Oct 1 rent roll.
 import { avatar, eyebrow, heading, pill } from './parts'
 
-const stops = [['Oct 1', 'Rent day', 'green'], ['Oct 2–12', '4B leased', 'blue'], ['Oct 5', 'Leak in 3A', 'orange'], ['Oct 6', '3A repaired', 'green'], ['Oct 6–14', '5A on a plan, 1C renewed', 'amber'], ['Oct 15', 'Mid-month', 'violet'], ['Oct 31', 'Books closed', 'violet'], ['Nov 3', 'Owners paid', 'green']]
+const stops = [['Oct 1', 'Rent day', 'green'], ['Oct 2–12', '4B leased', 'blue'], ['Oct 5', 'Leak in 3A', 'orange'], ['Oct 6', '3A repaired', 'green'], ['Oct 6–14', '5A on a plan, 1C\u00a0renewed', 'amber'], ['Oct 15', 'Mid-month', 'violet'], ['Oct 31', 'Books closed', 'violet'], ['Nov 3', 'Owners paid', 'green']]
 
 const rows = [
  ['MC', 'violet', '2B · Maya Chen', '$1,850.00', '', 'ACH autopay', 'Paid', 'green'],

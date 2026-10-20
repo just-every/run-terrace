@@ -147,3 +147,7 @@
  .unit-card .short{display:grid;gap:1px;min-width:0;font-size:13px;line-height:1.25}
  .unit-card .short b{font-size:13px;margin:0}
 }
+/* Under 360 the mailbox tags stack in one column so each label stays on one line. */
+@media (max-width:359px){
+ .tag-list{grid-template-columns:minmax(0,1fr)}
+}

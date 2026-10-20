@@ -505,3 +505,8 @@
  .homes h3{margin-top:12px;font-size:24px}
  .homes p{font-size:15.5px}
 }
+/* Under 390 a ribbon stop's label may wrap inside its column instead of running past the card. */
+@media (max-width:389px){
+ .ribbon li{grid-template-columns:18px 88px minmax(0,1fr)}
+ .ribbon li span:last-child{white-space:normal}
+}
