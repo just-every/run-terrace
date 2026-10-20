@@ -2,9 +2,9 @@ import { escape as e, type Row } from './core'
 import { ENTITIES, roleNames, TYPES } from './custom-input'
 const hidden=(k:string,v:unknown)=>`<input type="hidden" name="${e(k)}" value="${e(v)}">`
 const form=(command:string,body:string)=>`<form method="post" action="/app/command">${hidden('command',command)}${hidden('tab','custom')}${body}</form>`
-const input=(label:string,name:string,value:unknown='',required=true)=>`<label>${e(label)}<input name="${e(name)}" value="${e(value)}" ${required?'required':''}></label>`
-const textarea=(label:string,name:string,value:unknown)=>`<label>${e(label)}<textarea name="${e(name)}" rows="5" required>${e(typeof value==='string'?value:JSON.stringify(value,null,2))}</textarea></label>`
-const select=(label:string,name:string,choices:[string,string][],value='')=>`<label>${e(label)}<select name="${e(name)}" required>${choices.map(([k,l])=>`<option value="${e(k)}" ${k===value?'selected':''}>${e(l)}</option>`).join('')}</select></label>`
+const input=(label:string,name:string,value:unknown='',required=true)=>`<label>${e(label)}<input aria-label="${e(label)}" name="${e(name)}" value="${e(value)}" ${required?'required':''}></label>`
+const textarea=(label:string,name:string,value:unknown)=>`<label>${e(label)}<textarea aria-label="${e(label)}" name="${e(name)}" rows="5" required>${e(typeof value==='string'?value:JSON.stringify(value,null,2))}</textarea></label>`
+const select=(label:string,name:string,choices:[string,string][],value='')=>`<label>${e(label)}<select aria-label="${e(label)}" name="${e(name)}" required>${choices.map(([k,l])=>`<option value="${e(k)}" ${k===value?'selected':''}>${e(l)}</option>`).join('')}</select></label>`
 const common=(d:Row)=>select('Portfolio','portfolioId',d.portfolios.map((p:Row)=>[p.id,p.name]))+select('Record type','entity',ENTITIES.map(k=>[k,k]))
 const roleInput=(value=roleNames)=>textarea('Allowed staff roles (JSON array; owner always has access)','readRoles',value)
 function schema(f?:Row) {
