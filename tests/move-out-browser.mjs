@@ -42,7 +42,7 @@ try {
    await picture('linked-end-tasks')
    const form=page.locator('form:has(input[value="tenancy.transfer"])').filter({has:page.locator('input[value="'+rosa.id+'"]')})
    await form.locator('xpath=..').locator('summary').first().click()
-   await form.getByLabel('Move to unit',{exact:true}).selectOption(b.id)
+   await form.locator('select[name="unitId"]').selectOption(b.id)
    await form.getByLabel('Move-in date',{exact:true}).fill('2026-11-16')
    await picture('transfer-form')
    await page.setViewportSize({width:390,height:844})
