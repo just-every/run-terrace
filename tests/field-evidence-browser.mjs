@@ -50,7 +50,7 @@ try {
    }
    await section.getByText('Field evidence · 75 minutes',{exact:true}).click()
    await picture('saved-field-report',section)
-   assert.match(await section.innerText(),/awaiting the resident’s check/)
+   assert.equal((await h.state(t.id)).work.jobs.find(x=>x.id===j.id).resolution,'awaiting_check')
    const after=section.getByRole('link',{name:'inlet-valve-after.png',exact:true})
    assert.equal((await page.request.get(h.origin+await after.getAttribute('href'))).status(),200)
    const archive=await(await h.request('/api/backup')).text(),fresh=await installation()
