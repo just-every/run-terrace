@@ -1,0 +1,58 @@
+// PORT-006: the linked make-ready slice through the ordinary lease-transition doors.
+import assert from 'node:assert/strict'
+import {installation,tenancyInput} from './api/harness.mjs'
+export async function journey({assets=false,inspect}={}) {
+ const h=await installation({assets})
+ try {
+  const f=await h.command('portfolio.add',{name:'East Bay homes'}),p=await h.command('property.add',{portfolioId:f.id,name:'Linden Duplex',address:'412 Linden Street, Oakland, CA 94607',kind:'duplex',timeZone:'America/Los_Angeles'})
+  const unit=async identifier=>h.command('unit.add',{propertyId:p.id,identifier,bedrooms:'2',bathrooms:'1'})
+  const a=await unit('A'),b=await unit('B'),c=await unit('C'),d=await unit('D')
+  const lease=async(u,name,extra={})=>h.command('tenancy.create',{...tenancyInput,unitId:u.id,tenantName:name,tenantEmail:name.split(' ')[0].toLowerCase()+'@example.test',startDate:'2026-01-01',endDate:'2030-12-31',cadence:'monthly',rent:'2400.00',...extra})
+  const rosa=await lease(a,'Rosa Diaz'),sam=await lease(b,'Sam Okoro')
+  await h.command('tenancy.transfer',{tenancyId:rosa.id,unitId:b.id,moveIn:'2026-11-15'},{status:409})
+  assert.equal((await h.state()).turnovers.length,0,'PORT-006 failed transfer creates no source board')
+  assert.equal((await h.state()).tenancies.find(t=>t.id===rosa.id).ended_on,null,'PORT-006 failed transfer preserves source occupancy')
+  const before=await inspect?.({phase:'before-end',h,a,b,rosa,sam})
+  const ended=before??await h.command('tenancy.end',{tenancyId:sam.id,moveOut:'2026-11-15',reason:'Moving closer to family'})
+  assert.ok(ended.turnoverId)
+  const get=async id=>(await h.state()).turnovers.find(x=>x.id===id)
+  const board=await get(ended.turnoverId),tasks=Object.fromEntries(board.tasks.map(t=>[t.kind,t]))
+  assert.equal(board.unit_id,b.id);assert.equal(board.move_out,'2026-11-15');assert.equal(board.state,'open')
+  assert.deepEqual(Object.keys(tasks).sort(),['cleaning','deposit','inspection','listing','repair','utility'])
+  assert.deepEqual(tasks.deposit.blockedBy,[tasks.inspection.id]);assert.deepEqual(tasks.cleaning.blockedBy,[tasks.repair.id]);assert.deepEqual(tasks.listing.blockedBy,[tasks.cleaning.id])
+  assert.ok(board.tasks.every(t=>t.state==='open'&&t.checked_at===null),'PORT-006 no task or money action is completed automatically')
+  await h.command('turnover.publish',{turnoverId:board.id},{status:409})
+  await h.command('tenancy.end',{tenancyId:sam.id,moveOut:'2026-11-15',reason:'Replay'},{status:409})
+  const native=await inspect?.({phase:'after-end',h,a,b,rosa,sam,board})
+  const transfer=native??await h.command('tenancy.transfer',{tenancyId:rosa.id,unitId:b.id,moveIn:'2026-11-16'})
+  const source=await get(transfer.turnoverId),state=await h.state()
+  assert.ok(source);assert.equal(source.unit_id,a.id);assert.equal(source.move_out,'2026-11-15')
+  assert.equal(state.tenancies.find(t=>t.id===rosa.id).ended_on,'2026-11-15')
+  assert.equal(state.tenancies.find(t=>t.id===transfer.id).transferred_from,rosa.id)
+  assert.equal(state.tenancies.find(t=>t.id===sam.id).end_date,'2030-12-31','PORT-006 retains the original lease')
+  assert.equal(state.turnovers.length,2)
+  await h.command('tenancy.transfer',{tenancyId:rosa.id,unitId:b.id,moveIn:'2026-11-16'},{status:409})
+  assert.equal((await h.state()).turnovers.length,2,'PORT-006 replay creates no extra board')
+  const page=await(await h.request('/app?tab=properties')).text()
+  assert.ok(page.includes('href="#turnover-'+source.id+'"'),'PORT-006 source lease links its own tasks')
+  assert.ok(page.includes('id="turnover-'+board.id+'"'))
+  await inspect?.({phase:'after-transfer',h,a,b,rosa,sam,board,source,transfer})
+  // A previously planned exact board is reused, preserving task edits and checks.
+  const planned=await lease(c,'Lee Park',{endDate:'2026-11-30'})
+  const prepared=await h.command('turnover.open',{unitId:c.id,moveOut:'2026-11-30'})
+  const preparedTask=(await get(prepared.id)).tasks[0]
+  await h.command('turnover.task.update',{taskId:preparedTask.id,assignee:'River Property Services',delayDays:'2'})
+  const reused=await h.command('tenancy.end',{tenancyId:planned.id,moveOut:'2026-11-30',reason:'End of fixed term'})
+  assert.equal(reused.turnoverId,prepared.id);assert.equal((await get(prepared.id)).tasks[0].assignee,'River Property Services')
+  // Immediate successor occupancy does not silently create an invalid WORK-013 board or prevent ending a lease.
+  const prior=await lease(d,'Alex Chen',{endDate:'2026-11-30'}),next=await lease(d,'Jo Lane',{startDate:'2026-12-01'})
+  const immediate=await h.command('tenancy.end',{tenancyId:prior.id,moveOut:'2026-11-30',reason:'Keys passed to office'})
+  assert.equal(immediate.turnoverId,null);assert.match(immediate.notice,/needs follow-up/)
+  assert.ok(!(await h.state()).turnovers.some(t=>t.unit_id===d.id));assert.ok((await h.state()).tenancies.some(t=>t.id===next.id))
+  const loose=await h.command('tenancy.create',{...tenancyInput,tenantEmail:'loose@example.test'})
+  assert.equal((await h.command('tenancy.end',{tenancyId:loose.id,moveOut:'2026-11-30',reason:'No linked unit'})).turnoverId,null)
+  const member=await h.invite('member','preparer@example.test')
+  await h.command('tenancy.end',{tenancyId:transfer.id,moveOut:'2026-12-01',reason:'Not authorized'},{as:member,status:403})
+  assert.equal((await h.state()).turnovers.length,3)
+ }finally{await h.close()}
+}

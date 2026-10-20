@@ -4,6 +4,7 @@
 // linked lease on another, so neither unit's history is merged or lost.
 import { all, cents, commit, date, guard, id, insist, allow, one, sql, tenancy, text, reaches, reachesPortfolio, everywhere, type Context, type Row } from './core'
 import { usZone, localDate } from './zones'
+import { moveOutTurnover } from './turnover-writes'
 
 export const PROPERTY_KINDS = ['single_family','duplex','multifamily','townhouse','condo'] as const
 export const occupiedTo = (t: Row) => t.ended_on ?? t.end_date
@@ -57,8 +58,9 @@ export async function propertyCommand(c: Context, command: string, p: Row): Prom
   const t = await tenancy(c, p.tenancyId), moveOut = date(p.moveOut, 'Move-out date')
   insist(!t.ended_on, 'lease_ended', 'This lease has already ended.', 409)
   insist(moveOut >= t.start_date && moveOut <= t.end_date, 'invalid_move_out', 'The move-out day falls within the lease.')
-  await commit(c, [guard(c, 'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)', t.id, t.version), sql(c, 'UPDATE tt_tenancies SET ended_on=?,end_reason=?,version=version+1 WHERE id=?', moveOut, text(p.reason, 'Reason', 300), t.id)], command, t.id)
-  return { tenancyId: t.id, notice: `Lease ended with move-out on ${moveOut}. The lease record is kept.` }
+  const turnover = await moveOutTurnover(c, t, moveOut)
+  await commit(c, [guard(c, 'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)', t.id, t.version), ...turnover.statements, sql(c, 'UPDATE tt_tenancies SET ended_on=?,end_reason=?,version=version+1 WHERE id=?', moveOut, text(p.reason, 'Reason', 300), t.id)], command, t.id)
+  return { tenancyId: t.id, turnoverId: turnover.turnoverId, notice: `Lease ended with move-out on ${moveOut}. The lease record is kept. ${turnover.notice}` }
  }
  if (command === 'tenancy.transfer') {
   allow(c, command)
@@ -68,12 +70,14 @@ export async function propertyCommand(c: Context, command: string, p: Row): Prom
   insist(moveIn > t.start_date && moveIn <= t.end_date, 'invalid_move_in', 'The transfer falls after the lease starts and on or before it ends.')
   const end = p.endDate ? date(p.endDate, 'New lease end') : t.end_date, rent = p.rent ? cents(p.rent) : t.rent_cents
   insist(end >= moveIn, 'lease_dates', 'The new lease ends on or after the move-in.')
+  const turnover = await moveOutTurnover(c, t, dayBefore(moveIn))
   await commit(c, [
    guard(c, 'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)', t.id, t.version), freeUnit(c, u.id, moveIn, end),
+   ...turnover.statements,
    sql(c, 'UPDATE tt_tenancies SET ended_on=?,end_reason=?,version=version+1 WHERE id=?', dayBefore(moveIn), `Transferred to unit ${u.identifier}`, t.id),
    sql(c, 'INSERT INTO tt_tenancies(id,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,rent_cents,cadence,created_at,currency,time_zone,unit_id,transferred_from,currency_confirmed) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', key, unitAddress(u), t.owner_name, t.owner_email, t.tenant_name, t.tenant_email, moveIn, end, rent, t.cadence, c.now, t.currency, u.time_zone, u.id, t.id, t.currency_confirmed),
   ], command, key)
-  return { id: key, tenancyId: key, notice: `Transferred to unit ${u.identifier} from ${moveIn}. Both leases are kept.` }
+  return { id: key, tenancyId: key, turnoverId: turnover.turnoverId, notice: `Transferred to unit ${u.identifier} from ${moveIn}. Both leases are kept. ${turnover.notice}` }
  }
 }
 

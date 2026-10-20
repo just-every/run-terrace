@@ -6,17 +6,11 @@
 // when every task is checked: available from the later of the planned ready date and the day after the last check.
 import { all, cents, commit, date, guard, id, insist, allow, one, sql, text, reaches, type Context, type Row } from './core'
 import { localDate } from './zones'
+import { turnoverWrites } from './turnover-writes'
 
 const DAY = 86400000
 const shift = (d: string, n: number) => new Date(Date.parse(d + 'T00:00:00Z') + n * DAY).toISOString().slice(0, 10)
 const span = (a: string, b: string) => Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / DAY)
-// kind, title, duration, dependencies (by kind)
-const STANDARD: [string, string, number, string[]][] = [
- ['inspection', 'Move-out inspection', 1, []], ['utility', 'Transfer utilities to the owner', 1, []],
- ['deposit', 'Prepare the deposit disposition', 2, ['inspection']], ['repair', 'Repairs found at inspection', 3, ['inspection']],
- ['cleaning', 'Make-ready cleaning', 1, ['repair']], ['listing', 'Prepare the listing', 1, ['cleaning']],
-]
-
 /** Planned start and end of each task, the ready date and vacancy days. */
 export function plan(board: Row, tasks: Row[]) {
  const ends = new Map<string, string>(), out: Row[] = []
@@ -43,14 +37,10 @@ export async function turnoverCommand(c: Context, command: string, p: Row): Prom
   allow(c, command)
   const unit = await one(c, 'SELECT id FROM tt_units WHERE id=?', text(p.unitId, 'Unit', 100))
   insist(unit && reaches(c, unit.id), 'not_found', 'Unit not found.', 404)
-  const moveOut = date(p.moveOut, 'Move-out date'), key = id(), ids = new Map(STANDARD.map(([kind]) => [kind, id()]))
-  // The unit must be vacant the day after the move-out.
+  const moveOut = date(p.moveOut, 'Move-out date'), key = id()
+  // The unit must be vacant the day after the move-out, including at commit time.
   insist(!(await one(c, 'SELECT 1 FROM tt_tenancies WHERE unit_id=? AND start_date<=? AND COALESCE(ended_on,end_date)>=?', unit.id, shift(moveOut, 1), shift(moveOut, 1))), 'unit_occupied', 'A lease occupies this unit the day after that move-out date.', 409)
-  await commit(c, [
-   sql(c, 'INSERT INTO tt_turnovers(id,unit_id,move_out,created_by,created_at) VALUES(?,?,?,?,?)', key, unit.id, moveOut, c.actor.id, c.now),
-   sql(c, 'UPDATE tt_units SET available_on=NULL,version=version+1 WHERE id=?', unit.id),
-   ...STANDARD.map(([kind, title, days, deps], i) => sql(c, "INSERT INTO tt_turnover_tasks(id,turnover_id,kind,title,assignee,duration_days,depends_on,position) VALUES(?,?,?,?,'Unassigned',?,?,?)", ids.get(kind), key, kind, title, days, JSON.stringify(deps.map(d => ids.get(d))), i)),
-  ], command, key)
+  await commit(c, turnoverWrites(c, unit.id, moveOut, key), command, key)
   return { id: key, notice: 'Make-ready board opened with its standard tasks.' }
  }
  if (command === 'turnover.task.update') {

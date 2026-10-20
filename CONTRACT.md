@@ -482,8 +482,8 @@ Revised 19 October 2026: LEASE-005 is done (ct ruling 19:01Z). Migration `0044_p
 | Clauses | Done | Partial | Missing | Total |
 | --- | ---: | ---: | ---: | ---: |
 | Published | 12 | 0 | 0 | 12 |
-| Target and push further | 36 | 25 | 67 | 128 |
-| All | 48 | 25 | 67 | 140 |
+| Target and push further | 36 | 26 | 66 | 128 |
+| All | 48 | 26 | 66 | 140 |
 
 | Clause | Title | Kind | Status | Evidence | Gap |
 | --- | --- | --- | --- | --- | --- |
@@ -504,7 +504,7 @@ Revised 19 October 2026: LEASE-005 is done (ct ruling 19:01Z). Migration `0044_p
 | `PORT-003` | Manage owners and management agreements | target | done | `migrations/core/0031_owners.sql`; `src/terrace/owners.ts`; `src/terrace/owner-view.ts`; `src/terrace/api.ts`; `tests/terrace.test.mjs` |  |
 | `PORT-004` | Keep resident households and occupants | target | done | `migrations/core/0025_households.sql`; `src/terrace/households.ts`; `src/terrace/household-view.ts`; `tests/terrace.test.mjs` |  |
 | `PORT-005` | Version complete lease obligations | target | done | `migrations/core/0042_lease_versions.sql`; `src/terrace/lease-versions.ts`; `src/terrace/lease-input.ts`; `src/terrace/lease-source.ts`; `src/terrace/lease-view.ts`; `src/terrace/charge-run.ts`; `src/terrace/charge-concessions.ts`; `tests/leases.mjs`; `tests/terrace.test.mjs` |  |
-| `PORT-006` | Complete move-in transfers and move-out | target | missing |  | Full occupancy transitions and final-account workflows are absent. |
+| `PORT-006` | Complete move-in transfers and move-out | target | partial | `src/terrace/properties.ts`; `src/terrace/turnover-writes.ts`; `src/terrace/property-view.ts`; `tests/move-out.mjs`; `tests/terrace.test.mjs` | Unit-linked move-out and transfer atomically open or reuse dated make-ready tasks under WORK-013’s next-day vacancy prerequisite, retaining both leases. Gap: keys/meters/condition/possession and forwarding checklists, roommate obligations, distinct deposits/disposition, final accounts and complete proration reconciliation; successor-occupied make-ready follow-up remains manual. |
 | `PORT-007` | Store searchable operating documents | target | partial | `src/terrace/work.ts`; `src/terrace/api.ts` | Inspection image custody exists; general documents, video, search and document-specific rights are absent. |
 | `PORT-008` | Apply named state landlord-tenant rule packs | target | missing |  | State and local rule packs, their field set, activation holds and versioning are absent. |
 | `ROLE-001` | Grant staff rights by responsibility | target | done | `migrations/core/0030_roles.sql`; `src/terrace/roles.ts`; `src/terrace/core.ts`; `src/terrace/api.ts`; `src/terrace/people.ts`; `src/auth.server.ts`; `tests/terrace.test.mjs` |  |

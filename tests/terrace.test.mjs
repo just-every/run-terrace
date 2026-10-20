@@ -1,3 +1,4 @@
+import {journey as moveOutJourney} from './move-out.mjs'
 import {journey as dispatchJourney,failedDispatchJourney} from './dispatch.mjs'
 import {test,before,after} from 'node:test'
 import assert from 'node:assert/strict'
@@ -22,6 +23,7 @@ const totp=(key,offset=0)=>{let bits=0,v=0;const bytes=[];for(const ch of key){v
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jz1sAAAAASUVORK5CYII=','base64')
 before(async()=>{h=await installation();member=await h.invite('member','preparer@example.test');admin=await h.invite('admin','manager@example.test')})
 after(async()=>{await h?.close()})
+test('PORT-006: move-out and transfer open linked make-ready tasks without losing leases or duplicating work',moveOutJourney)
 test('WORK-006: approved email dispatch, technician progress, parts hold, missed visit and reassignment',async()=>{await dispatchJourney();await failedDispatchJourney()})
 test('REPORT-005: typed custom fields, governed reports, frozen merges and hidden-field refusal',customReportJourney)
 test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned portfolios, CSRF and revocation',async()=>{
@@ -659,7 +661,8 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
 
  // WORK-013: make-ready unit A after its resident moved out; delay the repair and read the cleaning, listing and ready-date effects.
  await h.command('turnover.open',{unitId:lower.id,moveOut:'2026-01-14'},{status:409})
- const board=await h.command('turnover.open',{unitId:upper.id,moveOut:'2026-01-14'})
+ const board={id:transfer.turnoverId}
+ assert.ok(board.id,'PORT-006 transfer opens the WORK-013 board automatically')
  await h.command('turnover.open',{unitId:upper.id,moveOut:'2026-01-14'},{status:409})
  const read=async()=>(await h.state()).turnovers.find(x=>x.id===board.id),kind=(x,k)=>x.tasks.find(t=>t.kind===k),dates=(x,ks)=>ks.map(k=>[kind(x,k).start,kind(x,k).end])
  const planned=await read()
