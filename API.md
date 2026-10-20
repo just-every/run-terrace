@@ -10,7 +10,7 @@ SAFE-001: `entity.add`, `account.add`, `operator.invite`, `operator.role`, `oper
 
 `GET /api/commands` lists commands. `GET /api/state` lists the company, legal entities, operating accounts and tenancies (each with its `currency` and `time_zone`); `GET /api/state?tenancy=ID` adds its rent, household, proposals, inspections and maintenance. `POST /api/commands` accepts JSON `{ "command": "name", ...fields }` and returns `{ "ok": true, "result": ... }`, or a non-200 `{ "ok": false, "error", "message" }`. Uploads use multipart form data to the same URL.
 
-PORT-006: `tenancy.end` and `tenancy.transfer` return `turnoverId` for the source unit’s make-ready board when WORK-013’s next-day vacancy prerequisite allows it. The board and lease transition commit together; an exact unit/move-out board is reused with its task history. Unit-less leases return null. Immediate successor occupancy returns null with an explicit make-ready follow-up notice; the lease still ends. No deposit refund, task completion or unit-ready claim is inferred.
+PORT-006: `tenancy.end` and `tenancy.transfer` return `turnoverId` for the source unit’s make-ready board when WORK-013’s next-day vacancy prerequisite allows it. The board and lease transition commit together; an exact unit/move-out board is reused with its task history. Unit-less leases return null. Immediate successor occupancy returns null with an explicit make-ready follow-up notice; the lease still ends. `turnoverOutcome` distinguishes opened, existing, unit_not_linked and successor_occupied, independently of display wording. No deposit refund, task completion or unit-ready claim is inferred.
 
 | Command | Fields | Authority |
 | --- | --- | --- |

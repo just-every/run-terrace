@@ -47,7 +47,8 @@ export async function journey({assets=false,inspect}={}) {
   // Immediate successor occupancy does not silently create an invalid WORK-013 board or prevent ending a lease.
   const prior=await lease(d,'Alex Chen',{endDate:'2026-11-30'}),next=await lease(d,'Jo Lane',{startDate:'2026-12-01'})
   const immediate=await h.command('tenancy.end',{tenancyId:prior.id,moveOut:'2026-11-30',reason:'Keys passed to office'})
-  assert.equal(immediate.turnoverId,null);assert.match(immediate.notice,/needs follow-up/)
+  assert.equal(immediate.turnoverId,null);assert.equal(immediate.turnoverOutcome,'successor_occupied')
+  assert.equal((await h.state()).tenancies.find(t=>t.id===prior.id).ended_on,'2026-11-30')
   assert.ok(!(await h.state()).turnovers.some(t=>t.unit_id===d.id));assert.ok((await h.state()).tenancies.some(t=>t.id===next.id))
   const loose=await h.command('tenancy.create',{...tenancyInput,tenantEmail:'loose@example.test'})
   assert.equal((await h.command('tenancy.end',{tenancyId:loose.id,moveOut:'2026-11-30',reason:'No linked unit'})).turnoverId,null)
