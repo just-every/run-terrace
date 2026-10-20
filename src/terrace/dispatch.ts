@@ -9,7 +9,7 @@ export function checklist(value: unknown): string[] {
  return tasks
 }
 const transitions: Record<string, string[]> = { dispatched: ['accepted', 'blocked'], accepted: ['en_route', 'started', 'blocked', 'parts_needed'], en_route: ['started', 'blocked', 'parts_needed'], started: ['blocked', 'parts_needed', 'completed'], blocked: ['accepted', 'en_route', 'started', 'parts_needed'], parts_needed: ['en_route', 'started', 'blocked'], completed: [] }
-export const dispatchEvent = (c: Context, dispatchId: string, kind: string, reference: string, tasks: string[] = []) => sql(c, 'INSERT INTO tt_dispatch_events(id,dispatch_id,kind,reference,checklist,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?)', id(), dispatchId, kind, reference, JSON.stringify(tasks), c.actor.id, c.now)
+export const dispatchEvent = (c: Context, dispatchId: string, kind: string, reference: string, tasks: string[] = []) => sql(c, 'INSERT INTO tt_dispatch_events(id,dispatch_id,sequence,kind,reference,checklist,recorded_by,recorded_at) VALUES(?,?,(SELECT COALESCE(MAX(sequence),0)+1 FROM tt_dispatch_events WHERE dispatch_id=?),?,?,?,?,?)', id(), dispatchId, dispatchId, kind, reference, JSON.stringify(tasks), c.actor.id, c.now)
 export function missed(c: Context, t: Row, j: Row, appointment?: Row | null) {
  if (['resolved', 'closed'].includes(j.resolution)) return null
  if (appointment && ['proposed','confirmed','no_show'].includes(appointment.state) && appointment.ends_at < c.now) return 'Missed arrival window: a person must contact the technician and resident, then record the next action.'
@@ -47,7 +47,7 @@ export async function dispatchCommand(c: Context, command: string, p: Row): Prom
   return { id: key, tenancyId: t.id, dispatchEmail: { id: key, jobId: j.id, jobVersion: j.version, approvalId: approval.id, snapshot }, notice: 'Dispatch requested.' }
  }
  insist(current?.outcome === 'accepted' && j.state === 'sent', 'not_dispatched', 'Progress requires the current dispatch to have been accepted by the mail provider.', 409)
- const events = await all(c, 'SELECT * FROM tt_dispatch_events WHERE dispatch_id=? ORDER BY recorded_at,rowid', current.id)
+ const events = await all(c, 'SELECT * FROM tt_dispatch_events WHERE dispatch_id=? ORDER BY sequence', current.id)
  const reference = text(p.reference, 'Technician reply or human escalation source', 1000)
  const guards = [liveGuard, guard(c, '(SELECT COUNT(*) FROM tt_dispatch_events WHERE dispatch_id=?)=?', current.id, events.length)]
  if (command === 'maintenance.escalate') {
@@ -66,8 +66,8 @@ export async function dispatchCommand(c: Context, command: string, p: Row): Prom
 }
 export async function dispatchData(c: Context, t: Row) {
  const [dispatches, dispatchEvents] = await Promise.all([
-  all(c, 'SELECT d.* FROM tt_dispatches d JOIN tt_maintenance_jobs j ON j.id=d.job_id WHERE j.tenancy_id=? ORDER BY d.recorded_at,d.rowid', t.id),
-  all(c, 'SELECT e.* FROM tt_dispatch_events e JOIN tt_dispatches d ON d.id=e.dispatch_id JOIN tt_maintenance_jobs j ON j.id=d.job_id WHERE j.tenancy_id=? ORDER BY e.recorded_at,e.rowid', t.id),
+  all(c, 'SELECT d.* FROM tt_dispatches d JOIN tt_maintenance_jobs j ON j.id=d.job_id WHERE j.tenancy_id=? ORDER BY d.recorded_at,d.id', t.id),
+  all(c, 'SELECT e.* FROM tt_dispatch_events e JOIN tt_dispatches d ON d.id=e.dispatch_id JOIN tt_maintenance_jobs j ON j.id=d.job_id WHERE j.tenancy_id=? ORDER BY d.recorded_at,d.id,e.sequence', t.id),
  ])
  return { dispatches, dispatchEvents }
 }

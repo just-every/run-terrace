@@ -8,8 +8,8 @@ CREATE TABLE tt_dispatches (
 );
 CREATE TABLE tt_dispatch_events (
  id TEXT PRIMARY KEY, dispatch_id TEXT NOT NULL REFERENCES tt_dispatches(id) ON DELETE CASCADE,
- kind TEXT NOT NULL, reference TEXT NOT NULL, checklist TEXT NOT NULL DEFAULT '[]',
- recorded_by TEXT NOT NULL, recorded_at TEXT NOT NULL
+ sequence INTEGER NOT NULL, kind TEXT NOT NULL, reference TEXT NOT NULL, checklist TEXT NOT NULL DEFAULT '[]',
+ recorded_by TEXT NOT NULL, recorded_at TEXT NOT NULL, UNIQUE(dispatch_id,sequence)
 );
 CREATE INDEX tt_dispatch_history ON tt_dispatch_events(dispatch_id,recorded_at);
 CREATE TRIGGER tt_dispatch_snapshot_immutable BEFORE UPDATE OF job_id,approval_id,appointment_id,snapshot,recorded_by,recorded_at ON tt_dispatches BEGIN SELECT RAISE(ABORT,'Dispatch evidence is never edited'); END;
