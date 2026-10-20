@@ -28,6 +28,14 @@ try {
   const card=page.locator('article').filter({has:page.getByRole('heading',{name:'Kitchen sink inlet leak',exact:true})})
   await picture(phase)
   if(phase==='approved'){
+   await page.getByText('Prepare maintenance',{exact:true}).click()
+   await page.getByLabel('Task checklist (one task per line)',{exact:true}).fill('Check water meter\nRecord reading')
+   await picture('prepare-checklist')
+   await page.getByText('Prepare maintenance',{exact:true}).click()
+   await card.getByText('Change scope or price',{exact:true}).click()
+   await card.getByLabel('Revised task checklist (optional; one task per line)',{exact:true}).fill('Isolate water supply\nReplace inlet valve\nTest for leaks')
+   await picture('revise-checklist')
+   await card.getByText('Change scope or price',{exact:true}).click()
    await card.getByRole('button',{name:'Dispatch approved work by email',exact:true}).click()
    await page.getByRole('status').filter({hasText:'Email accepted by the mail provider'}).first().waitFor()
    await picture('dispatch-accepted')
@@ -40,6 +48,8 @@ try {
    return true
   }
   if(phase==='replacement-complete'){
+   await card.locator('section[aria-label="Dispatch and technician progress"] > details').first().locator('summary').first().click()
+   await picture('replacement-history')
    assert.equal(await card.locator('strong').filter({hasText:/^completed$/}).count(),1)
    assert.ok((await card.innerText()).includes('parts needed'))
    assert.ok((await card.innerText()).includes('resident issue'))
