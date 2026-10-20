@@ -74,7 +74,7 @@ export async function leasingReport(c: Context, q: Row) {
   const rentReceiptsCents = paid.reduce((n, r) => n + r.amountCents, 0)
   totalReceipts += rentReceiptsCents
   sources.push(...paid.map(r => ({ kind: 'rent_receipt', ...r })), ...excludedReceipts.map(r => ({ kind: 'excluded_receipt', ...r })))
-  const turnovers = boards.filter(b => b.unit_id === u.id).map(b => {
+  const turnovers = boards.filter((b: Row) => b.unit_id === u.id).map((b: Row) => {
    const recordedByEnd = localDate(b.created_at, u.time_zone) <= to
    const publishedByEnd = !!b.published_at && localDate(b.published_at, u.time_zone) <= to
    return { turnoverId: b.id, state: publishedByEnd ? b.state : 'open', moveOut: b.move_out, availableOn: publishedByEnd ? b.available_on : null,
