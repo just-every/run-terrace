@@ -9,7 +9,7 @@ import {createHash,createHmac} from 'node:crypto'
 import {journey as scenarioJourney} from './scenarios.mjs'
 import {journey as leasingReportJourney} from './leasing-report.mjs'
 import {journey as delinquencyJourney} from './delinquency.mjs'
-import {journey as leaseJourney} from './leases.mjs'
+import {leaseFields,journey as leaseJourney} from './leases.mjs'
 import {journey as billsJourney} from './bills.mjs'
 import {journey as appointmentJourney} from './appointments.mjs'
 import {journey as emergencyJourney} from './emergencies.mjs'
@@ -20,7 +20,7 @@ import {journey as siblingJourney} from './siblings.mjs'
 import {journey as credentialJourney} from './credentials.mjs'
 import {journey as customReportJourney} from './custom-reports.mjs'
 import {installation,tenancyInput} from './api/harness.mjs'
-let h,member,admin,t,inspection,job,imported,archiveBefore,journalAfter
+let h,member,admin,t,inspection,job,imported,compensated,archiveBefore,journalAfter
 /** RFC 6238 code for a base32 key at now plus offset steps, as an authenticator app shows it. */
 const totp=(key,offset=0)=>{let bits=0,v=0;const bytes=[];for(const ch of key){v=(v<<5)|'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'.indexOf(ch);bits+=5;if(bits>=8){bytes.push((v>>>(bits-8))&255);bits-=8}}const msg=Buffer.alloc(8);msg.writeBigUInt64BE(BigInt(Math.floor(Date.now()/30000)+offset));const h=createHmac('sha1',Buffer.from(bytes)).update(msg).digest(),o=h[19]&15;return String((h.readUInt32BE(o)&0x7fffffff)%1000000).padStart(6,'0')}
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jz1sAAAAASUVORK5CYII=','base64')
@@ -32,7 +32,7 @@ test('REPORT-005: typed custom fields, governed reports, frozen merges and hidde
 test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned portfolios, CSRF and revocation',async()=>{
  assert.equal((await h.request('/api/state',{as:''})).status,401)
  assert.equal((await h.request('/api/commands',{method:'POST',body:{command:'tenancy.create',...tenancyInput},originHeader:'https://elsewhere.test'})).status,403)
- for(const command of ['tenancy.create','rent.charge','rent.receipt','rent.adjust','proposal.approve','proposal.reject','inspection.create','inspection.photo','inspection.complete','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.check','turnover.publish','household.add','household.leave','household.move'])await h.command(command,{}, {as:member,status:403})
+ for(const command of ['tenancy.create','rent.charge','rent.receipt','rent.adjust','proposal.approve','proposal.reject','inspection.create','inspection.photo','inspection.complete','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','import.compensation.preview','import.compensate','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.check','turnover.publish','household.add','household.leave','household.move'])await h.command(command,{}, {as:member,status:403})
  assert.equal((await h.request('/api/backup',{as:member})).status,403)
  t=await h.command('tenancy.create',tenancyInput,{as:admin})
  const listing=await h.request('/app'),listHtml=await listing.text()
@@ -63,6 +63,7 @@ test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned 
    const email=role.replace('_','-')+'@example.test'
    await r.command('operator.invite',{displayName:role,email,role,['portfolio:'+north.f.id]:'1',['portfolio:'+south.f.id]:'1'})
    staff[role]=await r.accept(email)
+   for(const command of ['import.compensation.preview','import.compensate'])await r.command(command,{}, {as:staff[role],status:403})
   }
   const as=role=>({as:staff[role]}),get=(role,path)=>r.request(path,as(role))
   // Out of scope answers 404 on every door: the West tenancy, its page, state, statement, rent roll and the unit-less tenancy.
@@ -425,7 +426,7 @@ test('photographed inspection, WORK-004 qualified vendor handoff, WORK-003 quote
  await appointmentJourney()
  await emergencyJourney()
 })
-test('move-in previews exact source, requires reviewed fingerprint, journals, and undoes unchanged records',async()=>{
+test('MOVE-009: reviewed move-in, refuse-before-reverse undo, owner compensation preserves later work and recovery',async()=>{
  const csv=await readFile('fixtures/terrace-tenancies.csv','utf8'),preview=await h.command('import.preview',{csv,namespace:'archive-a'})
  assert.equal((await h.state()).tenancies.length,1)
  await h.command('import.apply',{csv,namespace:'archive-a',fingerprint:'0'.repeat(64)},{status:409})
@@ -436,8 +437,58 @@ test('move-in previews exact source, requires reviewed fingerprint, journals, an
  await h.command('import.undo',{jobId:second.job.id});assert.equal((await h.state()).tenancies.length,3)
  const conflict=await h.command('import.preview',{csv,namespace:'archive-c'}),third=await h.command('import.apply',{csv,namespace:'archive-c',fingerprint:conflict.fingerprint})
  const added=(await h.state()).tenancies.find(x=>x.id===conflict.rows[0].targetId)
+ const signed=await h.command('lease.prepare',leaseFields(added.id,'2026-08-01'));const signedBytes=Buffer.from(await(await h.request('/api/lease-source?id='+signed.leaseId)).arrayBuffer())
  await h.command('rent.charge',{tenancyId:added.id,dueDate:'2026-10-01',amount:'100',description:'Later work',reference:'later'})
- await h.command('import.undo',{jobId:third.job.id},{status:409});assert.ok((await h.state()).tenancies.find(x=>x.id===added.id))
+ const charge=(await h.state(added.id)).ledger.charges.find(x=>x.reference==='later')
+ await h.command('rent.receipt',{chargeId:charge.id,amount:'100',receivedDate:'2026-10-02',reference:'settled-import-receipt'})
+ const refused=await h.command('import.undo',{jobId:third.job.id},{status:409})
+ assert.equal(refused.error,'import_conflict');assert.ok(refused.report.rows[0].blockers.some(x=>x.kind==='tt_receipts'&&x.record.reference==='settled-import-receipt'))
+ let state=await h.state();for(const row of conflict.rows)assert.ok(state.tenancies.some(t=>t.id===row.targetId),'preflight must preserve every row, including the untouched sibling')
+ assert.equal((await h.command('import.journal',{jobId:third.job.id})).job.state,'completed','preflight does not commit reversal intent')
+ let review=await h.command('import.compensation.preview',{jobId:third.job.id})
+ assert.deepEqual(review.counts,{reverse:1,retain:1,reversed:0})
+ assert.ok(review.rows[0].blockers.some(b=>b.kind==='tt_lease_versions'&&b.id===signed.leaseId))
+ assert.equal((await h.command('import.compensate',{jobId:third.job.id,fingerprint:'0'.repeat(64),reason:'Reviewed receipt'},{status:409})).error,'review_changed')
+ await h.command('import.compensate',{jobId:third.job.id,fingerprint:review.fingerprint,reason:'  '},{status:400})
+ await h.command('import.compensate',{jobId:third.job.id,fingerprint:review.fingerprint,reason:'x'.repeat(2001)},{status:400})
+ await h.command('rent.charge',{tenancyId:added.id,dueDate:'2026-10-03',amount:'25',description:'Second later charge',reference:'later-second'})
+ const retainedBefore=await h.state(added.id)
+ assert.equal((await h.command('import.compensate',{jobId:third.job.id,fingerprint:review.fingerprint,reason:'Reviewed receipt'},{status:409})).error,'review_changed')
+ assert.deepEqual((await h.state(added.id)).ledger,retainedBefore.ledger)
+ review=await h.command('import.compensation.preview',{jobId:third.job.id})
+ const result=await h.command('import.compensate',{jobId:third.job.id,fingerprint:review.fingerprint,reason:'Keep the paid lease and its later work; remove the untouched duplicate.'})
+ assert.equal(result.outcome,'compensated');assert.equal(result.counts.reversed,1);assert.equal(result.counts.retained,1)
+ state=await h.state();assert.ok(!state.tenancies.some(t=>t.id===conflict.rows[1].targetId));assert.deepEqual(state.tenancies.find(t=>t.id===added.id),retainedBefore.tenancies.find(t=>t.id===added.id));assert.deepEqual((await h.state(added.id)).ledger,retainedBefore.ledger)
+ assert.deepEqual(Buffer.from(await(await h.request('/api/lease-source?id='+signed.leaseId)).arrayBuffer()),signedBytes,'signed originals remain byte-identical')
+ compensated=await h.command('import.journal',{jobId:third.job.id});assert.equal(compensated.outcome,'compensated');assert.equal(compensated.approvals.length,1);assert.equal(compensated.approvals[0].fingerprint,review.fingerprint);assert.ok(compensated.approvals[0].reason.includes('Keep the paid lease'));assert.equal(compensated.undoReport.dispositions.filter(x=>x.disposition==='retained').length,1);assert.ok(compensated.reconciliation.some(r=>r.targetId===added.id&&r.status==='imported, retained by compensation '+compensated.approvals[0].id))
+ const historyBefore=(await(await h.request('/api/history?action=import.compensate')).json()).rows
+ assert.ok(historyBefore.some(x=>x.subject===third.job.id&&x.source===compensated.approvals[0].reason&&JSON.parse(x.outcome).outcome==='compensated'))
+ const allHistoryBefore=(await(await h.request('/api/history?action=import.')).json()).rows
+ const finished=await h.command('import.compensation.preview',{jobId:third.job.id})
+ await h.command('import.compensate',{jobId:third.job.id,fingerprint:review.fingerprint,reason:'Old approval is stale'},{status:409})
+ assert.equal((await h.command('import.compensate',{jobId:third.job.id,fingerprint:finished.fingerprint,reason:'Read the existing outcome'})).outcome,'compensated')
+ await h.command('import.apply',{csv,namespace:'archive-c',fingerprint:conflict.fingerprint})
+ assert.deepEqual((await h.state()).tenancies,state.tenancies,'apply replay cannot recreate the removed lease')
+ assert.deepEqual((await(await h.request('/api/history?action=import.')).json()).rows,allHistoryBefore,'apply replays do not append history')
+ assert.deepEqual((await h.command('import.journal',{jobId:third.job.id})).approvals,compensated.approvals)
+ assert.deepEqual((await(await h.request('/api/history?action=import.compensate')).json()).rows,historyBefore,'repeat and apply replay append no compensation history')
+ // The previously uncovered cascade now blocks ordinary undo and survives compensation.
+ const recovery=await h.command('import.preview',{csv,namespace:'archive-recovery'}),recoverJob=await h.command('import.apply',{csv,namespace:'archive-recovery',fingerprint:recovery.fingerprint})
+ await h.command('recovery.authorize',{tenancyId:recovery.rows[0].targetId,utility:'water',reference:'Retain lease section 8'})
+ const recoveryRefused=await h.command('import.undo',{jobId:recoverJob.job.id},{status:409})
+ assert.ok(recoveryRefused.report.rows[0].blockers.some(x=>x.kind==='tt_recovery_authorizations'&&x.record.reference==='Retain lease section 8'))
+ assert.ok((await h.state()).tenancies.some(t=>t.id===recovery.rows[1].targetId))
+ const recoveryReview=await h.command('import.compensation.preview',{jobId:recoverJob.job.id})
+ await h.command('import.compensate',{jobId:recoverJob.job.id,fingerprint:recoveryReview.fingerprint,reason:'Preserve the authorized utility lease'})
+ const recoveryAfter=await h.command('import.compensation.preview',{jobId:recoverJob.job.id})
+ assert.ok(recoveryAfter.rows[0].blockers.some(x=>x.kind==='tt_recovery_authorizations'&&x.record.reference==='Retain lease section 8'))
+ const edited=await h.command('import.preview',{csv,namespace:'archive-edited'}),editedJob=await h.command('import.apply',{csv,namespace:'archive-edited',fingerprint:edited.fingerprint})
+ await h.command('tenancy.end',{tenancyId:edited.rows[0].targetId,moveOut:'2026-10-01',reason:'Reviewed early departure'})
+ const editedReview=await h.command('import.compensation.preview',{jobId:editedJob.job.id})
+ assert.equal(editedReview.rows[0].action,'retain');assert.ok(editedReview.rows[0].changes.some(x=>x.field==='end_reason'&&x.applied===null&&x.current==='Reviewed early departure'))
+ await h.command('import.undo',{jobId:editedJob.job.id},{status:409})
+ await h.command('import.compensate',{jobId:editedJob.job.id,fingerprint:editedReview.fingerprint,reason:'Keep the staff-recorded move out'})
+ assert.equal((await h.state(edited.rows[0].targetId)).tenancies.find(t=>t.id===edited.rows[0].targetId).end_reason,'Reviewed early departure')
  // SAFE-002: each applied and undone move-in is in the owner's history.
  const moves=(await(await h.request('/api/history?action=import.')).json()).rows;assert.ok(moves.some(x=>x.action==='import.apply'&&x.subject===third.job.id)&&moves.some(x=>x.action==='import.undo'&&x.subject===second.job.id))
 })
@@ -447,6 +498,7 @@ test('complete backup restores into a fresh owner installation, preserving photo
   await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archiveBefore],'backup.rer')})
   const original=await h.state(t.id),restored=await fresh.state(t.id);assert.deepEqual(restored.tenancies,original.tenancies);assert.deepEqual(restored.ledger,original.ledger);assert.deepEqual(restored.work.photos,original.work.photos)
   const photo=restored.work.photos[0];assert.deepEqual(Buffer.from(await(await fresh.request('/api/inspections/photos/'+photo.id)).arrayBuffer()),png)
+  const restoredCompensation=await fresh.command('import.journal',{jobId:compensated.job.id});assert.equal(restoredCompensation.outcome,'compensated');assert.deepEqual(restoredCompensation.approvals,compensated.approvals);assert.deepEqual(restoredCompensation.undoReport.dispositions,compensated.undoReport.dispositions)
   await fresh.command('import.undo',{jobId:imported.id});const afterUndo=await fresh.state();assert.equal(afterUndo.tenancies.length,original.tenancies.length-2);assert.ok(afterUndo.tenancies.find(x=>x.id===t.id))
   await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archiveBefore],'backup.rer')},{status:409})
   // SAFE-005: the source's sessions do not come across, and the readable export carries the same records, original files and what to reconnect.
