@@ -9,6 +9,7 @@ export const tenancyDependencies: [string, string][] = [
  ...['tt_charges','tt_proposals','tt_lease_history','tt_inspections','tt_maintenance_jobs','tt_assets','tt_schedules','tt_household_members','tt_lease_terms','tt_lease_versions','tt_delinquency_assignments','tt_delinquency_assignment_events','tt_renewals','tt_close_corrections','tt_recovery_authorizations','tt_utility_allocations','tt_renewal_events','tt_legal_holds','tt_privacy_requests','tt_erasure_work','tt_bill_subjects','tt_emergencies','tt_move_checklists','tt_workflow_runs','tt_workflow_events'].map(table => [table, 'r.tenancy_id=s.id'] as [string,string]),
  ['tt_tenancies','r.transferred_from=s.id'],
  ['tt_household_members','r.moved_to IN (SELECT id FROM tt_household_members WHERE tenancy_id=s.id)'],
+ ['tt_journal','r.tenancy_id=s.id'],
  ['tt_receipts','r.charge_id IN (SELECT id FROM tt_charges WHERE tenancy_id=s.id)'],
  ['tt_adjustments','r.charge_id IN (SELECT id FROM tt_charges WHERE tenancy_id=s.id)'],
  ['tt_lease_sources','r.lease_version_id IN (SELECT id FROM tt_lease_versions WHERE tenancy_id=s.id)'],

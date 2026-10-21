@@ -1,3 +1,5 @@
+import {journey as rulePackJourney} from './rule-packs.mjs'
+import {journey as journalJourney} from './journal.mjs'
 import {journey as householdJourney} from './households.mjs'
 import {journey as moveChecklistJourney} from './move-checklists.mjs'
 import {journey as fieldEvidenceJourney} from './field-evidence.mjs'
@@ -171,7 +173,8 @@ test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned 
   await r.command('factor.reset',{operatorId:id('accountant@example.test')});assert.equal((await r.request('/api/state',{as:again})).status,403,'a reset authenticator must be set up again')
  } finally { await r.close() }
 })
-test('rent charges, external receipts and corrections preserve balances under races and duplicates; ACCT-011 month close',async()=>{
+test('rent charges, external receipts and corrections preserve balances under races and duplicates; ACCT-001 balanced ledger; ACCT-011 month close',async()=>{
+ await journalJourney()
  await h.command('rent.charge',{tenancyId:t.id,dueDate:'2026-09-01',amount:'1.234',description:'Rent',reference:'invalid'},{status:400})
  const charge=await h.command('rent.charge',{tenancyId:t.id,dueDate:'2026-09-01',amount:'620.00',description:'September rent',reference:'RENT-SEP-01'})
  await h.command('rent.receipt',{chargeId:charge.id,amount:'200.00',receivedDate:'2026-09-02',reference:'BANK-001'})
@@ -740,6 +743,7 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  assert.ok((await(await h.request('/app?tab=properties')).text()).includes('Ready: available from '),'the board shows the published date')
 
  await householdJourney()
+ await rulePackJourney()
  // PORT-004: co-tenants, a guarantor and others on Rosa's lease; move the co-tenant to another lease; balances, recipients and document rights stay with each household.
  const pine=await h.command('tenancy.create',{...tenancyInput,address:'Unit 2, 9 Pine Street, Oakland, CA',tenantName:'Ana Pine',tenantEmail:'pine@example.test',startDate:'2025-01-01',endDate:'2036-12-31',rent:'1500.00',cadence:'monthly'})
  const lee=await h.command('household.add',{tenancyId:transfer.id,role:'co_tenant',name:'Lee Park',email:'lee@example.test',joined:'2026-01-15'})

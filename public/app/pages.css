@@ -67,3 +67,6 @@
 
 /* Long handover evidence stays readable below each label, including on phones. */
 .handover-items{grid-template-columns:minmax(0,1fr);gap:6px}.handover-items dd{margin-bottom:10px}
+
+/* Balanced-ledger amounts remain whole; the existing scroll area carries phone overflow. */
+.journal-table{min-width:28rem}.journal-table td:nth-child(n+2),.journal-table th:nth-child(n+2){white-space:nowrap;text-align:right}

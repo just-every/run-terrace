@@ -17,7 +17,7 @@ const tenancySubject = (t: Row, label: string): Subject => ({ kind: 'tenancy', i
 /** What each receivable looks like today for these leases. */
 async function arrears(c: Context, leases: Row[]) {
  if (!leases.length) return new Map<string, ReturnType<typeof ageReceivables>>()
- const [charges, receipts, adjustments] = await Promise.all([all(c, 'SELECT * FROM tt_charges ORDER BY due_date,id'), all(c, 'SELECT * FROM tt_receipts ORDER BY received_date,id'), all(c, 'SELECT * FROM tt_adjustments ORDER BY at,id')])
+ const [charges, receipts, adjustments] = await Promise.all([all(c, 'SELECT * FROM tt_charges ORDER BY due_date,id'), all(c, 'SELECT * FROM tt_net_receipts ORDER BY received_date,id'), all(c, 'SELECT * FROM tt_adjustments ORDER BY at,id')])
  return new Map(leases.map(t => [t.id, ageReceivables({ ...t, time_zone: t.zone }, charges, receipts, adjustments, localDate(c.now, t.zone))]))
 }
 const oldestOverdue = (a: ReturnType<typeof ageReceivables>) => Math.max(0, ...a.charges.filter(q => q.outstandingCents > 0 && q.ageDays > 0).map(q => q.ageDays))

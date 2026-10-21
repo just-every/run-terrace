@@ -3,7 +3,7 @@
 // with a balance guard in the same batch as every allocation or adjustment.
 import { all, cents, commit, date, guard, id, insist, allow, one, shown, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
 import { dayStart, localDate, nextDay } from './zones'
-export const BALANCE = `(q.amount_cents - COALESCE((SELECT SUM(amount_cents) FROM tt_receipts WHERE charge_id=q.id),0) - COALESCE((SELECT SUM(amount_cents) FROM tt_adjustments WHERE charge_id=q.id),0))`
+export const BALANCE = `(q.amount_cents - COALESCE((SELECT SUM(amount_cents) FROM tt_net_receipts WHERE charge_id=q.id),0) - COALESCE((SELECT SUM(amount_cents) FROM tt_adjustments WHERE charge_id=q.id),0))`
 export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|undefined> {
  if(!['rent.charge','rent.receipt','rent.adjust'].includes(command)) return
  allow(c, command)
@@ -25,7 +25,7 @@ export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|
    const method=p.method?String(p.method):null
    insist(!method||['ach','card','cash','check','other'].includes(method),'invalid_method','Method is ach, card, cash, check or other.')
    writes.push(sql(c,'INSERT INTO tt_receipts(id,charge_id,amount_cents,received_date,reference,created_at,currency,method) VALUES(?,?,?,?,?,?,?,?)',key,charge.id,amount,received,text(p.reference,'External receipt reference',150),c.now,charge.currency,method))
-  } else writes.push(sql(c,'INSERT INTO tt_adjustments(id,charge_id,amount_cents,reason,at,currency) VALUES(?,?,?,?,?,?)',key,charge.id,amount,text(p.reason,'Adjustment reason',1000),c.now,charge.currency))
+  } else writes.push(sql(c,'INSERT INTO tt_adjustments(id,charge_id,amount_cents,reason,at,currency,posting_day) VALUES(?,?,?,?,?,?,?)',key,charge.id,amount,text(p.reason,'Adjustment reason',1000),c.now,charge.currency,localDate(c.now,charge.time_zone)))
   await commit(c,writes,command,key)
  }
  return {id:key}
@@ -34,7 +34,7 @@ export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|
 export async function ledgerData(c:Context,tenancyId:string) {
  const t=await tenancy(c,tenancyId),today=localDate(c.now,t.time_zone)
  const charges=await all(c,`SELECT q.*,lt.source_clause,lt.lease_version_id,${BALANCE} AS balance_cents FROM tt_charges q LEFT JOIN tt_lease_terms lt ON lt.id=q.term_id WHERE q.tenancy_id=? ORDER BY due_date,created_at`,tenancyId)
- const receipts=await all(c,'SELECT r.* FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=? ORDER BY received_date,created_at',tenancyId)
+ const receipts=await all(c,'SELECT r.* FROM tt_net_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=? ORDER BY received_date,created_at',tenancyId)
  const adjustments=await all(c,'SELECT a.* FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id WHERE q.tenancy_id=? ORDER BY at',tenancyId)
  return {currency:shown(t),timeZone:t.time_zone as string,today,charges,receipts,adjustments,balanceCents:charges.reduce((s,r)=>s+r.balance_cents,0),arrearsCents:charges.filter(q=>q.due_date<today).reduce((s,r)=>s+r.balance_cents,0)}
 }

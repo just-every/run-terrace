@@ -107,7 +107,7 @@ export async function chargeRunCommand(c: Context, command: string, p: Row): Pro
   }
   for (const l of run.lines.filter(l => !l.posted && l.kind === 'concession')) {
    const charge = chargeIds.get(l.tenancyId + l.rentReference) ?? (await one(c, 'SELECT id FROM tt_charges WHERE tenancy_id=? AND reference=?', l.tenancyId, l.rentReference))?.id
-   writes.push(guard(c, `(SELECT ${BALANCE} FROM tt_charges q WHERE id=?)>=?`, charge, l.amountCents), sql(c, 'INSERT INTO tt_adjustments(id,charge_id,amount_cents,reason,at,currency,reference) VALUES(?,?,?,?,?,?,?) ON CONFLICT DO NOTHING', id(), charge, l.amountCents, `Concession: ${l.description} ${l.periodStart} to ${l.periodEnd}`, c.now, l.currency, l.reference))
+   writes.push(guard(c, `(SELECT ${BALANCE} FROM tt_charges q WHERE id=?)>=?`, charge, l.amountCents), sql(c, 'INSERT INTO tt_adjustments(id,charge_id,amount_cents,reason,at,currency,reference,posting_day) VALUES(?,?,?,?,?,?,?,?) ON CONFLICT DO NOTHING', id(), charge, l.amountCents, `Concession: ${l.description} ${l.periodStart} to ${l.periodEnd}`, c.now, l.currency, l.reference,localDate(c.now,(await tenancy(c,l.tenancyId)).time_zone)))
   }
   if (writes.length) await commit(c, writes, command, run.month)
   return { month: run.month, posted: run.newLines, notice: `${run.newLines} ${run.newLines === 1 ? 'line' : 'lines'} posted for ${run.month}.` }

@@ -32,6 +32,7 @@ export async function companyCommand(c: Context, command: string, p: Row): Promi
    guard(c, '(SELECT COUNT(*) FROM tt_tenancies WHERE currency_confirmed=0)=?', n),
    sql(c, 'INSERT INTO tt_currency_confirmation(singleton,currency,tenancies,confirmed_by,confirmed_at) VALUES(1,?,?,?,?)', currency, n, c.actor.id, c.now),
    ...relabel,
+   ...(currency==='USD'?[sql(c,"INSERT OR IGNORE INTO tt_journal(id,day,property_id,owner_key,tenancy_id,vendor_id,fund,source_kind,source_id,reference,lines,recorded_by,recorded_at) SELECT * FROM tt_gl_native WHERE tenancy_id IN ("+OPEN+")")]:[]),
    sql(c, 'UPDATE tt_tenancies SET currency=?,currency_confirmed=1 WHERE currency_confirmed=0', currency),
   ], command, 'currency:' + currency)
   return { notice: `Confirmed: money on ${n} earlier ${n === 1 ? 'tenancy is' : 'tenancies is'} ${currency}. Labels changed only; no amount was converted.` }

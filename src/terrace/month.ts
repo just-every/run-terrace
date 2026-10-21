@@ -14,7 +14,7 @@ export async function monthData(c: Context, tenancies: Row[]) {
  const today = localDate(c.now, c.zone ?? DEFAULT_ZONE), first = today.slice(0, 8) + '01'
  const last = new Date(Date.UTC(Number(today.slice(0, 4)), Number(today.slice(5, 7)), 0)).toISOString().slice(0, 10)
  let [charges, proposals, jobs, inspections] = await Promise.all([
-  all(c, `SELECT q.id,q.tenancy_id,q.due_date,q.amount_cents,${BALANCE} AS balance_cents,COALESCE((SELECT SUM(amount_cents) FROM tt_receipts WHERE charge_id=q.id),0) AS received_cents,(SELECT MAX(received_date) FROM tt_receipts WHERE charge_id=q.id) AS received_date FROM tt_charges q WHERE q.due_date BETWEEN ? AND ? ORDER BY q.due_date`, first, last),
+  all(c, `SELECT q.id,q.tenancy_id,q.due_date,q.amount_cents,${BALANCE} AS balance_cents,COALESCE((SELECT SUM(amount_cents) FROM tt_net_receipts WHERE charge_id=q.id),0) AS received_cents,(SELECT MAX(received_date) FROM tt_net_receipts WHERE charge_id=q.id) AS received_date FROM tt_charges q WHERE q.due_date BETWEEN ? AND ? ORDER BY q.due_date`, first, last),
   all(c, "SELECT p.id,p.tenancy_id,p.kind,p.payload,p.prepared_at,COALESCE(o.display_name,p.prepared_by) AS prepared_name FROM tt_proposals p LEFT JOIN oa_operators o ON o.id=p.prepared_by WHERE p.state='pending' AND p.kind IN ('renewal','arrears') ORDER BY p.prepared_at DESC"),
   all(c, "SELECT id,tenancy_id,title,trade_name,estimate_cents,currency,due_date,state,sent_at FROM tt_maintenance_jobs ORDER BY prepared_at DESC"),
   all(c, "SELECT i.id,i.tenancy_id,i.inspection_date,i.state,i.completed_at,(SELECT COUNT(*) FROM tt_inspection_photos p WHERE p.inspection_id=i.id) AS photos FROM tt_inspections i ORDER BY i.inspection_date DESC"),

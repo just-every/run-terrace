@@ -95,6 +95,22 @@
       "commands": [
         "node tests/households-browser.mjs"
       ]
+    },
+    {
+      "name": "property-ledger",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/journal-browser.mjs"
+      ]
+    },
+    {
+      "name": "rule-packs",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/rule-packs-browser.mjs"
+      ]
     }
   ]
 }

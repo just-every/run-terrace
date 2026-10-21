@@ -122,7 +122,7 @@ export async function ownerStatement(c: Context, ownerId: unknown, fromValue: un
  const data = await ownershipData(c), rows: Row[] = [], reserves: Row[] = []
  for (const p of props) {
   const d = data.byProperty[p.id]
-  const receipts = await all(c, 'SELECT r.amount_cents,r.received_date,r.reference,t.address,t.currency,t.currency_confirmed FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND r.received_date BETWEEN ? AND ? AND q.tax_rule_id IS NULL ORDER BY r.received_date,r.created_at', p.id, from, to)
+  const receipts = await all(c, 'SELECT r.amount_cents,r.received_date,r.reference,t.address,t.currency,t.currency_confirmed FROM tt_net_receipts r JOIN tt_charges q ON q.id=r.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND r.received_date BETWEEN ? AND ? AND q.tax_rule_id IS NULL ORDER BY r.received_date,r.created_at', p.id, from, to)
   for (const r of receipts) {
    const set = sharesOn(d, r.received_date), mine = set ? split(r.amount_cents, set.shares).find(s => s.ownerId === o.id) : undefined
    if (!mine) continue

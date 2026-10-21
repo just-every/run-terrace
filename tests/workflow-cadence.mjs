@@ -14,6 +14,8 @@ import {setTimeout as delay} from 'node:timers/promises'
 import {chromium} from '@playwright/test'
 import {git} from './owned-process.mjs'
 import {tenancyInput} from './api/harness.mjs'
+const abort=new AbortController()
+process.once('SIGTERM',()=>abort.abort())
 const sha=git(process.cwd(),'rev-parse','HEAD')
 assert.equal(git(process.cwd(),'status','--porcelain','--untracked-files=no'),'','Cadence needs a clean committed candidate')
 const out=resolve(process.env.WORKFLOW_CADENCE_RESULTS??'.rer/workflow-cadence')
@@ -39,13 +41,15 @@ try {
  const owner=(await get('/auth/session')).operator.id
  const today=new Date().toISOString().slice(0,10)
  const lease=await command('tenancy.create',{...tenancyInput,tenantEmail:'cadence@example.test',timeZone:'America/New_York',startDate:'2025-01-01',endDate:'2036-12-31'})
- await command('rent.charge',{tenancyId:lease.id,dueDate:'2025-02-01',amount:'100.00',description:'Cadence overdue rent',reference:runId})
+ await command('rent.charge',{tenancyId:lease.id,dueDate:new Date(Date.now()-5*864e5).toISOString().slice(0,10),amount:'100.00',description:'Cadence overdue rent',reference:runId})
  const template=await command('workflow.template',{name:runId,kind:'rent',minDaysPastDue:1,steps:[{kind:'task',title:'Review balance',dueDays:2}],escalateTo:owner,reference:'synthetic-terrace-1'})
- const startedAt=new Date().toISOString(),existing=new Set((await get('/api/workflows')).ticks.map(t=>t.id))
+ const initial=await get('/api/workflows')
+ assert.ok(initial.ready.some(r=>r.templateKey===template.templateKey&&r.subjects.some(s=>s.id===lease.id)),'The actual-clock fixture matches the rent reminder window before waiting')
+ const startedAt=new Date().toISOString(),existing=new Set(initial.ticks.map(t=>t.id))
  console.log(JSON.stringify({runId,sha,startedAt,proof:'Waiting for two real hourly Cron deliveries; no manual dispatch'}))
  const deadline=Date.now()+125*60_000,seen=[]
  while(seen.length<2&&Date.now()<deadline){
-  await delay(30_000)
+  await delay(30_000,undefined,{signal:abort.signal})
   const catalog=await get('/api/workflows')
   for(const tick of catalog.ticks.filter(t=>t.id.startsWith('cron:')&&!existing.has(t.id)).sort((a,b)=>a.at.localeCompare(b.at))){
    existing.add(tick.id)

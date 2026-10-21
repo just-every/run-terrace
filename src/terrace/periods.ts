@@ -1,10 +1,11 @@
+import {journalData} from './journal'
 // ACCT-011. Closing a month of the recorded rent ledger. A month that has ended in the office time zone is closed
 // once a bookkeeper (or the owner) has signed its three checklist items and no close correction is pending; the
 // close keeps a statement of every posting dated in the month, and the database refuses any later charge due, or
 // receipt received, in it (migration 0036). Reopening needs the owner or a bookkeeper and a reason; it supersedes
 // that close version without editing it, and the next close is a new version beside it. Accountants prepare close
 // corrections (a missed charge or receipt) that another bookkeeper, portfolio manager or the owner approves.
-import { all, cents, commit, date, everywhere, guard, id, insist, one, reaches, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
+import { all, cents, commit, date, everywhere, guard, id, insist, one, reaches, reachesPortfolio, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
 import { independence } from './dual-control'
 import { BALANCE } from './ledger'
 import { DEFAULT_ZONE, localDate } from './zones'
@@ -27,7 +28,7 @@ async function postings(c: Context, m: string) {
  const unconfirmed = (r: Row) => r.currency_confirmed === 0 ? UNCONFIRMED : r.currency
  const [charges, receipts, reductions] = await Promise.all([
   all(c, 'SELECT q.id,q.tenancy_id,t.unit_id,q.due_date AS day,q.amount_cents,q.reference,q.currency,t.currency_confirmed FROM tt_charges q JOIN tt_tenancies t ON t.id=q.tenancy_id WHERE substr(q.due_date,1,7)=?', m),
-  all(c, 'SELECT r.id,q.tenancy_id,t.unit_id,r.received_date AS day,r.amount_cents,r.reference,r.currency,t.currency_confirmed FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id WHERE substr(r.received_date,1,7)=?', m),
+  all(c, 'SELECT r.id,q.tenancy_id,t.unit_id,r.received_date AS day,r.amount_cents,r.reference,r.currency,t.currency_confirmed FROM tt_net_receipts r JOIN tt_charges q ON q.id=r.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id WHERE substr(r.received_date,1,7)=?', m),
   // A reduction's UTC time is at most one day either side of its property-local day.
   all(c, "SELECT a.id,q.tenancy_id,t.unit_id,a.at,t.time_zone,a.amount_cents,a.reason AS reference,a.currency,t.currency_confirmed FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id WHERE a.at>=date(?||'-01','-1 day') AND a.at<date(?||'-01','+1 month','+1 day')", m, m),
  ])
@@ -68,9 +69,12 @@ export async function periodCommand(c: Context, command: string, p: Row): Promis
   insist(signed.length === CHECKLIST.length, 'checklist', 'Sign off every checklist item before closing.', 409)
   insist(!(await one(c, "SELECT 1 FROM tt_close_corrections WHERE month=? AND state='pending'", m)), 'pending_corrections', 'Approve or reject the pending close corrections first.', 409)
   const lines = await postings(c, m), key = id()
+  const journalCount=(await one<{n:number}>(c,'SELECT COUNT(*) AS n FROM tt_journal'))!.n
+  const journals=(await journalData(c,{from:m+'-01',to:new Date(Date.UTC(Number(m.slice(0,4)),Number(m.slice(5)),0)).toISOString().slice(0,10)})).entries.map(({reference,...j})=>j)
   await commit(c, [
    guard(c, "NOT EXISTS(SELECT 1 FROM tt_close_corrections WHERE month=? AND state='pending') AND (SELECT COUNT(*) FROM tt_close_signoffs WHERE month=? AND version=?)=?", m, m, version, CHECKLIST.length),
-   sql(c, 'INSERT INTO tt_period_closes(id,month,version,closed_by,closed_at,statement) VALUES(?,?,?,?,?,?)', key, m, version, c.actor.id, c.now, JSON.stringify(lines)),
+   guard(c,'(SELECT COUNT(*) FROM tt_journal)=?',journalCount),
+   sql(c, 'INSERT INTO tt_period_closes(id,month,version,closed_by,closed_at,statement,journal_statement) VALUES(?,?,?,?,?,?,?)', key, m, version, c.actor.id, c.now, JSON.stringify(lines),JSON.stringify(journals)),
   ], command, `${m} v${version}`)
   return { id: key, month: m, version, notice: `${m} closed (version ${version}).` }
  }
@@ -131,10 +135,12 @@ export async function periodData(c: Context, value: unknown) {
  const closed = list.find(v => !v.reopened_at), version = closed ? closed.version : list.length + 1
  const signoffs = closed ? [] : await all(c, 'SELECT * FROM tt_close_signoffs WHERE month=? AND version=?', m, version)
  const shownLines = (lines: Line[]) => mine(lines, l => l.unitId)
+ const propertyScopes=await all(c,'SELECT id,portfolio_id FROM tt_properties')
  const history = list.map((v, i) => {
   const lines = shownLines(JSON.parse(v.statement)), before = i ? shownLines(JSON.parse(list[i - 1].statement)) : null
   const ids = new Set(lines.map(l => l.id)), was = new Set((before ?? []).map(l => l.id))
-  return { version: v.version, closedBy: v.closed_by, closedAt: v.closed_at, superseded: !!v.reopened_at, reopenedBy: v.reopened_by, reopenedAt: v.reopened_at, reopenReason: v.reopen_reason, lines, totals: totals(lines), added: before ? lines.filter(l => !was.has(l.id)) : [], removed: before ? before.filter(l => !ids.has(l.id)) : [] }
+  const journal=JSON.parse(v.journal_statement).filter((j:Row)=>j.property_id?propertyScopes.some(p=>p.id===j.property_id&&reachesPortfolio(c,p.portfolio_id)):c.actor.role==='owner'||c.actor.staff?.all)
+  return { journal, version: v.version, closedBy: v.closed_by, closedAt: v.closed_at, superseded: !!v.reopened_at, reopenedBy: v.reopened_by, reopenedAt: v.reopened_at, reopenReason: v.reopen_reason, lines, totals: totals(lines), added: before ? lines.filter(l => !was.has(l.id)) : [], removed: before ? before.filter(l => !ids.has(l.id)) : [] }
  })
  const receivables = mine(open, r => r.unit_id).filter(r => r.balance_cents > 0).map(r => ({ ...r, currency: r.currency_confirmed === 0 ? UNCONFIRMED : r.currency }))
  return {

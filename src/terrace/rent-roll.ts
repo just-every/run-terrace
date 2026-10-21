@@ -42,7 +42,7 @@ export async function collections(c: Context, m: unknown) {
  const month = text(m, 'Month', 7); insist(/^\d{4}-(0[1-9]|1[0-2])$/.test(month), 'invalid_month', 'Choose a month as YYYY-MM.')
  const [charges, receipts, adjustments] = await Promise.all([
   all(c, "SELECT q.*,t.address,t.tenant_name,t.currency_confirmed,t.unit_id AS tenancy_unit,u.identifier AS unit FROM tt_charges q JOIN tt_tenancies t ON t.id=q.tenancy_id LEFT JOIN tt_units u ON u.id=t.unit_id WHERE substr(q.due_date,1,7)=? ORDER BY t.address", month),
-  all(c, "SELECT r.* FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE substr(q.due_date,1,7)=?", month),
+  all(c, "SELECT r.* FROM tt_net_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE substr(q.due_date,1,7)=?", month),
   all(c, "SELECT a.* FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id WHERE substr(q.due_date,1,7)=?", month),
  ])
  const leases = [...new Set(charges.filter(q => reaches(c, q.tenancy_unit)).map(q => q.tenancy_id))].map(id => {

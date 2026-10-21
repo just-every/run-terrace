@@ -24,6 +24,8 @@ export async function eraseTenancy(c:Context,p:Row){
   native.push(guard(c,"NOT EXISTS(SELECT 1 FROM tt_legal_holds WHERE tenancy_id=? AND released_at IS NULL AND class IN ('all','accounting'))",t.id),sql(c,'INSERT INTO tt_erasure_work(tenancy_id) VALUES(?)',t.id),...await billErasureStatements(c,t.id),
    sql(c,"UPDATE tt_fees SET source_label='Retained accounting record',override_reason=NULL WHERE source='lease:'||? OR source IN (SELECT 'receipt:'||r.id FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=?) OR source IN (SELECT 'renewal:'||p.id FROM tt_proposals p WHERE p.tenancy_id=?)",t.id,t.id,t.id),
    sql(c,"UPDATE tt_charges SET description='Retained accounting record',reference=id WHERE tenancy_id=?",t.id),
+   sql(c,'UPDATE tt_journal SET reference=id WHERE tenancy_id=?',t.id),
+   sql(c,"UPDATE tt_receipt_reversals SET reference=id,reason='Retained accounting record' WHERE receipt_id IN (SELECT r.id FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=?)",t.id),
    sql(c,'UPDATE tt_receipts SET reference=id WHERE charge_id IN (SELECT id FROM tt_charges WHERE tenancy_id=?)',t.id),
    sql(c,"UPDATE tt_adjustments SET reason='Retained accounting record',reference=NULL WHERE charge_id IN (SELECT id FROM tt_charges WHERE tenancy_id=?)",t.id),
    sql(c,'UPDATE tt_audit SET subject=tenancy_id,source=NULL WHERE tenancy_id=?',t.id))

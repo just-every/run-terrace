@@ -48,7 +48,7 @@ export async function delinquencyReport(c: Context, q: Row) {
   all(c, `SELECT t.*,u.identifier AS unit,p.id AS property_id,p.name AS property_name,p.portfolio_id,p.time_zone AS property_zone
    FROM tt_tenancies t LEFT JOIN tt_units u ON u.id=t.unit_id LEFT JOIN tt_properties p ON p.id=u.property_id
    WHERE t.erased_at IS NULL ORDER BY p.name,u.identifier,t.address,t.id`),
-  all(c, 'SELECT * FROM tt_charges ORDER BY due_date,id'), all(c, 'SELECT * FROM tt_receipts ORDER BY received_date,id'),
+  all(c, 'SELECT * FROM tt_charges ORDER BY due_date,id'), all(c, 'SELECT * FROM tt_net_receipts ORDER BY received_date,id'),
   all(c, 'SELECT * FROM tt_adjustments ORDER BY at,id'),
   all(c, 'SELECT id,tenancy_id,role,name,contact_by,joined,left_on FROM tt_household_members ORDER BY joined,id'),
   all(c, "SELECT id,tenancy_id,payload,approved_at,approved_by FROM tt_proposals WHERE kind='arrears' AND state='approved' ORDER BY approved_at,id"),

@@ -22,7 +22,7 @@ export async function leasingReport(c: Context, q: Row) {
   all(c, `SELECT r.id,r.charge_id,r.amount_cents,r.received_date,r.reference,r.created_at,r.currency,r.method,
    q.tenancy_id,q.due_date,q.currency AS charge_currency,q.term_id,term.kind AS charge_kind,
    t.unit_id,t.currency AS tenancy_currency,t.currency_confirmed
-   FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id
+   FROM tt_net_receipts r JOIN tt_charges q ON q.id=r.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id
    LEFT JOIN tt_lease_terms term ON term.id=q.term_id WHERE r.received_date>=? AND r.received_date<=?
    ORDER BY r.received_date,r.id`, from, to),
   turnoverData(c),
