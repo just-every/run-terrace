@@ -94,7 +94,7 @@ try {
    return true
   }
   if(!out)await section.getByText('Earlier move-in revisions (1)',{exact:true}).click()
-  assert.ok(await section.getByText(payload.keysNotes,{exact:true}).isVisible())
+  assert.ok(await section.getByRole('definition').filter({hasText:payload.keysNotes}).isVisible())
   await picture(name+'-checklist-saved',section)
  }})
  console.log('PORT-006 native handover revisions, end/transfer, linked tasks and follow-up passed at 1440/390')
