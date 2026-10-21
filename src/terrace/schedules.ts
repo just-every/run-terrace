@@ -3,7 +3,7 @@
 // maintenance order, for the schedule's budget and vendor, for each occurrence whose effective due date (its
 // deferred date, if deferred) is on or before the property-local today plus the lead days. Replays create
 // nothing new. An occurrence past its effective due date whose order has not been handed off is overdue.
-import { all, cents, commit, date, insist, allow, one, sql, tenancy, text, id, type Context, type Row, reaches } from './core'
+import { all, cents, commit, guard, date, insist, allow, one, sql, tenancy, text, id, type Context, type Row, reaches } from './core'
 import { serviceableAsset } from './assets'
 import { jobWrites } from './job-writes'
 import { trade, vendor } from './vendors'
@@ -49,8 +49,17 @@ export async function scheduleCommand(c: Context, command: string, p: Row): Prom
  }
  if (command === 'schedule.run') {
   allow(c, command)
-  let created = 0, existing = 0
-  // ROLE-001: the run creates orders only for schedules on tenancies in the runner's portfolios.
+  const { writes, created, existing } = await schedulePlan(c)
+  if (writes.length) await commit(c, writes, command, 'schedules')
+  return { created, existing, notice: `Scheduler run: ${created} new ${created === 1 ? 'order' : 'orders'}, ${existing} already ordered.` }
+ }
+}
+
+/** Plans due occurrence orders without approving or sending them; the caller commits the entire plan atomically. */
+export async function schedulePlan(c: Context) {
+ let created = 0, existing = 0
+ const writes: D1PreparedStatement[] = []
+ // ROLE-001: the run creates orders only for schedules on tenancies in the runner's portfolios.
   for (const s of await all(c, 'SELECT s.*,t.unit_id AS tenancy_unit FROM tt_schedules s JOIN tt_tenancies t ON t.id=s.tenancy_id ORDER BY s.created_at').then(rows => rows.filter(s => reaches(c, s.tenancy_unit)))) {
    const t = await tenancy(c, s.tenancy_id), horizon = addDays(localDate(c.now, t.time_zone), s.lead_days)
    const listed = await vendor(c, s.vendor_id)
@@ -62,18 +71,11 @@ export async function scheduleCommand(c: Context, command: string, p: Row): Prom
     if (effective > horizon) continue
     const occurrenceId = o?.id ?? id()
     const job = jobWrites(c, t, { title: s.title, listed, trade: s.trade, tradeName: listed.name, tradeEmail: listed.email, dueDate: effective, estimateCents: s.budget_cents, asset, occurrenceId })
-    try {
-     await commit(c, [...(o ? [] : [sql(c, 'INSERT INTO tt_schedule_occurrences(id,schedule_id,due_date,asset_id,created_at) VALUES(?,?,?,?,?)', occurrenceId, s.id, due, s.asset_id, c.now)]), ...job.statements], command, job.jobId)
-     created++
-    } catch (e) {
-     // A concurrent run ordered this occurrence first: the unique index keeps one order.
-     if (String(e).includes('UNIQUE constraint')) { existing++; continue }
-     throw e
-    }
+    writes.push(...(o ? [guard(c, 'EXISTS(SELECT 1 FROM tt_schedule_occurrences WHERE id=? AND deferred_to IS ? AND NOT EXISTS(SELECT 1 FROM tt_maintenance_jobs WHERE occurrence_id=?))', o.id, o.deferred_to, o.id)] : [sql(c, 'INSERT INTO tt_schedule_occurrences(id,schedule_id,due_date,asset_id,created_at) VALUES(?,?,?,?,?)', occurrenceId, s.id, due, s.asset_id, c.now)]), ...job.statements)
+    created++
    }
   }
-  return { created, existing, notice: `Scheduler run: ${created} new ${created === 1 ? 'order' : 'orders'}, ${existing} already ordered.` }
- }
+ return { writes, created, existing }
 }
 
 /** Each schedule with its occurrences through the horizon: deferral, order and overdue state. */

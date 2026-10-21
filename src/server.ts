@@ -1,3 +1,4 @@
+import { workflowScheduled } from './terrace/workflow-scheduler'
 import { withDemo } from './modules/demo/index.mjs'
 import { seedDemo } from './demo'
 import { rejectedResponse } from './base/rejected-response'
@@ -25,6 +26,7 @@ function noTransform(response: Response): Response {
 }
 
 const worker = {
+  scheduled: workflowScheduled,
   async fetch(request, env, execution) {
     const asset = await staticAssetResponse(request, env)
     if (asset) return asset

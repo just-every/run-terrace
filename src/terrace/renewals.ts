@@ -1,3 +1,4 @@
+import { workflowSendClaim } from './workflow-mail'
 // LEASE-012: renewal campaigns. A dated window of lease ends schedules one renewal item per tenancy; offers are TER-003
 // proposals carrying the campaign comparison; approved offers go out only when a person sends them through the
 // installation mail provider; replies and outcomes are staff-recorded with their source and date. A signed renewal is a
@@ -123,7 +124,7 @@ export async function renewalCommand(c: Context, command: string, p: Row): Promi
   insist(due.length, 'already_sent', 'This offer was already sent to every recipient, or its outcome is uncertain. It is not sent again.', 409)
   const subject = `Lease renewal offer: ${t.address}`, body = `Hello,\n\nWe are offering to renew your lease at ${t.address} through ${payload.endDate} at ${money(payload.rentCents, t.currency)} per ${t.cadence === 'monthly' ? 'month' : t.cadence === 'weekly' ? 'week' : 'fortnight'}.\nPlease reply to this email by ${payload.deadline}.\n\nThis offer is not a lease. A renewal takes effect only once a signed renewal is recorded.`
   const emails = due.map((x: Row) => ({ eventId: id(), renewalId: r.id, tenancyId: t.id, proposalId: offer.id, day: today, to: x.email, subject, body }))
-  await commit(c, [guard(c, "EXISTS(SELECT 1 FROM tt_proposals WHERE id=? AND state='approved')", offer.id), fence(c, r), sql(c, 'UPDATE tt_renewals SET version=version+1 WHERE id=?', r.id),
+  await commit(c, [...await workflowSendClaim(c, 'renewal', r.id, emails[0].eventId), guard(c, "EXISTS(SELECT 1 FROM tt_proposals WHERE id=? AND state='approved')", offer.id), fence(c, r), sql(c, 'UPDATE tt_renewals SET version=version+1 WHERE id=?', r.id),
    ...emails.map((m: Row) => sql(c, 'INSERT INTO tt_renewal_events(id,renewal_id,tenancy_id,kind,happened_on,detail,reference,label,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?,?,?,?)', m.eventId, r.id, t.id, 'send', today, JSON.stringify({ proposalId: offer.id, eventId: m.eventId, to: m.to, subject }), `Offer ${offer.id}`, 'sending through the installation mail provider', c.actor.id, c.now))], command, r.id)
   return { renewalId: r.id, tenancyId: t.id, renewalEmails: emails, notice: `Renewal offer sent to ${emails.length} recipient${emails.length === 1 ? '' : 's'}.` }
  }

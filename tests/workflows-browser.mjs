@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import {mkdir} from 'node:fs/promises'
 import {join,resolve} from 'node:path'
 import {chromium} from '@playwright/test'
-import {journey} from './workflows.mjs'
+import {journey,scheduledJourney} from './workflows.mjs'
 const pictures=resolve(process.env.WORKFLOW_SCREENSHOTS??'.rer/workflow-screens')
 await mkdir(pictures,{recursive:true})
 const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
@@ -42,5 +42,24 @@ try {
   await paused.getByRole('button',{name:'Resume',exact:true}).click()
   await page.getByText('Still paused').waitFor()
   await picture('still-paused')
+ }})
+ await scheduledJourney({assets:true,inspect:async({h,pausedId,renewalPausedId})=>{
+  const context=await browser.newContext({viewport:{width:1440,height:900}})
+  await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return {name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}))
+  page=await context.newPage()
+  await page.goto(h.origin+'/app?tab=workflows')
+  await page.getByText('Sweep history',{exact:true}).click()
+  await page.getByText('Needs a new configurer: needs a configurer:',{exact:false}).first().waitFor()
+  await picture('scheduler-history')
+  await page.getByRole('button',{name:'Run now',exact:true}).click()
+  await page.getByText(/Sweep: 0 started, 0 escalated, 0 maintenance orders/).first().waitFor()
+  await picture('run-now')
+  for(const id of [pausedId,renewalPausedId]){
+   const card=page.locator('#workflow-'+id)
+   await card.getByText('History',{exact:true}).click()
+   assert.ok(await card.getByText('uncertain',{exact:false}).count())
+  }
+  await picture('provider-outcomes')
+  await context.close()
  }})
 } finally {await browser.close()}

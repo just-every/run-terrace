@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-10-22
+
+- OPS-003: add an hourly, configuring-person-fenced workflow sweep with atomic replay receipts and pending WORK-010 orders. Record existing prospect and renewal sends against live workflow contact limits, retain per-recipient provider answers, pause on uncertainty and support explicit manager review of interrupted sends. PARTIAL status is retained without a split per the fix-round instruction.
+
 ## 2026-10-20
 
 - REPORT-002: add as-of household aging, dated-owner filtering, private source CSV and scoped operational follow-up assignments with retained custody and honest missing-workflow labels.

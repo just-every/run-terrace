@@ -1,3 +1,4 @@
+import { recordWorkflowSend } from './workflow-mail'
 // LEASE-012 offer email. Each send was committed to the renewal's history before sending; this records the mail
 // provider's own answer beside it. "Accepted" means the provider took the email, not that the household read it.
 import type { Bindings } from '../auth.server'
@@ -16,7 +17,7 @@ const LABELS: Record<string, string> = {
 }
 
 export async function sendRenewalEmails(c: Context, env: Bindings, emails: Row[]) {
- const mail = operatorMail(env), staff = await one(c, 'SELECT email FROM oa_operators WHERE id=?', c.actor.id), out: Row[] = []
+ const mail = operatorMail(env), staff = await one(c, 'SELECT email FROM oa_operators WHERE id=?', c.actor.id), out: Row[] = [], results: D1PreparedStatement[] = [], answers: Row[] = []
  for (const m of emails) {
   let outcome = mail ? 'uncertain' : 'unconfigured', provider: string | null = null
   if (mail) {
@@ -26,8 +27,10 @@ export async function sendRenewalEmails(c: Context, env: Bindings, emails: Row[]
    } catch { outcome = 'failed' }
   }
   const label = LABELS[outcome] ?? LABELS.uncertain
-  await c.db.batch(sendResult(c, m, outcome, provider, label))
+  results.push(...sendResult(c, m, outcome, provider, label))
+  answers.push({ eventId: m.eventId, outcome, providerMessageId: provider })
   out.push({ to: m.to, outcome, label })
  }
+ if (emails.length) await recordWorkflowSend(c, emails[0].eventId, answers, results)
  return out
 }

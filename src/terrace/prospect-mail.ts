@@ -1,3 +1,4 @@
+import { recordWorkflowSend } from './workflow-mail'
 // LEASE-005 prospect email. The message was committed to the prospect's history before sending; this records the
 // mail provider's own answer beside it. "Accepted" means the provider took the email, not that the prospect read it.
 import type { Bindings } from '../auth.server'
@@ -25,6 +26,6 @@ export async function sendProspectEmail(c: Context, env: Bindings, m: Row) {
   } catch { outcome = 'failed' }
  }
  const label = LABELS[outcome] ?? LABELS.uncertain
- await c.db.batch([event(c, m.prospectId, 'email_result', { emailEvent: m.eventId, outcome, providerMessageId: provider }, provider ? `provider message ${provider}` : 'no provider message id', label), audit(c, 'prospect.email.result', m.prospectId, outcome)])
+ await recordWorkflowSend(c, m.eventId, [{ eventId: m.eventId, outcome, providerMessageId: provider }], [event(c, m.prospectId, 'email_result', { emailEvent: m.eventId, outcome, providerMessageId: provider }, provider ? `provider message ${provider}` : 'no provider message id', label), audit(c, 'prospect.email.result', m.prospectId, outcome)])
  return { outcome, label }
 }

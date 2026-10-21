@@ -185,3 +185,135 @@ export async function journey({assets=false,inspect}={}) {
   void delinquencyTpl;void stepAssignee
  } finally {await h.close()}
 }
+
+
+/** OPS-003 ct fix round: the hourly Worker event, its authority fence, WORK-010 and existing outbound doors. */
+export async function scheduledJourney({assets=false,inspect}={}) {
+ let mode='accepted', held, release
+ const h=await installation({assets,mailResponse:async message=>{
+  if (!/Workflow synthetic|Lease renewal offer/.test(message.subject)) return Response.json({id:crypto.randomUUID()})
+  if (mode==='held') { held?.(); await new Promise(resolve=>{release=resolve}); return Response.json({id:crypto.randomUUID()}) }
+  if (mode==='mixed' && message.to.includes('co@example.test')) return Response.json({},{status:503})
+  const status={rejected:400,rate_limited:429,uncertain:503}[mode]
+  return status?Response.json({},{status}):Response.json({id:crypto.randomUUID()})
+ }})
+ try {
+  const today=day(), catalog=async()=>(await(await h.request('/api/workflows')).json()), runs=async()=>(await catalog()).runs, runFor=async subject=>(await runs()).find(r=>r.subject_id===subject)
+  const north=await h.command('portfolio.add',{name:'Scheduler homes'}),other=await h.command('portfolio.add',{name:'Other homes'})
+  const property=await h.command('property.add',{portfolioId:north.id,name:'Scheduler Court',address:'12 Scheduler Court, Oakland, CA',kind:'multifamily',timeZone:zone})
+  const unit=async identifier=>h.command('unit.add',{propertyId:property.id,identifier,bedrooms:2,bathrooms:1})
+  const lease=async identifier=>{const u=await unit(identifier);return h.command('tenancy.create',{...tenancyInput,unitId:u.id,startDate:add(today,-340),endDate:add(today,20),tenantEmail:identifier.toLowerCase()+'@example.test'})}
+  const a=await lease('S1'),b=await lease('S2'),c=await lease('S3')
+  await h.command('household.add',{tenancyId:b.id,role:'co_tenant',name:'Co recipient',email:'co@example.test',joined:add(today,-10)})
+  await h.command('renewal.schedule',{from:today,to:add(today,30)})
+  const renewal=async t=>(await h.state(t.id)).renewals[0].id,[ra,rb,rc]=[await renewal(a),await renewal(b),await renewal(c)]
+  const manager=await h.invite('admin','scheduler-manager@example.test'),former=await h.invite('admin','scheduler-former@example.test'),scoped=await h.invite('admin','scheduler-scoped@example.test')
+  for(const as of [manager,former,scoped])await h.request('/api/state',{as})
+  const operators=await(await h.request('/auth/operators')).json(),who=email=>operators.find(p=>p.email===email).id,owner=who('owner@example.test'),managerId=who('scheduler-manager@example.test'),formerId=who('scheduler-former@example.test'),scopedId=who('scheduler-scoped@example.test')
+  const template=await h.command('workflow.template',{name:'Renewal scheduler',kind:'renewal',daysBeforeLeaseEnd:30,contactLimit:2,escalateTo:owner,steps:'contact | Ask about renewal | 0',reference:'Synthetic scheduler playbook'},{as:manager})
+  const vacant=await unit('V1');await h.command('turnover.open',{unitId:vacant.id,moveOut:today})
+  const skipped=await h.command('workflow.template',{name:'Needs a new configurer',kind:'unit_turn',escalateTo:owner,steps:'task | Inspect the vacant unit | 1',reference:'Synthetic turn playbook'},{as:former})
+  const narrowed=await h.command('workflow.template',{name:'Needs every portfolio',kind:'unit_turn',escalateTo:owner,steps:'task | Check readiness | 1',reference:'Synthetic all-portfolio playbook'},{as:scoped})
+  await h.stepUp()
+  await h.command('operator.role',{operatorId:formerId,role:'member'})
+  await h.command('operator.role',{operatorId:scopedId,role:'portfolio_manager',['portfolio:'+north.id]:'1'})
+  await h.command('workflow.sweep',{}, {as:await h.signIn('scheduler-former@example.test'),status:403});await h.command('workflow.sweep',{}, {as:await h.signIn('scheduler-scoped@example.test'),status:403})
+  const started=await h.command('workflow.start',{templateKey:template.templateKey,subjectId:ra,reference:'Overdue before tick'})
+  const db=await h.mf.getD1Database('DB');await db.prepare('UPDATE tt_workflow_runs SET step_due_on=? WHERE id=?').bind(add(today,-1),started.id).run()
+  const vendor=await h.command('vendor.add',{name:'Scheduler safety vendor',email:'vendor@example.test',phone:'(510) 555-0100',specialties:'general',serviceAreas:'Oakland',w9:'received',insuranceExpires:add(today,365),licenseNumber:'',availability:'Weekdays',rate:'60',standing:'approved'})
+  await h.command('schedule.add',{tenancyId:a.id,title:'Due safety inspection',trade:'general',vendorId:vendor.id,intervalMonths:12,firstDue:today,budget:'60',leadDays:0})
+  const out=h.messages.length,tick=Math.floor(Date.now()/3600000)*3600000
+  await Promise.all([h.scheduled(tick),h.scheduled(tick)])
+  let data=await catalog(),tickRow=data.ticks.find(t=>t.id==='cron:'+new Date(tick).toISOString())
+  assert.equal(data.ticks.length,1,'concurrent delivery of one Cron tick commits once')
+  assert.equal(tickRow.actor,'scheduler:workflows');assert.equal(tickRow.requested_by,null)
+  assert.equal(tickRow.detail.started.length,2);assert.deepEqual(tickRow.detail.escalated,[started.id]);assert.equal(tickRow.detail.ordersCreated,1)
+  assert.deepEqual(tickRow.detail.skipped.map(s=>s.templateId).sort(),[skipped.id,narrowed.id].sort(),'demotion and loss of every-portfolio scope both fail closed')
+  assert.ok(tickRow.detail.skipped.every(s=>/needs a configurer/.test(s.reason)))
+  assert.equal(h.messages.length,out,'a tick never contacts anyone')
+  const B=await runFor(rb),C=await runFor(rc),A=await runFor(ra)
+  assert.deepEqual([B.authority_operator,B.started_by,B.state,B.contacts],[managerId,'scheduler:workflows','running',0])
+  assert.deepEqual(B.events.map(e=>[e.kind,e.recorded_by]),[['started','scheduler:workflows']])
+  assert.deepEqual([A.state,A.escalation_reason,A.contacts],['escalated','overdue',0]);assert.equal(A.events.at(-1).recorded_by,'scheduler:workflows')
+  const jobs=(await h.state(a.id)).work.jobs.filter(j=>j.occurrence_id)
+  assert.equal(jobs.length,1);assert.equal(jobs[0].state,'pending');assert.equal(jobs[0].prepared_by,'scheduler:workflows')
+  assert.equal(jobs[0].approval_id,null,'the unattended scheduler never approves an order')
+  const before=JSON.stringify((await runs()).map(r=>[r.id,r.state,r.version,r.events]))
+  await h.restart();await h.scheduled(tick)
+  assert.equal((await catalog()).ticks.length,1);assert.equal(JSON.stringify((await runs()).map(r=>[r.id,r.state,r.version,r.events])),before,'replay after restart changes nothing')
+  const manual=await h.command('workflow.sweep',{}, {as:manager});assert.equal(manual.started.length,0);assert.equal(manual.ordersCreated,0)
+  const audit=await(await h.request('/api/history')).json()
+  assert.ok(JSON.stringify(audit).includes('scheduler:workflows'),'tick attribution is retained in staff history')
+
+  // Prospect mail: accepted counts, known non-sends do not, uncertain pauses; every result keeps the source email event.
+  const leasingTpl=await h.command('workflow.template',{name:'Prospect mail workflow',kind:'leasing',staleDays:1,contactLimit:2,escalateTo:owner,steps:'contact | Answer the enquiry | 3',reference:'Synthetic prospect playbook'})
+  const prospect=async name=>{const p=await h.command('prospect.add',{propertyId:property.id,name,email:name.toLowerCase()+'@example.test',source:'own_site',reference:'synthetic-terrace-20',consent_email:'granted'});await (await h.mf.getD1Database('DB')).prepare('UPDATE tt_prospects SET last_activity_at=? WHERE id=?').bind(new Date(Date.now()-2*86400000).toISOString(),p.id).run();await h.command('workflow.start',{templateKey:leasingTpl.templateKey,subjectId:p.id,reference:'Enquiry waiting'});return p}
+  const p=await prospect('ProspectOne'),q=await prospect('ProspectTwo')
+  const send=async(p,opts={})=>{const rows=(await(await h.request('/api/prospects')).json()).prospects;const row=rows.find(r=>r.id===p.id);return h.command('prospect.email',{prospectId:p.id,version:row.version,subject:'Workflow synthetic reply',body:'Thank you for your enquiry.'},opts)}
+  mode='accepted';assert.equal((await send(p)).emailOutcome,'accepted')
+  let P=await runFor(p.id);assert.deepEqual([P.contacts,P.awaiting,P.state],[1,1,'running']);assert.match(P.next_action,/Awaiting a reply/)
+  const email=(await(await h.request('/api/prospects')).json()).prospects.find(r=>r.id===p.id).history.find(e=>e.kind==='email')
+  assert.equal(P.events.at(-1).reference,email.id);assert.equal(P.events.at(-1).detail.emailEvents[0].outcome,'accepted')
+  for(const nonSend of ['rejected','rate_limited']){mode=nonSend;assert.equal((await send(p)).emailOutcome,nonSend);P=await runFor(p.id);assert.equal(P.contacts,1);assert.equal(P.events.at(-1).detail.counted,false)}
+  for(const provider of ['development','']){await h.configureMail(provider);const notSent=await send(p);assert.equal(notSent.emailOutcome,provider==='development'?'development':'unconfigured');P=await runFor(p.id);assert.equal(P.contacts,1);assert.equal(P.events.at(-1).detail.counted,false)}
+  await h.configureMail('resend')
+  mode='uncertain';await send(p);P=await runFor(p.id);assert.deepEqual([P.contacts,P.state,P.pause_reason],[2,'paused','uncertain_result'])
+  const pausedShape=[P.version,P.contacts,P.state,P.next_action,P.pause_reason]
+  mode='accepted';await send(p);P=await runFor(p.id);assert.deepEqual([P.version,P.contacts,P.state,P.next_action,P.pause_reason],pausedShape,'a send while paused is listed without changing the run')
+  assert.match(P.events.at(-1).label,/listed for the reviewing person/)
+  await h.restart();P=await runFor(p.id);assert.equal(P.state,'paused')
+
+  // A second in-flight send cannot reserve the last slot or allow a person to finish a contact step.
+  mode='held';const edge=new Promise(resolve=>{held=resolve}),sending=send(q);await edge
+  const Q=await runFor(q.id);assert.equal(Q.pendingSends.length,1)
+  await h.command('workflow.attempt',{runId:Q.id,version:Q.version,channel:'phone',outcome:'reached',reference:'synthetic-terrace-21'},{status:409})
+  release();await sending
+  mode='accepted';await send(q)
+  const sentCount=h.messages.length;assert.equal((await send(q,{status:409})).error,'contact_limit');assert.equal(h.messages.length,sentCount,'the prospect door cannot bypass the workflow limit')
+
+  // A manager can reconcile a reserved send after an interruption; a later contradictory provider answer pauses again.
+  const recovery=await prospect('ProspectRecovery')
+  mode='held';const recoveringEdge=new Promise(resolve=>{held=resolve}),recovering=send(recovery);await recoveringEdge
+  let R=await runFor(recovery.id)
+  await h.command('workflow.resume',{runId:R.id,version:R.version,reference:'Checked provider log'},{as:manager,status:400})
+  await h.command('workflow.resume',{runId:R.id,version:R.version,reference:'Provider log checked; no delivery',resolution:'not_delivered'},{as:manager})
+  R=await runFor(recovery.id);assert.deepEqual([R.state,R.contacts,R.pendingSends.length],['running',1,0])
+  release();await recovering
+  R=await runFor(recovery.id);assert.deepEqual([R.state,R.contacts,R.pause_reason],['paused',1,'uncertain_result'],'a late contradictory answer never silently authorizes more contact')
+  assert.ok(R.events.some(e=>e.kind==='reconciled'&&e.recorded_by===managerId))
+
+  // Workflow commands remain unavailable to API credentials, even one with every-portfolio manager rights.
+  await h.stepUp()
+  const credential=await h.command('credential.mint',{label:'Synthetic workflow credential',role:'portfolio_manager',scope:'prepare',allPortfolios:'1'})
+  for(const command of ['workflow.template','workflow.retire','workflow.start','workflow.sweep','workflow.step','workflow.attempt','workflow.reply','workflow.resume','workflow.resolve','workflow.cancel']) {
+   const denied=await h.command(command,{}, {as:'',status:403,headers:{authorization:'Bearer '+credential.token,'idempotency-key':'synthetic-terrace-'+command}})
+   assert.equal(denied.error,'credential_scope')
+  }
+
+  // Renewal sends: all recipients share one attempt, any uncertain recipient pauses the run.
+  const prepare=async(t,r)=>{
+   const made=await h.command('renewal.prepare',{tenancyId:t.id,renewalId:r,endDate:add(today,385),rent:'650',deadline:add(today,15),marketRent:'660',marketRentDate:today,marketRentSource:'synthetic-terrace-22',vacantDays:'10',makeReadyCost:'100',makeReadySource:'synthetic-terrace-23',leasingCost:'100',leasingSource:'synthetic-terrace-24',source:'Synthetic offer'})
+   await h.command('proposal.approve',{proposalId:made.id},{as:manager})
+  }
+  await prepare(b,rb);mode='mixed';const offer=await h.command('renewal.send',{renewalId:rb})
+  assert.deepEqual(offer.emailOutcomes.map(x=>x.outcome),['accepted','uncertain'])
+  const afterB=await runFor(rb);assert.deepEqual([afterB.contacts,afterB.state,afterB.pause_reason],[1,'paused','uncertain_result']);assert.equal(afterB.events.at(-2).detail.emailEvents.length,2)
+  assert.deepEqual(afterB.events.at(-2).detail.emailEvents.map(a=>a.outcome),['accepted','uncertain'])
+  assert.equal((await h.command('renewal.send',{renewalId:rb},{status:409})).error,'already_sent')
+  await prepare(c,rc);mode='rejected';await h.command('renewal.send',{renewalId:rc});assert.equal((await runFor(rc)).contacts,0)
+  mode='accepted';await h.command('renewal.send',{renewalId:rc});const afterC=await runFor(rc);assert.deepEqual([afterC.contacts,afterC.awaiting,afterC.state],[1,1,'running'])
+  await prepare(a,ra);await h.command('renewal.send',{renewalId:ra});const afterA=await runFor(ra);assert.deepEqual([afterA.state,afterA.contacts,afterA.version,afterA.next_action],[A.state,A.contacts,A.version,A.next_action],'a send while escalated only adds its listing')
+  assert.equal(afterA.events.at(-1).detail.counted,false)
+  await h.restart();assert.deepEqual([(await runFor(rb)).state,(await runFor(rb)).contacts],['paused',1])
+  const final=await catalog();assert.equal(final.runs.some(r=>r.events.some(e=>e.recorded_by==='scheduler:workflows'&&['reply','step_done','resumed','escalation_resolved','completed'].includes(e.kind))),false,'ticks invent no human work')
+  // Tick receipts and external-send references are product state in the native archive too.
+  const archive=await(await h.request('/api/backup')).text(),fresh=await installation()
+  try {
+   await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'workflow-scheduler.rer')})
+   const restored=await(await fresh.request('/api/workflows')).json()
+   assert.deepEqual(restored.ticks,final.ticks)
+   assert.deepEqual(restored.runs.map(r=>[r.id,r.state,r.contacts,r.events.map(e=>[e.kind,e.reference,e.detail])]),final.runs.map(r=>[r.id,r.state,r.contacts,r.events.map(e=>[e.kind,e.reference,e.detail])]))
+  } finally {await fresh.close()}
+  await inspect?.({h,pausedId:P.id,renewalPausedId:B.id})
+ } finally {release?.();await h.close()}
+}

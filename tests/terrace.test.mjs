@@ -19,7 +19,7 @@ import {journey as renewalJourney} from './renewals.mjs'
 import {journey as siblingJourney} from './siblings.mjs'
 import {journey as credentialJourney} from './credentials.mjs'
 import {journey as customReportJourney} from './custom-reports.mjs'
-import {journey as workflowJourney} from './workflows.mjs'
+import {journey as workflowJourney,scheduledJourney} from './workflows.mjs'
 import {installation,tenancyInput} from './api/harness.mjs'
 let h,member,admin,t,inspection,job,imported,compensated,archiveBefore,journalAfter
 /** RFC 6238 code for a base32 key at now plus offset steps, as an authenticator app shows it. */
@@ -29,7 +29,7 @@ before(async()=>{h=await installation();member=await h.invite('member','preparer
 after(async()=>{await h?.close()})
 test('PORT-006: sourced handover checklist revisions and linked make-ready tasks preserve separate leases',async()=>{await moveOutJourney();await moveChecklistJourney()})
 test('WORK-006: approved email dispatch, technician progress, parts hold, missed visit and reassignment; WORK-007 staff-recorded field evidence bound to approved scope',async()=>{await dispatchJourney({inspect:async c=>{if(c.phase==='replacement-complete')await fieldEvidenceJourney(c)}});await failedDispatchJourney()})
-test('OPS-003: persistent workflow templates run across restarts, escalate to a person and complete only on evidence',workflowJourney)
+test('OPS-003: persistent workflow templates run across restarts, escalate to a person and complete only on evidence',async()=>{await workflowJourney();await scheduledJourney()})
 test('REPORT-005: typed custom fields, governed reports, frozen merges and hidden-field refusal',customReportJourney)
 test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned portfolios, CSRF and revocation',async()=>{
  assert.equal((await h.request('/api/state',{as:''})).status,401)

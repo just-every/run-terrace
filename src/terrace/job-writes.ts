@@ -11,8 +11,8 @@ export function jobWrites(c: Context, t: Row, d: JobDraft) {
   guard(c, 'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)', t.id, t.version),
   ...(d.asset ? [guard(c, "EXISTS(SELECT 1 FROM tt_assets WHERE id=? AND state='in_service')", d.asset.id)] : []),
   ...(d.listed ? [guard(c, 'EXISTS(SELECT 1 FROM tt_vendors WHERE id=? AND version=?)', d.listed.id, d.listed.version)] : []),
-  sql(c, "INSERT INTO tt_proposals(id,tenancy_id,kind,payload,tenancy_version,prepared_by,prepared_at) VALUES(?,?,'maintenance',?,?,?,?)", proposalId, t.id, JSON.stringify({ jobId, ...details }), t.version, c.actor.id, c.now),
-  sql(c, 'INSERT INTO tt_maintenance_jobs(id,tenancy_id,proposal_id,title,trade_name,trade_email,due_date,estimate_cents,prepared_by,prepared_at,currency,asset_id,vendor_id,trade,qualification,occurrence_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', jobId, t.id, proposalId, d.title, d.tradeName, d.tradeEmail, d.dueDate, d.estimateCents, c.actor.id, c.now, t.currency, d.asset?.id ?? null, d.listed?.id ?? null, d.trade, JSON.stringify(found), d.occurrenceId ?? null),
+  sql(c, "INSERT INTO tt_proposals(id,tenancy_id,kind,payload,tenancy_version,prepared_by,prepared_at) VALUES(?,?,'maintenance',?,?,?,?)", proposalId, t.id, JSON.stringify({ jobId, ...details }), t.version, c.scheduler ? 'scheduler:workflows' : c.actor.id, c.now),
+  sql(c, 'INSERT INTO tt_maintenance_jobs(id,tenancy_id,proposal_id,title,trade_name,trade_email,due_date,estimate_cents,prepared_by,prepared_at,currency,asset_id,vendor_id,trade,qualification,occurrence_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', jobId, t.id, proposalId, d.title, d.tradeName, d.tradeEmail, d.dueDate, d.estimateCents, c.scheduler ? 'scheduler:workflows' : c.actor.id, c.now, t.currency, d.asset?.id ?? null, d.listed?.id ?? null, d.trade, JSON.stringify(found), d.occurrenceId ?? null),
   assignment(c, jobId, d.listed?.id ?? null, d.tradeName, d.trade, found),
  ] }
 }

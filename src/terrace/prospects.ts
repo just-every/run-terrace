@@ -1,3 +1,4 @@
+import { workflowSendClaim } from './workflow-mail'
 // LEASE-005. Prospect records on a property, recorded by the owner, portfolio managers and leasing staff in that
 // portfolio. A lead whose email or phone matches an open prospect in the same portfolio is held as a possible
 // duplicate until a person merges it or keeps it separate; nothing merges by itself. First-contact source is fixed;
@@ -105,7 +106,7 @@ export async function prospectCommand(c: Context, command: string, p: Row): Prom
   insist(JSON.parse(r.consent).email.state === 'granted', 'consent_required', 'Email consent is not granted: record the prospect’s consent first. Terrace never emails without it.', 409)
   const subject = text(p.subject, 'Subject', 200), body = text(p.body, 'Message', 5000), key = id()
   c.source = subject
-  await commit(c, [versionGuard(c, r), guard(c, "EXISTS(SELECT 1 FROM tt_prospects WHERE id=? AND json_extract(consent,'$.email.state')='granted')", r.id), touch(c, r), sql(c, 'INSERT INTO tt_prospect_events(id,prospect_id,kind,detail,reference,label,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?,?)', key, r.id, 'email', JSON.stringify({ to: r.email, subject, body }), subject, PREPARED, c.actor.id, c.now)], command, r.id)
+  await commit(c, [...await workflowSendClaim(c, 'prospect', r.id, key), versionGuard(c, r), guard(c, "EXISTS(SELECT 1 FROM tt_prospects WHERE id=? AND json_extract(consent,'$.email.state')='granted')", r.id), touch(c, r), sql(c, 'INSERT INTO tt_prospect_events(id,prospect_id,kind,detail,reference,label,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?,?)', key, r.id, 'email', JSON.stringify({ to: r.email, subject, body }), subject, PREPARED, c.actor.id, c.now)], command, r.id)
   return { id: r.id, version: version + 1, tab: 'prospects', prospectEmail: { eventId: key, prospectId: r.id, to: r.email, subject, body }, notice: 'Email written.' }
  }
  if (command === 'prospect.respond') {
