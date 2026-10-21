@@ -7,6 +7,7 @@
 // posts nothing twice, and a term is amended only from a period that has not been posted.
 import { all, cents, commit, date, guard, id, insist, allow, one, sha256, sql, tenancy, text, type Context, type Row, shown, reaches } from './core'
 import { BALANCE } from './ledger'
+import { localDate } from './zones'
 import { taxCharge } from './tax'
 import { concessionLines } from './charge-concessions'
 
