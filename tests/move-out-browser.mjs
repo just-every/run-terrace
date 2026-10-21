@@ -1,3 +1,4 @@
+import {journey as checklistJourney} from './move-checklists.mjs'
 // PORT-006: use the ordinary end/transfer forms and inspect their linked tasks at desktop and phone widths.
 import assert from 'node:assert/strict'
 import {mkdir} from 'node:fs/promises'
@@ -8,11 +9,11 @@ const pictures=resolve(process.env.MOVE_OUT_SCREENSHOTS??'.rer/move-out-screens'
 await mkdir(pictures,{recursive:true})
 const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
 let context,page
-async function picture(name) {
+async function picture(name,section=page) {
  for (const [width,height] of [[1440,900],[390,844]]) {
   await page.setViewportSize({width,height})
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'PORT-006 '+name+' fits '+width)
-  await page.screenshot({path:join(pictures,`${name}-${width}.png`),fullPage:true})
+  await section.screenshot({path:join(pictures,`${name}-${width}.png`),fullPage:true})
  }
 }
 try {
@@ -68,5 +69,33 @@ try {
    await picture('updated-linked-repair')
   }
  }})
- console.log('PORT-006 native end/transfer, linked tasks and follow-up passed at 1440/390')
+ await context.close();context=null
+ await checklistJourney({assets:true,inspect:async({phase,h,lease,payload})=>{
+  if(!context){
+   context=await browser.newContext({viewport:{width:1440,height:900}})
+   await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return {name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}))
+   page=await context.newPage()
+  }
+  await page.goto(h.origin+'/app?tab=tenancy&tenancy='+lease.id+'#move-checklists')
+  const section=page.locator('#move-checklists'),out=payload.kind==='move_out',name=out?'move-out':'move-in'
+  if(phase.startsWith('before-')){
+   await section.getByText('Record '+name+' checklist',{exact:true}).click()
+   const form=section.locator('form').filter({has:page.locator('input[name="kind"][value="'+payload.kind+'"]')})
+   await form.getByLabel('Handover date',{exact:true}).fill(payload.moveDate)
+   for(const [key,label] of [['keys','Keys'],['meters','Meters and readings'],['condition','Condition'],['possession','Possession'],['forwarding','Forwarding address']]){
+    await form.getByLabel(label+' status',{exact:true}).selectOption(payload[key+'State'])
+    await form.getByLabel(label+' details or reason',{exact:true}).fill(payload[key+'Notes'])
+   }
+   await form.getByLabel('Handover source reference',{exact:true}).fill(payload.reference)
+   await picture(name+'-checklist-form',section)
+   await page.setViewportSize({width:390,height:844})
+   await form.getByRole('button',{name:'Save handover checklist',exact:true}).click()
+   await page.getByRole('status').filter({hasText:'Handover checklist recorded'}).first().waitFor()
+   return true
+  }
+  if(!out)await section.getByText('Earlier move-in revisions (1)',{exact:true}).click()
+  assert.ok(await section.getByText(payload.keysNotes,{exact:true}).isVisible())
+  await picture(name+'-checklist-saved',section)
+ }})
+ console.log('PORT-006 native handover revisions, end/transfer, linked tasks and follow-up passed at 1440/390')
 }finally {await context?.close();await browser.close()}

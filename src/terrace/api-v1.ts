@@ -1,3 +1,4 @@
+import { moveChecklistData } from './move-checklists'
 // OPS-001. Version 1 of the property operations API: cursor-paginated resources over the records a role's
 // capabilities and portfolios already reach, for people and API credentials alike. Every list is scoped before
 // it is cut into pages, so a page, a cursor or a record id never reveals another portfolio's rows; a record
@@ -19,7 +20,7 @@ const RESOURCES: Record<string, Resource> = {
  properties: { ids: async c => (await propertyData(c)).portfolios.flatMap((f: Row) => f.properties) },
  leases: {
   ids: tenancyData,
-  detail: async (c, t) => ({ ...t, versions: can(c, 'lease.read') || can(c, 'lease.metadata') ? await leaseData(c, t.id) : undefined }),
+  detail: async (c, t) => ({ ...t, moveChecklists: await moveChecklistData(c,t.id), versions: can(c, 'lease.read') || can(c, 'lease.metadata') ? await leaseData(c, t.id) : undefined }),
  },
  households: { ids: tenancyData, detail: (c, t) => householdData(c, t, null) },
  ledgers: { ids: async c => { allow(c, 'ledger.read'); return tenancyData(c) }, detail: async (c, t) => ({ tenancyId: t.id, address: t.address, ...await ledgerData(c, t.id) }), sensitive: true },

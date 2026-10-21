@@ -16,7 +16,7 @@ function lease(l: Row, units: Row[], manage: boolean, boards: Row[]) {
  const turnover = board ? ` · <a href="#turnover-${e(board.id)}">Move-out make-ready tasks</a>` : ''
  const span = `${usDate(l.start_date)} to ${usDate(l.occupiedTo)}${l.ended_on ? ` (lease to ${usDate(l.end_date)}; moved out: ${e(l.end_reason)})` : ''}`
  const actions = manage && l.state !== 'past' && !l.ended_on ? `<details><summary>End lease or transfer</summary>${form('tenancy.end', hidden('tenancyId', l.id) + field('Move-out date', 'moveOut', 'date') + field('Reason', 'reason') + '<button type="submit">End lease</button>')}${units.length ? form('tenancy.transfer', hidden('tenancyId', l.id) + `<label>Move to unit<select name="unitId">${units.filter(u => u.id !== l.unit_id).map(u => `<option value="${e(u.id)}">${e(u.property_name)} · ${e(u.identifier)}</option>`).join('')}</select></label>` + field('Move-in date', 'moveIn', 'date') + '<button type="submit">Transfer resident</button>') : ''}</details>` : ''
- return `<li><a href="/app?tab=tenancy&amp;tenancy=${e(l.id)}">${e(l.tenant_name)}</a> · ${span} · ${money(l.rent_cents, shown(l))} ${e(l.cadence)} · <span class="pill${l.state === 'current' ? ' paid' : ''}">${l.state}</span>${l.transferred_from ? ' · transferred in' : ''}${turnover}${actions}</li>`
+ return `<li><a href="/app?tab=tenancy&amp;tenancy=${e(l.id)}">${e(l.tenant_name)}</a> · ${span} · ${money(l.rent_cents, shown(l))} ${e(l.cadence)} · <span class="pill${l.state === 'current' ? ' paid' : ''}">${l.state}</span>${l.transferred_from ? ' · transferred in' : ''}${turnover} · <a href="/app?tab=tenancy&amp;tenancy=${e(l.id)}#move-checklists">Handover checklists</a>${actions}</li>`
 }
 
 /** owners: PORT-003's block for one property (owner-view.ts). */
