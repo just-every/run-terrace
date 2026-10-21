@@ -81,6 +81,7 @@ try {
   if(phase.startsWith('before-')){
    await section.getByText('Record '+name+' checklist',{exact:true}).click()
    const form=section.locator('form').filter({has:page.locator('input[name="kind"][value="'+payload.kind+'"]')})
+   assert.equal(Number(await form.locator('[name="leaseVersion"]').inputValue()),(await h.state()).tenancies.find(t=>t.id===lease.id).version,'The newly opened form carries the live lease version')
    await form.getByLabel('Handover date',{exact:true}).fill(payload.moveDate)
    for(const [key,label] of [['keys','Keys'],['meters','Meters and readings'],['condition','Condition'],['possession','Possession'],['forwarding','Forwarding address']]){
     await form.getByLabel(label+' status',{exact:true}).selectOption(payload[key+'State'])
