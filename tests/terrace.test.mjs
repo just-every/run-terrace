@@ -1,3 +1,4 @@
+import {journey as householdJourney} from './households.mjs'
 import {journey as moveChecklistJourney} from './move-checklists.mjs'
 import {journey as fieldEvidenceJourney} from './field-evidence.mjs'
 import {journey as moveOutJourney} from './move-out.mjs'
@@ -738,6 +739,7 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  assert.equal((await h.state()).portfolios.find(f=>f.id===portfolio.id).properties[0].units.find(u=>u.id===upper.id).available_on,published.availableOn)
  assert.ok((await(await h.request('/app?tab=properties')).text()).includes('Ready: available from '),'the board shows the published date')
 
+ await householdJourney()
  // PORT-004: co-tenants, a guarantor and others on Rosa's lease; move the co-tenant to another lease; balances, recipients and document rights stay with each household.
  const pine=await h.command('tenancy.create',{...tenancyInput,address:'Unit 2, 9 Pine Street, Oakland, CA',tenantName:'Ana Pine',tenantEmail:'pine@example.test',startDate:'2025-01-01',endDate:'2036-12-31',rent:'1500.00',cadence:'monthly'})
  const lee=await h.command('household.add',{tenancyId:transfer.id,role:'co_tenant',name:'Lee Park',email:'lee@example.test',joined:'2026-01-15'})

@@ -57,7 +57,7 @@ export async function householdCommand(c: Context, command: string, p: Row): Pro
 export async function householdData(c: Context, t: Row, balanceCents: number | null) {
  const today = localDate(c.now, t.time_zone), rows = await all(c, 'SELECT * FROM tt_household_members WHERE tenancy_id=? ORDER BY joined,name', t.id)
  const current = (m: Row) => m.joined <= today && (!m.left_on || m.left_on >= today)
- const primary = { id: null, role: 'resident', name: t.tenant_name, email: t.tenant_email, contact_by: 'email', joined: t.start_date, left_on: t.ended_on ?? null, current: !t.ended_on || t.ended_on >= today }
+ const primary = { id: null, role: 'resident', name: t.tenant_name, email: t.tenant_email, contact_by: 'email', joined: t.start_date, left_on: t.ended_on ?? null, current: current({ joined: t.start_date, left_on: t.ended_on }) }
  const members: Row[] = ([primary, ...rows.map(m => ({ ...m, current: current(m) }))] as Row[]).map(m => ({ ...m, ...rights(m.role, m.contact_by, m.current) }))
  return { tenancyId: t.id, balanceCents, currency: shown(t), members, recipients: members.filter(m => m.recipient).map(m => m.name), liable: members.filter(m => m.liable && m.current).map(m => m.name) }
 }
