@@ -6,6 +6,7 @@ import {mkdir,writeFile,mkdtemp,rm} from 'node:fs/promises'
 import {tmpdir} from 'node:os'
 import {randomBytes} from 'node:crypto'
 import {createServer} from 'node:net'
+import {spawn} from 'node:child_process'
 import {buildContainer} from '../node_modules/@runeditrun/rer/modules/container/build.mjs'
 import {startHost} from '../node_modules/@runeditrun/rer/modules/container/host.mjs'
 import {resolve,join} from 'node:path'
@@ -19,12 +20,15 @@ const out=resolve(process.env.WORKFLOW_CADENCE_RESULTS??'.rer/workflow-cadence')
 await mkdir(out,{recursive:true})
 const runId='workflow-cadence-'+new Date().toISOString().replaceAll(/[:.]/g,'-')
 const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
-let active
+let active,lock
 const scratch=await mkdtemp(join(tmpdir(),'terrace-cadence-'))
 try {
  const packaged=await buildContainer(process.cwd(),{output:join(scratch,'image'),engine:'workerd'})
  const socket=createServer();await new Promise(resolve=>socket.listen(0,'127.0.0.1',resolve));const port=socket.address().port;await new Promise(resolve=>socket.close(resolve))
  const origin='http://127.0.0.1:'+port,setup=randomBytes(32).toString('hex')
+ await mkdir(join(scratch,'data'),{recursive:true})
+ lock=spawn('flock',['--exclusive','--nonblock',join(scratch,'data/host.lock'),'sh','-c','echo locked; cat >/dev/null'],{stdio:['pipe','pipe','pipe']})
+ await new Promise((resolve,reject)=>{lock.stdout.once('data',resolve);lock.once('error',reject);lock.once('exit',code=>reject(Error('Volume lock exited '+code)))})
  const host=await startHost({root:join(packaged.output,'app'),data:join(scratch,'data'),port,settings:{AUTH_ORIGIN:origin,AUTH_LOCAL:'true',OWNER_EMAIL:'owner@example.test',SESSION_SECRET:randomBytes(32).toString('hex'),SETUP_TOKEN:setup,MAIL_PROVIDER:'none',MAIL_FROM:'auth@localhost.test'}})
  active={origin,stop:()=>host.close()}
  const context=await browser.newContext(),page=await context.newPage()
@@ -71,4 +75,4 @@ try {
  await writeFile(join(out,runId+'.json'),JSON.stringify(result,null,2)+'\n')
  console.log(JSON.stringify(result))
  await context.close()
-} finally {await active?.stop();await browser.close();await rm(scratch,{recursive:true,force:true})}
+} finally {await active?.stop();if(lock){lock.stdin.end();await new Promise(resolve=>lock.exitCode!==null?resolve():lock.once('exit',resolve))}await browser.close();await rm(scratch,{recursive:true,force:true})}
