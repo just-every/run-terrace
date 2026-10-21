@@ -1,0 +1,46 @@
+// OPS-003: the workflows page and its native forms at desktop and phone widths, over the same journey's real Worker and D1 records.
+import assert from 'node:assert/strict'
+import {mkdir} from 'node:fs/promises'
+import {join,resolve} from 'node:path'
+import {chromium} from '@playwright/test'
+import {journey} from './workflows.mjs'
+const pictures=resolve(process.env.WORKFLOW_SCREENSHOTS??'.rer/workflow-screens')
+await mkdir(pictures,{recursive:true})
+const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
+let page
+async function picture(name){
+ for(const [width,height]of [[1440,900],[390,844]]){
+  await page.setViewportSize({width,height})
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'OPS-003 '+name+' fits '+width)
+  await page.screenshot({path:join(pictures,`${name}-${width}.png`),fullPage:true})
+ }
+ await page.setViewportSize({width:1440,height:900})
+}
+try {
+ await journey({assets:true,inspect:async({h})=>{
+  const context=await browser.newContext({viewport:{width:1440,height:900}})
+  await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return {name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}))
+  page=await context.newPage()
+  await page.goto(h.origin+'/app?tab=properties');await page.getByRole('link',{name:'Open workflows'}).click()
+  await page.getByRole('heading',{name:'Needs a person',exact:true}).waitFor()
+  for(const shown of ['paused','escalated','closed','cancelled','completed'])assert.ok(await page.locator('.pill',{hasText:shown}).first().isVisible(),shown+' runs are listed')
+  await picture('workflows')
+  const card=page.locator('article').filter({has:page.getByRole('heading',{name:/Prospect enquiry/})})
+  await card.getByText('Record a contact attempt',{exact:true}).click()
+  await card.getByLabel('Channel',{exact:true}).selectOption('phone')
+  await card.getByLabel('Outcome',{exact:true}).selectOption('no_answer')
+  await card.getByLabel('External reference (message id, call note, letter)',{exact:true}).fill('call-note-synthetic-terrace-8')
+  await picture('attempt-form')
+  await card.getByRole('button',{name:'Record attempt',exact:true}).click()
+  await page.getByText('Attempt 2 of 2 recorded').waitFor()
+  const after=page.locator('article').filter({has:page.getByRole('heading',{name:/Prospect enquiry/})})
+  await after.getByText('Escalated to',{exact:false}).waitFor()
+  await picture('escalated')
+  const paused=page.locator('article').filter({has:page.getByRole('heading',{name:/Delinquency/})})
+  await paused.getByText('Review and resume',{exact:true}).click()
+  await paused.getByLabel('What you reviewed',{exact:true}).fill('Checked the ledger')
+  await paused.getByRole('button',{name:'Resume',exact:true}).click()
+  await page.getByText('Still paused').waitFor()
+  await picture('still-paused')
+ }})
+} finally {await browser.close()}

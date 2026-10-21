@@ -7,8 +7,9 @@ import {installation,tenancyInput} from './api/harness.mjs'
 const zone='America/Los_Angeles',day=()=>new Intl.DateTimeFormat('en-CA',{timeZone:zone}).format(new Date())
 const add=(d,n)=>new Date(Date.parse(d+'T00:00:00Z')+n*86400000).toISOString().slice(0,10)
 
-export async function journey() {
- const h=await installation()
+/** inspect({h,enquiryId,pausedId}) lets the native browser journey drive the same installation once its runs are in every state. */
+export async function journey({assets=false,inspect}={}) {
+ const h=await installation({assets})
  try {
   const today=day()
   const north=await h.command('portfolio.add',{name:'North homes'}),west=await h.command('portfolio.add',{name:'West homes'})
@@ -133,7 +134,12 @@ export async function journey() {
   const db=await h.mf.getD1Database('DB'),rent=await runFor(e.id),late=await runFor(d.id)
   assert.equal(rent.template_name,'Rent reminder');assert.equal(late.template_name,'Delinquency follow-up')
   await db.prepare('UPDATE tt_workflow_runs SET step_due_on=? WHERE id=?').bind(add(today,-1),rent.id).run()
-  const overdue=await h.command('workflow.sweep',{});assert.deepEqual(overdue.escalated,[rent.id])
+  const lead7=await h.command('prospect.add',{propertyId:elm.id,name:'Pat Quill',email:'pat@example.test',source:'own_site',reference:'Listing enquiry synthetic-terrace-7',consent_email:'refused',consent_phone:'granted',consent_text:'unknown'})
+  await db.prepare('UPDATE tt_prospects SET last_activity_at=? WHERE id=?').bind(new Date(Date.now()-20*86400000).toISOString(),lead7.id).run()
+  const overdue=await h.command('workflow.sweep',{});assert.deepEqual(overdue.escalated,[rent.id]);assert.equal(overdue.started.length,1,'a 20-day-old enquiry meets the 14-day trigger')
+  const enquiry=await runFor(lead7.id);assert.equal(enquiry.template_version,2,'a run starts under the latest template version')
+  assert.equal((await attempt(enquiry,{outcome:'reached'},lead,409)).error,'consent_refused','a refused channel is never recorded as contacted')
+  assert.equal((await attempt(enquiry,{outcome:'reached',channel:'phone'},lead)).state,'running')
   assert.deepEqual([(await runFor(e.id)).state,(await runFor(e.id)).escalation_reason],['escalated','overdue'])
   await h.command('rent.receipt',{chargeId:owed.id,amount:'600.00',receivedDate:today,reference:'ACH-synthetic-terrace-5'})
   assert.equal((await attempt(late,{outcome:'reached',channel:'phone',reference:'call-note-synthetic-terrace-6'},manager,409)).error,'workflow_paused')
@@ -160,6 +166,8 @@ export async function journey() {
   assert.ok(westRun)
   assert.equal((await runs(scoped)).some(r=>r.id===westRun.id),false);assert.ok((await runs(scoped)).some(r=>r.id===A2.id))
   assert.equal((await h.command('workflow.step',{runId:westRun.id,version:westRun.version,reference:'x'},{as:scoped,status:404})).error,'not_found')
+
+  await inspect?.({h,enquiryId:enquiry.id,pausedId:paused.id})
 
   // Retiring a template stops new starts and keeps its runs.
   await h.command('workflow.retire',{templateKey:turnTpl.templateKey,version:1,reason:'Replaced'},{as:manager})
