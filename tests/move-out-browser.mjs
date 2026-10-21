@@ -76,7 +76,9 @@ try {
    await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return {name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}))
    page=await context.newPage()
   }
-  await page.goto(h.origin+'/app?tab=tenancy&tenancy='+lease.id+'#move-checklists')
+  const target=h.origin+'/app?tab=tenancy&tenancy='+lease.id+'#move-checklists'
+  // Revisiting an identical fragment URL is a same-document navigation; reload after the HTTP journey's intervening changes.
+  if(page.url()===target)await page.reload();else await page.goto(target)
   const section=page.locator('#move-checklists'),out=payload.kind==='move_out',name=out?'move-out':'move-in'
   if(phase.startsWith('before-')){
    await section.getByText('Record '+name+' checklist',{exact:true}).click()
