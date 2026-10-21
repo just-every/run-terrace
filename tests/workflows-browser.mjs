@@ -60,6 +60,9 @@ try {
    const card=page.locator('#workflow-'+id)
    await card.getByText('History',{exact:true}).click()
    assert.ok(await card.getByText('uncertain',{exact:false}).count())
+   const outcomes=card.getByRole('list',{name:'Email outcomes',exact:true})
+   if(id===pausedId)assert.ok(await outcomes.getByText(/ · rejected$/).count(),'the provider rejection is listed on the run')
+   else {assert.equal(await outcomes.getByRole('listitem').count(),2);assert.ok(await outcomes.getByText(/ · accepted$/).count());assert.ok(await outcomes.getByText(/ · uncertain$/).count())}
    await picture(id===pausedId?'prospect-provider-detail':'renewal-provider-detail',card)
   }
   await picture('provider-outcomes')
