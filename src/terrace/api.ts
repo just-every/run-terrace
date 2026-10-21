@@ -76,6 +76,9 @@ import { customCatalog } from './custom-catalog'
 import { customReport,customReportTable } from './custom-reports'
 import { customDocument } from './custom-documents'
 import { customView } from './custom-view'
+import { CREDENTIAL_COMMANDS,PREPARE_COMMANDS,abandonIdempotent,beginIdempotent,credentialActor,credentialCommand,credentialData,credentialGate,finishIdempotent,noCredential } from './credentials'
+import { credentialSection } from './credentials-view'
+import { V1_PATH,apiV1 } from './api-v1'
 const json=(body:unknown,status=200)=>Response.json(body,{status,headers:{'cache-control':'no-store','x-content-type-options':'nosniff','referrer-policy':'no-referrer'}})
 async function render(c:Context,url:URL,notice='',result:Row={},status=200,request?:Request,env?:Bindings) {
  // SAFE-001: a sign-in that still owes its second factor sees only the security page, whatever it asked for.
@@ -95,7 +98,7 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
  else if(tab==='history'){title='History';const q=Object.fromEntries(url.searchParams);body=historyView(c,await history(c,q),q)}
  else if(tab==='import'){allow(c,'import.preview');title='Move in';body=importView({...await importData(c),...result})}
  else if(tab==='properties'){title='Properties';const data=await propertyData(c),siblings=await siblingData(c);const owners=await ownershipData(c),recovery:Record<string,Row>=can(c,'ledger.read')?Object.fromEntries(await Promise.all(data.portfolios.flatMap((f:Row)=>f.properties).map(async(p:Row)=>[p.id,await recoveryData(c,p.id)]))):{},keep=can(c,'ownership.set')&&!!owners.directory;body=(can(c,'work.read')?'<section><h2>Custom reports &amp; documents</h2><p>Typed fields, saved reports and versioned document templates.</p><a href="/app?tab=custom">Open custom reports &amp; documents</a></section>':'')+(can(c,'reports.read')?'<section><h2>Delinquency</h2><p>Aged household receivables, dated owners and assigned follow-up.</p><a href="/app?tab=delinquency">Open delinquency report</a></section>':'')+(can(c,'reports.read')?'<section><h2>Leasing performance</h2><p>Occupancy, vacancy, lead sources and recorded renewal retention with dated sources.</p><a href="/app?tab=leasing-report">Open leasing report</a></section>':'')+(can(c,'renewal.prepare')?'<section><h2>Renewals</h2><p>Renewal campaigns from lease-end dates: offers with their comparison, sends, replies and the follow-up queue.</p><a href="/app?tab=renewals">Open renewals</a></section>':'')+(can(c,'prospect.read')?'<section><h2>Prospects</h2><p>Leads, duplicate review, assigned leasing staff and stages from enquiry to lease.</p><a href="/app?tab=prospects">Open prospects</a></section>':'')+(can(c,'bills.read')?'<section><h2>Vendor bills</h2><p>Capture invoices, approve payables and run recurring owner expenses.</p><a href="/app?tab=bills">Open vendor bills</a></section>':'')+ownerDirectory(owners.directory,can(c,'owner.add'),can(c,'reports.read'))+propertiesView(data,await unitChoices(c),can(c,'unit.add'),await turnoverData(c),p=>siblingLinks(p,siblings,a=>can(c,a))+propertyOwners(p,owners.byProperty[p.id],owners.directory,keep,can(c,'fees.run'))+(recovery[p.id]?recoverySection(p,recovery[p.id],{authorize:can(c,'recovery.authorize'),prepare:can(c,'utility.prepare'),approve:can(c,'utility.approve'),ancillary:can(c,'ancillary.charge'),taxPrepare:can(c,'tax.prepare'),taxReview:can(c,'tax.review')}):''));if(can(c,'maintenance.report'))body+=serviceSection(data.portfolios.flatMap((f:Row)=>f.properties));if(can(c,'reports.read')){const day=today(c.now,c.zone!);body+=rentRollSection(await rentRoll(c,{asOf:url.searchParams.get('asOf')||day,propertyId:url.searchParams.get('propertyId'),occupancy:url.searchParams.get('occupancy')}),await collections(c,url.searchParams.get('month')||day.slice(0,7)),data.portfolios.flatMap((f:Row)=>f.properties))}}
- else if(tab==='settings'){title='Data & access';body=companyView(await companyData(c),can(c,'company.save')&&(c.actor.role==='owner'||!!c.actor.staff?.all),c.actor.role==='owner')+settingsView(rows,c.actor.role==='owner',await retentionData(c,rows))+siblingOrigins(await siblingData(c),c.actor.role==='owner')+'<section><h2>Two-step sign-in</h2><p>Authenticator codes and recovery codes for each sign-in.</p><p><a href="/app?tab=security">Set up or manage two-step sign-in</a></p></section>'+(can(c,'reports.read')?'<section><h2>Month close</h2><p>Month-end checklist, exceptions, closed months and close corrections.</p><p><a href="/app?tab=close">Open month close</a></p></section>':'')+(can(c,'history.read')?'<section><h2>History</h2><p>Who changed, read or exported what, with their role and source.</p><p><a href="/app?tab=history">Open history</a></p></section>':'');if(can(c,'operator.role')&&request&&env)body+=await peopleView(request,env,c);body=`<div class="settings-layout">${body}</div>`}
+ else if(tab==='settings'){title='Data & access';body=companyView(await companyData(c),can(c,'company.save')&&(c.actor.role==='owner'||!!c.actor.staff?.all),c.actor.role==='owner')+settingsView(rows,c.actor.role==='owner',await retentionData(c,rows))+siblingOrigins(await siblingData(c),c.actor.role==='owner')+credentialSection(await credentialData(c),c.actor.role==='owner',result)+'<section><h2>Two-step sign-in</h2><p>Authenticator codes and recovery codes for each sign-in.</p><p><a href="/app?tab=security">Set up or manage two-step sign-in</a></p></section>'+(can(c,'reports.read')?'<section><h2>Month close</h2><p>Month-end checklist, exceptions, closed months and close corrections.</p><p><a href="/app?tab=close">Open month close</a></p></section>':'')+(can(c,'history.read')?'<section><h2>History</h2><p>Who changed, read or exported what, with their role and source.</p><p><a href="/app?tab=history">Open history</a></p></section>':'');if(can(c,'operator.role')&&request&&env)body+=await peopleView(request,env,c);body=`<div class="settings-layout">${body}</div>`}
  else {
   if(tab==='tenancy') {
    if(url.searchParams.get('tenancy')&&selected){title=selected.address;const ledger=ledgers?await ledgerData(c,selected.id):null;body=tenancyView(selected,await proposals(c,selected.id),{approve:can(c,'proposal.approve'),zone:can(c,'tenancy.timezone'),renew:can(c,'renewal.prepare')},ledger,await workData(c,selected.id),today(c.now,selected.time_zone))+((can(c,'lease.read')||can(c,'lease.metadata'))?leaseSection(selected,await leaseData(c,selected.id),a=>can(c,a),result,(await renewalData(c,selected.id)).filter((r:Row)=>r.state==='accepted')):'')+(can(c,'reports.read')?scenarioSection(selected,url.searchParams.get('scenario')==='1'?await scenarioReport(c,{...Object.fromEntries(url.searchParams),tenancyId:selected.id}):undefined,Object.fromEntries(url.searchParams)):'')+householdSection(selected,await householdData(c,selected,ledger?.balanceCents??null),can(c,'household.add'),rows);head={eyebrow:selected.owner_name,back:backToTenancies}}
@@ -112,10 +115,10 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
  }
  return page(c,title,body,notice,status,tab,head)
 }
-const COMMANDS=['tenancy.create','renewal.prepare','arrears.prepare','proposal.approve','proposal.reject','rent.charge','rent.receipt','rent.adjust','inspection.create','inspection.photo','inspection.complete','maintenance.prepare','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.submit','turnover.task.check','turnover.publish','household.add','household.leave','household.move','currency.confirm','work.limits','quote.add','quote.select','maintenance.revise','maintenance.owner','completion.record','completion.check','completion.close','owner.add','owner.w9','ownership.set','agreement.set','factor.start','factor.confirm','factor.verify','factor.require','factor.reset','operator.invite','operator.status','operator.role',...LEASE_COMMANDS,...BILL_COMMANDS,...APPOINTMENT_COMMANDS,...RETENTION_COMMANDS,...EMERGENCY_COMMANDS,...PROSPECT_COMMANDS,...DELINQUENCY_COMMANDS,...RENEWAL_COMMANDS,...SIBLING_COMMANDS,...CUSTOM_COMMANDS,...DISPATCH_COMMANDS,...PERIOD_COMMANDS,'fees.run','fee.override',...RECOVERY_COMMANDS,'tax.prepare','tax.review']
-const STEPPED=['entity.add','account.add','operator.invite','operator.role','operator.status','factor.require','factor.reset']
+const COMMANDS=['tenancy.create','renewal.prepare','arrears.prepare','proposal.approve','proposal.reject','rent.charge','rent.receipt','rent.adjust','inspection.create','inspection.photo','inspection.complete','maintenance.prepare','maintenance.approve','maintenance.sent','import.preview','import.apply','import.undo','import.journal','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.submit','turnover.task.check','turnover.publish','household.add','household.leave','household.move','currency.confirm','work.limits','quote.add','quote.select','maintenance.revise','maintenance.owner','completion.record','completion.check','completion.close','owner.add','owner.w9','ownership.set','agreement.set','factor.start','factor.confirm','factor.verify','factor.require','factor.reset','operator.invite','operator.status','operator.role',...CREDENTIAL_COMMANDS,...LEASE_COMMANDS,...BILL_COMMANDS,...APPOINTMENT_COMMANDS,...RETENTION_COMMANDS,...EMERGENCY_COMMANDS,...PROSPECT_COMMANDS,...DELINQUENCY_COMMANDS,...RENEWAL_COMMANDS,...SIBLING_COMMANDS,...CUSTOM_COMMANDS,...DISPATCH_COMMANDS,...PERIOD_COMMANDS,'fees.run','fee.override',...RECOVERY_COMMANDS,'tax.prepare','tax.review']
+const STEPPED=['entity.add','account.add','operator.invite','operator.role','operator.status','factor.require','factor.reset',...CREDENTIAL_COMMANDS]
 async function command(c:Context,name:string,p:Row) {
- for(const handler of [dispatchCommand,tenancyCommand,ledgerCommand,workCommand,importCommand,dataCommand,companyCommand,assetCommand,vendorCommand,scheduleCommand,chargeRunCommand,propertyCommand,turnoverCommand,householdCommand,quoteCommand,completionCommand,ownerCommand,factorCommand,periodCommand,feeCommand,recoveryCommand,taxCommand,retentionCommand,appointmentCommand,billCommand,leaseCommand,emergencyCommand,prospectCommand,delinquencyCommand,renewalCommand,siblingCommand,customCommand]) {
+ for(const handler of [credentialCommand,dispatchCommand,tenancyCommand,ledgerCommand,workCommand,importCommand,dataCommand,companyCommand,assetCommand,vendorCommand,scheduleCommand,chargeRunCommand,propertyCommand,turnoverCommand,householdCommand,quoteCommand,completionCommand,ownerCommand,factorCommand,periodCommand,feeCommand,recoveryCommand,taxCommand,retentionCommand,appointmentCommand,billCommand,leaseCommand,emergencyCommand,prospectCommand,delinquencyCommand,renewalCommand,siblingCommand,customCommand]) {
   const result=await handler(c,name,p); if(result!==undefined)return result
  }
  throw new Fault('unknown_command','Unknown Terrace command.',404)
@@ -124,29 +127,41 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
  const url=new URL(request.url),isApi=url.pathname.startsWith('/api/'),isPage=url.pathname==='/app'||url.pathname==='/app/command'
  if(!isApi&&!isPage)return null
  // Unknown API paths retain a genuine 404 without leaking installation data.
- if(isApi&&!['/api/custom-reports','/api/custom-report','/api/custom-document','/api/delinquency','/api/leasing-report','/api/cash-scenario','/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment','/api/emergencies','/api/prospects'].includes(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
- let c:Context|undefined,p:Row={}
+ if(isApi&&!['/api/custom-reports','/api/custom-report','/api/custom-document','/api/delinquency','/api/leasing-report','/api/cash-scenario','/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment','/api/emergencies','/api/prospects'].includes(url.pathname)&&!V1_PATH.test(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
+ let c:Context|undefined,p:Row={},idem:string|undefined
  try {
   insist(url.origin===env.AUTH_ORIGIN,'origin','The request origin does not match this installation.',403)
-  const session=await operatorAuth(env).getSession(request)
-  if(!session) return isApi?json({error:'unauthorized',message:'Sign in first.'},401):new Response(null,{status:303,headers:{location:'/signin'}})
-  insist(['owner','admin','member'].includes(session.operator.role),'forbidden','Access denied.',403)
-  c={db:env.DB,actor:session.operator,now:new Date().toISOString(),session:{hash:await sha256(new TextEncoder().encode(session.id)),kind:session.kind},secret:env.SESSION_SECRET};await loadStaff(c);c.zone=await officeZone(c)
-  const factor=await factorState(c);c.gated=factor.needed&&!factor.satisfied
+  // OPS-001: an Authorization header is an API credential, loaded from D1 on every call; it never carries a cookie session or a second factor.
+  const bearer=request.headers.get('authorization')
+  if(bearer) {
+   insist(isApi,'credential_scope','An API credential reaches only /api paths.',403)
+   const now=new Date().toISOString();c={db:env.DB,actor:await credentialActor(env.DB,bearer,now),now,secret:env.SESSION_SECRET};c.zone=await officeZone(c)
+  } else {
+   const session=await operatorAuth(env).getSession(request)
+   if(!session) return isApi?json({error:'unauthorized',message:'Sign in first.'},401):new Response(null,{status:303,headers:{location:'/signin'}})
+   insist(['owner','admin','member'].includes(session.operator.role),'forbidden','Access denied.',403)
+   c={db:env.DB,actor:session.operator,now:new Date().toISOString(),session:{hash:await sha256(new TextEncoder().encode(session.id)),kind:session.kind},secret:env.SESSION_SECRET};await loadStaff(c);c.zone=await officeZone(c)
+   const factor=await factorState(c);c.gated=factor.needed&&!factor.satisfied
+  }
+  const credential=!!c.actor.credential
   if(request.method==='POST') {
-   insist(url.pathname==='/api/commands'||url.pathname==='/app/command','method','Use the command endpoint.',405)
-   insist(request.headers.get('origin')===env.AUTH_ORIGIN&&request.headers.get('sec-fetch-site')!=='cross-site','origin','Same-origin confirmation is required.',403)
-   insist(Number(request.headers.get('content-length')??0)<=25*1024*1024,'body_limit','Request is too large.',413)
-   p=request.headers.get('content-type')?.includes('application/json')?await request.json():Object.fromEntries(await request.formData())
+   insist(url.pathname==='/api/commands'||(!credential&&url.pathname==='/app/command'),'method','Use the command endpoint.',405)
+   // A bearer token is no ambient credential, so a credential call needs no same-origin proof; it needs JSON and an Idempotency-Key.
+   insist(credential||(request.headers.get('origin')===env.AUTH_ORIGIN&&request.headers.get('sec-fetch-site')!=='cross-site'),'origin','Same-origin confirmation is required.',403)
+   insist(Number(request.headers.get('content-length')??0)<=(credential?1024*1024:25*1024*1024),'body_limit','Request is too large.',413)
+   const raw=credential?await request.text():''
+   if(credential)try{insist(request.headers.get('content-type')?.includes('application/json'),'input','Send JSON.',415);p=JSON.parse(raw)}catch(e){throw e instanceof Fault?e:new Fault('input','Send a JSON command object.')}
+   else p=request.headers.get('content-type')?.includes('application/json')?await request.json():Object.fromEntries(await request.formData())
    insist(p&&typeof p==='object'&&!Array.isArray(p),'input','Send a command object.')
    const name=text(p.command,'Command',100)
    // ROLE-001: an unknown command is 404; a known command outside the actor's role is 403 before any record is read.
-   insist(COMMANDS.includes(name),'unknown_command','Unknown Terrace command.',404);allow(c,name);c.action=name
+   insist(COMMANDS.includes(name),'unknown_command','Unknown Terrace command.',404);credentialGate(c,name);allow(c,name);c.action=name
    // SAFE-002: the source the person gave (a lease reference, receipt or handoff reference, or reason) goes into the history row.
    c.source=([p.source,p.reference,p.reason].find(v=>typeof v==='string'&&v.trim()) as string|undefined)?.trim().slice(0,500)??null
    insist(!c.gated||FACTOR_COMMANDS.includes(name),'second_factor_required','Pass your second factor first: open /app?tab=security.',403)
    // SAFE-001: bank references, legal entities and access changes need Base's fresh email-link proof (10 minutes). Base's proof is per sign-in, not per action; Terrace asks under 'credentials:mint'.
    if(STEPPED.includes(name))await operatorAuth(env).requireStepUp(request,'credentials:mint').catch(e=>{throw e?.code==='step_up_required'?new Fault('step_up_required','Confirm it is you: request a link at /auth/step-up, open it in this browser, then try again within 10 minutes.',403):e})
+   if(credential){const replay=await beginIdempotent(c,request.headers.get('idempotency-key'),raw);if(replay)return replay;idem=request.headers.get('idempotency-key')!}
    const result:Row=await peopleCommand(request,env,c,name,p)??await command(c,name,p)
    // WORK-001: the alert goes after its case is committed, and its provider outcome is recorded either way.
    if(result.dispatchEmail){const sent=await sendDispatch(c,env,result.dispatchEmail);delete result.dispatchEmail;result.emailOutcome=sent.outcome;result.notice=sent.label}
@@ -155,17 +170,18 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
    if(result.alert){const sent=await deliverAlert(c,env,result.alert);result.alertOutcome=sent.outcome;result.notice=`${result.notice} Alert: ${sent.label}.`}
    // SAFE-002: move-in applies and undos and restores keep custody in Base's import journal; history records each once it succeeds.
    if(['import.apply','import.undo','data.restore'].includes(name))await audit(c,name,String(result.job?.id??result.jobId??p.jobId??'installation')).run()
-   if(isApi)return json({ok:true,result})
+   if(isApi){if(idem)await finishIdempotent(c,idem,JSON.stringify({ok:true,result}));return json({ok:true,result})}
    const dest=new URL('/app',url);dest.searchParams.set('tab',String(p.tab??'tenancy'));dest.searchParams.set('tenancy',String(result.tenancyId??(name==='tenancy.create'?result.id:p.tenancyId)??''))
    if(name==='privacy.review')return await render(c,dest,result.notice,result)
-   if(name==='import.preview'||name==='import.journal'||name==='factor.start'||name==='factor.confirm'||name==='lease.preview')return await render(c,dest,result.notice??'Review the result below.',result)
+   if(name==='import.preview'||name==='import.journal'||name==='credential.mint'||name==='credential.rotate'||name==='factor.start'||name==='factor.confirm'||name==='lease.preview')return await render(c,dest,result.notice??'Review the result below.',result)
    if(name==='delinquency.assign'){dest.searchParams.set('tab','delinquency');for(const key of ['asOf','propertyId','ownerId'])if(p[key])dest.searchParams.set(key,String(p[key]))}
    if(result.month)dest.searchParams.set('month',result.month);dest.searchParams.set('notice',result.notice??'Saved.');return new Response(null,{status:303,headers:{location:dest.pathname+dest.search,'cache-control':'no-store'}})
   }
   insist(request.method==='GET','method','Method not allowed.',405)
   if(url.pathname==='/app')return await render(c,url,url.searchParams.get('notice')??'',{},200,request,env)
   insist(!c.gated,'second_factor_required','Pass your second factor first: open /app?tab=security.',403)
-  if(url.pathname==='/api/commands')return json({commands:COMMANDS.filter(name=>can(c!,name))})
+  if(V1_PATH.test(url.pathname))return await apiV1(c,url)
+  if(url.pathname==='/api/commands')return json({commands:COMMANDS.filter(name=>can(c!,name)&&(!c!.actor.credential||c!.actor.credential.scope==='prepare'&&PREPARE_COMMANDS.includes(name)))})
   if(url.pathname==='/api/state') {
    const tenancies=await tenancyData(c),tenancyId=url.searchParams.get('tenancy'),t=tenancyId?await tenancy(c,tenancyId):undefined,ledger=t&&can(c,'ledger.read')?await ledgerData(c,t.id):undefined
    return json({actor:{role:c.actor.role,staffRole:c.actor.staff?.role??'owner',allPortfolios:c.actor.role==='owner'||!!c.actor.staff?.all},...await companyData(c),...await propertyData(c),turnovers:await turnoverData(c),ownership:await ownershipData(c),siblings:await siblingData(c),tenancies,...(t?{ledger,household:await householdData(c,t,ledger?.balanceCents??null),proposals:await proposals(c,t.id),renewals:await renewalData(c,t.id),work:await workData(c,t.id),...((can(c,'lease.read')||can(c,'lease.metadata'))?{leaseVersions:await leaseData(c,t.id)}:{})}:{})})
@@ -184,8 +200,8 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   if(url.pathname==='/api/resident-access'){const r=await residentAccess(c,url.searchParams.get('tenancyId'));await recordRead(c,'export:resident-access',String(url.searchParams.get('tenancyId')));return r}
   if(url.pathname==='/api/history')return url.searchParams.get('format')==='csv'?new Response(csv(await historyCsv(c,Object.fromEntries(url.searchParams))),{headers:{'content-type':'text/csv;charset=utf-8','content-disposition':'attachment; filename="terrace-history.csv"','cache-control':'no-store'}}):json(await history(c,Object.fromEntries(url.searchParams)))
   // SAFE-002: sensitive reads and exports are recorded once they succeed.
-  if(url.pathname==='/api/backup'){const r=await backup(c);await recordRead(c,'export:backup','installation');return r}
-  if(url.pathname==='/api/readable-export'){const r=await readableExport(c);await recordRead(c,'export:readable','installation');return r}
+  if(url.pathname==='/api/backup'){noCredential(c,'download an installation backup');const r=await backup(c);await recordRead(c,'export:backup','installation');return r}
+  if(url.pathname==='/api/readable-export'){noCredential(c,'download the readable export');const r=await readableExport(c);await recordRead(c,'export:readable','installation');return r}
   if(url.pathname==='/api/collections'){const r=await collections(c,url.searchParams.get('month'));await recordRead(c,'read:collections',String(url.searchParams.get('month')));return json(r)}
   if(url.pathname==='/api/rent-roll') {
    const r=await rentRoll(c,Object.fromEntries(url.searchParams)),f=url.searchParams.get('format')??'json'
@@ -204,6 +220,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   if(url.pathname.startsWith('/api/maintenance/')){const id=url.pathname.split('/')[3],r=await workPacket(c,id);await recordRead(c,'read:packet',id);return r}
   return new Response('Not found',{status:404})
  } catch(error) {
+  if(c&&idem)await abandonIdempotent(c,idem).catch(()=>{})
   const x=error as any,conflict=String(x.message).includes('UNIQUE constraint'),status=conflict?409:(x.status??400),message=conflict?'That reference already exists. Use the existing record or a distinct reference.':x.message??'The operation failed.',code=conflict?'duplicate':x.code??'operation_failed'
   if(isApi)return json({ok:false,error:code,message},status)
   if(c) {const dest=new URL('/app',url);dest.searchParams.set('tab',String(p.tab??url.searchParams.get('tab')??'tenancy'));dest.searchParams.set('tenancy',String(p.tenancyId??url.searchParams.get('tenancy')??''));try{return await render(c,dest,message,{},status,request,env)}catch{return page(c,'Unable to continue','<p><a href="/app">Back to tenancies</a></p>',message,status)}}

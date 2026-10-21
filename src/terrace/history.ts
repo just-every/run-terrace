@@ -17,7 +17,7 @@ export async function history(c: Context, q: Row) {
  if (q.actor) { where.push('a.actor=?'); args.push(text(q.actor, 'Actor', 100)) }
  if (q.action) { where.push('a.action LIKE ?'); args.push(text(q.action, 'Action', 60).replace(/[%_]/g, '') + '%') }
  if (q.tenancyId) { where.push('a.tenancy_id=?'); args.push(text(q.tenancyId, 'Tenancy', 100)) }
- const rows = await all(c, `SELECT a.*,COALESCE(o.display_name,a.actor) AS actor_name,t.unit_id AS tenancy_unit,t.id AS tenancy_live FROM tt_audit a LEFT JOIN oa_operators o ON o.id=a.actor LEFT JOIN tt_tenancies t ON t.id=a.tenancy_id${where.length ? ' WHERE ' + where.join(' AND ') : ''} ORDER BY a.at DESC,a.id DESC`, ...args)
+ const rows = await all(c, `SELECT a.*,COALESCE(o.display_name,k.label||' (API credential)',a.actor) AS actor_name,t.unit_id AS tenancy_unit,t.id AS tenancy_live FROM tt_audit a LEFT JOIN oa_operators o ON o.id=a.actor LEFT JOIN tt_api_credentials k ON k.id=a.actor LEFT JOIN tt_tenancies t ON t.id=a.tenancy_id${where.length ? ' WHERE ' + where.join(' AND ') : ''} ORDER BY a.at DESC,a.id DESC`, ...args)
  // Scope: a row about a tenancy the reader reaches; a row with no live tenancy only for the owner and all-portfolio readers.
  const visible = rows.filter(r => r.tenancy_live ? reaches(c, r.tenancy_unit) : c.actor.role === 'owner' || !!c.actor.staff?.all).slice(0, limit)
  return { rows: visible.map(r => ({ id: r.id, at: r.at, actor: r.actor, actorName: r.actor_name, role: r.role ?? null, policy: r.policy ?? null, action: r.action, subject: r.subject, tenancyId: r.tenancy_id ?? null, source: r.source ?? null, outcome: r.outcome ?? 'recorded' })), next: visible.length === limit ? visible.at(-1)!.at : null }

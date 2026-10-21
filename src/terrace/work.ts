@@ -25,6 +25,7 @@ const contextMatches = (p: Row, row: Row) => {
   if (p.tenancyId !== undefined) insist(p.tenancyId === row.tenancy_id, 'conflict', 'This record belongs to another tenancy.', 409)
 }
 async function readAccess(c: Context) {
+  if (c.actor.credential) { insist(await one(c, 'SELECT 1 AS ok FROM tt_api_credentials WHERE id=? AND revoked_at IS NULL AND version=?', c.actor.id, c.actor.version ?? 0), 'forbidden', 'This credential was revoked or changed.', 403); return }
   insist(await one(c, "SELECT id FROM oa_operators WHERE id=? AND status='active' AND role=? AND version=?", c.actor.id, c.actor.role, c.actor.version ?? 1), 'forbidden', 'Your access changed. Sign in again.', 403)
 }
 async function inspection(c: Context, p: Row) {
@@ -155,7 +156,8 @@ export async function workData(c: Context, tenancyId: string) {
 
 /** Operator ids to display names, for showing who prepared, approved, uploaded or handed off work. */
 export async function operatorNames(c: Context): Promise<Record<string, string>> {
-  return Object.fromEntries((await all(c, 'SELECT id,display_name FROM oa_operators')).filter(o => o.display_name).map(o => [o.id, o.display_name]))
+  const keys = (await all(c, 'SELECT id,label FROM tt_api_credentials')).map(k => [k.id, `${k.label} (API credential)`])
+  return Object.fromEntries([...keys, ...(await all(c, 'SELECT id,display_name FROM oa_operators')).filter(o => o.display_name).map(o => [o.id, o.display_name])])
 }
 
 export async function photoResponse(c: Context, photoId: string): Promise<Response> {
