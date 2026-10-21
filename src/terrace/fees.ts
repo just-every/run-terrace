@@ -10,7 +10,7 @@ import { localDate } from './zones'
 
 const lastDay = (m: string) => new Date(Date.UTC(Number(m.slice(0, 4)), Number(m.slice(5, 7)), 0)).toISOString().slice(0, 10)
 const key = (l: Row) => `${l.kind}|${l.source}|${l.owner_id ?? l.ownerId}`
-type Want = { ownerId: string; day: string; kind: string; source: string; sourceLabel: string; baseCents: number; rateBp: number | null; amountCents: number; taxBp: number; agreement: Row }
+type Want = { ownerId: string; day: string; kind: string; source: string; sourceLabel: string; baseCents: number; rateBp: number | null; amountCents: number; taxBp: number; taxCentsOverride?:number; agreement: Row }
 
 async function property(c: Context, v: unknown) {
  const row = await one(c, 'SELECT * FROM tt_properties WHERE id=?', text(v, 'Property', 100))
@@ -21,21 +21,25 @@ async function property(c: Context, v: unknown) {
 /** The fee lines the month's records call for, per owner and source. */
 async function wanted(c: Context, p: Row, m: string, today: string) {
  const d = (await ownershipData(c)).byProperty[p.id], from = m + '-01', to = lastDay(m), out: Want[] = [], skipped: Row[] = []
- const add = (day: string, kind: string, source: string, sourceLabel: string, total: number, rateBp: number | null, per: (cents: number) => number) => {
+ const add = (day: string, kind: string, source: string, sourceLabel: string, total: number, rateBp: number | null, per: (cents: number) => number, postingDay=day) => {
   const set = sharesOn(d, day), a = agreementOn(d, day)
   if (!set || !a) return void skipped.push({ source, reason: !set ? 'No ownership recorded on ' + day : 'No management agreement in force on ' + day })
-  for (const s of split(total, set.shares)) { const amount = per(s.cents); if (amount > 0) out.push({ ownerId: s.ownerId, day, kind, source, sourceLabel, baseCents: rateBp === null ? total : s.cents, rateBp, amountCents: rateBp === null ? s.cents : amount, taxBp: a.fee_tax_bp, agreement: a }) }
+  for (const s of split(total, set.shares)) { const amount = per(s.cents); if (amount !== 0) out.push({ ownerId: s.ownerId, day:postingDay, kind, source, sourceLabel, baseCents: rateBp === null ? total : s.cents, rateBp, amountCents: rateBp === null ? s.cents : amount, taxBp: a.fee_tax_bp, agreement: a }) }
  }
  const [receipts, leases, renewals] = await Promise.all([
-  all(c, 'SELECT r.id,r.amount_cents,r.received_date,r.reference,r.currency,t.currency_confirmed FROM tt_net_receipts r JOIN tt_charges q ON q.id=r.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND r.received_date BETWEEN ? AND ? AND q.tax_rule_id IS NULL ORDER BY r.received_date,r.id', p.id, from, to),
+  all(c, 'SELECT r.id,r.amount_cents,r.received_date,r.reference,r.currency,r.reversal_of,t.currency_confirmed,original.received_date AS allocation_date FROM tt_net_receipts r LEFT JOIN tt_receipts original ON original.id=r.reversal_of JOIN tt_charges q ON q.id=r.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND r.received_date BETWEEN ? AND ? AND q.tax_rule_id IS NULL ORDER BY r.received_date,r.id', p.id, from, to),
   all(c, 'SELECT t.id,t.address,t.start_date FROM tt_tenancies t JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND t.start_date BETWEEN ? AND ? AND t.transferred_from IS NULL ORDER BY t.start_date,t.id', p.id, from, to),
   // LEASE-012: a campaign offer earns its renewal fee when its signed renewal activates, never at offer approval.
   all(c, "SELECT r.id,COALESCE(h.confirmed_at,r.approved_at) AS approved_at,json_extract(r.payload,'$.renewalId') AS campaign,t.address FROM tt_proposals r JOIN tt_tenancies t ON t.id=r.tenancy_id JOIN tt_units u ON u.id=t.unit_id LEFT JOIN tt_lease_history h ON h.proposal_id=r.id WHERE u.property_id=? AND r.kind='renewal' AND r.state='approved' AND (json_extract(r.payload,'$.renewalId') IS NULL OR h.id IS NOT NULL) ORDER BY 2,r.id", p.id),
  ])
  for (const r of receipts) {
   if (r.currency !== 'USD' || r.currency_confirmed === 0) { skipped.push({ source: 'receipt:' + r.id, reason: `Receipt ${r.reference} is not in confirmed USD` }); continue }
-  const a = agreementOn(d, r.received_date)
-  add(r.received_date, 'management', 'receipt:' + r.id, `Receipt ${r.reference}`, r.amount_cents, a?.fee_bp ?? 0, share => fee(share, a!.fee_bp))
+  if(r.reversal_of){
+   const prior=await all(c,"SELECT owner_id,agreement_id,rate_bp,tax_bp,SUM(amount_cents) AS amount,SUM(tax_cents) AS tax FROM tt_fees WHERE property_id=? AND source=? GROUP BY owner_id,agreement_id,rate_bp,tax_bp",p.id,'receipt:'+r.reversal_of)
+   if(prior.length){for(const f of prior)if(f.amount||f.tax){const agreement=d.agreements.find((a:Row)=>a.id===f.agreement_id);out.push({ownerId:f.owner_id,day:r.received_date,kind:'management',source:'receipt:'+r.id,sourceLabel:'Reversal of receipt '+r.reversal_of,baseCents:r.amount_cents,rateBp:f.rate_bp,amountCents:-f.amount,taxBp:f.tax_bp,taxCentsOverride:-f.tax,agreement})}continue}
+  }
+  const allocationDay=r.allocation_date??r.received_date,a = agreementOn(d, allocationDay)
+  add(allocationDay, 'management', 'receipt:' + r.id, `Receipt ${r.reference}`, r.amount_cents, a?.fee_bp ?? 0, share => fee(share, a!.fee_bp),r.received_date)
  }
  for (const t of leases) { const a = agreementOn(d, t.start_date); if (a?.leasing_fee_cents) add(t.start_date, 'leasing', 'lease:' + t.id, `New lease ${t.address} from ${t.start_date}`, a.leasing_fee_cents, null, share => share) }
  for (const r of renewals) {
@@ -60,14 +64,14 @@ export async function feeCommand(c: Context, command: string, p: Row): Promise<R
   for (const k of keys) {
    if (held.has(k)) continue
    const want = lines.find(l => key(l) === k), last = recorded.filter(r => key(r) === k).at(-1)!
-   const amount = (want?.amountCents ?? 0) - sum(k, 'amount_cents'), tax = (want ? fee(want.amountCents, want.taxBp) : 0) - sum(k, 'tax_cents')
+   const amount = (want?.amountCents ?? 0) - sum(k, 'amount_cents'), tax = (want ? (want.taxCentsOverride??fee(want.amountCents, want.taxBp)) : 0) - sum(k, 'tax_cents')
    if (!amount && !tax) continue
    const l = want ?? { ownerId: last.owner_id, day: last.day, kind: last.kind, source: last.source, sourceLabel: last.source_label + ' (no longer due)', baseCents: 0, rateBp: last.rate_bp, taxBp: last.tax_bp, agreement: { id: last.agreement_id } }
    writes.push(sql(c, 'INSERT INTO tt_fees(id,property_id,owner_id,month,day,kind,source,source_label,base_cents,rate_bp,amount_cents,tax_bp,tax_cents,agreement_id,run_id,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', id(), prop.id, l.ownerId, m, l.day, l.kind, l.source, l.sourceLabel, l.baseCents, l.rateBp, amount, l.taxBp, tax, l.agreement.id, run, c.actor.id, c.now))
   }
   // Two runs at once cannot both post: the batch holds only if no fee line was added since this run read them.
   await commit(c, [guard(c, '(SELECT COUNT(*) FROM tt_fees WHERE property_id=? AND month=?)=?', prop.id, m, recorded.length), ...writes], command, `${prop.id} ${m}`)
-  return { posted: writes.length, lines: lines.map(({ agreement, ...l }) => ({ ...l, taxCents: fee(l.amountCents, l.taxBp), agreementReference: agreement.reference })), skipped, notice: writes.length ? `Fee run posted ${writes.length} line${writes.length === 1 ? '' : 's'}.` : 'Fee run: nothing new to charge.' }
+  return { posted: writes.length, lines: lines.map(({ agreement, ...l }) => ({ ...l, taxCents: l.taxCentsOverride??fee(l.amountCents, l.taxBp), agreementReference: agreement.reference })), skipped, notice: writes.length ? `Fee run posted ${writes.length} line${writes.length === 1 ? '' : 's'}.` : 'Fee run: nothing new to charge.' }
  }
  if (command === 'fee.override') {
   allow(c, command)

@@ -19,13 +19,14 @@ export function basisPoints(v: unknown, label: string) {
 }
 /** Splits exact cents by basis points: each share gets the floor, and the remainder cents go to the largest share (ties: the earlier position). */
 export function split(amount: number, shares: Row[]) {
- const out = shares.map(s => ({ ownerId: s.owner_id, bp: s.share_bp, cents: Math.floor(amount * s.share_bp / 10000) }))
- const rest = amount - out.reduce((t, s) => t + s.cents, 0)
+ const sign=Math.sign(amount),positive=Math.abs(amount)
+ const out = shares.map(s => ({ ownerId: s.owner_id, bp: s.share_bp, cents: Math.floor(positive * s.share_bp / 10000) }))
+ const rest = positive - out.reduce((t, s) => t + s.cents, 0)
  if (rest > 0 && out.length) out.reduce((best, s) => s.bp > best.bp ? s : best, out[0]).cents += rest
- return out
+ return out.map(s=>({...s,cents:s.cents*sign}))
 }
 /** A fee in cents at basis points, rounded half up to the cent. */
-export const fee = (cents: number, bp: number) => Math.floor((cents * bp + 5000) / 10000)
+export const fee = (cents: number, bp: number) => Math.sign(cents)*Math.floor((Math.abs(cents) * bp + 5000) / 10000)
 const inForce = <T extends Row>(rows: T[], day: string, key: string) => rows.filter(r => r[key] <= day).at(-1)
 const dayBefore = (d: string) => new Date(Date.parse(d + 'T00:00:00Z') - 86400000).toISOString().slice(0, 10)
 
@@ -122,11 +123,12 @@ export async function ownerStatement(c: Context, ownerId: unknown, fromValue: un
  const data = await ownershipData(c), rows: Row[] = [], reserves: Row[] = []
  for (const p of props) {
   const d = data.byProperty[p.id]
-  const receipts = await all(c, 'SELECT r.amount_cents,r.received_date,r.reference,t.address,t.currency,t.currency_confirmed FROM tt_net_receipts r JOIN tt_charges q ON q.id=r.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND r.received_date BETWEEN ? AND ? AND q.tax_rule_id IS NULL ORDER BY r.received_date,r.created_at', p.id, from, to)
+  const receipts = await all(c, 'SELECT r.amount_cents,r.received_date,r.reference,original.received_date AS allocation_date,t.address,t.currency,t.currency_confirmed FROM tt_net_receipts r LEFT JOIN tt_receipts original ON original.id=r.reversal_of JOIN tt_charges q ON q.id=r.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND r.received_date BETWEEN ? AND ? AND q.tax_rule_id IS NULL ORDER BY r.received_date,r.created_at', p.id, from, to)
   for (const r of receipts) {
-   const set = sharesOn(d, r.received_date), mine = set ? split(r.amount_cents, set.shares).find(s => s.ownerId === o.id) : undefined
+   const allocationDay=r.allocation_date??r.received_date
+   const set = sharesOn(d, allocationDay), mine = set ? split(r.amount_cents, set.shares).find(s => s.ownerId === o.id) : undefined
    if (!mine) continue
-   const a = agreementOn(d, r.received_date), feeCents = a ? fee(mine.cents, a.fee_bp) : 0
+   const a = agreementOn(d, allocationDay), feeCents = a ? fee(mine.cents, a.fee_bp) : 0
    rows.push({ date: r.received_date, property: p.name, address: r.address, reference: r.reference, currency: shown(r), receiptCents: r.amount_cents, shareBp: mine.bp, allocatedCents: mine.cents, feeBp: a?.fee_bp ?? 0, feeCents, netCents: mine.cents - feeCents, agreementReference: a?.reference ?? null })
   }
   // The reserve requirement is split like income: per stretch of the period with one share set and one agreement in force.

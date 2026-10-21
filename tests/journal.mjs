@@ -27,11 +27,14 @@ export async function journey({assets=false,inspect}={}){
   const pair=(account,n,creditAccount)=>[{account,debit:n,credit:0},{account:creditAccount,debit:0,credit:n}]
   const post=(x,kind,fund,ls,extra={})=>h.command('journal.post',{propertyId:x.p.id,ownerId:x.o.id,tenancyId:x.t.id,day,kind,fund,reference:'synthetic-terrace-1 '+kind,lines:ls,...extra})
   await h.command('chart.add',{code:'repairs',name:'Reviewed repair expense',kind:'expense',fund:'operating'})
+  const earlyDay=new Date(Date.parse(day+'T12:00:00Z')-10*864e5).toISOString().slice(0,10)
   const original=[]
   for(const x of [a,b]){
-   const charge=await h.command('rent.charge',{tenancyId:x.t.id,dueDate:day,amount:'1000.00',description:'Rent',reference:x.p.id+' rent'})
-   const first=await h.command('rent.receipt',{chargeId:charge.id,receivedDate:day,amount:'100.00',reference:x.p.id+' payment'})
-   const duplicate=await h.command('rent.receipt',{chargeId:charge.id,receivedDate:day,amount:'100.00',reference:x.p.id+' duplicate'})
+   await h.command('agreement.set',{propertyId:x.p.id,starts:'2025-01-01',feePercent:'10.00',feeTaxPercent:'4.5',reserve:'0',reference:'synthetic-terrace-6 management agreement'})
+   const charge=await h.command('rent.charge',{tenancyId:x.t.id,dueDate:earlyDay,amount:'1000.00',description:'Rent',reference:x.p.id+' rent'})
+   const first=await h.command('rent.receipt',{chargeId:charge.id,receivedDate:earlyDay,amount:'100.00',reference:x.p.id+' payment'})
+   const duplicate=await h.command('rent.receipt',{chargeId:charge.id,receivedDate:earlyDay,amount:'100.00',reference:x.p.id+' duplicate'})
+   await h.command('fees.run',{propertyId:x.p.id,month:day.slice(0,7)})
    original.push({x,charge,first,duplicate,before:(await get({propertyId:x.p.id})).entries})
    await post(x,'deposit','deposit',pair('cash',180000,'deposit_liability'))
    await post(x,'contribution','operating',pair('cash',50000,'contribution'))
@@ -39,15 +42,26 @@ export async function journey({assets=false,inspect}={}){
    const open=await post(x,'opening','operating',pair('receivable',2500,'opening_equity'))
    await h.command('journal.reverse',{entryId:open.id,day,reference:'Correct opening balance'})
   }
+  const archiveRows=(await(await h.request('/api/backup')).text()).trim().split('\n').map(JSON.parse).filter(r=>r.kind==='part').flatMap(p=>p.items).filter(i=>i.kind==='row')
+  const overridden=archiveRows.find(i=>i.table==='tt_fees'&&i.row.source==='receipt:'+original[1].duplicate.id).row
+  await h.command('fee.override',{feeId:overridden.id,amount:'3.33',reason:'Partial waiver on duplicate before correction'})
+  const successor=await h.command('owner.add',{kind:'individual',legalName:'Cedar successor',email:'cedar@example.test',mailingAddress:'1 Cedar Lane'})
+  const transferred=new Date(Date.parse(earlyDay+'T12:00:00Z')+864e5).toISOString().slice(0,10)
+  await h.command('ownership.set',{propertyId:a.p.id,effectiveFrom:transferred,reason:'Dated sale after receipt',shares:[{ownerId:successor.id,percent:'100'}]})
+  await h.command('agreement.set',{propertyId:a.p.id,starts:transferred,feePercent:'20.00',reserve:'0',reference:'Successor agreement'})
   const snapshot=await get(),count=snapshot.entries.length
-  await post(a,'journal','operating',[{account:'cash',debit:1,credit:0},{account:'contribution',debit:0,credit:2}]).then(()=>assert.fail('unbalanced must be refused'),e=>{assert.match(e.message,/400|debit|credit|balance/i)})
+  await post(b,'journal','operating',[{account:'cash',debit:1,credit:0},{account:'contribution',debit:0,credit:2}]).then(()=>assert.fail('unbalanced must be refused'),e=>{assert.match(e.message,/400|debit|credit|balance/i)})
   assert.equal((await get()).entries.length,count,'unbalanced writes nothing')
   await h.command('journal.post',{propertyId:a.p.id,ownerId:b.o.id,day,kind:'vendor_expense',fund:'operating',vendorId:vendor.id,reference:'Other owner',lines:pair('expense',1,'cash')},{status:409})
-  await h.command('journal.post',{propertyId:a.p.id,ownerId:a.o.id,day,kind:'journal',fund:'deposit',reference:'Deposit cannot pay expense',lines:pair('expense',1,'cash')},{status:400})
-  await h.command('journal.post',{propertyId:a.p.id,ownerId:a.o.id,day,kind:'vendor_expense',fund:'operating',vendorId:vendor.id,reference:'Cannot borrow other owners or deposits',lines:pair('expense',100000,'cash')},{status:409})
+  await h.command('journal.post',{propertyId:b.p.id,ownerId:b.o.id,day,kind:'journal',fund:'deposit',reference:'Deposit cannot pay expense',lines:pair('expense',1,'cash')},{status:400})
+  await h.command('journal.post',{propertyId:b.p.id,ownerId:b.o.id,day,kind:'vendor_expense',fund:'operating',vendorId:vendor.id,reference:'Cannot borrow other owners or deposits',lines:pair('expense',100000,'cash')},{status:409})
   for(const{x,duplicate,before}of original){
    const reversal=await h.command('rent.reverse-receipt',{receiptId:duplicate.id,day,reference:'Bank duplicate corrected',reason:'Same external payment entered twice'})
    await h.command('rent.reverse-receipt',{receiptId:duplicate.id,day,reference:'Again',reason:'Again'},{status:409})
+   const fees=await h.command('fees.run',{propertyId:x.p.id,month:day.slice(0,7)})
+   assert.ok(fees.lines.some(l=>l.kind==='management'&&l.ownerId===x.o.id&&l.amountCents===(x===a?-1000:-333)&&l.taxCents===(x===a?-45:-15)),'the correction reverses the original owner and fee rate after a transfer')
+   const allocation=await(await h.request('/api/owner-statement?'+new URLSearchParams({ownerId:x.o.id,from:earlyDay,to:day}))).json()
+   assert.equal(allocation.rows.find(r=>r.reference==='Bank duplicate corrected').allocatedCents,-10000)
    const state=await h.state(x.t.id);assert.equal(state.ledger.balanceCents,90000);assert.equal(state.ledger.receipts.length,3);assert.equal(state.ledger.receipts.filter(r=>r.reversal_of===duplicate.id).length,1)
    for(const q of [{tenancyId:x.t.id},{propertyId:x.p.id},{ownerId:x.o.id}]){
     const d=await get(q),old=d.entries.find(j=>j.source_kind==='receipt'&&j.source_id===duplicate.id),undo=d.entries.find(j=>j.reversal_of===old.id)
