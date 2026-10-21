@@ -273,7 +273,7 @@ export async function workflowSweepPlan(c: Context, templates: Row[], runs: Row[
  const writes: D1PreparedStatement[] = [], touched: Row = { paused: [], escalated: [], started: [], skipped: [] }
  for (const run of runs) {
   const tpl = parsed((await one(c, 'SELECT * FROM tt_workflow_templates WHERE id=?', run.template_id))!), today = localDate(c.now, run.zone)
-  if (await stale(c, run, tpl)) continue
+  if (await stale(c, run, tpl) || await one(c, 'SELECT 1 FROM tt_workflow_sends WHERE run_id=? AND results IS NULL', run.id)) continue
   if (today > run.step_due_on) {
    const spent = tpl.steps[run.step_index].kind === 'contact' && run.contacts >= tpl.contact_limit
    writes.push(workflowFence(c, run), ...await escalation(c, run, tpl, spent ? 'contact_limit' : 'overdue', {}, 'escalated by scheduler:workflows; Terrace takes no further step')); touched.escalated.push(run.id)

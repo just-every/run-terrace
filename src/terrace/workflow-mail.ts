@@ -11,7 +11,7 @@ export async function workflowSendClaim(c: Context, subjectKind: string, subject
   if (run.state === 'running') {
    const pending = await sql(c, 'SELECT COUNT(*) AS n FROM tt_workflow_sends WHERE run_id=? AND results IS NULL', run.id).first<Row>()
    insist(run.contacts + pending!.n < run.contact_limit, 'contact_limit', 'The workflow contact limit is used up or an earlier send has no confirmed outcome. Review the run before another send.', 409)
-   writes.push(guard(c, 'EXISTS(SELECT 1 FROM tt_workflow_runs WHERE id=? AND version=? AND contacts+(SELECT COUNT(*) FROM tt_workflow_sends WHERE run_id=? AND results IS NULL)<?)', run.id, run.version, run.id, run.contact_limit))
+   writes.push(guard(c, 'EXISTS(SELECT 1 FROM tt_workflow_runs WHERE id=? AND version=? AND contacts+(SELECT COUNT(*) FROM tt_workflow_sends WHERE run_id=? AND results IS NULL)<?)', run.id, run.version, run.id, run.contact_limit), workflowUpdate(c, run, {}))
   }
   writes.push(sql(c, 'INSERT INTO tt_workflow_sends(run_id,send_id,send_state) VALUES(?,?,?)', run.id, sendId, run.state))
  }

@@ -8,11 +8,12 @@ const pictures=resolve(process.env.WORKFLOW_SCREENSHOTS??'.rer/workflow-screens'
 await mkdir(pictures,{recursive:true})
 const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
 let page
-async function picture(name){
+async function picture(name,region){
  for(const [width,height]of [[1440,900],[390,844]]){
   await page.setViewportSize({width,height})
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'OPS-003 '+name+' fits '+width)
-  await page.screenshot({path:join(pictures,`${name}-${width}.png`),fullPage:true})
+  if(region)await region.screenshot({path:join(pictures,`${name}-${width}.png`)})
+  else await page.screenshot({path:join(pictures,`${name}-${width}.png`),fullPage:true})
  }
  await page.setViewportSize({width:1440,height:900})
 }
@@ -51,6 +52,7 @@ try {
   await page.getByText('Sweep history',{exact:true}).click()
   await page.getByText('Needs a new configurer: needs a configurer:',{exact:false}).first().waitFor()
   await picture('scheduler-history')
+  await picture('scheduler-detail',page.getByRole('heading',{name:'Sweep',exact:true}).locator('..'))
   await page.getByRole('button',{name:'Run now',exact:true}).click()
   await page.getByText(/Sweep: 0 started, 0 escalated, 0 maintenance orders/).first().waitFor()
   await picture('run-now')
@@ -58,6 +60,7 @@ try {
    const card=page.locator('#workflow-'+id)
    await card.getByText('History',{exact:true}).click()
    assert.ok(await card.getByText('uncertain',{exact:false}).count())
+   await picture(id===pausedId?'prospect-provider-detail':'renewal-provider-detail',card)
   }
   await picture('provider-outcomes')
   await context.close()
