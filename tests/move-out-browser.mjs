@@ -90,7 +90,8 @@ try {
    await picture(name+'-checklist-form',section)
    await page.setViewportSize({width:390,height:844})
    await form.getByRole('button',{name:'Save handover checklist',exact:true}).click()
-   await page.getByRole('status').filter({hasText:'Handover checklist recorded'}).first().waitFor()
+   await page.getByRole('status').first().waitFor()
+   assert.match(await page.getByRole('status').first().innerText(),/Handover checklist recorded/)
    return true
   }
   if(!out)await section.getByText('Earlier move-in revisions (1)',{exact:true}).click()

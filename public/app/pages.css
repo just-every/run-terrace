@@ -64,3 +64,6 @@
  .work-columns .card{padding:18px}
  .erase-rows summary{gap:12px;padding:10px 0}.erase-who{display:grid;gap:2px}.erase-who .muted{font-size:13.5px}.erase-sep{display:none}
 }
+
+/* Long handover evidence stays readable below each label, including on phones. */
+.handover-items{grid-template-columns:minmax(0,1fr);gap:6px}.handover-items dd{margin-bottom:10px}
