@@ -59,6 +59,7 @@ export async function journey({assets=false,inspect}={}){
   await h.command('property.rules',{propertyId:properties.CA.id,stateCode:'CA',version:1,overlays:['CA:san_francisco'],reference:'synthetic-terrace-4'})
   const overlay=await h.command('rules.preview',{propertyId:properties.CA.id,action:'nonrenewal',on:'2026-10-01',occupancyMonths:12,justCause:'Synthetic cause'});assert.equal(overlay.state,'held');assert.match(overlay.gaps.join(' '),/CA:san_francisco: no dated pack/)
   const member=await h.invite('member','rules-member@example.test');await h.command('rules.pack',syntheticPack('CA',4),{as:member,status:403});await h.command('rules.activate',{packId:v3.id,consent:'REVIEWED'},{as:member,status:403})
+  await h.stepUp();await h.command('operator.invite',{displayName:'Bookkeeper',email:'rule-books@example.test',role:'bookkeeper',allPortfolios:'1'});const books=await h.accept('rule-books@example.test');assert.equal((await h.request('/api/rules',{as:books})).status,403,'financial-report access does not expose counsel-review records')
   const before=await catalog();await h.restart();assert.deepEqual(await catalog(),before)
   const archive=await(await h.request('/api/backup')).text(),fresh=await installation()
   try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'packs.rer')});assert.deepEqual((await(await fresh.request('/api/rules')).json()).decisions,before.decisions)}finally{await fresh.close()}

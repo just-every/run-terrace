@@ -4,7 +4,7 @@ The State & local rules screen is a review workspace. Terrace currently ships a 
 
 The installation owner records a property’s state and applicable local overlays explicitly, with a source reference; the address is never used to guess applicability. Each required state and local version must be active and contain the fields the requested preview needs. A missing version, inactive review, future-effective field or missing required field holds the preview. A newer inactive draft holds actions from its effective day; an older active version is not substituted.
 
-Only the owner publishes drafts, assigns jurisdiction, activates review and records previews. This conservative authority default awaits ct approval. A review is the owner’s record of counsel’s review and its source; Terrace does not authenticate counsel, certify compliance or provide legal advice. No active legal values are supplied or inferred. A reviewer must address property-specific coverage and exemptions, CPI sources, local overlays and current law before actual use.
+Only the owner reads this review workspace, publishes drafts, assigns jurisdiction, activates review and records previews. Existing financial-report rights and API credentials grant no access. This conservative authority default awaits ct approval. A review is the owner’s record of counsel’s review and its source; Terrace does not authenticate counsel, certify compliance or provide legal advice. No active legal values are supplied or inferred. A reviewer must address property-specific coverage and exemptions, CPI sources, local overlays and current law before actual use.
 
 ## Reviewed file format
 

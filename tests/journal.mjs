@@ -22,7 +22,7 @@ export async function journey({assets=false,inspect}={}){
    db.prepare("INSERT INTO tt_period_closes(id,month,version,closed_by,closed_at,statement) VALUES('synthetic-terrace-4','2025-02',1,'old-owner','2025-03-01T00:00:00Z','[]')")
   ])
  }})
- try{const j=await(await old.request('/api/journal')).json();assert.equal(j.entries.length,6);assert.equal(j.debitCents,221000);assert.equal(j.creditCents,221000);const expenses=j.trialBalance.find(a=>a.code==='expense');assert.equal(expenses.debitCents-expenses.creditCents,40000);assert.equal(j.entries.filter(e=>e.source_kind==='bill_reversal').length,1);assert.equal(j.entries.find(e=>e.source_kind==='reduction').day,'2025-02-28');assert.equal((await old.state('synthetic-terrace-1')).ledger.balanceCents,79000)}finally{await old.close()}
+ try{const j=await(await old.request('/api/journal')).json();assert.equal(j.entries.length,6);assert.equal(j.debitCents,221000);assert.equal(j.creditCents,221000);const expenses=j.trialBalance.find(a=>a.code==='expense');assert.equal(expenses.debitCents-expenses.creditCents,40000);assert.equal(j.entries.filter(e=>e.source_kind==='bill_reversal').length,1);assert.equal(j.entries.find(e=>e.source_kind==='reduction').day,'2025-02-28');assert.equal((await old.state('synthetic-terrace-1')).ledger.balanceCents,79000);assert.equal((await old.command('journal.post',{propertyId:'synthetic-terrace-prop',ownerId:'synthetic-terrace-owner',day:'2025-02-10',fund:'operating',kind:'opening',reference:'Backdated opening',lines:[{account:'receivable',debit:100,credit:0},{account:'opening_equity',debit:0,credit:100}]},{status:409})).error,'period_closed')}finally{await old.close()}
  const h=await installation({assets})
  try{
   const make=async name=>{
@@ -65,6 +65,9 @@ export async function journey({assets=false,inspect}={}){
   await h.command('journal.post',{propertyId:a.p.id,ownerId:b.o.id,day,kind:'vendor_expense',fund:'operating',vendorId:vendor.id,reference:'Other owner',lines:pair('expense',1,'cash')},{status:409})
   await h.command('journal.post',{propertyId:b.p.id,ownerId:b.o.id,day,kind:'journal',fund:'deposit',reference:'Deposit cannot pay expense',lines:pair('expense',1,'cash')},{status:400})
   await h.command('journal.post',{propertyId:b.p.id,ownerId:b.o.id,day,kind:'vendor_expense',fund:'operating',vendorId:vendor.id,reference:'Cannot borrow other owners or deposits',lines:pair('expense',100000,'cash')},{status:409})
+  assert.equal((await get()).entries.length,count,'all refused fund and owner requests leave no journal row')
+  const custom=await post(b,'journal','operating',pair('repairs',123,'payable'))
+  const customData=await get({propertyId:b.p.id});assert.equal(customData.trialBalance.find(a=>a.code==='repairs').debitCents,123);assert.deepEqual(customData.entries.find(j=>j.id===custom.id).lines,pair('repairs',123,'payable'))
   for(const{x,duplicate,before}of original){
    const reversal=await h.command('rent.reverse-receipt',{receiptId:duplicate.id,day,reference:'Bank duplicate corrected',reason:'Same external payment entered twice'})
    await h.command('rent.reverse-receipt',{receiptId:duplicate.id,day,reference:'Again',reason:'Again'},{status:409})
@@ -95,7 +98,7 @@ export async function journey({assets=false,inspect}={}){
   const db=await h.mf.getD1Database('DB');await assert.rejects(db.prepare("UPDATE tt_journal SET reference='rewrite'").run(),/never edited/);await assert.rejects(db.prepare('DELETE FROM tt_journal').run(),/never deleted/)
   const expected=(await get()).entries;await h.restart();assert.deepEqual((await get()).entries,expected)
   const archive=await(await h.request('/api/backup')).text(),fresh=await installation()
-  try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'journal.rer')});assert.deepEqual((await(await fresh.request('/api/journal')).json()).entries,expected)}finally{await fresh.close()}
+  try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'journal.rer')});const restored=await(await fresh.request('/api/journal')).json();assert.deepEqual(restored.entries,expected);assert.equal(restored.accounts.find(a=>a.code==='repairs').name,'Reviewed repair expense')}finally{await fresh.close()}
   if(inspect)await inspect({h,a,b,day,vendor})
  }finally{await h.close()}
 }

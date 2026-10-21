@@ -7,7 +7,7 @@ const known=(code:string)=>STATES.some(s=>s[0]===code)||OVERLAYS.some(s=>s[0]===
 const integer=(v:unknown,name:string,min=0,max=100000000)=>{insist(Number.isSafeInteger(v)&&Number(v)>=min&&Number(v)<=max,'invalid_rule',name+' must be an explicit bounded whole number.');return Number(v)}
 const add=(d:string,n:number)=>{let out=d;for(let i=0;i<n;i++)out=nextDay(out);return out}
 export async function ruleData(c:Context){
- allow(c,'reports.read')
+ allow(c,'rules.pack')
  const [versions,properties,assignments,decisions]=await Promise.all([all(c,'SELECT p.*,a.activated_at,a.activated_by FROM tt_rule_packs p LEFT JOIN tt_rule_activations a ON a.pack_id=p.id ORDER BY code,version'),all(c,'SELECT id,name,portfolio_id FROM tt_properties ORDER BY name'),all(c,'SELECT * FROM tt_property_rules'),all(c,'SELECT * FROM tt_rule_decisions ORDER BY recorded_at,id')])
  const mine=properties.filter(p=>reachesPortfolio(c,p.portfolio_id)),ids=new Set(mine.map(p=>p.id))
  const packs=[...STATES.map(([code,name])=>({code,name,state:code})),...OVERLAYS.map(([code,name,state])=>({code,name,state}))].map(r=>{const history=versions.filter(v=>v.code===r.code).map(v=>({...v,fields:JSON.parse(v.fields),reviewState:v.activated_at?'owner-recorded counsel review':'draft — not active'}));return{...r,versions:history,latest:history.at(-1)??null}})
