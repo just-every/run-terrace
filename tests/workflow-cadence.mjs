@@ -1,12 +1,17 @@
-// OPS-003: actual hourly delivery on an owned, installed rer dev runtime.
+// OPS-003: actual hourly delivery on an owned installed container runtime.
 // This slow journey runs explicitly, outside push Verify. No fake clock, direct
 // scheduled dispatch or Run now is used. The declared cron remains hourly.
 import assert from 'node:assert/strict'
-import {mkdir,writeFile} from 'node:fs/promises'
+import {mkdir,writeFile,mkdtemp,rm} from 'node:fs/promises'
+import {tmpdir} from 'node:os'
+import {randomBytes} from 'node:crypto'
+import {createServer} from 'node:net'
+import {buildContainer} from '../node_modules/@runeditrun/rer/modules/container/build.mjs'
+import {startHost} from '../node_modules/@runeditrun/rer/modules/container/host.mjs'
 import {resolve,join} from 'node:path'
 import {setTimeout as delay} from 'node:timers/promises'
 import {chromium} from '@playwright/test'
-import {launch,git} from './owned-process.mjs'
+import {git} from './owned-process.mjs'
 import {tenancyInput} from './api/harness.mjs'
 const sha=git(process.cwd(),'rev-parse','HEAD')
 assert.equal(git(process.cwd(),'status','--porcelain','--untracked-files=no'),'','Cadence needs a clean committed candidate')
@@ -15,11 +20,16 @@ await mkdir(out,{recursive:true})
 const runId='workflow-cadence-'+new Date().toISOString().replaceAll(/[:.]/g,'-')
 const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
 let active
+const scratch=await mkdtemp(join(tmpdir(),'terrace-cadence-'))
 try {
- active=await launch(process.cwd(),resolve('node_modules/@runeditrun/rer/global/rer.mjs'))
+ const packaged=await buildContainer(process.cwd(),{output:join(scratch,'image'),engine:'workerd'})
+ const socket=createServer();await new Promise(resolve=>socket.listen(0,'127.0.0.1',resolve));const port=socket.address().port;await new Promise(resolve=>socket.close(resolve))
+ const origin='http://127.0.0.1:'+port,setup=randomBytes(32).toString('hex')
+ const host=await startHost({root:join(packaged.output,'app'),data:join(scratch,'data'),port,settings:{AUTH_ORIGIN:origin,AUTH_LOCAL:'true',OWNER_EMAIL:'owner@example.test',SESSION_SECRET:randomBytes(32).toString('hex'),SETUP_TOKEN:setup,MAIL_PROVIDER:'none',MAIL_FROM:'auth@localhost.test'}})
+ active={origin,stop:()=>host.close()}
  const context=await browser.newContext(),page=await context.newPage()
- await page.goto(active.open)
- if(new URL(page.url()).pathname==='/setup') {await page.getByRole('checkbox').check();await page.getByRole('button',{name:'Finish setup'}).click()}
+ const boot=await context.request.post(origin+'/auth/bootstrap',{headers:{origin},data:{token:setup,displayName:'Cadence owner'},maxRedirects:0});assert.equal(boot.status(),303)
+ await page.goto(origin+'/setup');await page.getByRole('checkbox').check();await page.getByRole('button',{name:'Finish setup'}).click()
  const get=async path=>{const r=await context.request.get(active.origin+path);assert.equal(r.status(),200);return r.json()}
  const command=async(command,fields)=>{const r=await context.request.post(active.origin+'/api/commands',{headers:{origin:active.origin},data:{command,...fields}});assert.equal(r.status(),200,await r.text());return (await r.json()).result}
  const owner=(await get('/auth/session')).operator.id
@@ -57,8 +67,8 @@ try {
   await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth))
   await page.screenshot({path:join(out,'hourly-'+width+'.png'),fullPage:true})
  }
- const result={runId,sha,startedAt,finishedAt:new Date().toISOString(),runtime:'installed rer dev 0.2.63; real wall clock; declared 0 * * * *',status:'passed',ticks:seen}
+ const result={runId,sha,startedAt,finishedAt:new Date().toISOString(),runtime:'installed container runtime from rer 0.2.63; real wall clock; declared 0 * * * *',status:'passed',ticks:seen}
  await writeFile(join(out,runId+'.json'),JSON.stringify(result,null,2)+'\n')
  console.log(JSON.stringify(result))
  await context.close()
-} finally {await active?.stop();await browser.close()}
+} finally {await active?.stop();await browser.close();await rm(scratch,{recursive:true,force:true})}
