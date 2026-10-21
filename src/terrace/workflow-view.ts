@@ -1,0 +1,53 @@
+// OPS-003 screen: runs that need a person first, then running work with its durable next action, finished runs with
+// their evidence, trigger matches, and the templates that configure it all.
+import { escape as e, type Row } from './core'
+import { usDate } from './format'
+import { OUTCOMES, REPLIES } from './workflow-spec'
+
+const hidden = (name: string, value: unknown) => `<input type="hidden" name="${e(name)}" value="${e(value)}">`
+const form = (command: string, body: string, fields: Row = {}) => `<form method="post" action="/app/command">${hidden('command', command)}${hidden('tab', 'workflows')}${Object.entries(fields).map(([k, v]) => hidden(k, v)).join('')}${body}</form>`
+const field = (label: string, name: string, extra = 'required', value: unknown = '') => `<label>${e(label)}<input name="${e(name)}" value="${e(value)}" ${extra}></label>`
+const select = (label: string, name: string, options: [string, string][], chosen = '', optional = false) => `<label>${e(label)}<select name="${e(name)}" ${optional ? '' : 'required'}>${optional ? '<option value="">None</option>' : ''}${options.map(([v, l]) => `<option value="${e(v)}"${v === chosen ? ' selected' : ''}>${e(l)}</option>`).join('')}</select></label>`
+const label = (s: string) => e(s.replace(/_/g, ' '))
+const names = (rows: Row[]): [string, string][] => rows.map(p => [p.id, p.name])
+
+function runCard(r: Row, may: (a: string) => boolean, who: (id: string) => string) {
+ const f = { runId: r.id, version: r.version }, live = ['running', 'paused', 'escalated'].includes(r.state), step = r.step
+ let actions = ''
+ if (r.state === 'running' && may('workflow.step') && step?.kind !== 'contact') actions += `<details><summary>${step?.kind === 'gate' ? 'Confirm the gate' : 'Complete this step'}</summary>${form('workflow.step', `${field('Evidence reference', 'reference', 'maxlength="500" required')}${field('Note', 'note', 'maxlength="1000"')}<button type="submit">Record step</button>`, f)}</details>`
+ if (r.state === 'running' && may('workflow.attempt') && step?.kind === 'contact') actions += `<details><summary>Record a contact attempt</summary>${form('workflow.attempt', `${select('Channel', 'channel', ['email', 'phone', 'text', 'letter', 'in_person'].map(x => [x, label(x)]))}${select('Outcome', 'outcome', OUTCOMES)}${field('External reference (message id, call note, letter)', 'reference', 'maxlength="500" required')}${field('Note', 'note', 'maxlength="1000"')}<p class="muted">You contact them outside Terrace; this records what happened and counts against the limit of ${r.contact_limit}.</p><button type="submit">Record attempt</button>`, f)}</details>`
+ if (['running', 'escalated'].includes(r.state) && step?.kind === 'contact' && r.contacts > 0 && (r.state === 'running' ? may('workflow.reply') : may('workflow.resolve'))) actions += `<details><summary>Record the reply</summary>${form('workflow.reply', `${select('Reply', 'outcome', REPLIES)}${field('Received on', 'on', 'type="date" required')}${field('Where the reply is kept', 'reference', 'maxlength="500" required')}${field('Note', 'note', 'maxlength="2000"')}<button type="submit">Record reply</button>`, f)}</details>`
+ if (r.state === 'paused' && may('workflow.resume')) actions += `<details><summary>Review and resume</summary>${form('workflow.resume', `${r.pause_reason === 'uncertain_result' ? select('Was the attempt delivered?', 'resolution', [['delivered', 'delivered'], ['not_delivered', 'not delivered']]) : ''}${r.pause_reason === 'assignee_unavailable' ? field('New assignee id', 'assignee', 'maxlength="100" required') : ''}${field('What you reviewed', 'reference', 'maxlength="500" required')}<button type="submit">Resume</button>`, f)}</details>`
+ if (r.state === 'escalated' && may('workflow.resolve')) actions += `<details><summary>Close this escalation</summary>${form('workflow.resolve', `${field('What you did about it', 'reference', 'maxlength="500" required')}<p class="muted">The run is closed, not completed.</p><button type="submit">Close escalation</button>`, f)}</details>`
+ if (live && may('workflow.cancel')) actions += `<details><summary>Cancel</summary>${form('workflow.cancel', `${field('Reason', 'reason', 'maxlength="500" required')}<button type="submit">Cancel run</button>`, f)}</details>`
+ const history = r.events.map((h: Row) => `<li>#${h.sequence} · ${e(h.recorded_at.slice(0, 16).replace('T', ' '))} · ${label(h.kind)}${h.detail.outcome ? ': ' + e(h.detail.outcome) : ''}${h.detail.channel ? ' by ' + label(h.detail.channel) : ''}${h.detail.reason ? ': ' + label(h.detail.reason) : ''}${h.detail.resolution ? ': ' + label(h.detail.resolution) : ''} · ${e(h.reference)}<br><span class="muted">${e(h.label)}</span></li>`).join('')
+ const finished = r.events.find((h: Row) => h.kind === 'completed')
+ const tone = r.state === 'completed' ? '' : 'pending'
+ return `<article class="card" id="workflow-${e(r.id)}"><h3>${e(r.label)} <span class="pill ${tone}">${label(r.state)}${r.overdue ? ' · overdue' : ''}</span></h3>
+<p>${e(r.template_name)} v${r.template_version}${live ? ` · step ${r.step_index + 1} of ${r.stepCount}: ${e(step?.title)}` : ''}${live ? ` · due ${usDate(r.step_due_on)}` : ''}${r.assignee ? ` · assigned to ${e(who(r.assignee))}` : ''} · contacts ${r.contacts} of ${r.contact_limit}</p>
+${r.next_action ? `<p><strong>Next:</strong> ${e(r.next_action)}</p>` : `<p>${r.state === 'completed' ? 'Completed with recorded evidence.' : label(r.state) + ' by a person; its steps were not completed.'}</p>`}
+${r.pauseText ? `<p class="notice" role="status">Paused because ${e(r.pauseText)}.</p>` : ''}${r.escalationText ? `<p class="notice" role="status">Escalated to ${e(who(r.escalated_to))} because ${e(r.escalationText)}.</p>` : ''}
+${finished ? `<ul>${finished.detail.evidence.map((x: Row) => `<li>${e(x.title)} · ${e(x.reference)}</li>`).join('')}</ul>` : ''}${actions}${history ? `<details><summary>History</summary><ul>${history}</ul></details>` : ''}</article>`
+}
+
+function templateForm(t: Row | null, properties: Row[], people: Row[], assignees: Row[]) {
+ const f = t ? { templateKey: t.template_key, version: t.version } : {}, kinds: [string, string][] = [['leasing', 'Leasing follow-up (prospects)'], ['renewal', 'Renewal'], ['rent', 'Rent reminder'], ['delinquency', 'Delinquency'], ['unit_turn', 'Unit turn']]
+ const lines = t ? t.steps.map((s: Row) => [s.kind, s.title, s.dueDays, s.assignee ?? ''].join(' | ')).join('\n') : ''
+ return form('workflow.template', `${field('Name', 'name', 'maxlength="120" required', t?.name)}${select('Kind', 'kind', kinds, t?.kind)}
+${field('Renewal trigger: days before the lease ends', 'daysBeforeLeaseEnd', 'inputmode="numeric"', t?.trigger.daysBeforeLeaseEnd)}${field('Leasing trigger: days an enquiry has had no activity', 'staleDays', 'inputmode="numeric"', t?.trigger.staleDays)}${field('Rent (1–30) or delinquency (31+) trigger: days past due', 'minDaysPastDue', 'inputmode="numeric"', t?.trigger.minDaysPastDue)}${field('Rent or delinquency condition: minimum overdue amount', 'minOverdue', 'inputmode="decimal"', t?.conditions.minOverdueCents ? t.conditions.minOverdueCents / 100 : '')}
+${select('Condition: only this property', 'propertyId', properties.map(p => [p.id, p.name]), t?.conditions.propertyId, true)}
+<label>Steps, one per line: kind | title | days until due | assignee id (optional). Kinds: task, contact, gate<textarea name="steps" rows="5" maxlength="4000" required>${e(lines)}</textarea></label>
+${field('Contact limit for the whole run (1–10; needed with a contact step)', 'contactLimit', 'inputmode="numeric"', t?.contact_limit)}${select('Escalate to', 'escalateTo', names(people), t?.escalate_to)}${field('Why this template', 'reference', 'maxlength="500" required')}<button type="submit">${t ? 'Save as a new version' : 'Save template'}</button>`, f)
+}
+
+export function workflowView(d: Row, properties: Row[], may: (a: string) => boolean, who: (id: string) => string) {
+ const needs = d.runs.filter((r: Row) => ['escalated', 'paused'].includes(r.state)), running = d.runs.filter((r: Row) => r.state === 'running'), done = d.runs.filter((r: Row) => !['escalated', 'paused', 'running'].includes(r.state))
+ const sweep = may('workflow.sweep') ? `<section><h2>Sweep</h2><p>Starts runs the triggers call for, pauses runs that are no longer safe to act on and escalates runs past their due day. It sends nothing.</p>${form('workflow.sweep', '<button type="submit">Run sweep</button>')}</section>` : ''
+ const start = d.ready.filter((x: Row) => x.subjects.length).map((x: Row) => { const t = d.templates.find((y: Row) => y.template_key === x.templateKey); return `<h3>${e(t.name)}</h3><ul>${x.subjects.map((s: Row) => `<li>${e(s.label)} ${form('workflow.start', `${field('Why now', 'reference', 'maxlength="500" required', 'Trigger matched')}<button type="submit">Start</button>`, { templateKey: x.templateKey, subjectId: s.id })}</li>`).join('')}</ul>` }).join('')
+ const templates = d.templates.map((t: Row) => `<article class="card"><h3>${e(t.name)} <span class="pill ${t.retired_at ? 'pending' : ''}">${t.retired_at ? 'retired' : 'active'}</span></h3><p>${label(t.kind)} · version ${t.version} · contact limit ${t.contact_limit} · escalates to ${e(who(t.escalate_to))}</p><ol>${t.steps.map((s: Row) => `<li>${label(s.kind)}: ${e(s.title)} · due ${s.dueDays} days after the step starts${s.assignee ? ' · ' + e(who(s.assignee)) : ''}</li>`).join('')}</ol>${may('workflow.template') && !t.retired_at ? `<details><summary>Change</summary>${templateForm(t, properties, d.escalationPeople, d.assignees)}</details>${form('workflow.retire', `${field('Reason', 'reason', 'maxlength="500" required')}<button type="submit">Retire</button>`, { templateKey: t.template_key, version: t.version })}` : ''}</article>`).join('')
+ const people = d.assignees.length ? `<p class="muted">Assignee ids: ${d.assignees.map((p: Row) => `${e(p.name)} (${e(p.id)})`).join(', ')}</p>` : ''
+ return `<section><h2>Needs a person</h2>${needs.length ? needs.map((r: Row) => runCard(r, may, who)).join('') : '<p>No workflow is waiting on a person.</p>'}</section>
+<section><h2>Running</h2>${running.length ? running.map((r: Row) => runCard(r, may, who)).join('') : '<p>No workflow is running.</p>'}</section>${sweep}
+${start ? `<section><h2>Ready to start</h2>${start}</section>` : ''}${done.length ? `<section><h2>Finished</h2>${done.map((r: Row) => runCard(r, may, who)).join('')}</section>` : ''}
+<section><h2>Templates</h2>${templates || '<p>No template is configured.</p>'}${may('workflow.template') ? `<details><summary>New template</summary>${templateForm(null, properties, d.escalationPeople, d.assignees)}${people}</details>` : ''}</section>`
+}

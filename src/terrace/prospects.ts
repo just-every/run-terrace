@@ -62,7 +62,7 @@ export async function prospectCommand(c: Context, command: string, p: Row): Prom
   insist(c.actor.role === 'owner', 'forbidden', 'Only the installation owner can do this.', 403)
   text(p.reason, 'Erasure request reference', 500)
   c.source = 'prospect-' + r.id
-  await commit(c, [versionGuard(c, r), sql(c, 'UPDATE tt_prospects SET duplicate_of=NULL WHERE duplicate_of IN (SELECT id FROM tt_prospects WHERE id=? OR merged_into=?)', r.id, r.id), sql(c, 'DELETE FROM tt_prospects WHERE merged_into=?', r.id), sql(c, 'DELETE FROM tt_prospects WHERE id=?', r.id)], command, 'prospect-' + r.id)
+  await commit(c, [versionGuard(c, r), sql(c, 'UPDATE tt_prospects SET duplicate_of=NULL WHERE duplicate_of IN (SELECT id FROM tt_prospects WHERE id=? OR merged_into=?)', r.id, r.id), sql(c, "DELETE FROM tt_workflow_events WHERE run_id IN (SELECT id FROM tt_workflow_runs WHERE subject_kind='prospect' AND subject_id IN (SELECT id FROM tt_prospects WHERE id=? OR merged_into=?))", r.id, r.id), sql(c, "DELETE FROM tt_workflow_runs WHERE subject_kind='prospect' AND subject_id IN (SELECT id FROM tt_prospects WHERE id=? OR merged_into=?)", r.id, r.id), sql(c, 'DELETE FROM tt_prospects WHERE merged_into=?', r.id), sql(c, 'DELETE FROM tt_prospects WHERE id=?', r.id)], command, 'prospect-' + r.id)
   return { id: r.id, tab: 'prospects', notice: 'Prospect erased. History keeps only an opaque alias.' }
  }
  if (command === 'prospect.review') {

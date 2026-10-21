@@ -13,9 +13,9 @@ export async function installation({legacy,assets=false,demo=false,mailResponse}
  const messages=[]
  let origin='http://localhost'
  const options=port=>({...convertV4MiniflareOptions({host:'127.0.0.1',port,modules:true,script:bundle.outputFiles[0].text,compatibilityDate:'2026-09-08',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:{AUTH_LOCAL:demo?'false':'true',...(demo?{RER_DEMO:'1'}:{}),AUTH_ORIGIN:origin,OWNER_EMAIL:'owner@example.test',SESSION_SECRET:sessionSecret,SETUP_TOKEN:setup,MAIL_PROVIDER:'resend',MAIL_API_KEY:'example-test-mail',MAIL_FROM:'auth@localhost.test',RER_DEV_KEY:devKey},...(assets?{assets:{directory:resolve('public'),routerConfig:{has_user_worker:true}}}:{}),outboundService:async request=>{assert.equal(new URL(request.url).hostname,'api.resend.com');const message=await request.json();messages.push(message);return mailResponse?mailResponse(message):Response.json({id:crypto.randomUUID()})}}),resourcePersistencePath:root})
- const mf=new Miniflare(options(0));let cookie=''
+ let mf=new Miniflare(options(0)),port=0;let cookie=''
  try {
-  const address=await mf.ready;origin=demo?address.origin.replace('http:','https:'):address.origin;await mf.setOptions(options(Number(address.port)))
+  const address=await mf.ready;origin=demo?address.origin.replace('http:','https:'):address.origin;port=Number(address.port);await mf.setOptions(options(port))
   const db=await mf.getD1Database('DB')
   for(const f of (await readdir('migrations/core')).filter(f=>f.endsWith('.sql')).sort()){if(legacy&&f.startsWith('0018'))await legacy(db);await db.batch(unstable_splitSqlQuery(await readFile('migrations/core/'+f,'utf8')).map(q=>db.prepare(q)))}
   const request=(path,{method='GET',body,as=cookie,originHeader=origin,form,headers={}}={})=>(demo?mf.dispatchFetch.bind(mf):fetch)(origin+path,{method,redirect:'manual',headers:{origin:originHeader,...(!form?{'content-type':'application/json'}:{}),...(as?{cookie:as}:{}),...headers},...(form?{body:form}:body!==undefined?{body:JSON.stringify(body)}:{})})
@@ -38,7 +38,9 @@ export async function installation({legacy,assets=false,demo=false,mailResponse}
   const signIn=async email=>{const r=await request('/auth/magic-link',{method:'POST',as:'',body:{email}});assert.equal(r.status,202,await r.text());return accept(email)}
   /** Base's step-up: the email link completes in the session that asked (default the owner's). */
   const stepUp=async(email='owner@example.test',as=cookie)=>{const r=await request('/auth/step-up',{method:'POST',as,body:{action:'credentials:mint'}});assert.equal(r.status,202,await r.text());await accept(email,as)}
-  return {mf,origin,request,command,formCommand,state,invite,accept,signIn,stepUp,cookie,messages,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
+  /** A new worker process over the same persisted D1: nothing in memory survives. */
+  const restart=async()=>{await mf.dispose();mf=new Miniflare(options(port));await mf.ready}
+  return {get mf(){return mf},restart,origin,request,command,formCommand,state,invite,accept,signIn,stepUp,cookie,messages,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
  }catch(e){await mf.dispose();await rm(root,{recursive:true,force:true});throw e}
 }
 export const tenancyInput={address:'Unit 1C, 1840 Alder Street, Oakland, CA',ownerName:'Rowan Ellis',ownerEmail:'rowan@example.test',tenantName:'Alex Chen',tenantEmail:'alex@example.test',startDate:'2025-01-01',endDate:'2026-12-31',rent:'620.00',cadence:'weekly'}
