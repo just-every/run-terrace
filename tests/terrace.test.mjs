@@ -1,3 +1,4 @@
+import {journey as trustJourney} from './trust.mjs'
 import {journey as rulePackJourney} from './rule-packs.mjs'
 import {journey as journalJourney} from './journal.mjs'
 import {journey as householdJourney} from './households.mjs'
@@ -858,3 +859,5 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  await leasingReportJourney()
  await delinquencyJourney()
 })
+
+test('ACCT-002 designated bank custody preserves beneficiary funds through approved transfers',async()=>{await trustJourney()})

@@ -178,3 +178,14 @@ PORT-008: `GET /api/rules` and `/app?tab=rules` let every signed-in operator rea
 Owner-only commands: `rules.pack` (documented JSON object, or a `file` upload), `rules.activate` (`packId`, `consent: REVIEWED`), `property.rules` (`propertyId`, `stateCode`, applicable `overlays`, current jurisdiction `version`, `reference`), `rules.preview` (`propertyId`, `action`, `on` and the action inputs in [the pack guide](docs/state-rule-packs.md)). Each preview snapshots its inputs and exact rule versions. Missing/inactive data is held, never substituted.
 
 A portfolio manager uses `property.rules.propose` with the same jurisdiction fields. It records a pending proposal without changing the assignment or permitting an action. The owner uses `property.rules.confirm` with `proposalId` and `reference`; confirmation applies exactly the stored proposal only if its base jurisdiction version is still current. A competing change makes it stale; confirmed proposals cannot replay. Both actions are audited and proposals/confirmations survive backup/restore. No active counsel-reviewed contents ship, and existing operating commands do not yet enforce these previews; PORT-008 stays partial.
+
+ACCT-002: `GET /api/trust` returns scoped designated accounts, authorizations, per-bank/property/beneficiary/fund balances, journal-to-custody reconciliation, unassigned cash sources, blocked-transfer exceptions and human-approved externally recorded transfers. `propertyId` optionally restricts the view. Existing financial-report authority applies; installation API credentials are refused. The native screen is `/app?tab=trust`.
+
+- `trust.account.add`: `entityId`, `name`, `bankName`, `last4`, `purpose` (`operating`, `rent_trust`, `deposit`); owner only.
+- `trust.map`: `propertyId`, `bankId`, `fund` (`operating`, `deposit`), `primary` (boolean), `reference`; owner only. Authorizations are append-only, with at most one primary per property/fund and one legal entity per property.
+- `trust.assign`: `entryId`, `bankId`; owner explicitly assigns a historical unassigned cash source without changing its journal.
+- `trust.prepare`: `propertyId`, `ownerId`, `fund`, `fromBank`, `toBank`, `amount` (USD decimal), `day`, `reason`; scoped bookkeeper/portfolio manager. Only the same property/beneficiary/designated purpose is allowed. `toOwnerId` or `toPropertyId` differing from the source is refused. This door never accepts an owner-payout purpose.
+- `trust.approve`: `transferId`; owner/portfolio manager under ROLE-003 independence.
+- `trust.record`: `transferId`, `bankReference`; scoped bookkeeper/portfolio manager records the approved external bank fact once. No bank instruction is sent.
+
+All except preparation need fresh email-link confirmation. Balances, dated reserves and live approver authority are checked again at recording. See [trust accounts](docs/trust-accounts.md) for exact semantics and the pending ct authorization ruling.

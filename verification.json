@@ -101,7 +101,8 @@
       "browser": true,
       "hosted": false,
       "commands": [
-        "node tests/journal-browser.mjs"
+        "node tests/journal-browser.mjs",
+        "node tests/trust-browser.mjs"
       ]
     },
     {

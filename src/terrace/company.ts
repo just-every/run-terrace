@@ -80,7 +80,7 @@ export async function companyData(c: Context) {
  const [company, entities, accounts, open, confirmation] = await Promise.all([
   one(c, 'SELECT name,country,currency,time_zone,office_email,office_phone,office_address,version,updated_at FROM tt_company WHERE singleton=1'),
   all(c, 'SELECT id,legal_name,ein,created_at FROM tt_entities ORDER BY legal_name'),
-  all(c, 'SELECT a.id,a.entity_id,e.legal_name,a.name,a.bank_name,a.last4,a.currency,a.created_at FROM tt_operating_accounts a JOIN tt_entities e ON e.id=a.entity_id ORDER BY e.legal_name,a.name'),
+  all(c, "SELECT a.id,a.entity_id,e.legal_name,a.name,a.bank_name,a.last4,a.currency,a.created_at FROM tt_operating_accounts a JOIN tt_entities e ON e.id=a.entity_id WHERE a.purpose='operating' ORDER BY e.legal_name,a.name"),
   one<{ n: number }>(c, 'SELECT COUNT(*) AS n FROM tt_tenancies WHERE currency_confirmed=0'),
   one(c, 'SELECT k.currency,k.tenancies,k.confirmed_at,COALESCE(o.display_name,k.confirmed_by) AS confirmed_by FROM tt_currency_confirmation k LEFT JOIN oa_operators o ON o.id=k.confirmed_by'),
  ])
