@@ -214,6 +214,9 @@ export async function scheduledJourney({assets=false,inspect}={}) {
   const vacant=await unit('V1');await h.command('turnover.open',{unitId:vacant.id,moveOut:today})
   const skipped=await h.command('workflow.template',{name:'Needs a new configurer',kind:'unit_turn',escalateTo:owner,steps:'task | Inspect the vacant unit | 1',reference:'Synthetic turn playbook'},{as:former})
   const narrowed=await h.command('workflow.template',{name:'Needs every portfolio',kind:'unit_turn',escalateTo:owner,steps:'task | Check readiness | 1',reference:'Synthetic all-portfolio playbook'},{as:scoped})
+  const board=(await h.state()).turnovers.find(x=>x.unit_id===vacant.id)
+  const revokedRuns=[]
+  for(const [tpl,as]of [[skipped,former],[narrowed,scoped]])revokedRuns.push(await h.command('workflow.start',{templateKey:tpl.templateKey,subjectId:board.id,reference:'synthetic-terrace-21 live before configurer change'},{as}))
   await h.stepUp()
   await h.command('operator.role',{operatorId:formerId,role:'member'})
   await h.command('operator.role',{operatorId:scopedId,role:'portfolio_manager',['portfolio:'+north.id]:'1'})
@@ -227,9 +230,15 @@ export async function scheduledJourney({assets=false,inspect}={}) {
   let data=await catalog(),tickRow=data.ticks.find(t=>t.id==='cron:'+new Date(tick).toISOString())
   assert.equal(data.ticks.length,1,'concurrent delivery of one Cron tick commits once')
   assert.equal(tickRow.actor,'scheduler:workflows');assert.equal(tickRow.requested_by,null)
-  assert.equal(tickRow.detail.started.length,2);assert.deepEqual(tickRow.detail.escalated,[started.id]);assert.equal(tickRow.detail.ordersCreated,1)
+  assert.equal(tickRow.detail.started.length,2);assert.deepEqual(tickRow.detail.escalated.toSorted(),[started.id,...revokedRuns.map(r=>r.id)].toSorted());assert.equal(tickRow.detail.ordersCreated,1)
   assert.deepEqual(tickRow.detail.skipped.map(s=>s.templateId).sort(),[skipped.id,narrowed.id].sort(),'demotion and loss of every-portfolio scope both fail closed')
   assert.ok(tickRow.detail.skipped.every(s=>/needs a configurer/.test(s.reason)))
+  for(const started of revokedRuns){
+   const run=data.runs.find(r=>r.id===started.id)
+   assert.deepEqual([run.state,run.escalation_reason,run.escalated_to,run.contacts],['escalated','configurer_unavailable',owner,0],'the owner receives live runs of demoted and portfolio-limited configurers')
+   assert.match(run.next_action,/template needs a current owner/)
+   assert.deepEqual([run.events.at(-1).kind,run.events.at(-1).recorded_by],['escalated','scheduler:workflows'])
+  }
   assert.equal(h.messages.length,out,'a tick never contacts anyone')
   const B=await runFor(rb),C=await runFor(rc),A=await runFor(ra)
   assert.deepEqual([B.authority_operator,B.started_by,B.state,B.contacts],[managerId,'scheduler:workflows','running',0])

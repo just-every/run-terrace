@@ -2,6 +2,9 @@
 
 ## 2026-10-22
 
+- PORT-008: apply ct authority and content wording; let scoped operators read active pack values and held reasons, and portfolio managers propose jurisdiction for owner confirmation. Keep counsel contents/templates, complete engines and operating-command enforcement explicitly partial.
+- OPS-003: escalate live runs of revoked configurers to the owner; retain partial status pending hosted Cloudflare Cron cadence measurement. PORT-004: clarify the inclusive property-local leaving day.
+
 - OPS-003: add an hourly, configuring-person-fenced workflow sweep with atomic replay receipts and pending WORK-010 orders. Record existing prospect and renewal sends against live workflow contact limits, retain per-recipient provider answers, pause on uncertainty and support explicit manager review of interrupted sends.
 
 ## 2026-10-20

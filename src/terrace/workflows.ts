@@ -20,6 +20,7 @@ export const PAUSES: Record<string, string> = {
  uncertain_result: 'a contact attempt’s result is not known',
 }
 export const ESCALATIONS: Record<string, string> = {
+ configurer_unavailable: 'the template needs a current owner or every-portfolio manager as its configurer',
  overdue: 'a step is past its due day', contact_limit: 'the contact limit is used up without an agreed reply', reply_needs_review: 'a reply needs a person’s judgment',
 }
 const RECORDED = 'recorded by staff; Terrace contacted no one'
@@ -71,14 +72,14 @@ async function stale(c: Context, run: Row, tpl: Row): Promise<string | null> {
  return (await standing(c, run, tpl.steps[run.step_index].gate)).reason
 }
 /** The person an escalation goes to: the template's contact while still eligible for this portfolio, otherwise the owner. */
-async function escalatee(c: Context, run: Row, tpl: Row) {
- if (await one(c, `SELECT 1 FROM oa_operators o WHERE o.id=? AND ${nameableIn(['workflow.resolve'])}`, tpl.escalate_to, run.portfolio_id, run.portfolio_id)) return { to: tpl.escalate_to as string, fallback: false }
+async function escalatee(c: Context, run: Row, tpl: Row, ownerOnly = false) {
+ if (!ownerOnly && await one(c, `SELECT 1 FROM oa_operators o WHERE o.id=? AND ${nameableIn(['workflow.resolve'])}`, tpl.escalate_to, run.portfolio_id, run.portfolio_id)) return { to: tpl.escalate_to as string, fallback: false }
  const owner = await one(c, "SELECT id FROM oa_operators WHERE role='owner' AND status='active' ORDER BY id LIMIT 1")
  insist(owner, 'no_escalation', 'No active owner can take an escalation.', 409)
  return { to: owner.id as string, fallback: true }
 }
 export async function escalation(c: Context, run: Row, tpl: Row, reason: string, over: Row = {}, label = 'escalated to a person; Terrace takes no further step') {
- const who = await escalatee(c, run, tpl)
+ const who = await escalatee(c, run, tpl, reason === 'configurer_unavailable')
  return [workflowUpdate(c, run, { ...over, state: 'escalated', pause_reason: null, escalation_reason: reason, escalated_to: who.to, next_action: `Escalated because ${ESCALATIONS[reason]}. A person decides what happens next; Terrace takes no further step.` }),
   workflowEvent(c, run, 'escalated', run.step_index, { reason, to: who.to, fallbackToOwner: who.fallback, step: tpl.steps[run.step_index].title }, `Step ${run.step_index + 1} of ${tpl.steps.length}`, label)]
 }

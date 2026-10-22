@@ -53,6 +53,13 @@ try {
   await page.getByText('Needs a new configurer: needs a configurer:',{exact:false}).first().waitFor()
   await picture('scheduler-history')
   await picture('scheduler-detail',page.getByRole('heading',{name:'Sweep',exact:true}).locator('..'))
+  const revoked=(await(await context.request.get(h.origin+'/api/workflows')).json()).runs.filter(r=>r.escalation_reason==='configurer_unavailable')
+  assert.equal(revoked.length,2)
+  for(const run of revoked){
+   const card=page.locator('#workflow-'+run.id)
+   assert.ok(await card.getByText(/template needs a current owner or every-portfolio manager/).count(),'revoked-configurer escalation has a visible next action')
+  }
+  await picture('revoked-configurer-owner-escalation',page.locator('#workflow-'+revoked[0].id))
   await page.getByRole('button',{name:'Run now',exact:true}).click()
   await page.getByText(/Sweep: 0 started, 0 escalated, 0 maintenance orders/).first().waitFor()
   await picture('run-now')

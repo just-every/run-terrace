@@ -1,10 +1,10 @@
 // OPS-003 hourly Cron and Run now use the same atomic sweep. No session, outbound contact, reply,
 // evidence, resumption or closure is available to the unattended actor.
-import { all, audit, authority, guard, one, sql, type Context, type Row } from './core'
+import { all, audit, authority, guard, insist, one, sql, type Context, type Row } from './core'
 import { loadStaff } from './roles'
 import { officeZone } from './company'
 import { latestTemplates } from './workflow-spec'
-import { workflowSweepPlan } from './workflows'
+import { escalation, parsed, workflowFence, workflowSweepPlan } from './workflows'
 import { schedulePlan } from './schedules'
 import type { Bindings } from '../auth.server'
 
@@ -24,23 +24,32 @@ export async function workflowTick(db: D1Database, now: string, tickId: string, 
   const prior = await db.prepare('SELECT * FROM tt_workflow_ticks WHERE id=?').bind(tickId).first<Row>()
   if (prior) return receipt(prior, true)
   const base: Context = { db, actor: { id: 'scheduler:workflows', role: 'member', displayName: 'Workflow scheduler' }, now }
-  const templates = await latestTemplates(base), running = await all(base, "SELECT r.*,t.created_by AS configurer FROM tt_workflow_runs r JOIN tt_workflow_templates t ON t.id=r.template_id WHERE r.state='running' ORDER BY r.id")
+  const templates = await latestTemplates(base), running = await all(base, "SELECT r.*,t.created_by AS configurer FROM tt_workflow_runs r JOIN tt_workflow_templates t ON t.id=r.template_id WHERE r.state IN ('running','paused') ORDER BY r.id")
+  const owner = await one(base, "SELECT id FROM oa_operators WHERE role='owner' AND status='active' ORDER BY id LIMIT 1")
+  const ownerContext = owner && await configurer(db, now, owner.id)
   const writes: D1PreparedStatement[] = requester ? [authority(requester, 'workflow.sweep'), guard(requester, "EXISTS(SELECT 1 FROM oa_operators o WHERE id=? AND status='active' AND (role='owner' OR EXISTS(SELECT 1 FROM tt_staff_roles r WHERE r.operator_id=o.id AND r.role='portfolio_manager' AND r.all_portfolios=1)))", requester.actor.id)] : [], detail: Row = { started: [], escalated: [], paused: [], skipped: [], ordersCreated: 0 }
   for (const person of new Set([...templates.filter(t => !t.retired_at).map(t => t.created_by), ...running.map(r => r.configurer)])) {
    const mine = templates.filter(t => !t.retired_at && t.created_by === person), runs = running.filter(r => r.configurer === person), c = await configurer(db, now, person)
    if (!c) {
     for (const t of mine) detail.skipped.push({ templateId: t.id, name: t.name, reason: 'needs a configurer: the configuring person is no longer the owner or an every-portfolio manager' })
+    if (runs.length) {
+     insist(ownerContext, 'no_escalation', 'No active owner can take the live workflow escalation.', 409)
+     writes.push(authority(ownerContext, 'workflow.sweep'), guard(base, "NOT EXISTS(SELECT 1 FROM oa_operators o WHERE o.id=? AND o.status='active' AND (o.role='owner' OR EXISTS(SELECT 1 FROM tt_staff_roles r WHERE r.operator_id=o.id AND r.role='portfolio_manager' AND r.all_portfolios=1)))", person))
+     for (const run of runs) {
+      const tpl = parsed((await one(base, 'SELECT * FROM tt_workflow_templates WHERE id=?', run.template_id))!)
+      writes.push(workflowFence(base, run), ...await escalation(ownerContext, run, tpl, 'configurer_unavailable'))
+      detail.escalated.push(run.id)
+     }
+    }
     continue
    }
-   const plan = await workflowSweepPlan(c, mine, runs)
+   const plan = await workflowSweepPlan(c, mine, runs.filter(r => r.state === 'running'))
    // Fence inside the same transaction, even if no run matched this person's template.
    writes.push(authority(c, 'workflow.template'), ...plan.writes)
    for (const k of ['started', 'escalated', 'skipped']) detail[k].push(...plan.touched[k])
   }
   // WORK-010 orders remain pending for a person to approve. The active installation owner authorizes
   // this scheduler, while scheduler:workflows is their preparer and the attributed audit actor.
-  const owner = await one(base, "SELECT id FROM oa_operators WHERE role='owner' AND status='active' ORDER BY id LIMIT 1")
-  const ownerContext = owner && await configurer(db, now, owner.id)
   if (ownerContext) {
    const orders = await schedulePlan(ownerContext)
    writes.push(authority(ownerContext, 'schedule.run'), ...orders.writes)
