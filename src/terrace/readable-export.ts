@@ -7,7 +7,7 @@ import { allow, sha256, type Context } from './core'
 import { backup } from './data'
 import { csv, zip } from './exports'
 
-const EXT: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', 'application/pdf':'pdf' }
+const EXT: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', 'application/pdf': 'pdf', 'video/mp4': 'mp4', 'video/quicktime': 'mov', 'video/webm': 'webm', 'text/plain': 'txt', 'text/csv': 'csv', 'message/rfc822': 'eml' }
 const bytes = (b64: string) => Uint8Array.from(atob(b64), ch => ch.charCodeAt(0))
 
 export const RECONNECT = [
@@ -31,7 +31,7 @@ export async function readableExport(c: Context) {
   const lines = [columns, ...await Promise.all(list.map(async (row, i) => Promise.all(columns.map(async name => {
    const v = row[name] as unknown
    if (v && typeof v === 'object' && 'blob' in (v as object)) {
-    const data = bytes((v as { blob: string }).blob), ext = EXT[String(row.media_type)] ?? 'bin', path = `files/${table.name}/${row.id ?? i}.${ext}`, digest = await sha256(data)
+    const data = bytes((v as { blob: string }).blob), ext = EXT[String(row.media_type ?? row.type)] ?? 'bin', path = `files/${table.name}/${row.id ?? i}.${ext}`, digest = await sha256(data)
     files.push([path, data]); inventory.push({ path, table: table.name, column: name, size: data.length, sha256: digest })
     return `file:${path} sha256:${digest}`
    }

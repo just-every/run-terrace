@@ -3,6 +3,7 @@ import {journey as rulePackJourney} from './rule-packs.mjs'
 import {journey as journalJourney} from './journal.mjs'
 import {journey as householdJourney} from './households.mjs'
 import {journey as moveChecklistJourney} from './move-checklists.mjs'
+import {journey as documentJourney} from './documents.mjs'
 import {journey as fieldEvidenceJourney} from './field-evidence.mjs'
 import {journey as moveOutJourney} from './move-out.mjs'
 import {journey as dispatchJourney,failedDispatchJourney} from './dispatch.mjs'
@@ -860,4 +861,5 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  await delinquencyJourney()
 })
 
+test('PORT-007: versioned documents are found by unit and content, restricted records and other portfolios return 404, uploads are checked, downloads recorded, backup and readable export keep the originals',documentJourney)
 test('ACCT-002 designated bank custody preserves beneficiary funds through approved transfers',async()=>{await trustJourney()})

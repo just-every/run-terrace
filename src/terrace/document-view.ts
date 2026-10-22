@@ -1,0 +1,21 @@
+// PORT-007: the Documents page: search, upload, new versions and the original behind each result.
+import { escape as e, type Row } from './core'
+import { KINDS } from './documents'
+import { usDate } from './format'
+
+const hidden = (name: string, value: unknown) => `<input type="hidden" name="${e(name)}" value="${e(value)}">`
+const form = (command: string, body: string) => `<form method="post" action="/app/command" enctype="multipart/form-data">${hidden('command', command)}${hidden('tab', 'documents')}${body}</form>`
+const size = (n: number) => n >= 1_000_000 ? (n / 1_000_000).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1000)) + ' KB'
+const ACCEPT = '.pdf,.png,.jpg,.jpeg,.mp4,.mov,.webm,.txt,.csv,.eml'
+
+export function documentView(d: { documents: Row[]; tenancies: Row[] }, q: Row, may: (action: string) => boolean) {
+ const kinds = Object.entries(KINDS).filter(([, k]) => !k.restriction || may('document.' + k.restriction))
+ const search = `<form method="get" action="/app" class="filters" role="search">${hidden('tab', 'documents')}<label>Search documents<input type="search" name="q" value="${e(q.q ?? '')}" placeholder="Unit, title, file name or words inside"></label><label>Type<select name="kind"><option value="">Any type</option>${[...kinds.map(([k, v]) => [k, v.label]), ['signed-lease', 'Signed lease original'], ['inspection-photo', 'Inspection photo']].map(([k, label]) => `<option value="${e(k)}"${q.kind === k ? ' selected' : ''}>${e(label)}</option>`).join('')}</select></label><label class="check"><input type="checkbox" name="history" value="1"${q.history === '1' ? ' checked' : ''}> Include earlier versions</label><button type="submit">Search</button></form>`
+ const upload = may('document.upload') ? `<details><summary>Upload a document</summary>${form('document.upload', `<label>Tenancy<select name="tenancyId" required>${d.tenancies.map(t => `<option value="${e(t.id)}">${e(t.address)} · ${e(t.tenant_name)}</option>`).join('')}</select></label><label>Type<select name="kind" required>${kinds.map(([k, v]) => `<option value="${e(k)}">${e(v.label)}${v.restriction ? ' (restricted)' : ''}</option>`).join('')}</select></label><label>Title<input name="title" required maxlength="200"></label><label>Source (where it came from)<input name="source" required maxlength="500"></label><label>File (PDF, photo, video, text or .eml, up to 5 MB)<input type="file" name="file" accept="${ACCEPT}" required></label><p class="muted">Files are checked for scripts, launch actions and embedded content before they are kept. The check is not a virus scan.</p><button type="submit">Store document</button>`)}</details>` : ''
+ const rows = d.documents.map(r => {
+  const revise = r.current && r.documentId && may('document.revise') ? `<details><summary>Upload a new version</summary>${form('document.revise', hidden('documentId', r.documentId) + hidden('version', r.version) + `<label>Source<input name="source" required maxlength="500"></label><label>File<input type="file" name="file" accept="${ACCEPT}" required></label><button type="submit">Store as version ${r.version + 1}</button>`)}</details>` : ''
+  const history = r.documentId ? ` · <a href="/api/document-versions?id=${encodeURIComponent(r.documentId)}">Version and download history</a>` : ''
+  return `<article><h3>${e(r.title)}${r.restricted ? ' <span class="pill">Restricted</span>' : ''}</h3><p>${e(r.address)}${r.unit ? ' · Unit ' + e(r.unit) : ''} · ${e(KINDS[r.kind]?.label ?? r.kind.replace('-', ' '))}${r.version ? ` · version ${r.version}${r.current ? ' (current)' : ' (earlier)'}` : ''} · ${e(r.name)} · ${size(r.size)} · ${usDate(String(r.uploadedAt).slice(0, 10))}</p>${r.snippet ? `<p class="muted">…${e(r.snippet)}…</p>` : ''}<p><a href="${e(r.url)}">Download original</a>${history} · <small>SHA-256 ${e(r.sha256)}</small>${r.contentSearchable ? '' : ' · <small>Found by its details, not its content</small>'}</p>${revise}</article>`
+ }).join('')
+ return `<section><h2>Documents</h2><p>Leases, applications, notices, photos, video, work documents and invoices on their tenancy records. You see only documents on tenancies in your portfolios${may('document.screening') ? '' : ', and never screening or tax records'}. Every download is recorded in History.</p>${search}${upload}${rows || '<p class="empty">No documents match.</p>'}</section>`
+}

@@ -5,6 +5,7 @@ import { retireTenancy } from './imports'
 import { billErasureStatements } from './bills-retention'
 import { leaseErasureStatements } from './lease-versions'
 import { portable } from './data'
+import { documentErasureStatements } from './documents'
 export async function eraseTenancy(c:Context,p:Row){
  const t=await tenancy(c,p.tenancyId)
  insist(p.confirm===t.tenant_email,'confirmation','Type the exact tenant email to confirm permanent tenancy erasure.')
@@ -19,9 +20,10 @@ export async function eraseTenancy(c:Context,p:Row){
  sql(c,'INSERT INTO tt_erasures(subject,erased_at) VALUES(?,?) ON CONFLICT DO NOTHING',await sha256(new TextEncoder().encode(t.tenant_email)),c.now),
  ...['tt_move_checklists','tt_emergencies','tt_schedules','tt_maintenance_jobs','tt_inspections','tt_assets','tt_household_members','tt_renewal_events','tt_renewals','tt_workflow_events','tt_workflow_runs','tt_lease_history','tt_recovery_authorizations'].map(table=>sql(c,`DELETE FROM ${table} WHERE tenancy_id=?`,t.id)),
  ...await leaseErasureStatements(c,t.id),
+ ...documentErasureStatements(c,t.id,['lease','screening','communications']),
  sql(c,'UPDATE tt_privacy_requests SET completed_at=? WHERE id=?',c.now,request.id),sql(c,'UPDATE tt_tenancies SET custody_retired_at=?,import_revision=NULL WHERE id=?',c.now,t.id)]
  if(!review.personalRetained){
-  native.push(guard(c,"NOT EXISTS(SELECT 1 FROM tt_legal_holds WHERE tenancy_id=? AND released_at IS NULL AND class IN ('all','accounting'))",t.id),sql(c,'INSERT INTO tt_erasure_work(tenancy_id) VALUES(?)',t.id),...await billErasureStatements(c,t.id),
+  native.push(guard(c,"NOT EXISTS(SELECT 1 FROM tt_legal_holds WHERE tenancy_id=? AND released_at IS NULL AND class IN ('all','accounting'))",t.id),sql(c,'INSERT INTO tt_erasure_work(tenancy_id) VALUES(?)',t.id),...documentErasureStatements(c,t.id,['accounting']),...await billErasureStatements(c,t.id),
    sql(c,"UPDATE tt_fees SET source_label='Retained accounting record',override_reason=NULL WHERE source='lease:'||? OR source IN (SELECT 'receipt:'||r.id FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=?) OR source IN (SELECT 'renewal:'||p.id FROM tt_proposals p WHERE p.tenancy_id=?)",t.id,t.id,t.id),
    sql(c,"UPDATE tt_charges SET description='Retained accounting record',reference=id WHERE tenancy_id=?",t.id),
    sql(c,'UPDATE tt_journal SET reference=id WHERE tenancy_id=?',t.id),

@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import {readFile} from 'node:fs/promises'
+import {createHash} from 'node:crypto'
 import {installation,tenancyInput} from './api/harness.mjs'
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jz1sAAAAASUVORK5CYII=','base64')
 export async function retentionJourney(){
@@ -7,11 +8,13 @@ export async function retentionJourney(){
   const member=await h.invite('member','privacy-member@example.test')
   const current=await h.command('tenancy.create',{...tenancyInput,tenantEmail:'current@example.test'})
   await h.command('privacy.hold',{tenancyId:current.id,class:'all',reason:'forbidden'},{as:member,status:403})
+  await h.formCommand('document.upload',{tenancyId:current.id,kind:'screening',title:'Screening',source:'Provider PDF',file:new File([Buffer.from('Applicant screening summary')],'screening.txt',{type:'text/plain'})})
   assert.equal((await h.request('/api/resident-access?tenancyId='+current.id,{as:member})).status,403)
   assert.equal((await h.request('/api/resident-access?tenancyId='+current.id,{as:''})).status,401)
   const cr=await h.command('privacy.request',{tenancyId:current.id,kind:'erase',source:'Resident request CURRENT'})
   const reviewCurrent=await h.command('privacy.review',{tenancyId:current.id,requestId:cr.id})
   assert.ok(reviewCurrent.review.classes.find(c=>c.class==='lease').retained,'SAFE-004: current lease retention prevents erasure')
+  const screen=reviewCurrent.review.classes.find(c=>c.class==='screening');assert.ok(screen.present&&screen.retained&&screen.through>new Date(Date.now()+400*864e5).toISOString().slice(0,10),'PORT-007: screening documents keep their own 2-year class')
   await h.command('tenancy.erase',{tenancyId:current.id,requestId:cr.id,fingerprint:reviewCurrent.review.fingerprint,confirm:'current@example.test'},{status:409})
   const header=(await readFile('fixtures/terrace-tenancies.csv','utf8')).split('\n')[0]
   const csv=header+'\ncasey,31 Brook Lane Oakland CA,Rowan Ellis,rowan@example.test,Casey Historic,casey-history@example.test,2010-01-01,2011-12-31,620.00,weekly,2010-01-01T00:00:00.000Z\n'
@@ -22,6 +25,7 @@ export async function retentionJourney(){
   await h.command('rent.receipt',{chargeId:charge.id,receivedDate:'2011-04-02',amount:'60',reference:'Casey Historic bank receipt'})
   const inspection=await h.command('inspection.create',{tenancyId:oldId,date:'2011-03-01',notes:'Casey Historic inspection'})
   const photo=await h.formCommand('inspection.photo',{inspectionId:inspection.id,file:new File([png],'casey-history.png',{type:'image/png'})})
+  const noteBytes=Buffer.from('Casey Historic lease addendum, pets by written consent'),doc=await h.formCommand('document.upload',{tenancyId:oldId,kind:'lease',title:'Casey addendum',source:'Resident copy',file:new File([noteBytes],'addendum.txt',{type:'text/plain'})})
   for(const item of ['receipts','deposits','exceptions'])await h.command('period.signoff',{month:'2011-04',item,note:'Recorded book checks'})
   await h.command('period.close',{month:'2011-04'})
   const accessResponse=await h.request('/api/resident-access?tenancyId='+oldId),access=await accessResponse.json()
@@ -37,11 +41,14 @@ export async function retentionJourney(){
   review=await h.command('privacy.review',{tenancyId:oldId,requestId:request.id})
   assert.equal(review.review.eligible,true);assert.equal(review.review.personalRetained,true)
   assert.ok(review.review.kept.find(k=>k.class==='accounting').reasons.some(r=>r.includes('REF-9')))
+  assert.equal((await(await h.request('/api/resident-access?tenancyId='+oldId)).json()).documents[0].sha256,createHash('sha256').update(noteBytes).digest('hex'),'PORT-007: resident access lists stored documents')
   const oldArchive=await(await h.request('/api/backup')).text()
   await h.command('tenancy.erase',{tenancyId:oldId,requestId:request.id,fingerprint:review.review.fingerprint,confirm:'incorrect@example.test'},{status:400})
   const partial=await h.command('tenancy.erase',{tenancyId:oldId,requestId:request.id,fingerprint:review.review.fingerprint,confirm:'casey-history@example.test'})
   assert.ok(partial.kept.find(k=>k.class==='accounting'));assert.equal((await h.state(oldId)).ledger.balanceCents,4000)
   assert.equal((await h.request('/api/inspections/photos/'+photo.photoId)).status,404,'SAFE-004: eligible media actually deleted')
+  assert.equal((await h.request('/api/document?id='+doc.versionId)).status,404,'PORT-007: eligible lease documents deleted with the tenancy evidence')
+  await h.formCommand('document.upload',{tenancyId:oldId,kind:'lease',title:'Again',source:'Resident copy',file:new File([noteBytes],'addendum.txt',{type:'text/plain'})},{status:409})
   assert.equal((await h.state(oldId)).work.inspections.length,0,'SAFE-004: lease search/list has no deleted inspection')
   const retired=await h.command('import.journal',{jobId:applied.job.id})
   assert.ok(retired.originals.every(o=>o.original.status==='unavailable'),'SAFE-004: source originals withdrawn, no retained bytes')
