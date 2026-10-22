@@ -1,6 +1,6 @@
 // ROLE-002: portal links and sessions. A link is single-use and expires; a session lasts hours, and every request re-reads the
 // live session, identity and grants, so a revocation or a changed assignment applies on the next request. Only hashes are stored.
-import { sha256, type Context, type Row } from './core'
+import { sha256, sql, type Context, type Row } from './core'
 export const COOKIE = 'tt_portal'
 const LINK_MS = 7 * 86400000, SESSION_MS = 12 * 3600000
 export const secret = () => [...crypto.getRandomValues(new Uint8Array(32))].map(b => b.toString(16).padStart(2, '0')).join('')
@@ -9,6 +9,12 @@ export type Portal = { identity: Row; grants: Row[]; sessionHash: string }
 
 export const linkExpiry = (now: string) => new Date(Date.parse(now) + LINK_MS).toISOString()
 export const sessionExpiry = (now: string) => new Date(Date.parse(now) + SESSION_MS).toISOString()
+/** In the batch of a change to who owns a property or who holds a job or bill: the open sessions of the portal people holding
+ * those owner or vendor records end, so they sign in again and see their rights as they now are (ct rider 2). */
+export function endSessions(c: Context, column: 'owner_id' | 'vendor_id', ids: unknown[]) {
+ const list = [...new Set(ids.filter(Boolean).map(String))]
+ return sql(c, `UPDATE tt_portal_sessions SET revoked_at=? WHERE revoked_at IS NULL AND identity_id IN (SELECT identity_id FROM tt_portal_grants WHERE revoked_at IS NULL AND ${column} IN (${list.map(() => '?').join(',')}))`, c.now, ...list)
+}
 
 /** Trades a valid, unused link for a new session, in one batch; null when the link is unknown, used, expired or its person is revoked. */
 export async function redeem(db: D1Database, token: string, now: string) {

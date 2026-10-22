@@ -17,6 +17,7 @@ export async function residentData(c: Context, grant: Row) {
   receipts: l.receipts.map(r => ({ date: r.received_date, amountCents: r.amount_cents })),
   adjustments: l.adjustments.map(a => ({ date: a.at.slice(0, 10), amountCents: a.amount_cents })),
   boundary: 'Recorded rent only. Payments are made outside Terrace.',
+  ...(delegate ? {} : { delegates: (await all(c, "SELECT g.id,i.display_name FROM tt_portal_grants g JOIN tt_portal_identities i ON i.id=g.identity_id WHERE g.tenancy_id=? AND g.access='delegate' AND g.revoked_at IS NULL ORDER BY g.granted_at,g.id", t.id)).map(r => ({ grantId: r.id as string, name: r.display_name as string })) }),
  }
 }
 const cell = (v: unknown) => '"' + String(v ?? '').replaceAll('"', '""').replace(/^[=+@-]/, "'$&") + '"'

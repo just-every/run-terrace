@@ -1,9 +1,10 @@
-// PORT-007: the upload check. It is a content-type and active-content check that fails closed, never a malware verdict:
-// a file that passes is only "no active content found by this check". Nothing here claims a file is safe or virus-free.
+// PORT-007: the upload check. It is a static content-type and active-content screen that fails closed, never a malware
+// verdict: a file that passes is only "no active content found by this check". Nothing here claims a file is safe or
+// virus-free; a malware verdict needs the owner's own scanner (PORT-010).
 // Refused: a declared type outside the allowlist, bytes that do not match it, scripts or markup in any file, PDFs with
 // actions, launches, embedded files, forms or encryption, and any PDF stream the check cannot read to the end.
 export const CHECK = 'content-type and active-content check v1'
-export const TYPES: Record<string, string> = { 'application/pdf': 'pdf', 'image/png': 'png', 'image/jpeg': 'jpg', 'video/mp4': 'mp4', 'video/quicktime': 'mov', 'video/webm': 'webm', 'text/plain': 'txt', 'text/csv': 'csv', 'message/rfc822': 'eml' }
+export const TYPES: Record<string, string> = { 'application/pdf': 'pdf', 'image/png': 'png', 'image/jpeg': 'jpg', 'text/plain': 'txt', 'text/csv': 'csv', 'message/rfc822': 'eml' }
 export const LIMIT = 5 * 1024 * 1024
 const same = (b: Uint8Array, v: number[], at = 0) => v.every((x, i) => b[at + i] === x)
 const ascii = (b: Uint8Array, s: string, at = 0) => [...s].every((ch, i) => b[at + i] === ch.charCodeAt(0))
@@ -68,10 +69,9 @@ async function pdf(bytes: Uint8Array): Promise<Scan> {
 }
 
 export async function scan(bytes: Uint8Array, type: string): Promise<Scan> {
- if (!(type in TYPES)) return refuse('This file type is not accepted. Upload a PDF, JPEG, PNG, MP4, MOV, WebM, plain text, CSV or .eml file.')
+ if (!(type in TYPES)) return refuse('This file type is not accepted. Upload a PDF, JPEG, PNG, plain text, CSV or .eml file.')
  if (!bytes.length || bytes.length > LIMIT) return refuse('Each document must be between 1 byte and 5 MB.')
- const magic = type === 'application/pdf' ? ascii(bytes, '%PDF-') : type === 'image/png' ? same(bytes, [137, 80, 78, 71, 13, 10, 26, 10]) : type === 'image/jpeg' ? same(bytes, [255, 216, 255])
-  : type === 'video/webm' ? same(bytes, [0x1a, 0x45, 0xdf, 0xa3]) : type.startsWith('video/') ? ascii(bytes, 'ftyp', 4) : true
+ const magic = type === 'application/pdf' ? ascii(bytes, '%PDF-') : type === 'image/png' ? same(bytes, [137, 80, 78, 71, 13, 10, 26, 10]) : type === 'image/jpeg' ? same(bytes, [255, 216, 255]) : true
  if (!magic) return refuse('The file contents do not match its declared type.')
  const head = latin1(bytes)
  if (same(bytes, [0x4d, 0x5a]) || same(bytes, [0x7f, 0x45, 0x4c, 0x46]) || ascii(bytes, '#!') || same(bytes, [0xca, 0xfe, 0xba, 0xbe]) || same(bytes, [0xcf, 0xfa, 0xed, 0xfe])) return refuse('Executable files are not accepted.')

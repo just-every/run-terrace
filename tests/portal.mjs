@@ -1,9 +1,12 @@
 // ROLE-002: portal people (resident, delegated contact, joint owners, vendors) see only the record a live grant names;
-// assignments, ownership dates and revocation apply on the next request. PORT-007: a vendor and an unrelated resident are denied every document door.
+// assignments, ownership dates and revocation apply on the next request and end the sessions they touch; invitations work
+// once and expire within 7 days; the resident revokes their delegated contact; a restore carries no portal person.
+// PORT-007: a vendor and an unrelated resident are denied every document door.
 import assert from 'node:assert/strict'
+import {createHash} from 'node:crypto'
 import {installation,tenancyInput} from './api/harness.mjs'
 const pdf=n=>({name:'invoice-'+n+'.pdf',type:'application/pdf',base64:Buffer.from('%PDF-1.4\n'+n+'\n%%EOF').toString('base64')})
-const SENTINELS=['SOUTH-SENTINEL','southres@example.test','Other Owner Sentinel','LANDLORD-SENTINEL','SCREEN-SENTINEL','987654321','Oakland Bank Sentinel']
+const SENTINELS=['SOUTH-SENTINEL','southres@example.test','Other Owner Sentinel','LANDLORD-SENTINEL','SCREEN-SENTINEL','LEASE-DOC-SENTINEL','987654321','Oakland Bank Sentinel']
 export async function journey({inspect,assets=false}={}){
  const r=await installation({assets})
  try{
@@ -24,6 +27,7 @@ export async function journey({inspect,assets=false}={}){
   const billFor=(vendorId,propertyId,n)=>r.command('bill.create',{vendorId,invoiceNumber:'INV-'+n,date:'2026-10-05',lines:[{description:'Repair',code:'repairs',amount:'100',tax:'0'}],allocations:[{propertyId,amount:'100'}],original:pdf(n)})
   const riverBill=await billFor(river.id,np.id,'RIVER-1'),bayBill=await billFor(bay.id,sp.id,'BAY-1')
   const screening=await r.formCommand('document.upload',{tenancyId:north.id,kind:'screening',title:'SCREEN-SENTINEL report',source:'Provider',file:new File([Buffer.from('SCREEN-SENTINEL applicant background')],'screening.txt',{type:'text/plain'})})
+  await r.formCommand('document.upload',{tenancyId:north.id,kind:'lease',title:'LEASE-DOC-SENTINEL signed lease',source:'Office copy',file:new File([Buffer.from('LEASE-DOC-SENTINEL lease terms')],'lease.txt',{type:'text/plain'})})
   await r.stepUp();await r.command('company.save',{name:'Bay Homes',timeZone:zone,officeEmail:'office@example.test',officePhone:'510-555-0100',officeAddress:'1 Main Street, Oakland, CA'});await r.command('entity.add',{legalName:'Oakland Bank Sentinel LLC',ein:'987654321'})
   // Staff side: rights, scope and the fresh email-link proof.
   const staff={}
@@ -49,6 +53,14 @@ export async function journey({inspect,assets=false}={}){
   const cookies={resident:await login('northres@example.test')};assert.match(cookies.resident,/^tt_portal=/)
   assert.equal((await r.request('/portal/accept',{method:'POST',as:'',form:new URLSearchParams({token})})).status,400,'a link works once')
   for(const [k,e] of [['delegate','delegate@example.test'],['south','southres@example.test'],['owner1','rowan@example.test'],['owner2','sam@example.test'],['vendor1','river@example.test'],['vendor2','bay@example.test']])cookies[k]=await login(e)
+  // An invitation expires within 7 days: seven days on (the link's clock moved back in D1), an unused one is refused.
+  const db=await r.mf.getD1Database('DB'),hashOf=t=>createHash('sha256').update(t).digest('hex')
+  await invite({kind:'vendor',vendorId:bay.id,email:'stale@example.test',displayName:'Stale Vendor'})
+  const staleToken=r.portalToken('stale@example.test'),link=await db.prepare('SELECT created_at,expires_at FROM tt_portal_links WHERE token_hash=?').bind(hashOf(staleToken)).first()
+  assert.ok(Date.parse(link.expires_at)-Date.parse(link.created_at)<=7*864e5,'an invitation expires within 7 days')
+  await db.prepare("UPDATE tt_portal_links SET created_at=strftime('%Y-%m-%dT%H:%M:%fZ',created_at,'-7 days'),expires_at=strftime('%Y-%m-%dT%H:%M:%fZ',expires_at,'-7 days') WHERE token_hash=?").bind(hashOf(staleToken)).run()
+  assert.equal((await r.request('/portal/accept',{method:'POST',as:'',form:new URLSearchParams({token:staleToken})})).status,400,'seven days on, the unused invitation is refused')
+  const again=async(k,email)=>{assert.equal((await r.request('/portal/signin',{method:'POST',as:'',form:new URLSearchParams({email})})).status,202);cookies[k]=await login(email)}
   const get=(k,path)=>r.request(path,{as:k===''?'':cookies[k]}),body=async(k,path)=>(await get(k,path)).text(),data=async(k,path)=>(await get(k,path)).json()
   await inspect?.({phase:'staff-portal',r,north,cookies})
   // Crawl every portal page, API and download a person can reach, and check nothing private to anyone else shows.
@@ -68,6 +80,7 @@ export async function journey({inspect,assets=false}={}){
   const resident=await data('resident','/portal/api/resident?tenancyId='+north.id);assert.equal(resident.balanceCents,0);assert.deepEqual(resident.charges.map(q=>q.amountCents),[100000,100000]);assert.equal(resident.tenancy.unit,'4B')
   assert.ok(pages.resident.get('/portal/statement?tenancyId='+north.id)?.text.includes('Rent 2026-09')||(await body('resident','/portal/statement?tenancyId='+north.id)).includes('Rent 2026-09'),'a resident downloads their own statement')
   const delegate=await data('delegate','/portal/api/resident?tenancyId='+north.id);assert.equal(delegate.tenancy.unit,undefined);assert.equal(delegate.tenancy.startDate,undefined);assert.equal(delegate.charges.length,2,'a delegated contact sees balance and charges only')
+  assert.equal(delegate.delegates,undefined);assert.deepEqual(resident.delegates.map(x=>x.name),['Delegate Contact'],'the resident sees who they share the account with')
   // Unrelated records are plain 404s on every portal door; staff doors and documents refuse portal people outright.
   for(const [k,paths] of Object.entries({resident:['/portal/api/resident?tenancyId='+south.id,'/portal/lease?tenancy='+south.id,'/portal/statement?tenancyId='+south.id,'/portal/api/owner','/portal/owner-statement','/portal/api/vendor','/portal/invoice-file?id='+riverBill.id],owner1:['/portal/api/resident?tenancyId='+north.id,'/portal/api/vendor'],vendor1:['/portal/api/resident?tenancyId='+north.id,'/portal/api/owner','/portal/owner-statement','/portal/invoice-file?id=nonexistent'],south:['/portal/api/resident?tenancyId='+north.id,'/portal/statement?tenancyId='+north.id]}))for(const path of paths)assert.equal((await get(k,path)).status,404,k+' '+path)
   const bayFile=(await data('vendor2','/portal/api/vendor')).invoices[0].files[0],riverFile=(await data('vendor1','/portal/api/vendor')).invoices[0].files[0]
@@ -83,10 +96,15 @@ export async function journey({inspect,assets=false}={}){
   assert.deepEqual((await data('owner2','/portal/api/owner')).properties[0].periods,[{from:'2026-01-01',to:null,shareBp:5000}])
   assert.deepEqual((await stmt('owner2')).rows.map(x=>x.allocatedCents),[50000,50000]);assert.deepEqual((await stmt('owner1')).rows.map(x=>x.allocatedCents),[50000,50000])
   await r.command('ownership.set',{propertyId:np.id,effectiveFrom:'2026-10-01',reason:'Sam sold to Rowan',shares:[{ownerId:o1.id,percent:'100'}]})
+  // The dated change ends both owners' sessions on their next request; nobody else is signed out. Signed in again, each sees it.
+  for(const k of ['owner1','owner2'])assert.equal((await get(k,'/portal/api/owner')).status,401,k+' session ended by the ownership change')
+  for(const k of ['resident','delegate','vendor1','south'])assert.equal((await get(k,'/portal/api/me')).status,200,k+' stays signed in')
+  await again('owner1','rowan@example.test');await again('owner2','sam@example.test')
   assert.deepEqual((await data('owner2','/portal/api/owner')).properties[0].periods,[{from:'2026-01-01',to:'2026-09-30',shareBp:5000}])
   assert.deepEqual((await stmt('owner2')).rows.map(x=>[x.date,x.allocatedCents]),[['2026-09-02',50000]],'the former owner loses October at once')
   assert.deepEqual((await data('owner1','/portal/api/owner')).properties[0].periods,[{from:'2026-01-01',to:'2026-09-30',shareBp:5000},{from:'2026-10-01',to:null,shareBp:10000}])
   assert.deepEqual((await stmt('owner1')).rows.map(x=>x.allocatedCents),[50000,100000])
+  const sold=await data('owner2','/portal/owner-statement?from=2026-10-01&to=2026-12-31&format=json');assert.deepEqual([sold.rows,sold.expenses],[[],[]],'after the sale the former owner reads the periods they owned and nothing after')
   assert.ok((await body('owner1','/portal/owner-statement?from=2026-01-01&to=2026-12-31&format=csv')).includes('Terrace owner allocation statement'))
   assert.equal((await get('owner1','/portal/owner-statement?from=bad&to=2026-12-31')).status,400)
   // A reassignment moves the work: the first vendor loses it and the second sees it on the next request.
@@ -95,17 +113,24 @@ export async function journey({inspect,assets=false}={}){
   const appt=await r.command('appointment.book',{jobId:job.id,startsAt:at(day(-1),'09'),endsAt:at(day(-1),'10'),accessStartsAt:at(day(-1),'08'),accessEndsAt:at(day(-1),'11'),permission:'granted',permissionReference:'Resident call',noticeReference:'Entry notice EN-1',noticeAt:at(day(-2),'09'),keysAccess:'PRIVATE-KEY-SENTINEL',availabilityReference:'Vendor email'})
   await r.command('appointment.cancel',{appointmentId:appt.id,version:1,party:'vendor',reference:'River withdrew'})
   const moved=await r.command('appointment.reassign',{appointmentId:appt.id,version:2,vendorId:bay.id,reference:'Owner chose Bay'})
+  for(const k of ['vendor1','vendor2'])assert.equal((await get(k,'/portal/api/vendor')).status,401,k+' session ended by the reassignment')
+  assert.equal((await get('owner1','/portal/api/owner')).status,200);await again('vendor1','river@example.test');await again('vendor2','bay@example.test')
   assert.deepEqual((await data('vendor1','/portal/api/vendor')).jobs,[],'reassignment takes the job from the first vendor before any re-approval')
   assert.deepEqual((await data('vendor2','/portal/api/vendor')).jobs,[],'and the new vendor sees it only once its exact terms are approved')
   await r.command('maintenance.approve',{jobId:job.id,version:moved.version},{as:staff.approver})
   assert.deepEqual((await data('vendor1','/portal/api/vendor')).jobs,[],'the former vendor no longer sees the job');assert.deepEqual((await data('vendor2','/portal/api/vendor')).jobs.map(j=>j.id),[job.id])
   await inspect?.({phase:'portal-people',r,north,cookies})
   // Revoking one grant ends that record at once; revoking a person ends their sessions, links and every grant.
-  const delegateId=(await data('delegate','/portal/api/me')).grants[0].id
+  const delegateId=(await data('delegate','/portal/api/me')).grants[0].id,revokeAs=(k,grantId,opts={})=>r.request('/portal/delegate/revoke',{method:'POST',as:cookies[k],form:new URLSearchParams({grantId}),...opts})
   await r.command('portal.revoke',{grantId:delegateId,reason:'Resident withdrew the delegation'},{as:staff.leasing,status:403})
   await r.command('portal.revoke',{grantId:delegateId},{status:400})
-  await r.command('portal.revoke',{grantId:delegateId,reason:'Resident withdrew the delegation'})
-  assert.equal((await get('delegate','/portal/api/resident?tenancyId='+north.id)).status,404);assert.deepEqual((await data('delegate','/portal/api/me')).grants,[])
+  // The resident on the lease, and nobody else, revokes the delegated contact; the contact's session ends at once.
+  for(const k of ['delegate','south','owner1','vendor2'])assert.equal((await revokeAs(k,delegateId)).status,404,k+' cannot revoke that delegation')
+  assert.equal((await revokeAs('resident',delegateId,{originHeader:'https://elsewhere.test'})).status,403)
+  assert.equal((await revokeAs('resident',delegateId)).status,303);assert.deepEqual((await data('resident','/portal/api/resident?tenancyId='+north.id)).delegates,[])
+  assert.equal((await get('delegate','/portal/api/me')).status,401,'the delegated contact’s session ended')
+  await again('delegate','delegate@example.test');assert.deepEqual((await data('delegate','/portal/api/me')).grants,[])
+  for(const path of pages.delegate.keys())if(!['/portal','/portal/api/me'].includes(path))assert.equal((await get('delegate',path)).status,404,'after revocation the delegated contact reaches nothing at '+path)
   await invite({kind:'vendor',vendorId:river.id,email:'late@example.test',displayName:'Late Vendor'})
   const lateToken=r.portalToken('late@example.test'),people=await(await r.request('/app?tab=settings')).text()
   assert.ok(people.includes('Portal access')&&people.includes('Delegate Contact')&&!people.includes(lateToken),'staff see people and grants, never link secrets')
@@ -113,7 +138,10 @@ export async function journey({inspect,assets=false}={}){
   const ids=Object.fromEntries([...everyone].map(m=>[m[2].split(' ·')[0],m[3]]))
   const before=r.messages.length
   for(const [k,email] of [['resident','northres@example.test'],['owner2','sam@example.test'],['vendor1','river@example.test'],['late','late@example.test']]){await r.command('portal.revoke',{identityId:ids[email],reason:'Access ended '+k})}
-  for(const [k,paths] of [['resident',['/portal','/portal/api/me','/portal/api/resident?tenancyId='+north.id,'/portal/statement?tenancyId='+north.id]],['owner2',['/portal/api/owner','/portal/owner-statement?from=2026-01-01&to=2026-12-31']],['vendor1',['/portal/api/vendor',riverFile.url]]])for(const path of paths){const s=(await get(k,path)).status;assert.ok([401,303].includes(s),`${k} ${path} after revocation was ${s}`)}
+  // The crawl again after revocation: every page, download and API the revoked people reached before is closed to them,
+  // and the people still holding access see only their own records.
+  for(const k of ['resident','owner2','vendor1'])for(const path of pages[k].keys()){const res=await get(k,path),s=res.status;assert.ok(s===401||(s===303&&res.headers.get('location')==='/portal/signin'),`${k} ${path} after revocation was ${s}`)}
+  await private_('owner1',['Sam Oakes','North Resident'])(await crawl('owner1'));await private_('vendor2',['RIVER-1','North Resident','Sam Oakes','Rowan Ellis'])(await crawl('vendor2'))
   assert.equal((await r.request('/portal/accept',{method:'POST',as:'',form:new URLSearchParams({token:lateToken})})).status,400,'a revoked person’s unused invitation link is dead')
   assert.equal((await r.request('/portal/signin',{method:'POST',as:'',form:new URLSearchParams({email:'northres@example.test'})})).status,202);assert.equal((await r.request('/portal/signin',{method:'POST',as:'',form:new URLSearchParams({email:'nobody@example.test'})})).status,202)
   assert.equal(r.messages.length,before,'no sign-in link is sent to a revoked or unknown address')
@@ -125,6 +153,15 @@ export async function journey({inspect,assets=false}={}){
   // Every change and every portal read is in the operating history.
   const history=(await(await r.request('/api/history?limit=3000')).json()).rows
   for(const action of ['portal.invite','portal.revoke','portal.invite.email','portal.read:statement','portal.read:owner-statement','portal.read:invoice'])assert.ok(history.some(x=>x.action===action),action+' is recorded')
+  assert.ok(history.some(x=>x.action==='portal.revoke'&&x.subject===delegateId&&x.actor.startsWith('portal:')&&x.tenancyId===north.id),'the resident’s revocation is recorded as theirs')
   const archive=await(await r.request('/api/backup')).text(),manifest=JSON.parse(archive.split('\n')[0]);assert.ok(!manifest.tables.some(x=>x.name.startsWith('tt_portal_')),'portal people, links and sessions are never archived');assert.ok(!archive.includes('river@example.test'))
+  // A restore carries no portal session, link or person: everyone is invited again by staff.
+  const restored=await installation()
+  try{
+   await restored.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'backup.rer')})
+   for(const k of ['owner1','vendor2','south'])assert.equal((await restored.request('/portal/api/me',{as:cookies[k]})).status,401,k+' has no session after a restore')
+   assert.equal((await restored.request('/portal/accept',{method:'POST',as:'',form:new URLSearchParams({token:lateToken})})).status,400)
+   assert.equal((await restored.request('/portal/signin',{method:'POST',as:'',form:new URLSearchParams({email:'southres@example.test'})})).status,202);assert.ok(!restored.messages.some(m=>m.to.includes('southres@example.test')),'no portal person exists until staff invite them again')
+  }finally{await restored.close()}
  }finally{await r.close()}
 }

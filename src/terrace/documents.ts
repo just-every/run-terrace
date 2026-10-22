@@ -1,25 +1,29 @@
-// PORT-007. Operating documents on tenancy records: upload, versioned revision, search over authorized content and
-// metadata, download with history. A document belongs to one tenancy, so ROLE-001 scope applies to every read: a record
-// outside the reader's portfolios answers 404, exactly like a missing one. Screening, application and tax documents
-// need their own action (document.screening, document.tax); a reader without it sees no trace of them. Signed lease
-// originals (PORT-005) and inspection photographs appear in search as read-only entries behind their own doors.
-import { all, allow, audit, can, commit, guard, id, insist, one, reaches, recordRead, sha256, sql, tenancy, text, type Context, type Row } from './core'
+// PORT-007. Tenancy documents (leases, applications, notices, screening reports and tax documents): upload, versioned
+// revision, search over authorized content and metadata, download with history. A document belongs to one tenancy, so
+// ROLE-001 scope applies to every read: a record outside the reader's portfolios answers 404, exactly like a missing one.
+// Application, screening and tax documents need their kind's own right (document.application, document.screening,
+// document.tax); a reader without it sees no trace of them. Inspection photos and video, work documents and invoices attach
+// to their own records (PORT-009). Signed lease originals (PORT-005) and inspection photographs appear in search as
+// read-only entries behind their own doors.
+import { all, audit, can, commit, guard, id, insist, one, reaches, recordRead, sha256, sql, tenancy, text, type Context, type Row } from './core'
 import { LIMIT, scan } from './document-scan'
 
 export const DOCUMENT_COMMANDS = ['document.upload', 'document.revise']
-export const KINDS: Record<string, { label: string; retention: string; restriction: '' | 'screening' | 'tax' }> = {
- lease: { label: 'Lease or amendment', retention: 'lease', restriction: '' },
- application: { label: 'Application', retention: 'screening', restriction: 'screening' },
- screening: { label: 'Screening report', retention: 'screening', restriction: 'screening' },
- notice: { label: 'Notice', retention: 'communications', restriction: '' },
- inspection: { label: 'Inspection photo or video', retention: 'lease', restriction: '' },
- work: { label: 'Work document', retention: 'lease', restriction: '' },
- invoice: { label: 'Invoice', retention: 'accounting', restriction: '' },
- tax: { label: 'Tax document', retention: 'accounting', restriction: 'tax' },
- other: { label: 'Other', retention: 'lease', restriction: '' },
+/** The kinds a tenancy document may be uploaded as: its retention class, its sensitivity class and the right that reads it. */
+export const KINDS: Record<string, { label: string; retention: string; restriction: '' | 'screening' | 'tax'; right: string }> = {
+ lease: { label: 'Lease or amendment', retention: 'lease', restriction: '', right: 'document.read' },
+ application: { label: 'Application', retention: 'screening', restriction: 'screening', right: 'document.application' },
+ screening: { label: 'Screening report', retention: 'screening', restriction: 'screening', right: 'document.screening' },
+ notice: { label: 'Notice', retention: 'communications', restriction: '', right: 'document.read' },
+ tax: { label: 'Tax document', retention: 'accounting', restriction: 'tax', right: 'document.tax' },
 }
-/** A restricted document is invisible, not forbidden, to a reader without its action: and never reachable by an API credential. */
-const mayRead = (c: Context, restriction: string | null) => !restriction || (can(c, 'document.' + restriction) && !c.actor.credential)
+/** Rows stored as an earlier kind (inspection, work, invoice, other) stay readable with document.read. */
+export const right = (kind: string) => KINDS[kind]?.right ?? 'document.read'
+/** A restricted document is invisible, not forbidden, to a reader without its kind's right, and never reachable by an API credential. */
+const mayRead = (c: Context, kind: string) => { const r = right(kind); return can(c, r) && (r === 'document.read' || !c.actor.credential) }
+/** Whether the Documents door opens at all: any document right (an accountant's is tax documents only). */
+export const readsDocuments = (c: Context) => ['document.read', 'document.application', 'document.screening', 'document.tax'].some(r => can(c, r))
+export const enterDocuments = (c: Context) => insist(readsDocuments(c), 'forbidden', 'Your role does not allow this action.', 403)
 
 async function file(value: unknown) {
  let name: string, type: string, bytes: Uint8Array
@@ -55,14 +59,14 @@ export async function documentCommand(c: Context, command: string, p: Row): Prom
  if (command === 'document.upload') {
   const kind = KINDS[String(p.kind)]
   insist(kind, 'document_kind', 'Choose a document type.')
-  insist(mayRead(c, kind.restriction || null), 'forbidden', 'Your role does not allow this action.', 403)
+  insist(mayRead(c, String(p.kind)), 'forbidden', 'Your role does not allow this action.', 403)
   const t = await tenancy(c, p.tenancyId), title = text(p.title, 'Title', 200), documentId = id(), s = await stored(c, p, t.id, documentId, 1)
   await commit(c, [guard(c, 'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND erased_at IS NULL)', t.id),
    sql(c, 'INSERT INTO tt_documents(id,tenancy_id,kind,title,retention_class,restriction,version,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?)', documentId, t.id, p.kind, title, kind.retention, kind.restriction || null, 1, c.actor.id, c.now), ...s.statements], command, documentId)
-  return { documentId, versionId: s.key, version: 1, sha256: s.digest, tenancyId: t.id, notice: 'Document stored. ' + (kind.restriction ? 'It is restricted: only staff with that right can find it.' : 'Staff in this portfolio can find it.') }
+  return { documentId, versionId: s.key, version: 1, sha256: s.digest, tenancyId: t.id, retentionClass: kind.retention, notice: 'Document stored. ' + (kind.restriction ? 'It is restricted: only staff with that right can find it.' : 'Staff in this portfolio can find it.') }
  }
  const doc = await one(c, 'SELECT * FROM tt_documents WHERE id=?', text(p.documentId, 'Document', 100))
- insist(doc && mayRead(c, doc.restriction), 'not_found', 'Document not found.', 404)
+ insist(doc && mayRead(c, doc.kind), 'not_found', 'Document not found.', 404)
  const t = await tenancy(c, doc.tenancy_id)
  insist(Number(p.version) === doc.version, 'conflict', 'This document changed since you opened it. Reload and revise the current version.', 409)
  const version = doc.version + 1, s = await stored(c, p, t.id, doc.id, version)
@@ -73,7 +77,7 @@ export async function documentCommand(c: Context, command: string, p: Row): Prom
 const words = (q: unknown) => String(q ?? '').toLowerCase().split(/\s+/).filter(Boolean).slice(0, 8)
 /** Search authorized content and metadata. Current versions by default; history=1 adds earlier ones. */
 export async function documentSearch(c: Context, q: Row) {
- allow(c, 'document.read')
+ enterDocuments(c)
  const tokens = words(q.q), args: unknown[] = [], where: string[] = ['t.erased_at IS NULL']
  const scope = (extra: string[], extraArgs: unknown[]) => { where.push(...extra); args.push(...extraArgs) }
  if (q.tenancyId) scope(['t.id=?'], [text(q.tenancyId, 'Tenancy', 100)])
@@ -86,7 +90,7 @@ export async function documentSearch(c: Context, q: Row) {
  const rows = await all(c, `SELECT d.id AS document_id,d.tenancy_id,d.kind,d.title,d.restriction,d.retention_class,d.version AS current_version,v.id AS version_id,v.version,v.name,v.media_type,v.size,v.sha256,v.note,v.uploaded_by,v.uploaded_at,v.content_text IS NOT NULL AS indexed,
   CASE WHEN ?<>'' AND instr(lower(COALESCE(v.content_text,'')),?)>0 THEN substr(v.content_text,max(1,instr(lower(v.content_text),?)-40),120) END AS snippet,t.unit_id,t.address,t.tenant_name,u.identifier AS unit,p.name AS property
   FROM tt_document_versions v JOIN tt_documents d ON d.id=v.document_id JOIN tt_tenancies t ON t.id=d.tenancy_id LEFT JOIN tt_units u ON u.id=t.unit_id LEFT JOIN tt_properties p ON p.id=u.property_id WHERE ${where.join(' AND ')} ORDER BY v.uploaded_at DESC,v.id LIMIT 300`, first, first, first, ...args)
- const documents: Row[] = rows.filter(r => reaches(c, r.unit_id) && mayRead(c, r.restriction)).map(r => ({ documentId: r.document_id, versionId: r.version_id, version: r.version, current: r.version === r.current_version, kind: r.kind, title: r.title, restricted: r.restriction, retentionClass: r.retention_class,
+ const documents: Row[] = rows.filter(r => reaches(c, r.unit_id) && mayRead(c, r.kind)).map(r => ({ documentId: r.document_id, versionId: r.version_id, version: r.version, current: r.version === r.current_version, kind: r.kind, title: r.title, restricted: r.restriction, retentionClass: r.retention_class,
   name: r.name, mediaType: r.media_type, size: r.size, sha256: r.sha256, source: r.note, uploadedBy: r.uploaded_by, uploadedAt: r.uploaded_at, contentSearchable: !!r.indexed, snippet: r.snippet ?? null, tenancyId: r.tenancy_id, address: r.address, unit: r.unit ?? null, property: r.property ?? null, url: '/api/document?id=' + r.version_id }))
  return { documents: [...documents, ...await originals(c, q, tokens)].slice(0, 300) }
 }
@@ -110,20 +114,20 @@ async function originals(c: Context, q: Row, tokens: string[]) {
 }
 
 async function reachable(c: Context, v: Row | null | undefined) {
- insist(v && mayRead(c, v.restriction), 'not_found', 'Document not found.', 404)
+ insist(v && mayRead(c, v.kind), 'not_found', 'Document not found.', 404)
  await tenancy(c, v.tenancy_id)
  return v
 }
 /** One stored version's original bytes, recorded as a read in the operating history. */
 export async function documentDownload(c: Context, value: unknown) {
- allow(c, 'document.read')
- const v = await reachable(c, await one(c, 'SELECT v.*,d.tenancy_id,d.restriction FROM tt_document_versions v JOIN tt_documents d ON d.id=v.document_id WHERE v.id=?', text(value, 'Document', 100)))
+ enterDocuments(c)
+ const v = await reachable(c, await one(c, 'SELECT v.*,d.tenancy_id,d.kind FROM tt_document_versions v JOIN tt_documents d ON d.id=v.document_id WHERE v.id=?', text(value, 'Document', 100)))
  await recordRead(c, 'read:document', v.id)
  return new Response(new Uint8Array(v.bytes), { headers: { 'content-type': v.media_type, 'content-disposition': `attachment; filename="${v.name.replace(/[^a-zA-Z0-9._-]/g, '_')}"`, 'cache-control': 'private, no-store', 'x-content-type-options': 'nosniff', 'referrer-policy': 'no-referrer', 'content-security-policy': "default-src 'none'; sandbox", 'x-document-sha256': v.sha256 } })
 }
 /** Every version of one document with its upload check and who opened each. Never carries bytes. */
 export async function documentVersions(c: Context, value: unknown) {
- allow(c, 'document.read')
+ enterDocuments(c)
  const d = await reachable(c, await one(c, 'SELECT * FROM tt_documents WHERE id=?', text(value, 'Document', 100)))
  const versions = await all(c, 'SELECT id,version,name,media_type,size,sha256,note,scan,uploaded_by,uploaded_at,content_text IS NOT NULL AS indexed FROM tt_document_versions WHERE document_id=? ORDER BY version DESC', d.id)
  const downloads = await all(c, "SELECT a.subject AS version_id,a.at,a.actor,COALESCE(o.display_name,a.actor) AS actor_name FROM tt_audit a LEFT JOIN oa_operators o ON o.id=a.actor WHERE a.action='read:document' AND a.subject IN (SELECT id FROM tt_document_versions WHERE document_id=?) ORDER BY a.at DESC", d.id)

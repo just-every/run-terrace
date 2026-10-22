@@ -1,7 +1,7 @@
 import {PORTAL_COMMANDS,portalCommand,portalData,sendPortalEmail} from './portal'
 import {portalResponse} from './portal-http'
 import {portalSection} from './portal-view-staff'
-import {DOCUMENT_COMMANDS,documentCommand,documentDownload,documentSearch,documentVersions} from './documents'
+import {DOCUMENT_COMMANDS,documentCommand,documentDownload,documentSearch,documentVersions,enterDocuments} from './documents'
 import {documentView} from './document-view'
 import {TRUST_COMMANDS,trustCommand,trustData} from './trust'
 import {trustView} from './trust-view'
@@ -103,7 +103,7 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
  let body='',title='Tenancies',head={}
  if(tab==='security'){title='Two-step sign-in';body=securityView(await factorState(c),result,c.actor.role==='owner',c.actor.role==='owner'?await all(c,'SELECT o.id,o.display_name FROM tt_totp t JOIN oa_operators o ON o.id=t.operator_id WHERE t.confirmed_at IS NOT NULL AND o.id<>? ORDER BY o.display_name',c.actor.id):[])}
  else if(tab==='rules'){title='State & local rules';body=ruleView(await ruleData(c,url.searchParams.get('propertyId')))}
- else if(tab==='documents'){allow(c,'document.read');title='Documents';body=documentView({documents:(await documentSearch(c,Object.fromEntries(url.searchParams))).documents,tenancies:rows},Object.fromEntries(url.searchParams),a=>can(c,a))}
+ else if(tab==='documents'){enterDocuments(c);title='Documents';body=documentView({documents:(await documentSearch(c,Object.fromEntries(url.searchParams))).documents,tenancies:rows},Object.fromEntries(url.searchParams),a=>can(c,a))}
  else if(tab==='trust'){title='Trust accounts';body=trustView(await trustData(c,Object.fromEntries(url.searchParams)));await recordRead(c,'read:trust','custody')}
  else if(tab==='journal'){title='Property ledger';body=journalView(await journalData(c,Object.fromEntries(url.searchParams)))}
  else if(tab==='close'){allow(c,'reports.read');title='Month close';body=periodView(await periodData(c,url.searchParams.get('month')),{signoff:can(c,'period.signoff'),close:can(c,'period.close'),reopen:can(c,'period.reopen'),prepare:can(c,'correction.prepare'),approve:can(c,'correction.approve')},await operatorNames(c),rows)}

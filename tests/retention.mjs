@@ -9,12 +9,17 @@ export async function retentionJourney(){
   const current=await h.command('tenancy.create',{...tenancyInput,tenantEmail:'current@example.test'})
   await h.command('privacy.hold',{tenancyId:current.id,class:'all',reason:'forbidden'},{as:member,status:403})
   await h.formCommand('document.upload',{tenancyId:current.id,kind:'screening',title:'Screening',source:'Provider PDF',file:new File([Buffer.from('Applicant screening summary')],'screening.txt',{type:'text/plain'})})
+  await h.formCommand('document.upload',{tenancyId:current.id,kind:'tax',title:'Owner tax copy',source:'Accountant',file:new File([Buffer.from('Rent income summary')],'tax.txt',{type:'text/plain'})})
+  await h.formCommand('document.upload',{tenancyId:current.id,kind:'notice',title:'Entry notice',source:'Posted at the door',file:new File([Buffer.from('Notice of entry on Friday')],'notice.txt',{type:'text/plain'})})
   assert.equal((await h.request('/api/resident-access?tenancyId='+current.id,{as:member})).status,403)
   assert.equal((await h.request('/api/resident-access?tenancyId='+current.id,{as:''})).status,401)
   const cr=await h.command('privacy.request',{tenancyId:current.id,kind:'erase',source:'Resident request CURRENT'})
   const reviewCurrent=await h.command('privacy.review',{tenancyId:current.id,requestId:cr.id})
   assert.ok(reviewCurrent.review.classes.find(c=>c.class==='lease').retained,'SAFE-004: current lease retention prevents erasure')
   const screen=reviewCurrent.review.classes.find(c=>c.class==='screening');assert.ok(screen.present&&screen.retained&&screen.through>new Date(Date.now()+400*864e5).toISOString().slice(0,10),'PORT-007: screening documents keep their own 2-year class')
+  const year=Number(reviewCurrent.review.today.slice(0,4)),kept=k=>reviewCurrent.review.classes.find(c=>c.class===k)
+  assert.ok(kept('accounting').present&&kept('accounting').retained&&kept('accounting').through===`${year+7}-12-31`,'PORT-007: tax documents keep the accounting class, 7 years after their fiscal year')
+  assert.ok(kept('communications').present&&kept('communications').retained&&kept('communications').through.startsWith(String(year+3)),'PORT-007: notices keep the communications class, 3 years after upload')
   await h.command('tenancy.erase',{tenancyId:current.id,requestId:cr.id,fingerprint:reviewCurrent.review.fingerprint,confirm:'current@example.test'},{status:409})
   const header=(await readFile('fixtures/terrace-tenancies.csv','utf8')).split('\n')[0]
   const csv=header+'\ncasey,31 Brook Lane Oakland CA,Rowan Ellis,rowan@example.test,Casey Historic,casey-history@example.test,2010-01-01,2011-12-31,620.00,weekly,2010-01-01T00:00:00.000Z\n'

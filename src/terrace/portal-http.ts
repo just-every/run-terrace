@@ -1,7 +1,7 @@
 // ROLE-002: the /portal door. It is separate from /app and /api: a portal cookie reaches nothing there, and a staff cookie reaches
 // nothing here. Every request reads the live session, person and grants, then answers for the one record a grant names.
 // An unknown or unshared record is always a plain 404, never a hint that it exists.
-import { Fault, audit, insist, recordRead, type Context, type Row } from './core'
+import { Fault, audit, guard, insist, recordRead, sql, type Context, type Row } from './core'
 import type { Bindings } from '../auth.server'
 import { csv } from './exports'
 import { ownerStatementTable } from './owners'
@@ -43,8 +43,19 @@ export async function portalResponse(request: Request, env: Bindings): Promise<R
   const portal = await current(env.DB, request.headers.get('cookie'), now)
   if (!portal) return api ? json({ error: 'unauthorized', message: 'Sign in first.' }, 401) : new Response(null, { status: 303, headers: headers({ location: '/portal/signin' }) })
   if (path === '/portal/signout') { await env.DB.prepare('UPDATE tt_portal_sessions SET revoked_at=? WHERE hash=?').bind(now, portal.sessionHash).run(); return new Response(null, { status: 303, headers: headers({ location: '/portal/signin', 'set-cookie': cookie(env, '', 0) }) }) }
-  insist(request.method === 'GET', 'method', 'Method not allowed.', 405)
   const c = portalContext(env.DB, portal, now, env.SESSION_SECRET), mine = (key: string, value: unknown) => portal.grants.find(g => g[key] === value)
+  if (path === '/portal/delegate/revoke') {
+   // The resident on a lease ends a delegated contact's access to it: the grant and the contact's open sessions, in history.
+   insist(request.method === 'POST', 'method', 'Method not allowed.', 405)
+   const grant = await env.DB.prepare("SELECT * FROM tt_portal_grants WHERE id=? AND access='delegate' AND revoked_at IS NULL").bind(String(form.get('grantId') ?? '')).first<Row>()
+   if (!grant || !portal.grants.some(g => g.access === 'resident' && g.tenancy_id === grant.tenancy_id)) return missing(false)
+   c.tenancyId = grant.tenancy_id
+   await env.DB.batch([guard(c, "EXISTS(SELECT 1 FROM tt_portal_grants WHERE identity_id=? AND tenancy_id=? AND access='resident' AND revoked_at IS NULL)", portal.identity.id, grant.tenancy_id),
+    sql(c, "UPDATE tt_portal_grants SET revoked_by=?,revoked_at=?,revoke_reason='Revoked by the resident' WHERE id=? AND revoked_at IS NULL", c.actor.id, now, grant.id),
+    sql(c, 'UPDATE tt_portal_sessions SET revoked_at=? WHERE identity_id=? AND revoked_at IS NULL', now, grant.identity_id), audit(c, 'portal.revoke', grant.id)])
+   return new Response(null, { status: 303, headers: headers({ location: `/portal/lease?tenancy=${encodeURIComponent(grant.tenancy_id)}&revoked=1` }) })
+  }
+  insist(request.method === 'GET', 'method', 'Method not allowed.', 405)
   if (path === '/portal') {
    const labelled = await Promise.all(portal.grants.map(async (g): Promise<Row> => ({ ...g, label: g.tenancy_id ? (await env.DB.prepare('SELECT address FROM tt_tenancies WHERE id=? AND erased_at IS NULL').bind(g.tenancy_id).first<Row>())?.address ?? 'Lease' : '' })))
    return html(homePage(portal.identity, labelled.filter(g => g.label || !g.tenancy_id)))
@@ -55,7 +66,7 @@ export async function portalResponse(request: Request, env: Bindings): Promise<R
    const d = await resident(); if (!d) return missing(api)
    if (path === '/portal/api/resident') return json(d)
    if (path === '/portal/statement') { await recordRead(c, 'portal.read:statement', d.tenancy.id); return new Response(residentCsv(d), { headers: headers({ 'content-type': 'text/csv;charset=utf-8', 'content-disposition': 'attachment; filename="terrace-statement.csv"' }) }) }
-   await recordRead(c, 'portal.read:lease', d.tenancy.id); return html(leasePage(portal.identity, d))
+   await recordRead(c, 'portal.read:lease', d.tenancy.id); return html(leasePage(portal.identity, d, url.searchParams.has('revoked')))
   }
   const ownerGrant = portal.grants.find(g => g.owner_id), vendorGrant = portal.grants.find(g => g.vendor_id)
   if (['/portal/owner', '/portal/api/owner', '/portal/owner-statement'].includes(path)) {

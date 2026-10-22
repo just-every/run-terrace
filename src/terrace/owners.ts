@@ -6,6 +6,7 @@
 // in force that day. Owner records are installation-wide: the owner and all-portfolio staff keep them (ROLE-001).
 import { all, allow, can, commit, date, email, everywhere, guard, id, insist, one, reachesPortfolio, shown, sql, text, cents, type Context, type Row } from './core'
 import { ownerFees } from './fees'
+import { endSessions } from './portal-session'
 import { ownerExpenses } from './bills'
 
 const W9 = ['requested', 'received']
@@ -70,12 +71,13 @@ export async function ownerCommand(c: Context, command: string, p: Row): Promise
   insist(shares.reduce((t, s) => t + s.bp, 0) === 10000, 'shares_total', 'Shares must total exactly 100%.')
   const known = await all(c, `SELECT id FROM tt_owners WHERE id IN (${shares.map(() => '?').join(',')})`, ...shares.map(s => s.ownerId))
   insist(known.length === shares.length, 'not_found', 'Owner not found.', 404)
-  const key = id()
-  // History is never rewritten: a new set starts after the latest one.
+  const key = id(), before = await all(c, 'SELECT owner_id FROM tt_ownership_shares WHERE set_id=(SELECT id FROM tt_ownership_sets WHERE property_id=? ORDER BY effective_from DESC LIMIT 1)', prop.id)
+  // History is never rewritten: a new set starts after the latest one. The owners on either side sign in again (ROLE-002).
   await commit(c, [
    guard(c, 'NOT EXISTS(SELECT 1 FROM tt_ownership_sets WHERE property_id=? AND effective_from>=?)', prop.id, from),
    sql(c, 'INSERT INTO tt_ownership_sets(id,property_id,effective_from,reason,created_by,created_at) VALUES(?,?,?,?,?,?)', key, prop.id, from, reason, c.actor.id, c.now),
    ...shares.map((s, i) => sql(c, 'INSERT INTO tt_ownership_shares(set_id,owner_id,share_bp,position) VALUES(?,?,?,?)', key, s.ownerId, s.bp, i)),
+   endSessions(c, 'owner_id', [...before.map(b => b.owner_id), ...shares.map(s => s.ownerId)]),
   ], command, key).catch(e => { if (e.code === 'conflict') e.message = 'Ownership already changes on or after that date. A transfer starts after the latest one.'; throw e })
   return { id: key, notice: `Ownership from ${from} recorded.` }
  }

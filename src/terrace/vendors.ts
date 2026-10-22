@@ -3,6 +3,7 @@
 // license, when one is recorded) runs through the job's due date. Unqualified work is held: it is prepared and
 // shown with its issues, but approval and handoff wait for a manager's documented exception for those issues.
 import { all, cents, commit, date, email, guard, id, insist, allow, one, sql, tenancy, text, type Context, type Row } from './core'
+import { endSessions } from './portal-session'
 
 export const TRADES = ['plumbing','electrical','hvac','appliance','roofing','locksmith','pest control','cleaning','general'] as const
 const list = (v: unknown, label: string) => {
@@ -73,7 +74,7 @@ export async function vendorCommand(c: Context, command: string, p: Row): Promis
    guard(c, 'EXISTS(SELECT 1 FROM tt_vendors WHERE id=? AND version=?)', v.id, v.version),
    sql(c, 'UPDATE tt_maintenance_jobs SET vendor_id=?,trade=?,trade_name=?,trade_email=?,qualification=?,revised_by=?,version=version+1 WHERE id=?', v.id, work.trade, v.name, v.email, JSON.stringify(found), c.actor.id, job.id),
    sql(c, "UPDATE tt_proposals SET payload=json_set(payload,'$.tradeName',?,'$.tradeEmail',?) WHERE id=?", v.name, v.email, job.proposal_id),
-   assignment(c, job.id, v.id, v.name, work.trade, found),
+   assignment(c, job.id, v.id, v.name, work.trade, found), ...(job.vendor_id === v.id ? [] : [endSessions(c, 'vendor_id', [job.vendor_id, v.id])]),
   ], command, job.id)
   return { id: job.id, tenancyId: t.id, version: job.version + 1, issues: found, notice: found.length ? `Reassigned and held: ${found.join('; ')}. A manager's documented exception is needed before approval.` : 'Reassigned to a qualified vendor.' }
  }

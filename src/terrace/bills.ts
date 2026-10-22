@@ -4,6 +4,7 @@ import { approval, billAuthority } from './bills-authority'
 import { BILL_COMMANDS, bill, billGuard, digest, input, revision, scopes, unique } from './bills-input'
 import { billSubjects } from './bills-retention'
 import { templateCommand } from './bills-templates'
+import { endSessions } from './portal-session'
 export { BILL_COMMANDS } from './bills-input'
 export { billAttachment } from './bills-attachments'
 /** Reopening an approved invoice removes its former markup with immutable reversing lines, including overrides. */
@@ -37,7 +38,7 @@ export async function billCommand(c: Context,command: string,p: Row): Promise<Ro
   const version=b.version+1,a=command==='bill.attach'?await attachment(c,b.id,version,p.attachment??p.invoice,false):null
   if(a)terms.attachments=[...(terms.attachments??[]),{id:a.id,sha256:a.sha}]
   const sha=await digest(terms)
-  await commit(c,[billGuard(c,b),...await reverseMarkup(c,b),...(a?.statements??[]),sql(c,"UPDATE tt_bills SET vendor_id=?,invoice_number=?,invoice_key=?,day=?,version=?,state='pending',revised_by=? WHERE id=?",terms.vendorId,terms.invoiceNumber,terms.invoiceNumber.toLowerCase(),terms.day,version,c.actor.id,b.id),revision(c,b.id,version,terms,sha),...await billSubjects(c,b.id,terms)],command,b.id)
+  await commit(c,[billGuard(c,b),...await reverseMarkup(c,b),...(a?.statements??[]),sql(c,"UPDATE tt_bills SET vendor_id=?,invoice_number=?,invoice_key=?,day=?,version=?,state='pending',revised_by=? WHERE id=?",terms.vendorId,terms.invoiceNumber,terms.invoiceNumber.toLowerCase(),terms.day,version,c.actor.id,b.id),revision(c,b.id,version,terms,sha),...await billSubjects(c,b.id,terms),...(b.vendor_id===terms.vendorId?[]:[endSessions(c,'vendor_id',[b.vendor_id,terms.vendorId])])],command,b.id)
   return {id:b.id,version,state:'pending',notice:'Bill changed: previous approval and owner decision no longer apply. Review the exact new terms before it becomes a payable.'}
  }
  if(command==='bill.owner') {

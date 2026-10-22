@@ -43,8 +43,8 @@ export async function portalCommand(c: Context, command: string, p: Row): Promis
  if (p.grantId) {
   const grant = await one(c, 'SELECT * FROM tt_portal_grants WHERE id=? AND revoked_at IS NULL', text(p.grantId, 'Grant', 100))
   insist(grant, 'not_found', 'Active grant not found.', 404); await reach(c, grant)
-  await commit(c, [sql(c, 'UPDATE tt_portal_grants SET revoked_by=?,revoked_at=?,revoke_reason=? WHERE id=? AND revoked_at IS NULL', c.actor.id, c.now, reason, grant.id)], command, grant.id)
-  return { tenancyId: grant.tenancy_id ?? undefined, notice: 'Portal access to that record revoked. It takes effect on the next request.' }
+  await commit(c, [sql(c, 'UPDATE tt_portal_grants SET revoked_by=?,revoked_at=?,revoke_reason=? WHERE id=? AND revoked_at IS NULL', c.actor.id, c.now, reason, grant.id), sql(c, 'UPDATE tt_portal_sessions SET revoked_at=? WHERE identity_id=? AND revoked_at IS NULL', c.now, grant.identity_id)], command, grant.id)
+  return { tenancyId: grant.tenancy_id ?? undefined, notice: 'Portal access to that record revoked. The person’s open sessions have ended; they sign in again to reach anything else they hold.' }
  }
  const person = await one(c, "SELECT * FROM tt_portal_identities WHERE id=? AND status<>'revoked'", text(p.identityId, 'Person', 100))
  insist(person, 'not_found', 'Portal person not found.', 404)

@@ -3,6 +3,7 @@
 import { all, allow, commit, guard, id, insist, one, reaches, sql, tenancy, text, type Context, type Row } from './core'
 import { anyZone, localDate } from './zones'
 import { hold, vendor, vendorGuard, issues, assignment } from './vendors'
+import { endSessions } from './portal-session'
 import { CONFIRMED_LABEL } from './completions'
 
 export const APPOINTMENT_COMMANDS = ['appointment.book', 'appointment.confirm', 'appointment.cancel', 'appointment.no-show', 'appointment.reassign']
@@ -86,7 +87,7 @@ export async function appointmentCommand(c: Context, command: string, p: Row): P
   await commit(c, [...guards, guard(c, '(SELECT id FROM tt_appointments WHERE job_id=? ORDER BY recorded_at DESC,rowid DESC LIMIT 1)=?', j.id, a.id), guard(c, 'EXISTS(SELECT 1 FROM tt_vendors WHERE id=? AND version=?)', v.id, v.version),
    sql(c, "UPDATE tt_maintenance_jobs SET vendor_id=?,trade_name=?,trade_email=?,qualification=?,quote_id=NULL,revised_by=?,state='pending',version=version+1,sent_by=NULL,sent_at=NULL,sent_reference=NULL WHERE id=?", v.id, v.name, v.email, JSON.stringify(found), c.actor.id, j.id),
    sql(c, "UPDATE tt_proposals SET state='pending',approved_by=NULL,approved_at=NULL,tenancy_version=?,payload=json_set(payload,'$.tradeName',?,'$.tradeEmail',?) WHERE id=?", t.version, v.name, v.email, j.proposal_id),
-   assignment(c, j.id, v.id, v.name, j.trade, found), event(c, a.id, 'reassigned', reference),
+   assignment(c, j.id, v.id, v.name, j.trade, found), event(c, a.id, 'reassigned', reference), ...(j.vendor_id === v.id ? [] : [endSessions(c, 'vendor_id', [j.vendor_id, v.id])]),
   ], command, j.id)
   return { id: j.id, tenancyId: t.id, version: j.version + 1, issues: found, notice: 'Vendor changed: authorization reopened. Approve the new exact terms before booking or handoff; obtain a new owner decision if required.' }
  }

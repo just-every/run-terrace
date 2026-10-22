@@ -4,6 +4,7 @@ import { checklist } from './dispatch'
 // portal and contacts no one), and changes to scope, vendor or price, which reopen authorization.
 import { all, cents, commit, date, email, guard, id, insist, allow, money, one, sha256, sql, tenancy, text, type Context, type Row } from './core'
 import { assignment, issues, vendor } from './vendors'
+import { endSessions } from './portal-session'
 
 export const OWNER_LABEL = 'recorded by staff for the owner'
 const SOURCES = ['email', 'document', 'call']
@@ -52,7 +53,7 @@ async function reopen(c: Context, j: Row, version: number, changes: Row, vendorC
   guard(c, "EXISTS(SELECT 1 FROM tt_maintenance_jobs WHERE id=? AND version=? AND state IN ('pending','approved'))", j.id, version),
   sql(c, "UPDATE tt_maintenance_jobs SET title=?,scope=?,checklist=?,vendor_id=?,trade_name=?,trade_email=?,due_date=?,estimate_cents=?,quote_id=?,qualification=?,revised_by=?,state='pending',version=version+1 WHERE id=?", next.title, next.scope ?? null, next.checklist ?? j.checklist, next.vendor_id ?? null, next.trade_name, next.trade_email, next.due_date, next.estimate_cents, next.quote_id ?? null, JSON.stringify(found), c.actor.id, j.id),
   sql(c, "UPDATE tt_proposals SET state='pending',approved_by=NULL,approved_at=NULL,tenancy_version=?,payload=? WHERE id=?", t.version, payload, j.proposal_id),
-  ...(vendorChanged ? [assignment(c, j.id, next.vendor_id ?? null, next.trade_name, j.trade, found)] : []),
+  ...(vendorChanged ? [assignment(c, j.id, next.vendor_id ?? null, next.trade_name, j.trade, found), endSessions(c, 'vendor_id', [j.vendor_id, next.vendor_id])] : []),
  ] }
 }
 const reopened = (j: Row, found: string[]) => `${j.state === 'approved' ? 'Changed after approval: authorization reopened, and handoff waits for approval of the new terms.' : 'Terms changed. An owner or administrator approves them before handoff.'}${found.length ? ` Held: ${found.join('; ')}.` : ''}`
