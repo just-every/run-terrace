@@ -94,6 +94,13 @@ export async function journey({inspect,assets=false}={}){
   assert.equal((await get('leasing','/api/document-versions?id='+screened.documentId)).status,404)
   assert.equal((await get('leasing','/api/document?id='+application.versionId)).status,200)
   assert.equal((await get('accountant','/api/document?id='+tax.versionId)).status,200);assert.equal((await get('accountant','/api/document-versions?id='+tax.documentId)).status,200);assert.equal((await get('accountant','/app?tab=documents')).status,200)
+  // OPS-001's document catalogue inherits the same role and portfolio checks before paging or a direct record read.
+  const catalogue=async k=>(await json(k,'/api/v1/documents')).data.filter(d=>d.documentId)
+  assert.deepEqual((await catalogue('accountant')).map(d=>d.documentId),[tax.documentId])
+  assert.ok((await catalogue('leasing')).some(d=>d.documentId===application.documentId));assert.ok(!(await catalogue('leasing')).some(d=>[tax.documentId,screened.documentId].includes(d.documentId)))
+  assert.deepEqual(await catalogue('southAccountant'),[])
+  for(const [k,doc] of [['leasing',tax],['leasing',screened],['southLeasing',application],['southAccountant',tax]])assert.equal((await get(k,'/api/v1/documents/document-version:'+doc.versionId)).status,404)
+  assert.equal((await get('accountant','/api/v1/documents/document-version:'+tax.versionId)).status,200)
   await r.formCommand('document.upload',{tenancyId:north.t.id,kind:'tax',title:'Accountant copy',source:'x',file:file(pdf('Tax 2026'),'t.pdf','application/pdf')},{...as('accountant'),status:403})
   await r.formCommand('document.revise',{documentId:tax.documentId,version:'1',source:'x',file:file(pdf('Tax 2027'),'t2.pdf','application/pdf')},{...as('accountant'),status:403})
   assert.equal((await json('southAccountant','/api/documents?history=1')).documents.length,0);assert.equal((await get('southAccountant','/api/document?id='+tax.versionId)).status,404,'an accountant outside the portfolio gets 404')

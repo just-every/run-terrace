@@ -10,7 +10,7 @@ const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','
 const open=async(origin,cookie,names)=>{const context=await browser.newContext();await context.addCookies(cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return{name:pair.slice(0,i),value:pair.slice(i+1),url:origin}}));return {context,page:await context.newPage()}}
 const shoot=async(page,name)=>{for(const [width,height] of [[1440,900],[390,844]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),name+' fits '+width);await page.screenshot({path:join(out,`${name}-${width}.png`),fullPage:true})}}
 try{
- await documents({assets:true,inspect:async({r,north})=>{
+ await documents({assets:true,inspect:async({r,north,staff})=>{
   const {context,page}=await open(r.origin,r.cookie)
   await page.goto(r.origin+'/app?tab=documents&q=4B');await page.getByRole('heading',{name:'Documents',exact:true,level:2}).waitFor()
   assert.ok(await page.getByText('Lease with amendments').count()>0);assert.ok(await page.getByRole('link',{name:'Download original'}).count()>0)
@@ -25,9 +25,28 @@ try{
   await shoot(page,'documents-content-hit')
   await page.goto(r.origin+'/app?tab=documents&q=4B');const revise=page.locator('article:has-text("Lease with amendments") details:has(summary:text("Upload a new version"))').first();await revise.locator('summary').click()
   await shoot(page,'documents-new-version');await context.close()
+  for(const role of ['leasing','accountant']){
+   const {context,page}=await open(r.origin,staff[role]);await page.goto(r.origin+'/app?tab=documents')
+   assert.equal(await page.getByRole('heading',{name:'Screening report',exact:true}).count(),0)
+   if(role==='accountant'){
+    await page.getByRole('heading',{name:'Owner 1099 copy',exact:false}).waitFor()
+    assert.equal(await page.getByText('Upload a document',{exact:true}).count(),0)
+    assert.equal(await page.getByText('Upload a new version',{exact:true}).count(),0)
+   }else{
+    await page.getByRole('heading',{name:'Rental application',exact:false}).waitFor()
+    assert.equal(await page.getByRole('heading',{name:'Owner 1099 copy',exact:false}).count(),0)
+   }
+   await shoot(page,'documents-'+role);await context.close()
+  }
  }})
- await portal({assets:true,inspect:async({phase,r,north,cookies})=>{
+ await portal({assets:true,revokeDelegate:async({r,north,cookies})=>{
+  const {context,page}=await open(r.origin,cookies.resident);await page.goto(r.origin+'/portal/lease?tenancy='+north.id)
+  await page.getByRole('button',{name:'Revoke access',exact:true}).click();await page.getByRole('status').waitFor()
+  assert.equal(await page.getByRole('button',{name:'Revoke access',exact:true}).count(),0)
+  await shoot(page,'portal-delegate-revoked');await context.close()
+ },inspect:async({phase,r,north,cookies})=>{
   if(phase==='staff-portal'){const {context,page}=await open(r.origin,r.cookie);await page.goto(r.origin+'/app?tab=settings');await page.getByRole('heading',{name:'Portal access',exact:true,level:2}).waitFor();await page.locator('details:has(summary:text("Invite a resident"))').locator('summary').click();await shoot(page,'portal-staff-access');await context.close()}
-  if(phase==='portal-people')for(const [name,cookie,path] of [['resident',cookies.resident,'/portal/lease?tenancy='+north.id],['owner',cookies.owner1,'/portal/owner'],['owner-statement',cookies.owner1,'/portal/owner-statement?from=2026-01-01&to=2026-12-31'],['vendor',cookies.vendor2,'/portal/work'],['home',cookies.resident,'/portal']]){const {context,page}=await open(r.origin,cookie);await page.goto(r.origin+path);await page.getByRole('heading',{level:1}).waitFor();await shoot(page,'portal-'+name);await context.close()}
+  if(phase==='portal-people')for(const [name,cookie,path] of [['resident',cookies.resident,'/portal/lease?tenancy='+north.id],['delegate',cookies.delegate,'/portal/lease?tenancy='+north.id],['owner',cookies.owner1,'/portal/owner'],['sold-owner',cookies.owner2,'/portal/owner'],['sold-owner-statement',cookies.owner2,'/portal/owner-statement?from=2026-10-01&to=2026-12-31'],['owner-statement',cookies.owner1,'/portal/owner-statement?from=2026-01-01&to=2026-12-31'],['vendor',cookies.vendor2,'/portal/work'],['home',cookies.resident,'/portal']]){const {context,page}=await open(r.origin,cookie);await page.goto(r.origin+path);await page.getByRole('heading',{level:1}).waitFor();if(name==='delegate')assert.equal(await page.getByRole('heading',{name:'Recorded payments'}).count(),0);await shoot(page,'portal-'+name);await context.close()}
+  if(phase==='portal-revoked'){const {context,page}=await open(r.origin,cookies.resident);await page.goto(r.origin+'/portal/lease?tenancy='+north.id);assert.equal(new URL(page.url()).pathname,'/portal/signin');await shoot(page,'portal-access-ended');await context.close()}
  }})
 }finally{await browser.close()}

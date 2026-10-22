@@ -10,6 +10,7 @@ import { propertyData } from './properties'
 import { householdData } from './households'
 import { leaseData } from './lease-versions'
 import { ownerStatement } from './owners'
+import { documentSearch, readsDocuments } from './documents'
 
 const DEFAULT_LIMIT = 50, MAX_LIMIT = 200
 const head = { 'cache-control': 'no-store', 'x-content-type-options': 'nosniff', 'referrer-policy': 'no-referrer' }
@@ -36,11 +37,12 @@ const RESOURCES: Record<string, Resource> = {
  },
  documents: {
   ids: async c => {
-   const lease = can(c, 'lease.source'), photos = can(c, 'work.read')
-   if (!lease && !photos) allow(c, 'work.read')
+   const lease = can(c, 'lease.source'), photos = can(c, 'work.read'), tenancy = readsDocuments(c)
+   if (!lease && !photos && !tenancy) allow(c, 'work.read')
    const leases = lease ? await all(c, "SELECT 'lease-version:'||v.id AS id,'lease_version' AS kind,v.tenancy_id,v.effective,v.source_name AS name,'application/pdf' AS media_type,v.source_size AS size,v.source_sha256 AS sha256,'/api/lease-source?id='||v.id AS href,t.unit_id FROM tt_lease_versions v JOIN tt_tenancies t ON t.id=v.tenancy_id WHERE t.erased_at IS NULL") : []
    const images = photos ? await all(c, "SELECT 'inspection-photo:'||p.id AS id,'inspection_photo' AS kind,i.tenancy_id,i.inspection_date AS effective,p.filename AS name,p.media_type,p.size,p.sha256,'/api/inspections/photos/'||p.id AS href,t.unit_id FROM tt_inspection_photos p JOIN tt_inspections i ON i.id=p.inspection_id JOIN tt_tenancies t ON t.id=i.tenancy_id WHERE t.erased_at IS NULL") : []
-   return [...leases, ...images].filter(d => reaches(c, d.unit_id)).map(noUnit)
+   const stored = tenancy ? (await documentSearch(c, {}, -1)).documents.filter(d => d.documentId).map(d => ({ id: 'document-version:' + d.versionId, kind: d.kind, documentId: d.documentId, tenancy_id: d.tenancyId, name: d.name, media_type: d.mediaType, size: d.size, sha256: d.sha256, version: d.version, retentionClass: d.retentionClass, href: d.url })) : []
+   return [...leases, ...images].filter(d => reaches(c, d.unit_id)).map(noUnit).concat(stored)
   },
   sensitive: true,
  },

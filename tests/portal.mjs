@@ -7,7 +7,7 @@ import {createHash} from 'node:crypto'
 import {installation,tenancyInput} from './api/harness.mjs'
 const pdf=n=>({name:'invoice-'+n+'.pdf',type:'application/pdf',base64:Buffer.from('%PDF-1.4\n'+n+'\n%%EOF').toString('base64')})
 const SENTINELS=['SOUTH-SENTINEL','southres@example.test','Other Owner Sentinel','LANDLORD-SENTINEL','SCREEN-SENTINEL','LEASE-DOC-SENTINEL','987654321','Oakland Bank Sentinel']
-export async function journey({inspect,assets=false}={}){
+export async function journey({inspect,revokeDelegate,assets=false}={}){
  const r=await installation({assets})
  try{
   const zone='America/Los_Angeles',vendorFields={name:'River Plumbing',email:'river-contact@example.test',phone:'510-555-0190',specialties:'plumbing',serviceAreas:'Oakland',w9:'received',insuranceExpires:'2036-12-31',licenseNumber:'PL-240',licenseExpires:'2036-12-31',availability:'Weekdays',rate:'95',standing:'approved'}
@@ -80,7 +80,10 @@ export async function journey({inspect,assets=false}={}){
   const resident=await data('resident','/portal/api/resident?tenancyId='+north.id);assert.equal(resident.balanceCents,0);assert.deepEqual(resident.charges.map(q=>q.amountCents),[100000,100000]);assert.equal(resident.tenancy.unit,'4B')
   assert.ok(pages.resident.get('/portal/statement?tenancyId='+north.id)?.text.includes('Rent 2026-09')||(await body('resident','/portal/statement?tenancyId='+north.id)).includes('Rent 2026-09'),'a resident downloads their own statement')
   const delegate=await data('delegate','/portal/api/resident?tenancyId='+north.id);assert.equal(delegate.tenancy.unit,undefined);assert.equal(delegate.tenancy.startDate,undefined);assert.equal(delegate.charges.length,2,'a delegated contact sees balance and charges only')
-  assert.equal(delegate.delegates,undefined);assert.deepEqual(resident.delegates.map(x=>x.name),['Delegate Contact'],'the resident sees who they share the account with')
+  assert.equal(delegate.receipts,undefined);assert.equal(delegate.adjustments,undefined);assert.equal(delegate.delegates,undefined);
+  for(const path of ['/portal/lease?tenancy='+north.id,'/portal/statement?tenancyId='+north.id])assert.ok(!(await body('delegate',path)).includes('Recorded payment'),'a delegate has balance and charges without payment history on '+path);
+  for(const path of ['/portal/api/resident?tenancyId='+south.id,'/portal/lease?tenancy='+south.id,'/portal/statement?tenancyId='+south.id,'/portal/api/owner','/portal/api/vendor','/portal/invoice-file?id=nonexistent'])assert.equal((await get('delegate',path)).status,404,'a delegate cannot reach another record: '+path);
+  assert.deepEqual(resident.delegates.map(x=>x.name),['Delegate Contact'],'the resident sees who they share the account with')
   // Unrelated records are plain 404s on every portal door; staff doors and documents refuse portal people outright.
   for(const [k,paths] of Object.entries({resident:['/portal/api/resident?tenancyId='+south.id,'/portal/lease?tenancy='+south.id,'/portal/statement?tenancyId='+south.id,'/portal/api/owner','/portal/owner-statement','/portal/api/vendor','/portal/invoice-file?id='+riverBill.id],owner1:['/portal/api/resident?tenancyId='+north.id,'/portal/api/vendor'],vendor1:['/portal/api/resident?tenancyId='+north.id,'/portal/api/owner','/portal/owner-statement','/portal/invoice-file?id=nonexistent'],south:['/portal/api/resident?tenancyId='+north.id,'/portal/statement?tenancyId='+north.id]}))for(const path of paths)assert.equal((await get(k,path)).status,404,k+' '+path)
   const bayFile=(await data('vendor2','/portal/api/vendor')).invoices[0].files[0],riverFile=(await data('vendor1','/portal/api/vendor')).invoices[0].files[0]
@@ -127,7 +130,8 @@ export async function journey({inspect,assets=false}={}){
   // The resident on the lease, and nobody else, revokes the delegated contact; the contact's session ends at once.
   for(const k of ['delegate','south','owner1','vendor2'])assert.equal((await revokeAs(k,delegateId)).status,404,k+' cannot revoke that delegation')
   assert.equal((await revokeAs('resident',delegateId,{originHeader:'https://elsewhere.test'})).status,403)
-  assert.equal((await revokeAs('resident',delegateId)).status,303);assert.deepEqual((await data('resident','/portal/api/resident?tenancyId='+north.id)).delegates,[])
+  if(revokeDelegate)await revokeDelegate({r,north,cookies});else assert.equal((await revokeAs('resident',delegateId)).status,303);
+  assert.deepEqual((await data('resident','/portal/api/resident?tenancyId='+north.id)).delegates,[])
   assert.equal((await get('delegate','/portal/api/me')).status,401,'the delegated contact’s session ended')
   await again('delegate','delegate@example.test');assert.deepEqual((await data('delegate','/portal/api/me')).grants,[])
   for(const path of pages.delegate.keys())if(!['/portal','/portal/api/me'].includes(path))assert.equal((await get('delegate',path)).status,404,'after revocation the delegated contact reaches nothing at '+path)
@@ -150,17 +154,20 @@ export async function journey({inspect,assets=false}={}){
   assert.equal((await r.request('/portal/signin',{method:'POST',as:'',form:new URLSearchParams({email:'southres@example.test'})})).status,202)
   const fresh=await login('southres@example.test');assert.notEqual(fresh,cookies.south);assert.equal((await r.request('/portal/api/me',{as:fresh})).status,200)
   assert.equal((await r.request('/portal/signout',{method:'POST',as:fresh})).status,303);assert.equal((await r.request('/portal/api/me',{as:fresh})).status,401)
+  await invite({kind:'vendor',vendorId:bay.id,email:'restore@example.test',displayName:'Pending Vendor'})
+  const restoreToken=r.portalToken('restore@example.test')
   // Every change and every portal read is in the operating history.
   const history=(await(await r.request('/api/history?limit=3000')).json()).rows
   for(const action of ['portal.invite','portal.revoke','portal.invite.email','portal.read:statement','portal.read:owner-statement','portal.read:invoice'])assert.ok(history.some(x=>x.action===action),action+' is recorded')
   assert.ok(history.some(x=>x.action==='portal.revoke'&&x.subject===delegateId&&x.actor.startsWith('portal:')&&x.tenancyId===north.id),'the resident’s revocation is recorded as theirs')
+  await inspect?.({phase:'portal-revoked',r,north,cookies});
   const archive=await(await r.request('/api/backup')).text(),manifest=JSON.parse(archive.split('\n')[0]);assert.ok(!manifest.tables.some(x=>x.name.startsWith('tt_portal_')),'portal people, links and sessions are never archived');assert.ok(!archive.includes('river@example.test'))
   // A restore carries no portal session, link or person: everyone is invited again by staff.
   const restored=await installation()
   try{
    await restored.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'backup.rer')})
    for(const k of ['owner1','vendor2','south'])assert.equal((await restored.request('/portal/api/me',{as:cookies[k]})).status,401,k+' has no session after a restore')
-   assert.equal((await restored.request('/portal/accept',{method:'POST',as:'',form:new URLSearchParams({token:lateToken})})).status,400)
+   assert.equal((await restored.request('/portal/accept',{method:'POST',as:'',form:new URLSearchParams({token:restoreToken})})).status,400,'an unused live invitation from the source cannot sign in after restore')
    assert.equal((await restored.request('/portal/signin',{method:'POST',as:'',form:new URLSearchParams({email:'southres@example.test'})})).status,202);assert.ok(!restored.messages.some(m=>m.to.includes('southres@example.test')),'no portal person exists until staff invite them again')
   }finally{await restored.close()}
  }finally{await r.close()}

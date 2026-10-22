@@ -76,7 +76,7 @@ export async function documentCommand(c: Context, command: string, p: Row): Prom
 
 const words = (q: unknown) => String(q ?? '').toLowerCase().split(/\s+/).filter(Boolean).slice(0, 8)
 /** Search authorized content and metadata. Current versions by default; history=1 adds earlier ones. */
-export async function documentSearch(c: Context, q: Row) {
+export async function documentSearch(c: Context, q: Row, limit = 300) {
  enterDocuments(c)
  const tokens = words(q.q), args: unknown[] = [], where: string[] = ['t.erased_at IS NULL']
  const scope = (extra: string[], extraArgs: unknown[]) => { where.push(...extra); args.push(...extraArgs) }
@@ -89,10 +89,11 @@ export async function documentSearch(c: Context, q: Row) {
  for (const word of tokens) scope([`instr(${hay},?)>0`], [word])
  const rows = await all(c, `SELECT d.id AS document_id,d.tenancy_id,d.kind,d.title,d.restriction,d.retention_class,d.version AS current_version,v.id AS version_id,v.version,v.name,v.media_type,v.size,v.sha256,v.note,v.uploaded_by,v.uploaded_at,v.content_text IS NOT NULL AS indexed,
   CASE WHEN ?<>'' AND instr(lower(COALESCE(v.content_text,'')),?)>0 THEN substr(v.content_text,max(1,instr(lower(v.content_text),?)-40),120) END AS snippet,t.unit_id,t.address,t.tenant_name,u.identifier AS unit,p.name AS property
-  FROM tt_document_versions v JOIN tt_documents d ON d.id=v.document_id JOIN tt_tenancies t ON t.id=d.tenancy_id LEFT JOIN tt_units u ON u.id=t.unit_id LEFT JOIN tt_properties p ON p.id=u.property_id WHERE ${where.join(' AND ')} ORDER BY v.uploaded_at DESC,v.id LIMIT 300`, first, first, first, ...args)
+  FROM tt_document_versions v JOIN tt_documents d ON d.id=v.document_id JOIN tt_tenancies t ON t.id=d.tenancy_id LEFT JOIN tt_units u ON u.id=t.unit_id LEFT JOIN tt_properties p ON p.id=u.property_id WHERE ${where.join(' AND ')} ORDER BY v.uploaded_at DESC,v.id LIMIT ?`, first, first, first, ...args, limit)
  const documents: Row[] = rows.filter(r => reaches(c, r.unit_id) && mayRead(c, r.kind)).map(r => ({ documentId: r.document_id, versionId: r.version_id, version: r.version, current: r.version === r.current_version, kind: r.kind, title: r.title, restricted: r.restriction, retentionClass: r.retention_class,
   name: r.name, mediaType: r.media_type, size: r.size, sha256: r.sha256, source: r.note, uploadedBy: r.uploaded_by, uploadedAt: r.uploaded_at, contentSearchable: !!r.indexed, snippet: r.snippet ?? null, tenancyId: r.tenancy_id, address: r.address, unit: r.unit ?? null, property: r.property ?? null, url: '/api/document?id=' + r.version_id }))
- return { documents: [...documents, ...await originals(c, q, tokens)].slice(0, 300) }
+ const entries = [...documents, ...await originals(c, q, tokens)]
+ return { documents: limit < 0 ? entries : entries.slice(0, limit) }
 }
 /** PORT-005 signed lease originals and inspection photographs: searched by their metadata, opened by their own doors. */
 async function originals(c: Context, q: Row, tokens: string[]) {

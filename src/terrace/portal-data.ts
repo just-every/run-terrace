@@ -14,16 +14,18 @@ export async function residentData(c: Context, grant: Row) {
   access: grant.access, tenancy: delegate ? { id: t.id, address: t.address } : { id: t.id, address: t.address, unit: t.unit ?? null, property: t.property ?? null, startDate: t.start_date, endDate: t.end_date, endedOn: t.ended_on ?? null },
   currency: l.currency, balanceCents: l.balanceCents, arrearsCents: l.arrearsCents,
   charges: l.charges.map(q => ({ id: q.id, dueDate: q.due_date, description: q.description, amountCents: q.amount_cents, balanceCents: q.balance_cents })),
-  receipts: l.receipts.map(r => ({ date: r.received_date, amountCents: r.amount_cents })),
-  adjustments: l.adjustments.map(a => ({ date: a.at.slice(0, 10), amountCents: a.amount_cents })),
   boundary: 'Recorded rent only. Payments are made outside Terrace.',
-  ...(delegate ? {} : { delegates: (await all(c, "SELECT g.id,i.display_name FROM tt_portal_grants g JOIN tt_portal_identities i ON i.id=g.identity_id WHERE g.tenancy_id=? AND g.access='delegate' AND g.revoked_at IS NULL ORDER BY g.granted_at,g.id", t.id)).map(r => ({ grantId: r.id as string, name: r.display_name as string })) }),
+  ...(delegate ? {} : {
+   receipts: l.receipts.map(r => ({ date: r.received_date, amountCents: r.amount_cents })),
+   adjustments: l.adjustments.map(a => ({ date: a.at.slice(0, 10), amountCents: a.amount_cents })),
+   delegates: (await all(c, "SELECT g.id,i.display_name FROM tt_portal_grants g JOIN tt_portal_identities i ON i.id=g.identity_id WHERE g.tenancy_id=? AND g.access='delegate' AND g.revoked_at IS NULL ORDER BY g.granted_at,g.id", t.id)).map(r => ({ grantId: r.id as string, name: r.display_name as string })),
+  }),
  }
 }
 const cell = (v: unknown) => '"' + String(v ?? '').replaceAll('"', '""').replace(/^[=+@-]/, "'$&") + '"'
 export function residentCsv(d: NonNullable<Awaited<ReturnType<typeof residentData>>>) {
  const rows: unknown[][] = [['Terrace account statement', d.tenancy.address], ['Currency', d.currency], ['Date', 'Kind', 'Description', 'Amount'],
-  ...d.charges.map(q => [q.dueDate, 'Charge', q.description, (q.amountCents / 100).toFixed(2)]), ...d.receipts.map(r => [r.date, 'Recorded payment', '', (r.amountCents / 100).toFixed(2)]), ...d.adjustments.map(a => [a.date, 'Charge reduction', '', (a.amountCents / 100).toFixed(2)]),
+  ...d.charges.map(q => [q.dueDate, 'Charge', q.description, (q.amountCents / 100).toFixed(2)]), ...(d.receipts ?? []).map(r => [r.date, 'Recorded payment', '', (r.amountCents / 100).toFixed(2)]), ...(d.adjustments ?? []).map(a => [a.date, 'Charge reduction', '', (a.amountCents / 100).toFixed(2)]),
   ['Balance', '', '', (d.balanceCents / 100).toFixed(2)], [d.boundary]]
  return rows.map(r => r.map(cell).join(',')).join('\r\n') + '\r\n'
 }
