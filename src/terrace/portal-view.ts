@@ -1,0 +1,38 @@
+// ROLE-002: the portal pages. Plain server-rendered documents on the app theme; each page shows one person's own records.
+import { fontHead } from '../base/font-head'
+import { escape as e, money, type Row } from './core'
+import { usDate } from './format'
+
+const styles = ['shell', 'controls', 'content', 'pages'].map(n => `<link rel="stylesheet" href="/app/${n}.css">`).join('')
+const form = (action: string, body: string) => `<form method="post" action="${action}">${body}</form>`
+export function shell(title: string, body: string, person?: Row) {
+ const nav = person ? `<nav class="app-nav" aria-label="Portal"><a href="/portal">Home</a></nav><form method="post" action="/portal/signout" class="person"><span class="person-name">${e(person.display_name)}</span> <button type="submit" class="secondary">Sign out</button></form>` : ''
+ return `<!doctype html><html lang="en" class="terrace-app"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${e(title)} · Terrace portal</title><link rel="icon" href="/brand/mark.svg">${fontHead}<link rel="stylesheet" href="/rer-theme.css">${styles}</head><body><a class="skip-link" href="#content">Skip to content</a><header class="app-header"><a class="app-brand" href="/portal"><img src="/brand/mark.svg" alt="" width="36" height="24"><span>Terrace</span></a>${nav}</header><main id="content"><div class="title-row"><div><h1>${e(title)}<span class="dot" aria-hidden="true">.</span></h1></div></div>${body}</main></body></html>`
+}
+export const signinPage = (note = '') => shell('Sign in', `${note ? `<div role="status" class="notice">${e(note)}</div>` : ''}<section><p>Enter the email address your property manager invited. If it has portal access, a one-time sign-in link is sent to it.</p>${form('/portal/signin', '<label>Email<input type="email" name="email" required autocomplete="email"></label><button type="submit">Send sign-in link</button>')}</section>`)
+export const acceptPage = (token: string) => shell('Open your portal', `<section><p>Continue to open your Terrace portal in this browser. The link works once.</p>${form('/portal/accept', `<input type="hidden" name="token" value="${e(token)}"><button type="submit">Continue</button>`)}</section>`)
+export const failurePage = (message: string) => shell('Link not valid', `<section><p>${e(message)}</p><p><a href="/portal/signin">Request a new sign-in link</a></p></section>`)
+
+export function homePage(person: Row, grants: Row[]) {
+ const items = grants.map(g => g.tenancy_id ? `<li><a href="/portal/lease?tenancy=${encodeURIComponent(g.tenancy_id)}">${g.access === 'delegate' ? 'Delegated account' : 'Lease account'}: ${e(g.label)}</a></li>` : g.owner_id ? `<li><a href="/portal/owner">Owned properties and statements</a></li>` : `<li><a href="/portal/work">Assigned work and invoices</a></li>`).join('')
+ return shell('Your portal', `<section><p>Signed in as ${e(person.email)}. You see only the records below.</p>${items ? `<ul>${items}</ul>` : '<p class="empty">Nothing is shared with you right now.</p>'}</section>`, person)
+}
+export function leasePage(person: Row, d: Row) {
+ const t = d.tenancy, cur = d.currency
+ const charges = d.charges.map((q: Row) => `<tr><td>${usDate(q.dueDate)}</td><td>${e(q.description)}</td><td>${money(q.amountCents, cur)}</td><td>${money(q.balanceCents, cur)}</td></tr>`).join('')
+ const receipts = d.receipts.map((r: Row) => `<tr><td>${usDate(r.date)}</td><td>${money(r.amountCents, cur)}</td></tr>`).join('')
+ return shell(t.address, `<section><h2>Balance</h2><p><strong>${money(d.balanceCents, cur)}</strong>${d.arrearsCents > 0 ? ` · ${money(d.arrearsCents, cur)} past due` : ''}</p>${t.startDate ? `<p>Lease ${usDate(t.startDate)} to ${usDate(t.endDate)}${t.unit ? ` · Unit ${e(t.unit)}` : ''}</p>` : ''}<p><a href="/portal/statement?tenancyId=${encodeURIComponent(t.id)}">Download statement (CSV)</a></p></section><section><h2>Charges</h2><table><thead><tr><th>Due</th><th>Description</th><th>Amount</th><th>Balance</th></tr></thead><tbody>${charges || '<tr><td colspan="4">No charges.</td></tr>'}</tbody></table></section><section><h2>Recorded payments</h2><table><thead><tr><th>Date</th><th>Amount</th></tr></thead><tbody>${receipts || '<tr><td colspan="2">No payments recorded.</td></tr>'}</tbody></table><p class="muted">${e(d.boundary)}</p></section>`, person)
+}
+export function ownerPage(person: Row, d: Row, from: string, to: string) {
+ const props = d.properties.map((p: Row) => `<article><h3>${e(p.name)}</h3><p>${e(p.address)}</p><ul>${p.periods.map((x: Row) => `<li>${usDate(x.from)} to ${x.to ? usDate(x.to) : 'now'} · ${(x.shareBp / 100).toFixed(2)}% share</li>`).join('')}</ul></article>`).join('')
+ return shell('Your properties', `<section><h2>Properties and ownership periods</h2>${props || '<p class="empty">You hold no property share right now.</p>'}</section><section><h2>Statement</h2><form method="get" action="/portal/owner-statement"><label>From<input type="date" name="from" value="${e(from)}" required></label><label>To<input type="date" name="to" value="${e(to)}" required></label><button type="submit">View statement</button><button type="submit" name="format" value="csv" class="secondary">Download CSV</button></form></section>`, person)
+}
+export function statementPage(person: Row, s: Row) {
+ const rows = s.rows.map((r: Row) => `<tr><td>${usDate(r.date)}</td><td>${e(r.property)}</td><td>${e(r.address)}</td><td>${money(r.allocatedCents, r.currency === 'unconfirmed' ? 'USD' : r.currency)}</td><td>${money(r.netCents, r.currency === 'unconfirmed' ? 'USD' : r.currency)}</td></tr>`).join('')
+ return shell('Statement', `<section><p>${usDate(s.from)} to ${usDate(s.to)} · only periods you owned</p><table><thead><tr><th>Received</th><th>Property</th><th>Tenancy</th><th>Your share</th><th>Net of fee</th></tr></thead><tbody>${rows || '<tr><td colspan="5">Nothing was allocated to you in this period.</td></tr>'}</tbody></table><p class="muted">${e(s.boundary)}</p></section>`, person)
+}
+export function workPage(person: Row, d: Row) {
+ const jobs = d.jobs.map((j: Row) => `<li>${e(j.title)} · ${e(j.address)} · due ${usDate(j.dueDate)} · ${e(j.state === 'sent' ? 'sent to you' : 'approved')} · estimate ${money(j.estimateCents, 'USD')}</li>`).join('')
+ const invoices = d.invoices.map((i: Row) => `<li>${e(i.invoiceNumber)} · ${usDate(i.day)}${i.totalCents === null ? '' : ' · ' + money(i.totalCents, 'USD')} · ${e(i.payment)}${i.files.map((f: Row) => ` · <a href="${e(f.url)}">${e(f.name)}</a>`).join('')}</li>`).join('')
+ return shell('Your work', `<section><h2>Assigned work</h2>${jobs ? `<ul>${jobs}</ul>` : '<p class="empty">No work is assigned to you.</p>'}</section><section><h2>Your invoices</h2>${invoices ? `<ul>${invoices}</ul>` : '<p class="empty">No invoices recorded.</p>'}</section>`, person)
+}

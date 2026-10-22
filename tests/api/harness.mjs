@@ -34,13 +34,17 @@ export async function installation({legacy,beforeMigration,assets=false,demo=fal
    const match=(message.html??message.text).match(/(?:href=")?([^"\s<>]*\/auth\/confirm\?token=[^"\s<>]+)/);assert.ok(match,'Invitation includes a confirmation link')
    const token=new URL(match[1].replaceAll('&amp;','&'),origin).searchParams.get('token');const confirm=await request('/auth/confirm',{method:'POST',as,body:{token}});assert.equal(confirm.status,303,await confirm.text());return confirm.headers.getSetCookie().map(v=>v.split(';')[0]).join('; ')
   }
+  /** The one-time /portal/accept token in the newest message to email (ROLE-002), or undefined when nothing was sent. */
+  const portalToken=email=>{const m=messages.findLast(m=>m.to.includes(email)&&/\/portal\/accept/.test(m.html??m.text??''));return (m?.html??m?.text)?.match(/\/portal\/accept\?token=([a-f0-9]+)/)?.[1]}
+  /** A portal person's session cookie after following their emailed link. */
+  const portalSignIn=async email=>{const token=portalToken(email);assert.ok(token,'A portal link reached the provider edge');const r=await request('/portal/accept',{method:'POST',as:'',form:new URLSearchParams({token})});assert.equal(r.status,303,await r.text());return r.headers.getSetCookie().map(v=>v.split(';')[0]).join('; ')}
   /** A new sign-in by email link: a fresh session cookie for email. */
   const signIn=async email=>{const r=await request('/auth/magic-link',{method:'POST',as:'',body:{email}});assert.equal(r.status,202,await r.text());return accept(email)}
   /** Base's step-up: the email link completes in the session that asked (default the owner's). */
   const stepUp=async(email='owner@example.test',as=cookie)=>{const r=await request('/auth/step-up',{method:'POST',as,body:{action:'credentials:mint'}});assert.equal(r.status,202,await r.text());await accept(email,as)}
   /** A new worker process over the same persisted D1: nothing in memory survives. */
   const restart=async()=>{await mf.dispose();mf=new Miniflare(options(port));await mf.ready}
-  return {get mf(){return mf},scheduled:async scheduledTime=>(await mf.getWorker()).scheduled({scheduledTime,cron:'0 * * * *'}),configureMail:async provider=>{mailProvider=provider;await mf.setOptions(options(port))},restart,origin,request,command,formCommand,state,invite,accept,signIn,stepUp,cookie,messages,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
+  return {get mf(){return mf},scheduled:async scheduledTime=>(await mf.getWorker()).scheduled({scheduledTime,cron:'0 * * * *'}),configureMail:async provider=>{mailProvider=provider;await mf.setOptions(options(port))},restart,origin,request,portalToken,portalSignIn,messages,command,formCommand,state,invite,accept,signIn,stepUp,cookie,messages,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
  }catch(e){await mf.dispose();await rm(root,{recursive:true,force:true});throw e}
 }
 export const tenancyInput={address:'Unit 1C, 1840 Alder Street, Oakland, CA',ownerName:'Rowan Ellis',ownerEmail:'rowan@example.test',tenantName:'Alex Chen',tenantEmail:'alex@example.test',startDate:'2025-01-01',endDate:'2026-12-31',rent:'620.00',cadence:'weekly'}

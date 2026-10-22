@@ -6,6 +6,7 @@ import { billErasureStatements } from './bills-retention'
 import { leaseErasureStatements } from './lease-versions'
 import { portable } from './data'
 import { documentErasureStatements } from './documents'
+import { portalErasureStatements } from './portal'
 export async function eraseTenancy(c:Context,p:Row){
  const t=await tenancy(c,p.tenancyId)
  insist(p.confirm===t.tenant_email,'confirmation','Type the exact tenant email to confirm permanent tenancy erasure.')
@@ -21,6 +22,7 @@ export async function eraseTenancy(c:Context,p:Row){
  ...['tt_move_checklists','tt_emergencies','tt_schedules','tt_maintenance_jobs','tt_inspections','tt_assets','tt_household_members','tt_renewal_events','tt_renewals','tt_workflow_events','tt_workflow_runs','tt_lease_history','tt_recovery_authorizations'].map(table=>sql(c,`DELETE FROM ${table} WHERE tenancy_id=?`,t.id)),
  ...await leaseErasureStatements(c,t.id),
  ...documentErasureStatements(c,t.id,['lease','screening','communications']),
+ ...await portalErasureStatements(c,t.id),
  sql(c,'UPDATE tt_privacy_requests SET completed_at=? WHERE id=?',c.now,request.id),sql(c,'UPDATE tt_tenancies SET custody_retired_at=?,import_revision=NULL WHERE id=?',c.now,t.id)]
  if(!review.personalRetained){
   native.push(guard(c,"NOT EXISTS(SELECT 1 FROM tt_legal_holds WHERE tenancy_id=? AND released_at IS NULL AND class IN ('all','accounting'))",t.id),sql(c,'INSERT INTO tt_erasure_work(tenancy_id) VALUES(?)',t.id),...documentErasureStatements(c,t.id,['accounting']),...await billErasureStatements(c,t.id),

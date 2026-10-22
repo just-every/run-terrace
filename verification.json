@@ -97,6 +97,14 @@
       ]
     },
     {
+      "name": "documents",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/documents-browser.mjs"
+      ]
+    },
+    {
       "name": "property-ledger",
       "browser": true,
       "hosted": false,

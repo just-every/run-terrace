@@ -9,8 +9,8 @@ const sha=b=>createHash('sha256').update(b).digest('hex')
 const pdf=(words,{flate=false,extra=''}={})=>{const body=Buffer.from(`BT /F1 12 Tf (${words}) Tj ET`),data=flate?deflateSync(body):body;return Buffer.concat([Buffer.from(`%PDF-1.4\n1 0 obj<</Type/Catalog>>endobj\n2 0 obj<</Length ${data.length}${flate?'/Filter/FlateDecode':''}>>\nstream\n`),data,Buffer.from(`\nendstream\nendobj\n${extra}trailer<</Root 1 0 R>>\n%%EOF`)])}
 const mp4=Buffer.concat([Buffer.from([0,0,0,24]),Buffer.from('ftypisom'),Buffer.from([0,0,2,0]),Buffer.from('isomiso2'),Buffer.from('mdat inspection walkthrough bytes')])
 const file=(bytes,name,type)=>new File([bytes],name,{type})
-export async function journey(){
- const r=await installation()
+export async function journey({inspect,assets=false}={}){
+ const r=await installation({assets})
  try{
   const place=async(name,unit)=>{const f=await r.command('portfolio.add',{name}),p=await r.command('property.add',{portfolioId:f.id,name:name+' House',address:`${unit} ${name} Road, Oakland, CA 94607`,kind:'duplex',timeZone:'America/Los_Angeles'}),u=await r.command('unit.add',{propertyId:p.id,identifier:unit,bedrooms:'2',bathrooms:'1'});return {f,p,u,t:await r.command('tenancy.create',{...tenancyInput,address:`Unit ${unit}, ${name} Road, Oakland, CA`,unitId:u.id,tenantName:name+' Tenant',tenantEmail:name.toLowerCase()+'@example.test'})}}
   const north=await place('North','4B'),south=await place('South','9Z')
@@ -59,6 +59,7 @@ export async function journey(){
   assert.deepEqual(originals.map(x=>x.kind).sort(),['inspection-photo','signed-lease']);assert.equal(originals.find(x=>x.kind==='inspection-photo').sha256,sha(png))
   const signedHit=originals.find(x=>x.kind==='signed-lease');assert.equal((await get('manager',signedHit.url)).status,200)
   assert.ok(!(await json('southLeasing','/api/documents')).documents.some(x=>x.kind==='signed-lease'||x.kind==='inspection-photo'))
+  await inspect?.({phase:'documents',r,north,staff,v2})
   // The upload check refuses active content and anything it cannot read, and says it is not a malware verdict.
   const refuse=async(f,note)=>{const before=(await json('manager','/api/documents?history=1')).documents.length;const b=await r.formCommand('document.upload',{tenancyId:north.t.id,kind:'lease',title:'Refused '+note,source:'Test',file:f},{status:422});assert.equal(b.error,'document_refused',note);assert.equal((await json('manager','/api/documents?history=1')).documents.length,before,note+': nothing stored')}
   await refuse(file(pdf('Hello',{extra:'3 0 obj<</S/JavaScript/JS(app.alert(1))>>endobj\n'}),'js.pdf','application/pdf'),'plain JavaScript')

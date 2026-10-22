@@ -13,6 +13,7 @@ const bytes = (b64: string) => Uint8Array.from(atob(b64), ch => ch.charCodeAt(0)
 export const RECONNECT = [
  'Mail delivery: set MAIL_PROVIDER, MAIL_FROM and the provider key on the new installation; invitations and sign-in links use it.',
  'People: operator accounts and sessions are not in the archive. The new owner signs in, invites each person again and sets their role and portfolios (ROLE-001).',
+ 'Portal people: residents, owners and vendors with portal access are not in the archive. Invite each person again from Data & access (ROLE-002).',
  'Two-step sign-in: authenticators and recovery codes never leave an installation (SAFE-001). Each person sets up a new authenticator; re-enable the requirement if you used it.',
  'Identity provider: link your organisation’s OIDC provider again under Data & access if you used one.',
  'Money: Terrace moves no money and holds no bank or payment-provider credentials, so a restore repeats no payment.',
