@@ -2,9 +2,9 @@
 import {escape as e,money,type Row} from './core'
 const hidden=(k:string,v:unknown)=>`<input type="hidden" name="${k}" value="${e(v)}">`
 const input=(label:string,name:string,type='text',value='')=>`<label>${label}<input name="${name}" type="${type}" value="${e(value)}" required ${type==='number'?'min="0.01" step="0.01"':''}></label>`
-const select=(label:string,name:string,rows:Row[],value:string,title:string)=>`<label>${label}<select name="${name}" required>${rows.map(r=>`<option value="${e(r[value])}">${e(r[title])}</option>`).join('')}</select></label>`
+const select=(label:string,name:string,rows:Row[],value:string,title:string)=>`<label>${label}<select aria-label="${e(label)}" name="${name}" required>${rows.map(r=>`<option value="${e(r[value])}">${e(r[title])}</option>`).join('')}</select></label>`
 const form=(command:string,body:string,button:string)=>`<form action="/app/command" method="post">${hidden('command',command)}${hidden('tab','trust')}${body}<button>${button}</button></form>`
-const fund=`<label>Designated fund<select name="fund"><option value="operating">Operating / rent trust</option><option value="deposit">Security deposits</option></select></label>`
+const fund=`<label>Designated fund<select aria-label="Designated fund" name="fund"><option value="operating">Operating / rent trust</option><option value="deposit">Security deposits</option></select></label>`
 export function trustView(d:Row){
  const account=(id:string)=>{const a=d.accounts.find((x:Row)=>x.id===id);return a?`${a.name} · ${a.purpose.replaceAll('_',' ')} · ${a.bank_name} ···${a.last4} · ${a.legal_name}`:id}
  const property=(id:string)=>d.properties.find((p:Row)=>p.id===id)?.name??id,owner=(id:string)=>d.owners.find((o:Row)=>o.id===id)?.legal_name??id
