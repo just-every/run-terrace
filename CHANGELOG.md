@@ -2,6 +2,8 @@
 
 ## 2026-10-22
 
+- LEASE-012 / REPORT-003 verification repair: date each renewal scheduling event in its property's time zone so the as-of property report retains it when the office is on a different day.
+
 - PORT-008: apply ct authority and content wording; let scoped operators read active pack values and held reasons, and portfolio managers propose jurisdiction for owner confirmation. Keep counsel contents/templates, complete engines and operating-command enforcement explicitly partial.
 - OPS-003: escalate live runs of revoked configurers to the owner; retain partial status pending hosted Cloudflare Cron cadence measurement. PORT-004: clarify the inclusive property-local leaving day.
 

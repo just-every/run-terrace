@@ -9,8 +9,8 @@ const zone='America/Los_Angeles',day=d=>new Intl.DateTimeFormat('en-CA',{timeZon
 const add=(d,n)=>new Date(Date.parse(d+'T00:00:00Z')+n*86400000).toISOString().slice(0,10)
 const offer=(renewalId,end,rent)=>({renewalId,endDate:add(end,365),rent,deadline:end,marketRent:'1975',marketRentDate:add(end,-1),marketRentSource:'Comparable two-bed listings survey',vacantDays:'30',makeReadyCost:'1200',makeReadySource:'Paint and clean quote Q-17',leasingCost:'900',leasingSource:'Leasing fee schedule',source:'Annual renewal review'})
 
-export async function journey() {
- const h=await installation()
+export async function journey({assets=false,inspect}={}) {
+ const h=await installation({assets})
  try {
   // Each lease ends today at the property, so the dated sources fall inside a report window that ends today.
   const end=day(new Date()),start=add(end,-364)
@@ -28,6 +28,7 @@ export async function journey() {
   assert.equal((await h.command('renewal.schedule',{from:add(end,-10),to:add(end,30)})).created.length,0,'a rerun schedules nothing twice')
   const item=async t=>(await h.state(t.id)).renewals[0]
   const [ra,rb,rc]=[await item(a),await item(b),await item(c)]
+  for(const r of [ra,rb,rc]){const e=r.events.find(e=>e.kind==='scheduled');assert.equal(e.happened_on,day(new Date(e.recorded_at)),'scheduling is dated at the property, not the office')}
   assert.equal((await h.state(later.id)).renewals.length,0,'a lease ending outside the window is not scheduled')
   assert.equal(ra.nextAction,'Prepare a renewal offer')
   assert.equal((await h.command('renewal.prepare',{tenancyId:a.id,endDate:add(end,365),rent:'1890.00',source:'Direct'},{status:409})).error,'renewal_campaign','scheduled work cannot be bypassed by a direct renewal')
@@ -101,6 +102,7 @@ export async function journey() {
   assert.deepEqual([by(b).status,by(b).campaignOutcome],['nonrenewed','nonrenewal']);assert.equal(by(c).status,'pending')
   assert.deepEqual(by(c).campaign.map(e=>e.event),['scheduled','send','send_result'])
   assert.ok(report.sources.some(x=>x.kind==='renewal_campaign'&&x.event==='executed'&&x.tenancyId===a.id&&x.date===end))
+  await inspect?.({h,property,from:add(end,-20),to:end})
 
   // REPORT-007: the executed renewal is the actual dated source; another offer stays an assumption.
   await h.command('agreement.set',{propertyId:property.id,starts:add(end,-400),feePercent:'0',reserve:'100',reference:'Reserve agreement'})

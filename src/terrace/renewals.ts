@@ -102,11 +102,11 @@ export async function renewalCommand(c: Context, command: string, p: Row): Promi
   const from = date(p.from, 'Lease ends from'), to = date(p.to, 'Lease ends to')
   insist(to >= from && to <= addDays(from, 366), 'invalid_window', 'Choose an inclusive window of lease end dates of at most 367 days.')
   const property = p.propertyId ? text(p.propertyId, 'Property', 100) : null
-  const leases = (await all(c, `SELECT t.id,t.end_date,t.unit_id FROM tt_tenancies t LEFT JOIN tt_units u ON u.id=t.unit_id WHERE t.erased_at IS NULL AND t.ended_on IS NULL AND t.end_date BETWEEN ? AND ?${property ? ' AND u.property_id=?' : ''} AND NOT EXISTS(SELECT 1 FROM tt_renewals r WHERE r.tenancy_id=t.id AND r.lease_end=t.end_date) ORDER BY t.end_date,t.id`, from, to, ...(property ? [property] : []))).filter(t => reaches(c, t.unit_id))
-  const created = leases.map(t => ({ id: id(), tenancy_id: t.id, lease_end: t.end_date }))
+  const leases = (await all(c, `SELECT t.id,t.end_date,t.unit_id,t.time_zone FROM tt_tenancies t LEFT JOIN tt_units u ON u.id=t.unit_id WHERE t.erased_at IS NULL AND t.ended_on IS NULL AND t.end_date BETWEEN ? AND ?${property ? ' AND u.property_id=?' : ''} AND NOT EXISTS(SELECT 1 FROM tt_renewals r WHERE r.tenancy_id=t.id AND r.lease_end=t.end_date) ORDER BY t.end_date,t.id`, from, to, ...(property ? [property] : []))).filter(t => reaches(c, t.unit_id))
+  const created = leases.map(t => ({ id: id(), tenancy_id: t.id, lease_end: t.end_date, time_zone: t.time_zone }))
   const writes = created.flatMap(r => [sql(c, 'INSERT INTO tt_renewals(id,tenancy_id,lease_end,window_from,window_to,created_by,created_at) VALUES(?,?,?,?,?,?,?)', r.id, r.tenancy_id, r.lease_end, from, to, c.actor.id, c.now),
    guard(c, 'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND end_date=? AND ended_on IS NULL)', r.tenancy_id, r.lease_end),
-   event(c, r, 'scheduled', localDate(c.now, c.zone!), { from, to }, `Lease ends ${from} to ${to}`, 'renewal work scheduled from the lease end date')])
+   event(c, r, 'scheduled', localDate(c.now, r.time_zone), { from, to }, `Lease ends ${from} to ${to}`, 'renewal work scheduled from the lease end date')])
   await commit(c, writes, command, `${from}..${to}`)
   return { created: created.map(r => r.id), notice: `${created.length} renewal${created.length === 1 ? '' : 's'} scheduled for lease ends ${from} to ${to}.` }
  }
