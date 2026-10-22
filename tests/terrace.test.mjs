@@ -3,6 +3,7 @@ import {journey as rulePackJourney} from './rule-packs.mjs'
 import {journey as journalJourney} from './journal.mjs'
 import {journey as householdJourney} from './households.mjs'
 import {journey as moveChecklistJourney} from './move-checklists.mjs'
+import {journey as roommateJourney} from './roommates.mjs'
 import {journey as documentJourney} from './documents.mjs'
 import {journey as portalJourney} from './portal.mjs'
 import {journey as fieldEvidenceJourney} from './field-evidence.mjs'
@@ -33,7 +34,7 @@ const totp=(key,offset=0)=>{let bits=0,v=0;const bytes=[];for(const ch of key){v
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jz1sAAAAASUVORK5CYII=','base64')
 before(async()=>{h=await installation();member=await h.invite('member','preparer@example.test');admin=await h.invite('admin','manager@example.test')})
 after(async()=>{await h?.close()})
-test('PORT-006: sourced handover checklist revisions and linked make-ready tasks preserve separate leases',async()=>{await moveOutJourney();await moveChecklistJourney()})
+test('PORT-006: sourced handover checklist revisions and linked make-ready tasks preserve separate leases',async()=>{await moveOutJourney();await moveChecklistJourney();await roommateJourney()})
 test('WORK-006: approved email dispatch, technician progress, parts hold, missed visit and reassignment; WORK-007 staff-recorded field evidence bound to approved scope',async()=>{await dispatchJourney({inspect:async c=>{if(c.phase==='replacement-complete')await fieldEvidenceJourney(c)}});await failedDispatchJourney()})
 test('OPS-003: persistent workflow templates run across restarts, escalate to a person and complete only on evidence',async()=>{await workflowJourney();await scheduledJourney()})
 test('REPORT-005: typed custom fields, governed reports, frozen merges and hidden-field refusal',customReportJourney)

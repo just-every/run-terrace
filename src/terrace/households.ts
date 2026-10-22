@@ -5,12 +5,25 @@
 // and occupants get neither.
 // A member is current from the day they join to the day they leave, in the property's time zone. Moving a
 // member to another lease ends their membership the day before and adds them there; balances stay with each lease.
+// PORT-006: liability follows dates. A charge is the recorded responsibility of the resident, co-tenants and guarantors whose
+// membership includes its due day: a person who leaves is named on charges due through their leaving day and not after; a person who
+// joins is named from their joining day and never on earlier charges. A unit transfer carries each member who joined before the
+// move-in to the new lease from the move-in day, closing their place on the old lease the day before, in the same write.
+// This records who is named; it is not a legal opinion about who owes what.
 import { all, commit, date, email, guard, id, insist, allow, one, sql, tenancy, text, type Context, type Row, shown } from './core'
 import { localDate } from './zones'
 
 export const ROLES = ['co_tenant','guarantor','occupant','emergency_contact','authorized_contact'] as const
 const LIABLE = ['resident','co_tenant','guarantor'], INFORMED = ['resident','co_tenant','guarantor','authorized_contact']
 const dayBefore = (d: string) => new Date(Date.parse(d + 'T00:00:00Z') - 86400000).toISOString().slice(0, 10)
+/** Statements that carry a lease's current household to its transfer destination, each member leaving the old lease the day before the move-in. `stay` names members who remain. */
+export async function carryHousehold(c: Context, fromId: string, toId: string, moveIn: string, stay: string[]) {
+ const rows = await all(c, 'SELECT * FROM tt_household_members WHERE tenancy_id=? AND left_on IS NULL AND joined<? ORDER BY joined,name', fromId, moveIn)
+ return rows.filter(m => !stay.includes(m.id)).flatMap(m => { const moved = id(); return [
+  guard(c, 'EXISTS(SELECT 1 FROM tt_household_members WHERE id=? AND version=? AND left_on IS NULL)', m.id, m.version),
+  sql(c, 'INSERT INTO tt_household_members(id,tenancy_id,role,name,email,phone,contact_by,joined,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?,?)', moved, toId, m.role, m.name, m.email, m.phone, m.contact_by, moveIn, c.actor.id, c.now),
+  sql(c, 'UPDATE tt_household_members SET left_on=?,moved_to=?,version=version+1 WHERE id=?', dayBefore(moveIn), moved, m.id)] })
+}
 export const rights = (role: string, contactBy: string, current: boolean) => ({ liable: LIABLE.includes(role), recipient: current && INFORMED.includes(role) && contactBy !== 'none', documents: current && INFORMED.includes(role) })
 
 async function member(c: Context, v: unknown) { const row = await one(c, 'SELECT * FROM tt_household_members WHERE id=?', text(v, 'Household member', 100)); insist(row, 'not_found', 'Household member not found.', 404); await tenancy(c, row.tenancy_id); return row }
@@ -54,10 +67,11 @@ export async function householdCommand(c: Context, command: string, p: Row): Pro
 
 /** A lease's household with each person's role, dates and rights today, and the lease balance they share. */
 /** balanceCents is null for a role that does not read ledgers (ROLE-001). */
-export async function householdData(c: Context, t: Row, balanceCents: number | null) {
+export async function householdData(c: Context, t: Row, balanceCents: number | null, charges: Row[] = []) {
  const today = localDate(c.now, t.time_zone), rows = await all(c, 'SELECT * FROM tt_household_members WHERE tenancy_id=? ORDER BY joined,name', t.id)
  const current = (m: Row) => m.joined <= today && (!m.left_on || m.left_on >= today)
  const primary = { id: null, role: 'resident', name: t.tenant_name, email: t.tenant_email, contact_by: 'email', joined: t.start_date, left_on: t.ended_on ?? null, current: current({ joined: t.start_date, left_on: t.ended_on }) }
  const members: Row[] = ([primary, ...rows.map(m => ({ ...m, current: current(m) }))] as Row[]).map(m => ({ ...m, ...rights(m.role, m.contact_by, m.current) }))
- return { tenancyId: t.id, balanceCents, currency: shown(t), members, recipients: members.filter(m => m.recipient).map(m => m.name), liable: members.filter(m => m.liable && m.current).map(m => m.name) }
+ const liableOn = (day: string) => members.filter(m => m.liable && m.joined <= day && (!m.left_on || m.left_on >= day)).map(m => m.name)
+ return { tenancyId: t.id, balanceCents, currency: shown(t), members, chargeLiability: charges.map(q => ({ chargeId: q.id, dueDate: q.due_date, description: q.description, liable: liableOn(q.due_date) })), recipients: members.filter(m => m.recipient).map(m => m.name), liable: members.filter(m => m.liable && m.current).map(m => m.name) }
 }
