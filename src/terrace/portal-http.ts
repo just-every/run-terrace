@@ -10,7 +10,9 @@ import { COOKIE, current, portalContext, redeem, hash, linkExpiry, secret, type 
 import { acceptPage, failurePage, homePage, leasePage, ownerPage, shell, signinPage, statementPage, workPage } from './portal-view'
 
 const headers = (extra: Record<string, string> = {}) => ({ 'cache-control': 'private, no-store', 'x-content-type-options': 'nosniff', 'referrer-policy': 'no-referrer', 'content-security-policy': "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; form-action 'self'; frame-ancestors 'none'", ...extra })
-const html = (body: string, status = 200, extra: Record<string, string> = {}) => new Response(body, { status, headers: headers({ 'content-type': 'text/html;charset=utf-8', ...extra }) })
+// A native POST needs its Origin header. no-referrer makes browsers send Origin: null on form navigation; strict-origin
+// keeps that same-origin proof without putting a portal path, invitation token or tenancy id in a Referer header.
+const html = (body: string, status = 200, extra: Record<string, string> = {}) => new Response(body, { status, headers: headers({ 'content-type': 'text/html;charset=utf-8', 'referrer-policy': 'strict-origin', ...extra }) })
 const json = (body: unknown, status = 200) => Response.json(body, { status, headers: headers() })
 const missing = (api: boolean) => api ? json({ error: 'not_found', message: 'Not found.' }, 404) : html(shell('Not found', '<section><p>That page is not available to you.</p><p><a href="/portal">Back to your portal</a></p></section>'), 404)
 const cookie = (env: Bindings, value: string, age: number) => `${COOKIE}=${value}; Path=/portal; HttpOnly; SameSite=Lax; Max-Age=${age}${env.AUTH_ORIGIN.startsWith('https') ? '; Secure' : ''}`
