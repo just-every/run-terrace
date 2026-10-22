@@ -30,11 +30,11 @@ try{await journey({assets:true,inspect:async({h,properties,staff,pendingProperty
  await proposalForm.getByLabel('Property',{exact:true}).selectOption(pendingProperty.id);await proposalForm.getByLabel('State',{exact:true}).selectOption('TX');await proposalForm.getByLabel('Current jurisdiction revision (0 when not assigned)',{exact:true}).fill('1');await proposalForm.getByLabel('Source for state and applicable overlay review',{exact:true}).fill('synthetic-terrace-11 native manager proposal')
  await picture(propose,'manager-jurisdiction-proposal');await proposalForm.getByRole('button',{name:'Propose jurisdiction',exact:true}).click();await propose.waitForURL(u=>u.searchParams.has('notice'))
  await propose.getByText('Pending owner confirmation · current assignment unchanged',{exact:true}).waitFor();await picture(propose,'manager-proposal-pending')
- let data=await(await manager.request.get(h.origin+'/api/rules')).json();assert.equal(data.assignments.find(a=>a.property_id===pendingProperty.id).state_code,'CA')
+ let scopedData=await(await manager.request.get(h.origin+'/api/rules')).json();assert.equal(scopedData.assignments.find(a=>a.property_id===pendingProperty.id).state_code,'CA')
  await manager.close()
  const owner=await signed(h.cookie),confirm=await owner.newPage();await confirm.goto(h.origin+'/app?tab=rules')
  const confirmation=confirm.locator('form:has(input[name=command][value="property.rules.confirm"])');await confirmation.getByLabel('Owner confirmation source',{exact:true}).fill('synthetic-terrace-12 native owner review')
  await picture(confirm,'owner-jurisdiction-confirmation');await confirmation.getByRole('button',{name:'Confirm proposed jurisdiction',exact:true}).click();await confirm.waitForURL(u=>u.searchParams.has('notice'))
- data=await(await owner.request.get(h.origin+'/api/rules')).json();assert.deepEqual([data.assignments.find(a=>a.property_id===pendingProperty.id).state_code,data.assignments.find(a=>a.property_id===pendingProperty.id).version],['TX',2])
+ scopedData=await(await owner.request.get(h.origin+'/api/rules')).json();assert.deepEqual([scopedData.assignments.find(a=>a.property_id===pendingProperty.id).state_code,scopedData.assignments.find(a=>a.property_id===pendingProperty.id).version],['TX',2])
  await picture(confirm,'owner-jurisdiction-confirmed');await owner.close()
 }})}finally{await browser.close()}
