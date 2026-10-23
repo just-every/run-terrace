@@ -60,11 +60,15 @@ export async function journey({assets=false,inspect}={}) {
   await h.command('portal.revoke',{grantId:grants[0].id,reason:'Assignment ended'})
   assert.equal((await h.request('/portal/record-media?file='+work.id,{as:vendor})).status,401)
   await inspect?.({h,...f,prior,work,invoice,video})
-  const archive=await(await h.request('/api/backup')).text()
+  console.log('media proof: exporting backup');const archive=await(await h.request('/api/backup')).text();console.log('media proof: restoring backup',Buffer.byteLength(archive))
   await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'media.rer')})
-  for(const id of [began.id,prior.id,second.id,work.id,invoice.id])assert.deepEqual(Buffer.from(await(await fresh.request('/api/record-media/file?id='+id)).arrayBuffer()),Buffer.from(await(await get(id)).arrayBuffer()),'every original version survives restore')
-  const zip=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer())
-  assert.ok(zip.includes(video),'readable export contains the complete original video, not just chunks');assert.ok(zip.includes(Buffer.from(sha(video))))
+  console.log('media proof: comparing restored originals');for(const id of [began.id,prior.id,second.id,work.id,invoice.id])assert.deepEqual(Buffer.from(await(await fresh.request('/api/record-media/file?id='+id)).arrayBuffer()),Buffer.from(await(await get(id)).arrayBuffer()),'every original version survives restore')
+  console.log('media proof: creating readable export');const zip=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer())
+  const entries=new Map();let offset=0
+  while(zip.readUInt32LE(offset)===0x04034b50){const size=zip.readUInt32LE(offset+18),nameLength=zip.readUInt16LE(offset+26),extraLength=zip.readUInt16LE(offset+28),name=zip.subarray(offset+30,offset+30+nameLength).toString(),start=offset+30+nameLength+extraLength;entries.set(name,zip.subarray(start,start+size));offset=start+size}
+  const manifest=JSON.parse(entries.get('manifest.json')),original=manifest.files.find(x=>x.table==='tt_record_media'&&x.id===began.id)
+  assert.ok(original,'readable export names the complete original video, not just chunks');assert.equal(original.sha256,sha(video));assert.deepEqual(entries.get(original.path),video)
+  for(const id of [prior.id,second.id,work.id,invoice.id]){const f=manifest.files.find(x=>x.table==='tt_record_media'&&x.id===id);assert.ok(f);assert.equal(sha(entries.get(f.path)),f.sha256)}
   const history=(await(await h.request('/api/history')).json()).rows;assert.ok(history.some(x=>x.action==='read:record-media'))
  }finally{await h.close();await fresh.close()}
 }
