@@ -205,3 +205,5 @@ PAY-009: `finance.prepare`, `finance.revise`, `finance.approve`, `finance.check`
 PAY-010 partial: full resident grants use `/portal/statement?tenancyId=ID&month=YYYY-MM&format=html|csv|json` and its scoped `/portal/transaction?tenancyId=ID&id=SOURCE` links. Delegate monthly/source reads are 404; the prior balance/charges CSV is preserved. No PDF or delivery claim. See [resident monthly statements](docs/payment-policies.md#resident-monthly-statements-pay-010-partial).
 
 `finance.cancel` releases a pending/approved financial source reservation with an audited reason; cancelled and recorded revisions cannot be reused.
+
+If an API command fails after claiming its idempotency key, Terrace retains the pending key even if the proposal already committed. The same body and key then answer 409 `idempotency_in_progress`, including after restart; a changed body answers 422. Inspect the scoped work list and history before considering new work. A response-persistence error never releases the key for automatic retry.

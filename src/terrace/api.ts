@@ -95,7 +95,7 @@ import { customCatalog } from './custom-catalog'
 import { customReport,customReportTable } from './custom-reports'
 import { customDocument } from './custom-documents'
 import { customView } from './custom-view'
-import { CREDENTIAL_COMMANDS,PREPARE_COMMANDS,abandonIdempotent,beginIdempotent,credentialActor,credentialCommand,credentialData,credentialGate,finishIdempotent,noCredential } from './credentials'
+import { CREDENTIAL_COMMANDS,PREPARE_COMMANDS,beginIdempotent,credentialActor,credentialCommand,credentialData,credentialGate,finishIdempotent,noCredential } from './credentials'
 import { credentialSection } from './credentials-view'
 import { V1_PATH,apiV1 } from './api-v1'
 import { WORKFLOW_COMMANDS,workflowCommand,workflowData } from './workflows'
@@ -259,7 +259,8 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   if(url.pathname.startsWith('/api/maintenance/')){const id=url.pathname.split('/')[3],r=await workPacket(c,id);await recordRead(c,'read:packet',id);return r}
   return new Response('Not found',{status:404})
  } catch(error) {
-  if(c&&idem)await abandonIdempotent(c,idem).catch(()=>{})
+  // A command may already have committed before a later write fails. Keep its claimed key pending;
+  // an uncertain attempt must never become runnable again, including after a Worker restart.
   const x=error as any,conflict=String(x.message).includes('UNIQUE constraint'),status=conflict?409:(x.status??400),message=conflict?'That reference already exists. Use the existing record or a distinct reference.':x.message??'The operation failed.',code=conflict?'duplicate':x.code??'operation_failed'
   if(isApi)return json({ok:false,error:code,message,...(x.report?{report:x.report}:{})},status)
   if(c) {const dest=new URL('/app',url);dest.searchParams.set('tab',String(p.tab??url.searchParams.get('tab')??'tenancy'));dest.searchParams.set('tenancy',String(p.tenancyId??url.searchParams.get('tenancy')??''));try{return await render(c,dest,message,{},status,request,env)}catch{return page(c,'Unable to continue','<p><a href="/app">Back to tenancies</a></p>',message,status)}}

@@ -4,8 +4,8 @@ import assert from 'node:assert/strict'
 import {installation,tenancyInput} from './api/harness.mjs'
 
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jz1sAAAAASUVORK5CYII=','base64')
-export async function journey() {
- const h=await installation()
+export async function journey({assets=false,inspect}={}) {
+ const h=await installation({assets})
  try {
   const place=async(name,units)=>{const f=await h.command('portfolio.add',{name}),p=await h.command('property.add',{portfolioId:f.id,name:name+' House',address:`1 ${name} Road, Oakland, CA 94607`,kind:'multifamily',timeZone:'America/Los_Angeles'}),t=[]
    for(const [i,letter] of [...units].entries()){const u=await h.command('unit.add',{propertyId:p.id,identifier:letter,bedrooms:'2',bathrooms:'1'});t.push(await h.command('tenancy.create',{...tenancyInput,unitId:u.id,tenantName:`${name} resident ${letter}`,tenantEmail:`${name.toLowerCase()}${letter}@example.test`,startDate:'2026-09-01',endDate:'2027-08-31',rent:'1500',cadence:'monthly'}))}
@@ -85,6 +85,23 @@ export async function journey() {
   assert.equal(row.actorName,'Repairs agent (API credential)');assert.equal(row.policy,'member v1 via API credential (prepare)');assert.equal(row.role,'member')
   assert.ok(trail.some(x=>x.action==='credential.mint'),'minting is in the history, with no token')
   assert.ok(!JSON.stringify(trail).includes(agent.token)&&!JSON.stringify(trail).includes(accountant.token))
+
+  // A real database failure after the proposal commits must never make the key runnable again.
+  const db=await h.mf.getD1Database('DB'), interrupted={...job,title:'synthetic-terrace-35 interrupted proposal'}, interruptedKey='synthetic-terrace-35'
+  await db.exec("CREATE TRIGGER synthetic_response_failure BEFORE UPDATE OF state ON tt_api_idempotency WHEN NEW.state='done' BEGIN SELECT RAISE(ABORT,'synthetic response persistence failure'); END")
+  const failed=await post(agent,interrupted,400,interruptedKey)
+  assert.equal(failed.error,'operation_failed')
+  await db.exec('DROP TRIGGER synthetic_response_failure')
+  const committed=(await get(agent,'/api/v1/work')).data.filter(j=>j.title===interrupted.title)
+  assert.equal(committed.length,1,'the proposal committed before response persistence failed')
+  assert.equal((await post(agent,interrupted,409,interruptedKey)).error,'idempotency_in_progress')
+  assert.equal((await post(agent,{...interrupted,estimate:'181.00'},422,interruptedKey)).error,'idempotency_conflict')
+  await h.restart()
+  assert.equal((await post(agent,interrupted,409,interruptedKey)).error,'idempotency_in_progress','restart retains the uncertain key')
+  assert.equal((await get(agent,'/api/v1/work')).data.filter(j=>j.title===interrupted.title).length,1,'retry creates no second proposal')
+  const recovered=(await(await h.request('/api/history')).json()).rows.filter(r=>r.action==='maintenance.prepare'&&r.subject===committed[0].id)
+  assert.equal(recovered.length,1,'one committed proposal has one attributable history event')
+  await inspect?.({h,jobId:committed[0].id})
 
   // Rotation, revocation and archives: the old token stops at once, and credentials are never archived.
   const rotated=await h.command('credential.rotate',{credentialId:agent.id})
