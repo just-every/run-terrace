@@ -1,3 +1,4 @@
+import {paymentData,RESERVED} from './payments'
 // Adapted from Nectar c76a60ccffa39cc1a207b52c152bda16d6d7b1df
 // src/nectar/receivables.ts: integer cents, immutable charges and receipts,
 // with a balance guard in the same batch as every allocation or adjustment.
@@ -15,9 +16,10 @@ export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|
   const charge=await one(c,`SELECT q.*,${BALANCE} AS balance_cents,(SELECT time_zone FROM tt_tenancies WHERE id=q.tenancy_id) AS time_zone FROM tt_charges q WHERE id=?`,text(p.chargeId,'Charge',100))
   insist(charge,'not_found','Charge not found.',404)
   await tenancy(c,charge.tenancy_id)
+  if(command==='rent.receipt')insist(!await one(c,'SELECT 1 FROM tt_payment_policies WHERE tenancy_id=?',charge.tenancy_id),'payment_policy','Use Record split payment so the reviewed lease policy and pending funds apply.',409)
   const amount=cents(p.amount)
   insist(amount<=charge.balance_cents,'exceeds_balance','Amount exceeds the unpaid charge balance.',409)
-  const writes=[guard(c,`(SELECT ${BALANCE} FROM tt_charges q WHERE id=?)>=?`,charge.id,amount)]
+  const writes=[guard(c,`(SELECT ${BALANCE}-${RESERVED} FROM tt_charges q WHERE id=?)>=?`,charge.id,amount)]
   if(command==='rent.receipt') {
    const received=date(p.receivedDate,'Received date')
    insist(received<=localDate(c.now,charge.time_zone),'future_receipt','A receipt records money already received; its date cannot be later than today at the property.')
@@ -33,10 +35,10 @@ export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|
 // PORT-001: amounts are in the tenancy's currency; "today" is the property-local day.
 export async function ledgerData(c:Context,tenancyId:string) {
  const t=await tenancy(c,tenancyId),today=localDate(c.now,t.time_zone)
- const charges=await all(c,`SELECT q.*,lt.source_clause,lt.lease_version_id,${BALANCE} AS balance_cents FROM tt_charges q LEFT JOIN tt_lease_terms lt ON lt.id=q.term_id WHERE q.tenancy_id=? ORDER BY due_date,created_at`,tenancyId)
+ const charges=await all(c,`SELECT q.*,${RESERVED} AS reserved_cents,lt.source_clause,lt.lease_version_id,${BALANCE} AS balance_cents FROM tt_charges q LEFT JOIN tt_lease_terms lt ON lt.id=q.term_id WHERE q.tenancy_id=? ORDER BY due_date,created_at`,tenancyId)
  const receipts=await all(c,'SELECT r.* FROM tt_net_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=? ORDER BY received_date,created_at',tenancyId)
  const adjustments=await all(c,'SELECT a.* FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id WHERE q.tenancy_id=? ORDER BY at',tenancyId)
- return {currency:shown(t),timeZone:t.time_zone as string,today,charges,receipts,adjustments,balanceCents:charges.reduce((s,r)=>s+r.balance_cents,0),arrearsCents:charges.filter(q=>q.due_date<today).reduce((s,r)=>s+r.balance_cents,0)}
+ return {payments:await paymentData(c,tenancyId),currency:shown(t),timeZone:t.time_zone as string,today,charges,receipts,adjustments,balanceCents:charges.reduce((s,r)=>s+r.balance_cents,0),arrearsCents:charges.filter(q=>q.due_date<today).reduce((s,r)=>s+r.balance_cents,0)}
 }
 // Every amount is period-based, with no pagination cap in a statement.
 export async function statement(c:Context,tenancyId:string,from:string,to:string) {

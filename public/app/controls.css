@@ -27,3 +27,7 @@ details[open]>summary{margin-bottom:12px}
 .field-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .decision-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.decision-actions form{margin:0}
 @media(max-width:860px){input,select,textarea{font-size:16px;min-height:44px}button,.button{min-height:44px}.form-columns,.field-row{grid-template-columns:1fr;gap:14px}.decision-actions form{flex:1 1 140px}.decision-actions button{width:100%}}
+
+/* Icon-only at compact widths: delay hover, immediate keyboard focus. */
+.person{position:relative}.control-tooltip{position:absolute;z-index:10;right:8px;top:calc(100% - 4px);padding:6px 10px;border-radius:6px;background:var(--ink);color:white;font-size:12px;white-space:nowrap;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0s,visibility 0s}
+.person:hover .control-tooltip{opacity:1;visibility:visible;transition-delay:300ms}.person:focus-visible .control-tooltip{opacity:1;visibility:visible;transition-delay:0s}
