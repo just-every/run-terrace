@@ -92,4 +92,3 @@ export async function beginIdempotent(c: Context, key: string | null, body: stri
  return new Response(seen.response, { status: 200, headers: { 'content-type': 'application/json', 'cache-control': 'no-store', 'idempotent-replay': 'true' } })
 }
 export const finishIdempotent = (c: Context, key: string, response: string) => sql(c, "UPDATE tt_api_idempotency SET state='done',response=? WHERE credential_id=? AND key=?", response, c.actor.id, key).run()
-export const abandonIdempotent = (c: Context, key: string) => sql(c, "DELETE FROM tt_api_idempotency WHERE credential_id=? AND key=? AND state='pending'", c.actor.id, key).run()
