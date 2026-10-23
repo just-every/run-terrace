@@ -151,7 +151,8 @@ export async function journey({inspect,revokeDelegate,assets=false}={}){
   assert.equal(r.messages.length,before,'no sign-in link is sent to a revoked or unknown address')
   // Everyone else is untouched, and a still-active person can ask for a fresh link.
   assert.equal((await get('owner1','/portal/api/owner')).status,200);assert.equal((await get('vendor2','/portal/api/vendor')).status,200);assert.equal((await get('south','/portal/api/me')).status,200)
-  assert.equal((await r.request('/portal/signin',{method:'POST',as:'',form:new URLSearchParams({email:'southres@example.test'})})).status,202)
+  const sent=r.messages.length,asks=await r.atOnce(Array.from({length:6},()=>['/portal/signin',{method:'POST',as:'',form:new URLSearchParams({email:'southres@example.test'})}]))
+  assert.deepEqual(asks.map(a=>a.status),Array(6).fill(202));assert.equal(r.messages.length-sent,1,'requests made at once still send one sign-in link a minute')
   const fresh=await login('southres@example.test');assert.notEqual(fresh,cookies.south);assert.equal((await r.request('/portal/api/me',{as:fresh})).status,200)
   assert.equal((await r.request('/portal/signout',{method:'POST',as:fresh})).status,303);assert.equal((await r.request('/portal/api/me',{as:fresh})).status,401)
   await invite({kind:'vendor',vendorId:bay.id,email:'restore@example.test',displayName:'Pending Vendor'})

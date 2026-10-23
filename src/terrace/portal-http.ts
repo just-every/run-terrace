@@ -27,12 +27,13 @@ export async function portalResponse(request: Request, env: Bindings): Promise<R
   const form = request.method === 'POST' ? await request.formData().catch(() => new FormData()) : new FormData()
   if (path === '/portal/signin') {
    if (request.method === 'GET') return html(signinPage())
-   const to = String(form.get('email') ?? '').trim().toLowerCase()
+   const to = String(form.get('email') ?? '').trim().toLowerCase(), since = new Date(Date.parse(now) - 60000).toISOString()
    // The answer never says whether an address has access. A link is made only for an active person, at most one a minute.
-   for (const p of to ? (await env.DB.prepare("SELECT id,email FROM tt_portal_identities WHERE email=? AND status='active' AND NOT EXISTS(SELECT 1 FROM tt_portal_links WHERE identity_id=tt_portal_identities.id AND purpose='signin' AND created_at>?)").bind(to, new Date(Date.parse(now) - 60000).toISOString()).all<Row>()).results : []) {
+   for (const p of to ? (await env.DB.prepare("SELECT id,email FROM tt_portal_identities WHERE email=? AND status='active' AND NOT EXISTS(SELECT 1 FROM tt_portal_links WHERE identity_id=tt_portal_identities.id AND purpose='signin' AND created_at>?)").bind(to, since).all<Row>()).results : []) {
     const token = secret()
-    await env.DB.prepare("INSERT INTO tt_portal_links(token_hash,identity_id,purpose,created_at,expires_at) VALUES(?,?,'signin',?,?)").bind(await hash(token), p.id, now, linkExpiry(now)).run()
-    await sendSignin(env, p.email, token)
+    // Requests made at once can all pass the check above; the insert repeats it, so only the one that claims the minute sends.
+    const claimed = await env.DB.prepare("INSERT INTO tt_portal_links(token_hash,identity_id,purpose,created_at,expires_at) SELECT ?,?,'signin',?,? WHERE NOT EXISTS(SELECT 1 FROM tt_portal_links WHERE identity_id=? AND purpose='signin' AND created_at>?) RETURNING token_hash").bind(await hash(token), p.id, now, linkExpiry(now), p.id, since).first()
+    if (claimed) await sendSignin(env, p.email, token)
    }
    return html(signinPage('If that address has portal access, a sign-in link has been sent to it.'), 202)
   }
