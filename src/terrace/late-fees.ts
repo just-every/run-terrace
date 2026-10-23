@@ -32,25 +32,30 @@ export async function lateFeePreview(c:Context,tenancyId:unknown,onValue:unknown
   lines.push(line)
   if(!property){line.gaps.push('Link the lease to a property with reviewed rules.');continue}
   line.propertyId=property.id;line.jurisdictionVersion=property.jurisdiction_version
-  const preview=old??await rulePreview(c,{propertyId:property.id,action:'late_fee',on,dueDate:q!.due_date,rentCents:q!.amount_cents,unpaidCents:Math.min(q!.amount_cents,Math.max(0,q!.current_balance)),units:(await one(c,'SELECT COUNT(*) AS n FROM tt_units WHERE property_id=?',property.id))!.n})
+  line.structureUnits=old?.structureUnits??(await one(c,'SELECT COUNT(*) AS n FROM tt_units WHERE property_id=?',property.id))!.n
+  const preview=old??await rulePreview(c,{propertyId:property.id,action:'late_fee',on,dueDate:q!.due_date,rentCents:q!.amount_cents,unpaidCents:Math.min(q!.amount_cents,Math.max(0,q!.current_balance)),units:line.structureUnits})
   if(!old&&preview.state==='held'){line.gaps=preview.gaps;continue}
   line.packs=preview.packs
   const receipts=await all(c,'SELECT r.* FROM tt_net_receipts r WHERE charge_id=? AND received_date<=? ORDER BY id',q!.id,on),adjustments=await all(c,'SELECT * FROM tt_adjustments WHERE charge_id=? AND COALESCE(posting_day,substr(at,1,10))<=? ORDER BY id',q!.id,on)
   const unpaid=Math.max(0,q!.amount_cents-receipts.reduce((n,r)=>n+r.amount_cents,0)-adjustments.reduce((n,r)=>n+r.amount_cents,0))
   line.unpaidCents=unpaid;line.receipts=receipts.map(r=>r.id);line.adjustments=adjustments.map(r=>r.id)
-  const allocations=await all(c,'SELECT p.*,a.amount_cents AS allocated FROM tt_payment_allocations a JOIN tt_payments p ON p.id=a.payment_id WHERE a.charge_id=? AND p.received_date<=? ORDER BY p.id',q!.id,on),pending:Row[]=[]
-  for(const p of allocations){const event=await one(c,"SELECT state FROM tt_payment_events WHERE payment_id=? AND on_day<=? ORDER BY on_day DESC,recorded_at DESC,CASE state WHEN 'pending' THEN 0 ELSE 1 END DESC LIMIT 1",p.id,on);if(event?.state==='pending')pending.push(p)}
+  const allocations=await all(c,'SELECT p.*,a.amount_cents AS allocated FROM tt_payment_allocations a JOIN tt_payments p ON p.id=a.payment_id WHERE a.charge_id=? AND p.received_date<=? ORDER BY p.id',q!.id,on),outcomes:Row[]=[]
+  for(const p of allocations){const event=await one(c,"SELECT state,on_day FROM tt_payment_events WHERE payment_id=? AND on_day<=? ORDER BY on_day DESC,recorded_at DESC,CASE state WHEN 'pending' THEN 0 ELSE 1 END DESC LIMIT 1",p.id,on);outcomes.push({...p,outcome:event})}
   const calculations:Row[]=[]
   for(const pack of line.packs){
    const rule=pack.fields.lateFee.value
    insist(['exclude_timely','count_pending'].includes(rule.pendingPolicy)&&['hold','recalculate_once'].includes(rule.reversalPolicy),'late_fee_policy','Reviewed packs must explicitly state pendingPolicy and reversalPolicy.')
    const grace=Math.max(whole(rule.fullUnpaidDays,'Pack grace',366),terms.fullUnpaidDays),first=calendar(rule,add(q!.due_date,grace+1)),leaseFirst=calendar({weekendRule:terms.weekendRule,holidays:rule.holidays},first),firstFeeDay=first>leaseFirst?first:leaseFirst
-   const protectedPending=(rule.pendingPolicy==='exclude_timely'||terms.excludeTimely)?pending.filter(p=>p.received_date<firstFeeDay).reduce((n,p)=>n+p.allocated,0):0
-   const eligible=Math.max(0,unpaid-protectedPending),count=(await one(c,'SELECT COUNT(*) AS n FROM tt_units WHERE property_id=?',property.id))!.n
+   const basisAsOfDay=on<firstFeeDay?on:firstFeeDay
+   const unpaidAtEligibility=Math.max(0,q!.amount_cents-receipts.filter(r=>r.received_date<=basisAsOfDay).reduce((n,r)=>n+r.amount_cents,0)-adjustments.filter(r=>(r.posting_day??r.at.slice(0,10))<=basisAsOfDay).reduce((n,r)=>n+r.amount_cents,0))
+   const timely=outcomes.filter(p=>p.received_date<firstFeeDay)
+   const protectedPending=(rule.pendingPolicy==='exclude_timely'||terms.excludeTimely)?timely.filter(p=>p.outcome?.state==='pending'||(p.outcome?.state==='settled'&&p.outcome.on_day>basisAsOfDay)).reduce((n,p)=>n+p.allocated,0):0
+   const eligible=Math.max(0,unpaidAtEligibility-protectedPending),count=line.structureUnits
+   if(rule.reversalPolicy==='hold'&&timely.some(p=>p.outcome?.state==='failed'))line.gaps.push(pack.code+': failed timely pending payment requires reviewed manual resolution.')
    const capBp=whole(count<=whole(rule.smallStructureMaxUnits,'Small structure limit')?rule.smallStructureCapBp:rule.largeStructureCapBp,'Pack cap basis points',10000)
    insist(rule.basis==='monthly_rent','late_fee_policy','A reviewed monthly_rent basis is required; other bases are held.')
    const cap=Math.floor(q!.amount_cents*capBp/10000),fee=on>=firstFeeDay&&eligible>0?Math.min(terms.feeCents,terms.capCents,cap):0
-   calculations.push({code:pack.code,version:pack.version,citation:pack.fields.lateFee.citation,basis:rule.basis,basisCents:q!.amount_cents,capBp,capCents:cap,fullUnpaidDays:grace,weekendRule:rule.weekendRule,holidays:rule.holidays,firstFeeDay,pendingPolicy:rule.pendingPolicy,reversalPolicy:rule.reversalPolicy,protectedPendingCents:protectedPending,eligibleUnpaidCents:eligible,feeCents:fee})
+   calculations.push({code:pack.code,version:pack.version,citation:pack.fields.lateFee.citation,basis:rule.basis,basisCents:q!.amount_cents,basisAsOfDay,structureUnits:count,capBp,capCents:cap,fullUnpaidDays:grace,weekendRule:rule.weekendRule,holidays:rule.holidays,firstFeeDay,pendingPolicy:rule.pendingPolicy,reversalPolicy:rule.reversalPolicy,protectedPendingCents:protectedPending,eligibleUnpaidCents:eligible,feeCents:fee})
    if(rule.reversalPolicy==='hold'&&receipts.some(r=>r.reversal_of))line.gaps.push(pack.code+': receipt reversal requires reviewed manual resolution; no new fee inferred.')
   }
   line.calculations=calculations;line.feeCents=Math.min(...calculations.map(r=>r.feeCents));line.state=line.gaps.length?'held':line.feeCents?'ready':'not_due'
@@ -91,9 +96,9 @@ export async function lateFeeCommand(c:Context,command:string,p:Row):Promise<Row
  insist(report.lines.length&&!report.lines.some(l=>l.state==='held'),'rule_hold','Resolve held calculations before posting.',409)
  const writes:D1PreparedStatement[]=[]
  for(const l of report.lines){
-  writes.push(guard(c,`(SELECT ${BALANCE}-${RESERVED} FROM tt_charges q WHERE id=?)=?`,l.sourceChargeId,l.currentBalance-l.reserved))
+  writes.push(guard(c,`(SELECT ${BALANCE} FROM tt_charges q WHERE id=?)=?`,l.sourceChargeId,l.currentBalance),guard(c,`(SELECT ${RESERVED} FROM tt_charges q WHERE id=?)=?`,l.sourceChargeId,l.reserved))
   if(!l.feeId){
-   writes.push(guard(c,'(SELECT id FROM tt_late_fee_policies WHERE charge_id=? ORDER BY version DESC LIMIT 1)=?',l.sourceChargeId,l.policyId),guard(c,'(SELECT version FROM tt_property_rules WHERE property_id=?)=?',l.propertyId,l.jurisdictionVersion))
+   writes.push(guard(c,'(SELECT COUNT(*) FROM tt_units WHERE property_id=?)=?',l.propertyId,l.structureUnits),guard(c,'(SELECT id FROM tt_late_fee_policies WHERE charge_id=? ORDER BY version DESC LIMIT 1)=?',l.sourceChargeId,l.policyId),guard(c,'(SELECT version FROM tt_property_rules WHERE property_id=?)=?',l.propertyId,l.jurisdictionVersion))
    for(const pack of l.packs)writes.push(guard(c,'(SELECT id FROM tt_rule_packs WHERE code=? AND effective_from<=? ORDER BY effective_from DESC,version DESC LIMIT 1)=?',pack.code,report.on,pack.id))
   }
   if(l.state==='ready'){

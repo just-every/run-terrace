@@ -1,3 +1,4 @@
+import {validatePaymentArchive} from './payment-archive.mjs'
 import {validateTrustArchive} from './trust-archive.mjs'
 export default {
  product: 'residential/terrace',
@@ -9,6 +10,7 @@ export default {
  requiredConfiguration: ['OWNER_EMAIL','SESSION_SECRET','SETUP_TOKEN','AUTH_ORIGIN','MAIL_PROVIDER','MAIL_FROM'],
  async validateStaged({db,tables}) {
   await validateTrustArchive(db,tables);
+  await validatePaymentArchive(db,tables);
   const q=tables.tt_charges, r=tables.tt_receipts, a=tables.tt_adjustments, reversals=tables.tt_receipt_reversals, refunds=tables.tt_financial_recordings;
   const refunded=refunds?`COALESCE((SELECT SUM(x.amount_cents) FROM "${refunds}" x JOIN "${r}" r ON r.id=x.receipt_id WHERE r.charge_id=q.id),0)`:"0";
   if(!q || !r || !a) throw new Error('Terrace rent tables are required.');

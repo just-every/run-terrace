@@ -1,3 +1,4 @@
+import {editArchive} from './archive-edit.mjs'
 import assert from 'node:assert/strict'
 import {installation,tenancyInput} from './api/harness.mjs'
 export async function journey({assets=false,inspect}={}){
@@ -48,6 +49,6 @@ export async function journey({assets=false,inspect}={}){
   const final=ledger.financialActions;await h.restart();assert.deepEqual((await h.state(t.id)).ledger.financialActions,final)
   if(inspect)await inspect({phase:'recorded',h,t,check,manager})
   const archive=await(await h.request('/api/backup')).text(),fresh=await installation()
-  try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'refunds.rer')});const restored=(await fresh.state(t.id)).ledger;assert.equal(restored.balanceCents,12000);assert.deepEqual(restored.financialActions,final)}finally{await fresh.close()}
+  try{const invalid=await editArchive(archive,(table,row)=>{if(table==='tt_financial_recordings'){row.amount_cents+=1}});await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([invalid],'invalid-financial.rer')},{status:400});assert.equal((await fresh.state()).tenancies.length,0,'malformed financial archive installs no product rows');await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'refunds.rer')});const restored=(await fresh.state(t.id)).ledger;assert.equal(restored.balanceCents,12000);assert.deepEqual(restored.financialActions,final)}finally{await fresh.close()}
  }finally{await h.close()}
 }

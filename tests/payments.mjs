@@ -1,3 +1,4 @@
+import {editArchive} from './archive-edit.mjs'
 import assert from 'node:assert/strict'
 import {installation,tenancyInput} from './api/harness.mjs'
 import {syntheticPack} from './rule-packs.mjs'
@@ -34,7 +35,7 @@ export async function journey({assets=false,inspect}={}){
   data=(await h.state(t.id)).ledger;assert.deepEqual([data.balanceCents,data.payments.pendingCents,data.payments.creditCents],[0,0,10000]);assert.equal(data.receipts.reduce((n,r)=>n+r.amount_cents,0),110000)
   assert.equal(data.payments.payments.find(p=>p.id===pending.id).events.length,2)
   const archive=await(await h.request('/api/backup')).text(),fresh=await installation()
-  try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'payments.rer')});const restored=(await fresh.state(t.id)).ledger;assert.deepEqual(restored.payments,data.payments);assert.equal(restored.balanceCents,0)}finally{await fresh.close()}
+  try{const invalid=await editArchive(archive,(table,row)=>{if(table==='tt_payment_allocations'){row.amount_cents+=1}});await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([invalid],'invalid-financial.rer')},{status:400});assert.equal((await fresh.state()).tenancies.length,0,'malformed financial archive installs no product rows');await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'payments.rer')});const restored=(await fresh.state(t.id)).ledger;assert.deepEqual(restored.payments,data.payments);assert.equal(restored.balanceCents,0)}finally{await fresh.close()}
   const past=new Date(Date.parse(day)-40*86400000).toISOString().slice(0,10),old=await h.command('rent.charge',{tenancyId:t.id,dueDate:past,amount:'100.00',description:'Older rent',reference:'synthetic-terrace-40'})
   await h.command('payment.policy',{tenancyId:t.id,version:1,terms:{stages,priority:[old.id]},reference:'synthetic-terrace-41'})
   const block=await h.command('payment.record',{tenancyId:t.id,amount:'50.00',state:'pending',payerKind:'resident',method:'ach',receivedDate:day,reference:'synthetic-terrace-42'},{status:409});assert.equal(block.error,'partial_blocked')

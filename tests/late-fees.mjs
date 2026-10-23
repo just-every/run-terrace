@@ -1,3 +1,4 @@
+import {editArchive} from './archive-edit.mjs'
 import assert from 'node:assert/strict'
 import {installation,tenancyInput} from './api/harness.mjs'
 import {syntheticPack} from './rule-packs.mjs'
@@ -46,9 +47,9 @@ export async function journey({assets=false,inspect}={}){
   p=await review('TX','2026-10-09');assert.equal(p.lines.find(l=>l.sourceChargeId===q.id).feeCents,0);await post('TX',p)
   data=(await h.state(places.TX.t.id)).ledger;assert.equal(data.lateFees.fees.length,1);assert.deepEqual([data.lateFees.fees[0].amount_cents,data.lateFees.fees[0].balance_cents,data.lateFees.waivers[0].amount_cents],[10000,0,10000]);assert.match(data.lateFees.waivers[0].reason,/hardship/)
   if(inspect)await inspect({phase:'pending-protected',h,places,p})
-  const receipt=await h.command('rent.receipt',{chargeId:places.CA.q.id,amount:'1000.00',receivedDate:'2026-10-08',reference:'synthetic-terrace-72'});await h.command('rent.reverse-receipt',{receiptId:receipt.id,day:'2026-10-09',reference:'synthetic-terrace-73',reason:'External return'})
+  const receipt=await h.command('rent.receipt',{chargeId:places.CA.q.id,amount:'1000.00',receivedDate:'2026-10-08',reference:'synthetic-terrace-72'});const paidLate=await review('CA','2026-10-08');assert.equal(paidLate.lines[0].feeCents,5000,'late principal settlement does not erase an earned fee');await post('CA',paidLate);await h.command('rent.reverse-receipt',{receiptId:receipt.id,day:'2026-10-09',reference:'synthetic-terrace-73',reason:'External return'})
   const reversal=await review('CA','2026-10-09');assert.equal(reversal.lines[0].state,'held');assert.match(reversal.lines[0].gaps.join(' '),/reversal/)
   const before=(await h.state(places.TX.t.id)).ledger.lateFees,archive=await(await h.request('/api/backup')).text(),fresh=await installation()
-  try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'late-fees.rer')});assert.deepEqual((await fresh.state(places.TX.t.id)).ledger.lateFees,before)}finally{await fresh.close()}
+  try{const invalid=await editArchive(archive,(table,row)=>{if(table==='tt_late_fees'){const s=JSON.parse(row.snapshot);s.feeCents+=1;row.snapshot=JSON.stringify(s)}});await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([invalid],'invalid-financial.rer')},{status:400});assert.equal((await fresh.state()).tenancies.length,0,'malformed financial archive installs no product rows');await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'late-fees.rer')});assert.deepEqual((await fresh.state(places.TX.t.id)).ledger.lateFees,before)}finally{await fresh.close()}
  }finally{await h.close()}
 }
