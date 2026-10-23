@@ -15,15 +15,16 @@ async function upload(form,d,key,file){
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
 const finding=x=>`<fieldset data-finding="${escape(x.key)}"><legend>${escape(x.room)} · ${escape(x.asset)}</legend><label>Condition<select name="condition:${escape(x.key)}">${['unknown','good','worn','damaged','missing'].map(v=>`<option>${v}</option>`).join('')}</select></label><label>Notes<textarea name="notes:${escape(x.key)}" maxlength="2000" required></textarea></label><label>Reading, or none<input name="reading:${escape(x.key)}" maxlength="200" required></label><label>Original photo or video<input type="file" name="file:${escape(x.key)}" accept="image/png,image/jpeg,video/mp4,video/quicktime,video/webm"></label></fieldset>`
 for(const f of document.querySelectorAll('[data-field-capture]')){
+ f.noValidate=true
  const key=f.dataset.operator+':'+f.dataset.fieldCapture+':'+f.dataset.record,status=f.querySelector('[data-field-status]'),conflict=f.querySelector('[data-conflict]')
  let saved=null,reconciliation=null
- const restore=d=>{for(const[k,v]of Object.entries(d.values))if(f.elements[k]&&f.elements[k].type!=='file')f.elements[k].value=v;f.dataset.version=d.version;f.elements.deviceConsent.checked=!!d.consentAt;reconciliation=d.reconciliation;status.textContent='Private device draft recovered. Original files are retained; review and sync when connected.'}
+ const restore=d=>{for(const[k,v]of Object.entries(d.values))if(f.elements[k]&&f.elements[k].type!=='file')f.elements[k].value=v;f.dataset.version=d.version;f.elements.deviceConsent.checked=!!d.consentAt;reconciliation=d.reconciliation;for(const k of Object.keys(d.files||{}))if(f.elements[k])f.elements[k].required=false;status.textContent='Private device draft recovered. Original files are retained; review and sync when connected.'}
  draftStore('get',key).then(d=>{if(d){saved=d;restore(d)}}).catch(e=>status.textContent=e.message)
  function collect(){const values={};for(const input of f.elements)if(input.name&&input.type!=='file'&&input.type!=='checkbox')values[input.name]=input.value;const files={...saved?.files};for(const input of f.querySelectorAll('input[type=file]'))if(input.files[0])files[input.name]=input.files[0];return {key,clientId:saved?.clientId||crypto.randomUUID(),kind:f.dataset.fieldCapture,version:Number(f.dataset.version),values,files,uploads:saved?.uploads||{},consentAt:saved?.consentAt||null,reconciliation}}
  f.querySelector('[data-save]').addEventListener('click',async()=>{try{if(!f.elements.deviceConsent.checked)throw Error('Explicitly consent before storing private evidence on this device.');saved=collect();saved.consentAt=saved.consentAt||new Date().toISOString();await draftStore('put',key,saved);status.textContent='Saved offline on this device. Nothing has been sent. Reconnect, review the current scope and explicitly sync.'}catch(e){status.textContent=e.message}})
  f.querySelector('[data-clear]').addEventListener('click',async()=>{await draftStore('delete',key);saved=null;reconciliation=null;status.textContent='Private device draft and its original files deleted.'})
  f.addEventListener('submit',async event=>{
-  event.preventDefault();if(!f.reportValidity())return;const button=f.querySelector('button[type=submit]');button.disabled=true
+  event.preventDefault();const button=f.querySelector('button[type=submit]');button.disabled=true
   try{
    const d=collect();status.textContent='Checking current scope before sending…';const r=await fetch('/api/state?tenancy='+encodeURIComponent(f.dataset.tenancy)),state=await r.json();if(!r.ok)throw Error(state.message||'Sign in again before syncing')
    const current=d.kind==='inspection'?state.work.inspections.find(x=>x.id===f.dataset.record):state.work.jobs.find(x=>x.id===f.dataset.record)
@@ -44,6 +45,7 @@ for(const f of document.querySelectorAll('[data-field-capture]')){
     }
     status.textContent='Conflict retained. Nothing was submitted.';return
    }
+   if(!f.reportValidity()){status.textContent='Complete the required fields before synchronizing.';return}
    const media={};for(const[k,file]of Object.entries(d.files)){status.textContent='Synchronizing original '+file.name+'…';media[k]=await upload(f,d,k,file)}
    const common={clientId:d.clientId,deviceConsentAt:d.consentAt,reconciliation:d.reconciliation}
    if(d.kind==='inspection'){
