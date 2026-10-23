@@ -52,6 +52,7 @@ export async function mediaCommand(c:Context,command:string,p:Row):Promise<Row|u
   if(p.attachmentId)insist(previous&&previous[target.column]===target.row.id&&previous.version===Number(p.version),'media_version','Review the latest attachment version on this record.',409)
   const key=id(),version=previous?previous.version+1:1,attachment=previous?.attachment_id??key
   const type=text(p.mediaType,'Media type',100)
+  insist(type.startsWith('image/')||type.startsWith('video/')||size<=5*1024*1024,'media_size','Document originals are at most 5 MB; photos and video are at most 25 MB.')
   insist(['image/png','image/jpeg','video/mp4','video/quicktime','video/webm','application/pdf','text/plain','text/csv','message/rfc822'].includes(type),'media_type','This media type is not supported.')
   await commit(c,[...target.guards,sql(c,`INSERT INTO tt_record_media(id,attachment_id,version,${target.column},name,media_type,size,sha256,source,captured_at,uploaded_by,uploaded_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,key,attachment,version,target.row.id,text(p.name,'Filename',255),type,size,digest,text(p.source,'Original source',500),date(p.capturedAt,'Capture date'),c.actor.id,c.now)],command,target.row.id)
   return {id:key,attachmentId:attachment,version,chunkSize:CHUNK,notice:'Upload started. No attachment is published until every chunk and the original hash verify.'}
