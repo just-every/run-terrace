@@ -94,6 +94,17 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
       ], command, row.id)
       return result(row, 'Inspection completed with notes and photo evidence.')
     }
+    case 'maintenance.field-revise': {
+      allow(c,command)
+      const row=await job(c,p),version=validVersion(p.version),t=await tenancy(c,row.tenancy_id)
+      insist(row.state==='sent'&&!row.resolution,'job_state','Reopen field scope only before a completion report.',409)
+      const scope=text(p.scope,'Revised field scope',2000),tasks=checklist(p.checklist),reason=text(p.reference,'Why the field scope changed',500)
+      await commit(c,[jobGuard(c,row,version,'sent'),guard(c,'NOT EXISTS(SELECT 1 FROM tt_completion_attempts WHERE job_id=?)',row.id),
+       sql(c,"UPDATE tt_maintenance_jobs SET scope=?,checklist=?,quote_id=NULL,revised_by=?,state='pending',version=version+1,sent_by=NULL,sent_at=NULL,sent_reference=NULL WHERE id=?",scope,JSON.stringify(tasks),c.actor.id,row.id),
+       sql(c,"UPDATE tt_proposals SET state='pending',approved_by=NULL,approved_at=NULL,tenancy_version=?,payload=json_set(payload,'$.scope',?,'$.checklist',?,'$.fieldScopeReason',?) WHERE id=?",t.version,scope,JSON.stringify(tasks),reason,row.proposal_id),
+      ],command,row.id)
+      return {...result(row,'Field scope changed: current approval reopened. Existing dispatch and evidence remain; obtain fresh exact approval and record a new handoff before reconciling the offline report.'),version:version+1}
+    }
     case 'maintenance.prepare': {
       allow(c, command)
       const t = await tenancy(c, p.tenancyId)

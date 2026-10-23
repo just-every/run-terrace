@@ -169,6 +169,14 @@
       "commands": [
         "node tests/mobile-inspections-browser.mjs"
       ]
+    },
+    {
+      "name": "technician-capture",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/technician-capture-browser.mjs"
+      ]
     }
   ]
 }
