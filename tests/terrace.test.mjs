@@ -1,3 +1,4 @@
+import {journey as financialJourney} from './financial-actions.mjs'
 import {journey as lateFeeJourney} from './late-fees.mjs'
 import {journey as paymentJourney} from './payments.mjs'
 import {journey as trustJourney} from './trust.mjs'
@@ -872,3 +873,5 @@ test('ACCT-002 designated bank custody preserves beneficiary funds through appro
 test('PAY-005: reviewed lease stages reserve concurrent co-tenant payments, allocate settlement once, separate credit and block partial or excess funds',paymentJourney)
 
 test('PAY-006: reviewed state caps, weekend and holiday grace, timely pending settlement and reasoned waivers retain original calculations',lateFeeJourney)
+
+test('PAY-009: exact independent approvals refuse changed refund sources, record one external refund with original owner effects and retain reasoned corrections and forwarding check drafts',financialJourney)

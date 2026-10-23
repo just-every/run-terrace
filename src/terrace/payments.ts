@@ -87,9 +87,9 @@ export async function paymentCommand(c:Context,command:string,p:Row):Promise<Row
  insist(payment.state==='pending'&&Number(p.version)===payment.version,'payment_state','Only the reviewed pending payment can transition once.',409)
  insist(day>=payment.received_date&&day<=localDate(c.now,t.time_zone),'invalid_date','Outcome date is between initiation and property-local today.')
  const allocations=await all(c,'SELECT charge_id AS chargeId,amount_cents AS amountCents,receipt_id AS receiptId FROM tt_payment_allocations WHERE payment_id=?',payment.id)
- const writes=[guard(c,"EXISTS(SELECT 1 FROM tt_payments WHERE id=? AND state='pending' AND version=?)",payment.id,payment.version)]
+ const writes=[guard(c,"EXISTS(SELECT 1 FROM tt_payments WHERE id=? AND state='pending' AND version=?)",payment.id,payment.version),sql(c,'UPDATE tt_payments SET state=?,version=version+1 WHERE id=?',state,payment.id)]
  if(state==='settled')for(const a of allocations)writes.push(receipt(c,payment,a,day,t.currency))
- writes.push(sql(c,'UPDATE tt_payments SET state=?,version=version+1 WHERE id=?',state,payment.id),event(c,payment.id,state,text(p.reference,'External outcome reference',500),day))
+ writes.push(event(c,payment.id,state,text(p.reference,'External outcome reference',500),day))
  await commit(c,writes,command,payment.id)
  return{id:payment.id,tenancyId:t.id,notice:state==='settled'?'Settlement recorded once; reserved allocations are now receipts.':'External failure recorded; reservations released with no receipt.'}
 }

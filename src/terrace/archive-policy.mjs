@@ -9,9 +9,10 @@ export default {
  requiredConfiguration: ['OWNER_EMAIL','SESSION_SECRET','SETUP_TOKEN','AUTH_ORIGIN','MAIL_PROVIDER','MAIL_FROM'],
  async validateStaged({db,tables}) {
   await validateTrustArchive(db,tables);
-  const q=tables.tt_charges, r=tables.tt_receipts, a=tables.tt_adjustments, reversals=tables.tt_receipt_reversals;
+  const q=tables.tt_charges, r=tables.tt_receipts, a=tables.tt_adjustments, reversals=tables.tt_receipt_reversals, refunds=tables.tt_financial_recordings;
+  const refunded=refunds?`COALESCE((SELECT SUM(x.amount_cents) FROM "${refunds}" x JOIN "${r}" r ON r.id=x.receipt_id WHERE r.charge_id=q.id),0)`:"0";
   if(!q || !r || !a) throw new Error('Terrace rent tables are required.');
-  const bad=await db.prepare(`SELECT 1 FROM "${q}" q WHERE q.amount_cents < -COALESCE((SELECT SUM(r.amount_cents) FROM "${reversals}" x JOIN "${r}" r ON r.id=x.receipt_id WHERE r.charge_id=q.id),0)+COALESCE((SELECT SUM(amount_cents) FROM "${r}" WHERE charge_id=q.id),0)+COALESCE((SELECT SUM(amount_cents) FROM "${a}" WHERE charge_id=q.id),0) LIMIT 1`).first();
+  const bad=await db.prepare(`SELECT 1 FROM "${q}" q WHERE q.amount_cents < -${refunded}-COALESCE((SELECT SUM(r.amount_cents) FROM "${reversals}" x JOIN "${r}" r ON r.id=x.receipt_id WHERE r.charge_id=q.id),0)+COALESCE((SELECT SUM(amount_cents) FROM "${r}" WHERE charge_id=q.id),0)+COALESCE((SELECT SUM(amount_cents) FROM "${a}" WHERE charge_id=q.id),0) LIMIT 1`).first();
   if(bad) throw new Error('Receipt and adjustment totals exceed the charge.');
   const j=tables.tt_journal,chart=tables.tt_gl_accounts;
   if(j&&chart){
