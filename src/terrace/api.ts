@@ -1,5 +1,5 @@
 import {paymentView} from './payment-view'
-import {PAYMENT_COMMANDS,paymentCommand} from './payments'
+import {PAYMENT_COMMANDS,paymentCommand,paymentData} from './payments'
 import {PORTAL_COMMANDS,portalCommand,portalData,sendPortalEmail} from './portal'
 import {portalResponse} from './portal-http'
 import {portalSection} from './portal-view-staff'
@@ -131,7 +131,7 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
    }
   }
   else body=chooser(rows,selected,tab)
-  if(tab==='ledger'){allow(c,'ledger.read');title='Rent & arrears';if(selected){const run=url.searchParams.get('run'),ledger=await ledgerData(c,selected.id),post=can(c,'rent.charge');body+=ledgerView(selected,ledger,post,can(c,'reports.read'))+paymentView(selected,ledger.payments,ledger.charges,c.actor.role==='owner')+termSection(selected,await terms(c,selected.id),post&&!(await terms(c,selected.id)).some(x=>x.lease_version_id))+runSection(selected,post&&run?await preview(c,run):null,post,run??ledger.today.slice(0,7))}}
+  if(tab==='ledger'){allow(c,'ledger.read');title='Rent & arrears';if(selected){const run=url.searchParams.get('run'),ledger=await ledgerData(c,selected.id),post=can(c,'rent.charge');body+=ledgerView(selected,ledger,post,can(c,'reports.read'))+paymentView(selected,await paymentData(c,selected.id),ledger.charges,c.actor.role==='owner')+termSection(selected,await terms(c,selected.id),post&&!(await terms(c,selected.id)).some(x=>x.lease_version_id))+runSection(selected,post&&run?await preview(c,run):null,post,run??ledger.today.slice(0,7))}}
   else if(tab==='work'){allow(c,'work.read');title='Inspections & maintenance';if(can(c,'emergency.read'))body=`<section><h2>Safety & emergencies</h2><p>Record a safety report, give approved guidance and see urgent cases until a person acknowledges and resolves them.</p><a href="/app?tab=emergencies">Open safety & emergencies</a></section>`+body;if(selected)body+=workView(selected,{...await workData(c,selected.id),names:await operatorNames(c)})}
   else if(tab!=='tenancy') throw new Fault('not_found','Page not found.',404)
  }
@@ -211,7 +211,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   if(V1_PATH.test(url.pathname))return await apiV1(c,url)
   if(url.pathname==='/api/commands')return json({commands:COMMANDS.filter(name=>can(c!,name)&&(!c!.actor.credential||c!.actor.credential.scope==='prepare'&&PREPARE_COMMANDS.includes(name)))})
   if(url.pathname==='/api/state') {
-   const tenancies=(await tenancyData(c)).sort((a,b)=>a.address.localeCompare(b.address)||a.tenant_name.localeCompare(b.tenant_name)||a.id.localeCompare(b.id)),tenancyId=url.searchParams.get('tenancy'),t=tenancyId?await tenancy(c,tenancyId):undefined,ledger=t&&can(c,'ledger.read')?await ledgerData(c,t.id):undefined
+   const tenancies=(await tenancyData(c)).sort((a,b)=>a.address.localeCompare(b.address)||a.tenant_name.localeCompare(b.tenant_name)||a.id.localeCompare(b.id)),tenancyId=url.searchParams.get('tenancy'),t=tenancyId?await tenancy(c,tenancyId):undefined,ledger=t&&can(c,'ledger.read')?{...await ledgerData(c,t.id),payments:await paymentData(c,t.id)}:undefined
    return json({actor:{role:c.actor.role,staffRole:c.actor.staff?.role??'owner',allPortfolios:c.actor.role==='owner'||!!c.actor.staff?.all},...await companyData(c),...await propertyData(c),turnovers:await turnoverData(c),ownership:await ownershipData(c),siblings:await siblingData(c),tenancies,...(t?{ledger,moveChecklists:await moveChecklistData(c,t.id),household:await householdData(c,t,ledger?.balanceCents??null,ledger?.charges),proposals:await proposals(c,t.id),renewals:await renewalData(c,t.id),work:await workData(c,t.id),...((can(c,'lease.read')||can(c,'lease.metadata'))?{leaseVersions:await leaseData(c,t.id)}:{})}:{})})
   }
   if(url.pathname==='/api/custom-reports')return json(await customCatalog(c))
