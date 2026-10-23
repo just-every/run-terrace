@@ -31,11 +31,18 @@ export async function eraseTenancy(c:Context,p:Row){
    sql(c,'UPDATE tt_journal SET reference=id WHERE tenancy_id=?',t.id),
    sql(c,"UPDATE tt_payments SET payer_name='Retained resident',payer_id=NULL,reference=id WHERE tenancy_id=?",t.id),
    sql(c,"UPDATE tt_payment_policies SET reference=id WHERE tenancy_id=?",t.id),
+   sql(c,"UPDATE tt_late_fee_policies SET reference=id WHERE tenancy_id=?",t.id),
+   sql(c,"UPDATE tt_late_fee_waivers SET reason='Retained accounting record' WHERE fee_id IN (SELECT f.id FROM tt_late_fees f JOIN tt_charges q ON q.id=f.fee_charge_id WHERE q.tenancy_id=?)",t.id),
+   sql(c,"UPDATE tt_late_fees SET snapshot=json_set(snapshot,'$.description','Retained accounting record') WHERE fee_charge_id IN (SELECT id FROM tt_charges WHERE tenancy_id=?)",t.id),
    sql(c,"UPDATE tt_payment_events SET reference=id WHERE payment_id IN (SELECT id FROM tt_payments WHERE tenancy_id=?)",t.id),
    sql(c,"UPDATE tt_receipt_reversals SET reference=id,reason='Retained accounting record' WHERE receipt_id IN (SELECT r.id FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=?)",t.id),
    sql(c,'UPDATE tt_receipts SET reference=id WHERE charge_id IN (SELECT id FROM tt_charges WHERE tenancy_id=?)',t.id),
    sql(c,"UPDATE tt_adjustments SET reason='Retained accounting record',reference=NULL WHERE charge_id IN (SELECT id FROM tt_charges WHERE tenancy_id=?)",t.id),
    sql(c,'UPDATE tt_audit SET subject=tenancy_id,source=NULL WHERE tenancy_id=?',t.id))
+  for(const run of await all(c,'SELECT id,snapshot FROM tt_late_fee_runs WHERE tenancy_id=?',t.id)){
+   const snapshot=JSON.parse(run.snapshot);for(const line of snapshot.lines)line.description='Retained accounting record'
+   native.push(sql(c,'UPDATE tt_late_fee_runs SET snapshot=? WHERE id=?',JSON.stringify(snapshot),run.id))
+  }
   for(const close of await all(c,'SELECT id,statement FROM tt_period_closes')){
    const rows=JSON.parse(close.statement);let changed=false
    for(const row of rows)if(row.tenancyId===t.id){row.reference=row.id;changed=true}

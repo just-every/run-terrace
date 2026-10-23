@@ -1,3 +1,4 @@
+import {journey as lateFeeJourney} from './late-fees.mjs'
 import {journey as paymentJourney} from './payments.mjs'
 import {journey as trustJourney} from './trust.mjs'
 import {journey as rulePackJourney} from './rule-packs.mjs'
@@ -869,3 +870,5 @@ test('PORT-007: versioned documents are found by unit and content, restricted re
 test('ACCT-002 designated bank custody preserves beneficiary funds through approved transfers',async()=>{await trustJourney()})
 
 test('PAY-005: reviewed lease stages reserve concurrent co-tenant payments, allocate settlement once, separate credit and block partial or excess funds',paymentJourney)
+
+test('PAY-006: reviewed state caps, weekend and holiday grace, timely pending settlement and reasoned waivers retain original calculations',lateFeeJourney)

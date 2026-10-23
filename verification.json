@@ -128,6 +128,14 @@
       "commands": [
         "node tests/payments-browser.mjs"
       ]
+    },
+    {
+      "name": "late-fees",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/late-fees-browser.mjs"
+      ]
     }
   ]
 }
