@@ -42,9 +42,12 @@ export async function installation({legacy,beforeMigration,assets=false,demo=fal
   const signIn=async email=>{const r=await request('/auth/magic-link',{method:'POST',as:'',body:{email}});assert.equal(r.status,202,await r.text());return accept(email)}
   /** Base's step-up: the email link completes in the session that asked (default the owner's). */
   const stepUp=async(email='owner@example.test',as=cookie)=>{const r=await request('/auth/step-up',{method:'POST',as,body:{action:'credentials:mint'}});assert.equal(r.status,202,await r.text());await accept(email,as)}
+  /** Sends requests at once. A staff page keeps the local Worker busy while they arrive, so their reads interleave as
+   * concurrent requests can in a deployed Worker; sent one by one, each would finish before the next is read. */
+  const atOnce=async requests=>{const busy=request('/app');await new Promise(ok=>setTimeout(ok,5));const answers=await Promise.all(requests.map(([path,opts])=>request(path,opts)));assert.equal((await busy).status,200);return answers}
   /** A new worker process over the same persisted D1: nothing in memory survives. */
   const restart=async()=>{await mf.dispose();mf=new Miniflare(options(port));await mf.ready}
-  return {get mf(){return mf},scheduled:async scheduledTime=>(await mf.getWorker()).scheduled({scheduledTime,cron:'0 * * * *'}),configureMail:async provider=>{mailProvider=provider;await mf.setOptions(options(port))},restart,origin,request,portalToken,portalSignIn,messages,command,formCommand,state,invite,accept,signIn,stepUp,cookie,messages,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
+  return {get mf(){return mf},scheduled:async scheduledTime=>(await mf.getWorker()).scheduled({scheduledTime,cron:'0 * * * *'}),configureMail:async provider=>{mailProvider=provider;await mf.setOptions(options(port))},restart,origin,request,atOnce,portalToken,portalSignIn,messages,command,formCommand,state,invite,accept,signIn,stepUp,cookie,messages,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
  }catch(e){await mf.dispose();await rm(root,{recursive:true,force:true});throw e}
 }
 export const tenancyInput={address:'Unit 1C, 1840 Alder Street, Oakland, CA',ownerName:'Rowan Ellis',ownerEmail:'rowan@example.test',tenantName:'Alex Chen',tenantEmail:'alex@example.test',startDate:'2025-01-01',endDate:'2026-12-31',rent:'620.00',cadence:'weekly'}

@@ -6,7 +6,7 @@ import { hold, trade, vendor, vendorData, vendorGuard } from './vendors'
 import { jobWrites } from './job-writes'
 import { scheduleData } from './schedules'
 import { localDate } from './zones'
-import { authority, OWNER_LABEL, quoteData } from './quotes'
+import { authority, authorityGuard, OWNER_LABEL, quoteData } from './quotes'
 import { completionData } from './completions'
 import { appointmentData } from './appointments'
 import { checklist, dispatchData } from './dispatch'
@@ -134,7 +134,7 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
       const digest = await sha256(new TextEncoder().encode(snapshot))
       await commit(c, [
         jobGuard(c, row, version, 'pending'), vendorGuard(c, row, h.vendorVersion), ...solo.guards,
-        ...(a.needsOwner ? [guard(c, "EXISTS(SELECT 1 FROM tt_owner_decisions WHERE job_id=? AND job_version=? AND terms_sha256=? AND decision='approved')", row.id, version, a.sha)] : []),
+        authorityGuard(c, row, version, a),
         guard(c, "EXISTS(SELECT 1 FROM tt_proposals p JOIN tt_tenancies t ON t.id=p.tenancy_id WHERE p.id=? AND p.kind='maintenance' AND p.state='pending' AND p.tenancy_version=t.version AND t.version=?)", row.proposal_id, t.version),
         sql(c, 'INSERT INTO tt_maintenance_approvals(id,job_id,job_version,snapshot,sha256,approved_by,approved_role,approved_at,approval_label) VALUES(?,?,?,?,?,?,?,?,?)', id(), row.id, version, snapshot, digest, c.actor.id, c.actor.role, c.now, solo.label),
         sql(c, "UPDATE tt_proposals SET state='approved',approved_by=?,approved_at=? WHERE id=?", c.actor.id, c.now, row.proposal_id),

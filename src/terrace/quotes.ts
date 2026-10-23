@@ -43,6 +43,13 @@ export async function authority(c: Context, j: Row, t: Row) {
  if (limit.budget_cents && spent + j.estimate_cents > limit.budget_cents) reasons.push(`over the owner’s ${year} maintenance budget of ${money(limit.budget_cents, limit.currency)} (${money(spent, limit.currency)} already approved)`)
  return { scope, limit, spentCents: spent, reasons, needsOwner: reasons.length > 0, decision: decision && decision.terms_sha256 === sha ? decision : null, sha }
 }
+/** The same rule inside the approval's D1 batch, against the scope's current limit and approved spend, so approvals made
+ * at once cannot together exceed the budget: unless the owner approved these exact terms, the job is within the per-job
+ * limit and this year's other approved work plus this estimate is within the budget. */
+export function authorityGuard(c: Context, j: Row, version: number, a: { scope: string; sha: string }) {
+ const [q, v] = inScope(a.scope)
+ return guard(c, `EXISTS(SELECT 1 FROM tt_owner_decisions WHERE job_id=? AND job_version=? AND terms_sha256=? AND decision='approved') OR NOT EXISTS(SELECT 1 FROM tt_work_limits l WHERE l.scope=? AND (?>l.limit_cents OR (l.budget_cents>0 AND ?+(SELECT COALESCE(SUM(estimate_cents),0) FROM tt_maintenance_jobs WHERE tenancy_id IN (${q}) AND state IN ('approved','sent') AND substr(due_date,1,4)=? AND id<>?)>l.budget_cents)))`, j.id, version, a.sha, a.scope, j.estimate_cents, j.estimate_cents, v, String(j.due_date).slice(0, 4), j.id)
+}
 
 /** Writes that put a changed job back to prepared: a new version and a pending proposal needing approval. */
 async function reopen(c: Context, j: Row, version: number, changes: Row, vendorChanged: boolean) {
