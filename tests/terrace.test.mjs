@@ -446,6 +446,22 @@ test('photographed inspection, WORK-004 qualified vendor handoff, WORK-003 quote
  await appointmentJourney()
  await emergencyJourney()
 })
+test('concurrent maintenance approvals never commit more than the owner’s yearly budget without the owner’s decision',async()=>{
+ const r=await installation()
+ try {
+  const preparer=await r.invite('member','budget-preparer@example.test'),place=await r.command('tenancy.create',tenancyInput)
+  const plumber=await r.command('vendor.add',{name:'Clear Plumbing',email:'clear@example.test',phone:'510-555-0101',specialties:'plumbing',serviceAreas:'Oakland',w9:'received',insuranceExpires:'2036-12-31',rate:'100.00',standing:'approved'})
+  await r.command('work.limits',{tenancyId:place.id,limit:'500.00',budget:'200.00'})
+  const jobs=[]
+  for(const title of ['Kitchen tap','Bath tap'])jobs.push(await r.command('maintenance.prepare',{tenancyId:place.id,title,vendorId:plumber.id,trade:'plumbing',dueDate:'2026-11-02',estimate:'150.00'},{as:preparer}))
+  const answers=await r.atOnce(jobs.map(j=>['/api/commands',{method:'POST',body:{command:'maintenance.approve',jobId:j.id,version:1}}]))
+  assert.deepEqual(answers.map(a=>a.status).sort(),[200,409],'each fits the budget alone, together they do not')
+  const held=jobs[answers.findIndex(a=>a.status===409)]
+  assert.equal((await r.command('maintenance.approve',{jobId:held.id,version:1},{status:409})).error,'owner_approval_required')
+  await r.command('maintenance.owner',{jobId:held.id,version:1,decision:'approved',source:'email',reference:'Owner email: approve the second tap'})
+  await r.command('maintenance.approve',{jobId:held.id,version:1})
+ } finally { await r.close() }
+})
 test('MOVE-009: reviewed move-in, refuse-before-reverse undo, owner compensation preserves later work and recovery',async()=>{
  const csv=await readFile('fixtures/terrace-tenancies.csv','utf8'),preview=await h.command('import.preview',{csv,namespace:'archive-a'})
  assert.equal((await h.state()).tenancies.length,1)
