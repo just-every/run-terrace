@@ -42,3 +42,6 @@ export const shown = (t: Row | undefined): string => t?.currency_confirmed === 0
 export const money = (n: number, currency: string) => currency === UNCONFIRMED ? `${new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}).format(n/100)} (currency unconfirmed)` : new Intl.NumberFormat('en-US',{style:'currency',currency}).format(n/100)
 export const escape = (v: unknown) => String(v ?? '').replace(/[&<>"']/g, x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]!))
 export const sha256 = async (bytes: Uint8Array) => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new Uint8Array(bytes).buffer))).map(x=>x.toString(16).padStart(2,'0')).join('')
+
+/** A financial write cannot race a lease change or resurrect personal references after erasure. */
+export const tenancyGuard = (c:Context,t:Row) => guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=? AND erased_at IS NULL)',t.id,t.version)

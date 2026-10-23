@@ -1,4 +1,4 @@
-import {all,allow,can,cents,commit,date,guard,id,insist,one,sha256,shown,sql,tenancy,text,type Context,type Row} from './core'
+import {tenancyGuard,all,allow,can,cents,commit,date,guard,id,insist,one,sha256,shown,sql,tenancy,text,type Context,type Row} from './core'
 import {rulePreview} from './rule-packs'
 import {BALANCE} from './ledger'
 import {RESERVED} from './payments'
@@ -69,7 +69,7 @@ export async function lateFeePreview(c:Context,tenancyId:unknown,onValue:unknown
    else if(!line.gaps.length)line.state=line.reductionCents?'reduction':'posted'
   }
  }
- const body={tenancyId:t.id,on,currency:shown(t),lines};return{...body,fingerprint:await sha256(new TextEncoder().encode(JSON.stringify(body)))}
+ const body={tenancyId:t.id,tenancyVersion:t.version,on,currency:shown(t),lines};return{...body,fingerprint:await sha256(new TextEncoder().encode(JSON.stringify(body)))}
 }
 export async function lateFeeCommand(c:Context,command:string,p:Row):Promise<Row|undefined>{
  if(!LATE_FEE_COMMANDS.includes(command))return
@@ -80,7 +80,7 @@ export async function lateFeeCommand(c:Context,command:string,p:Row):Promise<Row
   const fixed={fullUnpaidDays:whole(terms.fullUnpaidDays,'Lease grace',366),feeCents:whole(terms.feeCents,'Lease fee cents'),capCents:whole(terms.capCents,'Lease cap cents'),weekendRule:terms.weekendRule,excludeTimely:terms.excludeTimely}
   insist(['calendar','next_business_day'].includes(fixed.weekendRule)&&typeof fixed.excludeTimely==='boolean','late_fee_policy','State the lease weekend rule and excludeTimely explicitly.')
   const current=(await one(c,'SELECT MAX(version) AS n FROM tt_late_fee_policies WHERE charge_id=?',q.id))!.n??0,key=id();insist(Number(p.version)===current,'conflict','Review the latest lease fee policy.',409)
-  await commit(c,[guard(c,'COALESCE((SELECT MAX(version) FROM tt_late_fee_policies WHERE charge_id=?),0)=?',q.id,current),sql(c,'INSERT INTO tt_late_fee_policies(id,tenancy_id,charge_id,version,terms,reference,created_by,created_at) VALUES(?,?,?,?,?,?,?,?)',key,t.id,q.id,current+1,JSON.stringify(fixed),text(p.reference,'Approved lease late-fee reference',500),c.actor.id,c.now)],command,key)
+  await commit(c,[tenancyGuard(c,t),guard(c,'COALESCE((SELECT MAX(version) FROM tt_late_fee_policies WHERE charge_id=?),0)=?',q.id,current),sql(c,'INSERT INTO tt_late_fee_policies(id,tenancy_id,charge_id,version,terms,reference,created_by,created_at) VALUES(?,?,?,?,?,?,?,?)',key,t.id,q.id,current+1,JSON.stringify(fixed),text(p.reference,'Approved lease late-fee reference',500),c.actor.id,c.now)],command,key)
   return{id:key,tenancyId:t.id,notice:'Lease late-fee terms recorded. Active pack limits still apply; no fee posted.'}
  }
  if(command==='latefee.waive'){
@@ -88,14 +88,14 @@ export async function lateFeeCommand(c:Context,command:string,p:Row):Promise<Row
   const t=await tenancy(c,q.tenancy_id),amount=cents(p.amount),on=date(p.on),reason=text(p.reason,'Waiver reason',1000),key=id()
   insist(on>=q.due_date&&on<=localDate(c.now,t.time_zone),'invalid_date','Waive on or after the fee date and no later than today.')
   insist(amount<=q.unpaid-q.reserved,'exceeds_balance','Waiver exceeds the unreserved unpaid fee.',409)
-  await commit(c,[guard(c,`(SELECT ${BALANCE}-${RESERVED} FROM tt_charges q WHERE id=?)>=?`,q.id,amount),sql(c,'INSERT INTO tt_adjustments(id,charge_id,amount_cents,reason,at,currency,reference,posting_day) VALUES(?,?,?,?,?,?,?,?)',key,q.id,amount,reason,c.now,q.currency,'late-waiver:'+text(p.reference,'Unique waiver reference',150),on),sql(c,'INSERT INTO tt_late_fee_waivers(id,fee_id,amount_cents,reason,on_day,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?)',key,f!.id,amount,reason,on,c.actor.id,c.now)],command,key)
+  await commit(c,[tenancyGuard(c,t),guard(c,`(SELECT ${BALANCE}-${RESERVED} FROM tt_charges q WHERE id=?)>=?`,q.id,amount),sql(c,'INSERT INTO tt_adjustments(id,charge_id,amount_cents,reason,at,currency,reference,posting_day) VALUES(?,?,?,?,?,?,?,?)',key,q.id,amount,reason,c.now,q.currency,'late-waiver:'+text(p.reference,'Unique waiver reference',150),on),sql(c,'INSERT INTO tt_late_fee_waivers(id,fee_id,amount_cents,reason,on_day,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?)',key,f!.id,amount,reason,on,c.actor.id,c.now)],command,key)
   return{id:key,tenancyId:t.id,notice:'Reasoned late-fee waiver recorded; original fee and policy retained.'}
  }
  const report=await lateFeePreview(c,p.tenancyId,p.on)
  if(command==='latefee.preview')return{...report,lateFeePreview:report}
  insist(p.fingerprint===report.fingerprint,'review_changed','The fee calculation changed. Preview and review again.',409)
  insist(report.lines.length&&!report.lines.some(l=>l.state==='held'),'rule_hold','Resolve held calculations before posting.',409)
- const writes:D1PreparedStatement[]=[]
+ const writes:D1PreparedStatement[]=[tenancyGuard(c,{id:report.tenancyId,version:report.tenancyVersion})]
  for(const l of report.lines){
   writes.push(guard(c,`(SELECT ${BALANCE} FROM tt_charges q WHERE id=?)=?`,l.sourceChargeId,l.currentBalance),guard(c,`(SELECT ${RESERVED} FROM tt_charges q WHERE id=?)=?`,l.sourceChargeId,l.reserved))
   if(!l.feeId){

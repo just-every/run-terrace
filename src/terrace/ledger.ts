@@ -2,7 +2,7 @@ import {RESERVED} from './payments'
 // Adapted from Nectar c76a60ccffa39cc1a207b52c152bda16d6d7b1df
 // src/nectar/receivables.ts: integer cents, immutable charges and receipts,
 // with a balance guard in the same batch as every allocation or adjustment.
-import { all, cents, commit, date, guard, id, insist, allow, one, shown, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
+import {tenancyGuard, all, cents, commit, date, guard, id, insist, allow, one, shown, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
 import { dayStart, localDate, nextDay } from './zones'
 export const BALANCE = `(q.amount_cents - COALESCE((SELECT SUM(amount_cents) FROM tt_net_receipts WHERE charge_id=q.id),0) - COALESCE((SELECT SUM(amount_cents) FROM tt_adjustments WHERE charge_id=q.id),0))`
 export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|undefined> {
@@ -11,15 +11,15 @@ export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|
  const key=id()
  if(command==='rent.charge') {
   const t=await tenancy(c,p.tenancyId)
-  await commit(c,[sql(c,'INSERT INTO tt_charges(id,tenancy_id,due_date,amount_cents,description,reference,created_at,currency) VALUES(?,?,?,?,?,?,?,?)',key,t.id,date(p.dueDate,'Due date'),cents(p.amount),text(p.description,'Description',300),text(p.reference,'Unique charge reference',150),c.now,t.currency)],command,key)
+  await commit(c,[tenancyGuard(c,t),sql(c,'INSERT INTO tt_charges(id,tenancy_id,due_date,amount_cents,description,reference,created_at,currency) VALUES(?,?,?,?,?,?,?,?)',key,t.id,date(p.dueDate,'Due date'),cents(p.amount),text(p.description,'Description',300),text(p.reference,'Unique charge reference',150),c.now,t.currency)],command,key)
  } else {
   const charge=await one(c,`SELECT q.*,${BALANCE} AS balance_cents,(SELECT time_zone FROM tt_tenancies WHERE id=q.tenancy_id) AS time_zone FROM tt_charges q WHERE id=?`,text(p.chargeId,'Charge',100))
   insist(charge,'not_found','Charge not found.',404)
-  await tenancy(c,charge.tenancy_id)
+  const t=await tenancy(c,charge.tenancy_id)
   if(command==='rent.receipt')insist(!await one(c,'SELECT 1 FROM tt_payment_policies WHERE tenancy_id=?',charge.tenancy_id),'payment_policy','Use Record split payment so the reviewed lease policy and pending funds apply.',409)
   const amount=cents(p.amount)
   insist(amount<=charge.balance_cents,'exceeds_balance','Amount exceeds the unpaid charge balance.',409)
-  const writes=[guard(c,`(SELECT ${BALANCE}-${RESERVED} FROM tt_charges q WHERE id=?)>=?`,charge.id,amount)]
+  const writes=[tenancyGuard(c,t),guard(c,`(SELECT ${BALANCE}-${RESERVED} FROM tt_charges q WHERE id=?)>=?`,charge.id,amount)]
   if(command==='rent.receipt') {
    const received=date(p.receivedDate,'Received date')
    insist(received<=localDate(c.now,charge.time_zone),'future_receipt','A receipt records money already received; its date cannot be later than today at the property.')

@@ -63,3 +63,5 @@ Accessible HTML and Unicode CSV ship. Accessible PDF, delivered invoices/receipt
 ## Retention and portability
 
 SAFE-004 accounting retention/holds and subject access cover these records. Personal payer, policy, forwarding-address and cancellation references are redacted when the retention/hold fence permits, while amounts and accounting links remain. Backup/readable export preserve policy versions, source allocations, original signed lease files, approval/outcome history and check drafts. Import undo/compensation detects the new native work. Restore validates payment totals/reservations, exact approved financial revisions, original owner/fund refund limits and frozen late-fee amounts before installing any product row. Restoring records grants no source staff or portal authority and initiates no payment/send.
+
+Financial writes fence the active tenancy version as well as exact balances/reservations, so an erasure, lease amendment or settlement cannot invalidate a reviewed decision unnoticed.

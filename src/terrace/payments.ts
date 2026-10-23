@@ -1,4 +1,4 @@
-import {all,allow,can,cents,commit,date,guard,id,insist,one,shown,sql,tenancy,text,type Context,type Row} from './core'
+import {tenancyGuard,all,allow,can,cents,commit,date,guard,id,insist,one,shown,sql,tenancy,text,type Context,type Row} from './core'
 import {BALANCE} from './ledger'
 import {localDate} from './zones'
 import {rulePreview} from './rule-packs'
@@ -33,7 +33,7 @@ export async function paymentCommand(c:Context,command:string,p:Row):Promise<Row
   for(const q of terms.priority)insist(await one(c,'SELECT 1 FROM tt_charges WHERE id=? AND tenancy_id=?',q,t.id),'not_found','Priority charge not found.',404)
   const old=await one(c,'SELECT MAX(version) AS version FROM tt_payment_policies WHERE tenancy_id=?',t.id),version=(old?.version??0)+1,key=id()
   insist(Number(p.version)===version-1,'conflict','Review the current policy revision.',409)
-  await commit(c,[guard(c,'COALESCE((SELECT MAX(version) FROM tt_payment_policies WHERE tenancy_id=?),0)=?',t.id,version-1),sql(c,'INSERT INTO tt_payment_policies(id,tenancy_id,version,terms,reference,created_by,created_at) VALUES(?,?,?,?,?,?,?)',key,t.id,version,JSON.stringify({stages:terms.stages,priority:terms.priority}),text(p.reference,'Approved lease policy reference',500),c.actor.id,c.now)],command,key)
+  await commit(c,[tenancyGuard(c,t),guard(c,'COALESCE((SELECT MAX(version) FROM tt_payment_policies WHERE tenancy_id=?),0)=?',t.id,version-1),sql(c,'INSERT INTO tt_payment_policies(id,tenancy_id,version,terms,reference,created_by,created_at) VALUES(?,?,?,?,?,?,?)',key,t.id,version,JSON.stringify({stages:terms.stages,priority:terms.priority}),text(p.reference,'Approved lease policy reference',500),c.actor.id,c.now)],command,key)
   return{id:key,tenancyId:t.id,version,notice:'Lease payment policy recorded. Every payment also requires active reviewed property rules.'}
  }
  if(command==='payment.record'){
@@ -58,7 +58,7 @@ export async function paymentCommand(c:Context,command:string,p:Row):Promise<Row
   insist(qs.filter(q=>q.balance_cents>q.reserved_cents).every(q=>terms.priority.includes(q.id)),'payment_priority','Review charge priority to include every unpaid charge.',409)
   let payer=t.tenant_name,payerId:string|null=null,payerSource:Row|null=null
   insist(['resident','co_tenant','housing_authority'].includes(p.payerKind),'payer','Choose a resident, co-tenant or housing authority.')
-  const writes:D1PreparedStatement[]=[]
+  const writes:D1PreparedStatement[]=[tenancyGuard(c,t)]
   if(p.payerKind==='co_tenant'){
    const m=await one(c,"SELECT * FROM tt_household_members WHERE id=? AND tenancy_id=? AND role='co_tenant' AND joined<=? AND (left_on IS NULL OR left_on>=?)",text(p.payerId,'Co-tenant',100),t.id,day,day)
    insist(m,'not_found','Co-tenant not found for this lease and payment day.',404);payer=m.name;payerId=m.id;payerSource={memberId:m.id,version:m.version}
@@ -76,7 +76,7 @@ export async function paymentCommand(c:Context,command:string,p:Row):Promise<Row
   const snapshot={payerSource,policyVersion:policy.version,leaseStage:lease,daysPastDue:overdue,packs:rule.packs,allocationOrder:terms.priority,availableCents:available,allowPartial:rules.every(r=>r.allowPartial),overpayment:rules.every(r=>r.overpayment==='credit')?'credit':'reject'}
   writes.push(guard(c,'(SELECT id FROM tt_payment_policies WHERE tenancy_id=? ORDER BY version DESC LIMIT 1)=?',t.id,policy.id))
   // Fence the whole balance, including competing reservations and manual corrections, in the write transaction.
-  for(const q of qs)writes.push(guard(c,`(SELECT ${BALANCE}-${RESERVED} FROM tt_charges q WHERE id=?)=?`,q.id,q.balance_cents-q.reserved_cents))
+  for(const q of qs)writes.push(guard(c,`(SELECT ${BALANCE} FROM tt_charges q WHERE id=?)=?`,q.id,q.balance_cents),guard(c,`(SELECT ${RESERVED} FROM tt_charges q WHERE id=?)=?`,q.id,q.reserved_cents))
   writes.push(guard(c,'(SELECT COUNT(*) FROM tt_charges WHERE tenancy_id=?)=?',t.id,qs.length))
   const jurisdiction=await one(c,'SELECT version FROM tt_property_rules WHERE property_id=?',property.property_id)
   writes.push(guard(c,'(SELECT version FROM tt_property_rules WHERE property_id=?)=?',property.property_id,jurisdiction!.version))
@@ -92,7 +92,7 @@ export async function paymentCommand(c:Context,command:string,p:Row):Promise<Row
  insist(payment.state==='pending'&&Number(p.version)===payment.version,'payment_state','Only the reviewed pending payment can transition once.',409)
  insist(day>=payment.received_date&&day<=localDate(c.now,t.time_zone),'invalid_date','Outcome date is between initiation and property-local today.')
  const allocations=await all(c,'SELECT charge_id AS chargeId,amount_cents AS amountCents,receipt_id AS receiptId FROM tt_payment_allocations WHERE payment_id=?',payment.id)
- const writes=[guard(c,"EXISTS(SELECT 1 FROM tt_payments WHERE id=? AND state='pending' AND version=?)",payment.id,payment.version),sql(c,'UPDATE tt_payments SET state=?,version=version+1 WHERE id=?',state,payment.id)]
+ const writes=[tenancyGuard(c,t),guard(c,"EXISTS(SELECT 1 FROM tt_payments WHERE id=? AND state='pending' AND version=?)",payment.id,payment.version),sql(c,'UPDATE tt_payments SET state=?,version=version+1 WHERE id=?',state,payment.id)]
  if(state==='settled')for(const a of allocations)writes.push(receipt(c,payment,a,day,t.currency))
  writes.push(event(c,payment.id,state,text(p.reference,'External outcome reference',500),day))
  await commit(c,writes,command,payment.id)

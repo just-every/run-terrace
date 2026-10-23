@@ -1,4 +1,4 @@
-import {all,allow,can,cents,commit,date,guard,id,insist,one,sha256,shown,sql,tenancy,text,type Context,type Row} from './core'
+import {tenancyGuard,all,allow,can,cents,commit,date,guard,id,insist,one,sha256,shown,sql,tenancy,text,type Context,type Row} from './core'
 import {BALANCE} from './ledger'
 import {RESERVED} from './payments'
 import {independence} from './dual-control'
@@ -30,7 +30,7 @@ async function input(c:Context,p:Row,kind:string){
 const AVAILABLE=`r.amount_cents-CASE WHEN EXISTS(SELECT 1 FROM tt_receipt_reversals WHERE receipt_id=r.id) THEN r.amount_cents ELSE 0 END-COALESCE((SELECT SUM(amount_cents) FROM tt_financial_recordings WHERE receipt_id=r.id),0)-COALESCE((SELECT SUM(json_extract(v.payload,'$.amountCents')) FROM tt_financial_actions a JOIN tt_financial_revisions v ON v.action_id=a.id AND v.version=a.version WHERE a.state='approved' AND a.kind='refund' AND json_extract(v.payload,'$.receiptId')=r.id AND a.id<>?),0)`
 async function source(c:Context,p:Row,exclude=''){
  const q=await one(c,`SELECT q.*,${BALANCE} AS balance_cents,${RESERVED} AS reserved_cents,u.property_id FROM tt_charges q JOIN tt_tenancies t ON t.id=q.tenancy_id LEFT JOIN tt_units u ON u.id=t.unit_id WHERE q.id=?`,p.chargeId);insist(q,'not_found','Source charge not found.',404)
- await tenancy(c,q.tenancy_id)
+ const t=await tenancy(c,q.tenancy_id)
  const receipt=p.receiptId?await one(c,`SELECT r.*,${AVAILABLE} AS available,r.amount_cents-COALESCE((SELECT SUM(amount_cents) FROM tt_financial_recordings WHERE receipt_id=r.id),0) AS unrefunded FROM tt_receipts r WHERE r.id=?`,exclude,p.receiptId):null
  const available=receipt?receipt.available:q.balance_cents-q.reserved_cents
  insist(p.amountCents<=available,'excessive_financial_action','The action exceeds the available original receipt or unreserved unpaid charge.',409)
@@ -54,8 +54,8 @@ async function source(c:Context,p:Row,exclude=''){
   const delta={cash:p.kind==='refund'?-s.cents:0,receivable:p.kind==='refund'?s.cents:-s.cents,income:p.kind==='refund'||q.tax_rule_id?0:-s.cents}
   effects.push({ownerId:s.ownerId,amountCents:s.cents,before:balances,delta,after:{cash:balances!.cash+delta.cash,receivable:balances!.receivable+delta.receivable,income:balances!.income+delta.income}})
  }
- const snapshot={tenancyId:q.tenancy_id,chargeId:q.id,chargeCents:q.amount_cents,balanceCents:q.balance_cents,reservedCents:q.reserved_cents,availableCents:available,receiptId:receipt?.id??null,receiptCents:receipt?.amount_cents??null,receiptUnrefundedCents:receipt?.unrefunded??null,receiptMethod:receipt?.method??null,propertyId:q.property_id??null,ownershipSetId:setId,residentBeforeCents:q.balance_cents,residentAfterCents:q.balance_cents+(p.kind==='refund'?p.amountCents:-p.amountCents),ownerEffects:effects}
- const guards=[guard(c,`(SELECT ${BALANCE}-${RESERVED} FROM tt_charges q WHERE id=?)=?`,q.id,q.balance_cents-q.reserved_cents)]
+ const snapshot={tenancyId:q.tenancy_id,tenancyVersion:t.version,chargeId:q.id,chargeCents:q.amount_cents,balanceCents:q.balance_cents,reservedCents:q.reserved_cents,availableCents:available,receiptId:receipt?.id??null,receiptCents:receipt?.amount_cents??null,receiptUnrefundedCents:receipt?.unrefunded??null,receiptMethod:receipt?.method??null,propertyId:q.property_id??null,ownershipSetId:setId,residentBeforeCents:q.balance_cents,residentAfterCents:q.balance_cents+(p.kind==='refund'?p.amountCents:-p.amountCents),ownerEffects:effects}
+ const guards=[tenancyGuard(c,t),guard(c,`(SELECT ${BALANCE} FROM tt_charges q WHERE id=?)=?`,q.id,q.balance_cents),guard(c,`(SELECT ${RESERVED} FROM tt_charges q WHERE id=?)=?`,q.id,q.reserved_cents)]
  if(receipt)guards.push(guard(c,`(SELECT ${AVAILABLE} FROM tt_receipts r WHERE r.id=?)=?`,exclude,receipt.id,available),guard(c,'(SELECT r.amount_cents-COALESCE((SELECT SUM(amount_cents) FROM tt_financial_recordings WHERE receipt_id=r.id),0) FROM tt_receipts r WHERE r.id=?)=?',receipt.id,receipt.unrefunded))
  else guards.push(guard(c,'(SELECT id FROM tt_ownership_sets WHERE property_id=? AND effective_from<=? ORDER BY effective_from DESC LIMIT 1) IS ?',q.property_id,p.on,setId))
  for(const s of effects)for(const [account,value]of [['cash',s.before.cash],['receivable',s.before.receivable],['lease_income',-s.before.income]])guards.push(guard(c,`(SELECT COALESCE(SUM(l.debit_cents-l.credit_cents),0) FROM tt_journal j JOIN tt_journal_lines l ON l.id=j.id WHERE j.property_id IS ? AND j.owner_key=? AND j.fund='operating' AND l.account=?)=?`,q.property_id,s.ownerId,account,value))
@@ -77,7 +77,7 @@ export async function financialCommand(c:Context,command:string,p:Row):Promise<R
   if(old)insist(Number(p.version)===old.version,'conflict','Review the current revision.',409)
   const {t,payload}=await input(c,p,old?.kind??p.kind);insist(!old||old.tenancy_id===t.id,'source_lease','A revised source must belong to the same tenancy.',409)
   const key=old?.id??id(),version=(old?.version??0)+1,current=await source(c,payload,key),fingerprint=await hash({payload,source:current.snapshot})
-  const writes=[...current.guards]
+  const writes=[tenancyGuard(c,t),...current.guards]
   if(old)writes.push(guard(c,"EXISTS(SELECT 1 FROM tt_financial_actions WHERE id=? AND version=? AND state<>'recorded')",key,old.version),sql(c,"UPDATE tt_financial_actions SET version=?,state='pending',revised_by=? WHERE id=?",version,c.actor.id,key))
   else writes.push(sql(c,"INSERT INTO tt_financial_actions(id,tenancy_id,kind,version,state,prepared_by,revised_by,created_at) VALUES(?,?,?,?,'pending',?,?,?)",key,t.id,payload.kind,version,c.actor.id,c.actor.id,c.now))
   writes.push(sql(c,'INSERT INTO tt_financial_revisions(action_id,version,payload,source_snapshot,fingerprint,prepared_by,prepared_at) VALUES(?,?,?,?,?,?,?)',key,version,JSON.stringify(payload),JSON.stringify(current.snapshot),fingerprint,c.actor.id,c.now))
@@ -92,8 +92,8 @@ export async function financialCommand(c:Context,command:string,p:Row):Promise<R
  if(command==='finance.cancel'){
   if(a.state==='cancelled')return{id:a.id,tenancyId:a.tenancy_id,replayed:true,notice:'This action was already cancelled; no reservation remains.'}
   insist(a.state!=='recorded','financial_state','A recorded financial action cannot be cancelled; prepare a correction.',409)
-  const reason=text(p.reason,'Cancellation reason',1000)
-  await commit(c,[guard(c,"EXISTS(SELECT 1 FROM tt_financial_actions WHERE id=? AND version=? AND state IN ('pending','approved'))",a.id,a.version),sql(c,'INSERT INTO tt_financial_cancellations(action_id,version,reason,cancelled_by,cancelled_at) VALUES(?,?,?,?,?)',a.id,a.version,reason,c.actor.id,c.now),sql(c,"UPDATE tt_financial_actions SET state='pending' WHERE id=?",a.id)],command,a.id)
+  const reason=text(p.reason,'Cancellation reason',1000),t=await tenancy(c,a.tenancy_id)
+  await commit(c,[tenancyGuard(c,t),guard(c,"EXISTS(SELECT 1 FROM tt_financial_actions WHERE id=? AND version=? AND state IN ('pending','approved'))",a.id,a.version),sql(c,'INSERT INTO tt_financial_cancellations(action_id,version,reason,cancelled_by,cancelled_at) VALUES(?,?,?,?,?)',a.id,a.version,reason,c.actor.id,c.now),sql(c,"UPDATE tt_financial_actions SET state='pending' WHERE id=?",a.id)],command,a.id)
   return{id:a.id,tenancyId:a.tenancy_id,notice:'Unexecuted financial action cancelled; source reservation released. History retained.'}
  }
  insist(a.state!=='cancelled','financial_state','A cancelled action cannot execute or be reapproved. Prepare a new action.',409)
