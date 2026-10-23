@@ -40,6 +40,16 @@ export async function readableExport(c: Context) {
   }))))]
   files.push([`tables/${table.name}.csv`, csv(lines as (string | number)[][])])
  }
+ // Chunked media are also exported as one usable original per immutable version.
+ for(const row of rows.get('tt_record_media')??[]) if(row.state==='ready') {
+  const chunks=(rows.get('tt_record_media_chunks')??[]).filter(p=>p.media_id===row.id).sort((a,b)=>Number(a.position)-Number(b.position))
+  const data=new Uint8Array(Number(row.size));let at=0
+  for(const chunk of chunks){const b=bytes((chunk.bytes as {blob:string}).blob);data.set(b,at);at+=b.length}
+  const digest=await sha256(data)
+  if(at!==data.length||digest!==row.sha256)throw Error('A chunked original failed its export checksum.')
+  const path=`files/tt_record_media/${row.id}.${EXT[String(row.media_type)]??'bin'}`
+  files.push([path,data]);inventory.push({path,table:'tt_record_media',id:row.id,attachmentId:row.attachment_id,version:row.version,size:data.length,sha256:digest})
+ }
  const summary = { format: 'terrace-readable-export', version: 1, exportedAt: manifest.exportedAt, sourceIdentity: manifest.sourceIdentity, archiveContentHash: closing.contentHash, tables: manifest.tables.map(t => ({ name: t.name, rows: t.count, columns: t.columns.map(col => col.name), file: `tables/${t.name}.csv` })), files: inventory, excludedTables: manifest.excludedTables, excludedColumns: manifest.excludedColumns, reconnect: RECONNECT }
  const readme = `# Terrace readable export\n\nExported ${manifest.exportedAt}. This is a readable copy of the same records as your Terrace backup (.rer), which is the file to restore from.\n\n- tables/<table>.csv: one CSV per table (RFC 4180, UTF-8, header row). Money columns ending _cents are whole cents in the row's currency column; dates are ISO 8601 (YYYY-MM-DD); timestamps are UTC.\n- files/: every stored file as its original bytes. The CSV cell that held it reads file:<path> sha256:<hex>.\n- manifest.json: tables, row counts, columns, file checksums, and tables or columns left out (secrets and platform bookkeeping).\n\n## Reconnect after a restore\n\n${RECONNECT.map(x => `- ${x}`).join('\n')}\n`
  files.unshift(['README.md', readme], ['manifest.json', JSON.stringify(summary, null, 1)])
