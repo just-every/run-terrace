@@ -1,3 +1,4 @@
+import {externalFundsAsOf} from './payments'
 import { all, allow, can, commit, date, guard, id, insist, one, reaches, reachesPortfolio, sql, tenancy, text, type Context, type Row } from './core'
 import { ageReceivables } from './delinquency-math'
 import { ownershipData, sharesOn } from './owners'
@@ -72,7 +73,7 @@ export async function delinquencyReport(c: Context, q: Row) {
  for (const t of selected) insist(asOf <= localDate(c.now, t.property_zone ?? t.time_zone), 'invalid_as_of', 'As of cannot be after tenancy-local today.')
  if (!selectedProperties.length && !selected.length) insist(asOf <= localDate(c.now, c.zone ?? 'America/New_York'), 'invalid_as_of', 'As of cannot be after today.')
  const gaps: Row[] = [
-  { code: 'pending_payments_not_recorded', message: 'Pending payments are not recorded (PAY-008); no zero or settlement status is inferred.' },
+  { code: 'pending_payments_not_recorded', message: 'Processor pending payments are not recorded (PAY-008). PAY-005 external pending records are shown separately and never prove settlement.' },
   { code: 'returned_ach_not_recorded', message: 'Returned ACH and attempted collection outcomes are not recorded (PAY-008).' },
   { code: 'payment_plans_not_recorded', message: 'Payment plans and broken promises are not recorded (PAY-011).' },
   { code: 'subsidy_share_not_recorded', message: 'Tenant and housing-authority arrears are not split (PAY-013); this is the recorded household balance.' },
@@ -94,10 +95,11 @@ export async function delinquencyReport(c: Context, q: Row) {
   const assignment = historical ? { assignedTo: person?.id ?? null, name: person?.name ?? null, previousAssignedTo: person ? null : historical.assigned_to, status: person ? 'assigned' : 'unassigned', reason: person ? null : 'assignee_not_eligible', version: historical.version, assignedAt: historical.assigned_at, reference: historical.reference } : null
   if (!person) gaps.push({ code: historical ? 'assignee_not_eligible' : 'followup_unassigned', tenancyId: t.id, message: 'Assign an active follow-up owner with current portfolio authority.' })
   const nextAction = !person ? 'assign follow-up owner' : approvedDraft ? 'review and send externally; Terrace has not sent it' : 'prepare and review an arrears proposal'
+  const external=await externalFundsAsOf(c,t.id,asOf)
   return { tenancyId: t.id, unitId: t.unit_id, propertyId: t.property_id ?? null, property: t.property_name ?? t.address, unit: t.unit ?? '', resident: t.tenant_name,
    ...aging, household, ownership: ownershipRows, approvedDraft, assignment, assignmentVersion: current?.version ?? 0,
    assignees: operational(c) && can(c, 'arrears.prepare') ? assignees : [], nextAction,
-   pendingFunds: 'not recorded', returnedAch: 'not recorded', paymentPlan: 'not recorded', subsidyShare: 'not recorded', collectionOutcome: 'not recorded' }
+   pendingFunds: 'Processor pending payments not recorded; manual external funds shown separately',pendingExternalCents:external.pendingCents,pendingExternalPayments:external.pending, returnedAch: 'not recorded', paymentPlan: 'not recorded', subsidyShare: 'not recorded', collectionOutcome: 'not recorded' }
  }))
  const totals = [...new Set(rows.map(r => r.currency))].map(currency => {
   const mine = rows.filter(r => r.currency === currency)
@@ -116,11 +118,11 @@ export async function delinquencyReport(c: Context, q: Row) {
  return { asOf, snapshotAt: c.now, filters: { propertyId, tenancyId, ownerId }, rows, totals, properties,
   owners: [...ownersMap.values()].sort((a, b) => a.name.localeCompare(b.name)), gaps,
   formulas: {
-   aging: 'Due charges through As of, less external receipts received through that local day and reductions recorded through that local day. Current = due today; past due = 1–30, 31–60, 61–90 and over 90 elapsed calendar days. Future charges and their allocations are excluded.',
+   aging: 'Due charges through As of, less external receipts received through that local day and reductions dated by their explicit approved posting day, or property-local recorded day when absent. Current = due today; past due = 1–30, 31–60, 61–90 and over 90 elapsed calendar days. Future charges and their allocations are excluded.',
    ownership: 'The owner filter matches the ownership set effective on As of. Each household balance is counted once in full; amounts are not allocated by ownership percentage. Missing ownership is unknown, never inferred from tenancy contact names.',
    household: 'One receivable balance per tenancy, shared by its household. Membership uses inclusive joining/leaving dates. Roles identify liability; no balance is multiplied by member count.',
    followup: 'Approved arrears drafts and assignment events are dated through As of. Assignee eligibility is checked against live active role and portfolio scope; assignment changes no financial or sending authority.',
-  }, boundary: 'Effective-date reconstruction from records known now, not a snapshot of what was known then. Currencies remain separate, including currency unconfirmed. Recorded external receipts are not proof of bank settlement. Pending payments, returns, plans, promises, subsidy splits and collection outcomes are not recorded; none is inferred zero, resolved or collected. This report exposes no screening records.' }
+  }, boundary: 'Effective-date reconstruction from records known now, not a snapshot of what was known then. Currencies remain separate, including currency unconfirmed. Recorded external receipts are not proof of bank settlement. Manually recorded external pending funds are shown separately without reducing receivables. Processor pending payments, returns, plans, promises, subsidy splits and collection outcomes are not recorded; none is inferred zero, resolved or collected. This report exposes no screening records.' }
 }
 
 export function delinquencyTable(r: Awaited<ReturnType<typeof delinquencyReport>>): (string | number)[][] {
@@ -131,6 +133,7 @@ export function delinquencyTable(r: Awaited<ReturnType<typeof delinquencyReport>
   ...r.totals.map(t => ['Total', t.currency, 'Households', t.households, 'Current', amount(t.buckets.current), '1–30', amount(t.buckets.days1to30), '31–60', amount(t.buckets.days31to60), '61–90', amount(t.buckets.days61to90), 'Over 90', amount(t.buckets.over90), 'Balance', amount(t.balanceCents), 'Overdue', amount(t.overdueCents)]),
   ['Dated charge sources'], ['Tenancy', 'Charge', 'Due', 'Age', 'Currency', 'Billed', 'External receipts', 'Reductions', 'Outstanding', 'Receipt references', 'Reduction sources'],
   ...r.rows.flatMap(x => x.charges.map(q => [x.tenancyId, q.chargeId, q.dueDate, q.ageDays, q.currency, amount(q.billedCents), amount(q.receiptsCents), amount(q.reductionsCents), amount(q.outstandingCents), q.receipts.map(p => `${p.id} ${p.date} ${p.reference}`).join('; '), q.reductions.map(a => `${a.id} ${a.date} ${a.reason}`).join('; ')])),
+  ['Manually recorded pending payment sources (not deducted)'],['Tenancy','Payment','Initiated','Method','Pending amount'],...r.rows.flatMap(x=>x.pendingExternalPayments.map(p=>[x.tenancyId,p.id,p.initiatedOn,p.method,amount(p.amountCents)])),
   ['Dated ownership sources', 'Full household amounts; not share allocated'],
   ...r.rows.flatMap(x => x.ownership.map((o: Row) => [x.tenancyId, o.ownerId, o.name, o.basisPoints, o.setId, o.effectiveFrom, o.reference])),
   ['Household membership sources'],

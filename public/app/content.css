@@ -42,3 +42,5 @@ details.panel>summary{font:700 20px/1.2 var(--rer-font-heading);letter-spacing:-
 pre{overflow:auto;font:400 13px/1.7 var(--rer-font-mono);background:var(--card-inset);padding:16px;border-radius:10px;max-height:420px}
 code{font:400 12.5px/1.5 var(--rer-font-mono);overflow-wrap:anywhere}.preserve-lines{white-space:pre-wrap}
 @media(max-width:860px){section,article,.panel{padding:18px;border-radius:14px}.grid,.empty-layout{grid-template-columns:1fr;gap:16px}.empty-state{min-height:300px}.empty-state h2{font-size:32px}.empty-steps{grid-template-columns:1fr;gap:10px}.empty-steps li{flex-direction:row;text-align:left}.photo{height:110px}.photo-list>li{flex-basis:120px}}
+
+.financial-effects{min-width:44rem}.financial-effects th,.financial-effects td{white-space:nowrap}.financial-effects td:nth-child(n+2){font-variant-numeric:tabular-nums}

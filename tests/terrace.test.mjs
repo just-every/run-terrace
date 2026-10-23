@@ -1,3 +1,7 @@
+import {journey as residentStatementJourney} from './resident-statements.mjs'
+import {journey as financialJourney} from './financial-actions.mjs'
+import {journey as lateFeeJourney} from './late-fees.mjs'
+import {journey as paymentJourney} from './payments.mjs'
 import {journey as trustJourney} from './trust.mjs'
 import {journey as rulePackJourney} from './rule-packs.mjs'
 import {journey as journalJourney} from './journal.mjs'
@@ -866,3 +870,11 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
 test('ROLE-002: residents, delegated contacts, joint owners and vendors see only the record a live grant names; ownership dates, assignments and revocation apply at once; document doors refuse them',()=>portalJourney())
 test('PORT-007: versioned documents are found by unit and content, restricted records and other portfolios return 404, uploads are checked, downloads recorded, backup and readable export keep the originals',()=>documentJourney())
 test('ACCT-002 designated bank custody preserves beneficiary funds through approved transfers',async()=>{await trustJourney()})
+
+test('PAY-005: reviewed lease stages reserve concurrent co-tenant payments, allocate settlement once, separate credit and block partial or excess funds',paymentJourney)
+
+test('PAY-006: reviewed state caps, weekend and holiday grace, timely pending settlement and reasoned waivers retain original calculations',lateFeeJourney)
+
+test('PAY-009: exact independent approvals refuse changed refund sources, record one external refund with original owner effects and retain reasoned corrections and forwarding check drafts',financialJourney)
+
+test('PAY-010: monthly resident statements reconcile recorded payments, pending funds and separate credit, with scoped transaction inspection and no delivery claim',residentStatementJourney)

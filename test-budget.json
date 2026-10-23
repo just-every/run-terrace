@@ -1,6 +1,6 @@
 {
   "cap": 200,
-  "productIntegrationTests": 17,
+  "productIntegrationTests": 21,
   "emittedWorkerChecks": 7,
-  "rationale": "Public HTTP journeys over real D1 and migrations, including demo isolation and no-egress; emitted and hosted Worker journeys. No copied Base unit suites. REPORT-005 adds a public-door custom-report journey and a nightly native browser journey. SAFE-007 adds a release/nightly real CLI installation and reviewed-upgrade journey; OPEN-001 adds the public npm command journey. PORT-007 and ROLE-002 each add one public-door journey (documents, portal) and share one nightly native browser journey."
+  "rationale": "Public HTTP journeys over real D1 and migrations, including demo isolation and no-egress; emitted and hosted Worker journeys. No copied Base unit suites. REPORT-005 adds a public-door custom-report journey and a nightly native browser journey. SAFE-007 adds a release/nightly real CLI installation and reviewed-upgrade journey; OPEN-001 adds the public npm command journey. PORT-007 and ROLE-002 each add one public-door journey (documents, portal) and share one nightly native browser journey. PAY-005 adds one public-door split-payment journey and a nightly native ledger browser journey. PAY-006 adds one public-door late-fee policy/schedule journey and its nightly native browser journey. PAY-009 adds one public-door financial-approval/refund-record journey and its nightly native browser journey. PAY-010 adds one public-door monthly-statement/privacy journey and its nightly native browser journey."
 }

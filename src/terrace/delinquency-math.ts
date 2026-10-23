@@ -35,14 +35,21 @@ export function ageReceivables(tenancy: Row, charges: Row[], receipts: Row[], ad
  const ids = new Set(mine.map(q => q.id)), paid = receipts.filter(r => ids.has(r.charge_id)), reduced = adjustments.filter(a => ids.has(a.charge_id))
  unique(paid); unique(reduced)
  // Validate stored currencies, including allocations outside the requested date window.
- for (const row of [...mine, ...paid, ...reduced]) {
+ for (const row of [...mine, ...reduced]) {
   insist(row.currency === tenancy.currency, 'currency_mismatch', 'A receivable record has a different stored currency from its tenancy.')
   amount(row.amount_cents)
+ }
+ for(const r of paid){
+  insist(r.currency===tenancy.currency,'currency_mismatch','A receivable record has a different stored currency from its tenancy.')
+  if(!r.reversal_of){amount(r.amount_cents);continue}
+  amount(-r.amount_cents)
+  const original=paid.find(x=>x.id===r.reversal_of&&!x.reversal_of&&x.charge_id===r.charge_id)
+  insist(original&&r.received_date>=original.received_date&&-sum(paid.filter(x=>x.reversal_of===original.id).map(x=>x.amount_cents))<=original.amount_cents,'invalid_receivable','Refunds/reversals must match the original receipt and cannot exceed it.')
  }
  const receiptRows = paid.map(r => ({ chargeId: r.charge_id, id: r.id, date: date(r.received_date, 'Received date'), cents: r.amount_cents as number, reference: r.reference }))
  const reductionRows = reduced.map(a => {
   insist(typeof a.at === 'string' && Number.isFinite(Date.parse(a.at)) && /(?:Z|[+-]\d{2}:\d{2})$/.test(a.at), 'invalid_receivable', 'A reduction needs a recorded instant with a time zone.')
-  return { chargeId: a.charge_id, id: a.id, date: localDate(a.at, tenancy.time_zone), cents: a.amount_cents as number, reason: a.reason }
+  return { chargeId: a.charge_id, id: a.id, date: a.posting_day?date(a.posting_day,'Reduction posting day'):localDate(a.at, tenancy.time_zone), cents: a.amount_cents as number, reason: a.reason }
  })
  const lines = mine.map(q => ({ row: q, dueDate: date(q.due_date, 'Due date') })).filter(q => q.dueDate <= asOf).map(({ row: q, dueDate }) => {
   const chargeReceipts = receiptRows.filter(r => r.chargeId === q.id && r.date <= asOf).map(({ chargeId: _, ...r }) => r)

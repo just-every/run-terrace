@@ -1,7 +1,8 @@
+import {RESERVED} from './payments'
 // Adapted from Nectar c76a60ccffa39cc1a207b52c152bda16d6d7b1df
 // src/nectar/receivables.ts: integer cents, immutable charges and receipts,
 // with a balance guard in the same batch as every allocation or adjustment.
-import { all, cents, commit, date, guard, id, insist, allow, one, shown, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
+import {tenancyGuard, all, cents, commit, date, guard, id, insist, allow, one, shown, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
 import { dayStart, localDate, nextDay } from './zones'
 export const BALANCE = `(q.amount_cents - COALESCE((SELECT SUM(amount_cents) FROM tt_net_receipts WHERE charge_id=q.id),0) - COALESCE((SELECT SUM(amount_cents) FROM tt_adjustments WHERE charge_id=q.id),0))`
 export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|undefined> {
@@ -10,14 +11,15 @@ export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|
  const key=id()
  if(command==='rent.charge') {
   const t=await tenancy(c,p.tenancyId)
-  await commit(c,[sql(c,'INSERT INTO tt_charges(id,tenancy_id,due_date,amount_cents,description,reference,created_at,currency) VALUES(?,?,?,?,?,?,?,?)',key,t.id,date(p.dueDate,'Due date'),cents(p.amount),text(p.description,'Description',300),text(p.reference,'Unique charge reference',150),c.now,t.currency)],command,key)
+  await commit(c,[tenancyGuard(c,t),sql(c,'INSERT INTO tt_charges(id,tenancy_id,due_date,amount_cents,description,reference,created_at,currency) VALUES(?,?,?,?,?,?,?,?)',key,t.id,date(p.dueDate,'Due date'),cents(p.amount),text(p.description,'Description',300),text(p.reference,'Unique charge reference',150),c.now,t.currency)],command,key)
  } else {
   const charge=await one(c,`SELECT q.*,${BALANCE} AS balance_cents,(SELECT time_zone FROM tt_tenancies WHERE id=q.tenancy_id) AS time_zone FROM tt_charges q WHERE id=?`,text(p.chargeId,'Charge',100))
   insist(charge,'not_found','Charge not found.',404)
-  await tenancy(c,charge.tenancy_id)
+  const t=await tenancy(c,charge.tenancy_id)
+  if(command==='rent.receipt')insist(!await one(c,'SELECT 1 FROM tt_payment_policies WHERE tenancy_id=?',charge.tenancy_id),'payment_policy','Use Record split payment so the reviewed lease policy and pending funds apply.',409)
   const amount=cents(p.amount)
   insist(amount<=charge.balance_cents,'exceeds_balance','Amount exceeds the unpaid charge balance.',409)
-  const writes=[guard(c,`(SELECT ${BALANCE} FROM tt_charges q WHERE id=?)>=?`,charge.id,amount)]
+  const writes=[tenancyGuard(c,t),guard(c,`(SELECT ${BALANCE}-${RESERVED} FROM tt_charges q WHERE id=?)>=?`,charge.id,amount)]
   if(command==='rent.receipt') {
    const received=date(p.receivedDate,'Received date')
    insist(received<=localDate(c.now,charge.time_zone),'future_receipt','A receipt records money already received; its date cannot be later than today at the property.')
@@ -33,7 +35,7 @@ export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|
 // PORT-001: amounts are in the tenancy's currency; "today" is the property-local day.
 export async function ledgerData(c:Context,tenancyId:string) {
  const t=await tenancy(c,tenancyId),today=localDate(c.now,t.time_zone)
- const charges=await all(c,`SELECT q.*,lt.source_clause,lt.lease_version_id,${BALANCE} AS balance_cents FROM tt_charges q LEFT JOIN tt_lease_terms lt ON lt.id=q.term_id WHERE q.tenancy_id=? ORDER BY due_date,created_at`,tenancyId)
+ const charges=await all(c,`SELECT q.*,${RESERVED} AS reserved_cents,lt.source_clause,lt.lease_version_id,${BALANCE} AS balance_cents FROM tt_charges q LEFT JOIN tt_lease_terms lt ON lt.id=q.term_id WHERE q.tenancy_id=? ORDER BY due_date,created_at`,tenancyId)
  const receipts=await all(c,'SELECT r.* FROM tt_net_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=? ORDER BY received_date,created_at',tenancyId)
  const adjustments=await all(c,'SELECT a.* FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id WHERE q.tenancy_id=? ORDER BY at',tenancyId)
  return {currency:shown(t),timeZone:t.time_zone as string,today,charges,receipts,adjustments,balanceCents:charges.reduce((s,r)=>s+r.balance_cents,0),arrearsCents:charges.filter(q=>q.due_date<today).reduce((s,r)=>s+r.balance_cents,0)}
@@ -43,7 +45,7 @@ export async function statement(c:Context,tenancyId:string,from:string,to:string
  allow(c,'reports.read')
  const t=await tenancy(c,tenancyId); from=date(from,'Period start');to=date(to,'Period end');insist(to>=from,'period','Period end must follow its start.')
  const ledger=await ledgerData(c,t.id)
- const events=[...ledger.charges.map(x=>({date:x.due_date,kind:'Charge',reference:x.reference,chargeCents:x.amount_cents,receiptCents:0,adjustmentCents:0})),...ledger.receipts.map(x=>({date:x.received_date,kind:'Recorded external receipt',reference:x.reference,chargeCents:0,receiptCents:x.amount_cents,adjustmentCents:0})),...ledger.adjustments.map(x=>({date:localDate(x.at,t.time_zone),kind:'Charge reduction',reference:x.reason,chargeCents:0,receiptCents:0,adjustmentCents:x.amount_cents}))].sort((a,b)=>a.date.localeCompare(b.date))
+ const events=[...ledger.charges.map(x=>({date:x.due_date,kind:'Charge',reference:x.reference,chargeCents:x.amount_cents,receiptCents:0,adjustmentCents:0})),...ledger.receipts.map(x=>({date:x.received_date,kind:'Recorded external receipt',reference:x.reference,chargeCents:0,receiptCents:x.amount_cents,adjustmentCents:0})),...ledger.adjustments.map(x=>({date:x.posting_day??localDate(x.at,t.time_zone),kind:'Charge reduction',reference:x.reason,chargeCents:0,receiptCents:0,adjustmentCents:x.amount_cents}))].sort((a,b)=>a.date.localeCompare(b.date))
  const delta=(x:typeof events[number])=>x.chargeCents-x.receiptCents-x.adjustmentCents
  const opening=events.filter(x=>x.date<from).reduce((s,x)=>s+delta(x),0),period=events.filter(x=>x.date>=from&&x.date<=to),closing=opening+period.reduce((s,x)=>s+delta(x),0)
  // The inclusive period is property-local: it starts at the start of `from` and ends before the start of the day after `to`, each with that day's UTC offset.

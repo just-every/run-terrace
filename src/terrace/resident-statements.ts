@@ -1,0 +1,36 @@
+import {escape as e,insist,money,tenancy,text,type Context,type Row} from './core'
+import {ledgerData} from './ledger'
+import {externalFundsAsOf} from './payments'
+import {localDate} from './zones'
+import {shell} from './portal-view'
+import {csv} from './exports'
+async function events(c:Context,grant:Row){
+ insist(grant.access==='resident','not_found','Not found.',404)
+ const t=await tenancy(c,grant.tenancy_id),ledger=await ledgerData(c,t.id)
+ const rows:Row[]=[...ledger.charges.map(q=>({id:'charge:'+q.id,date:q.due_date,kind:'Lease charge',description:q.description,chargeId:q.id,amountCents:q.amount_cents,receivableDeltaCents:q.amount_cents})),...ledger.receipts.map(r=>({id:'receipt:'+r.id,date:r.received_date,kind:r.reversal_of?'Recorded external refund or reversal':'Recorded external payment',description:ledger.charges.find(q=>q.id===r.charge_id)?.description??'Lease charge',chargeId:r.charge_id,amountCents:r.amount_cents,receivableDeltaCents:-r.amount_cents})),...ledger.adjustments.map(a=>({id:'adjustment:'+a.id,date:a.posting_day??localDate(a.at,t.time_zone),kind:'Charge reduction',description:ledger.charges.find(q=>q.id===a.charge_id)?.description??'Lease charge',chargeId:a.charge_id,amountCents:a.amount_cents,receivableDeltaCents:-a.amount_cents}))]
+ rows.sort((a,b)=>a.date.localeCompare(b.date)||a.id.localeCompare(b.id))
+ return{t,ledger,rows}
+}
+export async function residentMonthlyStatement(c:Context,grant:Row,value:unknown){
+ const {t,ledger,rows}=await events(c,grant),today=ledger.today,m=text(value,'Statement month',7)
+ insist(/^\d{4}-(0[1-9]|1[0-2])$/.test(m)&&m<=today.slice(0,7),'statement_month','Choose an elapsed month or the current property-local month.')
+ const from=m+'-01',last=new Date(Date.UTC(Number(m.slice(0,4)),Number(m.slice(5,7)),0)).toISOString().slice(0,10),to=last<today?last:today,opening=rows.filter(r=>r.date<from).reduce((n,r)=>n+r.receivableDeltaCents,0),lines=rows.filter(r=>r.date>=from&&r.date<=to),closing=opening+lines.reduce((n,r)=>n+r.receivableDeltaCents,0),funds=await externalFundsAsOf(c,t.id,to)
+ return{tenancy:{id:t.id,address:t.address},month:m,from,to,currency:ledger.currency,timeZone:t.time_zone,openingCents:opening,closingCents:closing,currentBalanceCents:ledger.balanceCents,currentAsOf:today,pendingCents:funds.pendingCents,unappliedCreditCents:funds.creditCents,lines,notice:'Current recorded statement, not a sent invoice or proof of bank settlement. Pending funds do not reduce the balance; unapplied credit is separate. No email or receipt delivery is claimed.'}
+}
+export async function residentTransaction(c:Context,grant:Row,value:unknown){
+ const {t,ledger,rows}=await events(c,grant),r=rows.find(r=>r.id===value);insist(r,'not_found','Transaction not found.',404)
+ const q=ledger.charges.find(q=>q.id===r.chargeId)!
+ return{tenancyId:t.id,currency:ledger.currency,transaction:r,charge:{dueDate:q.due_date,description:q.description,amountCents:q.amount_cents,currentBalanceCents:q.balance_cents},notice:'A recorded lease transaction. Provider references, other household contacts and staff notes are not shared.'}
+}
+export function residentMonthlyCsv(d:Row){
+ const amount=(n:number)=>(n/100).toFixed(2)
+ return csv([['Terrace resident statement',d.tenancy.address],['Month',d.month],['From',d.from],['Through',d.to],['Property time zone',d.timeZone],['Currency',d.currency],['Opening receivable',amount(d.openingCents)],['Date','Kind','Charge','Amount','Receivable change'],...d.lines.map((r:Row)=>[r.date,r.kind,r.description,amount(r.amountCents),amount(r.receivableDeltaCents)]),['Closing receivable',amount(d.closingCents)],['Pending external funds (not deducted)',amount(d.pendingCents)],['Settled unapplied credit (separate)',amount(d.unappliedCreditCents)],['Current recorded balance',amount(d.currentBalanceCents)],['Current as of',d.currentAsOf],[d.notice]])
+}
+export function residentMonthlyPage(person:Row,d:Row){
+ const m=(n:number)=>money(n,d.currency),link=(r:Row)=>'/portal/transaction?tenancyId='+encodeURIComponent(d.tenancy.id)+'&id='+encodeURIComponent(r.id)
+ return shell('Monthly statement',`<p><a href="/portal/lease?tenancy=${e(d.tenancy.id)}">Back to your lease account</a></p><section><h2>${e(d.month)} · ${e(d.tenancy.address)}</h2><p>${e(d.from)} through ${e(d.to)} · ${e(d.timeZone)} · ${e(d.currency)}</p><dl><dt>Opening receivable</dt><dd>${m(d.openingCents)}</dd><dt>Closing receivable</dt><dd>${m(d.closingCents)}</dd><dt>Pending external funds (not deducted)</dt><dd>${m(d.pendingCents)}</dd><dt>Settled unapplied credit (separate)</dt><dd>${m(d.unappliedCreditCents)}</dd><dt>Current recorded balance · ${e(d.currentAsOf)}</dt><dd>${m(d.currentBalanceCents)}</dd></dl><p><a href="/portal/statement?tenancyId=${e(d.tenancy.id)}&amp;month=${e(d.month)}&amp;format=csv">Download monthly statement (CSV)</a></p><p>${e(d.notice)}</p></section><section><h2>Statement transactions</h2><div class="scroll" tabindex="0" aria-label="Monthly statement transactions; scroll for all columns"><table class="financial-effects"><thead><tr><th scope="col">Date</th><th scope="col">Kind</th><th scope="col">Charge</th><th scope="col">Amount</th><th scope="col">Receivable change</th><th scope="col">Source</th></tr></thead><tbody>${d.lines.map((r:Row)=>`<tr><td>${e(r.date)}</td><td>${e(r.kind)}</td><td>${e(r.description)}</td><td>${m(r.amountCents)}</td><td>${m(r.receivableDeltaCents)}</td><td><a href="${e(link(r))}">Inspect transaction</a></td></tr>`).join('')||'<tr><td colspan="6">No transactions in this month.</td></tr>'}</tbody></table></div></section>`,person)
+}
+export function residentTransactionPage(person:Row,d:Row){
+ const r=d.transaction,m=(n:number)=>money(n,d.currency)
+ return shell('Recorded transaction',`<p><a href="/portal/lease?tenancy=${e(d.tenancyId)}">Back to your lease account</a></p><section><h2>${e(r.kind)}</h2><dl><dt>Date</dt><dd>${e(r.date)}</dd><dt>Charge</dt><dd>${e(r.description)}</dd><dt>Amount</dt><dd>${m(r.amountCents)}</dd><dt>Receivable change</dt><dd>${m(r.receivableDeltaCents)}</dd><dt>Charge due</dt><dd>${e(d.charge.dueDate)}</dd><dt>Original charge</dt><dd>${m(d.charge.amountCents)}</dd><dt>Charge current unpaid balance</dt><dd>${m(d.charge.currentBalanceCents)}</dd></dl><p>${e(d.notice)}</p></section>`,person)
+}

@@ -120,6 +120,38 @@
       "commands": [
         "node tests/rule-packs-browser.mjs"
       ]
+    },
+    {
+      "name": "payments",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/payments-browser.mjs"
+      ]
+    },
+    {
+      "name": "late-fees",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/late-fees-browser.mjs"
+      ]
+    },
+    {
+      "name": "financial-actions",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/financial-actions-browser.mjs"
+      ]
+    },
+    {
+      "name": "resident-statements",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/resident-statements-browser.mjs"
+      ]
     }
   ]
 }
