@@ -152,6 +152,22 @@
       "commands": [
         "node tests/resident-statements-browser.mjs"
       ]
+    },
+    {
+      "name": "financial-reports",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/financial-reports-browser.mjs"
+      ]
+    },
+    {
+      "name": "report-schedules",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/report-schedules-browser.mjs"
+      ]
     }
   ]
 }

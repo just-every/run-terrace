@@ -1,0 +1,11 @@
+# Report generation schedules
+
+The owner opens **Properties → Report schedules** and records a report kind, property, optional financial beneficiary, basis, IANA time zone, starting month, local day from 1 to 31 and local hour. A configured day beyond month end uses that month’s last day. Type **GENERATE ONLY** to record consent. The existing hourly Cron checks the due window. A month is generated once even with concurrent or repeated ticks; generation covers the preceding calendar month. A late tick in the same month catches up; a missed prior generation month is not backfilled.
+
+Financial, rent roll, delinquency, vacancy and maintenance reports use their existing readers. Owner filters are available for financial schedules. A close-required schedule remains eligible until the preceding period closes. Reopening that period invalidates its generated link. Retire the old schedule and save new reviewed terms to change it.
+
+Generation receipts retain the format version, date window and SHA-256 fingerprint. They retain no report contents or recipient credentials. **Open verified current report** requires the configuring owner to remain the signed-in installation owner, a live property read and unchanged source fingerprint. It refuses retirement, lost authority, reopened periods and changed report sources. A restore preserves receipts but grants no configuring authority to the destination owner. API credentials and staff are refused. The generated view is not an immutable delivered artifact: source changes require a new report review.
+
+Commands are `report.schedule`, `report.retire` and `report.generate`. The private JSON doors are `GET /api/report-schedules` and `GET /api/report-generation?id=ID`. Manual generation uses the same due checks as Cron. No recipient is configured, no email is sent and no mailbox delivery is claimed. This conservative owner-only, explicitly consented generation policy awaits ct approval.
+
+REPORT-006 remains partial for recipient-scoped delivery and revocation checks, immutable delivered contents, secure delivery links, bounce follow-up, durable transport reconciliation and retry, and the SAFE-009 reference-deployment 150-owner batch measurement. These obligations remain unchanged.

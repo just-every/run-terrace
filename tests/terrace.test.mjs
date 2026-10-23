@@ -1,3 +1,5 @@
+import {journey as reportScheduleJourney} from './report-schedules.mjs'
+import {journey as financialReportJourney} from './financial-reports.mjs'
 import {journey as residentStatementJourney} from './resident-statements.mjs'
 import {journey as financialJourney} from './financial-actions.mjs'
 import {journey as lateFeeJourney} from './late-fees.mjs'
@@ -878,3 +880,7 @@ test('PAY-006: reviewed state caps, weekend and holiday grace, timely pending se
 test('PAY-009: exact independent approvals refuse changed refund sources, record one external refund with original owner effects and retain reasoned corrections and forwarding check drafts',financialJourney)
 
 test('PAY-010: monthly resident statements reconcile recorded payments, pending funds and separate credit, with scoped transaction inspection and no delivery claim',residentStatementJourney)
+
+test('ACCT-013: cash and accrual statements reconcile unpaid rent and bills, settlement timing and immutable scoped source drills',financialReportJourney)
+
+test('REPORT-006: owner-consented timezone generation, once-only receipts, close holds and current-source refusal send nothing',reportScheduleJourney)
