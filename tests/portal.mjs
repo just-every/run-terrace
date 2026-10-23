@@ -1,3 +1,4 @@
+import {journey as residentRequests} from './portal-requests.mjs'
 // ROLE-002: portal people (resident, delegated contact, joint owners, vendors) see only the record a live grant names;
 // assignments, ownership dates and revocation apply on the next request and end the sessions they touch; invitations work
 // once and expire within 7 days; the resident revokes their delegated contact; a restore carries no portal person.
@@ -8,6 +9,7 @@ import {installation,tenancyInput} from './api/harness.mjs'
 const pdf=n=>({name:'invoice-'+n+'.pdf',type:'application/pdf',base64:Buffer.from('%PDF-1.4\n'+n+'\n%%EOF').toString('base64')})
 const SENTINELS=['SOUTH-SENTINEL','southres@example.test','Other Owner Sentinel','LANDLORD-SENTINEL','SCREEN-SENTINEL','LEASE-DOC-SENTINEL','987654321','Oakland Bank Sentinel']
 export async function journey({inspect,revokeDelegate,assets=false}={}){
+ await residentRequests()
  const r=await installation({assets})
  try{
   const zone='America/Los_Angeles',vendorFields={name:'River Plumbing',email:'river-contact@example.test',phone:'510-555-0190',specialties:'plumbing',serviceAreas:'Oakland',w9:'received',insuranceExpires:'2036-12-31',licenseNumber:'PL-240',licenseExpires:'2036-12-31',availability:'Weekdays',rate:'95',standing:'approved'}

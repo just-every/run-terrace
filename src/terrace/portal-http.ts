@@ -1,3 +1,5 @@
+import { answerRequest, requestData, requestPhoto, residentRequests, submitRequest } from './portal-requests'
+import { requestDetail, requestList } from './portal-request-view'
 // ROLE-002: the /portal door. It is separate from /app and /api: a portal cookie reaches nothing there, and a staff cookie reaches
 // nothing here. Every request reads the live session, person and grants, then answers for the one record a grant names.
 // An unknown or unshared record is always a plain 404, never a hint that it exists.
@@ -56,6 +58,17 @@ export async function portalResponse(request: Request, env: Bindings): Promise<R
     sql(c, "UPDATE tt_portal_grants SET revoked_by=?,revoked_at=?,revoke_reason='Revoked by the resident' WHERE id=? AND revoked_at IS NULL", c.actor.id, now, grant.id),
     sql(c, 'UPDATE tt_portal_sessions SET revoked_at=? WHERE identity_id=? AND revoked_at IS NULL', now, grant.identity_id), audit(c, 'portal.revoke', grant.id)])
    return new Response(null, { status: 303, headers: headers({ location: `/portal/lease?tenancy=${encodeURIComponent(grant.tenancy_id)}&revoked=1` }) })
+  }
+  if (['/portal/requests','/portal/request','/portal/request-file'].includes(path)) {
+   if (request.method === 'POST') {
+    insist(path !== '/portal/request-file','method','Method not allowed.',405)
+    const key = path === '/portal/requests' ? await submitRequest(c,portal,form) : await answerRequest(c,portal,form)
+    return new Response(null,{status:303,headers:headers({location:'/portal/request?id='+encodeURIComponent(key)})})
+   }
+   if (path === '/portal/requests') return html(shell('Repair requests',requestList(await residentRequests(c,portal,url.searchParams.get('tenancy'))),portal.identity))
+   if (path === '/portal/request') return html(shell('Repair tracking',requestDetail(await requestData(c,portal,url.searchParams.get('id'))),portal.identity))
+   const f = await requestPhoto(c,portal,String(url.searchParams.get('id') ?? ''))
+   return new Response(new Uint8Array(f.bytes),{headers:headers({'content-type':f.media_type,'content-disposition':`attachment; filename="${String(f.name).replace(/[^a-zA-Z0-9._-]/g,'_')}"`,'content-security-policy':"default-src 'none'; sandbox"})})
   }
   insist(request.method === 'GET', 'method', 'Method not allowed.', 405)
   if (path === '/portal') {

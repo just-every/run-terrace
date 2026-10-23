@@ -488,8 +488,8 @@ Revised 19 October 2026: LEASE-005 is done (ct ruling 19:01Z). Migration `0044_p
 | Clauses | Done | Partial | Missing | Total |
 | --- | ---: | ---: | ---: | ---: |
 | Published | 12 | 0 | 0 | 12 |
-| Target and push further | 39 | 32 | 59 | 130 |
-| All | 51 | 32 | 59 | 142 |
+| Target and push further | 39 | 33 | 58 | 130 |
+| All | 51 | 33 | 58 | 142 |
 
 | Clause | Title | Kind | Status | Evidence | Gap |
 | --- | --- | --- | --- | --- | --- |
@@ -564,7 +564,7 @@ Revised 19 October 2026: LEASE-005 is done (ct ruling 19:01Z). Migration `0044_p
 | `PORTAL-001` | Give residents a complete account portal | target | missing |  | Resident portal and self-service account workflows are absent. |
 | `PORTAL-002` | Give owners their financial and property portal | target | missing |  | Owner portal, contributions and owner-facing approvals are absent. |
 | `PORTAL-003` | Give vendors a work and invoice portal | target | missing |  | Vendor portal and scoped service credentials are absent. |
-| `PORTAL-004` | Receive resident maintenance requests | target | missing |  | Resident intake, tracking and consented service status are absent. |
+| `PORTAL-004` | Receive resident maintenance requests | target | partial | `tests/portal-requests.mjs` journey (photo and restrictions, distinct reports, scoped work linking, appointment tracking, resident answer, revocation and restore); `tests/portal-requests-browser.mjs` (native intake and tracking at 1440 and 390); `src/terrace/portal-requests.ts`; `migrations/core/0063_resident_requests.sql` | Video intake, WORK-001 safety intake with approved guidance and on-call alert, and staff photo review remain unbuilt. Conservative default adopted pending ct approval: only the submitting verified mailbox with a current resident grant reads or answers a report; owner and scoped portfolio managers link work. An answer resolves that report only, never another resident concern or the underlying work order. No new outbound send is performed. |
 | `PORTAL-005` | Deliver two-way email and SMS | target | partial | `src/terrace/work.ts`; `src/modules/mail/src/sender.mjs` | Unsent trade packets and shared mail infrastructure exist; product delivery, SMS, replies and consent-aware routing are absent. |
 | `PORTAL-006` | Keep shared threads and notices accountable | target | missing |  | Shared conversations, announcements and notice service records are absent. |
 | `PORTAL-007` | Track requests documents and approvals to completion | target | missing |  | External request/approval links and document-chasing state are absent. |
