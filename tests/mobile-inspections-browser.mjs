@@ -15,6 +15,7 @@ try{
   await page.goto(h.origin+'/app?tab=field&tenancy='+t.id)
   const form=page.locator('form[data-field-capture][data-record="'+exit.id+'"]')
   if(c.phase==='before-exit'){
+   const configuration=page.locator('#mobile-inspections > article').filter({has:page.getByRole('heading',{name:'2026-10-22 · move out',exact:true})}).locator('form:has(input[value="inspection.configure"])');assert.equal(await configuration.locator('[name=kind]').inputValue(),'move_out');assert.equal(await configuration.locator('[name=entryId]').inputValue(),c.i.id)
    await context.setOffline(true)
    for(const key of ['sink','meter','door']){await form.locator('[name="condition:'+key+'"]').selectOption(key==='door'?'good':'damaged');await form.locator('[name="notes:'+key+'"]').fill(key==='meter'?'Cracked meter cover':key==='sink'?'Chip on sink rim':'Door and latch unchanged');await form.locator('[name="reading:'+key+'"]').fill(key==='meter'?'1145':'none')}
    await form.locator('[name="file:sink"]').setInputFiles({name:'offline-exit-sink.png',mimeType:'image/png',buffer:Buffer.concat([png,Buffer.from('mobile exit original')])})
