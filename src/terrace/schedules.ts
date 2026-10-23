@@ -39,6 +39,7 @@ export async function scheduleCommand(c: Context, command: string, p: Row): Prom
   allow(c, command)
   const s = await one(c, 'SELECT * FROM tt_schedules WHERE id=?', text(p.scheduleId, 'Schedule', 100))
   insist(s, 'not_found', 'Schedule not found.', 404)
+  await tenancy(c, s.tenancy_id)
   const due = date(p.dueDate, 'Occurrence date'), to = date(p.deferTo, 'Deferred to')
   insist(occurrences(s, due).at(-1) === due, 'invalid_occurrence', 'That date is not an occurrence of this schedule.')
   insist(to > due, 'invalid_defer', 'Defer to a date after the occurrence.')
