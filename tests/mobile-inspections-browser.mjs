@@ -7,7 +7,7 @@ import {png} from './record-media.mjs'
 const dir=resolve(process.env.INSPECTION_SCREENSHOTS??'.rer/mobile-inspection-screens');await mkdir(dir,{recursive:true})
 const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
 let context,page
-async function picture(name){for(const width of [1440,390]){await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),name+' fits '+width);await page.screenshot({path:join(dir,name+'-'+width+'.png'),fullPage:true})}}
+async function picture(name){for(const width of [1440,390]){await page.setViewportSize({width,height:900});await page.screenshot({path:join(dir,name+'-'+width+'.png'),fullPage:true});const fits=await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth);if(!fits)console.log(await page.evaluate(()=>[...document.querySelectorAll('main *')].filter(el=>el.getBoundingClientRect().right>innerWidth).slice(0,8).map(el=>({tag:el.tagName,class:el.className,width:el.getBoundingClientRect().width}))));assert.ok(fits,name+' fits '+width)}}
 try{
  await journey({assets:true,inspect:async c=>{
   const {h,t,exit}=c
