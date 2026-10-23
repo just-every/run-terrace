@@ -52,7 +52,7 @@ export function operatorAuth(env: Bindings) {
  return createOperatorAuth({ db: env.DB, config: authConfig(env), mailSender: operatorMail(env), clientIp: request => request.headers.get('CF-Connecting-IP') ?? '', rolePolicy: ownerControlsAccess })
 }
 
-const SECOND_FACTOR_DOORS = new Set(['/auth/operators', '/auth/sessions', '/auth/session/revoke', '/auth/invite', '/auth/invite/cancel', '/auth/operator/status', '/auth/operator/role', '/auth/domain-rules', '/auth/settings/identity', '/auth/providers', '/auth/providers/unlink', '/auth/providers/relink', '/auth/email', '/auth/display-name'])
+const SECOND_FACTOR_DOORS = new Set(['/auth/operators', '/auth/sessions', '/auth/session/revoke', '/auth/invite', '/auth/invite/cancel', '/auth/operator/status', '/auth/operator/role', '/auth/domain-rules', '/auth/settings/identity', '/auth/providers', '/auth/providers/unlink', '/auth/providers/relink', '/auth/email', '/auth/display-name', '/auth/dependencies/relink', '/auth/dependencies/unlink'])
 const privateHeaders = { 'cache-control': 'no-store', 'referrer-policy': 'no-referrer', 'x-content-type-options': 'nosniff', 'x-robots-tag': 'noindex, nofollow' }
 const escape = (value: string) => value.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!))
 async function html(body: string) {
@@ -62,6 +62,8 @@ async function html(body: string) {
 
 async function handleAuthResponse(request: Request, original: Bindings): Promise<Response | null> {
  const env = runtimeBindings(original), url = new URL(request.url)
+ // SAFE-001: Base's account, access and identity-provider doors are refused to a sign-in that still owes Terrace's second factor.
+ if (SECOND_FACTOR_DOORS.has(url.pathname)) { const session = await operatorAuth(env).getSession(request); if (session && await owesSecondFactor(env.DB, session)) return Response.json({ error: 'second_factor_required', message: 'Pass your second factor first: open /app?tab=security.' }, { status: 403, headers: privateHeaders }) }
  if (url.pathname.startsWith('/.well-known/rer-') || url.pathname.startsWith('/auth/dependencies/')) {
   const linked = await createDependencies({ db: env.DB, origin: env.AUTH_ORIGIN, name: branding.name, provider: env.IDENTITY_PROVIDER, local: env.AUTH_LOCAL === 'true', auth: operatorAuth(env), claimOwner: token => createIdpOwnerClaimHandler({db:env.DB,authConfig:authConfig(env),clientIp:()=>request.headers.get('CF-Connecting-IP')??''})(new Request(env.AUTH_ORIGIN+'/auth/owner-claim',{method:'POST',headers:{Host:new URL(env.AUTH_ORIGIN).host,Origin:env.AUTH_ORIGIN,'Content-Type':'application/json'},body:JSON.stringify({token})})) }).handle(request)
   if (linked) return linked
@@ -79,8 +81,6 @@ async function handleAuthResponse(request: Request, original: Bindings): Promise
   if (page) return fontDocumentResponse(page)
  }
  if (url.pathname.startsWith('/auth/')) {
-  // SAFE-001: Base's account and access doors are refused to a sign-in that still owes Terrace's second factor.
-  if (SECOND_FACTOR_DOORS.has(url.pathname)) { const session = await operatorAuth(env).getSession(request); if (session && await owesSecondFactor(env.DB, session)) return Response.json({ error: 'second_factor_required', message: 'Pass your second factor first: open /app?tab=security.' }, { status: 403, headers: privateHeaders }) }
   return fontDocumentResponse(await createAuthHandler(operatorAuth(env))(request))
  }
  if (url.pathname === '/setup' || url.pathname === '/app' || url.pathname.startsWith('/app/')) {
