@@ -96,7 +96,7 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
         ...(capture?[guard(c,'EXISTS(SELECT 1 FROM tt_inspection_captures WHERE id=? AND inspection_version=?)',capture.id,row.version-1)]:[]),
         sql(c, "UPDATE tt_inspections SET notes=?,state='completed',version=version+1,completed_by=?,completed_at=? WHERE id=?", notes, c.actor.id, c.now, row.id),
       ], command, row.id)
-      return result(row, 'Inspection completed with notes and photo evidence.')
+      return result(row, 'Inspection completed with notes and original media evidence.')
     }
     case 'maintenance.field-revise': {
       allow(c,command)
@@ -167,7 +167,7 @@ export async function workData(c: Context, tenancyId: string) {
     all(c, 'SELECT j.*,a.id AS approval_id,a.job_version AS approved_version,a.approved_by,a.approved_role,a.approved_at,a.sha256 AS approval_sha256,a.snapshot AS approval_snapshot FROM tt_maintenance_jobs j LEFT JOIN tt_maintenance_approvals a ON a.job_id=j.id AND j.state<>\'pending\' AND a.job_version=(SELECT MAX(job_version) FROM tt_maintenance_approvals WHERE job_id=j.id) WHERE j.tenancy_id=? ORDER BY j.prepared_at DESC', t.id),
   ])
   const today = localDate(c.now, t.time_zone)
-  return { ...await inspectionCaptures(c,t.id), inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), ...await quoteData(c, t, jobs), ...await completionData(c, t.id), ...await appointmentData(c, t), ...await dispatchData(c, t), role: c.actor.role, may: Object.fromEntries(['maintenance.dispatch', 'maintenance.progress', 'maintenance.escalate', 'maintenance.approve', 'inspection.create', 'quote.add', 'schedule.add', 'work.limits', 'vendor.add', 'asset.add', 'appointment.book', 'appointment.confirm', 'appointment.cancel', 'appointment.no-show', 'appointment.reassign'].map(a => [a, can(c, a)])) }
+  return { ...await inspectionCaptures(c,t.id), inspectionMedia:await all(c,"SELECT m.id,m.inspection_id,m.attachment_id,m.version,m.name,m.media_type,m.size,m.sha256,m.source,m.captured_at FROM tt_record_media m JOIN tt_inspections i ON i.id=m.inspection_id WHERE i.tenancy_id=? AND m.state='ready' ORDER BY m.attachment_id,m.version DESC",t.id), inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), ...await quoteData(c, t, jobs), ...await completionData(c, t.id), ...await appointmentData(c, t), ...await dispatchData(c, t), role: c.actor.role, may: Object.fromEntries(['maintenance.dispatch', 'maintenance.progress', 'maintenance.escalate', 'maintenance.approve', 'inspection.create', 'quote.add', 'schedule.add', 'work.limits', 'vendor.add', 'asset.add', 'appointment.book', 'appointment.confirm', 'appointment.cancel', 'appointment.no-show', 'appointment.reassign'].map(a => [a, can(c, a)])) }
 }
 
 /** Operator ids to display names, for showing who prepared, approved, uploaded or handed off work. */

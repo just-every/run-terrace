@@ -42,6 +42,8 @@ export async function journey({assets=false,inspect}={}) {
   const work2=await upload(h,{kind:'work',recordId:j.id,bytes:Buffer.from('Revised valve method with isolation step'),name:'instructions-revised.txt',type:'text/plain',attachmentId:work.attachmentId,version:1})
   const invoice2=await upload(h,{kind:'invoice',recordId:b.id,bytes:Buffer.from('%PDF-1.4\nSupplier supplemental original\n%%EOF'),name:'supplier-revised.pdf',type:'application/pdf',attachmentId:invoice.attachmentId,version:1})
   for(const [kind,key,attachment]of [['work',j.id,work.attachmentId],['invoice',b.id,invoice.attachmentId]])assert.deepEqual((await(await h.request('/api/record-media?kind='+kind+'&recordId='+key)).json()).files.filter(x=>x.attachment_id===attachment).map(x=>x.version),[2,1],'each record kind retains earlier versions')
+  await h.command('inspection.complete',{inspectionId:i.id,version:1,notes:'Original video and versioned photographs reviewed'})
+  assert.equal((await h.state(t.id)).work.inspections.find(x=>x.id===i.id).state,'completed','record video originals satisfy the inspection completion door')
   const get=id=>h.request('/api/record-media/file?id='+id)
   for(const [id,bytes]of [[began.id,video],[prior.id,png]]){const r=await get(id);assert.equal(r.headers.get('cache-control'),'private, no-store');assert.equal(r.headers.get('x-content-sha256'),sha(bytes));assert.deepEqual(Buffer.from(await r.arrayBuffer()),bytes)}
   const list=await(await h.request('/api/record-media?kind=inspection&recordId='+i.id)).json();assert.deepEqual(list.files.filter(x=>x.attachment_id===prior.attachmentId).map(x=>x.version),[2,1])
