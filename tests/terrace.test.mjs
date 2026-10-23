@@ -1,5 +1,6 @@
 import {journey as statementJourney} from './statements.mjs'
 import {journey as reconcileJourney} from './reconcile.mjs'
+import {journey as agentWorkloadJourney} from './agent-workloads.mjs'
 import {journey as residentStatementJourney} from './resident-statements.mjs'
 import {journey as financialJourney} from './financial-actions.mjs'
 import {journey as lateFeeJourney} from './late-fees.mjs'
@@ -906,3 +907,4 @@ test('PAY-010: monthly resident statements reconcile recorded payments, pending 
 test('ACCT-006: reviewed bank imports, exact matching, outstanding items and guarded three-way close',reconcileJourney)
 
 test('ACCT-012: staff cash drafts preserve opening cash, ownership periods, liabilities and separate deposits',statementJourney)
+test('AGENT-008: scoped workloads ignore document instructions, retain human approval, stop revoked queued bookings and cancel follow-ups',agentWorkloadJourney)
