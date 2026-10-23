@@ -86,10 +86,14 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
     case 'inspection.complete': {
       allow(c, command)
       const row = await inspection(c, p), notes = text(p.notes ?? row.notes, 'Inspection notes', 4000)
-      insist(await one(c, 'SELECT id FROM tt_inspection_photos WHERE inspection_id=? LIMIT 1', row.id), 'inspection_evidence', 'Save at least one photo before completing the inspection.', 409)
+      const originalEvidence="EXISTS(SELECT 1 FROM tt_inspection_photos WHERE inspection_id=?) OR EXISTS(SELECT 1 FROM tt_record_media WHERE inspection_id=? AND state='ready' AND (media_type LIKE 'image/%' OR media_type LIKE 'video/%'))"
+      insist((await one(c,`SELECT (${originalEvidence}) AS ok`,row.id,row.id))?.ok, 'inspection_evidence', 'Save at least one original photo or video before completing the inspection.', 409)
+      const capture=row.checklist?await one(c,'SELECT id,inspection_version FROM tt_inspection_captures WHERE inspection_id=? ORDER BY inspection_version DESC LIMIT 1',row.id):null
+      if(row.checklist){allow(c,'inspection.capture');insist(capture&&capture.inspection_version+1===row.version,'inspection_evidence','Synchronize and review every item in the current checklist before completing.',409)}
       await commit(c, [
         inspectionGuard(c, row, p.version === undefined ? row.version : validVersion(p.version)),
-        guard(c, 'EXISTS(SELECT 1 FROM tt_inspection_photos WHERE inspection_id=?)', row.id),
+        guard(c, `(${originalEvidence})`, row.id,row.id),
+        ...(capture?[guard(c,'EXISTS(SELECT 1 FROM tt_inspection_captures WHERE id=? AND inspection_version=?)',capture.id,row.version-1)]:[]),
         sql(c, "UPDATE tt_inspections SET notes=?,state='completed',version=version+1,completed_by=?,completed_at=? WHERE id=?", notes, c.actor.id, c.now, row.id),
       ], command, row.id)
       return result(row, 'Inspection completed with notes and photo evidence.')

@@ -27,6 +27,7 @@ try{
    const state=(await h.state(t.id)).work,capture=state.captures.find(f=>f.inspection_id===exit.id);assert.ok(capture);assert.ok(capture.device_consent_at);assert.ok(capture.reconciliation.includes('previousValues'));assert.equal(JSON.parse(capture.items).find(x=>x.key==='sink').media.length,1,'offline original file survived reload and sync')
    assert.equal(await page.evaluate(()=>new Promise((resolve,reject)=>{const r=indexedDB.open('TerraceFieldDrafts',1);r.onsuccess=()=>{const q=r.result.transaction('drafts').objectStore('drafts').count();q.onsuccess=()=>resolve(q.result);q.onerror=()=>reject(q.error)}})),0,'successful sync deletes the private draft')
   }else{
+   const exitCard=page.locator('#mobile-inspections > article').filter({has:page.getByRole('heading',{name:'2026-10-22 · move out',exact:true})});await exitCard.getByRole('button',{name:'Complete inspection with captured originals'}).click();await exitCard.getByText('Inspection state: completed',{exact:true}).waitFor()
    await page.getByText('Capture history (1)',{exact:true}).first().click();await picture('comparison-and-retained-dispute');await page.getByRole('link',{name:'Manage people'}).focus();await page.getByRole('tooltip',{name:'Manage people'}).waitFor();await picture('inspection-tooltip');assert.ok((await page.locator('#mobile-inspections').textContent()).includes('Meter cover was cracked before move-in'));assert.ok((await page.locator('#mobile-inspections').textContent()).includes('No entry/exit media supports this deduction'))
   }
  }})
