@@ -27,7 +27,7 @@ export async function journey({assets=false,inspect}={}){
   const old=await(await h.request('/portal/statement?tenancyId='+t.id+'&month=2026-09&format=json',{as})).json();assert.deepEqual([old.closingCents,old.pendingCents,old.unappliedCreditCents],[0,0,0])
   assert.equal((await h.request('/portal/statement?tenancyId=synthetic-terrace-unshared&month=2026-10',{as})).status,404)
   assert.equal((await h.request('/portal/transaction?tenancyId='+t.id+'&id=receipt:synthetic-terrace-unshared',{as})).status,404)
-  const report=await(await h.request('/api/delinquency?tenancyId='+t.id+'&asOf=2026-10-04')).json();assert.deepEqual([report.rows[0].balanceCents,report.rows[0].pendingExternalCents],[10000,10000],'as-of staff report matches resident balance and external pending funds')
+  const report=await(await h.request('/api/delinquency?tenancyId='+t.id+'&asOf=2026-10-04')).json();assert.deepEqual([report.rows[0].balanceCents,report.rows[0].pendingExternalCents],[10000,10000],'as-of staff report matches resident balance and external pending funds');assert.match(report.rows[0].pendingFunds,/Processor pending payments not recorded/,'recorded manual funds do not imply a processor workflow or settlement')
   if(inspect)await inspect({h,t,as,delegated,transaction})
   await h.command('portal.revoke',{grantId:resident.grantId,reason:'synthetic-terrace-148 access ended'})
   assert.equal((await h.request(path,{as})).status,401);assert.equal((await h.request(transaction,{as})).status,401)

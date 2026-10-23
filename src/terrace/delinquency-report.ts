@@ -99,7 +99,7 @@ export async function delinquencyReport(c: Context, q: Row) {
   return { tenancyId: t.id, unitId: t.unit_id, propertyId: t.property_id ?? null, property: t.property_name ?? t.address, unit: t.unit ?? '', resident: t.tenant_name,
    ...aging, household, ownership: ownershipRows, approvedDraft, assignment, assignmentVersion: current?.version ?? 0,
    assignees: operational(c) && can(c, 'arrears.prepare') ? assignees : [], nextAction,
-   pendingFunds: 'external records only',pendingExternalCents:external.pendingCents,pendingExternalPayments:external.pending, returnedAch: 'not recorded', paymentPlan: 'not recorded', subsidyShare: 'not recorded', collectionOutcome: 'not recorded' }
+   pendingFunds: 'Processor pending payments not recorded; manual external funds shown separately',pendingExternalCents:external.pendingCents,pendingExternalPayments:external.pending, returnedAch: 'not recorded', paymentPlan: 'not recorded', subsidyShare: 'not recorded', collectionOutcome: 'not recorded' }
  }))
  const totals = [...new Set(rows.map(r => r.currency))].map(currency => {
   const mine = rows.filter(r => r.currency === currency)
