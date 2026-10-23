@@ -99,6 +99,9 @@ test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned 
   await r.command('rent.receipt',{chargeId:charge.id,amount:'1.00',receivedDate:'2026-09-02',reference:'WEST-1'},{...as('bookkeeper'),status:404})
   await r.command('maintenance.prepare',{tenancyId:west.t.id,title:'Gutter',tradeName:'Any Trade',tradeEmail:'trade@example.test',dueDate:'2026-10-22',estimate:'100.00'},{...as('maintenance_coordinator'),status:404})
   await r.command('household.add',{tenancyId:west.t.id,role:'occupant',name:'Lee'},{...as('leasing'),status:404})
+  const gutters=await r.command('vendor.add',{name:'West Gutters',email:'gutters@example.test',phone:'510-555-0150',specialties:'general',serviceAreas:'Oakland',w9:'received',insuranceExpires:'2036-12-31',availability:'Weekdays',rate:'80.00',standing:'approved'})
+  const westSchedule=await r.command('schedule.add',{tenancyId:west.t.id,title:'Gutter clean',trade:'general',vendorId:gutters.id,intervalMonths:'12',firstDue:'2026-11-01',budget:'60.00'})
+  for(const role of ['portfolio_manager','maintenance_coordinator'])await r.command('schedule.defer',{scheduleId:westSchedule.id,dueDate:'2026-11-01',deferTo:'2027-02-01',reason:'Resident away'},{...as(role),status:404})
   // In role: each role works in both assigned portfolios.
   const pm=await r.command('tenancy.create',{...tenancyInput,unitId:south.u.id,tenantEmail:'pm-made@example.test',startDate:'2037-01-01',endDate:'2037-12-31'},as('portfolio_manager'))
   await r.command('tenancy.create',{...tenancyInput,tenantEmail:'pm-loose@example.test'},{...as('portfolio_manager'),status:403})
