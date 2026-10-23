@@ -1,4 +1,4 @@
-import {all,allow,cents,commit,date,guard,id,insist,one,sha256,shown,sql,tenancy,text,type Context,type Row} from './core'
+import {all,allow,can,cents,commit,date,guard,id,insist,one,sha256,shown,sql,tenancy,text,type Context,type Row} from './core'
 import {rulePreview} from './rule-packs'
 import {BALANCE} from './ledger'
 import {RESERVED} from './payments'
@@ -20,7 +20,8 @@ function calendar(rule:Row,first:string){
 }
 export async function lateFeeData(c:Context,tenancyId:string){
  allow(c,'ledger.read');await tenancy(c,tenancyId)
- return{policies:(await all(c,'SELECT * FROM tt_late_fee_policies WHERE tenancy_id=? ORDER BY version,id',tenancyId)).map(p=>({...p,terms:JSON.parse(p.terms)})),fees:(await all(c,'SELECT f.*,q.description,q.amount_cents,'+BALANCE+' AS balance_cents FROM tt_late_fees f JOIN tt_charges q ON q.id=f.fee_charge_id WHERE q.tenancy_id=? ORDER BY f.created_at,f.id',tenancyId)).map(f=>({...f,snapshot:JSON.parse(f.snapshot)})),waivers:await all(c,'SELECT w.* FROM tt_late_fee_waivers w JOIN tt_late_fees f ON f.id=w.fee_id JOIN tt_charges q ON q.id=f.fee_charge_id WHERE q.tenancy_id=? ORDER BY w.recorded_at,w.id',tenancyId)}
+ if(c.actor.credential||!(c.actor.role==='owner'||c.actor.staff?.role==='portfolio_manager'))return{restricted:true,policies:[],fees:[],waivers:[]}
+ return{restricted:false,policies:(await all(c,'SELECT * FROM tt_late_fee_policies WHERE tenancy_id=? ORDER BY version,id',tenancyId)).map(p=>({...p,terms:JSON.parse(p.terms)})),fees:(await all(c,'SELECT f.*,q.description,q.amount_cents,'+BALANCE+' AS balance_cents FROM tt_late_fees f JOIN tt_charges q ON q.id=f.fee_charge_id WHERE q.tenancy_id=? ORDER BY f.created_at,f.id',tenancyId)).map(f=>({...f,snapshot:JSON.parse(f.snapshot)})),waivers:await all(c,'SELECT w.* FROM tt_late_fee_waivers w JOIN tt_late_fees f ON f.id=w.fee_id JOIN tt_charges q ON q.id=f.fee_charge_id WHERE q.tenancy_id=? ORDER BY w.recorded_at,w.id',tenancyId)}
 }
 export async function lateFeePreview(c:Context,tenancyId:unknown,onValue:unknown){
  allow(c,'latefee.preview');const t=await tenancy(c,tenancyId),on=date(onValue),today=localDate(c.now,t.time_zone)

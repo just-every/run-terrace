@@ -36,6 +36,7 @@ export async function retentionJourney(){
   const financial=await h.command('finance.prepare',{kind:'refund',receiptId:historicReceipt.id,amount:'1.00',on:'2011-04-03',reason:'Casey Historic reason',reference:'casey-history@example.test refund source',payee:'Casey Historic',method:'check',forwardingAddress:'Casey Historic forwarding address',checkNumber:'1002'})
   await h.command('finance.approve',{actionId:financial.id,version:financial.version,fingerprint:financial.fingerprint})
   await h.command('finance.check',{actionId:financial.id,version:financial.version,fingerprint:financial.fingerprint})
+  await h.command('finance.cancel',{actionId:financial.id,version:financial.version,fingerprint:financial.fingerprint,reason:'Casey Historic cancellation'})
   await h.command('portal.invite',{kind:'resident',tenancyId:oldId,email:'casey-portal@example.test',displayName:'Casey Historic',source:'Resident asked by phone'});const portalCookie=await h.portalSignIn('casey-portal@example.test');assert.equal((await h.request('/portal/api/resident?tenancyId='+oldId,{as:portalCookie})).status,200)
   for(const item of ['receipts','deposits','exceptions'])await h.command('period.signoff',{month:'2011-04',item,note:'Recorded book checks'})
   await h.command('period.close',{month:'2011-04'})

@@ -196,10 +196,12 @@ ROLE-002: staff invite portal people with `portal.invite` (`kind` resident, owne
 
 PORT-006: `tenancy.transfer` also carries the lease's household (every member who joined before the move-in) to the new lease from the move-in day; `stay` (member ids, array or comma list) keeps members on the old lease. `/api/state?tenancy=ID` household data now includes `chargeLiability`: for each charge, the resident, co-tenants and guarantors named on its due day. The record names people by dates; it is not a legal opinion.
 
-PAY-005: owner-only `payment.policy`, `payment.record`, `payment.settle` and `payment.fail` record reviewed external payment facts. `/api/state?tenancy=ID` includes `ledger.payments` with policies, pending totals, separate settled credit, frozen allocations, versions and outcome history. See [payment policies](docs/payment-policies.md). No provider collection or credit spending is initiated.
+PAY-005: `payment.policy` (owner only) and `payment.record`, `payment.settle`, `payment.fail` (existing rent.receipt roles) record reviewed external payment facts. `/api/state?tenancy=ID` includes `ledger.payments` with policies, pending totals, separate settled credit, frozen allocations, versions and outcome history. See [payment policies](docs/payment-policies.md). No provider collection or credit spending is initiated.
 
 PAY-006: owner-only `latefee.policy`, `latefee.preview`, `latefee.post` and `latefee.waive` implement explicit pack-bound manual fee schedules. `/api/state?tenancy=ID` includes `ledger.lateFees`. See [late-fee schedules](docs/payment-policies.md#late-fee-schedules).
 
 PAY-009: `finance.prepare`, `finance.revise`, `finance.approve`, `finance.check` and `finance.record` govern exact financial revisions for the owner/in-scope portfolio manager. `ledger.financialActions` is restricted to those roles and API credentials are denied. See [approved external refunds and corrections](docs/payment-policies.md#approved-external-refunds-and-corrections). Check drafts are non-negotiable; external records do not execute or verify provider/bank actions.
 
 PAY-010 partial: full resident grants use `/portal/statement?tenancyId=ID&month=YYYY-MM&format=html|csv|json` and its scoped `/portal/transaction?tenancyId=ID&id=SOURCE` links. Delegate monthly/source reads are 404; the prior balance/charges CSV is preserved. No PDF or delivery claim. See [resident monthly statements](docs/payment-policies.md#resident-monthly-statements-pay-010-partial).
+
+`finance.cancel` releases a pending/approved financial source reservation with an audited reason; cancelled and recorded revisions cannot be reused.

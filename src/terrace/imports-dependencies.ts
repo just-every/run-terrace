@@ -10,7 +10,7 @@ export const tenancyDependencies: [string, string][] = [
  ...['tt_payment_allocations','tt_payment_events'].map(table=>[table,'r.payment_id IN (SELECT id FROM tt_payments WHERE tenancy_id=s.id)'] as [string,string]),
  ['tt_late_fees','r.source_charge_id IN (SELECT id FROM tt_charges WHERE tenancy_id=s.id)'],
  ['tt_late_fee_waivers','r.fee_id IN (SELECT f.id FROM tt_late_fees f JOIN tt_charges q ON q.id=f.fee_charge_id WHERE q.tenancy_id=s.id)'],
- ...['tt_financial_revisions','tt_financial_approvals','tt_financial_recordings','tt_refund_checks'].map(table=>[table,'r.action_id IN (SELECT id FROM tt_financial_actions WHERE tenancy_id=s.id)'] as [string,string]),
+ ...['tt_financial_revisions','tt_financial_approvals','tt_financial_recordings','tt_refund_checks','tt_financial_cancellations'].map(table=>[table,'r.action_id IN (SELECT id FROM tt_financial_actions WHERE tenancy_id=s.id)'] as [string,string]),
  ['tt_tenancies','r.transferred_from=s.id'],
  ['tt_household_members','r.moved_to IN (SELECT id FROM tt_household_members WHERE tenancy_id=s.id)'],
  ['tt_journal','r.tenancy_id=s.id'],
