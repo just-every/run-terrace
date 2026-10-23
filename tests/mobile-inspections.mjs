@@ -39,7 +39,8 @@ export async function journey({assets=false,inspect}={}){
   await inspect?.({phase:'comparison',h,...base,exit,captured})
   const archive=await(await h.request('/api/backup')).text();await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'inspection.rer')})
   const restored=(await fresh.state(t.id)).work;assert.deepEqual(restored.captures,state.captures);assert.deepEqual(restored.acknowledgements,state.acknowledgements);assert.deepEqual(restored.inspectionProposals,state.inspectionProposals)
-  const other=await h.command('portfolio.add',{name:'Unrelated field portfolio'});await h.stepUp();await h.command('operator.invite',{displayName:'Unrelated inspector',email:'unrelated-inspector@example.test',role:'maintenance_coordinator',['portfolio:'+other.id]:'1'});const cookie=await h.accept('unrelated-inspector@example.test')
+  const other=await h.command('portfolio.add',{name:'Unrelated field portfolio'});await h.stepUp();await h.command('operator.invite',{displayName:'Unrelated inspector',email:'unrelated-inspector@example.test',role:'portfolio_manager',['portfolio:'+other.id]:'1'});const cookie=await h.accept('unrelated-inspector@example.test')
   await h.command('inspection.acknowledge',{captureId:captured.id,itemKey:'meter',outcome:'disputed',note:'probe',source:'probe'},{as:cookie,status:404})
+  await h.command('operator.invite',{displayName:'Coordinator',email:'coordinator-policy@example.test',role:'maintenance_coordinator',['portfolio:'+base.f.id]:'1'});const coordinator=await h.accept('coordinator-policy@example.test');await h.command('inspection.acknowledge',{captureId:captured.id,itemKey:'meter',outcome:'disputed',note:'probe',source:'probe'},{as:coordinator,status:403})
  }finally{await h.close();await fresh.close()}
 }
