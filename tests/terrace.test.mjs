@@ -1,3 +1,5 @@
+import {journey as statementJourney} from './statements.mjs'
+import {journey as reconcileJourney} from './reconcile.mjs'
 import {journey as residentStatementJourney} from './resident-statements.mjs'
 import {journey as financialJourney} from './financial-actions.mjs'
 import {journey as lateFeeJourney} from './late-fees.mjs'
@@ -878,3 +880,7 @@ test('PAY-006: reviewed state caps, weekend and holiday grace, timely pending se
 test('PAY-009: exact independent approvals refuse changed refund sources, record one external refund with original owner effects and retain reasoned corrections and forwarding check drafts',financialJourney)
 
 test('PAY-010: monthly resident statements reconcile recorded payments, pending funds and separate credit, with scoped transaction inspection and no delivery claim',residentStatementJourney)
+
+test('ACCT-006: reviewed bank imports, exact matching, outstanding items and guarded three-way close',reconcileJourney)
+
+test('ACCT-012: staff cash drafts preserve opening cash, ownership periods, liabilities and separate deposits',statementJourney)

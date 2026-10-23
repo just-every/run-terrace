@@ -1,3 +1,4 @@
+import {requireBankSignoffs} from './reconcile-data'
 import {journalData} from './journal'
 // ACCT-011. Closing a month of the recorded rent ledger. A month that has ended in the office time zone is closed
 // once a bookkeeper (or the owner) has signed its three checklist items and no close correction is pending; the
@@ -67,10 +68,11 @@ export async function periodCommand(c: Context, command: string, p: Row): Promis
   const signed = await all(c, 'SELECT item FROM tt_close_signoffs WHERE month=? AND version=?', m, version)
   insist(signed.length === CHECKLIST.length, 'checklist', 'Sign off every checklist item before closing.', 409)
   insist(!(await one(c, "SELECT 1 FROM tt_close_corrections WHERE month=? AND state='pending'", m)), 'pending_corrections', 'Approve or reject the pending close corrections first.', 409)
+  const bankGuard=await requireBankSignoffs(c,m)
   const lines = await postings(c, m), key = id()
   const journalCount=(await one<{n:number}>(c,'SELECT COUNT(*) AS n FROM tt_journal'))!.n
   const journals=(await journalData(c,{from:m+'-01',to:new Date(Date.UTC(Number(m.slice(0,4)),Number(m.slice(5)),0)).toISOString().slice(0,10)})).entries.map(({reference,...j})=>j)
-  await commit(c, [
+  await commit(c, [bankGuard,
    guard(c, "NOT EXISTS(SELECT 1 FROM tt_close_corrections WHERE month=? AND state='pending') AND (SELECT COUNT(*) FROM tt_close_signoffs WHERE month=? AND version=?)=?", m, m, version, CHECKLIST.length),
    guard(c,'(SELECT COUNT(*) FROM tt_journal)=?',journalCount),
    sql(c, 'INSERT INTO tt_period_closes(id,month,version,closed_by,closed_at,statement,journal_statement) VALUES(?,?,?,?,?,?,?)', key, m, version, c.actor.id, c.now, JSON.stringify(lines),JSON.stringify(journals)),

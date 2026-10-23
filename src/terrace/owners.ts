@@ -1,3 +1,4 @@
+import {statementCash,statementCashTable} from './statement-draft'
 // PORT-003. Owners and management agreements. An owner is an individual or entity apart from a tenancy's recorded
 // owner contact. Each property has dated share sets: the set in force on a day is the one with the latest
 // effective date on or before it, and its shares total exactly 100%. A transfer is a new set from its date, so the
@@ -147,7 +148,8 @@ export async function ownerStatement(c: Context, ownerId: unknown, fromValue: un
  const expenses = await ownerExpenses(c, o.id, props.map(p => p.id), from, to), expenseCents = expenses.reduce((t, x) => t + x.amount_cents, 0)
  const floor = props.reduce((t, p) => t + (reserves.filter(r => r.propertyId === p.id && r.to === to).at(-1)?.ownerReserveCents ?? 0), 0)
  const cash = { currency: 'USD', collectedCents: usd, feesCents: charged, taxCents: tax, reserveFloorCents: floor, expensesCents: expenseCents, availableCents: usd - charged - tax - floor - expenseCents }
- return { owner: { id: o.id, name: o.legal_name, kind: o.kind, w9: o.w9_status }, from, to, rows, totals, reserves, fees, expenses, cash, boundary: 'Recorded receipts allocated by ownership share on each received date, less the agreement fee. Reserve lines are each owner’s share of the requirement, not cash held. Not a trust disbursement, bank reconciliation or tax statement; approved vendor bill expenses are included by ownership on the invoice date. Bills are unpaid obligations; no money has moved. Tax on fees is at the agreement’s recorded rate; Terrace files and remits no tax.' }
+ const cashDraft=can(c,'reconcile.read')&&!c.actor.credential?await statementCash(c,o.id,from,to,reserves):null
+ return { cashDraft, owner: { id: o.id, name: o.legal_name, kind: o.kind, w9: o.w9_status }, from, to, rows, totals, reserves, fees, expenses, cash, boundary: 'Recorded receipts allocated by ownership share on each received date, less the agreement fee. Reserve lines are each owner’s share of the requirement, not cash held. Not a trust disbursement, bank reconciliation or tax statement; approved vendor bill expenses are included by ownership on the invoice date. Bills are unpaid obligations; no money has moved. Tax on fees is at the agreement’s recorded rate; Terrace files and remits no tax.' }
 }
 const amount = (n: number) => (n / 100).toFixed(2)
 const pct = (bp: number) => (bp / 100).toFixed(2) + '%'
@@ -163,4 +165,5 @@ export const ownerStatementTable = (s: Awaited<ReturnType<typeof ownerStatement>
  ...s.expenses.map(x => [x.day, x.property, x.supplier, x.invoice_number, 'USD', amount(x.property_cents), pct(x.share_bp), amount(x.amount_cents)]),
  ['Cash available before distributions', 'USD', `collected share ${amount(s.cash.collectedCents)}`, `fees ${amount(s.cash.feesCents)}`, `tax on fees ${amount(s.cash.taxCents)}`, `reserve floor ${amount(s.cash.reserveFloorCents)}`, `approved expenses ${amount(s.cash.expensesCents)}`, amount(s.cash.availableCents)],
  [s.boundary],
+ ...(s.cashDraft?statementCashTable(s.cashDraft):[]),
 ]

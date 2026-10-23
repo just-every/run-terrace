@@ -111,7 +111,9 @@
       "hosted": false,
       "commands": [
         "node tests/journal-browser.mjs",
-        "node tests/trust-browser.mjs"
+        "node tests/trust-browser.mjs",
+        "node tests/reconcile-browser.mjs",
+        "node tests/statements-browser.mjs"
       ]
     },
     {

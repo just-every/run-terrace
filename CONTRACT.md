@@ -488,8 +488,8 @@ Revised 19 October 2026: LEASE-005 is done (ct ruling 19:01Z). Migration `0044_p
 | Clauses | Done | Partial | Missing | Total |
 | --- | ---: | ---: | ---: | ---: |
 | Published | 12 | 0 | 0 | 12 |
-| Target and push further | 40 | 33 | 57 | 130 |
-| All | 52 | 33 | 57 | 142 |
+| Target and push further | 41 | 33 | 56 | 130 |
+| All | 53 | 33 | 56 | 142 |
 
 | Clause | Title | Kind | Status | Evidence | Gap |
 | --- | --- | --- | --- | --- | --- |
@@ -548,13 +548,13 @@ Revised 19 October 2026: LEASE-005 is done (ct ruling 19:01Z). Migration `0044_p
 | `ACCT-003` | Receive hold and accrue security deposits | target | missing |  | Security-deposit liabilities, custody, receipts and interest rules are absent. |
 | `ACCT-004` | Complete deposit disposition and refunds | target | missing |  | Deposit dispositions, deadlines, deductions and refunds are absent. |
 | `ACCT-005` | Connect Plaid bank feeds | target | missing |  | Plaid bank feeds and consent/freshness management are absent. |
-| `ACCT-006` | Match statements and perform three-way reconciliation | target | missing |  | Statement ingestion, matching and three-way bank reconciliation are absent. |
+| `ACCT-006` | Match statements and perform three-way reconciliation | target | done | `tests/reconcile.mjs` journey: reviewed CSV, OFX, QFX and PDF lines, exact settlement and ACH matching, check numbers, outstanding items, unresolved differences and balanced sign-off, stale books, close refusal, scope and restore; `tests/reconcile-browser.mjs`: native matching and sign-off at desktop and phone widths; `docs/bank-reconciliation.md` | None for current recorded sources. ACCT-017 and ACCT-018 inherit check-register and transmitted-file source matching before their doors ship. |
 | `ACCT-007` | Capture and approve vendor bills | target | done | `migrations/core/0041_bills.sql`; `src/terrace/bills.ts`; `src/terrace/bills-input.ts`; `src/terrace/bills-authority.ts`; `src/terrace/bills-templates.ts`; `src/terrace/bills-attachments.ts`; `src/terrace/bills-retention.ts`; `src/terrace/bills-view.ts`; `src/terrace/owners.ts`; `tests/bills.mjs`; `tests/terrace.test.mjs` | |
 | `ACCT-008` | Pay vendors and reconcile payment outcomes | target | missing |  | Vendor payment rails, payee controls and reconciliation are absent. |
 | `ACCT-009` | Calculate management fees and owner reserves | target | done | `migrations/core/0037_fees.sql`; `src/terrace/fees.ts`; `src/terrace/owners.ts`; `src/terrace/owner-view.ts`; `src/terrace/api.ts`; `tests/terrace.test.mjs` |  |
 | `ACCT-010` | Disburse owner funds by ACH or check | target | missing |  | Owner distributions, ACH/check execution and return accounting are absent. |
 | `ACCT-011` | Close periods without rewriting history | target | done | `migrations/core/0036_periods.sql`; `src/terrace/periods.ts`; `src/terrace/periods-view.ts`; `src/terrace/core.ts`; `src/terrace/api.ts`; `tests/terrace.test.mjs` |  |
-| `ACCT-012` | Publish complete owner statements | target | partial | `src/terrace/ledger.ts`; `tests/terrace.test.mjs` | Period receivable CSV exists; full owner cash statements, source bills, delivery and portal publication are absent. |
+| `ACCT-012` | Publish complete owner statements | target | partial | `tests/statements.mjs` journey: staff cash draft opening and closing cash, expenses, reserves, separate deposits, liabilities and dated ownership; `tests/statements-browser.mjs`: native cash-draft CSV download at desktop and phone widths; `src/terrace/statement-draft.ts` | Cash drafts now derive from beneficiary books and expose bank-review status. Complete paid-bill and distribution sources, corrected immutable publication, scheduled delivery, receipt and invoice attachment bundles, owner-portal downloads and REPORT-007 actuals remain unproved. |
 | `ACCT-013` | Report cash and accrual financials | target | partial | `src/terrace/delinquency-report.ts`; `src/terrace/delinquency-math.ts`; `src/terrace/delinquency-view.ts`; `tests/delinquency.mjs`; `tests/terrace.test.mjs` | Scoped as-of receivables aging with property/dated-owner filters, source drills and CSV ships. Cash/accrual income statements, balance sheet, trial balance, general ledger, payables aging and cash flow by property, owner and entity are absent. |
 | `ACCT-014` | Prepare and file owner and vendor 1099s | target | missing |  | W-9, reportable payment calculation, Nelco filing and correction workflows are absent. |
 | `ACCT-015` | Sync QuickBooks Online without losing trust truth | target | missing |  | QuickBooks Online mapping and reconciled sync are absent. |
