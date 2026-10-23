@@ -1,4 +1,4 @@
-/* The run site's frame: page, type scale, header, buttons and footer. Tokens live once, in /rer-theme.css. */
+/* The run site's frame: page, type scale, header, buttons and footer. Tokens live once, in /rer-theme.css and /fonts/fonts.css. */
 *,*::before,*::after{box-sizing:border-box}
 :root{--gutter:60px;--h2:74px;--lead:26.5px}
 html{-webkit-text-size-adjust:100%}

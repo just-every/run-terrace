@@ -4,7 +4,7 @@ import { identity } from '../identity'
 import { iconSprite } from './icons'
 
 const SHARE = `${identity.runSite}/site/share.jpg`
-const STYLES = ['/rer-theme.css', '/site/site.css', '/site/cards.css']
+const STYLES = ['/fonts/fonts.css', '/rer-theme.css', '/site/site.css', '/site/cards.css']
 
 /** `narrow` is the media query under which the page takes the one-column frame (site-narrow.css). */
 export function siteDocument({ title, description, styles, body, script = '', preload = '', narrow = '(max-width: 1099px)' }: { title: string; description: string; styles: string[]; body: string; script?: string; preload?: string; narrow?: string }) {

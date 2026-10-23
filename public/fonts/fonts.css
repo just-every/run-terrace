@@ -1,8 +1,67 @@
-/* Self-hosted Geist (headings), Figtree (body) and JetBrains Mono (code), SIL Open Font License 1.1. */
-@font-face{font-family:Geist;font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/geist/geist-latin-wght-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:Geist;font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/geist/geist-latin-ext-wght-normal.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
-@font-face{font-family:Figtree;font-style:normal;font-weight:300 900;font-display:swap;src:url('/fonts/figtree/figtree-latin-wght-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:Figtree;font-style:normal;font-weight:300 900;font-display:swap;src:url('/fonts/figtree/figtree-latin-ext-wght-normal.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
-@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:swap;src:url('/fonts/jetbrains-mono/jetbrains-mono-latin-wght-normal.woff2') format('woff2')}
+/* Terrace's look beyond its theme. /rer-theme.css holds only what Base's theme grammar allows (the
+   --rer-* tokens and the faces; the installer reads it), so everything else is here: the page font,
+   Terrace's palette with Base's extra --rer-* names, and the rules that dress Base's pages. The root
+   document, /setup, the app, the Lobby, the Run pages and the run site link this file before the
+   theme; Base's sign-in pages and the development sign-in and hand-off pages (src/server.dev.ts)
+   add it after their own style. Faces and licences: README.md. */
 :root{--font-body:Figtree,Arial,sans-serif;font-family:var(--font-body)}
 button,input,select,textarea{font-family:inherit}
+/* Terrace's palette, shared by the run site, auth, Lobby and app.
+   Lavender paper, navy ink and one violet ramp (the mark's three bars), from the 17 Oct 2026 desk. */
+:root {
+  --page:#F6F5FD; --card:#FFFFFF; --card-inset:#F3F1FB;
+  --ink:#12163A; --body:#45496A; --muted:#6B6F8E; --rule:#E7E5F3; --field:#BCB8D6;
+  --violet-deep:#4530C8; --accent:#6C4CFF; --violet-pale:#9F87FD;
+  --accent-tint:#EFEBFF; --accent-ink:#4A2FD6;
+  --green:#1E9A69; --green-tint:#DFF5EA; --green-ink:#0E7A4F;
+  --orange:#F47B2A; --orange-tint:#FEEEE2;
+  --red:#DE3B3F; --red-tint:#FDECEC; --red-ink:#C2262C;
+  --amber:#EAA22F; --amber-tint:#FDF0D3; --amber-ink:#8A5A08;
+  --blue:#3B7CF6; --blue-tint:#E5EEFF;
+  --pending-tint:var(--amber-tint); --pending-ink:var(--amber-ink); --danger:var(--red-ink);
+  --card-shadow:0 1px 2px #12163A0D,0 14px 34px -16px #12163A2E;
+  --rer-font-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --rer-code-background:#161B45; --rer-code-text:#E9E7FF;
+  --rer-button-radius:999px;
+  --rer-card-border:1px solid var(--rule); --rer-card-shadow:var(--card-shadow);
+  --rer-wordmark-weight:600; --rer-wordmark-tracking:-.035em;
+}
+/* The shared native auth documents use this same frame, including the outbox. */
+.rer-themed.rer-themed body{display:grid;place-items:center;padding:80px 20px;line-height:1.55;background:radial-gradient(55% 45% at 100% 0,#FCEFF5 0,transparent 70%),radial-gradient(45% 40% at 0 0,#EEEBFF 0,transparent 70%),var(--page);color:var(--ink)}
+.rer-themed.rer-themed main{width:100%;max-width:480px;padding:40px;border:var(--rer-card-border);box-shadow:var(--card-shadow)}
+.rer-themed.rer-themed h1{font-size:34px;font-weight:800;letter-spacing:-.04em;line-height:1.15;margin:0 0 24px;text-align:center}
+.rer-themed.rer-themed h1::after{content:".";color:var(--accent)}
+.rer-themed.rer-themed h1+p{text-align:center;color:var(--body)}
+.rer-themed.rer-themed h2{font-family:var(--rer-font-heading);font-size:22px;font-weight:650;letter-spacing:-.02em}
+.rer-themed.rer-themed .brand,.rer-themed.rer-themed .rer-brand{justify-content:center;font-size:30px;font-weight:600;letter-spacing:-.035em;margin:0 0 36px}
+.rer-themed.rer-themed .brand::before,.rer-themed.rer-themed .rer-brand::before{width:42px;height:28px;background-size:contain}
+.rer-themed.rer-themed button,.rer-themed.rer-themed .action{border-radius:var(--rer-button-radius);min-height:48px;font-size:15px}
+.rer-themed.rer-themed input:not([type=checkbox]):not([type=hidden]){min-height:46px;border-color:var(--field);border-radius:10px;background:var(--card)}
+.rer-themed.rer-themed dl{gap:0}
+.rer-themed.rer-themed dt,.rer-themed.rer-themed dd{padding:12px 0;border-bottom:1px solid var(--rule)}
+.rer-themed.rer-themed dd{padding-left:16px}
+/* Text links only: a link drawn as a button (Base's a.action) keeps its white-on-navy button text. */
+.rer-themed.rer-themed a:not(.action){color:var(--accent-ink);text-underline-offset:4px}
+.rer-themed.rer-themed :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+/* Fields: a thin violet border and a soft ring, never a heavy outline. */
+.rer-themed.rer-themed input:not([type=checkbox]):not([type=hidden]):focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px #6C4CFF2E}
+.rer-themed.rer-themed input[type=checkbox]{accent-color:var(--accent)}
+@media(max-width:480px){
+ .rer-themed.rer-themed body{padding:72px 16px 40px}
+ .rer-themed.rer-themed main{padding:28px 20px}
+ .rer-themed.rer-themed h1{font-size:28px}
+ .rer-themed.rer-themed .brand,.rer-themed.rer-themed .rer-brand{font-size:26px;margin-bottom:24px}
+}
+/* Base's Run, Contract and not-found pages: the desk's lavender paper, the mark at its own ratio,
+   heavy Geist headlines and the dusk skyline from the closing plate along the foot. */
+body:has(>.bar){background:radial-gradient(90% 60% at 100% 0,#FBEFF6 0,transparent 60%),radial-gradient(70% 50% at 0 0,#ECEBFF 0,transparent 60%),var(--page)}
+.bar .brand img{width:45px;height:30px}
+.bar .brand{font-weight:600;font-size:27px}
+.bar nav a{color:var(--body)}
+body>main h1{font-weight:800;letter-spacing:-.045em}
+body>.art{height:220px}
+body>.art img{object-position:center 40%;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 55%);mask-image:linear-gradient(to bottom,transparent,#000 55%)}
+.step .num{background:var(--ink)}
+@media(max-width:760px){.bar .brand img{width:36px;height:24px}body>.art{height:170px}}
+/* /run: a command too long for its card wraps at its spaces inside the room Base keeps for Copy, so it never runs under the button. */
+body:has(>.bar) .code pre{white-space:pre-wrap;overflow-wrap:break-word}

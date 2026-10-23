@@ -8,4 +8,4 @@ Self-hosted variable WOFF2 subsets (Latin and Latin Extended) from Google Fonts,
 | Figtree (300–900) | Body text and UI | SIL OFL 1.1 | https://github.com/erikdkennedy/figtree |
 | JetBrains Mono (100–800) | Commands and code | SIL OFL 1.1 | https://github.com/JetBrains/JetBrainsMono |
 
-`fonts.css` declares each face once. `rer-theme.css` assigns the heading, body and mono roles for the run site, the native auth and setup documents, the Lobby and the app. The root and native documents preload Figtree through `src/base/font-head.ts`.
+`rer-theme.css` declares each face once, beside the `--rer-*` theme tokens that assign the heading and body roles, so Base's installer serves the faces too. The theme grammar keeps everything else out of that file, so `fonts.css` sets the page font and holds Terrace's palette, the mono role and the rules that dress the native auth and setup documents and Base's Run pages. The run site, the native auth and setup documents, the Lobby and the app link both. The root and native documents preload Figtree through `src/base/font-head.ts`.

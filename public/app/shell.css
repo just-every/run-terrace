@@ -1,5 +1,5 @@
 /* App shell: paper, header with the lockup and top tabs, title row, notices, footer.
-   Colours, fonts and radii come from /rer-theme.css (the run site's tokens). */
+   Colours, fonts and radii come from /rer-theme.css and /fonts/fonts.css (the run site's tokens). */
 *,*::before,*::after{box-sizing:border-box}
 html{color-scheme:light;-webkit-text-size-adjust:100%}
 body{margin:0;min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(60% 40% at 100% 0,#FCEFF5 0,transparent 70%),radial-gradient(50% 35% at 0 0,#EEEBFF 0,transparent 70%),var(--page);color:var(--ink);font:400 15px/1.55 var(--rer-font-body);-webkit-font-smoothing:antialiased}
