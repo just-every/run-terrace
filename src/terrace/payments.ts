@@ -15,7 +15,7 @@ export async function paymentData(c:Context,tenancyId:string){
  allow(c,'ledger.read');await tenancy(c,tenancyId)
  const policies=await all(c,'SELECT * FROM tt_payment_policies WHERE tenancy_id=? ORDER BY version',tenancyId)
  const payments=await all(c,'SELECT * FROM tt_payments WHERE tenancy_id=? ORDER BY recorded_at,id',tenancyId)
- return{policies:policies.map(r=>({...r,terms:JSON.parse(r.terms)})),payments:await Promise.all(payments.map(async r=>({...r,snapshot:JSON.parse(r.snapshot),allocations:await all(c,'SELECT * FROM tt_payment_allocations WHERE payment_id=? ORDER BY charge_id',r.id),events:await all(c,'SELECT * FROM tt_payment_events WHERE payment_id=? ORDER BY recorded_at,id',r.id)}))),pendingCents:payments.filter(r=>r.state==='pending').reduce((n,r)=>n+r.amount_cents,0),creditCents:payments.filter(r=>r.state==='settled').reduce((n,r)=>n+r.credit_cents,0)}
+ return{coTenants:await all(c,"SELECT id,name,joined,left_on FROM tt_household_members WHERE tenancy_id=? AND role='co_tenant' ORDER BY name,id",tenancyId),policies:policies.map(r=>({...r,terms:JSON.parse(r.terms)})),payments:await Promise.all(payments.map(async r=>({...r,snapshot:JSON.parse(r.snapshot),allocations:await all(c,'SELECT * FROM tt_payment_allocations WHERE payment_id=? ORDER BY charge_id',r.id),events:await all(c,'SELECT * FROM tt_payment_events WHERE payment_id=? ORDER BY recorded_at,id',r.id)}))),pendingCents:payments.filter(r=>r.state==='pending').reduce((n,r)=>n+r.amount_cents,0),creditCents:payments.filter(r=>r.state==='settled').reduce((n,r)=>n+r.credit_cents,0)}
 }
 export async function paymentCommand(c:Context,command:string,p:Row):Promise<Row|undefined>{
  if(!PAYMENT_COMMANDS.includes(command))return
@@ -23,7 +23,10 @@ export async function paymentCommand(c:Context,command:string,p:Row):Promise<Row
  // Conservative default pending ct: only the owner configures policies or records external payment facts.
  insist(c.actor.role==='owner'&&!c.actor.credential,'forbidden','Only the installation owner records split payment policy and external outcomes.',403)
  if(command==='payment.policy'){
-  const t=await tenancy(c,p.tenancyId),terms=parsed(p.terms)
+  const t=await tenancy(c,p.tenancyId)
+  const ranked=Object.entries(p).filter(([k,v])=>k.startsWith('priority:')&&String(v).trim()!=='').map(([k,v])=>({id:k.slice(9),rank:Number(v)}))
+  if(p.terms===undefined)insist(ranked.every(x=>Number.isInteger(x.rank)&&x.rank>0&&x.rank<=500)&&new Set(ranked.map(x=>x.rank)).size===ranked.length,'payment_priority','Allocation positions must be unique whole numbers from 1 to 500.')
+  const terms=p.terms===undefined?{stages:Object.keys(p).filter(k=>/^stageMin:\d+$/.test(k)&&String(p[k]).trim()!=='').sort((a,b)=>Number(a.split(':')[1])-Number(b.split(':')[1])).map(k=>{const i=k.split(':')[1];return{minDaysPastDue:Number(p[k]),allowPartial:p['stagePartial:'+i]==='true',overpayment:p['stageExcess:'+i]}}),priority:ranked.sort((a,b)=>a.rank-b.rank).map(x=>x.id)}:parsed(p.terms)
   insist(terms&&typeof terms==='object','payment_policy','Supply the lease policy.');stages(terms.stages)
   insist(Array.isArray(terms.priority)&&terms.priority.length>0&&terms.priority.length<=500&&terms.priority.every((x:unknown)=>typeof x==='string')&&new Set(terms.priority).size===terms.priority.length,'payment_priority','Name each charge once in its allocation order.')
   for(const q of terms.priority)insist(await one(c,'SELECT 1 FROM tt_charges WHERE id=? AND tenancy_id=?',q,t.id),'not_found','Priority charge not found.',404)
@@ -95,3 +98,10 @@ export async function paymentCommand(c:Context,command:string,p:Row):Promise<Row
 }
 function receipt(c:Context,p:Row,a:Row,day:string,currency:string){return sql(c,'INSERT INTO tt_receipts(id,charge_id,amount_cents,received_date,reference,created_at,currency,method) VALUES(?,?,?,?,?,?,?,?)',a.receiptId,a.chargeId,a.amountCents,day,'payment:'+p.id+':'+a.chargeId,c.now,currency,p.method)}
 function event(c:Context,paymentId:string,state:string,reference:string,day:string){return sql(c,'INSERT INTO tt_payment_events(id,payment_id,state,reference,on_day,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?)',id(),paymentId,state,reference,day,c.actor.id,c.now)}
+
+/** Effective external outcomes known now, on an inclusive property-local day. Never a bank/provider assertion. */
+export async function externalFundsAsOf(c:Context,tenancyId:string,on:string){
+ const rows=await all(c,"SELECT p.id,p.amount_cents,p.credit_cents,p.received_date,p.method,(SELECT e.state FROM tt_payment_events e WHERE e.payment_id=p.id AND e.on_day<=? ORDER BY e.on_day DESC,e.recorded_at DESC,CASE e.state WHEN 'pending' THEN 0 ELSE 1 END DESC LIMIT 1) AS as_of_state FROM tt_payments p WHERE p.tenancy_id=? AND p.received_date<=? ORDER BY p.received_date,p.id",on,tenancyId,on)
+ const pending=rows.filter(r=>r.as_of_state==='pending').map(r=>({id:r.id,amountCents:r.amount_cents,initiatedOn:r.received_date,method:r.method}))
+ return{pending,pendingCents:pending.reduce((n,r)=>n+r.amountCents,0),creditCents:rows.filter(r=>r.as_of_state==='settled').reduce((n,r)=>n+r.credit_cents,0)}
+}

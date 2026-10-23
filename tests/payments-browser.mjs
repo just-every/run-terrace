@@ -12,6 +12,7 @@ try{await journey({assets:true,inspect:async({phase,h,t,day,pending})=>{
   await page.goto(h.origin+'/app?tab=ledger&tenancy='+t.id);await page.getByRole('heading',{name:'Split payments and pending funds',exact:true}).waitFor()
   if(phase==='pending'){
    await proof('pending-allocation')
+   const policy=page.locator('form:has(input[name=command][value="payment.policy"])');await policy.getByLabel('Approved lease policy reference',{exact:true}).fill('synthetic-terrace-52 native lease policy');await policy.getByRole('button',{name:'Record lease payment policy',exact:true}).click();await page.getByText('Lease payment policy recorded. Every payment also requires active reviewed property rules.',{exact:true}).waitFor();await proof('native-policy-stages')
    const form=page.locator('form:has(input[name=command][value="payment.settle"])');await form.getByLabel('Outcome date',{exact:true}).fill(day);await form.getByLabel('External outcome reference',{exact:true}).fill('synthetic-terrace-50 native settlement');await proof('review-settlement')
    await form.getByRole('button',{name:'Record settlement',exact:true}).click();await page.getByText('Settlement recorded once; reserved allocations are now receipts.',{exact:true}).waitFor();await proof('settled-credit');return{settled:true}
   }

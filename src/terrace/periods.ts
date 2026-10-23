@@ -29,8 +29,7 @@ async function postings(c: Context, m: string) {
  const [charges, receipts, reductions] = await Promise.all([
   all(c, 'SELECT q.id,q.tenancy_id,t.unit_id,q.due_date AS day,q.amount_cents,q.reference,q.currency,t.currency_confirmed FROM tt_charges q JOIN tt_tenancies t ON t.id=q.tenancy_id WHERE substr(q.due_date,1,7)=?', m),
   all(c, 'SELECT r.id,q.tenancy_id,t.unit_id,r.received_date AS day,r.amount_cents,r.reference,r.currency,t.currency_confirmed FROM tt_net_receipts r JOIN tt_charges q ON q.id=r.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id WHERE substr(r.received_date,1,7)=?', m),
-  // A reduction's UTC time is at most one day either side of its property-local day.
-  all(c, "SELECT a.id,q.tenancy_id,t.unit_id,a.at,t.time_zone,a.amount_cents,a.reason AS reference,a.currency,t.currency_confirmed FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id WHERE a.at>=date(?||'-01','-1 day') AND a.at<date(?||'-01','+1 month','+1 day')", m, m),
+  all(c, "SELECT a.id,q.tenancy_id,t.unit_id,a.at,a.posting_day AS day,t.time_zone,a.amount_cents,a.reason AS reference,a.currency,t.currency_confirmed FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id WHERE substr(a.posting_day,1,7)=? OR (a.posting_day IS NULL AND a.at>=date(?||'-01','-1 day') AND a.at<date(?||'-01','+1 month','+1 day'))", m, m, m),
  ])
  const line = (kind: string) => (r: Row) => ({ id: r.id, kind, day: r.day ?? localDate(r.at, r.time_zone), tenancyId: r.tenancy_id, unitId: r.unit_id ?? null, reference: r.reference, amountCents: r.amount_cents, currency: unconfirmed(r) })
  return [...charges.map(line('charge')), ...receipts.map(line('receipt')), ...reductions.map(line('adjustment'))].filter(l => l.day.slice(0, 7) === m).sort((a, b) => a.day.localeCompare(b.day) || a.kind.localeCompare(b.kind) || a.id.localeCompare(b.id))

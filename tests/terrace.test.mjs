@@ -1,3 +1,4 @@
+import {journey as residentStatementJourney} from './resident-statements.mjs'
 import {journey as financialJourney} from './financial-actions.mjs'
 import {journey as lateFeeJourney} from './late-fees.mjs'
 import {journey as paymentJourney} from './payments.mjs'
@@ -875,3 +876,5 @@ test('PAY-005: reviewed lease stages reserve concurrent co-tenant payments, allo
 test('PAY-006: reviewed state caps, weekend and holiday grace, timely pending settlement and reasoned waivers retain original calculations',lateFeeJourney)
 
 test('PAY-009: exact independent approvals refuse changed refund sources, record one external refund with original owner effects and retain reasoned corrections and forwarding check drafts',financialJourney)
+
+test('PAY-010: monthly resident statements reconcile recorded payments, pending funds and separate credit, with scoped transaction inspection and no delivery claim',residentStatementJourney)
