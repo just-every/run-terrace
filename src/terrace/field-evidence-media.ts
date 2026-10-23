@@ -1,5 +1,5 @@
 // PORT-009: all record reach and role checks run again at each upload/read door.
-import {all,allow,commit,date,guard,id,insist,one,recordRead,sha256,sql,tenancy,text,type Context,type Row} from './core'
+import {all,allow,can,reaches,commit,date,guard,id,insist,one,recordRead,sha256,sql,tenancy,text,type Context,type Row} from './core'
 import {bill,billGuard} from './bills-input'
 import {scan} from './document-scan'
 export const MEDIA_COMMANDS=['media.begin','media.chunk','media.finish','media.abort']
@@ -88,4 +88,12 @@ export async function mediaDownload(c:Context,key:unknown) {
  await mediaRecord(c,mediaTarget(r).kind,mediaTarget(r).recordId)
  const bytes=await mediaBytes(c,r);await recordRead(c,'read:record-media',r.id)
  return new Response(bytes,{headers:{'content-type':r.media_type,'content-disposition':`attachment; filename*=UTF-8''${encodeURIComponent(r.name)}`,'cache-control':'private, no-store','x-content-type-options':'nosniff','x-content-sha256':r.sha256,'content-security-policy':"default-src 'none'; sandbox"}})
+}
+
+/** OPS-001's existing document catalogue inherits record-media scope and version provenance. */
+export async function recordMediaCatalog(c:Context) {
+ const {billData}=await import('./bills')
+ const invoices=can(c,'bills.read')?new Set(((await billData(c)).bills as Row[]).map(b=>b.id)):new Set()
+ const rows=await all(c,"SELECT m.id,m.attachment_id,m.version,m.name,m.media_type,m.size,m.sha256,m.captured_at,m.inspection_id,m.job_id,m.bill_id,t.id AS tenancy_id,t.unit_id,t.erased_at FROM tt_record_media m LEFT JOIN tt_inspections i ON i.id=m.inspection_id LEFT JOIN tt_maintenance_jobs j ON j.id=m.job_id LEFT JOIN tt_tenancies t ON t.id=COALESCE(i.tenancy_id,j.tenancy_id) WHERE m.state='ready' ORDER BY m.id")
+ return rows.filter(r=>r.bill_id?invoices.has(r.bill_id):can(c,'work.read')&&!r.erased_at&&reaches(c,r.unit_id)).map(r=>({id:'record-media:'+r.id,kind:mediaTarget(r).kind,recordId:mediaTarget(r).recordId,attachmentId:r.attachment_id,version:r.version,name:r.name,media_type:r.media_type,size:r.size,sha256:r.sha256,effective:r.captured_at,tenancy_id:r.tenancy_id,href:'/api/record-media/file?id='+r.id}))
 }

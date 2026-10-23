@@ -46,6 +46,7 @@ export async function journey({assets=false,inspect}={}) {
   assert.equal((await h.state(t.id)).work.inspections.find(x=>x.id===i.id).state,'completed','record video originals satisfy the inspection completion door')
   const get=id=>h.request('/api/record-media/file?id='+id)
   for(const [id,bytes]of [[began.id,video],[prior.id,png]]){const r=await get(id);assert.equal(r.headers.get('cache-control'),'private, no-store');assert.equal(r.headers.get('x-content-sha256'),sha(bytes));assert.deepEqual(Buffer.from(await r.arrayBuffer()),bytes)}
+  const catalogue=(await(await h.request('/api/v1/documents?limit=200')).json()).data;for(const media of [{...began,sha256:sha(video)},prior,second,work,work2,invoice,invoice2])assert.equal(catalogue.find(x=>x.id==='record-media:'+media.id)?.sha256,media.sha256,'versioned document catalogue includes each original under its record scope')
   const list=await(await h.request('/api/record-media?kind=inspection&recordId='+i.id)).json();assert.deepEqual(list.files.filter(x=>x.attachment_id===prior.attachmentId).map(x=>x.version),[2,1])
   assert.equal((await h.request('/api/record-media/file?id='+work.id,{as:''})).status,401)
   await h.command('maintenance.approve',{jobId:j.id,version:1})
@@ -53,6 +54,8 @@ export async function journey({assets=false,inspect}={}) {
   const staff=async(role,email,portfolio)=>{await h.command('operator.invite',{displayName:role,email,role,['portfolio:'+portfolio]:'1'});return h.accept(email)}
   const other=await h.command('portfolio.add',{name:'Other portfolio'}),out=await staff('portfolio_manager','outside@example.test',other.id),mc=await staff('maintenance_coordinator','tech@example.test',f.f.id),accountant=await staff('accountant','accountant@example.test',f.f.id)
   for(const path of ['/api/record-media/file?id='+prior.id,'/api/record-media?kind=inspection&recordId='+i.id])assert.equal((await h.request(path,{as:out})).status,404)
+  assert.equal((await h.request('/api/v1/documents/record-media:'+invoice.id,{as:mc})).status,404)
+  assert.equal((await h.request('/api/v1/documents/record-media:'+prior.id,{as:out})).status,404)
   assert.equal((await h.request('/api/record-media/file?id='+invoice.id,{as:mc})).status,403)
   assert.equal((await h.request('/api/record-media/file?id='+invoice.id,{as:accountant})).status,200)
   await h.command('portal.invite',{kind:'vendor',vendorId:f.v.id,email:'vendor@example.test',displayName:'Vendor',source:'Assigned vendor authorized'})
