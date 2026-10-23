@@ -39,6 +39,9 @@ export async function journey({assets=false,inspect}={}) {
   await h.command('media.begin',{kind:'inspection',recordId:i.id,name:'stale.png',mediaType:'image/png',size:png.length,sha256:sha(png),capturedAt:'2026-10-20',source:'stale',attachmentId:prior.attachmentId,version:1},{status:409})
   const work=await upload(h,{kind:'work',recordId:j.id,bytes:Buffer.from('Valve replacement method and manufacturer instructions'),name:'instructions.txt',type:'text/plain'})
   const invoice=await upload(h,{kind:'invoice',recordId:b.id,bytes:Buffer.from('%PDF-1.4\nSupplier invoice revision\n%%EOF'),name:'supplier.pdf',type:'application/pdf'})
+  const work2=await upload(h,{kind:'work',recordId:j.id,bytes:Buffer.from('Revised valve method with isolation step'),name:'instructions-revised.txt',type:'text/plain',attachmentId:work.attachmentId,version:1})
+  const invoice2=await upload(h,{kind:'invoice',recordId:b.id,bytes:Buffer.from('%PDF-1.4\nSupplier supplemental original\n%%EOF'),name:'supplier-revised.pdf',type:'application/pdf',attachmentId:invoice.attachmentId,version:1})
+  for(const [kind,key,attachment]of [['work',j.id,work.attachmentId],['invoice',b.id,invoice.attachmentId]])assert.deepEqual((await(await h.request('/api/record-media?kind='+kind+'&recordId='+key)).json()).files.filter(x=>x.attachment_id===attachment).map(x=>x.version),[2,1],'each record kind retains earlier versions')
   const get=id=>h.request('/api/record-media/file?id='+id)
   for(const [id,bytes]of [[began.id,video],[prior.id,png]]){const r=await get(id);assert.equal(r.headers.get('cache-control'),'private, no-store');assert.equal(r.headers.get('x-content-sha256'),sha(bytes));assert.deepEqual(Buffer.from(await r.arrayBuffer()),bytes)}
   const list=await(await h.request('/api/record-media?kind=inspection&recordId='+i.id)).json();assert.deepEqual(list.files.filter(x=>x.attachment_id===prior.attachmentId).map(x=>x.version),[2,1])
@@ -62,13 +65,13 @@ export async function journey({assets=false,inspect}={}) {
   await inspect?.({h,...f,prior,work,invoice,video})
   console.log('media proof: exporting backup');const archive=await(await h.request('/api/backup')).text();console.log('media proof: restoring backup',Buffer.byteLength(archive))
   await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'media.rer')})
-  console.log('media proof: comparing restored originals');for(const id of [began.id,prior.id,second.id,work.id,invoice.id])assert.deepEqual(Buffer.from(await(await fresh.request('/api/record-media/file?id='+id)).arrayBuffer()),Buffer.from(await(await get(id)).arrayBuffer()),'every original version survives restore')
+  console.log('media proof: comparing restored originals');for(const id of [began.id,prior.id,second.id,work.id,work2.id,invoice.id,invoice2.id])assert.deepEqual(Buffer.from(await(await fresh.request('/api/record-media/file?id='+id)).arrayBuffer()),Buffer.from(await(await get(id)).arrayBuffer()),'every original version survives restore')
   console.log('media proof: creating readable export');const zip=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer())
   const entries=new Map();let offset=0
   while(zip.readUInt32LE(offset)===0x04034b50){const size=zip.readUInt32LE(offset+18),nameLength=zip.readUInt16LE(offset+26),extraLength=zip.readUInt16LE(offset+28),name=zip.subarray(offset+30,offset+30+nameLength).toString(),start=offset+30+nameLength+extraLength;entries.set(name,zip.subarray(start,start+size));offset=start+size}
   const manifest=JSON.parse(entries.get('manifest.json')),original=manifest.files.find(x=>x.table==='tt_record_media'&&x.id===began.id)
   assert.ok(original,'readable export names the complete original video, not just chunks');assert.equal(original.sha256,sha(video));assert.deepEqual(entries.get(original.path),video)
-  for(const id of [prior.id,second.id,work.id,invoice.id]){const f=manifest.files.find(x=>x.table==='tt_record_media'&&x.id===id);assert.ok(f);assert.equal(sha(entries.get(f.path)),f.sha256)}
+  for(const id of [prior.id,second.id,work.id,work2.id,invoice.id,invoice2.id]){const f=manifest.files.find(x=>x.table==='tt_record_media'&&x.id===id);assert.ok(f);assert.equal(sha(entries.get(f.path)),f.sha256)}
   const history=(await(await h.request('/api/history')).json()).rows;assert.ok(history.some(x=>x.action==='read:record-media'))
  }finally{await h.close();await fresh.close()}
 }
