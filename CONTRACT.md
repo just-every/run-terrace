@@ -488,8 +488,8 @@ Revised 19 October 2026: LEASE-005 is done (ct ruling 19:01Z). Migration `0044_p
 | Clauses | Done | Partial | Missing | Total |
 | --- | ---: | ---: | ---: | ---: |
 | Published | 12 | 0 | 0 | 12 |
-| Target and push further | 39 | 32 | 59 | 130 |
-| All | 51 | 32 | 59 | 142 |
+| Target and push further | 40 | 32 | 58 | 130 |
+| All | 52 | 32 | 58 | 142 |
 
 | Clause | Title | Kind | Status | Evidence | Gap |
 | --- | --- | --- | --- | --- | --- |
