@@ -18,11 +18,11 @@ for(const f of document.querySelectorAll('[data-field-capture]')){
  f.noValidate=true
  const key=f.dataset.operator+':'+f.dataset.fieldCapture+':'+f.dataset.record,status=f.querySelector('[data-field-status]'),conflict=f.querySelector('[data-conflict]')
  let saved=null,reconciliation=null
- const restore=d=>{for(const[k,v]of Object.entries(d.values))if(f.elements[k]&&f.elements[k].type!=='file')f.elements[k].value=v;f.dataset.version=d.version;f.elements.deviceConsent.checked=!!d.consentAt;reconciliation=d.reconciliation;for(const k of Object.keys(d.files||{}))if(f.elements[k])f.elements[k].required=false;status.textContent='Private device draft recovered. Original files are retained; review and sync when connected.'}
+ const restore=d=>{for(const[k,v]of Object.entries(d.values))if(f.elements[k]&&f.elements[k].type!=='file')f.elements[k].value=v;f.dataset.version=d.version;f.elements.deviceConsent.checked=!!d.consentAt;reconciliation=d.reconciliation;for(const [k,file]of Object.entries(d.files||{}))if(f.elements[k]){f.elements[k].required=false;const note=document.createElement('small');note.dataset.deviceFile='';note.textContent='Saved original: '+file.name+' · '+file.size+' bytes';f.elements[k].parentElement.append(note)}status.textContent='Private device draft recovered. Original files are retained; review and sync when connected.'}
  draftStore('get',key).then(d=>{if(d){saved=d;restore(d)}}).catch(e=>status.textContent=e.message)
  function collect(){const values={};for(const input of f.elements)if(input.name&&input.type!=='file'&&input.type!=='checkbox')values[input.name]=input.value;const files={...saved?.files};for(const input of f.querySelectorAll('input[type=file]'))if(input.files[0])files[input.name]=input.files[0];return {key,clientId:saved?.clientId||crypto.randomUUID(),kind:f.dataset.fieldCapture,version:Number(f.dataset.version),values,files,uploads:saved?.uploads||{},consentAt:saved?.consentAt||null,reconciliation}}
  f.querySelector('[data-save]').addEventListener('click',async()=>{try{if(!f.elements.deviceConsent.checked)throw Error('Explicitly consent before storing private evidence on this device.');saved=collect();saved.consentAt=saved.consentAt||new Date().toISOString();await draftStore('put',key,saved);status.textContent='Saved offline on this device. Nothing has been sent. Reconnect, review the current scope and explicitly sync.'}catch(e){status.textContent=e.message}})
- f.querySelector('[data-clear]').addEventListener('click',async()=>{await draftStore('delete',key);saved=null;reconciliation=null;status.textContent='Private device draft and its original files deleted.'})
+ f.querySelector('[data-clear]').addEventListener('click',async()=>{await draftStore('delete',key);saved=null;reconciliation=null;for(const note of f.querySelectorAll('[data-device-file]'))note.remove();status.textContent='Private device draft and its original files deleted.'})
  f.addEventListener('submit',async event=>{
   event.preventDefault();const button=f.querySelector('button[type=submit]');button.disabled=true
   try{
@@ -39,7 +39,7 @@ for(const f of document.querySelectorAll('[data-field-capture]')){
       for(const item of f.querySelectorAll('[data-finding]'))if(!definitions.some(x=>x.key===item.dataset.finding)){item.hidden=true;for(const input of item.querySelectorAll('input,textarea,select'))input.required=false}
       f.dataset.definitions=JSON.stringify(definitions)
      }else{
-      f.elements.approvalId.value=current.approval_id;f.elements.jobVersion.value=current.version;const tasks=JSON.parse(current.approval_snapshot).checklist||[current.title];f.elements.completedTasks.value='';f.elements.completedTasks.placeholder=tasks.join('\n');f.querySelector('[data-current-tasks]').textContent='Current approved tasks: '+tasks.join('; ')
+      f.elements.approvalId.value=current.approval_id;f.elements.jobVersion.value=current.version;const tasks=JSON.parse(current.approval_snapshot).checklist||[current.title];f.elements.completedTasks.value='';f.elements.completedTasks.placeholder=tasks.join('\n');f.closest('article').querySelector('[data-current-tasks]').textContent='Current approved tasks: '+tasks.join('; ')
      }
      f.dataset.version=current.version;conflict.hidden=true;status.textContent='Current scope reviewed. Complete the revised fields and explicitly sync again. Original findings remain in the reconciliation record.'
     }
