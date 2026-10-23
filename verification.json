@@ -23,6 +23,7 @@
       "hosted": false,
       "commands": [
         "pnpm run test:terrace",
+        "node --test --test-concurrency=1 tests/field-capture.test.mjs",
         "pnpm run test:demo"
       ]
     },
@@ -151,6 +152,14 @@
       "hosted": false,
       "commands": [
         "node tests/resident-statements-browser.mjs"
+      ]
+    },
+    {
+      "name": "record-media",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/record-media-browser.mjs"
       ]
     }
   ]
