@@ -177,7 +177,10 @@ test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned 
   const ownerAgain=await r.signIn('owner@example.test')
   for(const path of ['/auth/operators','/api/state'])assert.equal((await r.request(path,{as:ownerAgain})).status,403,path+' waits for the owner\u2019s second factor too')
   assert.equal((await r.request('/auth/invite',{method:'POST',as:ownerAgain,body:{email:'z@example.test',displayName:'z',role:'member'}})).status,403)
+  const relink=()=>r.request('/auth/dependencies/relink',{method:'POST',as:ownerAgain,body:{issuer:'https://idp.example.test'}})
+  assert.equal((await relink()).status,403,'changing the identity provider waits for the owner’s second factor too')
   await r.command('factor.verify',{code:totp(ownerKey,1)},{as:ownerAgain});assert.equal((await r.request('/auth/operators',{as:ownerAgain})).status,200)
+  assert.equal((await relink()).status,200,'once passed, the owner can change the identity provider')
   await r.command('factor.reset',{operatorId:id('accountant@example.test')});assert.equal((await r.request('/api/state',{as:again})).status,403,'a reset authenticator must be set up again')
  } finally { await r.close() }
 })
