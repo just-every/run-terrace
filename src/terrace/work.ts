@@ -1,3 +1,4 @@
+import {inspectionCaptures} from './field-evidence-inspections'
 import { independence } from './dual-control'
 import { all, can, cents, commit, date, email, guard, id, insist, allow, money, one, sha256, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
 import { assetData, serviceableAsset } from './assets'
@@ -151,7 +152,7 @@ export async function workData(c: Context, tenancyId: string) {
     all(c, 'SELECT j.*,a.id AS approval_id,a.job_version AS approved_version,a.approved_by,a.approved_role,a.approved_at,a.sha256 AS approval_sha256,a.snapshot AS approval_snapshot FROM tt_maintenance_jobs j LEFT JOIN tt_maintenance_approvals a ON a.job_id=j.id AND j.state<>\'pending\' AND a.job_version=(SELECT MAX(job_version) FROM tt_maintenance_approvals WHERE job_id=j.id) WHERE j.tenancy_id=? ORDER BY j.prepared_at DESC', t.id),
   ])
   const today = localDate(c.now, t.time_zone)
-  return { inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), ...await quoteData(c, t, jobs), ...await completionData(c, t.id), ...await appointmentData(c, t), ...await dispatchData(c, t), role: c.actor.role, may: Object.fromEntries(['maintenance.dispatch', 'maintenance.progress', 'maintenance.escalate', 'maintenance.approve', 'inspection.create', 'quote.add', 'schedule.add', 'work.limits', 'vendor.add', 'asset.add', 'appointment.book', 'appointment.confirm', 'appointment.cancel', 'appointment.no-show', 'appointment.reassign'].map(a => [a, can(c, a)])) }
+  return { ...await inspectionCaptures(c,t.id), inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), ...await quoteData(c, t, jobs), ...await completionData(c, t.id), ...await appointmentData(c, t), ...await dispatchData(c, t), role: c.actor.role, may: Object.fromEntries(['maintenance.dispatch', 'maintenance.progress', 'maintenance.escalate', 'maintenance.approve', 'inspection.create', 'quote.add', 'schedule.add', 'work.limits', 'vendor.add', 'asset.add', 'appointment.book', 'appointment.confirm', 'appointment.cancel', 'appointment.no-show', 'appointment.reassign'].map(a => [a, can(c, a)])) }
 }
 
 /** Operator ids to display names, for showing who prepared, approved, uploaded or handed off work. */
