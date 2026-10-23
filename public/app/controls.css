@@ -29,3 +29,5 @@ details[open]>summary{margin-bottom:12px}
 @media(max-width:860px){input,select,textarea{font-size:16px;min-height:44px}button,.button{min-height:44px}.form-columns,.field-row{grid-template-columns:1fr;gap:14px}.decision-actions form{flex:1 1 140px}.decision-actions button{width:100%}}
 
 .tooltip-control{position:relative}.tooltip-control [role=tooltip]{position:absolute;top:calc(100% + 4px);right:0;z-index:20;width:max-content;padding:6px 10px;border-radius:6px;background:var(--ink);color:var(--card);font-size:12px;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .05s,visibility .05s;transition-delay:0s}.tooltip-control:hover [role=tooltip]{opacity:1;visibility:visible;transition-delay:.3s}.tooltip-control:focus-visible [role=tooltip]{opacity:1;visibility:visible;transition-delay:0s}
+
+[data-field-capture] fieldset{min-inline-size:0;max-width:100%;border:1px solid var(--rule);border-radius:10px;padding:16px;margin:0 0 16px}[data-field-capture] legend{padding:0 6px;font-weight:600}[data-field-capture] pre{max-width:100%}
