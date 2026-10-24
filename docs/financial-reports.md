@@ -1,0 +1,13 @@
+# Financial reports
+
+Open **Properties → Financial reports**. Choose an inclusive posting-date window, cash or accrual basis, and optional property, dated posting beneficiary or legal entity. The same private JSON door is `GET /api/financial-reports?from=2026-09-01&to=2026-09-30&basis=cash`. Existing financial-report roles and portfolio scope apply. Installation API credentials are refused, as for the general ledger.
+
+Income and expense show activity in the window. The balance sheet includes all postings through its last day and retained earnings since opening. Each amount lists its immutable journal sources and links to their original entry. Trial balance and general ledger always show the original accrual books. Switching basis changes no posting, source, approval or closed month.
+
+Cash statements present explicit timing adjustments: trade receivables become uncollected-income timing, and vendor and management payables become unpaid-expense timing. The initial accrual and its timing adjustment offset until the external receipt or payment is recorded. Opening receivables and payables reclassify to opening equity; tax-charge receivables reclassify to the tax liability, preserving collected taxes as liabilities rather than income. Other assets, liabilities and equity retain their recorded classification. Custom chart accounts retain their recorded kind. This is the stated reporting convention, not tax certification or a bank reconciliation.
+
+Receivable and payable aging remain accrual on either basis. Credits apply oldest first within each account, property, beneficiary, resident and vendor. Ages use the journal posting day; bills currently have an invoice day, with no separate contractual payment due day. Aging is an accounting allocation, not a claim that a specific invoice was paid. Cash flow lists original cash postings with opening sources, movement and closing amounts.
+
+Legal entity filters use the property's authorized bank mappings under ACCT-002. Properties without a mapping and legacy entries without a property stay in **Unassigned**; Terrace never guesses an entity. Owner filters use each posting's frozen beneficiary, including after an ownership transfer. Amounts are exact USD cents, with no conversion. Dates after property-local today are refused. Empty selections show explicit zero totals.
+
+The report follows existing journal retention, redaction, archive and restore rules. No money movement, outbound delivery or new recipient authority is introduced. REPORT-006 inherits these source, basis and live-scope semantics when financial schedules ship.

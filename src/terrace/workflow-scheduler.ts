@@ -1,3 +1,4 @@
+import {reportScheduleTick} from './report-schedules'
 // OPS-003 hourly Cron and Run now use the same atomic sweep. No session, outbound contact, reply,
 // evidence, resumption or closure is available to the unattended actor.
 import { all, audit, authority, guard, insist, one, sql, type Context, type Row } from './core'
@@ -69,4 +70,7 @@ export async function workflowTick(db: D1Database, now: string, tickId: string, 
 export async function workflowScheduled(controller: ScheduledController, env: Bindings) {
  const now = new Date(controller.scheduledTime).toISOString()
  await workflowTick(env.DB, now, 'cron:' + now)
+ const owner=await env.DB.prepare("SELECT id FROM oa_operators WHERE role='owner' AND status='active' ORDER BY id LIMIT 1").first<Row>()
+ const c=owner&&await configurer(env.DB,now,owner.id)
+ if(c)await reportScheduleTick(c)
 }

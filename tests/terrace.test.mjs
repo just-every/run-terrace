@@ -1,6 +1,8 @@
 import {journey as statementJourney} from './statements.mjs'
 import {journey as reconcileJourney} from './reconcile.mjs'
 import {journey as agentWorkloadJourney} from './agent-workloads.mjs'
+import {journey as reportScheduleJourney} from './report-schedules.mjs'
+import {journey as financialReportJourney} from './financial-reports.mjs'
 import {journey as residentStatementJourney} from './resident-statements.mjs'
 import {journey as financialJourney} from './financial-actions.mjs'
 import {journey as lateFeeJourney} from './late-fees.mjs'
@@ -908,3 +910,6 @@ test('ACCT-006: reviewed bank imports, exact matching, outstanding items and gua
 
 test('ACCT-012: staff cash drafts preserve opening cash, ownership periods, liabilities and separate deposits',statementJourney)
 test('AGENT-008: scoped workloads ignore document instructions, retain human approval, stop revoked queued bookings and cancel follow-ups',agentWorkloadJourney)
+test('ACCT-013: cash and accrual statements reconcile unpaid rent and bills, settlement timing and immutable scoped source drills',financialReportJourney)
+
+test('REPORT-006: owner-consented timezone generation, once-only receipts, close holds and current-source refusal send nothing',reportScheduleJourney)
