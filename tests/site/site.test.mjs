@@ -14,7 +14,7 @@ const served = path => [path, `${path}.html`, join(path, 'index.html')].some(can
 const attrs = (html, name) => [...html.matchAll(new RegExp(`\\s${name}="([^"]*)"`, 'g'))].map(match => match[1].replaceAll('&amp;', '&'))
 
 test('OPEN-001 TER-012: the built run site, MIT product, ungated source and provider costs before deployment', () => {
-  execFileSync(join(root, 'node_modules/.bin/rer'), ['build', '--site'], { cwd: root, stdio: 'pipe' })
+  execFileSync(join(root, 'node_modules/.bin/rer'), ['build', '--site'], { cwd: root, stdio: 'inherit' })
   const home = readFileSync(join(site, 'index.html'), 'utf8')
   assert.match(home, /<a class="run-button" href="\/run">Run Terrace /, 'the homepage leads with Run Terrace to /run')
   assert.match(home, /href="\/docs">Read the docs</, 'the homepage links the docs')
