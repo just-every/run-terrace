@@ -13,16 +13,22 @@
     {
       "id": "tenancy-operations",
       "clauses": [
-        "ACCEPTANCE-1",
-        "ACCEPTANCE-2",
-        "ACCEPTANCE-3"
+        "TER-001",
+        "TER-002",
+        "TER-003",
+        "TER-004",
+        "TER-005",
+        "TER-006",
+        "TER-007",
+        "TER-008"
       ]
     },
     {
       "id": "move-in-and-custody",
       "clauses": [
-        "ACCEPTANCE-4",
-        "ACCEPTANCE-5"
+        "TER-009",
+        "TER-010",
+        "TER-011"
       ]
     }
   ],
@@ -91,5 +97,6 @@
       "demo",
       "d1-transport"
     ]
-  }
+  },
+  "replaces": []
 }

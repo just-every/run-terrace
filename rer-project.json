@@ -3,5 +3,25 @@
   "projectId": "just-every/run-terrace",
   "name": "Terrace",
   "sourceRepository": "https://github.com/just-every/run-terrace",
-  "license": "MIT"
+  "license": "MIT",
+  "deployment": {
+    "target": "cloudflare-workers",
+    "artifactFile": "rer-worker-artifact.json"
+  },
+  "operations": {
+    "setup": "pnpm install --frozen-lockfile && pnpm exec rer install",
+    "build": "pnpm run build",
+    "verify": "pnpm run verify && pnpm check:deployment-spec && node scripts/edition-authoring/cli.mjs check && node scripts/edition-authoring/cli.mjs verify-base --offline",
+    "artifact": "node scripts/delivery/base/cli.mjs artifact --config packaging.json",
+    "recovery": "Follow OPERATIONS.md: stop writes and scheduled work, retain exact source and private configuration, export the complete native archive, restore into a fresh empty installation, establish a fresh owner and re-export to compare data and attachment bytes before routing traffic. Preserve all applied migration names and bytes."
+  },
+  "verification": {
+    "migrationDirectories": [
+      "migrations/core"
+    ]
+  },
+  "setup": {
+    "path": "rer-setup.json",
+    "sha256": "efd1af362d833452487242fce7cc063c3a246e75a5d909fb2f4d451115afb75b"
+  }
 }

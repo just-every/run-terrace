@@ -63,3 +63,20 @@ instructions under `node_modules/@runeditrun/rer/modules/deploy-kit`; account sc
 resource ownership, migrations, receipt and health checks are defined there.
 Local validation does not prove hosted acceptance, provider delivery or remote
 health.
+
+## Hosted delivery
+
+The seed-owned `packaging.json` declares the actual Worker, unchanged D1
+migrations and recovery procedure. After `pnpm run build`, run
+`pnpm delivery:spec` to refresh the committed deployment specification and
+`pnpm check:deployment-spec` to verify it. Package with
+`node scripts/delivery/base/cli.mjs package --config packaging.json --output rer-package`;
+the output directory must be new. Generated delivery folders are disposable.
+
+Local development suppresses email. Before hosting, select Resend, SendGrid,
+Cloudflare or RER in setup and supply the matching sender and private API key.
+Cloudflare also needs its account ID. Managed hosting assigns `MAIL_PROVIDER`,
+`MAIL_FROM`, `MAIL_RELAY_URL` and the private `MAIL_API_KEY`. Configure-email-later
+is for local setup; it does not provide production delivery. Provider acceptance
+is distinct from delivery, and human approval remains required for outbound
+product actions.
