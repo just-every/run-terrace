@@ -1,3 +1,4 @@
+import {REPORT_CUSTODY_COMMANDS,reportCustody,deliveryHolds} from './report-custody'
 import type {Bindings} from '../auth.server'
 import {operatorMail} from '../mail.server.mjs'
 import {all,audit,authority,commit,escape,guard,id,insist,one,recordRead,sha256,sql,text,type Context,type Row} from './core'
@@ -6,7 +7,7 @@ import {ownerData,ownerPeriodStatement} from './portal-data'
 import type {Portal} from './portal-session'
 const digest=(v:unknown)=>sha256(new TextEncoder().encode(JSON.stringify(v)))
 const owner=(c:Context)=>insist(c.actor.role==='owner'&&!c.actor.credential&&!c.scheduler,'forbidden','Only the signed-in installation owner manages report delivery.',403)
-export const REPORT_DELIVERY_COMMANDS=['report.delivery.prepare','report.delivery.send','report.delivery.outcome']
+export const REPORT_DELIVERY_COMMANDS=['report.delivery.prepare','report.delivery.send','report.delivery.outcome',...REPORT_CUSTODY_COMMANDS]
 const event=(c:Context,d:string,kind:string,reference:string)=>sql(c,'INSERT INTO tt_report_delivery_events(id,delivery_id,kind,reference,actor,at) VALUES(?,?,?,?,?,?)',id(),d,kind,reference,c.actor.id,c.now)
 async function grant(c:Context,key:string){
  const g=await one(c,"SELECT g.*,i.email,i.status FROM tt_portal_grants g JOIN tt_portal_identities i ON i.id=g.identity_id WHERE g.id=? AND g.revoked_at IS NULL AND g.access='owner' AND i.kind='owner' AND i.status='active'",key)
@@ -37,7 +38,9 @@ export async function reportDeliveryCommand(c:Context,name:string,p:Row):Promise
   await commit(c,[live(c,d),guard(c,'NOT EXISTS(SELECT 1 FROM tt_report_deliveries WHERE generation_id=? AND grant_id=?)',g.id,recipient.id),sql(c,"INSERT INTO tt_report_deliveries(id,generation_id,grant_id,identity_id,owner_id,property_id,recipient,snapshot,fingerprint,scope_fingerprint,prepared_by,prepared_at,next_action) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",key,g.id,recipient.id,recipient.identity_id,s.owner_id,s.property_id,recipient.email,JSON.stringify(statement),fingerprint,await scope(c,s.owner_id,s.property_id),c.actor.id,c.now,'Review the frozen owner allocation statement, then explicitly send its private link'),event(c,key,'prepared',text(p.reference,'Authorization reference',500))],name,key)
   return{id:key,fingerprint,tab:'report-schedules',notice:'Owner statement frozen for review. No email sent.'}
  }
- const d=await one(c,'SELECT * FROM tt_report_deliveries WHERE id=?',text(p.deliveryId,'Delivery',100));insist(d&&d.prepared_by===c.actor.id,'not_found','Delivery not found.',404)
+ const d=await one(c,'SELECT * FROM tt_report_deliveries WHERE id=?',text(p.deliveryId,'Delivery',100));insist(d,'not_found','Delivery not found.',404)
+ const custody=await reportCustody(c,name,p,d);if(custody)return custody
+ insist(d.prepared_by===c.actor.id&&!d.deleted_at,'not_found','Delivery not found.',404)
  if(name==='report.delivery.outcome'){
   insist(['accepted','delivered'].includes(d.state),'delivery_state','Only a provider-accepted link can have a recorded delivery or bounce.',409)
   insist(['delivered','bounced'].includes(p.outcome),'delivery_outcome','Record delivered or bounced with a provider reference.')
@@ -53,7 +56,7 @@ export async function reportDeliveryCommand(c:Context,name:string,p:Row):Promise
 }
 export async function sendReportLink(c:Context,env:Bindings,d:Row){
  // The durable uncertain claim survives a crash. Re-read the grant and source before crossing the mail boundary.
- await verified(c,d);await c.db.batch([authority(c,'report.delivery.send'),live(c,d),guard(c,"EXISTS(SELECT 1 FROM tt_report_deliveries WHERE id=? AND version=? AND state='uncertain')",d.id,d.version)])
+ owner(c);await verified(c,d);await c.db.batch([authority(c,'report.delivery.send'),live(c,d),guard(c,"EXISTS(SELECT 1 FROM tt_report_deliveries WHERE id=? AND version=? AND state='uncertain' AND deleted_at IS NULL)",d.id,d.version)])
  const mail=operatorMail(env),link=env.AUTH_ORIGIN+'/portal/report?id='+encodeURIComponent(d.id)
  let outcome='unconfigured',provider:string|null=null
  if(mail)try{const result=await mail.send({deliveryId:d.id,from:env.MAIL_FROM!,to:[d.recipient],subject:'Your Terrace owner report is ready',text:'Sign in with your existing owner portal account to read your report: '+link,html:'<p>Sign in with your existing owner portal account to read your <a href="'+escape(link)+'">owner report</a>.</p>',headers:{}} as Parameters<NonNullable<typeof mail>['send']>[0]);outcome=result.status;provider=result.providerMessageId??null}catch{outcome='uncertain'}
@@ -72,5 +75,5 @@ export async function portalReport(c:Context,portal:Portal,key:string){
  insist(await digest(current)===d.fingerprint&&await digest(JSON.parse(d.snapshot))===d.fingerprint,'not_found','Report sources changed. Request a newly reviewed report.',404)
  await recordRead(c,'portal.read:scheduled-report',d.id);return JSON.parse(d.snapshot)
 }
-export async function reviewedReport(c:Context,key:string){owner(c);const d=await one(c,'SELECT * FROM tt_report_deliveries WHERE id=? AND prepared_by=?',key,c.actor.id);insist(d,'not_found','Report not found.',404);await verified(c,d);await recordRead(c,'read:report-delivery',d.id);return{fingerprint:d.fingerprint,statement:JSON.parse(d.snapshot)}}
-export async function reportDeliveries(c:Context){owner(c);return{deliveries:await all(c,'SELECT id,generation_id,grant_id,recipient,fingerprint,state,version,attempts,provider_id,next_action FROM tt_report_deliveries ORDER BY prepared_at,id'),recipients:await all(c,"SELECT g.id,g.owner_id,i.display_name FROM tt_portal_grants g JOIN tt_portal_identities i ON i.id=g.identity_id WHERE g.access='owner' AND g.revoked_at IS NULL AND i.kind='owner' AND i.status='active' ORDER BY i.display_name,g.id")}}
+export async function reviewedReport(c:Context,key:string){owner(c);const d=await one(c,'SELECT * FROM tt_report_deliveries WHERE id=? AND prepared_by=? AND deleted_at IS NULL',key,c.actor.id);insist(d,'not_found','Report not found.',404);await verified(c,d);await recordRead(c,'read:report-delivery',d.id);return{fingerprint:d.fingerprint,statement:JSON.parse(d.snapshot)}}
+export async function reportDeliveries(c:Context){owner(c);return{holds:await deliveryHolds(c),deliveries:await all(c,'SELECT id,generation_id,grant_id,recipient,fingerprint,state,version,attempts,provider_id,next_action,deleted_at FROM tt_report_deliveries ORDER BY prepared_at,id'),recipients:await all(c,"SELECT g.id,g.owner_id,i.display_name FROM tt_portal_grants g JOIN tt_portal_identities i ON i.id=g.identity_id WHERE g.access='owner' AND g.revoked_at IS NULL AND i.kind='owner' AND i.status='active' ORDER BY i.display_name,g.id")}}

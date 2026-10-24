@@ -34,7 +34,7 @@ export async function journey({assets=false,inspect}={}){
   // Existing owner portal projections are the sole recipient payload; the private link grants no authority.
   await h.stepUp()
   const people=[]
-  for(let i=0;i<6;i++){
+  for(let i=0;i<7;i++){
    const email='reports-'+i+'@example.test',g=await h.command('portal.invite',{kind:'owner',ownerId:owner.id,email,displayName:'Report owner '+i,source:'synthetic-terrace-6 recipient authority'})
    const cookie=await h.portalSignIn(email);people.push({...g,email,cookie})
   }
@@ -47,6 +47,11 @@ export async function journey({assets=false,inspect}={}){
   assert.equal(h.messages.length,beforeRevoked,'revocation before delivery sends nothing')
   const delivery=await prepare(people[1]),frozen=await(await h.request('/api/report-delivery?id='+delivery.id)).json()
   assert.equal(frozen.statement.owner.id,owner.id);assert.equal(frozen.fingerprint,delivery.fingerprint)
+  const ordinary=await(await h.request('/portal/owner-statement?from='+generation.report_from+'&to='+generation.report_to+'&format=json',{as:people[1].cookie})).json()
+  assert.deepEqual(frozen.statement,ordinary,'delivery adds no fields to the existing owner portal statement')
+  for(const extra of [{consent:''},{fingerprint:'synthetic-terrace-22'}])await h.command('report.delivery.send',{deliveryId:delivery.id,fingerprint:delivery.fingerprint,consent:'SEND LINK',reference:'synthetic-terrace-23',...extra},{status:400})
+  await h.command('report.delivery.send',{deliveryId:delivery.id,fingerprint:delivery.fingerprint,consent:'SEND LINK',reference:'synthetic-terrace-24'},{as:member,status:403})
+  const beforeTick=h.messages.length;await h.scheduled(next.getTime()+3600000);assert.equal(h.messages.length,beforeTick,'a prepared report is never sent unattended')
   const sentBefore=h.messages.length,body={command:'report.delivery.send',deliveryId:delivery.id,fingerprint:delivery.fingerprint,consent:'SEND LINK',reference:'synthetic-terrace-11'}
   const races=await h.atOnce([['/api/commands',{method:'POST',body}],['/api/commands',{method:'POST',body}]])
   assert.deepEqual(races.map(r=>r.status).sort(),[200,409]);assert.equal(h.messages.length,sentBefore+1,'one authorized mail submission despite simultaneous sends')
@@ -61,9 +66,35 @@ export async function journey({assets=false,inspect}={}){
   await h.command('report.delivery.outcome',{deliveryId:bounced.id,outcome:'bounced',reference:'synthetic-terrace-13 provider bounce evidence'})
   const bounceRow=(await get()).deliveries.find(d=>d.id===bounced.id);assert.equal(bounceRow.state,'bounced');assert.match(bounceRow.next_action,/Failed-delivery task/)
   assert.equal((await h.request('/portal/report?id='+bounced.id,{as:people[2].cookie})).status,404)
-  const retry=await prepare(people[3]);mailMode='limited';assert.equal((await send(retry)).emailOutcome,'rate_limited');mailMode='accepted';assert.equal((await send(retry)).emailOutcome,'accepted','a definitive rate limit can be explicitly retried after a live recheck')
+  const retry=await prepare(people[3]);mailMode='limited';assert.equal((await send(retry)).emailOutcome,'rate_limited');mailMode='accepted';await h.command('report.delivery.send',{deliveryId:retry.id,fingerprint:retry.fingerprint,consent:'',reference:'synthetic-terrace-36'},{status:400});assert.equal((await send(retry)).emailOutcome,'accepted','a definitive rate limit can be explicitly retried after a live recheck')
   const uncertain=await prepare(people[4]);mailMode='uncertain';assert.equal((await send(uncertain)).emailOutcome,'uncertain');mailMode='accepted'
-  await h.restart();await h.command('report.delivery.send',{deliveryId:uncertain.id,fingerprint:uncertain.fingerprint,consent:'SEND LINK',reference:'synthetic-terrace-14'},{status:409})
+  const uncertainCount=h.messages.length;await h.restart();await h.scheduled(next.getTime()+3600000);await h.command('report.delivery.send',{deliveryId:uncertain.id,fingerprint:uncertain.fingerprint,consent:'SEND LINK',reference:'synthetic-terrace-14'},{status:409})
+  assert.equal(h.messages.length,uncertainCount,'Cron, restart and explicit resubmission never retry an uncertain send')
+  const uncertainRow=(await get()).deliveries.find(d=>d.id===uncertain.id);assert.equal(uncertainRow.state,'uncertain');assert.match(uncertainRow.next_action,/reconcile/i)
+  const custody=await prepare(people[6]),deletion={deliveryId:custody.id,consent:'DELETE SNAPSHOT',reference:'synthetic-terrace-25 owner deletion'}
+  const holdIds=[]
+  for(const kind of ['legal','accountant']){await h.command('report.delivery.hold',{deliveryId:custody.id,kind,reference:'synthetic-terrace-26 '+kind});holdIds.push((await get()).holds.find(x=>x.delivery_id===custody.id&&x.kind===kind).id);await h.command('report.delivery.delete',deletion,{status:409})}
+  await h.restart();assert.equal((await h.request('/api/report-delivery?id='+custody.id)).status,200,'snapshots persist until the owner explicitly deletes them')
+  await h.command('report.delivery.delete',deletion,{status:409})
+  await h.command('report.delivery.release',{deliveryId:custody.id,holdId:holdIds[0],reference:'synthetic-terrace-27 legal release'})
+  await h.command('report.delivery.delete',deletion,{status:409})
+  await h.command('report.delivery.release',{deliveryId:custody.id,holdId:holdIds[1],reference:'synthetic-terrace-28 accountant release'})
+  const propertyHold=await h.command('privacy.hold',{tenancyId:tenancy.id,class:'accounting',reason:'synthetic-terrace-29 property legal hold'})
+  await h.command('report.delivery.delete',deletion,{status:409})
+  await h.command('privacy.release',{tenancyId:tenancy.id,holdId:propertyHold.id,reason:'synthetic-terrace-30 release'})
+  await h.command('report.delivery.delete',deletion,{as:member,status:403})
+  await h.command('report.delivery.delete',{...deletion,consent:''},{status:400})
+  await h.command('report.delivery.delete',deletion)
+  assert.equal((await h.request('/api/report-delivery?id='+custody.id)).status,404)
+  assert.equal((await h.request('/portal/report?id='+custody.id,{as:people[6].cookie})).status,404)
+  const stored=await(await h.mf.getD1Database('DB')).prepare('SELECT snapshot,state FROM tt_report_deliveries WHERE id=?').bind(custody.id).first();assert.deepEqual(stored,{snapshot:'',state:'deleted'})
+  await h.command('report.delivery.prepare',{generationId:generation.id,grantId:people[6].grantId,fingerprint:generation.fingerprint,reference:'synthetic-terrace-31',consent:'DELIVER OWNER REPORT'},{status:409})
+  const history=(await(await h.request('/api/history?limit=2000')).json()).rows
+  for(const action of ['report.delivery.hold','report.delivery.release','report.delivery.delete'])assert.ok(history.some(x=>x.action===action&&x.subject===custody.id&&x.outcome==='recorded'),'custody action is audited: '+action)
+  const zipped=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer()),entries=new Map()
+  for(let o=0;zipped.readUInt32LE(o)===0x04034b50;){const size=zipped.readUInt32LE(o+18),n=zipped.readUInt16LE(o+26),x=zipped.readUInt16LE(o+28);entries.set(zipped.subarray(o+30,o+30+n).toString(),zipped.subarray(o+30+n+x,o+30+n+x+size));o+=30+n+x+size}
+  const manifest=JSON.parse(entries.get('manifest.json'))
+  for(const name of ['tt_report_deliveries','tt_report_delivery_events','tt_report_delivery_holds'])assert.ok(!manifest.tables.some(t=>t.name===name),'private report custody excluded from readable archive: '+name)
   const native=await prepare(people[5])
   const nativeProof={native,person:people[5],delivered:delivery,recipient:people[1],link,frozen}
   for(const path of ['/api/report-delivery?id='+delivery.id])assert.equal((await h.request(path,{as:member})).status,403)

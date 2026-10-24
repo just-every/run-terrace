@@ -912,4 +912,4 @@ test('ACCT-012: staff cash drafts preserve opening cash, ownership periods, liab
 test('AGENT-008: scoped workloads ignore document instructions, retain human approval, stop revoked queued bookings and cancel follow-ups',agentWorkloadJourney)
 test('ACCT-013: cash and accrual statements reconcile unpaid rent and bills, settlement timing and immutable scoped source drills',financialReportJourney)
 
-test('REPORT-006: consented timezone generation and reviewed owner links recheck scope, refuse duplicate sends and retain bounce tasks',reportScheduleJourney)
+test('REPORT-006: reviewed owner links enforce send approval, live scope, frozen portal fields, archive isolation and audited hold-aware deletion',reportScheduleJourney)

@@ -2,7 +2,9 @@
 
 ## 2026-10-24
 
-- REPORT-006: add explicitly reviewed owner statement links through existing portal rights, frozen statement checksums, durable send claims, safe retries after definite refusal and staff-recorded delivery or bounce evidence with next actions. Keep scheduled all-kind delivery, automatic reconciliation, snapshot retention policy approval and reference batch proof partial. Private snapshots and events remain outside archives; existing generation receipts remain portable. Migration 0075 adds installation-local delivery records without changing existing schedules.
+- REPORT-006: apply the approved per-send owner approval and snapshot custody riders. Adopt retention until explicit owner deletion; add audited legal and accountant holds and releases, atomic hold-blocked snapshot deletion, and replay prevention after deletion. Migration 0076 preserves existing frozen statements; snapshots and custody records remain installation-only.
+
+- REPORT-006: add explicitly reviewed owner statement links through existing portal rights, frozen statement checksums, durable send claims, safe retries after definite refusal and staff-recorded delivery or bounce evidence with next actions. Keep remaining report-kind recipient delivery and reference batch proof partial. Private snapshots and events remain outside archives; existing generation receipts remain portable. Migration 0075 adds installation-local delivery records without changing existing schedules.
 
 ## 2026-10-22
 
