@@ -42,8 +42,8 @@ export async function ownerData(c: Context, ownerId: string) {
   return { id: p.id, name: p.name, address: p.address, periods: list.flatMap((s, i) => { const m = mine.find(x => x.set_id === s.id); return m ? [{ from: s.effective_from, to: list[i + 1] ? day(list[i + 1].effective_from) : null, shareBp: m.share_bp }] : [] }) }
  }) }
 }
-export async function ownerPeriodStatement(c: Context, ownerId: string, from: unknown, to: unknown) {
- const s = await ownerStatement(c, ownerId, from, to)
+export async function ownerPeriodStatement(c: Context, ownerId: string, from: unknown, to: unknown, propertyId?: string) {
+ const s = await ownerStatement(c, ownerId, from, to, propertyId)
  return { owner: { id: s.owner.id, name: s.owner.name }, from: s.from, to: s.to, rows: s.rows, totals: s.totals, reserves: s.reserves, fees: s.fees, expenses: s.expenses, cash: s.cash, boundary: s.boundary }
 }
 

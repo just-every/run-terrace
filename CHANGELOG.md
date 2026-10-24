@@ -1,5 +1,9 @@
 # Changes
 
+## 2026-10-24
+
+- REPORT-006: add explicitly reviewed owner statement links through existing portal rights, frozen statement checksums, durable send claims, safe retries after definite refusal and staff-recorded delivery or bounce evidence with next actions. Keep scheduled all-kind delivery, automatic reconciliation, snapshot retention policy approval and reference batch proof partial. Private snapshots and events remain outside archives; existing generation receipts remain portable. Migration 0075 adds installation-local delivery records without changing existing schedules.
+
 ## 2026-10-22
 
 - LEASE-012 / REPORT-003 verification repair: date each renewal scheduling event in its property's time zone so the as-of property report retains it when the office is on a different day.

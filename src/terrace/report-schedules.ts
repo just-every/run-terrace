@@ -57,7 +57,7 @@ export async function reportScheduleTick(c:Context){
   // A close hold remains eligible on the next tick, rather than consuming this month's generation identity.
   if(s.require_close&&!closed){held.push(s.id);continue}
   const data=await report(c,s,from,to),fingerprint=await digest(data),key=id()
-  try{await commit(c,[guard(c,'EXISTS(SELECT 1 FROM tt_report_schedules WHERE id=? AND retired_at IS NULL AND created_by=?)',s.id,c.actor.id),...(s.require_close?[guard(c,'EXISTS(SELECT 1 FROM tt_period_closes WHERE id=? AND reopened_at IS NULL)',closed!.id)]:[]),sql(c,"INSERT INTO tt_report_generations(id,schedule_id,local_month,report_from,report_to,state,fingerprint,next_action,generated_at) VALUES(?,?,?,?,?,'generated',?,'Review private report; delivery is not implemented',?)",key,s.id,localMonth,from,to,fingerprint,c.now)],'report.generate',key);generated.push(key)}catch(e){if(!await one(c,'SELECT id FROM tt_report_generations WHERE schedule_id=? AND local_month=?',s.id,localMonth))throw e}
+  try{await commit(c,[guard(c,'EXISTS(SELECT 1 FROM tt_report_schedules WHERE id=? AND retired_at IS NULL AND created_by=?)',s.id,c.actor.id),...(s.require_close?[guard(c,'EXISTS(SELECT 1 FROM tt_period_closes WHERE id=? AND reopened_at IS NULL)',closed!.id)]:[]),sql(c,"INSERT INTO tt_report_generations(id,schedule_id,local_month,report_from,report_to,state,fingerprint,next_action,generated_at) VALUES(?,?,?,?,?,'generated',?,'Review private report; owner statements require separate explicit delivery approval',?)",key,s.id,localMonth,from,to,fingerprint,c.now)],'report.generate',key);generated.push(key)}catch(e){if(!await one(c,'SELECT id FROM tt_report_generations WHERE schedule_id=? AND local_month=?',s.id,localMonth))throw e}
  }
  return{generated,held}
 }

@@ -1,3 +1,4 @@
+import {portalReport} from './report-deliveries'
 import {residentMonthlyStatement,residentMonthlyCsv,residentMonthlyPage,residentTransaction,residentTransactionPage} from './resident-statements'
 // ROLE-002: the /portal door. It is separate from /app and /api: a portal cookie reaches nothing there, and a staff cookie reaches
 // nothing here. Every request reads the live session, person and grants, then answers for the one record a grant names.
@@ -19,7 +20,7 @@ const missing = (api: boolean) => api ? json({ error: 'not_found', message: 'Not
 const cookie = (env: Bindings, value: string, age: number) => `${COOKIE}=${value}; Path=/portal; HttpOnly; SameSite=Lax; Max-Age=${age}${env.AUTH_ORIGIN.startsWith('https') ? '; Secure' : ''}`
 
 export async function portalResponse(request: Request, env: Bindings): Promise<Response> {
- const url = new URL(request.url), now = new Date().toISOString(), path = url.pathname.replace(/\/$/, '') || '/portal', api = path.startsWith('/portal/api/') || ['/portal/statement', '/portal/transaction', '/portal/owner-statement', '/portal/invoice-file'].includes(path)
+ const url = new URL(request.url), now = new Date().toISOString(), path = url.pathname.replace(/\/$/, '') || '/portal', api = path.startsWith('/portal/api/') || ['/portal/report', '/portal/statement', '/portal/transaction', '/portal/owner-statement', '/portal/invoice-file'].includes(path)
  try {
   if (url.origin !== env.AUTH_ORIGIN) return html(shell('Forbidden', '<p>The request origin does not match this installation.</p>'), 403)
   if (request.method === 'POST') insist(request.headers.get('origin') === env.AUTH_ORIGIN && request.headers.get('sec-fetch-site') !== 'cross-site', 'origin', 'Same-origin confirmation is required.', 403)
@@ -64,6 +65,7 @@ export async function portalResponse(request: Request, env: Bindings): Promise<R
    const labelled = await Promise.all(portal.grants.map(async (g): Promise<Row> => ({ ...g, label: g.tenancy_id ? (await env.DB.prepare('SELECT address FROM tt_tenancies WHERE id=? AND erased_at IS NULL').bind(g.tenancy_id).first<Row>())?.address ?? 'Lease' : '' })))
    return html(homePage(portal.identity, labelled.filter(g => g.label || !g.tenancy_id)))
   }
+  if(path==='/portal/report'){const statement=await portalReport(c,portal,String(url.searchParams.get('id')||''));return url.searchParams.get('format')==='json'?json(statement):html(statementPage(portal.identity,statement))}
   if (path === '/portal/api/me') return json({ person: { id: portal.identity.id, kind: portal.identity.kind, name: portal.identity.display_name }, grants: portal.grants.map(g => ({ id: g.id, access: g.access, tenancyId: g.tenancy_id, ownerId: g.owner_id, vendorId: g.vendor_id })) })
   if(path==='/portal/transaction'||(path==='/portal/statement'&&url.searchParams.has('month'))){
    const grant=mine('tenancy_id',url.searchParams.get('tenancyId'));if(!grant||grant.access!=='resident')return missing(true)

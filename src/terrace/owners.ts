@@ -117,11 +117,11 @@ export const sharesOn = (data: Row | undefined, day: string) => inForce(data?.se
 export const agreementOn = (data: Row | undefined, day: string) => inForce(data?.agreements ?? [], day, 'starts')
 
 /** One owner's allocated receipts from..to (inclusive, property-local received dates) on properties the viewer reaches. */
-export async function ownerStatement(c: Context, ownerId: unknown, fromValue: unknown, toValue: unknown) {
+export async function ownerStatement(c: Context, ownerId: unknown, fromValue: unknown, toValue: unknown, propertyId?: string) {
  allow(c, 'reports.read')
  const o = await owner(c, ownerId), from = date(fromValue, 'Period start'), to = date(toValue, 'Period end')
  insist(to >= from, 'period', 'Period end must follow its start.')
- const props = (await all(c, 'SELECT DISTINCT p.* FROM tt_properties p JOIN tt_ownership_sets s ON s.property_id=p.id JOIN tt_ownership_shares h ON h.set_id=s.id WHERE h.owner_id=? ORDER BY p.name', o.id)).filter(p => reachesPortfolio(c, p.portfolio_id))
+ const props = (await all(c, 'SELECT DISTINCT p.* FROM tt_properties p JOIN tt_ownership_sets s ON s.property_id=p.id JOIN tt_ownership_shares h ON h.set_id=s.id WHERE h.owner_id=? ORDER BY p.name', o.id)).filter(p => reachesPortfolio(c, p.portfolio_id) && (!propertyId || p.id === propertyId))
  insist(props.length || c.actor.role === 'owner' || c.actor.staff?.all, 'not_found', 'Owner not found.', 404)
  const data = await ownershipData(c), rows: Row[] = [], reserves: Row[] = []
  for (const p of props) {
