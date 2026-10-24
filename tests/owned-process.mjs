@@ -39,13 +39,14 @@ async function start(cwd,exe,args){
  const p=spawn(exe,args,{cwd,env:commandEnv,stdio:['ignore','pipe','pipe']});let output='',error
  p.stdout.on('data',b=>output+=b);p.stderr.on('data',b=>output+=b);p.on('error',e=>error=e)
  const stop=async()=>{
-  // ps supplies ancestry, not a command-name pattern. Every signalled PID is
-  // proved to be descended from this invocation before any signal is sent.
-  const rows=execFileSync('ps',['-axo','pid=,ppid='],{encoding:'utf8'}).trim().split('\n').map(l=>l.trim().split(/\s+/).map(Number)),owned=new Set([p.pid])
-  for(let changed=true;changed;){changed=false;for(const [pid,parent]of rows)if(owned.has(parent)&&!owned.has(pid)){owned.add(pid);changed=true}}
-  const signal=s=>{for(const pid of [...owned].reverse())try{process.kill(pid,s)}catch(e){if(e.code!=='ESRCH')throw e}}
-  signal('SIGTERM');await delay(1000)
-  for(const pid of owned)try{process.kill(pid,0);process.kill(pid,'SIGKILL')}catch(e){if(e.code!=='ESRCH')throw e}
+  // Foreground rer owns its servers and forwards interruption to them.
+  // Signal only the CLI this fixture started, then wait for its cleanup.
+  if(p.exitCode!==null||p.signalCode!==null)return
+  const closed=new Promise(resolve=>p.once('close',resolve))
+  p.kill('SIGINT')
+  let timeout
+  try {await Promise.race([closed,new Promise((_,reject)=>{timeout=setTimeout(()=>reject(Error('SAFE-007: foreground rer did not stop after interruption')),30000)})])}
+  finally {clearTimeout(timeout)}
  }
  try {
   for(let i=0;i<1800;i++){

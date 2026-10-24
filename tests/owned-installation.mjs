@@ -112,11 +112,22 @@ try {
  }
  await docs.close()
  const privateKey=new URL(active.open).hash.slice(1),sentinel=randomBytes(32).toString('hex')
- const diagnostic=await command(review,process.execPath,[rer,'doctor','--json'],{status:3,env:{...commandEnv,MAIL_API_KEY:sentinel}})
+ // Cloudflare credentials are deployment inputs, not local doctor failures.
+ // Provoke a genuine missing local input and restore the private file exactly.
+ const settingsPath=join(review,'.dev.vars'),settings=await readFile(settingsPath,'utf8')
+ const missingOwner=settings.replace(/^OWNER_EMAIL=.*(?:\r?\n|$)/m,'')
+ assert.notEqual(missingOwner,settings,'the fixture removes the saved local owner email')
+ let diagnostic
+ try {
+  await writeFile(settingsPath,missingOwner)
+  diagnostic=await command(review,process.execPath,[rer,'doctor','--json'],{status:3,env:{...commandEnv,MAIL_API_KEY:sentinel}})
+ } finally {await writeFile(settingsPath,settings)}
  assert.ok(!diagnostic.includes(sentinel)&&!diagnostic.includes(privateKey),'health/doctor never publish private credentials')
  const events=diagnostic.trim().split('\n').filter(line=>line.startsWith('{')).map(line=>JSON.parse(line)),result=events.findLast(e=>e.event==='result')?.diagnostics
- assert.ok(result&&result.missingInputs.length>0,'doctor reports actionable missing production inputs')
- assert.ok(result.missingInputs.some(name=>result.sources[name]),'diagnostics point to repair instructions')
+ assert.ok(result&&result.missingInputs.length>0,'doctor reports actionable missing local inputs')
+ assert.deepEqual(result.missingInputs,['OWNER_EMAIL'],'doctor identifies the missing local setting')
+ assert.ok(result.deploymentInputs.length>0,'doctor separately reports missing production inputs')
+ assert.ok(result.deploymentInputs.every(name=>result.sources[name]),'production diagnostics point to repair instructions')
  await context.close();await active.stop();active=null
  await command(review,process.execPath,[rer,'export','--output',join(root,'after-upgrade.rer')])
  assert.ok((await readFile(join(root,'after-upgrade.rer'))).length>0)

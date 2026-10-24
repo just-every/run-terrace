@@ -1,7 +1,7 @@
 {
   "id": "terrace",
   "name": "Terrace",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "maturity": "first-release-build",
   "category": "property-management",
   "spine": {
