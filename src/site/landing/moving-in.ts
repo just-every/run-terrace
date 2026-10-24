@@ -7,7 +7,14 @@ import { builtForHomes } from './drawings'
 const accounts: [string, string, string, string?][] = [
  ['Cash in trust', '$398,214.66', '$398,214.66'], ['Security deposits held', '$310,300.00', '$310,300.00'], ['Owner balances', '$371,902.41', '$371,902.41'], ['Prepaid rent', '$26,312.25', '$26,162.25', 'fixed'],
 ]
-export const startLine = 'npx -y @runeditrun/rer dev just-every/run-terrace'
+// The one start line every Run Edit Run page shows, and the alternative for people who already have Node.
+export const startLine = 'curl -fsSL https://runeditrun.com/install.sh | sh -s -- dev just-every/run-terrace'
+const alternative = 'Already have Node 22 or later? npx -y @runeditrun/rer dev just-every/run-terrace'
+// Words stay whole when a line wraps, and the installer's `install.sh | sh` stays together.
+const words = (line: string) => line.split(/(\S*install\.sh \| sh|\S+)/).map(part => {
+ const pipe = /^(.*\/)(install\.sh \| sh)$/.exec(part)
+ return pipe ? `<span class="nw">${pipe[1]}</span><wbr><span class="nw">${pipe[2]}</span>` : part.trim() ? `<span class="nw">${part}</span>` : part
+}).join('')
 
 export function movingIn() {
  return `<section class="section moving-in" aria-labelledby="moving-title"><div class="wrap">
@@ -18,8 +25,8 @@ export function movingIn() {
 ${accounts.map(([name, theirs, ours, fixed]) => `<tr${fixed ? ' class="fixed"' : ''}><th scope="row">${name}</th><td data-label="AppFolio">${theirs}</td><td data-label="Terrace">${ours}${fixed ? '<span class="off">Off by $150.00 · 2C prepayment missing</span><span class="on">2C prepayment imported · Matched</span>' : ''}</td><td>${fixed ? '' : `<span class="matched">${icon('check')}Matched</span>`}</td></tr>`).join('')}
 </tbody></table></article></div>
 <div class="own-row"><div class="terminal" role="group" aria-label="Run it yourself"><p class="terminal-bar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>Run it yourself</p>
-<pre><code><span class="prompt" aria-hidden="true">$ </span>${startLine}
-<span class="comment"># clones, installs and starts Terrace on your computer</span></code></pre></div>
+<pre><code><span class="prompt" aria-hidden="true">$ </span>${words(startLine)}
+<span class="comment"># ${words(alternative)}</span></code></pre></div>
 <article class="card homes">${builtForHomes}<h3>Built for homes<span class="dot">.</span></h3><p>Residential rentals only: no commercial leases, CAM reconciliation or HOA dues.</p></article></div>
 </div></section>`
 }

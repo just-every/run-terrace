@@ -8,13 +8,13 @@ Terrace manages residential rentals only: it has no commercial leases, CAM recon
 
 ## Get Terrace and start it
 
-One line installs the RER command, clones the source and runs it:
+One line installs the RER command, clones the source into `run-terrace` and runs it:
 
 ```sh
-npx -y @runeditrun/rer dev just-every/run-terrace
+curl -fsSL https://runeditrun.com/install.sh | sh -s -- dev just-every/run-terrace
 ```
 
-Without Node, `curl -fsSL https://runeditrun.com/install.sh | sh -s -- dev just-every/run-terrace` does the same. To start it again later, run `cd run-terrace && rer dev`.
+Git is required; rer brings Node and pnpm. Already have Node 22 or later? `npx -y @runeditrun/rer dev just-every/run-terrace` does the same. If the installer prints a line that puts `rer` on your PATH, run that line too. To start it again later, run the same line from the same folder, or `cd run-terrace && rer dev`.
 
 The first launch can take several minutes. `rer dev` installs dependencies, prepares the local database and development owner, applies migrations and starts the app. It prints the local address as `RER_READY` and a private sign-in link as `RER_OPEN`.
 

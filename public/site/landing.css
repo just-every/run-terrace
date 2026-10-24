@@ -286,6 +286,7 @@
 .terminal pre{margin:auto 0;padding-top:24px;font:400 21px/1.9 var(--rer-font-mono);white-space:pre-wrap;overflow-wrap:anywhere}
 .terminal .prompt{color:#C9C6F5}
 .terminal .comment{color:#8D93C4}
+.terminal .nw{white-space:nowrap}
 .homes{padding:36px 38px}
 .house{width:72px;height:72px}
 .homes h3{margin-top:24px;font:800 36px/1.1 var(--rer-font-heading);letter-spacing:-.045em}
