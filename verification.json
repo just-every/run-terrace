@@ -6,7 +6,7 @@
       "hosted": false,
       "commands": [
         "pnpm run check --profile first-party",
-        "pnpm run test:site"
+        "node tests/site/provider-costs.mjs"
       ]
     },
     {

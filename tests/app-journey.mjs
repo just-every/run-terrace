@@ -4,6 +4,7 @@ const queued=await queuedEntrypoint(import.meta.url,'verify:app-journey');if(que
 // opens /, /run, /docs and a missing path; a signed-in owner enters a tenancy, follows its linked row and ledger
 // action, records rent and reads the ledger at 1440 and 390 pixels. Only the paid mail provider is replaced.
 import assert from 'node:assert/strict'
+import { assertRunSite } from './site/assert-run-site.mjs'
 import { randomBytes } from 'node:crypto'
 import { mkdtemp, readdir, readFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
@@ -12,6 +13,8 @@ import { pathToFileURL } from 'node:url'
 import { Miniflare, convertV4MiniflareOptions } from 'miniflare'
 import { unstable_splitSqlQuery } from 'wrangler'
 import { chromium } from '@playwright/test'
+
+assertRunSite()
 
 const { SITE_ASSETS_CONFIG, SITE_WORKER } = await import(pathToFileURL(resolve('node_modules/@runeditrun/rer/modules/deploy-kit/site.mjs')).href)
 const directory=await mkdtemp(join(tmpdir(),'terrace-app-journey-')),secret=()=>randomBytes(32).toString('base64url')

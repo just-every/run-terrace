@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "cacfd151989493d4bcec95463c7f1b2c9c2720d85994fe7ce37a0567501ffcd5",
+      "sha256": "e1f2cb57b03e5aa3fb4e19f2a94d846dcba2b2d8050b2629119f88fb6fac6d02",
       "executable": false
     },
     "AGENTS.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "98fbe43b4ddadbb853400ed6c5815eef3ecc9d35b936a2d3d1c16ff37631d380",
+      "sha256": "4c4554f57123919b07161d75910b52ec63b0ebc8e21fb58d519370ef5914e513",
       "executable": false
     },
     "DEMO.md": {
@@ -545,7 +545,7 @@
       "executable": false
     },
     "package.json": {
-      "sha256": "2ccade63dafde281fcb90607bf27c8e33a9ebc1bd9e789e4cabe15f04e52466a",
+      "sha256": "75ba076b06613afb1530f8e51ea6ad0fd6fcca37f10dbb61023bbcd6d10bb826",
       "executable": false
     },
     "packaging.json": {
@@ -825,7 +825,7 @@
       "executable": false
     },
     "README.md": {
-      "sha256": "e332bd9614af85eea2b4fca254553c81e687f9cab16f67d446e64c0b3c5618f9",
+      "sha256": "5deb39ad10a6dd48162b30e730b584fbd54c8e3d88d7dc562b14ccd8af406c19",
       "executable": false
     },
     "release-history/0.1.0.json": {
@@ -3981,7 +3981,7 @@
       "executable": false
     },
     "test-budget.json": {
-      "sha256": "91536176397c0c3ad29f5c568ece4bb4bbb24c2f5961ec1ab1cf428e9f7d5d01",
+      "sha256": "1f8c80ec6b6b01931650a8aa7b676570ccf72572a75d3fc0b2259a9a30bbb3ef",
       "executable": false
     },
     "tests/agent-workloads-browser.mjs": {
@@ -4005,7 +4005,7 @@
       "executable": false
     },
     "tests/app-journey.mjs": {
-      "sha256": "315b85df6782a71a589b7b8a301c7b0eba370dd7f3c309d7129db7431a47e41c",
+      "sha256": "b2b32ccc4b5e547bf1ddb6605beb09c40d6538146012ccf0e537049c7b2dbe3b",
       "executable": false
     },
     "tests/appointments.mjs": {
@@ -4264,8 +4264,12 @@
       "sha256": "8a2b1d40143f602c0b9053737ac802ae8c90fafd43edd1e446fb22b6d243bd8c",
       "executable": false
     },
-    "tests/site/site.test.mjs": {
-      "sha256": "d86c0f495f7756bf343c9d3b622dc57d38c3f05d762e365527b4f593555ee478",
+    "tests/site/assert-run-site.mjs": {
+      "sha256": "bfc02f7075c3605d62f99c05b6a9caa96f7321f6947efa46455f98af729001e7",
+      "executable": false
+    },
+    "tests/site/provider-costs.mjs": {
+      "sha256": "9003d43ef04c6c89d6fe7db58eb50dc81556c0fc24d79e9a8c788169f4511dd6",
       "executable": false
     },
     "tests/statements-browser.mjs": {
@@ -4313,7 +4317,7 @@
       "executable": false
     },
     "verification.json": {
-      "sha256": "ed3c42113a64456c45a94bed203b9b663d965fe5df8607b7dd019cac0162aaa9",
+      "sha256": "0debd160614cec481ef9f4961b62049b72184470d2247ead813be59aa67e4688",
       "executable": false
     },
     "VERIFY-WORKFLOW.md": {

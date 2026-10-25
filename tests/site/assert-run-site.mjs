@@ -1,9 +1,7 @@
 // The run site (run-terrace.com) as `rer build --site` writes it: a visitor reaches /run from the homepage's
 // Run Terrace action and the docs from Read the docs, every link and file a page names resolves inside the site,
 // no page links an instance-only route, and the homepage carries no local dev output.
-import test from 'node:test'
 import assert from 'node:assert/strict'
-import { execFileSync, spawnSync } from 'node:child_process'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join, relative } from 'node:path'
 
@@ -13,8 +11,9 @@ const pages = dir => readdirSync(dir, { withFileTypes: true }).flatMap(entry => 
 const served = path => [path, `${path}.html`, join(path, 'index.html')].some(candidate => existsSync(join(site, candidate)) && !candidate.endsWith('/'))
 const attrs = (html, name) => [...html.matchAll(new RegExp(`\\s${name}="([^"]*)"`, 'g'))].map(match => match[1].replaceAll('&amp;', '&'))
 
-test('OPEN-001 TER-012: the built run site, MIT product, ungated source and provider costs before deployment', () => {
-  execFileSync(join(root, 'node_modules/.bin/rer'), ['build', '--site'], { cwd: root, stdio: 'inherit' })
+// OPEN-001 TER-012: retained clause evidence, called by the emitted-app journey.
+// Its command already builds the site; do not build the same artifact twice.
+export function assertRunSite() {
   const home = readFileSync(join(site, 'index.html'), 'utf8')
   assert.match(home, /<a class="run-button" href="\/run">Run Terrace /, 'the homepage leads with Run Terrace to /run')
   assert.match(home, /href="\/docs">Read the docs</, 'the homepage links the docs')
@@ -30,13 +29,6 @@ test('OPEN-001 TER-012: the built run site, MIT product, ungated source and prov
   for (const file of [...sources(join(root,'src')), ...sources(join(root,'scripts'))]) {
     assert.doesNotMatch(readFileSync(file,'utf8'), /\b(?:licenseKey|license_key|license-key|seatLimit|maxSeats|maxOwners|paywall|billingPortal)\b|upgrade (?:to (?:pro|premium)|your plan)/i, 'OPEN-001: no author commercial gate in '+relative(root,file))
   }
-  // The public command enters the real deployment hook with no credentials.
-  // It must disclose providers before validation/build/provisioning can proceed.
-  const env = Object.fromEntries(['PATH','HOME','USER','TMPDIR','RER_LOCAL_OPERATION'].filter(k=>process.env[k]).map(k=>[k,process.env[k]]))
-  const deploy = spawnSync(join(root,'node_modules/.bin/rer'), ['deploy','--dry-run'], {cwd:root,env,encoding:'utf8'})
-  if (deploy.error) throw deploy.error
-  const output = deploy.stdout + deploy.stderr
-  for (const provider of ['Cloudflare','Resend','https://developers.cloudflare.com/workers/platform/pricing/','https://resend.com/pricing']) assert.ok(output.includes(provider),'OPEN-001: pre-connection pricing '+provider)
   assert.match(readFileSync(join(site, 'docs/getting-started.html'), 'utf8'), /residential rentals only: it has no commercial leases, CAM reconciliation or homeowners’-association dues/, 'BOUND-004: the docs state the residential-only limit')
   for (const file of pages(site)) {
     const html = readFileSync(file, 'utf8'), where = relative(site, file)
@@ -47,4 +39,4 @@ test('OPEN-001 TER-012: the built run site, MIT product, ungated source and prov
       if (path !== '/') assert.ok(served(path), `${where} names ${path}, which the site does not serve`)
     }
   }
-})
+}
