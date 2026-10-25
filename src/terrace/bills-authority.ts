@@ -1,3 +1,4 @@
+import {budgetAuthority,budgetGuard} from './work-budgets'
 import { all, guard, id, insist, one, sql, type Context, type Row } from './core'
 import { agreementOn, fee, ownershipData, sharesOn, split } from './owners'
 import { independence } from './dual-control'
@@ -8,6 +9,8 @@ export async function billAuthority(c: Context, b: Row) {
  guards.push(guard(c,'(SELECT COUNT(*) FROM tt_bill_expenses)=?',count))
  for(const a of terms.allocations) {
   const d=data.byProperty[a.propertyId], set=sharesOn(d,terms.day), agreement=agreementOn(d,terms.day)
+  const category=await budgetAuthority(c,'property:'+a.propertyId,undefined,b)
+  reasons.push(...category.reasons);guards.push(budgetGuard(c,category.clock))
   const prop=await one(c,'SELECT name FROM tt_properties WHERE id=?',a.propertyId),limit=await one(c,'SELECT * FROM tt_work_limits WHERE scope=?','property:'+a.propertyId)
   if(!set) blockers.push(`${prop!.name}: no ownership share set on invoice date`)
   if(!agreement) blockers.push(`${prop!.name}: no management agreement on invoice date`)

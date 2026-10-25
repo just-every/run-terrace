@@ -1,3 +1,4 @@
+import {budgetAuthority,budgetGuard,costClass} from './work-budgets'
 import { checklist } from './dispatch'
 // WORK-003: comparable vendor quotes for a job, the owner's per-job spending limit and annual maintenance
 // budget, the owner's decision on work above them (recorded by staff for the owner: Terrace has no owner
@@ -27,7 +28,7 @@ const inScope = (scope: string): [string, string] => scope.startsWith('property:
  : ['SELECT ?', scope.slice(8)]
 
 /** The exact terms an approval or an owner's decision covers. */
-const terms = (j: Row) => JSON.stringify({ jobId: j.id, version: j.version, title: j.title, scope: j.scope ?? null, checklist: j.checklist, vendorId: j.vendor_id ?? null, tradeName: j.trade_name, tradeEmail: j.trade_email, dueDate: j.due_date, estimateCents: j.estimate_cents, quoteId: j.quote_id ?? null })
+const terms = (j: Row) => JSON.stringify({ jobId: j.id, version: j.version, title: j.title, scope: j.scope ?? null, checklist: j.checklist, vendorId: j.vendor_id ?? null, tradeName: j.trade_name, tradeEmail: j.trade_email, dueDate: j.due_date, estimateCents: j.estimate_cents, costClass:j.cost_class, assetId:j.asset_id??null, quoteId: j.quote_id ?? null })
 export const digest = (j: Row) => sha256(new TextEncoder().encode(terms(j)))
 
 /** Whether a manager may approve this job version alone. The owner decides when the estimate is above the
@@ -35,13 +36,14 @@ export const digest = (j: Row) => sha256(new TextEncoder().encode(terms(j)))
 export async function authority(c: Context, j: Row, t: Row) {
  const scope = await limitScope(c, t), limit = await one(c, 'SELECT * FROM tt_work_limits WHERE scope=?', scope)
  const decision = await one(c, 'SELECT * FROM tt_owner_decisions WHERE job_id=? AND job_version=?', j.id, j.version), sha = await digest(j)
- if (!limit) return { scope, limit: null, spentCents: 0, reasons: [] as string[], needsOwner: false, decision: null, sha }
+ const budgets=await budgetAuthority(c,scope,{...j,state:'approved'})
+ if (!limit) return { scope, limit: null, spentCents: 0, reasons: budgets.reasons, needsOwner: budgets.reasons.length>0, decision: decision && decision.terms_sha256===sha?decision:null, sha, budgets }
  const [q, v] = inScope(scope), year = String(j.due_date).slice(0, 4)
  const spent = (await one<{ n: number }>(c, `SELECT COALESCE(SUM(estimate_cents),0) AS n FROM tt_maintenance_jobs WHERE tenancy_id IN (${q}) AND state IN ('approved','sent') AND substr(due_date,1,4)=? AND id<>?`, v, year, j.id))!.n
- const reasons: string[] = []
+ const reasons: string[] = [...budgets.reasons]
  if (j.estimate_cents > limit.limit_cents) reasons.push(`above the owner’s ${money(limit.limit_cents, limit.currency)} per-job limit`)
  if (limit.budget_cents && spent + j.estimate_cents > limit.budget_cents) reasons.push(`over the owner’s ${year} maintenance budget of ${money(limit.budget_cents, limit.currency)} (${money(spent, limit.currency)} already approved)`)
- return { scope, limit, spentCents: spent, reasons, needsOwner: reasons.length > 0, decision: decision && decision.terms_sha256 === sha ? decision : null, sha }
+ return { scope, limit, spentCents: spent, reasons, needsOwner: reasons.length > 0, decision: decision && decision.terms_sha256 === sha ? decision : null, sha, budgets }
 }
 /** The same rule inside the approval's D1 batch, against the scope's current limit and approved spend, so approvals made
  * at once cannot together exceed the budget: unless the owner approved these exact terms, the job is within the per-job
@@ -58,7 +60,7 @@ async function reopen(c: Context, j: Row, version: number, changes: Row, vendorC
  const payload = JSON.stringify({ jobId: j.id, title: next.title, scope: next.scope, tradeName: next.trade_name, tradeEmail: next.trade_email, dueDate: next.due_date, estimateCents: next.estimate_cents })
  return { found, statements: [
   guard(c, "EXISTS(SELECT 1 FROM tt_maintenance_jobs WHERE id=? AND version=? AND state IN ('pending','approved'))", j.id, version),
-  sql(c, "UPDATE tt_maintenance_jobs SET title=?,scope=?,checklist=?,vendor_id=?,trade_name=?,trade_email=?,due_date=?,estimate_cents=?,quote_id=?,qualification=?,revised_by=?,state='pending',version=version+1 WHERE id=?", next.title, next.scope ?? null, next.checklist ?? j.checklist, next.vendor_id ?? null, next.trade_name, next.trade_email, next.due_date, next.estimate_cents, next.quote_id ?? null, JSON.stringify(found), c.actor.id, j.id),
+  sql(c, "UPDATE tt_maintenance_jobs SET title=?,scope=?,checklist=?,vendor_id=?,trade_name=?,trade_email=?,due_date=?,estimate_cents=?,cost_class=?,quote_id=?,qualification=?,revised_by=?,state='pending',version=version+1 WHERE id=?", next.title, next.scope ?? null, next.checklist ?? j.checklist, next.vendor_id ?? null, next.trade_name, next.trade_email, next.due_date, next.estimate_cents, next.cost_class, next.quote_id ?? null, JSON.stringify(found), c.actor.id, j.id),
   sql(c, "UPDATE tt_proposals SET state='pending',approved_by=NULL,approved_at=NULL,tenancy_version=?,payload=? WHERE id=?", t.version, payload, j.proposal_id),
   ...(vendorChanged ? [assignment(c, j.id, next.vendor_id ?? null, next.trade_name, j.trade, found), endSessions(c, 'vendor_id', [j.vendor_id, next.vendor_id])] : []),
  ] }
@@ -106,6 +108,7 @@ export async function quoteCommand(c: Context, command: string, p: Row): Promise
   if (p.checklist) changes.checklist = JSON.stringify(checklist(p.checklist))
   if (p.scope) changes.scope = text(p.scope, 'Scope', 2000)
   if (p.estimate) changes.estimate_cents = cents(p.estimate)
+  if (p.costClass) changes.cost_class = costClass(p.costClass)
   if (p.dueDate) changes.due_date = date(p.dueDate, 'Due date')
   insist(Object.keys(changes).length > 0, 'invalid_input', 'Change the scope, title, estimate or due date.')
   if (changes.estimate_cents !== undefined && changes.estimate_cents !== j.estimate_cents) changes.quote_id = null
@@ -125,6 +128,7 @@ export async function quoteCommand(c: Context, command: string, p: Row): Promise
   const key = id()
   await commit(c, [
    guard(c, "EXISTS(SELECT 1 FROM tt_maintenance_jobs WHERE id=? AND version=? AND state='pending')", j.id, version),
+   budgetGuard(c,a.budgets.clock),
    sql(c, 'INSERT INTO tt_owner_decisions(id,job_id,job_version,terms_sha256,decision,source,reference,recorded_by,recorded_role,recorded_at) VALUES(?,?,?,?,?,?,?,?,?,?)', key, j.id, version, a.sha, decision, source, text(p.reference, 'Owner decision source', 1000), c.actor.id, c.actor.role, c.now),
   ], command, j.id)
   return { id: j.id, tenancyId: t.id, decisionId: key, notice: `Owner’s decision (${decision}) ${OWNER_LABEL}, from ${source}. Terrace did not contact the owner.` }
@@ -140,5 +144,5 @@ export async function quoteData(c: Context, t: Row, jobs: Row[]) {
  ])
  const authorities = Object.fromEntries(await Promise.all(jobs.map(async j => [j.id, await authority(c, j, t)] as const)))
  const scope = await limitScope(c, t), limit = await one(c, 'SELECT * FROM tt_work_limits WHERE scope=?', scope)
- return { quotes, decisions, approvals, authorities, limit: limit ?? null }
+ return { quotes, decisions, approvals, authorities, limit: limit ?? null, categoryBudgets:(await budgetAuthority(c,scope)).rows,budgetHistory:await all(c,'SELECT * FROM tt_budget_changes WHERE scope=? ORDER BY set_at,version',scope) }
 }

@@ -62,7 +62,8 @@
       "browser": true,
       "hosted": false,
       "commands": [
-        "node tests/dispatch-browser.mjs"
+        "node tests/dispatch-browser.mjs",
+        "node tests/work-budgets-browser.mjs"
       ]
     },
     {

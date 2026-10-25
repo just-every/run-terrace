@@ -1,8 +1,10 @@
+import {journey as budgetJourney} from './work-budgets.mjs'
 import assert from 'node:assert/strict'
 import {installation,tenancyInput} from './api/harness.mjs'
 const pdf=n=>({name:'invoice-'+n+'.pdf',type:'application/pdf',base64:Buffer.from('%PDF-1.4\n'+n+'\n%%EOF').toString('base64')})
 /** ACCT-007 public-door journey; called from the existing tenth test (no new suite entry). */
 export async function journey() {
+ await budgetJourney()
  const h=await installation()
  try {
   const portfolio=await h.command('portfolio.add',{name:'Bills residential portfolio'}),otherPortfolio=await h.command('portfolio.add',{name:'Outside bills portfolio'}),sharedPortfolio=await h.command('portfolio.add',{name:'Shared bills portfolio'})
