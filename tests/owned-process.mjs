@@ -1,5 +1,5 @@
-// SAFE-007 process ownership: capture credentials privately, stop only descendants
-// of the foreground CLI we started, and never call the machine-wide stop door.
+// SAFE-007 process ownership: capture credentials privately, interrupt only the
+// foreground command group we started, and never call the machine-wide stop door.
 import assert from 'node:assert/strict'
 import {spawn,execFileSync} from 'node:child_process'
 import {setTimeout as delay} from 'node:timers/promises'
@@ -36,14 +36,15 @@ export async function launchPublished(cwd){
  return start(cwd,'npx',['-y','@runeditrun/rer','dev','just-every/run-terrace','--foreground'])
 }
 async function start(cwd,exe,args){
- const p=spawn(exe,args,{cwd,env:commandEnv,stdio:['ignore','pipe','pipe']});let output='',error
+ const p=spawn(exe,args,{cwd,env:commandEnv,detached:true,stdio:['ignore','pipe','pipe']});let output='',error,didClose=false
+ const closed=new Promise(resolve=>p.once('close',()=>{didClose=true;resolve()}))
  p.stdout.on('data',b=>output+=b);p.stderr.on('data',b=>output+=b);p.on('error',e=>error=e)
  const stop=async()=>{
-  // Foreground rer owns its servers and forwards interruption to them.
-  // Signal only the CLI this fixture started, then wait for its cleanup.
-  if(p.exitCode!==null||p.signalCode!==null)return
-  const closed=new Promise(resolve=>p.once('close',resolve))
-  p.kill('SIGINT')
+  // npm can interpose a shell that does not forward an interrupt on Linux.
+  // The detached spawn owns this group; signal it as a terminal would and wait
+  // for inherited pipes to close even if the immediate wrapper already exited.
+  if(didClose)return
+  if(p.pid)try {process.kill(-p.pid,'SIGINT')}catch(e){if(e.code!=='ESRCH')throw e}
   let timeout
   try {await Promise.race([closed,new Promise((_,reject)=>{timeout=setTimeout(()=>reject(Error('SAFE-007: foreground rer did not stop after interruption')),30000)})])}
   finally {clearTimeout(timeout)}

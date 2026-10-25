@@ -1,0 +1,11 @@
+{
+  "version": "0.1.1",
+  "date": "2026-10-25",
+  "publicReleaseNotes": "Keep Terrace pinned to rer 0.2.80 with refreshed hosted delivery metadata. Repair the owned-installation diagnostics fixture to exercise a missing local owner setting while preserving strict failure and credential-redaction checks.",
+  "contractChanges": {},
+  "extensionPointChanges": [],
+  "migrations": [],
+  "breaking": false,
+  "agentUpdateInstructions": "Preserve private installation settings and applied migration bytes. Configure the selected mail provider and verify owner sign-in after installation.",
+  "previousVersion": "0.1.0"
+}

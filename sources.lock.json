@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "749fb076bf34eb8a9c6e215ad2ae1c73fcfd78e2b99683ea0250bedd886ce33d",
+      "sha256": "98fbe43b4ddadbb853400ed6c5815eef3ecc9d35b936a2d3d1c16ff37631d380",
       "executable": false
     },
     "DEMO.md": {
@@ -545,7 +545,7 @@
       "executable": false
     },
     "package.json": {
-      "sha256": "816d201f5ffb290b372ec612ec5ee3a824be63abcb627c575271f3b9d73d810f",
+      "sha256": "8f7b01b4565e967192ac7b95bcb00e4ea67fbba7874bc00caaedaad46e5a381f",
       "executable": false
     },
     "packaging.json": {
@@ -832,8 +832,12 @@
       "sha256": "d154e74d193e809b03c57aacded96f5a6d2efcab6a57faef4582e7883a2e471c",
       "executable": false
     },
-    "RELEASE.json": {
+    "release-history/0.1.1.json": {
       "sha256": "72f49687add2e816c5794f15e395ee042c0799632dc60cb6eb0063f522dba686",
+      "executable": false
+    },
+    "RELEASE.json": {
+      "sha256": "499f7ccb84b8cd56e874641e0a81e9f4617f88c1ef81206682c5ab0302e806ff",
       "executable": false
     },
     "rer-project.json": {
@@ -1057,7 +1061,7 @@
       "executable": false
     },
     "seed.json": {
-      "sha256": "cea0719c3650debefb87beac58bba1f9bf0bbea824d2815aad2cbf59217602eb",
+      "sha256": "f209fcf7894fc32cd752f9167ca48f28e4af1f1aee075a3a1520ff7878d7a61b",
       "executable": false
     },
     "SOURCE.md": {
@@ -4165,7 +4169,7 @@
       "executable": false
     },
     "tests/owned-process.mjs": {
-      "sha256": "766aefabc0ebe4942f33ebc60c2deda23c5fe1abaf12e5a72393d52ced3caa7e",
+      "sha256": "3bcd1eb756726f93bda2b28e36c8d3f22b8082ddebf83db698b06f6fd110a35e",
       "executable": false
     },
     "tests/payments-browser.mjs": {
