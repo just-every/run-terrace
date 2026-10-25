@@ -1,10 +1,14 @@
-import {all,allow,can,cents,commit,date,guard,id,insist,one,sha256,sql,tenancy,tenancyGuard,text,type Context,type Row} from './core'
+import {bill} from './bills-input'
+import {all,allow,can,cents,commit,date,Fault,guard,id,insist,one,sha256,sql,tenancy,tenancyGuard,text,type Context,type Row} from './core'
 import {independence} from './dual-control'
 import {localDate} from './zones'
 export const CHARGEBACK_COMMANDS=['chargeback.prepare','chargeback.approve']
 /** Only actual, unreversed costs of this repair are recoverable; estimates and unconsumed stock are not. */
 async function sources(c:Context,t:Row){
- const rows=await all(c,`SELECT j.*,o.legal_name AS owner_name FROM tt_journal j JOIN tt_owners o ON o.id=j.owner_key WHERE j.fund='operating' AND NOT EXISTS(SELECT 1 FROM tt_journal r WHERE r.reversal_of=j.id) AND ((j.source_kind='stock_use' AND EXISTS(SELECT 1 FROM tt_stock_uses u WHERE u.id=j.source_id AND u.tenancy_id=?)) OR (j.source_kind='bill' AND EXISTS(SELECT 1 FROM tt_bill_expenses x JOIN tt_bills b ON b.id=x.bill_id AND b.version=x.version AND b.state='payable' JOIN tt_bill_revisions v ON v.bill_id=b.id AND v.version=b.version,json_each(v.terms,'$.allocations') a JOIN tt_maintenance_jobs m ON m.id=json_extract(a.value,'$.jobId') WHERE x.id=j.source_id AND m.tenancy_id=? AND json_extract(a.value,'$.propertyId')=x.property_id))) ORDER BY j.day,j.id`,t.id,t.id)
+ let rows=await all(c,`SELECT j.*,o.legal_name AS owner_name,(SELECT b.id FROM tt_bill_expenses x JOIN tt_bills b ON b.id=x.bill_id WHERE x.id=j.source_id) AS bill_id,(SELECT b.invoice_number FROM tt_bill_expenses x JOIN tt_bills b ON b.id=x.bill_id WHERE x.id=j.source_id) AS invoice_number,(SELECT l.name FROM tt_stock_uses u JOIN tt_stock_lots l ON l.id=u.lot_id WHERE u.id=j.source_id) AS part_name FROM tt_journal j JOIN tt_owners o ON o.id=j.owner_key WHERE j.fund='operating' AND NOT EXISTS(SELECT 1 FROM tt_journal r WHERE r.reversal_of=j.id) AND ((j.source_kind='stock_use' AND EXISTS(SELECT 1 FROM tt_stock_uses u WHERE u.id=j.source_id AND u.tenancy_id=?)) OR (j.source_kind='bill' AND EXISTS(SELECT 1 FROM tt_bill_expenses x JOIN tt_bills b ON b.id=x.bill_id AND b.version=x.version AND b.state='payable' JOIN tt_bill_revisions v ON v.bill_id=b.id AND v.version=b.version,json_each(v.terms,'$.allocations') a JOIN tt_maintenance_jobs m ON m.id=json_extract(a.value,'$.jobId') WHERE x.id=j.source_id AND m.tenancy_id=? AND json_extract(a.value,'$.propertyId')=x.property_id))) ORDER BY j.day,j.id`,t.id,t.id)
+ const visible:Row[]=[]
+ for(const r of rows){try{if(r.bill_id)await bill(c,r.bill_id);visible.push(r)}catch(e){if(!(e instanceof Fault&&e.code==='not_found'))throw e}}
+ rows=visible
  for(const r of rows){r.costCents=JSON.parse(r.lines).filter((l:Row)=>l.account==='expense').reduce((n:number,l:Row)=>n+l.debit,0);r.recoveredCents=(await one(c,'SELECT COALESCE(SUM(c.amount_cents),0) AS n FROM tt_work_chargebacks c JOIN tt_work_chargeback_approvals a ON a.chargeback_id=c.id WHERE c.source_id=?',r.id))!.n;r.netOwnerCostCents=r.costCents-r.recoveredCents}
  return rows
 }

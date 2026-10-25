@@ -109,7 +109,7 @@
       "executable": false
     },
     "API.md": {
-      "sha256": "a6e426329b99e41ce7aa8bd52a1f20f9f4bc51686db8622088e0642d094e68a8",
+      "sha256": "973ff17d5403f5fb1c8d0d94596b2fb7c20a210b863ac4d04469432fc96f1c6c",
       "executable": false
     },
     "base-copies.json": {
@@ -3969,11 +3969,11 @@
       "executable": false
     },
     "src/terrace/work-chargeback-view.ts": {
-      "sha256": "41d5b98956424065be2d04f7ccb2d7eb0eddffede478a4e1253b57c99e9c09eb",
+      "sha256": "a680cea862f0897229b6ed47bae380594c287f5fbc1f8c0724e6e37d5f28d4da",
       "executable": false
     },
     "src/terrace/work-chargebacks.ts": {
-      "sha256": "65bdf062f9c99ce1dbf2bd3fb67a8d1b607859d2759eb8a13ddb9972fcfed276",
+      "sha256": "b8618ddfba04a144cb8ba3bbc4276570f909cef99e0d3718c07e968b533d2014",
       "executable": false
     },
     "src/terrace/work-stock-view.ts": {
