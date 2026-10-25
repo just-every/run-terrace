@@ -57,6 +57,34 @@ try{
    await page.getByRole('status').filter({hasText:'Your response: accepted'}).waitFor();await shoot(page,'vendor-response-accepted')
    await context.close()
   }
+  if(phase==='vendor-appointment'||phase==='vendor-appointment-cancelled'||phase==='vendor-appointment-withdraw'){
+   const {context,page}=await open(r.origin,cookies.vendor1)
+   await page.goto(r.origin+'/portal/work')
+   await page.getByRole('heading',{name:'Appointment',exact:true}).waitFor()
+   if(phase==='vendor-appointment'){
+    await page.getByLabel('Response reason').fill('Available for the displayed window')
+    await page.getByLabel('I confirm this response to the displayed appointment.').check()
+    assert.equal(await page.getByRole('button',{name:'Confirm appointment',exact:true}).count(),1)
+    assert.equal(await page.getByRole('button',{name:'Cancel appointment',exact:true}).count(),1)
+   }else if(phase==='vendor-appointment-withdraw'){
+    await page.getByLabel('Response reason').fill('River withdrew')
+    await page.getByLabel('I confirm this response to the displayed appointment.').check()
+    await shoot(page,'vendor-cancellation-review')
+    await page.getByRole('button',{name:'Cancel appointment',exact:true}).click()
+    await page.getByRole('status').filter({hasText:'Appointment: cancelled'}).waitFor()
+   }else{
+    await page.getByRole('status').filter({hasText:'Appointment: cancelled'}).waitFor()
+    assert.equal(await page.getByRole('button',{name:'Cancel appointment',exact:true}).count(),0)
+   }
+   assert.ok(!(await page.content()).includes('PRIVATE-KEY-SENTINEL'))
+   await shoot(page,phase)
+   if(phase==='vendor-appointment'){
+    await page.getByRole('button',{name:'Confirm appointment',exact:true}).click()
+    await page.getByRole('status').filter({hasText:'vendor confirmed'}).waitFor()
+    await shoot(page,'vendor-appointment-confirmed')
+   }
+   await context.close()
+  }
   if(phase==='portal-people')for(const [name,cookie,path] of [['resident',cookies.resident,'/portal/lease?tenancy='+north.id],['delegate',cookies.delegate,'/portal/lease?tenancy='+north.id],['owner',cookies.owner1,'/portal/owner'],['sold-owner',cookies.owner2,'/portal/owner'],['sold-owner-statement',cookies.owner2,'/portal/owner-statement?from=2026-10-01&to=2026-12-31'],['owner-statement',cookies.owner1,'/portal/owner-statement?from=2026-01-01&to=2026-12-31'],['vendor',cookies.vendor2,'/portal/work'],['home',cookies.resident,'/portal']]){const {context,page}=await open(r.origin,cookie);await page.goto(r.origin+path);await page.getByRole('heading',{level:1}).waitFor();if(name==='delegate')assert.equal(await page.getByRole('heading',{name:'Recorded payments'}).count(),0);await shoot(page,'portal-'+name);await context.close()}
   if(phase==='portal-revoked'){const {context,page}=await open(r.origin,cookies.resident);await page.goto(r.origin+'/portal/lease?tenancy='+north.id);assert.equal(new URL(page.url()).pathname,'/portal/signin');await shoot(page,'portal-access-ended');await context.close()}
  }})

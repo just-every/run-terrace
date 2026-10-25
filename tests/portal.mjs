@@ -10,7 +10,7 @@ const pdf=n=>({name:'invoice-'+n+'.pdf',type:'application/pdf',base64:Buffer.fro
 const SENTINELS=['SOUTH-SENTINEL','southres@example.test','Other Owner Sentinel','LANDLORD-SENTINEL','SCREEN-SENTINEL','LEASE-DOC-SENTINEL','987654321','Oakland Bank Sentinel']
 export async function journey({inspect,revokeDelegate,assets=false}={}){
  await residentRequests()
- const r=await installation({assets})
+ const clock='2026-10-25T16:00:00.000Z',r=await installation({assets,now:clock})
  try{
   const zone='America/Los_Angeles',vendorFields={name:'River Plumbing',email:'river-contact@example.test',phone:'510-555-0190',specialties:'plumbing',serviceAreas:'Oakland',w9:'received',insuranceExpires:'2036-12-31',licenseNumber:'PL-240',licenseExpires:'2036-12-31',availability:'Weekdays',rate:'95',standing:'approved'}
   const nf=await r.command('portfolio.add',{name:'North'}),sf=await r.command('portfolio.add',{name:'South'})
@@ -133,10 +133,44 @@ export async function journey({inspect,revokeDelegate,assets=false}={}){
   assert.equal((await r.state(north.id)).work.jobs.find(j=>j.id===job.id).state,'approved')
   // A reassignment moves the work: the first vendor loses it and the second sees it on the next request.
   assert.deepEqual((await data('vendor1','/portal/api/vendor')).jobs.map(j=>j.id),[job.id]);assert.deepEqual((await data('vendor2','/portal/api/vendor')).jobs,[])
-  const day=n=>new Intl.DateTimeFormat('en-CA',{timeZone:zone}).format(Date.now()+n*86400000),at=(d,h)=>`${d}T${h}:00${new Intl.DateTimeFormat('en-US',{timeZone:zone,timeZoneName:'longOffset'}).formatToParts(new Date(d+'T20:00:00Z')).find(p=>p.type==='timeZoneName').value.replace('GMT','')}`
+  const day=n=>new Intl.DateTimeFormat('en-CA',{timeZone:zone}).format(Date.parse(clock)+n*86400000),at=(d,h)=>`${d}T${h}:00${new Intl.DateTimeFormat('en-US',{timeZone:zone,timeZoneName:'longOffset'}).formatToParts(new Date(d+'T20:00:00Z')).find(p=>p.type==='timeZoneName').value.replace('GMT','')}`
   const appt=await r.command('appointment.book',{jobId:job.id,startsAt:at(day(-1),'09'),endsAt:at(day(-1),'10'),accessStartsAt:at(day(-1),'08'),accessEndsAt:at(day(-1),'11'),permission:'granted',permissionReference:'Resident call',noticeReference:'Entry notice EN-1',noticeAt:at(day(-2),'09'),keysAccess:'PRIVATE-KEY-SENTINEL',availabilityReference:'Vendor email'})
-  await r.command('appointment.cancel',{appointmentId:appt.id,version:1,party:'vendor',reference:'River withdrew'})
-  const moved=await r.command('appointment.reassign',{appointmentId:appt.id,version:2,vendorId:bay.id,reference:'Owner chose Bay'})
+  const appointmentReply=(k,fields={},options={})=>r.request('/portal/api/appointment-response',{method:'POST',as:cookies[k]??'',form:new URLSearchParams({appointmentId:appt.id,version:'1',outcome:'confirmed',reference:'Available for the displayed window',consent:'yes',...fields}),...options})
+  for(const k of ['resident','delegate','owner1','vendor2'])assert.equal((await appointmentReply(k)).status,404)
+  assert.equal((await appointmentReply('vendor1',{}, {originHeader:'https://elsewhere.test'})).status,403)
+  assert.equal((await appointmentReply('vendor1',{consent:'no'})).status,400)
+  assert.equal((await appointmentReply('vendor1',{version:'99'})).status,409)
+  await r.command('vendor.update',{...vendorFields,vendorId:river.id,standing:'blocked'})
+  assert.equal((await appointmentReply('vendor1')).status,409,'a qualification hold refuses confirmation')
+  await r.command('vendor.update',{...vendorFields,vendorId:river.id})
+  const appointmentData=(await data('vendor1','/portal/api/vendor')).appointments
+  assert.equal(appointmentData[0].id,appt.id);assert.equal(appointmentData[0].keys_access,undefined)
+  assert.ok(!JSON.stringify(appointmentData).includes('PRIVATE-KEY-SENTINEL'))
+  await inspect?.({phase:'vendor-appointment',r,north,cookies})
+  const mailCount=r.messages.length
+  const confirmations=await r.atOnce([['/portal/api/appointment-response',{method:'POST',as:cookies.vendor1,form:new URLSearchParams({appointmentId:appt.id,version:'1',outcome:'confirmed',reference:'Available for the displayed window',consent:'yes'})}],['/portal/api/appointment-response',{method:'POST',as:cookies.vendor1,form:new URLSearchParams({appointmentId:appt.id,version:'1',outcome:'confirmed',reference:'Available for the displayed window',consent:'yes'})}]])
+  for(const response of confirmations)assert.equal(response.status,200,await response.clone().text())
+  const confirmation=await confirmations[0].json()
+  await r.restart()
+  assert.equal((await(await appointmentReply('vendor1')).json()).id,confirmation.id,'retry after restart returns one durable event')
+  assert.equal((await appointmentReply('vendor1',{outcome:'cancelled'})).status,409,'a conflicting retry is refused')
+  assert.equal((await appointmentReply('vendor1',{reference:'Changed reason'})).status,409)
+  let booked=(await r.state(north.id)).work.appointments.find(a=>a.id===appt.id)
+  assert.equal(booked.state,'proposed','vendor confirmation never implies resident confirmation')
+  assert.equal(booked.resident_confirmed_at,null);assert.equal(booked.vendor_confirmed_at,clock)
+  // Withdrawal remains possible when qualifications become held; it cannot authorize a visit.
+  await r.command('vendor.update',{...vendorFields,vendorId:river.id,standing:'blocked'})
+  await inspect?.({phase:'vendor-appointment-withdraw',r,north,cookies})
+  const cancel={version:'2',outcome:'cancelled',reference:'River withdrew'}
+  assert.equal((await appointmentReply('vendor1',cancel)).status,200)
+  assert.equal((await appointmentReply('vendor1',cancel)).status,200)
+  assert.equal((await appointmentReply('vendor1',{version:'3'})).status,409,'ended windows cannot be confirmed')
+  booked=(await r.state(north.id)).work.appointments.find(a=>a.id===appt.id)
+  assert.equal(booked.state,'cancelled');assert.equal(booked.version,3)
+  assert.equal(r.messages.length,mailCount,'responses send no message')
+  await inspect?.({phase:'vendor-appointment-cancelled',r,north,cookies})
+  await r.command('vendor.update',{...vendorFields,vendorId:river.id})
+  const moved=await r.command('appointment.reassign',{appointmentId:appt.id,version:3,vendorId:bay.id,reference:'Owner chose Bay'})
   for(const k of ['vendor1','vendor2'])assert.equal((await respond(k)).status,401,k+' cannot submit with an ended assignment session')
   for(const k of ['vendor1','vendor2'])assert.equal((await get(k,'/portal/api/vendor')).status,401,k+' session ended by the reassignment')
   assert.equal((await get('owner1','/portal/api/owner')).status,200);await again('vendor1','river@example.test');await again('vendor2','bay@example.test')
@@ -147,6 +181,8 @@ export async function journey({inspect,revokeDelegate,assets=false}={}){
   const reassignedVersion=String((await r.state(north.id)).work.jobs.find(j=>j.id===job.id).version)
   assert.equal((await respond('vendor1',{version:reassignedVersion})).status,404,'former vendor cannot answer after signing in again')
   assert.deepEqual((await data('vendor1','/portal/api/vendor')).responses,[])
+  assert.deepEqual((await data('vendor1','/portal/api/vendor')).appointments,[])
+  assert.equal((await appointmentReply('vendor1',{version:'3'})).status,404)
   const declined=await respond('vendor2',{version:reassignedVersion,outcome:'declined'});assert.equal(declined.status,200,await declined.clone().text());assert.equal((await declined.json()).outcome,'declined')
   await inspect?.({phase:'portal-people',r,north,cookies})
   // Revoking one grant ends that record at once; revoking a person ends their sessions, links and every grant.
@@ -193,6 +229,7 @@ export async function journey({inspect,revokeDelegate,assets=false}={}){
   const restored=await installation()
   try{
    await restored.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'backup.rer')})
+   assert.equal((await restored.db.prepare("SELECT COUNT(*) AS n FROM tt_appointment_events WHERE id LIKE 'portal-appointment:%'").first()).n,2,'vendor appointment evidence survives restore without credentials')
    assert.equal((await restored.db.prepare('SELECT COUNT(*) AS n FROM tt_vendor_work_responses').first()).n,2,'attributable responses survive restore without portal credentials')
    for(const k of ['owner1','vendor2','south'])assert.equal((await restored.request('/portal/api/me',{as:cookies[k]})).status,401,k+' has no session after a restore')
    assert.equal((await restored.request('/portal/accept',{method:'POST',as:'',form:new URLSearchParams({token:restoreToken})})).status,400,'an unused live invitation from the source cannot sign in after restore')
