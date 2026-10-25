@@ -3969,7 +3969,7 @@
       "executable": false
     },
     "src/terrace/work-chargeback-view.ts": {
-      "sha256": "a680cea862f0897229b6ed47bae380594c287f5fbc1f8c0724e6e37d5f28d4da",
+      "sha256": "0e4ada1d04b65248165547733373111d6fdbadd3a4d7c6ce329b679817390fe2",
       "executable": false
     },
     "src/terrace/work-chargebacks.ts": {
@@ -4357,7 +4357,7 @@
       "executable": false
     },
     "tests/work-budgets.mjs": {
-      "sha256": "c4ee558494f72f7a1173ffa15754e52102ae76115d401bce243620c10e2d53d9",
+      "sha256": "6b54050f417b71adc288853aa7282f907e2f1133fa1d066beeee3a784c55739b",
       "executable": false
     },
     "tests/workflow-cadence.mjs": {
