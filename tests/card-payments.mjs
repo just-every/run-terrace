@@ -38,13 +38,14 @@ export async function cardFixture({assets=false,live=false,provider,inspect}={})
   return await inspect({h,t,q,day,resident,delegate,pay,post,calls,sessions,events,intents,charges})
  }finally{await h.close()}
 }
-export async function journey(){
- await cardFixture({inspect:async({h,t,q,day,resident,delegate,pay,post,calls,sessions,events,intents,charges})=>{
+export async function journey({assets=false,inspect}={}){
+ await cardFixture({assets,inspect:async({h,t,q,day,resident,delegate,pay,post,calls,sessions,events,intents,charges})=>{
   assert.equal((await post(pay,delegate)).status,404)
   assert.equal((await post({...pay,tenancyId:randomUUID()})).status,404)
   assert.equal((await post({...pay,consent:'no'})).status,400)
   assert.equal((await h.request('/portal/api/card',{method:'POST',as:resident,originHeader:'https://elsewhere.test',form:new URLSearchParams(pay)})).status,403)
   const member=await h.invite('member','card-preparer@example.test');await h.command('payment.card',pay,{as:member,status:403})
+  await inspect?.({phase:'review',h,t,resident,pay})
   const starts=await Promise.all([post(pay),post(pay)]);const started=starts[0];assert.equal(starts[1].status,200,await starts[1].clone().text());assert.equal(started.status,200,(await started.clone().text())+' provider calls '+JSON.stringify(calls));const result=await started.json()
   assert.equal((await post(pay)).status,200,'same request resumes without another reservation')
   assert.equal((await h.state(t.id)).ledger.balanceCents,100000,'hosted redirect posts no receipt')
@@ -63,6 +64,7 @@ export async function journey(){
   await h.restart();assert.equal((await notify(success)).status,200);assert.equal((await h.state(t.id)).ledger.receipts.length,1)
   const receipt=await h.request('/portal/card?tenancy='+t.id+'&payment='+result.paymentId,{as:resident});assert.equal(receipt.status,200);assert.match(await receipt.text(),new RegExp(charge))
   const staff=await h.request('/app?tab=ledger&tenancy='+t.id);assert.match(await staff.text(),/ch_syntheticterrace1/)
+  await inspect?.({phase:'paid',h,t,resident,pay,paymentId:result.paymentId})
   const expiredStart=await h.command('payment.card',{...pay,requestKey:randomUUID(),amount:'50.00'}),second=[...sessions.values()].find(s=>s.metadata.terrace_payment_id===expiredStart.paymentId)
   const expired=make('checkout.session.expired',second,3);assert.equal((await notify(expired)).status,200);ledger=(await h.state(t.id)).ledger;assert.equal(ledger.payments.pendingCents,0);assert.equal(ledger.receipts.length,1)
   const archive=await(await h.request('/api/backup')).text();assert.equal(archive.includes('checkout_url'),false,'hosted links stay in their installation')

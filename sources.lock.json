@@ -4156,12 +4156,16 @@
       "sha256": "5dcaeea8b6565f63b730569b2cb8c58c38c5c0957dced6081fa470cb1c50a317",
       "executable": false
     },
+    "tests/card-payments-browser.mjs": {
+      "sha256": "49d468d53826f4779cef6681a53c50e3d32eea4faf4997fbc9af306f3ecd1862",
+      "executable": false
+    },
     "tests/card-payments-live.mjs": {
       "sha256": "c5def8e10643459d710ec0722222015c68d9fbeb927ad07e4a8b000ebb339c61",
       "executable": false
     },
     "tests/card-payments.mjs": {
-      "sha256": "e11e6f87e77b67d53c0bb92296e656b4698855ac1cfdecae395e52a77314d100",
+      "sha256": "abc544425c22ed471a366484f00edbfeab0abbb617cde1fe6a031069899cbbd3",
       "executable": false
     },
     "tests/credentials-browser.mjs": {
