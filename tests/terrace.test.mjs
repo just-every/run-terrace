@@ -1,3 +1,4 @@
+import {journey as actionRequestJourney} from './action-requests.mjs'
 import {journey as statementJourney} from './statements.mjs'
 import {journey as reconcileJourney} from './reconcile.mjs'
 import {journey as agentWorkloadJourney} from './agent-workloads.mjs'
@@ -913,3 +914,5 @@ test('AGENT-008: scoped workloads ignore document instructions, retain human app
 test('ACCT-013: cash and accrual statements reconcile unpaid rent and bills, settlement timing and immutable scoped source drills',financialReportJourney)
 
 test('REPORT-006: reviewed owner links enforce send approval, live scope, frozen portal fields, archive isolation and audited hold-aware deletion',reportScheduleJourney)
+
+test('PORTAL-007: scoped request actions, expiry, replacement, validated originals and exact owner decisions',actionRequestJourney)

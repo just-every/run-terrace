@@ -2,10 +2,14 @@
   "version": "0.1.4",
   "date": "2026-10-25",
   "publicReleaseNotes": "Confirm the rer 0.2.80 pin and refreshed Base delivery metadata. Keep runtime test state outside the Worker artifact so native release packaging stays clean.",
-  "contractChanges": {},
+  "contractChanges": {
+    "PORTAL-007": "Missing to partial: scoped expiring request links, original upload validation, named document attestations, permitted notice acknowledgements and exact owner quote decisions. Conservative authority, consent and custody defaults await ct approval."
+  },
   "extensionPointChanges": [],
-  "migrations": [],
+  "migrations": [
+    "0077_action_requests.sql"
+  ],
   "breaking": false,
-  "agentUpdateInstructions": "Preserve private installation settings and applied migration bytes. Configure the selected mail provider and verify owner sign-in after installation.",
+  "agentUpdateInstructions": "Preserve private installation settings and applied migration bytes. Configure the selected mail provider and verify owner sign-in after installation. Apply the forward request migration. Preserve request evidence and never export action bearer links. Review the PORTAL-007 conservative defaults before enabling broader authority.",
   "previousVersion": "0.1.3"
 }

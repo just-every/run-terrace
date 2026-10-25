@@ -1,3 +1,5 @@
+import {externalRequest,completeRequest} from './action-requests'
+import {actionPage} from './action-request-view'
 import {portalReport} from './report-deliveries'
 import {residentMonthlyStatement,residentMonthlyCsv,residentMonthlyPage,residentTransaction,residentTransactionPage} from './resident-statements'
 // ROLE-002: the /portal door. It is separate from /app and /api: a portal cookie reaches nothing there, and a staff cookie reaches
@@ -49,6 +51,18 @@ export async function portalResponse(request: Request, env: Bindings): Promise<R
   if (!portal) return api ? json({ error: 'unauthorized', message: 'Sign in first.' }, 401) : new Response(null, { status: 303, headers: headers({ location: '/portal/signin' }) })
   if (path === '/portal/signout') { await env.DB.prepare('UPDATE tt_portal_sessions SET revoked_at=? WHERE hash=?').bind(now, portal.sessionHash).run(); return new Response(null, { status: 303, headers: headers({ location: '/portal/signin', 'set-cookie': cookie(env, '', 0) }) }) }
   const c = portalContext(env.DB, portal, now, env.SESSION_SECRET), mine = (key: string, value: unknown) => portal.grants.find(g => g[key] === value)
+  if(path==='/portal/request') {
+   const token=String(request.method==='POST'?form.get('token')??'':url.searchParams.get('token')??'')
+   const r=await externalRequest(c,portal,token)
+   if(request.method==='GET'&&url.searchParams.get('file')==='1') {
+    insist(r.document_version_id,'not_found','Document not found.',404)
+    const original=await env.DB.prepare('SELECT bytes,name,media_type,sha256 FROM tt_document_versions WHERE id=? AND sha256=?').bind(r.document_version_id,r.document_sha256).first<Row>()
+    insist(original,'not_found','Document not found.',404);await recordRead(c,'portal.request.document',r.id)
+    return new Response(new Uint8Array(original.bytes),{headers:headers({'content-type':original.media_type,'content-disposition':'attachment; filename="'+String(original.name).replace(/[^a-zA-Z0-9._-]/g,'_')+'"','content-security-policy':"default-src 'none'; sandbox"})})
+   }
+   if(request.method==='POST'){const done=await completeRequest(c,portal,r,Object.fromEntries(form));return html(actionPage(done,token,portal.identity,'Your action was recorded.'))}
+   return html(actionPage(r,token,portal.identity))
+  }
   if (path === '/portal/delegate/revoke') {
    // The resident on a lease ends a delegated contact's access to it: the grant and the contact's open sessions, in history.
    insist(request.method === 'POST', 'method', 'Method not allowed.', 405)

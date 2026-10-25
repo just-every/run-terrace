@@ -28,7 +28,7 @@ const inScope = (scope: string): [string, string] => scope.startsWith('property:
 
 /** The exact terms an approval or an owner's decision covers. */
 const terms = (j: Row) => JSON.stringify({ jobId: j.id, version: j.version, title: j.title, scope: j.scope ?? null, checklist: j.checklist, vendorId: j.vendor_id ?? null, tradeName: j.trade_name, tradeEmail: j.trade_email, dueDate: j.due_date, estimateCents: j.estimate_cents, quoteId: j.quote_id ?? null })
-const digest = (j: Row) => sha256(new TextEncoder().encode(terms(j)))
+export const digest = (j: Row) => sha256(new TextEncoder().encode(terms(j)))
 
 /** Whether a manager may approve this job version alone. The owner decides when the estimate is above the
  * per-job limit, or when this year's approved spend in the scope plus this estimate is above the budget. */

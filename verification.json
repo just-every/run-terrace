@@ -102,7 +102,8 @@
       "browser": true,
       "hosted": false,
       "commands": [
-        "node tests/documents-browser.mjs"
+        "node tests/documents-browser.mjs",
+        "node tests/action-requests-browser.mjs"
       ]
     },
     {

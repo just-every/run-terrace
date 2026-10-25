@@ -40,7 +40,7 @@ async function file(value: unknown) {
 }
 
 /** The checked, hashed original and the statements that store it. A refused file writes one history row, never a document. */
-async function stored(c: Context, p: Row, tenancyId: string, documentId: string, version: number) {
+export async function stored(c: Context, p: Row, tenancyId: string, documentId: string, version: number) {
  const f = await file(p.file), result = await scan(f.bytes, f.type)
  if (!result.ok) { await audit(c, c.action ?? 'document.upload', tenancyId, 'refused').run(); insist(false, 'document_refused', result.reason, 422) }
  const digest = await sha256(f.bytes), key = id()
