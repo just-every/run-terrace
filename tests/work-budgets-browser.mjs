@@ -5,7 +5,7 @@ import {chromium} from '@playwright/test'
 import {journey} from './work-budgets.mjs'
 const out=resolve(process.env.BUDGET_SCREENSHOTS||'.rer/budget-screens');await mkdir(out,{recursive:true})
 const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
-try{await journey({assets:true,inspect:async({h,t,asset,property,future,capture,approveBill,lot,resident,owner})=>{
+try{await journey({assets:true,inspect:async({h,t,asset,property,manager,future,capture,approveBill,lot,resident,owner})=>{
  const context=await browser.newContext();await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return{name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}));const page=await context.newPage()
  for(const [width,height]of [[1440,900],[390,844]]){
   await page.setViewportSize({width,height});await page.goto(h.origin+'/app?tab=work&tenancy='+t.id)

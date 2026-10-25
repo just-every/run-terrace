@@ -4353,7 +4353,7 @@
       "executable": false
     },
     "tests/work-budgets-browser.mjs": {
-      "sha256": "f8c1955ec87153b77088fbd5880f85433dc8d4fea545f55237c784e01c5ecf62",
+      "sha256": "ee0ce4b8caee0ddf18aebfd7d2447fb011605efb03f74856f0befddb9b11e135",
       "executable": false
     },
     "tests/work-budgets.mjs": {
