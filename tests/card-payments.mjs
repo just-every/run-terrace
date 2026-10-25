@@ -4,7 +4,7 @@ import {installation,tenancyInput} from './api/harness.mjs'
 import {syntheticPack} from './rule-packs.mjs'
 
 export async function cardFixture({assets=false,live=false,provider,inspect}={}){
- const calls=[],sessions=new Map(),events=new Map(),intents=new Map(),charges=new Map()
+ const edge={failNextCreate:false},calls=[],sessions=new Map(),events=new Map(),intents=new Map(),charges=new Map()
  const stripeRequest=async request=>{
   const url=new URL(request.url);calls.push(url.pathname)
   if(live)return fetch(request)
@@ -15,7 +15,7 @@ export async function cardFixture({assets=false,live=false,provider,inspect}={})
    assert.equal(body.get('payment_method_types[0]'),'card');assert.equal(body.get('line_items[0][price_data][currency]'),'usd')
    assert.equal(body.has('customer_email'),false,'no resident contact is disclosed')
    const session={id:'cs_test_'+randomUUID().replaceAll('-',''),url:'https://checkout.stripe.com/c/pay/synthetic-terrace-1',livemode:false,currency:'usd',amount_total:Number(body.get('line_items[0][price_data][unit_amount]')),metadata:{terrace_payment_id:body.get('metadata[terrace_payment_id]')},payment_status:'unpaid'}
-   sessions.set(key,session);return Response.json(session)
+   sessions.set(key,session);if(edge.failNextCreate){edge.failNextCreate=false;return Response.json({error:{code:'synthetic_terrace_uncertain'}},{status:503})}return Response.json(session)
   }
   for(const [path,rows]of [['events',events],['payment_intents',intents],['charges',charges]])if(url.pathname.startsWith('/v1/'+path+'/')){const row=rows.get(url.pathname.split('/').at(-1));return row?Response.json(row):Response.json({error:{code:'resource_missing'}},{status:404})}
   if(url.pathname.startsWith('/v1/checkout/sessions/'))return Response.json([...sessions.values()].find(s=>s.id===url.pathname.split('/').at(-1)))
@@ -35,11 +35,11 @@ export async function cardFixture({assets=false,live=false,provider,inspect}={})
   await h.stepUp();await h.command('portal.invite',{source:'synthetic-terrace-84 authorized portal invitation',kind:'resident',displayName:'Alex Chen',email:tenancyInput.tenantEmail,tenancyId:t.id});const resident=await h.portalSignIn(tenancyInput.tenantEmail)
   await h.command('portal.invite',{source:'synthetic-terrace-84 authorized portal invitation',kind:'resident',displayName:'Different resident',email:'other-card@example.test',tenancyId:t.id,access:'delegate'});const delegate=await h.portalSignIn('other-card@example.test')
   const post=(params,as=resident)=>h.request('/portal/api/card',{method:'POST',as,form:new URLSearchParams(params)})
-  return await inspect({h,t,q,day,resident,delegate,pay,post,calls,sessions,events,intents,charges})
+  return await inspect({h,t,q,day,resident,delegate,pay,post,calls,sessions,events,intents,charges,edge})
  }finally{await h.close()}
 }
 export async function journey({assets=false,inspect}={}){
- await cardFixture({assets,inspect:async({h,t,q,day,resident,delegate,pay,post,calls,sessions,events,intents,charges})=>{
+ await cardFixture({assets,inspect:async({h,t,q,day,resident,delegate,pay,post,calls,sessions,events,intents,charges,edge})=>{
   assert.equal((await post(pay,delegate)).status,404)
   assert.equal((await post({...pay,tenancyId:randomUUID()})).status,404)
   assert.equal((await post({...pay,consent:'no'})).status,400)
@@ -65,7 +65,10 @@ export async function journey({assets=false,inspect}={}){
   const receipt=await h.request('/portal/card?tenancy='+t.id+'&payment='+result.paymentId,{as:resident});assert.equal(receipt.status,200);assert.match(await receipt.text(),new RegExp(charge))
   const staff=await h.request('/app?tab=ledger&tenancy='+t.id);assert.match(await staff.text(),/ch_syntheticterrace1/)
   await inspect?.({phase:'paid',h,t,resident,pay,paymentId:result.paymentId})
-  const expiredStart=await h.command('payment.card',{...pay,requestKey:randomUUID(),amount:'50.00'}),second=[...sessions.values()].find(s=>s.metadata.terrace_payment_id===expiredStart.paymentId)
+  const uncertainPay={...pay,requestKey:randomUUID(),amount:'50.00'};edge.failNextCreate=true
+  await h.command('payment.card',uncertainPay,{status:503});assert.equal((await h.state(t.id)).ledger.payments.pendingCents,5000,'an uncertain creation holds the original reservation')
+  await inspect?.({phase:'uncertain',h,t,resident,pay:uncertainPay})
+  const expiredStart=await h.command('payment.card',uncertainPay),second=[...sessions.values()].find(s=>s.metadata.terrace_payment_id===expiredStart.paymentId)
   const expired=make('checkout.session.expired',second,3);assert.equal((await notify(expired)).status,200);ledger=(await h.state(t.id)).ledger;assert.equal(ledger.payments.pendingCents,0);assert.equal(ledger.receipts.length,1)
   const archive=await(await h.request('/api/backup')).text();assert.equal(archive.includes('checkout_url'),false,'hosted links stay in their installation')
   const fresh=await installation();try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'cards.rer')});assert.equal((await fresh.state(t.id)).ledger.receipts.length,1)}finally{await fresh.close()}

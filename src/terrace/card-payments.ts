@@ -5,7 +5,7 @@ import {localDate} from './zones'
 import {createCheckout,stripe} from './stripe-provider'
 
 export async function cardRows(c:Context,tenancyId:string){
- return all(c,`SELECT c.payment_id,c.state,c.checkout_id,c.intent_id,c.charge_id,c.payer_fee_cents,c.provider_fee_cents,c.provider_net_cents,c.last_event_id,p.amount_cents,p.recorded_at,p.state AS funds_state FROM tt_card_payments c JOIN tt_payments p ON p.id=c.payment_id WHERE p.tenancy_id=? ORDER BY p.recorded_at,c.payment_id`,tenancyId)
+ return all(c,`SELECT c.payment_id,c.request_key,c.initiated_by,c.state,c.checkout_id,c.intent_id,c.charge_id,c.payer_fee_cents,c.provider_fee_cents,c.provider_net_cents,c.last_event_id,p.amount_cents,p.recorded_at,p.state AS funds_state FROM tt_card_payments c JOIN tt_payments p ON p.id=c.payment_id WHERE p.tenancy_id=? ORDER BY p.recorded_at,c.payment_id`,tenancyId)
 }
 /** No browser or staff outcome can post these funds: only verified provider events below. */
 export async function startCard(c:Context,env:Bindings,p:Row,proof:D1PreparedStatement[]){
@@ -19,7 +19,7 @@ export async function startCard(c:Context,env:Bindings,p:Row,proof:D1PreparedSta
  else{
   key=id()
   const prepared=await preparePayment(c,{paymentKey:key,tenancyId:t.id,amount,state:'pending',payerKind:'resident',method:'card',receivedDate:localDate(c.now,t.time_zone),reference:'stripe:'+key})
-  try{await c.db.batch([...proof,...prepared.writes,sql(c,"INSERT INTO tt_card_payments(payment_id,request_key,initiated_by,state) VALUES(?,?,?,'reserved')",key,p.requestKey,c.actor.id),audit(c,'card.start',key)])}
+  try{await c.db.batch([...proof,...prepared.writes,sql(c,"INSERT INTO tt_card_payments(payment_id,request_key,initiated_by,state) VALUES(?,?,?,'reserved')",key,p.requestKey,c.actor.id),sql(c,'INSERT INTO tt_card_checkout_links VALUES(?,NULL)',key),audit(c,'card.start',key)])}
   catch(e){const concurrent=await one(c,'SELECT c.payment_id,p.amount_cents,p.tenancy_id,p.recorded_at FROM tt_card_payments c JOIN tt_payments p ON p.id=c.payment_id WHERE c.initiated_by=? AND c.request_key=?',c.actor.id,p.requestKey);if(concurrent&&concurrent.amount_cents===amountCents&&concurrent.tenancy_id===t.id)key=concurrent.payment_id;else if(String(e).includes('CHECK constraint')||String(e).includes('UNIQUE constraint'))throw new Fault('conflict','The balance, access or payment request changed. Review the account again.',409);else throw e}
  }
  const saved=await one(c,'SELECT c.*,l.checkout_url FROM tt_card_payments c LEFT JOIN tt_card_checkout_links l ON l.payment_id=c.payment_id WHERE c.payment_id=?',key)
@@ -27,7 +27,7 @@ export async function startCard(c:Context,env:Bindings,p:Row,proof:D1PreparedSta
  let checkout:Row
  try{checkout=await createCheckout(env,{id:key,amountCents:prior?.amount_cents??amountCents,origin:env.AUTH_ORIGIN,tenancyId:t.id,staff:!c.actor.id.startsWith('portal:')})}
  catch(e){if(e instanceof Fault&&e.code==='stripe_rejected')await c.db.batch([guard(c,"EXISTS(SELECT 1 FROM tt_card_payments WHERE payment_id=? AND state='reserved' AND checkout_id IS NULL)",key),sql(c,"UPDATE tt_payments SET state='failed',version=version+1 WHERE id=? AND state='pending'",key),sql(c,"UPDATE tt_card_payments SET state='expired' WHERE payment_id=?",key),event(c,key,'failed','Stripe rejected Checkout creation',localDate(c.now,t.time_zone)),audit(c,'card.rejected',key)]);throw e}
- await c.db.batch([guard(c,"EXISTS(SELECT 1 FROM tt_card_payments WHERE payment_id=? AND (state='reserved' OR (state='checkout' AND checkout_id=?)))",key,checkout.id),sql(c,"UPDATE tt_card_payments SET checkout_id=?,state='checkout' WHERE payment_id=?",checkout.id,key),sql(c,'INSERT INTO tt_card_checkout_links VALUES(?,?) ON CONFLICT(payment_id) DO NOTHING',key,checkout.url)])
+ await c.db.batch([guard(c,"EXISTS(SELECT 1 FROM tt_card_payments WHERE payment_id=? AND (state='reserved' OR (state='checkout' AND checkout_id=?)))",key,checkout.id),sql(c,"UPDATE tt_card_payments SET checkout_id=?,state='checkout' WHERE payment_id=?",checkout.id,key),sql(c,'INSERT INTO tt_card_checkout_links VALUES(?,?) ON CONFLICT(payment_id) DO UPDATE SET checkout_url=excluded.checkout_url',key,checkout.url)])
  return{paymentId:key,checkoutUrl:checkout.url,tenancyId:t.id}
 }
 /** Retrieve the canonical event using the installation credential. Request payload fields never supply money or state. */
@@ -50,7 +50,7 @@ export async function verifiedCardEvent(env:Bindings,eventId:unknown,now:string,
   const session=await stripe(env,'/checkout/sessions/'+payment.checkout_id)
   insist(session.payment_intent===object.id,'provider_event','The failed attempt does not match this hosted session.',409)
  }else{
-  insist(object.id===payment.checkout_id&&object.currency==='usd'&&object.amount_total===payment.amount_cents,'provider_event','The hosted amount or session does not match.',409)
+  insist((!payment.checkout_id||object.id===payment.checkout_id)&&object.currency==='usd'&&object.amount_total===payment.amount_cents,'provider_event','The hosted amount or session does not match.',409)
   if(!expired){
    insist(object.payment_status==='paid','provider_event','The hosted payment is not paid.',409)
    intent=await stripe(env,'payment_intents/'+object.payment_intent)
@@ -65,7 +65,7 @@ export async function verifiedCardEvent(env:Bindings,eventId:unknown,now:string,
   const state=expired?'failed':'settled',t=await tenancy(c,payment.tenancy_id),day=localDate(new Date(ev.created*1000).toISOString(),t.time_zone)
   writes.push(guard(c,"EXISTS(SELECT 1 FROM tt_payments WHERE id=? AND state='pending')",payment.payment_id),sql(c,'UPDATE tt_payments SET state=?,version=version+1 WHERE id=?',state,payment.payment_id))
   if(!expired){for(const a of await all(c,'SELECT charge_id AS chargeId,amount_cents AS amountCents,receipt_id AS receiptId FROM tt_payment_allocations WHERE payment_id=?',payment.payment_id))writes.push(receipt(c,{id:payment.payment_id,method:'card'},a,day,'USD'))}
-  writes.push(event(c,payment.payment_id,state,ev.id,day),sql(c,'UPDATE tt_card_payments SET state=?,intent_id=?,charge_id=?,provider_fee_cents=?,provider_net_cents=?,last_event_id=? WHERE payment_id=?',expired?'expired':'paid',intent?.id??null,charge?.id??null,charge?.balance_transaction?.fee??null,charge?.balance_transaction?.net??null,ev.id,payment.payment_id))
+  writes.push(event(c,payment.payment_id,state,ev.id,day),sql(c,'UPDATE tt_card_payments SET checkout_id=COALESCE(checkout_id,?),state=?,intent_id=?,charge_id=?,provider_fee_cents=?,provider_net_cents=?,last_event_id=? WHERE payment_id=?',object.id,expired?'expired':'paid',intent?.id??null,charge?.id??null,charge?.balance_transaction?.fee??null,charge?.balance_transaction?.net??null,ev.id,payment.payment_id))
  }
  // A decline stays retryable in the same hosted session. Capacity is released only when Stripe expires the session.
  writes.push(audit(c,'card.event',payment.payment_id,ev.type))

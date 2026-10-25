@@ -21,6 +21,6 @@ CREATE TABLE tt_card_events (
  verified_at TEXT NOT NULL
 );
 
-CREATE TABLE tt_card_checkout_links (payment_id TEXT PRIMARY KEY REFERENCES tt_card_payments(payment_id),checkout_url TEXT NOT NULL);
+CREATE TABLE tt_card_checkout_links (payment_id TEXT PRIMARY KEY REFERENCES tt_card_payments(payment_id),checkout_url TEXT);
 INSERT INTO tt_role_actions(role,action) SELECT role,'payment.card' FROM tt_role_actions WHERE action='payment.record';
 INSERT INTO tt_role_actions(role,action) SELECT role,'payment.card.reconcile' FROM tt_role_actions WHERE action='payment.record';

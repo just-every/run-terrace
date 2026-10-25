@@ -192,6 +192,7 @@ export async function journey({inspect,revokeDelegate,assets=false}={}){
   const verification={vendorId:river.id,version:bank.version,verificationReference:'synthetic-terrace-verification-1',consent:'VERIFIED'}
   assert.equal((await r.command('vendor.bank.verify',verification,{as:staff.approver,status:403})).error,'step_up_required')
   assert.equal((await r.request('/api/vendor-bank?vendorId='+river.id,{as:staff.southmanager})).status,404)
+  await r.command('vendor.bank.verify',verification,{as:staff.southmanager,status:404})
   assert.equal((await r.request('/api/vendor-bank?vendorId='+river.id,{as:staff.leasing})).status,403)
   await r.stepUp('approver@example.test',staff.approver)
   const nativeBank=await inspect?.({phase:'staff-bank-verification',r,north,cookies,staff,bank,river,verification})

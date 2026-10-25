@@ -1,5 +1,7 @@
+import {BALANCE} from './ledger'
+import {RESERVED} from './payment-admission'
 import type {Bindings} from '../auth.server'
-import {all,allow,authority,escape as e,Fault,guard,insist,one,recordRead,tenancy,type Context,type Row} from './core'
+import {all,allow,authority,escape as e,money,shown,Fault,guard,insist,one,recordRead,tenancy,type Context,type Row} from './core'
 import type {Portal} from './portal-session'
 import {cardRows,startCard,verifiedCardEvent} from './card-payments'
 import {cardStart,cardHistory} from './card-view'
@@ -28,7 +30,9 @@ export async function portalCard(request:Request,env:Bindings,c:Context,p:Portal
  const paymentId=url.searchParams.get('payment'),rows=(await cardRows(c,t.id)).filter(r=>!paymentId||r.payment_id===paymentId)
  insist(!paymentId||rows.length,'not_found','Payment not found.',404)
  const link=paymentId?await one(c,'SELECT checkout_url FROM tt_card_checkout_links WHERE payment_id=?',paymentId):null
- const body=shell('Pay by card',`<section><h2>${e(t.address)}</h2><p>Stripe test mode · no live money moves. Card details and authentication are handled on Stripe’s hosted page.</p>${paymentId?'':env.STRIPE_SECRET_KEY&&!env.RER_DEMO?cardStart(t.id):'<p>Card collection is not configured. Contact your property manager.</p>'}${cardHistory(rows,t.id)}${link&&rows[0]?.state==='checkout'?`<p><a href="${link.checkout_url.replaceAll('&','&amp;')}">Resume secure Stripe checkout</a></p>`:''}<a href="/portal/lease?tenancy=${t.id}">Back to your account</a></section>`,p.identity)
+ const balance=await one(c,`SELECT COALESCE(SUM(${BALANCE}),0) AS outstanding,COALESCE(SUM(${RESERVED}),0) AS pending FROM tt_charges q WHERE tenancy_id=?`,t.id)
+ const retry=paymentId?await one(c,"SELECT c.request_key,p.amount_cents FROM tt_card_payments c JOIN tt_payments p ON p.id=c.payment_id WHERE c.payment_id=? AND c.initiated_by=? AND c.state='reserved'",paymentId,c.actor.id):null
+ const body=shell('Pay by card',`<section><h2>${e(t.address)}</h2><p><strong>Outstanding ${money(balance!.outstanding,shown(t))}</strong> · pending allocations ${money(balance!.pending,shown(t))}</p><p>Stripe test mode · no live money moves. Card details and authentication are handled on Stripe’s hosted page.</p>${paymentId?'':env.STRIPE_SECRET_KEY&&!env.RER_DEMO?cardStart(t.id):'<p>Card collection is not configured. Contact your property manager.</p>'}${cardHistory(rows,t.id)}${retry?'<h3>Resume the same Checkout request</h3><p>An uncertain request remains reserved. This explicitly asks Stripe for the same request again; it does not allocate another payment.</p>'+cardStart(t.id,false,retry):''}${link&&rows[0]?.state==='checkout'?`<p><a href="${link.checkout_url.replaceAll('&','&amp;')}">Resume secure Stripe checkout</a></p>`:''}<a href="/portal/lease?tenancy=${t.id}">Back to your account</a></section>`,p.identity)
  return new Response(body,{headers:{'content-type':'text/html;charset=utf-8','cache-control':'private, no-store','x-content-type-options':'nosniff','referrer-policy':'strict-origin','content-security-policy':"default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; form-action 'self' https://checkout.stripe.com; frame-ancestors 'none'"}})
 }
 export async function stripeEventResponse(request:Request,env:Bindings){
