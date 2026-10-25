@@ -371,7 +371,7 @@ The scope authority is the owner-approved 16 October 2026 Terrace entry in LIST.
 
 ## Homepage claims
 
-Every capability claim on the approved homepage (`src/site/landing/`, checked against br’s claims truth table of 18 October 2026, 50 claims in page order) maps to the clauses that promise exactly it, and row 51 maps the “Try the demo” link, which is navigation rather than a claim. A claim’s status is `done` when every mapped clause is done, `missing` when every one is missing and `partial` otherwise; it describes the implementation, not whether the claim may appear on the homepage. The sample names and figures in the drawings are illustrations, not claims. Claims 1–50: 7 done, 32 partial, 11 missing.
+Every capability claim on the approved homepage (`src/site/landing/`, checked against br’s claims truth table of 18 October 2026, 50 claims in page order) maps to the clauses that promise exactly it, and row 51 maps the “Try the demo” link, which is navigation rather than a claim. A claim’s status is `done` when every mapped clause is done, `missing` when every one is missing and `partial` otherwise; it describes the implementation, not whether the claim may appear on the homepage. The sample names and figures in the drawings are illustrations, not claims. Claims 1–50: 7 done, 33 partial, 10 missing.
 
 | # | Claim | Clause(s) | Status |
 | --- | --- | --- | --- |

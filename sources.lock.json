@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "a7d8cc66acc6a4fb018ed7758e7a4d5b456c454b79228fc8c86d887636e556c4",
+      "sha256": "edf7ca5c8c659a5c01a3655b0b626f7ae69b0632bc8e9e5a85b291bfcff76a10",
       "executable": false
     },
     "DEMO.md": {
@@ -4261,7 +4261,7 @@
       "executable": false
     },
     "tests/portal-requests.mjs": {
-      "sha256": "dfeecad0accd7bbf7f46136888288a20e311b4b1e987c97ea7e4e60d128d628a",
+      "sha256": "1b302bb2b2d51dffe83bb06ffb037e2896798dfcb6f4a168ad79fe3fe298df26",
       "executable": false
     },
     "tests/portal.mjs": {

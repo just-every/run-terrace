@@ -27,6 +27,7 @@ export async function journey({inspect,assets=false}={}) {
   for(const as of [second,delegate])for(const url of [path,filePath])assert.equal((await r.request(url,{as})).status,404)
   const staffFile='/api/repair-media?id='+new URL(filePath,r.origin).searchParams.get('id')
   assert.deepEqual(Buffer.from(await(await r.request(staffFile,{as:admin})).arrayBuffer()),png)
+  for(const as of ['',resident,delegate])assert.equal((await r.request(staffFile,{as})).status,401,'resident and signed-out sessions never reach staff media')
   for(const [as,status] of [[member,403],[outsider,404]])assert.equal((await r.request(staffFile,{as})).status,status)
   const video=Buffer.from([0,0,0,16,102,116,121,112,105,115,111,109,0,0,0,0])
   const movie=await post('/portal/repairs',{...fields,requestKey:randomUUID(),photo:new File([video],'tap.mp4',{type:'video/mp4'})});assert.equal(movie.status,303)
