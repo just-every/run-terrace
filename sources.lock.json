@@ -545,7 +545,7 @@
       "executable": false
     },
     "package.json": {
-      "sha256": "8f7b01b4565e967192ac7b95bcb00e4ea67fbba7874bc00caaedaad46e5a381f",
+      "sha256": "5b264532dd6b7a6178c715b1592cdf172cae03b424c26598da62f6137c74bb33",
       "executable": false
     },
     "packaging.json": {
@@ -836,8 +836,16 @@
       "sha256": "72f49687add2e816c5794f15e395ee042c0799632dc60cb6eb0063f522dba686",
       "executable": false
     },
-    "RELEASE.json": {
+    "release-history/0.1.2.json": {
       "sha256": "499f7ccb84b8cd56e874641e0a81e9f4617f88c1ef81206682c5ab0302e806ff",
+      "executable": false
+    },
+    "release-media/terrace-demo.png": {
+      "sha256": "aeea58c2310607e15115e02df4c74f640c27d1ce3113c0b38a175f0ac36f0b8e",
+      "executable": false
+    },
+    "RELEASE.json": {
+      "sha256": "5d76c2fe6f024b0bf5e026e4222fba46c740d00b03ab1de1a4f62683dd1e45f3",
       "executable": false
     },
     "rer-project.json": {
@@ -1061,7 +1069,7 @@
       "executable": false
     },
     "seed.json": {
-      "sha256": "f209fcf7894fc32cd752f9167ca48f28e4af1f1aee075a3a1520ff7878d7a61b",
+      "sha256": "132eb4ba3919fd32896c649c14c4fb553984207744218664cd3a40fc2d39c538",
       "executable": false
     },
     "SOURCE.md": {

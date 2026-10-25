@@ -1,0 +1,11 @@
+{
+  "version": "0.1.2",
+  "date": "2026-10-25",
+  "publicReleaseNotes": "Keep Terrace pinned to rer 0.2.80 with refreshed Base copies and hosted delivery metadata. Repair interruption of the published command on Linux and macOS, and retain hosted demo evidence in Managed installations.",
+  "contractChanges": {},
+  "extensionPointChanges": [],
+  "migrations": [],
+  "breaking": false,
+  "agentUpdateInstructions": "Preserve private installation settings and applied migration bytes. Configure the selected mail provider and verify owner sign-in after installation.",
+  "previousVersion": "0.1.1"
+}
