@@ -9,7 +9,9 @@ assert.ok(process.env.STRIPE_SECRET_KEY,'Inject the Stripe test secret key; neve
 const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
 const api=async path=>{const r=await fetch('https://api.stripe.com/v1/'+path,{headers:{authorization:'Bearer '+process.env.STRIPE_SECRET_KEY,'Stripe-Version':'2026-09-30.endive'}});const d=await r.json();assert.ok(r.ok,'Stripe API status '+r.status+' code '+(d.error?.code??''));assert.equal(d.livemode??false,false);return d}
 const cookies=(cookie,url)=>cookie.split('; ').map(p=>{const i=p.indexOf('=');return{name:p.slice(0,i),value:p.slice(i+1),url}})
+console.log('Stripe live proof: starting public-door fixture')
 try{await cardFixture({assets:true,live:true,inspect:async({h,t,resident})=>{
+ console.log('Stripe live proof: resident and staff doors ready')
  const ctx=await browser.newContext();await ctx.addCookies(cookies(resident,h.origin));const page=await ctx.newPage()
  const staffCtx=await browser.newContext();await staffCtx.addCookies(cookies(h.cookie,h.origin));const staff=await staffCtx.newPage()
  const proof=async(page,name)=>{for(const [width,height]of [[1440,900],[390,844]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no overflow '+name+' '+width);await page.screenshot({path:join(out,name+'-'+width+'.png'),fullPage:true})}}

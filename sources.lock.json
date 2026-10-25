@@ -556,6 +556,18 @@
       "sha256": "d4a7bd5934a8bf17449934d6f9a14e380e0ea1cca21f60a40eb5f4609c61271e",
       "executable": false
     },
+    "migrations/core/0083_card_payments.sql": {
+      "sha256": "f30f9e7c60be0428219f00b1f53a02ef18627c377bc7237df2cdb5aab50e8f86",
+      "executable": false
+    },
+    "migrations/core/0084_vendor_proposals.sql": {
+      "sha256": "02ed930250e9724ba55d44acd7fdf6ac8edd011295082f6bec464edd790c0800",
+      "executable": false
+    },
+    "migrations/core/0085_vendor_invoices.sql": {
+      "sha256": "5e5850ec865045e26ed37457e82edcb45b6be87d4fb7c36b0dc7f514e264843e",
+      "executable": false
+    },
     "ONBOARDING.md": {
       "sha256": "d9ae36e9db2e9bd75e88a78688c3a94155aec155ce7213160ebfd101c93ff3c5",
       "executable": false
@@ -3325,11 +3337,11 @@
       "executable": false
     },
     "src/terrace/appointments-view.ts": {
-      "sha256": "7b6246011b0f8ea70f7d3920444101c290166ca2a886da49c2d1626aa6830cf9",
+      "sha256": "29662ec9526a58e23f8bf15eb7d863d5588a9020e04bfac63226c693d80b1732",
       "executable": false
     },
     "src/terrace/appointments.ts": {
-      "sha256": "a9515ede23a399f872c00d4e28faf7c58659b537aef5f8eb14163abe0e57c95d",
+      "sha256": "402a65faf646b63608de0a3228eb560ce627bc5fe33db423ba4daa8b32422808",
       "executable": false
     },
     "src/terrace/archive-policy.d.mts": {
@@ -3373,7 +3385,19 @@
       "executable": false
     },
     "src/terrace/bills.ts": {
-      "sha256": "4be008c855ff7014aadd84d5d3aee5ed260c9744d3001dc022385ccc85a779ce",
+      "sha256": "85985f298e3c750c97105ea2554b9f6d1f2c92420e0cdc32fc3f1742215bb359",
+      "executable": false
+    },
+    "src/terrace/card-http.ts": {
+      "sha256": "5b8ff5c052d39414949f6695089196b596c3fdcfaf0b0aae99d563ebef71d777",
+      "executable": false
+    },
+    "src/terrace/card-payments.ts": {
+      "sha256": "cebeb6806a5d33af913b8ae43625775110ded94d6dfd1043a07bd5b5de96e4e8",
+      "executable": false
+    },
+    "src/terrace/card-view.ts": {
+      "sha256": "64e1e3bdcd4c25ac3066e961521ff6bdc5c3177d79b160894ab741007f32476f",
       "executable": false
     },
     "src/terrace/charge-concessions.ts": {
@@ -3704,6 +3728,10 @@
       "sha256": "bec5b3069a8cacffb018fe81f80b3b1426b3401e898e1e55439198dffec25b12",
       "executable": false
     },
+    "src/terrace/payment-admission.ts": {
+      "sha256": "d927e3106e5ebc5c5124edfd30653e1a94aed1509ffde6cd8b05366915344dc7",
+      "executable": false
+    },
     "src/terrace/payment-archive.mjs": {
       "sha256": "c8f452292756ad1d7d5bdffc647d91ec23f8c6862d62572d9ebfe4d2c9b32445",
       "executable": false
@@ -3713,7 +3741,7 @@
       "executable": false
     },
     "src/terrace/payments.ts": {
-      "sha256": "c453f21490c81a1da78926a7438d529fcae4b91b2cb6ea9b413e5ed3634ff64a",
+      "sha256": "c8d9822a9d5e59d870959c8c3afbaa099623ccaab0cdd657c0547f5c2f4f1544",
       "executable": false
     },
     "src/terrace/people.ts": {
@@ -3729,11 +3757,11 @@
       "executable": false
     },
     "src/terrace/portal-data.ts": {
-      "sha256": "e863a7a1b6b173ca32d4fa396bd0a7e5c856fe973b28b88acefffe7654d6cbb4",
+      "sha256": "3e72211e58493d22ac7f042046a1a7519c2d9de6cd147fff66818239d296e4a1",
       "executable": false
     },
     "src/terrace/portal-http.ts": {
-      "sha256": "17fa50661526740241aea6dc9742a8cb5037d067d663a390f1b561ad3d4feb17",
+      "sha256": "21efbe2d0884bc220bd619ab6c39c22c53f10cdc6b8edc97143cd91749884006",
       "executable": false
     },
     "src/terrace/portal-request-view.ts": {
@@ -3748,6 +3776,14 @@
       "sha256": "e6a639bc90bb111a85e703a56294b3275886fe8be367284ed2eed23f79f9de22",
       "executable": false
     },
+    "src/terrace/portal-vendor-invoices.ts": {
+      "sha256": "a47f0d2a4f3275b07ccb706c435bc95fa00775398b6d8309ed159c9764f4a6a6",
+      "executable": false
+    },
+    "src/terrace/portal-vendor-proposals.ts": {
+      "sha256": "97c88ddcdc8744ba59b73e38518c639ad95f397c464606b5465d18c77823c52d",
+      "executable": false
+    },
     "src/terrace/portal-vendor.ts": {
       "sha256": "ac7e9b8aca27c00f5f8ff1f8f79c17520769c2622b88b861ce9e0f54746c7238",
       "executable": false
@@ -3757,7 +3793,7 @@
       "executable": false
     },
     "src/terrace/portal-view.ts": {
-      "sha256": "1c358eb10470bc0cb7a9233ed38dd619c0c0dfd31c20e62a0521a3d29b26c42b",
+      "sha256": "04dad61bb422058a5e3266af064e9fc94daf0c52542b9136da071312953a1db6",
       "executable": false
     },
     "src/terrace/portal.ts": {
@@ -3936,6 +3972,10 @@
       "sha256": "0850adb41bd815131fe6f0ac6bdb90a5a3fb50282e085ab20377ec46485a986c",
       "executable": false
     },
+    "src/terrace/stripe-provider.ts": {
+      "sha256": "d5326b4e8d315fefba0967837b92b6eea44178110eb2dbe29321cf94978539e2",
+      "executable": false
+    },
     "src/terrace/tax.ts": {
       "sha256": "13df43e7cb1bb559f4959b9b07752eb0a4706ed5b3a51dcc174d45a3d781774f",
       "executable": false
@@ -4098,6 +4138,14 @@
     },
     "tests/capacity.mjs": {
       "sha256": "5dcaeea8b6565f63b730569b2cb8c58c38c5c0957dced6081fa470cb1c50a317",
+      "executable": false
+    },
+    "tests/card-payments-live.mjs": {
+      "sha256": "5e62335cb54d48e14c73b003339bba5c7e085207edd9a0a9f58c15105b72715f",
+      "executable": false
+    },
+    "tests/card-payments.mjs": {
+      "sha256": "e11e6f87e77b67d53c0bb92296e656b4698855ac1cfdecae395e52a77314d100",
       "executable": false
     },
     "tests/credentials-browser.mjs": {
@@ -4273,7 +4321,7 @@
       "executable": false
     },
     "tests/portal.mjs": {
-      "sha256": "60766aa2f802f87e9ab7fbd7eeef3973a3a7531ecd26612a293395ab4ec0fe9a",
+      "sha256": "f5ef1a56d1958aed1dbadee5af261279813fd3ceecd243a8df0659dfce6c96c2",
       "executable": false
     },
     "tests/prospects.mjs": {
@@ -4378,6 +4426,10 @@
     },
     "tests/trust.mjs": {
       "sha256": "9193c7be91cf75d918f1d69d01814c9daa2161d6c18a7fc183d4e89294629a9f",
+      "executable": false
+    },
+    "tests/vendor-proposals-browser.mjs": {
+      "sha256": "ff320c71130e435b586f1315ce413fec676c733b5d89523d0532dba1687121da",
       "executable": false
     },
     "tests/work-budgets-browser.mjs": {

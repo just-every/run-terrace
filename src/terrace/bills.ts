@@ -18,16 +18,23 @@ async function reverseMarkup(c: Context,b: Row) {
  }
  return [guard(c,"(SELECT COUNT(*) FROM tt_fees WHERE kind='markup' AND source=?)=?",`bill:${b.id}:v${b.version}`,rows.length),...writes]
 }
+/** Prepare the same pending bill evidence for staff and explicitly authorized vendor submissions.
+ * The caller supplies its own live authority guards and commits these statements atomically.
+ */
+export async function prepareBill(c: Context,p: Row) {
+ const terms=await input(c,p),key=id();await unique(c,terms)
+ const a=await attachment(c,key,1,p.original??p.invoice,true)
+ terms.attachments=[{id:a.id,sha256:a.sha}]
+ const sha=await digest(terms)
+ return {key,terms,statements:[guard(c,"NOT EXISTS(SELECT 1 FROM tt_bill_revisions WHERE json_extract(terms,'$.vendorId')=? AND lower(json_extract(terms,'$.invoiceNumber'))=?)",terms.vendorId,terms.invoiceNumber.toLowerCase()),sql(c,'INSERT INTO tt_bills(id,vendor_id,invoice_number,invoice_key,day,prepared_by,revised_by,created_at) VALUES(?,?,?,?,?,?,?,?)',key,terms.vendorId,terms.invoiceNumber,terms.invoiceNumber.toLowerCase(),terms.day,c.actor.id,c.actor.id,c.now),revision(c,key,1,terms,sha),...await billSubjects(c,key,terms),...a.statements]}
+}
 export async function billCommand(c: Context,command: string,p: Row): Promise<Row|undefined> {
  if(!BILL_COMMANDS.includes(command))return
  if(command.startsWith('bill-template.'))return templateCommand(c,command,p)
  allow(c,command)
  if(command==='bill.create') {
-  const terms=await input(c,p),key=id();await unique(c,terms)
-  const a=await attachment(c,key,1,p.original??p.invoice,true)
-  terms.attachments=[{id:a.id,sha256:a.sha}]
-  const sha=await digest(terms)
-  await commit(c,[guard(c,"NOT EXISTS(SELECT 1 FROM tt_bill_revisions WHERE json_extract(terms,'$.vendorId')=? AND lower(json_extract(terms,'$.invoiceNumber'))=?)",terms.vendorId,terms.invoiceNumber.toLowerCase()),sql(c,'INSERT INTO tt_bills(id,vendor_id,invoice_number,invoice_key,day,prepared_by,revised_by,created_at) VALUES(?,?,?,?,?,?,?,?)',key,terms.vendorId,terms.invoiceNumber,terms.invoiceNumber.toLowerCase(),terms.day,c.actor.id,c.actor.id,c.now),revision(c,key,1,terms,sha),...await billSubjects(c,key,terms),...a.statements],command,key)
+  const {key,statements}=await prepareBill(c,p)
+  await commit(c,statements,command,key)
   return {id:key,version:1,state:'pending',notice:'Original invoice retained privately. Fields were entered by staff and have not been extracted. Review authority before approving the payable.'}
  }
  const b=await bill(c,p.billId)

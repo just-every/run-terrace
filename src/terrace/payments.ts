@@ -1,4 +1,4 @@
-import {preparePayment,receipt,event} from './payment-admission'
+import {preparePayment,receipt,event,stages} from './payment-admission'
 import {tenancyGuard,all,allow,can,cents,commit,date,guard,id,insist,one,shown,sql,tenancy,text,type Context,type Row} from './core'
 import {BALANCE} from './ledger'
 import {localDate} from './zones'
@@ -6,12 +6,6 @@ import {rulePreview} from './rule-packs'
 export const PAYMENT_COMMANDS=['payment.policy','payment.record','payment.settle','payment.fail']
 export {RESERVED} from './payment-admission'
 const parsed=(v:unknown)=>{if(typeof v==='string'){try{return JSON.parse(v)}catch{throw Error('Policy must be valid JSON.')}}return v}
-function stages(v:unknown){
- insist(Array.isArray(v)&&v.length>0&&v.length<=20,'payment_policy','Supply stage rules beginning at zero days past due.')
- let prior=-1
- for(const r of v){insist(Number.isInteger(r.minDaysPastDue)&&r.minDaysPastDue>=0&&r.minDaysPastDue<=3660&&r.minDaysPastDue>prior&&typeof r.allowPartial==='boolean'&&['reject','credit'].includes(r.overpayment),'payment_policy','Stages are ordered unique day thresholds with explicit allowPartial and overpayment.');prior=r.minDaysPastDue}
- insist(v[0].minDaysPastDue===0,'payment_policy','The first stage starts at zero days past due.');return v as Row[]
-}
 export async function paymentData(c:Context,tenancyId:string){
  allow(c,'ledger.read');await tenancy(c,tenancyId)
  const privileged=can(c,'payment.record')&&!c.actor.credential

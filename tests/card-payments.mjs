@@ -45,7 +45,7 @@ export async function journey(){
   assert.equal((await post({...pay,consent:'no'})).status,400)
   assert.equal((await h.request('/portal/api/card',{method:'POST',as:resident,originHeader:'https://elsewhere.test',form:new URLSearchParams(pay)})).status,403)
   const member=await h.invite('member','card-preparer@example.test');await h.command('payment.card',pay,{as:member,status:403})
-  const started=await post(pay);assert.equal(started.status,200,await started.clone().text());const result=await started.json()
+  const starts=await Promise.all([post(pay),post(pay)]);const started=starts[0];assert.equal(starts[1].status,200,await starts[1].clone().text());assert.equal(started.status,200,(await started.clone().text())+' provider calls '+JSON.stringify(calls));const result=await started.json()
   assert.equal((await post(pay)).status,200,'same request resumes without another reservation')
   assert.equal((await h.state(t.id)).ledger.balanceCents,100000,'hosted redirect posts no receipt')
   const p=(await h.state(t.id)).ledger.payments.payments[0];assert.equal(p.amount_cents,10000);assert.equal(p.state,'pending')

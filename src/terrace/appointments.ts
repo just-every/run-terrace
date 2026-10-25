@@ -11,7 +11,7 @@ const ACTIVE = ['proposed', 'confirmed']
 const RECORDED = 'recorded by staff, resident and vendor not contacted by Terrace'
 // Match an explicit offset to the property's IANA zone. Both fall-back occurrences are selectable; a skipped
 // spring-forward local time or an incorrect seasonal offset is refused rather than silently normalised.
-function instant(v: unknown, label: string, zone: string) {
+export function instant(v: unknown, label: string, zone: string) {
  const s = text(v, label, 32)
  insist(/^\d{4}-\d\d-\d\dT\d\d:\d\d[+-]\d\d:\d\d$/.test(s) && Number.isFinite(Date.parse(s)), 'invalid_time', `${label}: enter YYYY-MM-DDTHH:mm±HH:mm, with the property's UTC offset.`)
  const ms = Date.parse(s), parts = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: zone, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).formatToParts(ms).map(p => [p.type, p.value]))
@@ -111,11 +111,12 @@ export async function appointmentCommand(c: Context, command: string, p: Row): P
 }
 
 export async function appointmentData(c: Context, t: Row) {
- const [appointments, events, calendar, staff] = await Promise.all([
+ const [appointments, events, calendar, staff, proposals] = await Promise.all([
   all(c, 'SELECT a.*,j.state AS job_state,(SELECT id FROM tt_maintenance_approvals WHERE job_id=j.id ORDER BY job_version DESC LIMIT 1) AS current_approval FROM tt_appointments a JOIN tt_maintenance_jobs j ON j.id=a.job_id WHERE j.tenancy_id=? ORDER BY a.recorded_at,a.rowid', t.id),
   all(c, 'SELECT e.* FROM tt_appointment_events e JOIN tt_appointments a ON a.id=e.appointment_id JOIN tt_maintenance_jobs j ON j.id=a.job_id WHERE j.tenancy_id=? ORDER BY e.recorded_at,e.rowid', t.id),
   all(c, `SELECT a.id,a.job_id,a.staff_id,a.vendor_name,a.starts_at,a.ends_at,a.time_zone,j.tenancy_id,t.unit_id,t.address FROM tt_appointments a JOIN tt_maintenance_jobs j ON j.id=a.job_id JOIN tt_tenancies t ON t.id=j.tenancy_id WHERE ${live} ORDER BY a.starts_at`),
   all(c, `SELECT o.id,o.display_name FROM oa_operators o WHERE ${staffScope} ORDER BY o.display_name`, t.unit_id ?? null),
+  all(c,'SELECT p.* FROM tt_vendor_appointment_proposals p JOIN tt_maintenance_jobs j ON j.id=p.job_id WHERE j.tenancy_id=? ORDER BY p.proposed_at,p.id',t.id),
  ])
- return { appointmentNow: c.now, appointments: appointments.map(a => ({ ...a, current: current({ state: a.job_state }, a, { id: a.current_approval }) })), appointmentEvents: events, appointmentCalendar: calendar.filter(a => reaches(c, a.unit_id)), appointmentStaff: staff }
+ return { appointmentProposals:proposals, appointmentNow: c.now, appointments: appointments.map(a => ({ ...a, current: current({ state: a.job_state }, a, { id: a.current_approval }) })), appointmentEvents: events, appointmentCalendar: calendar.filter(a => reaches(c, a.unit_id)), appointmentStaff: staff }
 }

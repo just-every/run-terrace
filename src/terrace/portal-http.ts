@@ -1,3 +1,5 @@
+import {vendorInvoice} from './portal-vendor-invoices'
+import {vendorAppointmentProposal} from './portal-vendor-proposals'
 import {portalCard} from './card-http'
 import {vendorAppointment,vendorEstimate,respondToWork} from './portal-vendor'
 import {externalRequest,completeRequest} from './action-requests'
@@ -56,10 +58,21 @@ export async function portalResponse(request: Request, env: Bindings): Promise<R
   if (path === '/portal/signout') { await env.DB.prepare('UPDATE tt_portal_sessions SET revoked_at=? WHERE hash=?').bind(now, portal.sessionHash).run(); return new Response(null, { status: 303, headers: headers({ location: '/portal/signin', 'set-cookie': cookie(env, '', 0) }) }) }
   const c = portalContext(env.DB, portal, now, env.SESSION_SECRET), mine = (key: string, value: unknown) => portal.grants.find(g => g[key] === value)
   if(['/portal/card','/portal/api/card'].includes(path))return await portalCard(request,env,c,portal,form)
+  if(['/portal/api/invoice','/portal/invoice'].includes(path)){
+   insist(request.method==='POST','method','Method not allowed.',405)
+   insist(Number(request.headers.get('content-length')??0)<=6*1024*1024,'body_limit','Invoice submission is too large.',413)
+   const invoice=await vendorInvoice(c,portal,form)
+   return path.startsWith('/portal/api/')?json(invoice):new Response(null,{status:303,headers:headers({location:'/portal/work'})})
+  }
   if(['/portal/api/estimate','/portal/estimate'].includes(path)){
    insist(request.method==='POST','method','Method not allowed.',405)
    const estimate=await vendorEstimate(c,portal,form)
    return path.startsWith('/portal/api/')?json(estimate):new Response(null,{status:303,headers:headers({location:'/portal/work'})})
+  }
+  if(['/portal/api/appointment-proposal','/portal/appointment-proposal'].includes(path)){
+   insist(request.method==='POST','method','Method not allowed.',405)
+   const proposal=await vendorAppointmentProposal(c,portal,form)
+   return path.startsWith('/portal/api/')?json(proposal):new Response(null,{status:303,headers:headers({location:'/portal/work'})})
   }
   if(['/portal/api/appointment-response','/portal/appointment-response'].includes(path)){
    insist(request.method==='POST','method','Method not allowed.',405)

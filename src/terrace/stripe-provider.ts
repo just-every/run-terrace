@@ -22,7 +22,7 @@ export async function stripe(env: StripeEnv, path: string, params?: URLSearchPar
     const response = await fetch(`https://api.stripe.com/v1/${path.replace(/^\//, '')}`, {
       method: params === undefined ? 'GET' : 'POST', headers,
       body: params === undefined ? undefined : params.toString(),
-      signal: controller.signal, redirect: 'error',
+      signal: controller.signal, redirect: 'manual',
     })
     let result: unknown
     try { result = await response.json() } catch { result = undefined }
@@ -67,7 +67,7 @@ export async function createCheckout(env: StripeEnv, input: { id: string; amount
     success_url: success.href,
     cancel_url: cancel.href,
   })
-  const session = await stripe(env, 'checkout/sessions', params, `terrace-card:${input.id}`)
+  const session = await stripe(env, '/checkout/sessions', params, `terrace-card:${input.id}`)
   let url: URL
   try { url = new URL(session.url) } catch { throw unavailable() }
   if (typeof session.id !== 'string' || !session.id.startsWith('cs_test_') || url.protocol !== 'https:' || url.hostname !== 'checkout.stripe.com' || url.port || url.username || url.password) throw unavailable()

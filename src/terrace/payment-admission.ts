@@ -3,7 +3,12 @@ import {BALANCE} from './ledger'
 import {localDate} from './zones'
 import {rulePreview} from './rule-packs'
 export const RESERVED='COALESCE((SELECT amount_cents FROM tt_payment_reserved WHERE charge_id=q.id),0)'
-const stages=(v:Row[])=>v
+export function stages(v:unknown){
+ insist(Array.isArray(v)&&v.length>0&&v.length<=20,'payment_policy','Supply stage rules beginning at zero days past due.')
+ let prior=-1
+ for(const r of v){insist(Number.isInteger(r.minDaysPastDue)&&r.minDaysPastDue>=0&&r.minDaysPastDue<=3660&&r.minDaysPastDue>prior&&typeof r.allowPartial==='boolean'&&['reject','credit'].includes(r.overpayment),'payment_policy','Stages are ordered unique day thresholds with explicit allowPartial and overpayment.');prior=r.minDaysPastDue}
+ insist(v[0].minDaysPastDue===0,'payment_policy','The first stage starts at zero days past due.');return v as Row[]
+}
 /** Shared PAY-005 policy, capacity and frozen allocation gate for external records and hosted collection. */
 export async function preparePayment(c:Context,p:Row){
   const t=await tenancy(c,p.tenancyId),today=localDate(c.now,t.time_zone),day=date(p.receivedDate),amount=cents(p.amount)
