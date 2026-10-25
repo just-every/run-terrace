@@ -4,10 +4,11 @@
   "publicReleaseNotes": "Confirm the rer 0.2.80 pin and refreshed Base delivery metadata. Keep runtime test state outside the Worker artifact so native release packaging stays clean.",
   "contractChanges": {
     "PORTAL-007": "Partial retained: adopt the ct-approved replacement default, riders and per-receiver qualification map dated 25 October 2026; outstanding assertions remain explicit.",
-    "WORK-014": "Partial retained: ct-approved authorization default; exact source and recipient, authorization declaration and version, included tax, atomic recovery limits and no new readers, notices, legal determination or money movement. WORK-015 inherits notices, disputes and collection.",
+    "WORK-014": "Done: pinned-clock household and property-local ownership boundary matrix through chargeback proposal and approval, including UTC disagreement and authority changes before approval. Existing accounting, retention and recovery proof remains applicable.",
     "WORK-015": "Missing: future chargeback notices, disputes and collection, inheriting the explicit accounting-only boundary.",
     "PORTAL-004": "Done: private resident repair reports, original photos and video, scoped staff work links, independent resident answers, fresh invitations after restore, and shared WORK-001 safety intake with approved guidance and on-call email.",
-    "WORK-001": "Partial retained: resident self-report is implemented; timed SMS and voice paging remains under PORTAL-005."
+    "WORK-001": "Partial retained: resident self-report is implemented; timed SMS and voice paging remains under PORTAL-005.",
+    "PORTAL-003": "Partial: explicit once-only acceptance and decline of exact approved assigned work, current qualification and live-session checks, immutable response custody. Appointment proposals, estimates, completion originals, invoice submission and access windows remain open."
   },
   "extensionPointChanges": [],
   "migrations": [
@@ -15,9 +16,10 @@
     "0078_work_budgets.sql",
     "0079_work_stock.sql",
     "0080_work_chargebacks.sql",
-    "0081_resident_requests.sql"
+    "0081_resident_requests.sql",
+    "0082_vendor_responses.sql"
   ],
   "breaking": false,
-  "agentUpdateInstructions": "Preserve private installation settings and applied migration bytes. Configure the selected mail provider and verify owner sign-in after installation. Apply the forward request migration. Preserve request evidence and never export action bearer links. Review the PORTAL-007 conservative defaults before enabling broader authority. Apply the forward category-budget migration. Existing work remains operating; preserve approved sources and classify future work explicitly. Apply the forward stock migration. Receive only approved unlinked purchase allocations; stock-source payables become immutable. Preserve stock quantities, beneficiary cost and accounting custody. Apply the forward chargeback migration; preserve source entries, proposal fingerprints and approval attribution. Review the explicit chargeback authorization default and its ct qualification before broadening authority. A proposed source invoice is frozen; no collection or insurer submission is performed. Apply 0081_resident_requests.sql. Fresh portal invitations are required after restore. Keep resident originals private; resident answers do not close work or another report. The on-call email does not claim delivery or acknowledgement.",
+  "agentUpdateInstructions": "Preserve private installation settings and applied migration bytes. Configure the selected mail provider and verify owner sign-in after installation. Apply the forward request migration. Preserve request evidence and never export action bearer links. Review the PORTAL-007 conservative defaults before enabling broader authority. Apply the forward category-budget migration. Existing work remains operating; preserve approved sources and classify future work explicitly. Apply the forward stock migration. Receive only approved unlinked purchase allocations; stock-source payables become immutable. Preserve stock quantities, beneficiary cost and accounting custody. Apply the forward chargeback migration; preserve source entries, proposal fingerprints and approval attribution. Review the explicit chargeback authorization default and its ct qualification before broadening authority. A proposed source invoice is frozen; no collection or insurer submission is performed. Apply 0081_resident_requests.sql. Fresh portal invitations are required after restore. Keep resident originals private; resident answers do not close work or another report. The on-call email does not claim delivery or acknowledgement. Apply 0082_vendor_responses.sql and preserve vendor response evidence. Responses acknowledge work only; staff still arrange appointments, dispatch and payment.",
   "previousVersion": "0.1.3"
 }

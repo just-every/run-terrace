@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "4112fa60d8bcb8f6b9c0ade1360966b0a397ec3cacc1db96fa21ff0da54e0b02",
+      "sha256": "0f04511af63c928e34245b4be21dadfbe3918d0c5f9cc714f74be05bc0608b69",
       "executable": false
     },
     "AGENTS.md": {
@@ -109,7 +109,7 @@
       "executable": false
     },
     "API.md": {
-      "sha256": "270c2d4ded01b760beaa263cd651c13bc4de426f952ca9dfe8429dc6a927cd9c",
+      "sha256": "c9a1f316c2819320c9b6eb18d504bafead1daa50d6dd0162ee685c78f67cba89",
       "executable": false
     },
     "base-copies.json": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "edf7ca5c8c659a5c01a3655b0b626f7ae69b0632bc8e9e5a85b291bfcff76a10",
+      "sha256": "510c5778f92693ca4931d1123ce70d1dc409461a32daaf4bd2e7d0205d08e82e",
       "executable": false
     },
     "DEMO.md": {
@@ -552,6 +552,10 @@
       "sha256": "23a3d32b2807e8ea206e52fdf70b8e45ab2811f59d60c7a9b0481de8d7f4b74d",
       "executable": false
     },
+    "migrations/core/0082_vendor_responses.sql": {
+      "sha256": "d4a7bd5934a8bf17449934d6f9a14e380e0ea1cca21f60a40eb5f4609c61271e",
+      "executable": false
+    },
     "ONBOARDING.md": {
       "sha256": "d9ae36e9db2e9bd75e88a78688c3a94155aec155ce7213160ebfd101c93ff3c5",
       "executable": false
@@ -869,7 +873,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "157ee82ce56f92be5763f82d3bbcfb8742d030eb301d2b2eeac8500d76c72c62",
+      "sha256": "2936b035de0bf0271cec222aa2294939a830443c5810b77dc4940d470a33a6a7",
       "executable": false
     },
     "rer-project.json": {
@@ -3725,11 +3729,11 @@
       "executable": false
     },
     "src/terrace/portal-data.ts": {
-      "sha256": "d4cb5ac5d5cc56ee33df43e17f6f8c078b9e0dd73a2700825c0b38b0b2f3625f",
+      "sha256": "a70e0dfbc2bc80440cf15ef587422c7d3ec4f9ecce7f719a29fcff620c79fb30",
       "executable": false
     },
     "src/terrace/portal-http.ts": {
-      "sha256": "20f25515562c542725879e48f3ffea5e6d757f78875cae1d5a3f54f463795e9d",
+      "sha256": "9b3aec2039daacdd024f5908fab02aeaf1e177af9f30ff7a34f43c32656666fd",
       "executable": false
     },
     "src/terrace/portal-request-view.ts": {
@@ -3744,12 +3748,16 @@
       "sha256": "e6a639bc90bb111a85e703a56294b3275886fe8be367284ed2eed23f79f9de22",
       "executable": false
     },
+    "src/terrace/portal-vendor.ts": {
+      "sha256": "1561bff2f8beb208efd5f89355b664573479541d36e0a4f2e2ddb923f5bf8420",
+      "executable": false
+    },
     "src/terrace/portal-view-staff.ts": {
       "sha256": "70e33aff6985055c7f41d386526eb772995590968ff0fe57f27ee9327abddebf",
       "executable": false
     },
     "src/terrace/portal-view.ts": {
-      "sha256": "b05ae2fac4ba7853c42fd5c2d08da04fa1213bf124d83596f327f065a065f267",
+      "sha256": "3d05bade28055316376317fe5b463eebb16cf40463929d0d515665832305caab",
       "executable": false
     },
     "src/terrace/portal.ts": {
@@ -4081,7 +4089,7 @@
       "executable": false
     },
     "tests/bills.mjs": {
-      "sha256": "5f012256c3bc3623e7dba4473751c88b2b40a7a96d6951cbe39360f3429b47e8",
+      "sha256": "3982173b6f541f4bf5259a518ea640e01f0f83981440c7dbe879303b8304f4f7",
       "executable": false
     },
     "tests/capacity-fixture.mjs": {
@@ -4137,7 +4145,7 @@
       "executable": false
     },
     "tests/documents-browser.mjs": {
-      "sha256": "86dede1205d6c743d2c2796ffcd2d8071c7dd760cfcb2f405d3a9baa47b78b96",
+      "sha256": "7dfeac106aac4f62b28da0c785e2b83aae6de89c89f666d1be6ef9300c329de5",
       "executable": false
     },
     "tests/documents.mjs": {
@@ -4265,7 +4273,7 @@
       "executable": false
     },
     "tests/portal.mjs": {
-      "sha256": "20fd4e038ea89ac81f125f33d295bbe7e6530ca2096ca50925d84e2b592819be",
+      "sha256": "81ff7342bcb3e998da1e82c1970fd943e198959466a8602ce32bc2dfd4de7541",
       "executable": false
     },
     "tests/prospects.mjs": {
@@ -4377,7 +4385,7 @@
       "executable": false
     },
     "tests/work-budgets.mjs": {
-      "sha256": "b8387a504c3b4561e89db9921cd3792f1f67571474d4671f42eec07865a0b6c2",
+      "sha256": "5cc86e4fe7664acc2ee05d18de23aa4b9c1a702d18fec1bd3ff02283c9d74ca4",
       "executable": false
     },
     "tests/workflow-cadence.mjs": {

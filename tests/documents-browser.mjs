@@ -49,6 +49,14 @@ try{
   await shoot(page,'portal-delegate-revoked');await context.close()
  },inspect:async({phase,r,north,cookies})=>{
   if(phase==='staff-portal'){const {context,page}=await open(r.origin,r.cookie);await page.goto(r.origin+'/app?tab=settings');await page.getByRole('heading',{name:'Portal access',exact:true,level:2}).waitFor();await page.locator('details:has(summary:text("Invite a resident"))').locator('summary').click();await shoot(page,'portal-staff-access');for(const [width,height] of [[1440,900],[390,844]]){await page.setViewportSize({width,height});await page.locator('details:has(summary:text("Invite a resident"))').screenshot({path:join(out,`portal-staff-invite-form-${width}.png`)})}await context.close()}
+  if(phase==='vendor-response'){
+   const {context,page}=await open(r.origin,cookies.vendor1)
+   await page.goto(r.origin+'/portal/work');await page.getByRole('heading',{name:'Your work',exact:true}).waitFor()
+   await page.getByRole('checkbox').check();await shoot(page,'vendor-response-review')
+   await page.getByRole('button',{name:'Accept work',exact:true}).click()
+   await page.getByRole('status').filter({hasText:'Your response: accepted'}).waitFor();await shoot(page,'vendor-response-accepted')
+   await context.close()
+  }
   if(phase==='portal-people')for(const [name,cookie,path] of [['resident',cookies.resident,'/portal/lease?tenancy='+north.id],['delegate',cookies.delegate,'/portal/lease?tenancy='+north.id],['owner',cookies.owner1,'/portal/owner'],['sold-owner',cookies.owner2,'/portal/owner'],['sold-owner-statement',cookies.owner2,'/portal/owner-statement?from=2026-10-01&to=2026-12-31'],['owner-statement',cookies.owner1,'/portal/owner-statement?from=2026-01-01&to=2026-12-31'],['vendor',cookies.vendor2,'/portal/work'],['home',cookies.resident,'/portal']]){const {context,page}=await open(r.origin,cookie);await page.goto(r.origin+path);await page.getByRole('heading',{level:1}).waitFor();if(name==='delegate')assert.equal(await page.getByRole('heading',{name:'Recorded payments'}).count(),0);await shoot(page,'portal-'+name);await context.close()}
   if(phase==='portal-revoked'){const {context,page}=await open(r.origin,cookies.resident);await page.goto(r.origin+'/portal/lease?tenancy='+north.id);assert.equal(new URL(page.url()).pathname,'/portal/signin');await shoot(page,'portal-access-ended');await context.close()}
  }})

@@ -33,7 +33,11 @@ export function statementPage(person: Row, s: Row) {
  return shell('Statement', `<section><p>${usDate(s.from)} to ${usDate(s.to)} · only periods you owned</p><div class="table-scroll" style="overflow-x:auto"><table style="min-width:48rem"><thead><tr><th>Received</th><th>Property</th><th>Tenancy</th><th>Your share</th><th>Net of fee</th></tr></thead><tbody>${rows || '<tr><td colspan="5">Nothing was allocated to you in this period.</td></tr>'}</tbody></table></div><p class="muted">${e(s.boundary)}</p></section>`, person)
 }
 export function workPage(person: Row, d: Row) {
- const jobs = d.jobs.map((j: Row) => `<li>${e(j.title)} · ${e(j.address)} · due ${usDate(j.dueDate)} · ${e(j.state === 'sent' ? 'sent to you' : 'approved')} · estimate ${money(j.estimateCents, 'USD')}</li>`).join('')
+ const jobs = d.jobs.map((j: Row) => {
+  const response=d.responses.find((r:Row)=>r.job_id===j.id&&r.job_version===j.version)
+  const action=response?`<p role="status">Your response: ${e(response.outcome)}. Staff arrange the next step.</p>`:form('/portal/work-response',`<input type="hidden" name="jobId" value="${e(j.id)}"><input type="hidden" name="version" value="${e(j.version)}"><label><input type="checkbox" name="consent" value="yes" required> I confirm this is my response to this exact approved work.</label><button type="submit" name="outcome" value="accepted">Accept work</button> <button type="submit" name="outcome" value="declined" class="secondary">Decline work</button>`)
+  return `<li><h3>${e(j.title)}</h3><p>${e(j.address)} · due ${usDate(j.dueDate)} · ${e(j.state === 'sent' ? 'sent to you' : 'approved')} · estimate ${money(j.estimateCents, 'USD')}</p>${j.scope?`<p>${e(j.scope)}</p>`:''}${j.checklist.length?`<ul>${j.checklist.map((task:string)=>`<li>${e(task)}</li>`).join('')}</ul>`:''}${action}</li>`
+ }).join('')
  const invoices = d.invoices.map((i: Row) => `<li>${e(i.invoiceNumber)} · ${usDate(i.day)}${i.totalCents === null ? '' : ' · ' + money(i.totalCents, 'USD')} · ${e(i.payment)}${i.files.map((f: Row) => ` · <a href="${e(f.url)}">${e(f.name)}</a>`).join('')}</li>`).join('')
  return shell('Your work', `<section><h2>Assigned work</h2>${jobs ? `<ul>${jobs}</ul>` : '<p class="empty">No work is assigned to you.</p>'}</section><section><h2>Your invoices</h2>${invoices ? `<ul>${invoices}</ul>` : '<p class="empty">No invoices recorded.</p>'}</section>`, person)
 }

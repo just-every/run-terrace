@@ -160,3 +160,67 @@ export async function journey({assets=false,inspect}={}) {
   try{const form=new FormData();form.set('command','data.restore');form.set('confirm','RESTORE');form.set('backup',new File([archive],'budgets.rer'));const response=await fresh.request('/api/commands',{method:'POST',form});assert.equal(response.status,200,await response.clone().text());const restored=(await fresh.state(t.id)).work;assert.deepEqual(restored.categoryBudgets.map(b=>[b.kind,b.asset_id,b.amount_cents,b.spentCents]),(await h.state(t.id)).work.categoryBudgets.map(b=>[b.kind,b.asset_id,b.amount_cents,b.spentCents]));assert.deepEqual(restored.stock.lots,(await h.state(t.id)).work.stock.lots);assert.equal(restored.stock.uses.length,2);assert.equal(restored.chargebacks.proposals.filter(p=>p.approved_at).length,(await h.state(t.id)).work.chargebacks.proposals.filter(p=>p.approved_at).length);assert.equal(restored.chargebacks.costs.find(s=>s.id===source.id).recoveredCents,600);assert.equal(restored.budgetHistory.length,(await h.state(t.id)).work.budgetHistory.length)}finally{await fresh.close()}
  }finally{await h.close()}
 }
+
+/** Authority boundary matrix through the same approved bill and chargeback command doors. */
+export async function authorityBoundaries(){
+ const h=await installation({now:'2026-10-25T00:30:00Z',asyncDatabase:true})
+ try{
+  const portfolio=await h.command('portfolio.add',{name:'Boundary portfolio'})
+  const owner=await h.command('owner.add',{kind:'individual',legalName:'Boundary owner',email:'boundary-owner@example.test',mailingAddress:'1 Alder Street'})
+  const successor=await h.command('owner.add',{kind:'individual',legalName:'Boundary successor',email:'boundary-successor@example.test',mailingAddress:'2 Alder Street'})
+  const vendor=await h.command('vendor.add',{name:'Boundary plumbing',email:'boundary-plumbing@example.test',phone:'510-555-0101',specialties:'plumbing',serviceAreas:'Oakland',w9:'received',insuranceExpires:'2036-12-31',rate:'100',standing:'approved'})
+  const manager=await h.invite('admin','boundary-manager@example.test')
+  let n=0
+  for(const [effectiveFrom,allowed] of [['2026-10-23',false],['2026-10-24',false],['2026-10-25',true]]){
+   const property=await h.command('property.add',{portfolioId:portfolio.id,name:'Boundary '+(++n),address:n+' Alder Street, Oakland, CA',kind:'single_family',timeZone:'America/Los_Angeles'})
+   const unit=await h.command('unit.add',{propertyId:property.id,identifier:'A',bedrooms:2,bathrooms:1})
+   const t=await h.command('tenancy.create',{...tenancyInput,unitId:unit.id})
+   await h.command('ownership.set',{propertyId:property.id,effectiveFrom:'2025-01-01',reason:'synthetic-terrace-70 original ownership',shares:[{ownerId:owner.id,percent:'100'}]})
+   await h.command('agreement.set',{propertyId:property.id,starts:'2025-01-01',feePercent:'0',reserve:'0',reference:'synthetic-terrace-73 agreement'})
+   const work=await h.command('maintenance.prepare',{tenancyId:t.id,title:'Boundary repair',vendorId:vendor.id,trade:'plumbing',dueDate:'2026-06-04',estimate:'100'})
+   await h.command('maintenance.approve',{jobId:work.id,version:1},{as:manager})
+   const b=await h.command('bill.create',{vendorId:vendor.id,invoiceNumber:'synthetic-terrace-boundary-'+n,date:'2026-06-04',lines:[{description:'Repair and tax',code:'repairs',amount:'95',tax:'5'}],allocations:[{propertyId:property.id,amount:'100',jobId:work.id}],original:{name:'invoice.pdf',type:'application/pdf',base64:Buffer.from('%PDF-1.4\nsynthetic-terrace-boundary-'+n+'\n%%EOF').toString('base64')}})
+   await h.command('bill.approve',{billId:b.id,version:1},{as:manager})
+   const source=(await h.state(t.id)).work.chargebacks.costs[0]
+   const proposed={tenancyId:t.id,sourceId:source.id,ownerId:owner.id,kind:'resident',recipientId:'resident:'+t.id,amount:'0.01',day:'2026-06-04',authority:'synthetic-terrace-71 exact authorization',consent:'yes'}
+   if(n===1){
+  // The pinned instant is October 25 UTC and October 24 at this Los Angeles property.
+  // Exercise both public commands: membership must include the cost day and the local current day.
+  for(const [label,joined,left,allowed] of [
+   ['source before join','2026-06-05',null,false],
+   ['source on join','2026-06-04',null,true],
+   ['source after join','2026-06-03',null,true],
+   ['source after leave','2025-01-01','2026-06-03',false],
+   ['source on leave','2025-01-01','2026-06-04',false],
+   ['source before leave','2025-01-01','2026-06-05',false],
+   ['current after leave','2025-01-01','2026-10-23',false],
+   ['current on leave','2025-01-01','2026-10-24',true],
+   ['current before leave','2025-01-01','2026-10-25',true],
+   ['current before join','2026-10-25',null,false],
+   ['current on join','2026-10-24',null,false],
+   ['current after join','2026-10-23',null,false],
+  ]) {
+   const m=await h.command('household.add',{tenancyId:t.id,role:'co_tenant',name:'Synthetic '+label,email:'matrix@example.test',joined})
+   // Prepare while eligible where possible, then change rights before approval.
+   let review
+   if(joined<=source.day){const p=await h.command('chargeback.prepare',{...proposed,recipientId:m.id,amount:'0.01'});review=(await h.state(t.id)).work.chargebacks.proposals.find(r=>r.id===p.id)}
+   if(left)await h.command('household.leave',{memberId:m.id,left})
+   const before=(await h.state(t.id)).work.chargebacks
+   await h.command('chargeback.prepare',{...proposed,recipientId:m.id,amount:'0.01'},allowed?{}:{status:409})
+   if(review)await h.command('chargeback.approve',{chargebackId:review.id,sha256:review.sha256},{as:manager,...(allowed?{}:{status:409})})
+   const after=(await h.state(t.id)).work.chargebacks
+   assert.equal(after.proposals.length,before.proposals.length+(allowed?1:0),label+' proposal boundary')
+   assert.equal(after.costs.find(r=>r.id===source.id).recoveredCents,before.costs.find(r=>r.id===source.id).recoveredCents+(allowed&&review?1:0),label)
+  }
+   }
+
+   const p=await h.command('chargeback.prepare',proposed)
+   const row=(await h.state(t.id)).work.chargebacks.proposals.find(r=>r.id===p.id)
+   const before=(await h.state(t.id)).work.chargebacks.costs.find(r=>r.id===source.id).recoveredCents
+   await h.command('ownership.set',{propertyId:property.id,effectiveFrom,reason:'synthetic-terrace-72 boundary transfer',shares:[{ownerId:successor.id,percent:'100'}]})
+   await h.command('chargeback.prepare',proposed,allowed?{}:{status:409})
+   await h.command('chargeback.approve',{chargebackId:p.id,sha256:row.sha256},{as:manager,...(allowed?{}:{status:409})})
+   assert.equal((await h.state(t.id)).work.chargebacks.costs.find(r=>r.id===source.id).recoveredCents,before+(allowed?1:0),'property-local ownership '+effectiveFrom)
+  }
+ }finally{await h.close()}
+}
