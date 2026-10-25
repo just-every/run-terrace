@@ -35,10 +35,11 @@ export async function chargebackCommand(c:Context,command:string,p:Row):Promise<
  const day=proposal?.day??date(p.day),amount=proposal?.amount_cents??cents(p.amount)
  insist(day>=s.day&&day<=localDate(c.now,t.time_zone),'invalid_date','Allocation must follow its cost and be no later than today at the property.')
  insist(amount<=s.netOwnerCostCents,'duplicate_recovery','This allocation exceeds the remaining source cost.',409)
- const terms:Row=proposal?JSON.parse(proposal.terms):{kind:text(p.kind,'Recipient kind',20),ownerId:text(p.ownerId,'Cost beneficiary',100),recipientId:text(p.recipientId,'Named recipient or insurance reference',200),authority:text(p.authority,'Exact-content authorization evidence',1500),taxTreatment:'Source tax included in cost; no new tax assessed',amountCents:amount,sourceId:s.id,day}
+ const terms:Row=proposal?JSON.parse(proposal.terms):{kind:text(p.kind,'Recipient kind',20),ownerId:text(p.ownerId,'Cost beneficiary',100),recipientId:text(p.kind==='insurance'?(p.insuranceReference||p.recipientId):p.recipientId,'Named recipient or insurance reference',200),authority:text(p.authority,'Exact-content authorization evidence',1500),taxTreatment:'Source tax included in cost; no new tax assessed',amountCents:amount,sourceId:s.id,day}
  insist(['resident','owner','insurance'].includes(terms.kind),'invalid_recipient','Choose resident, owner or insurance.')
  const guards=await current(c,t,s,terms)
  if(!proposal){
+  terms.recipientName=terms.kind==='owner'?s.owner_name:terms.kind==='insurance'?terms.recipientId:terms.recipientId==='resident:'+t.id?t.tenant_name:(await one(c,'SELECT name FROM tt_household_members WHERE id=?',terms.recipientId))!.name
   insist(p.consent==='yes','consent_required','Confirm the recorded authorization covers this exact recipient, source, amount and tax treatment.')
   const key=id(),hash=await sha256(new TextEncoder().encode(JSON.stringify(terms)))
   await commit(c,[tenancyGuard(c,t),...guards,sql(c,'INSERT INTO tt_work_chargebacks VALUES(?,?,?,?,?,?,?,?,?)',key,t.id,s.id,amount,day,JSON.stringify(terms),hash,c.actor.id,c.now)],command,key)

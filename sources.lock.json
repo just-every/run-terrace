@@ -3353,7 +3353,7 @@
       "executable": false
     },
     "src/terrace/bills-retention.ts": {
-      "sha256": "3822d9da7a5a36ba6fde40d3f71d6787811da6aa18592b113a22374df987cab4",
+      "sha256": "d2430052864d4f0b9d10956bbd93d9ba247f5ca46eb1f3001c03d099c1d08a30",
       "executable": false
     },
     "src/terrace/bills-templates.ts": {
@@ -3969,11 +3969,11 @@
       "executable": false
     },
     "src/terrace/work-chargeback-view.ts": {
-      "sha256": "a887ef45fd8a3c8f2041e22ad5d38a2f5db2644d6cf7fb34e308921687b2f164",
+      "sha256": "41d5b98956424065be2d04f7ccb2d7eb0eddffede478a4e1253b57c99e9c09eb",
       "executable": false
     },
     "src/terrace/work-chargebacks.ts": {
-      "sha256": "8f5bf6e4ad5f2bb2808211099bd18e8149938e2f3f28a0c98e35a1947d910fa8",
+      "sha256": "65bdf062f9c99ce1dbf2bd3fb67a8d1b607859d2759eb8a13ddb9972fcfed276",
       "executable": false
     },
     "src/terrace/work-stock-view.ts": {
@@ -3985,7 +3985,7 @@
       "executable": false
     },
     "src/terrace/work-view.ts": {
-      "sha256": "964c8c9da2e2fc5023d43ed67ebc37c4cbd7ec09f6ab09bbc7803654f43fa9dc",
+      "sha256": "32c3e824672f40919ae578b3b67ac8df1ce4765c78d0cd320e07e8dbe037b399",
       "executable": false
     },
     "src/terrace/work.ts": {
@@ -4353,7 +4353,7 @@
       "executable": false
     },
     "tests/work-budgets-browser.mjs": {
-      "sha256": "ee0ce4b8caee0ddf18aebfd7d2447fb011605efb03f74856f0befddb9b11e135",
+      "sha256": "e16073b8e1b3dabbc5726d7b6c7f872ca4dc353cb8ea946fdf7db795148e3b67",
       "executable": false
     },
     "tests/work-budgets.mjs": {

@@ -44,7 +44,7 @@ export async function billErasureStatements(c:Context,tenancyId:string) {
    for(const r of await all(c,'SELECT * FROM tt_bill_template_revisions WHERE template_id=?',key))writes.push(sql(c,'UPDATE tt_bill_template_revisions SET terms=? WHERE template_id=? AND version=?',JSON.stringify(retained(JSON.parse(r.terms),key)),key,r.version))
   }
  }
- for(const r of await all(c,'SELECT id,terms FROM tt_work_chargebacks WHERE tenancy_id=?',tenancyId)){const t=JSON.parse(r.terms);writes.push(sql(c,'UPDATE tt_work_chargebacks SET terms=? WHERE id=?',JSON.stringify({...t,recipientId:r.id,authority:'Retained accounting authorization'}),r.id))}
+ for(const r of await all(c,'SELECT id,terms FROM tt_work_chargebacks WHERE tenancy_id=?',tenancyId)){const t=JSON.parse(r.terms);writes.push(sql(c,'UPDATE tt_work_chargebacks SET terms=? WHERE id=?',JSON.stringify({...t,recipientId:r.id,recipientName:'Retained recipient',authority:'Retained accounting authorization'}),r.id))}
  return writes
 }
 
