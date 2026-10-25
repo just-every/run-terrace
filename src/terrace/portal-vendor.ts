@@ -1,4 +1,4 @@
-import {all,audit,Fault,guard,id,insist,one,sha256,sql,text,tenancy,tenancyGuard,type Context,type Row} from './core'
+import {all,audit,cents,date,Fault,guard,id,insist,one,sha256,sql,text,tenancy,tenancyGuard,type Context,type Row} from './core'
 import {localDate} from './zones'
 import {hash,type Portal} from './portal-session'
 import {hold,vendorGuard} from './vendors'
@@ -86,4 +86,40 @@ export async function vendorAppointment(c:Context,p:Portal,f:FormData){
 }
 export async function vendorAppointments(c:Context,vendorId:string){
  return all(c,"SELECT a.id,a.job_id,a.version,a.state,a.starts_at,a.ends_at,a.time_zone,a.vendor_confirmed_at FROM tt_appointments a JOIN tt_maintenance_jobs j ON j.id=a.job_id JOIN tt_tenancies t ON t.id=j.tenancy_id WHERE j.vendor_id=? AND a.vendor_id=? AND j.state IN ('approved','sent') AND t.erased_at IS NULL AND a.approval_id=(SELECT id FROM tt_maintenance_approvals WHERE job_id=j.id ORDER BY job_version DESC LIMIT 1) ORDER BY a.recorded_at,a.rowid",vendorId,vendorId)
+}
+
+/** Submitted estimates join staff comparison; they never select themselves or alter approved spend. */
+export async function vendorEstimate(c:Context,p:Portal,f:FormData){
+ const j=await one(c,"SELECT * FROM tt_maintenance_jobs WHERE id=? AND state='approved'",String(f.get('jobId')??''))
+ const grant=p.grants.find(g=>g.access==='vendor'&&g.vendor_id===j?.vendor_id)
+ insist(j&&grant,'not_found','Work not found.',404)
+ const t=await tenancy(c,j.tenancy_id)
+ insist(Number(f.get('version'))===j.version,'conflict','Review the current approved work before estimating.',409)
+ insist(f.get('consent')==='yes','consent_required','Confirm this estimate is submitted for staff review only.')
+ const h=await hold(c,j,t);insist(!h.held,'qualification_hold','Your qualification needs staff review before estimating.',409)
+ const v=await one(c,'SELECT name,email FROM tt_vendors WHERE id=?',j.vendor_id)
+ insist(v,'not_found','Vendor not found.',404)
+ const scope=text(f.get('scope'),'Estimated scope',2000),available=date(f.get('availableDate'),'Available from'),amount=cents(f.get('amount')),tax=String(f.get('tax')??'0').trim(),taxCents=/^0(?:\.0{1,2})?$/.test(tax)?0:cents(tax)
+ insist(Number.isSafeInteger(amount+taxCents),'invalid_money','Estimate total is too large.')
+ const approval=await one(c,'SELECT id,sha256 FROM tt_maintenance_approvals WHERE job_id=? ORDER BY job_version DESC LIMIT 1',j.id)
+ insist(approval,'not_found','Approved work not found.',404)
+ const fingerprint=await sha256(new TextEncoder().encode(JSON.stringify({jobId:j.id,version:j.version,approval:approval.sha256,identity:await hash(p.identity.email),scope,available,amount,taxCents}))),key='portal-quote:'+fingerprint
+ const saved=()=>one(c,'SELECT id,scope,available_date,amount_cents,tax_cents,currency FROM tt_job_quotes WHERE id=? AND job_id=? AND vendor_id=?',key,j.id,j.vendor_id)
+ const prior=await saved();if(prior)return prior
+ try{await c.db.batch([
+  tenancyGuard(c,t),
+  guard(c,"EXISTS(SELECT 1 FROM tt_portal_sessions s JOIN tt_portal_identities i ON i.id=s.identity_id JOIN tt_portal_grants g ON g.identity_id=i.id WHERE s.hash=? AND s.revoked_at IS NULL AND s.expires_at>? AND i.status='active' AND g.id=? AND g.access='vendor' AND g.revoked_at IS NULL AND g.vendor_id=?)",p.sessionHash,c.now,grant.id,j.vendor_id),
+  guard(c,"EXISTS(SELECT 1 FROM tt_maintenance_jobs WHERE id=? AND version=? AND vendor_id=? AND state='approved')",j.id,j.version,j.vendor_id),
+  vendorGuard(c,j,h.vendorVersion),
+  guard(c,'(SELECT id FROM tt_maintenance_approvals WHERE job_id=? ORDER BY job_version DESC LIMIT 1)=?',j.id,approval.id),
+  sql(c,'INSERT INTO tt_job_quotes(id,job_id,vendor_id,vendor_name,vendor_email,scope,available_date,amount_cents,tax_cents,currency,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',key,j.id,j.vendor_id,v.name,v.email,scope,available,amount,taxCents,j.currency,c.actor.id,c.now),
+  audit(c,'portal.estimate.submit',j.id,JSON.stringify({quoteId:key,jobVersion:j.version,approvalSha256:approval.sha256,consentVersion:1,declaration:'I submit this estimate for staff review only. It does not authorize work or change approved spend.'})),
+ ])}catch(error){
+  if(/CHECK constraint|UNIQUE constraint/.test(String(error))){const r=await saved();if(r)return r;throw new Fault('conflict','Your work or access changed. Review it again.',409)}
+  throw error
+ }
+ return saved()
+}
+export async function vendorEstimates(c:Context,vendorId:string){
+ return all(c,"SELECT q.id,q.job_id,q.scope,q.available_date,q.amount_cents,q.tax_cents,q.currency FROM tt_job_quotes q JOIN tt_maintenance_jobs j ON j.id=q.job_id JOIN tt_tenancies t ON t.id=j.tenancy_id WHERE q.vendor_id=? AND j.vendor_id=? AND j.state IN ('approved','sent') AND t.erased_at IS NULL AND q.id LIKE 'portal-quote:%' ORDER BY q.recorded_at,q.id",vendorId,vendorId)
 }

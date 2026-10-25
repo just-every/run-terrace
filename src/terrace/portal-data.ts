@@ -1,4 +1,4 @@
-import {vendorAppointments,vendorResponses} from './portal-vendor'
+import {vendorAppointments,vendorEstimates,vendorResponses} from './portal-vendor'
 // ROLE-002: what each kind of portal person may read. Every function takes the one record a live grant names and projects
 // only that record's fields: no owner contact, screening, bank, trust or other household data is ever selected.
 import { all, one, type Context, type Row } from './core'
@@ -56,6 +56,7 @@ export async function vendorData(c: Context, vendorId: string) {
  return {
   responses: await vendorResponses(c,vendorId),
   appointments: await vendorAppointments(c,vendorId),
+  estimates: await vendorEstimates(c,vendorId),
   jobs: jobs.map(j => ({ id: j.id, version:j.version, title: j.title, scope:j.scope, checklist:JSON.parse(j.checklist), state: j.state, trade: j.trade, dueDate: j.due_date, estimateCents: j.estimate_cents, address: j.address })),
   invoices: bills.map(b => ({ id: b.id, invoiceNumber: b.invoice_number, day: b.day, totalCents: b.terms ? JSON.parse(b.terms).totalCents ?? null : null, payment: b.state === 'payable' ? 'Approved as payable. Terrace makes no payment; the payer records it elsewhere.' : 'Awaiting approval', files: files.filter(f => f.bill_id === b.id).map(f => ({ id: f.id, name: f.name, type: f.type, sha256: f.sha256, url: '/portal/invoice-file?id=' + f.id })) })),
  }

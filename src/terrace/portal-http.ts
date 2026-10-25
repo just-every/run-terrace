@@ -1,4 +1,4 @@
-import {vendorAppointment,respondToWork} from './portal-vendor'
+import {vendorAppointment,vendorEstimate,respondToWork} from './portal-vendor'
 import {externalRequest,completeRequest} from './action-requests'
 import {actionPage} from './action-request-view'
 import {portalReport} from './report-deliveries'
@@ -54,6 +54,11 @@ export async function portalResponse(request: Request, env: Bindings): Promise<R
   if (!portal) return api ? json({ error: 'unauthorized', message: 'Sign in first.' }, 401) : new Response(null, { status: 303, headers: headers({ location: '/portal/signin' }) })
   if (path === '/portal/signout') { await env.DB.prepare('UPDATE tt_portal_sessions SET revoked_at=? WHERE hash=?').bind(now, portal.sessionHash).run(); return new Response(null, { status: 303, headers: headers({ location: '/portal/signin', 'set-cookie': cookie(env, '', 0) }) }) }
   const c = portalContext(env.DB, portal, now, env.SESSION_SECRET), mine = (key: string, value: unknown) => portal.grants.find(g => g[key] === value)
+  if(['/portal/api/estimate','/portal/estimate'].includes(path)){
+   insist(request.method==='POST','method','Method not allowed.',405)
+   const estimate=await vendorEstimate(c,portal,form)
+   return path.startsWith('/portal/api/')?json(estimate):new Response(null,{status:303,headers:headers({location:'/portal/work'})})
+  }
   if(['/portal/api/appointment-response','/portal/appointment-response'].includes(path)){
    insist(request.method==='POST','method','Method not allowed.',405)
    const response=await vendorAppointment(c,portal,form)

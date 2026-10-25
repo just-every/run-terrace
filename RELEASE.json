@@ -8,7 +8,7 @@
     "WORK-015": "Missing: future chargeback notices, disputes and collection, inheriting the explicit accounting-only boundary.",
     "PORTAL-004": "Done: private resident repair reports, original photos and video, scoped staff work links, independent resident answers, fresh invitations after restore, and shared WORK-001 safety intake with approved guidance and on-call email.",
     "WORK-001": "Partial retained: resident self-report is implemented; timed SMS and voice paging remains under PORTAL-005.",
-    "PORTAL-003": "Partial retained: add explicit vendor confirmation and cancellation of staff-booked windows, live assignment and approval checks, revision-bound retry evidence and separate resident confirmation. Conservative appointment default awaits ct approval; proposals, estimates, completion originals, invoice submission, access windows and staff bank-detail proof remain open."
+    "PORTAL-003": "Partial retained: explicit vendor appointment confirmation and cancellation and qualification-gated estimate submission into native staff quote comparison. Responses use live assignment, exact approval, consent and retry evidence; resident permission and staff spend authority remain separate. Conservative appointment and estimate default awaits ct approval; proposals, completion originals, invoice submission, access windows and staff bank-detail proof remain open."
   },
   "extensionPointChanges": [],
   "migrations": [

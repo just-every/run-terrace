@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "86ed6bc8bde6aefb52c928ec2af8139934684351e29faab0e76e328d584294e6",
+      "sha256": "7b3684290646ff2bee35c1173a416643d24d06461680d90665c069633c84c591",
       "executable": false
     },
     "AGENTS.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "067076d7cae48a9fd72ca4d6fdaa3221566e68b9d7c8c03c00d2f794ab825da2",
+      "sha256": "d7d20d78ee64391165318a9a84472e953851170c6e64f397c5a001be15b0dc48",
       "executable": false
     },
     "DEMO.md": {
@@ -873,7 +873,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "f661b396a6a89553c688b5c74bfdab8f6434d972d11f4e3ef118261c42ccc672",
+      "sha256": "c92ae8172deaf0336f3d7d3c0876159049b6aceef5668af250ffee070c873d11",
       "executable": false
     },
     "rer-project.json": {
@@ -3729,11 +3729,11 @@
       "executable": false
     },
     "src/terrace/portal-data.ts": {
-      "sha256": "c86ea1ced22312b258a6e3ce1701089ffdc7be5c2227a5e928cbc44242e133a6",
+      "sha256": "e863a7a1b6b173ca32d4fa396bd0a7e5c856fe973b28b88acefffe7654d6cbb4",
       "executable": false
     },
     "src/terrace/portal-http.ts": {
-      "sha256": "7f77784dffad27aef2e7fe2df901b97a4c6464838b18da15807f3cbc11131363",
+      "sha256": "55cb9032fb20671a3d95b8d40ce6f2b3d374b5065a053b8455c565f2bf9c30c3",
       "executable": false
     },
     "src/terrace/portal-request-view.ts": {
@@ -3749,7 +3749,7 @@
       "executable": false
     },
     "src/terrace/portal-vendor.ts": {
-      "sha256": "e9fcf1bfa9d0772ae7f9edd0098f842317ee49626d844283d6cde7ed5fb247b9",
+      "sha256": "ac7e9b8aca27c00f5f8ff1f8f79c17520769c2622b88b861ce9e0f54746c7238",
       "executable": false
     },
     "src/terrace/portal-view-staff.ts": {
@@ -3757,7 +3757,7 @@
       "executable": false
     },
     "src/terrace/portal-view.ts": {
-      "sha256": "b94c22385a027803d2e34234728649d8be520643a2b8e5643feef6746ac9aed4",
+      "sha256": "7df36ad9a1b8c226e2e53f554495a3acbbfe6978b3ccc1058b970750b6e6c9b0",
       "executable": false
     },
     "src/terrace/portal.ts": {
@@ -4145,7 +4145,7 @@
       "executable": false
     },
     "tests/documents-browser.mjs": {
-      "sha256": "d6e19b5d1d45987150d543d7954e41d86cd6402e802017fa8ad9fce49a49680b",
+      "sha256": "8a082c93081af29c9059d07c912361353adfc7068d8eeaa158187dba5963e4e3",
       "executable": false
     },
     "tests/documents.mjs": {
@@ -4273,7 +4273,7 @@
       "executable": false
     },
     "tests/portal.mjs": {
-      "sha256": "f6d6a15416e9fa55ff0814e98b06e58049af067be9a896c1adc4054ea6e7a36e",
+      "sha256": "60766aa2f802f87e9ab7fbd7eeef3973a3a7531ecd26612a293395ab4ec0fe9a",
       "executable": false
     },
     "tests/prospects.mjs": {

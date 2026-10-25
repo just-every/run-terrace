@@ -57,6 +57,19 @@ try{
    await page.getByRole('status').filter({hasText:'Your response: accepted'}).waitFor();await shoot(page,'vendor-response-accepted')
    await context.close()
   }
+  if(phase==='vendor-estimate'){
+   const {context,page}=await open(r.origin,cookies.vendor1)
+   await page.goto(r.origin+'/portal/work')
+   await page.getByText('Submit an estimate',{exact:true}).click()
+   const f=page.locator('form[action="/portal/estimate"]')
+   await f.getByLabel('Estimated scope').fill('Replace the kitchen valve and test the seal')
+   await f.getByLabel('Available from').fill('2026-11-01')
+   await f.getByLabel('Amount before tax').fill('180.00');await f.getByLabel('Tax',{exact:true}).fill('18.00')
+   await f.getByRole('checkbox').check();await shoot(page,'vendor-estimate-review')
+   await f.getByRole('button',{name:'Submit estimate',exact:true}).click()
+   await page.getByText(/Replace the kitchen valve and test the seal.*submitted for staff review/).waitFor()
+   await shoot(page,'vendor-estimate-submitted');await context.close()
+  }
   if(phase==='vendor-appointment'||phase==='vendor-appointment-cancelled'||phase==='vendor-appointment-withdraw'){
    const {context,page}=await open(r.origin,cookies.vendor1)
    await page.goto(r.origin+'/portal/work')
