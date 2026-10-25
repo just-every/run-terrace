@@ -40,7 +40,7 @@ export async function submitRequest(c: Context, p: Portal, f: FormData, env: Bin
   files.push(sql(c, 'INSERT INTO tt_request_photos(id,request_id,name,media_type,bytes,sha256) VALUES(?,?,?,?,?,?)', id(), key, text(file.name, 'File name', 200), file.type, bytes, await sha256(bytes)))
  }
  const selectedRisk = String(f.get('safetyRisk') ?? '')
- const emergency = urgency === 'emergency' || selectedRisk ? await prepareEmergency(c,{tenancyId:t.id,risk:selectedRisk || 'other',channel:'email',residentSubmission:true,emergency:'yes',reporter:p.identity.display_name+' (verified resident report)',description}) : null
+ const emergency = urgency === 'emergency' || selectedRisk ? await prepareEmergency(c,{tenancyId:t.id,risk:selectedRisk || 'other',channel:'email',emergency:'yes',reporter:p.identity.display_name+' (verified resident report)',description},true) : null
  await c.db.batch([live(c,p,t.id), ...(emergency?.statements ?? []), sql(c, 'INSERT INTO tt_resident_requests(id,tenancy_id,submitted_by,submitted_name,submitted_at,description,category,urgency,access_consent,access_notes,pets,preferred_times,emergency_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)', key,t.id,await hash(p.identity.email),p.identity.display_name,c.now,description,category,urgency,access,notes,pets,times,emergency?.result.id ?? null), ...files, audit(c,'portal.request.submit',key)])
  if(emergency?.result.alert) await deliverAlert(c,env,emergency.result.alert)
  return key

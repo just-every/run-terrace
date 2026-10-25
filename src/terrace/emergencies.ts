@@ -98,7 +98,7 @@ export async function emergencyCommand(c: Context, command: string, p: Row): Pro
 }
 
 /** Shared intake preparation; caller commits its own live authority fence with these statements. */
-export async function prepareEmergency(c: Context,p: Row) {
+export async function prepareEmergency(c: Context,p: Row,residentSubmission = false) {
   const t = await tenancy(c, p.tenancyId)
   insist(t.unit_id, 'unit_required', 'Link this tenancy to a unit first: the unit’s portfolio decides who is on call.', 409)
   const place = await one(c, 'SELECT p.portfolio_id FROM tt_units u JOIN tt_properties p ON p.id=u.property_id WHERE u.id=?', t.unit_id)
@@ -113,8 +113,8 @@ export async function prepareEmergency(c: Context,p: Row) {
   const statements = [
    ...(g ? [guard(c, '(SELECT MAX(version) FROM tt_emergency_guidance WHERE risk=?)=?', r, g.version)] : [guard(c, 'NOT EXISTS(SELECT 1 FROM tt_emergency_guidance WHERE risk=?)', r)]),
    ...(oncall ? [guard(c, '(SELECT id FROM tt_oncall WHERE portfolio_id=? ORDER BY set_at DESC,rowid DESC LIMIT 1)=?', place!.portfolio_id, oncall.id)] : []),
-   sql(c, 'INSERT INTO tt_emergencies(id,tenancy_id,unit_id,portfolio_id,asset_id,channel,reporter,description,risk,emergency,reported_at,guidance_id,guidance_given,oncall_id,primary_id,backup_id,recorded_by,recorded_at,intake_origin) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', key, t.id, t.unit_id, place!.portfolio_id, asset?.id ?? null, channel, c.source, text(p.description, 'What was reported', 2000), r, emergency ? 1 : 0, at, g?.id ?? null, given, oncall?.id ?? null, oncall?.primary_id ?? null, oncall?.backup_id ?? null, c.actor.id, c.now, p.residentSubmission ? 'resident_portal' : 'staff'),
-   event(c, key, 'reported', g ? `guidance ${r} v${g.version} given` : 'no approved guidance', p.residentSubmission ? 'resident safety report; treated as emergency under approved policy' : emergency ? 'classified emergency by staff' : 'classified not an emergency by staff'),
+   sql(c, 'INSERT INTO tt_emergencies(id,tenancy_id,unit_id,portfolio_id,asset_id,channel,reporter,description,risk,emergency,reported_at,guidance_id,guidance_given,oncall_id,primary_id,backup_id,recorded_by,recorded_at,intake_origin) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', key, t.id, t.unit_id, place!.portfolio_id, asset?.id ?? null, channel, c.source, text(p.description, 'What was reported', 2000), r, emergency ? 1 : 0, at, g?.id ?? null, given, oncall?.id ?? null, oncall?.primary_id ?? null, oncall?.backup_id ?? null, c.actor.id, c.now, residentSubmission ? 'resident_portal' : 'staff'),
+   event(c, key, 'reported', g ? `guidance ${r} v${g.version} given` : 'no approved guidance', residentSubmission ? 'resident safety report; treated as emergency under approved policy' : emergency ? 'classified emergency by staff' : 'classified not an emergency by staff'),
   ]
   const alert = oncall ? { caseId: key, recipientId: oncall.primary_id, kind: 'alert' } : null
   return { statements, result: { id: key, tenancyId: t.id, tab: 'emergencies', guidance: given, guidanceVersion: g?.version ?? null, alert, notice: emergency ? (oncall ? 'Emergency recorded. Read the guidance to the caller now.' : 'Emergency recorded with no on-call person for this portfolio: no alert was sent. Call your on-call service now.') : 'Recorded as not an emergency. Read the guidance to the caller and route the repair to maintenance.' } }

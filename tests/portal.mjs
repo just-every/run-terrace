@@ -56,7 +56,7 @@ export async function journey({inspect,revokeDelegate,assets=false}={}){
   assert.equal((await r.request('/portal/accept',{method:'POST',as:'',form:new URLSearchParams({token})})).status,400,'a link works once')
   for(const [k,e] of [['delegate','delegate@example.test'],['south','southres@example.test'],['owner1','rowan@example.test'],['owner2','sam@example.test'],['vendor1','river@example.test'],['vendor2','bay@example.test']])cookies[k]=await login(e)
   // An invitation expires within 7 days: seven days on (the link's clock moved back in D1), an unused one is refused.
-  const db=await r.mf.getD1Database('DB'),hashOf=t=>createHash('sha256').update(t).digest('hex')
+  const db=r.db,hashOf=t=>createHash('sha256').update(t).digest('hex')
   await invite({kind:'vendor',vendorId:bay.id,email:'stale@example.test',displayName:'Stale Vendor'})
   const staleToken=r.portalToken('stale@example.test'),link=await db.prepare('SELECT created_at,expires_at FROM tt_portal_links WHERE token_hash=?').bind(hashOf(staleToken)).first()
   assert.ok(Date.parse(link.expires_at)-Date.parse(link.created_at)<=7*864e5,'an invitation expires within 7 days')

@@ -48,7 +48,7 @@ export async function installation({legacy,beforeMigration,assets=false,demo=fal
   const atOnce=async requests=>{const busy=request('/app');await new Promise(ok=>setTimeout(ok,5));const answers=await Promise.all(requests.map(([path,opts])=>request(path,opts)));assert.equal((await busy).status,200);return answers}
   /** A new worker process over the same persisted D1: nothing in memory survives. */
   const restart=async()=>{await mf.dispose();mf=new Miniflare(options(port));await mf.ready}
-  return {get mf(){return mf},scheduled:async scheduledTime=>(await mf.getWorker()).scheduled({scheduledTime,cron:'0 * * * *'}),configureMail:async provider=>{mailProvider=provider;await mf.setOptions(options(port))},restart,origin,request,atOnce,portalToken,portalSignIn,messages,command,formCommand,state,invite,accept,signIn,stepUp,cookie,messages,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
+  return {db,get mf(){return mf},scheduled:async scheduledTime=>(await mf.getWorker()).scheduled({scheduledTime,cron:'0 * * * *'}),configureMail:async provider=>{mailProvider=provider;await mf.setOptions(options(port))},restart,origin,request,atOnce,portalToken,portalSignIn,messages,command,formCommand,state,invite,accept,signIn,stepUp,cookie,messages,async close(){await mf.dispose();await rm(root,{recursive:true,force:true})}}
  }catch(e){await mf.dispose();await rm(root,{recursive:true,force:true});throw e}
 }
 export const tenancyInput={address:'Unit 1C, 1840 Alder Street, Oakland, CA',ownerName:'Rowan Ellis',ownerEmail:'rowan@example.test',tenantName:'Alex Chen',tenantEmail:'alex@example.test',startDate:'2025-01-01',endDate:'2026-12-31',rent:'620.00',cadence:'weekly'}
