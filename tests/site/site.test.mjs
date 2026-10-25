@@ -32,7 +32,7 @@ test('OPEN-001 TER-012: the built run site, MIT product, ungated source and prov
   }
   // The public command enters the real deployment hook with no credentials.
   // It must disclose providers before validation/build/provisioning can proceed.
-  const env = Object.fromEntries(['PATH','HOME','USER','TMPDIR'].filter(k=>process.env[k]).map(k=>[k,process.env[k]]))
+  const env = Object.fromEntries(['PATH','HOME','USER','TMPDIR','RER_LOCAL_OPERATION'].filter(k=>process.env[k]).map(k=>[k,process.env[k]]))
   const deploy = spawnSync(join(root,'node_modules/.bin/rer'), ['deploy','--dry-run'], {cwd:root,env,encoding:'utf8'})
   if (deploy.error) throw deploy.error
   const output = deploy.stdout + deploy.stderr

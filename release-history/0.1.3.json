@@ -1,0 +1,11 @@
+{
+  "version": "0.1.3",
+  "date": "2026-10-25",
+  "publicReleaseNotes": "Confirm the rer 0.2.80 pin, refreshed Base provenance and hosted delivery metadata. Include a real Terrace demo app capture for the release listing.",
+  "contractChanges": {},
+  "extensionPointChanges": [],
+  "migrations": [],
+  "breaking": false,
+  "agentUpdateInstructions": "Preserve private installation settings and applied migration bytes. Configure the selected mail provider and verify owner sign-in after installation.",
+  "previousVersion": "0.1.2"
+}
