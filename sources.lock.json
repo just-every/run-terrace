@@ -109,7 +109,7 @@
       "executable": false
     },
     "API.md": {
-      "sha256": "973ff17d5403f5fb1c8d0d94596b2fb7c20a210b863ac4d04469432fc96f1c6c",
+      "sha256": "270c2d4ded01b760beaa263cd651c13bc4de426f952ca9dfe8429dc6a927cd9c",
       "executable": false
     },
     "base-copies.json": {
@@ -3969,11 +3969,11 @@
       "executable": false
     },
     "src/terrace/work-chargeback-view.ts": {
-      "sha256": "0e4ada1d04b65248165547733373111d6fdbadd3a4d7c6ce329b679817390fe2",
+      "sha256": "18f5fbfd459bac0cde21734a3b8203f1d8630b0f3e9e037eeac21a193a9c5650",
       "executable": false
     },
     "src/terrace/work-chargebacks.ts": {
-      "sha256": "b8618ddfba04a144cb8ba3bbc4276570f909cef99e0d3718c07e968b533d2014",
+      "sha256": "6e586f1fb92399bf764c9787728aaef4c88638c5582a001e079cde0dedc6445f",
       "executable": false
     },
     "src/terrace/work-stock-view.ts": {
@@ -4357,7 +4357,7 @@
       "executable": false
     },
     "tests/work-budgets.mjs": {
-      "sha256": "6b54050f417b71adc288853aa7282f907e2f1133fa1d066beeee3a784c55739b",
+      "sha256": "956ada9f83221858b64aa9157e146a9ff18a1f85bce12d488ba92ee148e89440",
       "executable": false
     },
     "tests/workflow-cadence.mjs": {

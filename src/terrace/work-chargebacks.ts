@@ -43,6 +43,8 @@ export async function chargebackCommand(c:Context,command:string,p:Row):Promise<
  insist(['resident','owner','insurance'].includes(terms.kind),'invalid_recipient','Choose resident, owner or insurance.')
  const guards=await current(c,t,s,terms)
  if(!proposal){
+  terms.authorizationDeclaration='Recorded authorization covers this exact recipient, source, amount and tax treatment'
+  terms.authorizationVersion=1
   terms.recipientName=terms.kind==='owner'?s.owner_name:terms.kind==='insurance'?terms.recipientId:terms.recipientId==='resident:'+t.id?t.tenant_name:(await one(c,'SELECT name FROM tt_household_members WHERE id=?',terms.recipientId))!.name
   insist(p.consent==='yes','consent_required','Confirm the recorded authorization covers this exact recipient, source, amount and tax treatment.')
   const key=id(),hash=await sha256(new TextEncoder().encode(JSON.stringify(terms)))

@@ -114,6 +114,7 @@ export async function journey({assets=false,inspect}={}) {
   cb=(await h.state(t.id)).work.chargebacks
   assert.equal(cb.costs.find(s=>s.id===source.id).recoveredCents,400);assert.equal(cb.costs.find(s=>s.id===source.id).netOwnerCostCents,266)
   assert.equal(cb.proposals.find(p=>p.id===pending.id).terms.authority,proposed.authority)
+  assert.equal(cb.proposals.find(p=>p.id===pending.id).terms.authorizationDeclaration,'Recorded authorization covers this exact recipient, source, amount and tax treatment');assert.equal(cb.proposals.find(p=>p.id===pending.id).terms.authorizationVersion,1)
   await h.command('chargeback.prepare',{...proposed,amount:'3.00'},{status:409})
   const racesPending=[]
   for(let n=0;n<2;n++){const p=await h.command('chargeback.prepare',{...proposed,amount:'2.00'});racesPending.push((await h.state(t.id)).work.chargebacks.proposals.find(r=>r.id===p.id))}
