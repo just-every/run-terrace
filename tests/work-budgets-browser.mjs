@@ -5,7 +5,7 @@ import {chromium} from '@playwright/test'
 import {journey} from './work-budgets.mjs'
 const out=resolve(process.env.BUDGET_SCREENSHOTS||'.rer/budget-screens');await mkdir(out,{recursive:true})
 const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
-try{await journey({assets:true,inspect:async({h,t,asset,property,future,capture,approveBill,lot})=>{
+try{await journey({assets:true,inspect:async({h,t,asset,property,future,capture,approveBill,lot,resident,owner})=>{
  const context=await browser.newContext();await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return{name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}));const page=await context.newPage()
  for(const [width,height]of [[1440,900],[390,844]]){
   await page.setViewportSize({width,height});await page.goto(h.origin+'/app?tab=work&tenancy='+t.id)
@@ -31,6 +31,18 @@ try{await journey({assets:true,inspect:async({h,t,asset,property,future,capture,
   const part=page.getByRole('heading',{name:'Furnace filter',exact:true}).locator('..')
   await part.getByText('Use on approved repair',{exact:true}).click();const use=part.locator('form');await use.getByLabel('Approved repair',{exact:true}).selectOption({label:'Next year operating'});await use.getByLabel('Recorded date',{exact:true}).fill('2026-06-04');await use.getByLabel('Whole parts',{exact:true}).fill('1');await use.getByLabel('Source reference',{exact:true}).fill('synthetic-terrace-23 reviewed use')
   await stock.screenshot({path:join(out,'stock-use-'+width+'.png')});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'stock controls fit '+width)
+  await page.goto(h.origin+'/app?tab=work&tenancy='+t.id)
+  const chargebacks=page.getByRole('heading',{name:'Repair chargebacks',exact:true}).locator('..')
+  const allocation=chargebacks.locator('details').first();await allocation.getByText('Propose cost allocation',{exact:true}).click()
+  const allocationForm=allocation.locator('form');await allocationForm.getByLabel('Named recipient or insurance reference',{exact:true}).fill(resident.id);await allocationForm.getByLabel('Allocation amount (USD)',{exact:true}).fill('1');await allocationForm.getByLabel('Allocation date',{exact:true}).fill('2026-06-11');await allocationForm.getByLabel('Exact-content authorization evidence',{exact:true}).fill('synthetic-terrace-56 browser authority '+width);await allocationForm.getByRole('checkbox').check()
+  await allocationForm.screenshot({path:join(out,'chargeback-proposal-'+width+'.png')});await allocationForm.getByRole('button',{name:'Propose chargeback',exact:true}).click()
+  await page.getByText('synthetic-terrace-56 browser authority '+width,{exact:true}).waitFor()
+  await chargebacks.screenshot({path:join(out,'chargeback-pending-'+width+'.png')});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'chargebacks fit '+width)
+  const row=(await h.state(t.id)).work.chargebacks.proposals.find(p=>p.terms.authority==='synthetic-terrace-56 browser authority '+width)
+  await context.clearCookies();await context.addCookies(manager.split('; ').map(pair=>{const i=pair.indexOf('=');return{name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}));await page.reload()
+  const review=page.locator('article').filter({has:page.getByText('synthetic-terrace-56 browser authority '+width,{exact:true})});await review.getByRole('button',{name:'Approve exact allocation',exact:true}).click();await page.getByText('Approved allocation',{exact:true}).first().waitFor();await chargebacks.screenshot({path:join(out,'chargeback-approved-'+width+'.png')})
+  assert.ok((await h.state(t.id)).work.chargebacks.proposals.find(p=>p.id===row.id).approved_at)
+  await context.clearCookies();await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return{name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}))
   await page.goto(h.origin+'/app?tab=bills');await page.getByText('Capture an invoice',{exact:true}).click();await page.locator('form:has(input[name=command][value="bill.create"])').getByLabel('Unlinked cost category for Budget house',{exact:true}).selectOption('capital');assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'bill page fits '+width);await page.screenshot({path:join(out,'bills-'+width+'.png'),fullPage:true})
  }
  await context.close()

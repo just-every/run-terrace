@@ -11,7 +11,8 @@ export async function billSubjects(c:Context,key:string,terms:Row,kind='bill') {
 export async function billRetentionDay(c:Context,tenancyId:string) {
  const rows=await all(c,"SELECT b.day FROM tt_bill_subjects s JOIN tt_bills b ON s.entity_id=b.id AND s.kind='bill' WHERE s.tenancy_id=? UNION ALL SELECT json_extract(t.terms,'$.starts') AS day FROM tt_bill_subjects s JOIN tt_bill_templates t ON s.entity_id=t.id AND s.kind='template' WHERE s.tenancy_id=?",tenancyId,tenancyId)
  const stock=await all(c,'SELECT day FROM tt_stock_uses WHERE tenancy_id=?',tenancyId)
- return [...rows,...stock].map(r=>r.day as string).sort().at(-1)??null
+ const chargebacks=await all(c,'SELECT day FROM tt_work_chargebacks WHERE tenancy_id=?',tenancyId)
+ return [...rows,...stock,...chargebacks].map(r=>r.day as string).sort().at(-1)??null
 }
 /** Anonymous shared-document holds: never disclose another resident or their reasons. */
 export async function billSharedHolds(c:Context,tenancyId:string) {
@@ -43,6 +44,7 @@ export async function billErasureStatements(c:Context,tenancyId:string) {
    for(const r of await all(c,'SELECT * FROM tt_bill_template_revisions WHERE template_id=?',key))writes.push(sql(c,'UPDATE tt_bill_template_revisions SET terms=? WHERE template_id=? AND version=?',JSON.stringify(retained(JSON.parse(r.terms),key)),key,r.version))
   }
  }
+ for(const r of await all(c,'SELECT id,terms FROM tt_work_chargebacks WHERE tenancy_id=?',tenancyId)){const t=JSON.parse(r.terms);writes.push(sql(c,'UPDATE tt_work_chargebacks SET terms=? WHERE id=?',JSON.stringify({...t,recipientId:r.id,authority:'Retained accounting authorization'}),r.id))}
  return writes
 }
 

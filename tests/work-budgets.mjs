@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import {installation,tenancyInput} from './api/harness.mjs'
 /** WORK-014 category budgets through authenticated command, state and payable doors. Shares the bills registration. */
 export async function journey({assets=false,inspect}={}) {
- const h=await installation({assets})
+ const h=await installation({assets,now:'2026-10-25T12:00:00Z',asyncDatabase:true})
  try {
   const portfolio=await h.command('portfolio.add',{name:'Budget portfolio'}),outside=await h.command('portfolio.add',{name:'Outside budget portfolio'})
   const property=await h.command('property.add',{portfolioId:portfolio.id,name:'Budget house',address:'1840 Alder Street, Oakland, CA',kind:'single_family',timeZone:'America/Los_Angeles'})
@@ -89,7 +89,44 @@ export async function journey({assets=false,inspect}={}) {
   await h.command('journal.reverse',{entryId:useEntry.id,day:'2026-06-04',reference:'synthetic-terrace-19 bypass'},{status:409})
   await h.command('bill.attach',{billId:purchase.id,version:1,attachment:{name:'source.pdf',type:'application/pdf',base64:Buffer.from('%PDF-1.4\nsynthetic-terrace-20\n%%EOF').toString('base64')}},{status:409})
   await h.command('stock.consume',{...stockUse,quantity:3},{status:409})
-  if(inspect)await inspect({h,t,asset,property,manager,purchase,future,capture,approveBill,lot})
+  // WORK-014: exact source costs, explicit authority, independent allocation and no duplicate recovery.
+  await h.command('ownership.set',{propertyId:property.id,effectiveFrom:'2026-06-09',reason:'synthetic-terrace-50 returned ownership',shares:[{ownerId:owner.id,percent:'100'}]})
+  let cb=(await h.state(t.id)).work.chargebacks
+  const source=cb.costs.find(s=>s.source_kind==='stock_use'),resident={id:'resident:'+t.id}
+  assert.equal(source.costCents,666);assert.equal(source.netOwnerCostCents,666)
+  const proposed={tenancyId:t.id,sourceId:source.id,ownerId:owner.id,kind:'resident',recipientId:resident.id,amount:'2.00',day:'2026-06-10',authority:'synthetic-terrace-51 exact recipient and amount authorization',consent:'yes'}
+  await h.command('chargeback.prepare',{...proposed,consent:'no'},{status:400})
+  await h.command('chargeback.prepare',{...proposed,ownerId:successor.id},{status:409})
+  await h.command('chargeback.prepare',{...proposed,recipientId:'synthetic-terrace-52 unrelated resident'},{status:409})
+  await h.command('chargeback.prepare',proposed,{as:member,status:403})
+  await h.command('chargeback.prepare',{...proposed,tenancyId:privateT.id},{as:manager,status:404})
+  const pending=await h.command('chargeback.prepare',proposed)
+  const pendingRow=(await h.state(t.id)).work.chargebacks.proposals.find(p=>p.id===pending.id)
+  assert.equal((await h.state(t.id)).work.chargebacks.costs.find(s=>s.id===source.id).recoveredCents,0,'a proposal has no financial effect')
+  const approve={chargebackId:pending.id,sha256:pendingRow.sha256}
+  await h.command('chargeback.approve',approve,{status:403})
+  await h.command('chargeback.approve',{...approve,sha256:'synthetic-terrace-53 stale'},{as:manager,status:409})
+  await h.command('chargeback.approve',approve,{as:manager})
+  await h.command('chargeback.approve',approve,{as:manager,status:409})
+  const ownerProposal=await h.command('chargeback.prepare',{...proposed,kind:'owner',recipientId:owner.id,amount:'1.00'})
+  const insuranceProposal=await h.command('chargeback.prepare',{...proposed,kind:'insurance',recipientId:'synthetic-terrace-54 insurer claim',amount:'1.00'})
+  for(const p of [ownerProposal,insuranceProposal]){const row=(await h.state(t.id)).work.chargebacks.proposals.find(r=>r.id===p.id);await h.command('chargeback.approve',{chargebackId:p.id,sha256:row.sha256},{as:manager})}
+  cb=(await h.state(t.id)).work.chargebacks
+  assert.equal(cb.costs.find(s=>s.id===source.id).recoveredCents,400);assert.equal(cb.costs.find(s=>s.id===source.id).netOwnerCostCents,266)
+  assert.equal(cb.proposals.find(p=>p.id===pending.id).terms.authority,proposed.authority)
+  await h.command('chargeback.prepare',{...proposed,amount:'3.00'},{status:409})
+  const racesPending=[]
+  for(let n=0;n<2;n++){const p=await h.command('chargeback.prepare',{...proposed,amount:'2.00'});racesPending.push((await h.state(t.id)).work.chargebacks.proposals.find(r=>r.id===p.id))}
+  const recoveries=await h.atOnce(racesPending.map(p=>['/api/commands',{method:'POST',as:manager,body:{command:'chargeback.approve',chargebackId:p.id,sha256:p.sha256}}]))
+  assert.equal(recoveries.filter(r=>r.status===200).length,1);assert.ok(recoveries.every(r=>[200,409].includes(r.status)))
+  const statement=await(await h.request('/api/owner-statement?ownerId='+owner.id+'&from=2026-06-01&to=2026-06-30')).json();assert.equal(statement.costAllocations.reduce((n,a)=>n+a.amount_cents,0),600)
+  const afterJournal=await(await h.request('/api/journal?propertyId='+property.id)).json(),postings=afterJournal.entries.filter(j=>j.source_kind==='chargeback')
+  assert.equal(postings.flatMap(j=>j.lines).filter(l=>l.account==='receivable').reduce((n,l)=>n+l.debit,0),600)
+  assert.equal(postings.flatMap(j=>j.lines).filter(l=>l.account==='expense').reduce((n,l)=>n+l.credit,0),600)
+  assert.deepEqual(afterJournal.entries.filter(j=>j.source_kind==='bill'),journal.entries.filter(j=>j.source_kind==='bill'),'allocation never duplicates or changes the purchase payable')
+  await h.command('journal.reverse',{entryId:postings[0].id,day:'2026-06-10',reference:'synthetic-terrace-55 bypass'},{status:409})
+  if(inspect)await inspect({h,t,asset,property,manager,purchase,future,capture,approveBill,lot,chargebackSource:source,resident,owner})
+
   const races=await h.atOnce([1,2].map(()=>['/api/commands',{method:'POST',body:{command:'stock.consume',...stockUse,quantity:2}}]))
   assert.equal(races.filter(r=>r.status===200).length,1)
   assert.ok(races.every(r=>[200,409].includes(r.status)))
@@ -97,10 +134,10 @@ export async function journey({assets=false,inspect}={}) {
   const combined=await capture(41,'990',future.id)
   await h.command('bill.approve',{billId:combined.id,version:1},{as:manager,status:409})
   assert.ok((await(await h.request('/api/bills')).json()).bills.find(b=>b.id===combined.id).authority.reasons.some(r=>r.includes('cumulative invoices and parts')))
-  await h.restart();assert.equal((await h.state(t.id)).work.stock.lots[0].used_quantity,3)
+  await h.restart();assert.equal((await h.state(t.id)).work.chargebacks.costs.find(s=>s.id===source.id).recoveredCents,600);assert.equal((await h.state(t.id)).work.stock.lots[0].used_quantity,3)
 
   const archive=await(await h.request('/api/backup')).text();assert.match(archive,/tt_budget_changes/)
-  const fresh=await installation()
-  try{const form=new FormData();form.set('command','data.restore');form.set('confirm','RESTORE');form.set('backup',new File([archive],'budgets.rer'));const response=await fresh.request('/api/commands',{method:'POST',form});assert.equal(response.status,200,await response.clone().text());const restored=(await fresh.state(t.id)).work;assert.deepEqual(restored.categoryBudgets.map(b=>[b.kind,b.asset_id,b.amount_cents,b.spentCents]),(await h.state(t.id)).work.categoryBudgets.map(b=>[b.kind,b.asset_id,b.amount_cents,b.spentCents]));assert.deepEqual(restored.stock.lots,(await h.state(t.id)).work.stock.lots);assert.equal(restored.stock.uses.length,2);assert.equal(restored.budgetHistory.length,(await h.state(t.id)).work.budgetHistory.length)}finally{await fresh.close()}
+  const fresh=await installation({now:'2026-10-25T12:00:00Z',asyncDatabase:true})
+  try{const form=new FormData();form.set('command','data.restore');form.set('confirm','RESTORE');form.set('backup',new File([archive],'budgets.rer'));const response=await fresh.request('/api/commands',{method:'POST',form});assert.equal(response.status,200,await response.clone().text());const restored=(await fresh.state(t.id)).work;assert.deepEqual(restored.categoryBudgets.map(b=>[b.kind,b.asset_id,b.amount_cents,b.spentCents]),(await h.state(t.id)).work.categoryBudgets.map(b=>[b.kind,b.asset_id,b.amount_cents,b.spentCents]));assert.deepEqual(restored.stock.lots,(await h.state(t.id)).work.stock.lots);assert.equal(restored.stock.uses.length,2);assert.equal(restored.chargebacks.proposals.filter(p=>p.approved_at).length,(await h.state(t.id)).work.chargebacks.proposals.filter(p=>p.approved_at).length);assert.equal(restored.chargebacks.costs.find(s=>s.id===source.id).recoveredCents,600);assert.equal(restored.budgetHistory.length,(await h.state(t.id)).work.budgetHistory.length)}finally{await fresh.close()}
  }finally{await h.close()}
 }

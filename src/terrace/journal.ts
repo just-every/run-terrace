@@ -40,7 +40,7 @@ export async function journalCommand(c:Context,command:string,p:Row):Promise<Row
  if(command==='journal.reverse'){
   const j=await entry(c,p.entryId)
   insist(!j.reversal_of,'reversal','Reverse the original, not its reversal.',409)
-  insist(!['charge','receipt','reduction','bill','fee','refund','stock_receipt','stock_use'].includes(j.source_kind),'source_door','Correct this entry through its source door; receipts use Reverse receipt.',409)
+  insist(!['charge','receipt','reduction','bill','fee','refund','stock_receipt','stock_use','chargeback'].includes(j.source_kind),'source_door','Correct this entry through its source door; receipts use Reverse receipt.',409)
   const zone=j.property_id?(await journalProperty(c,j.property_id)).time_zone:c.zone??'UTC'
   insist(day>=j.day&&day<=localDate(c.now,zone),'invalid_date','A reversal cannot predate its original or be later than today at the property.')
   const reverse=JSON.parse(j.lines).map((l:Row)=>({account:l.account,debit:l.credit,credit:l.debit}))

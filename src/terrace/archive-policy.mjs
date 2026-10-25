@@ -18,6 +18,14 @@ export default {
   const bad=await db.prepare(`SELECT 1 FROM "${q}" q WHERE q.amount_cents < -${refunded}-COALESCE((SELECT SUM(r.amount_cents) FROM "${reversals}" x JOIN "${r}" r ON r.id=x.receipt_id WHERE r.charge_id=q.id),0)+COALESCE((SELECT SUM(amount_cents) FROM "${r}" WHERE charge_id=q.id),0)+COALESCE((SELECT SUM(amount_cents) FROM "${a}" WHERE charge_id=q.id),0) LIMIT 1`).first();
   if(bad) throw new Error('Receipt and adjustment totals exceed the charge.');
   const j=tables.tt_journal,chart=tables.tt_gl_accounts;
+  const chargebacks=tables.tt_work_chargebacks,approvals=tables.tt_work_chargeback_approvals;
+  if(chargebacks&&approvals&&j){
+   const bad=await db.prepare(`SELECT 1 FROM "${chargebacks}" c LEFT JOIN "${j}" s ON s.id=c.source_id WHERE s.id IS NULL OR s.source_kind NOT IN ('bill','stock_use') OR c.amount_cents<=0 OR c.amount_cents>(SELECT COALESCE(SUM(json_extract(l.value,'$.debit')),0) FROM json_each(s.lines) l WHERE json_extract(l.value,'$.account')='expense') OR (SELECT SUM(x.amount_cents) FROM "${chargebacks}" x JOIN "${approvals}" a ON a.chargeback_id=x.id WHERE x.source_id=c.source_id)>(SELECT COALESCE(SUM(json_extract(l.value,'$.debit')),0) FROM json_each(s.lines) l WHERE json_extract(l.value,'$.account')='expense') LIMIT 1`).first();
+   if(bad)throw Error('Chargeback archive exceeds or lacks its recorded source cost.');
+   const mismatch=await db.prepare(`SELECT 1 FROM "${approvals}" a LEFT JOIN "${chargebacks}" c ON c.id=a.chargeback_id LEFT JOIN "${j}" s ON s.id=c.source_id LEFT JOIN "${j}" p ON p.source_kind='chargeback' AND p.source_id=c.id WHERE c.id IS NULL OR p.id IS NULL OR p.owner_key<>s.owner_key OR p.property_id IS NOT s.property_id OR p.tenancy_id<>c.tenancy_id OR p.lines<>json_array(json_object('account','receivable','debit',c.amount_cents,'credit',0),json_object('account','expense','debit',0,'credit',c.amount_cents)) LIMIT 1`).first();
+   if(mismatch)throw Error('Chargeback archive approval and beneficiary posting differ.');
+  }
+
   if(j&&chart){
    const invalid=await db.prepare(`SELECT 1 FROM "${j}" j WHERE currency<>'USD' OR json_type(lines)<>'array' OR json_array_length(lines)<2 OR (SELECT SUM(json_extract(value,'$.debit')-json_extract(value,'$.credit')) FROM json_each(j.lines))<>0 OR EXISTS(SELECT 1 FROM json_each(j.lines) l LEFT JOIN (SELECT * FROM tt_gl_chart WHERE created_by='migration' UNION ALL SELECT * FROM "${chart}") a ON a.code=json_extract(l.value,'$.account') WHERE a.code IS NULL OR (a.fund<>'both' AND a.fund<>j.fund) OR json_type(l.value,'$.debit') IS NOT 'integer' OR json_type(l.value,'$.credit') IS NOT 'integer' OR json_extract(l.value,'$.debit')<0 OR json_extract(l.value,'$.credit')<0 OR (json_extract(l.value,'$.debit')=0)=(json_extract(l.value,'$.credit')=0)) LIMIT 1`).first();
    if(invalid)throw Error('Unbalanced or invalid journal in archive.');
