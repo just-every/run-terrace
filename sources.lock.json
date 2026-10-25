@@ -3333,7 +3333,7 @@
       "executable": false
     },
     "src/terrace/api.ts": {
-      "sha256": "216fb69301b941a9888eba72af00d118cce426958f8ff025ce1ab4c192b69184",
+      "sha256": "5da0e897fa7ed0221dc0341db37c6d5afb9984fe32fddcc8df92c180a578e50f",
       "executable": false
     },
     "src/terrace/appointments-view.ts": {
@@ -3389,7 +3389,7 @@
       "executable": false
     },
     "src/terrace/card-http.ts": {
-      "sha256": "5b8ff5c052d39414949f6695089196b596c3fdcfaf0b0aae99d563ebef71d777",
+      "sha256": "7eb64e696b3339c1e0b36b54bb0ff58a6aaa07b4a52a25d41bd0b1601df34130",
       "executable": false
     },
     "src/terrace/card-payments.ts": {
@@ -3397,7 +3397,7 @@
       "executable": false
     },
     "src/terrace/card-view.ts": {
-      "sha256": "64e1e3bdcd4c25ac3066e961521ff6bdc5c3177d79b160894ab741007f32476f",
+      "sha256": "d872557a7dcd3f462d93be72dbd1847d4ba9144fae31b94afa75c8ae5bf89b64",
       "executable": false
     },
     "src/terrace/charge-concessions.ts": {
@@ -4021,7 +4021,7 @@
       "executable": false
     },
     "src/terrace/view.ts": {
-      "sha256": "9f430bd3b6a4fee5b7fd65b9abde272449f90451a9c70cddbeb7ae76a74c5dad",
+      "sha256": "bc36cc5567c3cfe94c77810557c703edd2836ba91cb40e12053ca71b1acd4dbc",
       "executable": false
     },
     "src/terrace/work-budgets.ts": {
@@ -4141,7 +4141,7 @@
       "executable": false
     },
     "tests/card-payments-live.mjs": {
-      "sha256": "5e62335cb54d48e14c73b003339bba5c7e085207edd9a0a9f58c15105b72715f",
+      "sha256": "c5def8e10643459d710ec0722222015c68d9fbeb927ad07e4a8b000ebb339c61",
       "executable": false
     },
     "tests/card-payments.mjs": {
@@ -4321,7 +4321,7 @@
       "executable": false
     },
     "tests/portal.mjs": {
-      "sha256": "f5ef1a56d1958aed1dbadee5af261279813fd3ceecd243a8df0659dfce6c96c2",
+      "sha256": "28c5747148f07a69da9b6dd4609cccba6945df0d5c0544f3bfbfcc1974e2c26a",
       "executable": false
     },
     "tests/prospects.mjs": {
@@ -4429,7 +4429,7 @@
       "executable": false
     },
     "tests/vendor-proposals-browser.mjs": {
-      "sha256": "ff320c71130e435b586f1315ce413fec676c733b5d89523d0532dba1687121da",
+      "sha256": "75eca580fea584805a137c5593c126a9693b93d2c139e0b274d4d71cc8922b9d",
       "executable": false
     },
     "tests/work-budgets-browser.mjs": {

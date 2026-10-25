@@ -173,6 +173,10 @@ export async function journey({inspect,revokeDelegate,assets=false}={}){
   await r.command('bill.approve',{billId:submitted.billId,version:1},{as:staff.leasing,status:403})
   await r.command('bill.approve',{billId:submitted.billId,version:1},{as:staff.southmanager,status:404})
   await inspect?.({phase:'vendor-invoice-recorded',r,north,cookies,billId:submitted.billId})
+  await r.command('bill.approve',{billId:submitted.billId,version:1})
+  const approvedVendorBill=(await(await r.request('/api/bills')).json()).bills.find(b=>b.id===submitted.billId);assert.equal(approvedVendorBill.state,'payable');assert.equal(approvedVendorBill.expenses.reduce((n,e)=>n+e.amount_cents,0),6600)
+  assert.match((await data('vendor1','/portal/api/vendor')).invoices.find(b=>b.id===submitted.billId).payment,/Approved as payable/)
+  await inspect?.({phase:'vendor-invoice-approved',r,north,cookies,billId:submitted.billId})
   // Vendor estimates enter the real staff comparison door without changing spend authority.
   const estimateFields={jobId:job.id,version:responseVersion,scope:'Replace the kitchen valve and test the seal',availableDate:'2026-11-01',amount:'180.00',tax:'18.00',consent:'yes'}
   const estimate=(k,fields={},options={})=>r.request('/portal/api/estimate',{method:'POST',as:cookies[k]??'',form:new URLSearchParams({...estimateFields,...fields}),...options})

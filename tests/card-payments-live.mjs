@@ -22,7 +22,7 @@ try{await cardFixture({assets:true,live:true,inspect:async({h,t,resident})=>{
  }
  const publish=async event=>{const r=await h.request('/api/stripe/events',{method:'POST',as:'',body:{id:event.id}});assert.equal(r.status,200,await r.clone().text());return r.json()}
  for(const scenario of ['success','declined','authentication']){
-  await page.goto(h.origin+'/portal/card?tenancy='+t.id);await page.getByLabel('Payment amount USD',{exact:true}).fill(scenario==='declined'?'12.00':'10.00');await page.getByLabel('I authorize this one-time payment',{exact:false}).check();await proof(page,scenario+'-review');await page.setViewportSize({width:1440,height:1000});await page.getByRole('button',{name:'Continue to Stripe',exact:true}).click();await page.waitForURL('https://checkout.stripe.com/**',{timeout:60000});
+  await page.goto(h.origin+'/portal/card?tenancy='+t.id);await page.getByLabel('Payment amount USD',{exact:true}).fill(scenario==='declined'?'12.00':'10.00');await page.getByLabel('I authorize this one-time payment',{exact:false}).check();await proof(page,scenario+'-review');await page.setViewportSize({width:1440,height:1000});await page.getByRole('button',{name:'Continue to Stripe',exact:true}).click();await page.waitForURL('https://checkout.stripe.com/**',{timeout:60000,waitUntil:'domcontentloaded'});
   const sessionId=page.url().match(/cs_test_[A-Za-z0-9]+/)?.[0];assert.ok(sessionId)
   await page.locator('input[name="email"]').fill('stripe-card-proof@example.test',{timeout:60000})
   await page.locator('input[name="cardNumber"]').fill(scenario==='success'?'4242424242424242':scenario==='declined'?'4000000000000002':'4000000000003220')
