@@ -28,7 +28,7 @@ const inScope = (scope: string): [string, string] => scope.startsWith('property:
  : ['SELECT ?', scope.slice(8)]
 
 /** The exact terms an approval or an owner's decision covers. */
-const terms = (j: Row) => JSON.stringify({ jobId: j.id, version: j.version, title: j.title, scope: j.scope ?? null, checklist: j.checklist, vendorId: j.vendor_id ?? null, tradeName: j.trade_name, tradeEmail: j.trade_email, dueDate: j.due_date, estimateCents: j.estimate_cents, costClass:j.cost_class, assetId:j.asset_id??null, quoteId: j.quote_id ?? null })
+const terms = (j: Row) => JSON.stringify({ jobId: j.id, version: j.version, title: j.title, scope: j.scope ?? null, checklist: j.checklist, vendorId: j.vendor_id ?? null, tradeName: j.trade_name, tradeEmail: j.trade_email, dueDate: j.due_date, estimateCents: j.estimate_cents, ...(j.cost_class==='capital'?{costClass:'capital'}:{}), quoteId: j.quote_id ?? null })
 export const digest = (j: Row) => sha256(new TextEncoder().encode(terms(j)))
 
 /** Whether a manager may approve this job version alone. The owner decides when the estimate is above the
