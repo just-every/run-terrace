@@ -16,7 +16,7 @@ export const RECONNECT = [
  'Portal people: residents, owners and vendors with portal access are not in the archive. Invite each person again from Data & access (ROLE-002).',
  'Two-step sign-in: authenticators and recovery codes never leave an installation (SAFE-001). Each person sets up a new authenticator; re-enable the requirement if you used it.',
  'Identity provider: link your organisation’s OIDC provider again under Data & access if you used one.',
- 'Money: Terrace moves no money and holds no bank or payment-provider credentials, so a restore repeats no payment.',
+ 'Card payments: provider references and ledger receipts are portable; Stripe credentials and active Checkout links stay in the originating installation. A restore repeats no collection.',
 ]
 
 export async function readableExport(c: Context) {

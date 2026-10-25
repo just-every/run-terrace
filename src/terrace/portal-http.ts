@@ -1,3 +1,4 @@
+import {portalCard} from './card-http'
 import {vendorAppointment,vendorEstimate,respondToWork} from './portal-vendor'
 import {externalRequest,completeRequest} from './action-requests'
 import {actionPage} from './action-request-view'
@@ -54,6 +55,7 @@ export async function portalResponse(request: Request, env: Bindings): Promise<R
   if (!portal) return api ? json({ error: 'unauthorized', message: 'Sign in first.' }, 401) : new Response(null, { status: 303, headers: headers({ location: '/portal/signin' }) })
   if (path === '/portal/signout') { await env.DB.prepare('UPDATE tt_portal_sessions SET revoked_at=? WHERE hash=?').bind(now, portal.sessionHash).run(); return new Response(null, { status: 303, headers: headers({ location: '/portal/signin', 'set-cookie': cookie(env, '', 0) }) }) }
   const c = portalContext(env.DB, portal, now, env.SESSION_SECRET), mine = (key: string, value: unknown) => portal.grants.find(g => g[key] === value)
+  if(['/portal/card','/portal/api/card'].includes(path))return await portalCard(request,env,c,portal,form)
   if(['/portal/api/estimate','/portal/estimate'].includes(path)){
    insist(request.method==='POST','method','Method not allowed.',405)
    const estimate=await vendorEstimate(c,portal,form)

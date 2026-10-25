@@ -55,7 +55,8 @@
       "/",
       "/health",
       "/signin",
-      "/portal"
+      "/portal",
+      "/api/stripe/events"
     ],
     "notes": "Native owner sessions guard /app; unknown paths return real 404s; the development outbox is local-only."
   },
