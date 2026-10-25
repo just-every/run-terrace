@@ -577,7 +577,7 @@
       "executable": false
     },
     "public/app/pages.css": {
-      "sha256": "c0b2ae0a6e9cdf930dafd2c676cc40117d30ea73d1506f22f84b959246c42375",
+      "sha256": "5d3a22fa285e15960b4efca7035190f095ca6c054e73e891c10cb630efe9dbfe",
       "executable": false
     },
     "public/app/record-media.js": {
@@ -3285,11 +3285,11 @@
       "executable": false
     },
     "src/terrace/action-request-view.ts": {
-      "sha256": "65574454c9ca136e921a7c83788d1599bb95693dcc296708b434e2e5602734f5",
+      "sha256": "7b1246cd8c879274d592e8040c57c732131d67945af165591a81ffa1ecfeed1c",
       "executable": false
     },
     "src/terrace/action-requests.ts": {
-      "sha256": "a9bca3f134438de1651b2cbb09a3e919a8025b748f9d16ecdaa75c3a42d20206",
+      "sha256": "deb1e6fbd42e56e88280661424f2ab12eeb6dd025516cc135c6f476822b8d347",
       "executable": false
     },
     "src/terrace/agent-workloads.ts": {
@@ -4001,7 +4001,7 @@
       "executable": false
     },
     "tests/action-requests.mjs": {
-      "sha256": "a121b74a6bdbded3b665f2da824790fa912ca1197cab597b21a7f06e8477087d",
+      "sha256": "749f86069d45362350ab11ac16e9a84e76f5db100b299856ee666a3ae9f99d0f",
       "executable": false
     },
     "tests/agent-workloads-browser.mjs": {
