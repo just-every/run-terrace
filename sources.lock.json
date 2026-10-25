@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "91f07f24b032dbbe53002326c21f6cab6bfe5005af67a0872dfc288380187af8",
+      "sha256": "09165c861a401c1432f1bb37582069c1e3c56560b6928d334be101203bbecefc",
       "executable": false
     },
     "AGENTS.md": {
@@ -109,7 +109,7 @@
       "executable": false
     },
     "API.md": {
-      "sha256": "accd1e42cbd6975b6b1de8ae7f01604da9b1915fcad05017677b2b2c1c9e5d72",
+      "sha256": "6d6d198b6fbeb9b3853c42b6e2d545e8a505809a4a0c67741489be4000df91ba",
       "executable": false
     },
     "base-copies.json": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "3008184c74a63bb0a4fab501516f22db8689cc47539716d342b5ef19e6cf3b8f",
+      "sha256": "d5396fa4b8e0d00a2bceb3090123736a539f3d3aa41ec26ef5dc4839152b9264",
       "executable": false
     },
     "DEMO.md": {
@@ -540,6 +540,10 @@
       "sha256": "64f5783e6f8c5ba2c9490253a2d3b26808a2374a9652dd71092fc75bf722ea1c",
       "executable": false
     },
+    "migrations/core/0079_work_stock.sql": {
+      "sha256": "9fca976c2a731ee0b93e1a8c150d683e6fe7cd32db0417e3759a9beb9c373a59",
+      "executable": false
+    },
     "ONBOARDING.md": {
       "sha256": "d9ae36e9db2e9bd75e88a78688c3a94155aec155ce7213160ebfd101c93ff3c5",
       "executable": false
@@ -857,7 +861,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "265f4c700eec52ab7186e7504ce40d3aae0a658824f35339fd9b9ef4c568d695",
+      "sha256": "4c52a102585f5c056de89075e9e35657ab7f2790f44a41a8bac14358355f8884",
       "executable": false
     },
     "rer-project.json": {
@@ -3305,7 +3309,7 @@
       "executable": false
     },
     "src/terrace/api.ts": {
-      "sha256": "4c00e87d6bbff3fb4da423ddd01c6f8466ab6323d90bf90e1682e1654be1213b",
+      "sha256": "356f41bdbc0c5fafae966ff8400f453ead0a100aa787936d01c013568feb45d9",
       "executable": false
     },
     "src/terrace/appointments-view.ts": {
@@ -3337,7 +3341,7 @@
       "executable": false
     },
     "src/terrace/bills-authority.ts": {
-      "sha256": "b9ba8eaff19311187c52fd3f27071d469b3ad6dc8b45ef9e300f85d3628881c5",
+      "sha256": "d8027cb21ac5b029e8db63d7d6effb67f25e4331d3ccfd3fdcf98d1f47712c7b",
       "executable": false
     },
     "src/terrace/bills-input.ts": {
@@ -3345,7 +3349,7 @@
       "executable": false
     },
     "src/terrace/bills-retention.ts": {
-      "sha256": "993d8510858b9a82e22b33f0ebce7b62b3dd94fb0e60a5dcc656cd81b9a1d13e",
+      "sha256": "4153d6a40b05f06139d1497505350308a1cacc0e2a5ef2f6173b8332d57acfff",
       "executable": false
     },
     "src/terrace/bills-templates.ts": {
@@ -3621,7 +3625,7 @@
       "executable": false
     },
     "src/terrace/journal.ts": {
-      "sha256": "c9abb92a7984a4f025a03869564bf2b6ed6ee0944bf71ed09cbf93271d31a9a6",
+      "sha256": "f945abf9f4a20d0d3f1ad2d4ffef89c1b9f10e25eaf378cbc8a8ed5371ac76f8",
       "executable": false
     },
     "src/terrace/late-fee-view.ts": {
@@ -3957,15 +3961,23 @@
       "executable": false
     },
     "src/terrace/work-budgets.ts": {
-      "sha256": "94cf6c1b967f2f9604e2f77a485c1f83348cf651c99487830d5908e0ecc36990",
+      "sha256": "c73a67b523c941747fa78fb01828ef72399877788c7152b715c1e92efb3a9070",
+      "executable": false
+    },
+    "src/terrace/work-stock-view.ts": {
+      "sha256": "34c12b4c548b5d3d48b694089c6cfd5fa53daee5f076f19e82e6627763ee29c2",
+      "executable": false
+    },
+    "src/terrace/work-stock.ts": {
+      "sha256": "d49206eb71a5da09272581d2f9b843fb34bfa8f955634b29b152f9f7a52f056d",
       "executable": false
     },
     "src/terrace/work-view.ts": {
-      "sha256": "f54750a98b133f9a5ad47a6d1957aa1eed08ad81b1fb464a33f453bc8cdc6117",
+      "sha256": "5fdfbd3f2fb612c0726c1d69c196d28d431648bb9214af1f07c3fa040eb43e66",
       "executable": false
     },
     "src/terrace/work.ts": {
-      "sha256": "4262f3082710739a46d73bc177c8431d2fdb904b92bbcbb6fe067eb867175d0d",
+      "sha256": "fe7bd3e1a593e741a33f46ef22fc3716213eded12cc0db7613150cb754ad9abc",
       "executable": false
     },
     "src/terrace/workflow-mail.ts": {
@@ -4045,7 +4057,7 @@
       "executable": false
     },
     "tests/bills.mjs": {
-      "sha256": "3804af0dd5ba859afdc27848ef990d07fc02bad26801ee285cb061d1b6b57722",
+      "sha256": "774526e7c5c014b96abd771fdc16cea9611eeddf4d3f0009f7cddd3ae7d83e89",
       "executable": false
     },
     "tests/capacity-fixture.mjs": {
@@ -4329,11 +4341,11 @@
       "executable": false
     },
     "tests/work-budgets-browser.mjs": {
-      "sha256": "ef492bec4ecf2415f7fb34f34c89cb251cb8fd8f5059a3b65a7cdf962595ab4b",
+      "sha256": "e85e8dc33a22cb83ed65549b0bc5c88c1ad2774d19bde6731a8948e6eb688f2e",
       "executable": false
     },
     "tests/work-budgets.mjs": {
-      "sha256": "db7a15d61c409c85a305e6795158462d1ca8620b26c27435f71dd206b4f8804b",
+      "sha256": "2be48c9195fa3160ff03b23a93aa2ef67b5991f8207f14b5db3d6e1421ce7225",
       "executable": false
     },
     "tests/workflow-cadence.mjs": {

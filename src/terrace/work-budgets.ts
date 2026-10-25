@@ -34,7 +34,9 @@ export async function budgetBasis(c:Context,scope:string) {
  const budgets=await all(c,'SELECT b.*,a.kind AS asset_name,a.serial AS asset_serial FROM tt_work_budgets b LEFT JOIN tt_assets a ON a.id=b.asset_id WHERE b.scope=? ORDER BY year,kind,asset_id',scope)
  const bills=property?await all(c,"SELECT b.id,r.terms FROM tt_bills b JOIN tt_bill_revisions r ON r.bill_id=b.id AND r.version=b.version WHERE b.state='payable'"):[]
  const allocations=bills.flatMap(b=>JSON.parse(b.terms).allocations.filter((a:Row)=>a.propertyId===key).map((a:Row)=>({...a,billId:b.id,day:JSON.parse(b.terms).day})))
- return {clock,jobs,budgets,allocations}
+ const stockLots=property?await all(c,'SELECT * FROM tt_stock_lots WHERE property_id=?',key):[]
+ const stockUses=property?await all(c,'SELECT u.job_id AS jobId,u.amount_cents AS amountCents FROM tt_stock_uses u JOIN tt_stock_lots l ON l.id=u.lot_id WHERE l.property_id=?',key):[]
+ return {clock,jobs,budgets,allocations,stockLots,stockUses}
 }
 /** A work estimate reserves its due year. Linked invoices retain that category and year; unlinked bills use invoice year. */
 export function budgetSpend(b:Row,basis:Row,jobOverride?:Row,billOverride?:Row) {
@@ -44,10 +46,10 @@ export function budgetSpend(b:Row,basis:Row,jobOverride?:Row,billOverride?:Row) 
  let spent=0
  for(const j of jobs) {
   if(!matches(j.cost_class,j.asset_id??'',j.due_date.slice(0,4)))continue
-  const actual=allocations.filter(a=>a.jobId===j.id).reduce((n,a)=>n+a.amountCents,0)
+  const actual=allocations.filter(a=>a.jobId===j.id).reduce((n,a)=>n+a.amountCents,0)+(basis.stockUses??[]).filter((u:Row)=>u.jobId===j.id).reduce((n:number,u:Row)=>n+u.amountCents,0)
   spent+=Math.max(['approved','sent'].includes(j.state)?j.estimate_cents:0,actual)
  }
- for(const a of allocations.filter(a=>!a.jobId))if(matches(a.costClass??'operating',a.assetId??'',a.day.slice(0,4)))spent+=a.amountCents
+ for(const a of allocations.filter(a=>!a.jobId&&!(basis.stockLots??[]).some((l:Row)=>l.bill_id===a.billId)))if(matches(a.costClass??'operating',a.assetId??'',a.day.slice(0,4)))spent+=a.amountCents
  return spent
 }
 export async function budgetAuthority(c:Context,scope:string,jobOverride?:Row,billOverride?:Row) {

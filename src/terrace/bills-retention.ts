@@ -10,7 +10,8 @@ export async function billSubjects(c:Context,key:string,terms:Row,kind='bill') {
 }
 export async function billRetentionDay(c:Context,tenancyId:string) {
  const rows=await all(c,"SELECT b.day FROM tt_bill_subjects s JOIN tt_bills b ON s.entity_id=b.id AND s.kind='bill' WHERE s.tenancy_id=? UNION ALL SELECT json_extract(t.terms,'$.starts') AS day FROM tt_bill_subjects s JOIN tt_bill_templates t ON s.entity_id=t.id AND s.kind='template' WHERE s.tenancy_id=?",tenancyId,tenancyId)
- return rows.map(r=>r.day as string).sort().at(-1)??null
+ const stock=await all(c,'SELECT day FROM tt_stock_uses WHERE tenancy_id=?',tenancyId)
+ return [...rows,...stock].map(r=>r.day as string).sort().at(-1)??null
 }
 /** Anonymous shared-document holds: never disclose another resident or their reasons. */
 export async function billSharedHolds(c:Context,tenancyId:string) {
@@ -29,6 +30,7 @@ export async function billErasureStatements(c:Context,tenancyId:string) {
   const key=s.entity_id
   writes.push(guard(c,'EXISTS(SELECT 1 FROM tt_erasure_work WHERE tenancy_id=?)',tenancyId),guard(c,"NOT EXISTS(SELECT 1 FROM tt_bill_subjects own JOIN tt_bill_subjects other ON other.kind=own.kind AND other.entity_id=own.entity_id JOIN tt_legal_holds h ON h.tenancy_id=other.tenancy_id WHERE own.tenancy_id=? AND other.tenancy_id<>? AND h.released_at IS NULL AND h.class IN ('all','accounting'))",tenancyId,tenancyId),sql(c,'UPDATE tt_audit SET source=NULL WHERE subject=? AND action LIKE ?',key,s.kind==='bill'?'bill.%':'bill-template.%'))
   if(s.kind==='bill') {
+   writes.push(sql(c,"UPDATE tt_stock_lots SET name='Retained stock',reference=id WHERE bill_id=?",key),sql(c,'UPDATE tt_stock_uses SET reference=id WHERE tenancy_id=? AND lot_id IN (SELECT id FROM tt_stock_lots WHERE bill_id=?)',tenancyId,key))
    for(const r of await all(c,'SELECT * FROM tt_bill_revisions WHERE bill_id=?',key))writes.push(sql(c,'UPDATE tt_bill_revisions SET terms=? WHERE bill_id=? AND version=?',JSON.stringify(retained(JSON.parse(r.terms),key)),key,r.version))
    for(const a of await all(c,'SELECT * FROM tt_bill_approvals WHERE bill_id=?',key)) {
     const snapshot=JSON.parse(a.snapshot);snapshot.terms=retained(snapshot.terms,key);if(snapshot.decision)snapshot.decision.reference='Retained accounting record'

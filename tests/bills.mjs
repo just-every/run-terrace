@@ -166,6 +166,12 @@ async function retention(h,{portfolioId,ownerId,vendorId,manager}) {
  const bill=await h.command('bill.create',terms);await h.command('bill.approve',{billId:bill.id,version:1},{as:manager})
  const read=async()=>await(await h.request('/api/bills')).json(),before=(await read()).bills.find(x=>x.id===bill.id),attachmentId=before.attachments[0].id
  const access=await(await h.request('/api/resident-access?tenancyId='+subjects[0].tenancy.id)).json();assert.ok(access.billSources.some(x=>x.id===bill.id));assert.ok(!JSON.stringify(access.billSources).includes(subjects[1].tenantName),'SAFE-004: source projection omits other residents')
+ const historic=subjects[0],stockBill=await h.command('bill.create',{...terms,invoiceNumber:'synthetic-terrace-23 stock purchase',original:pdf('synthetic-terrace-24 Historic Resident one stock'),lines:[{description:'Historic Resident one stock purchase',code:'parts',amount:'20',tax:'0'}],allocations:[{propertyId:historic.property.id,amount:'20'}]})
+ await h.command('bill.approve',{billId:stockBill.id,version:1},{as:manager})
+ const lot=await h.command('stock.receive',{tenancyId:historic.tenancy.id,billId:stockBill.id,billVersion:1,name:'Historic Resident one stock',quantity:2,day:'2011-06-02',reference:'Historic Resident one stock source'})
+ const repair=await h.command('maintenance.prepare',{tenancyId:historic.tenancy.id,title:'Historic stock repair',vendorId,trade:'landscaping',dueDate:'2011-06-03',estimate:'20'})
+ const approvedRepair=await h.command('maintenance.approve',{jobId:repair.id,version:1},{as:manager})
+ await h.command('stock.consume',{tenancyId:historic.tenancy.id,lotId:lot.id,jobId:repair.id,jobVersion:approvedRepair.version,quantity:1,day:'2011-06-03',reference:'Historic Resident one stock use'})
  const hold=await h.command('privacy.hold',{tenancyId:subjects[1].tenancy.id,class:'accounting',reason:'Other resident litigation'})
  const erase=async()=>{
   const request=await h.command('privacy.request',{tenancyId:subjects[0].tenancy.id,kind:'erase',source:'Historic resident request'})
@@ -178,6 +184,8 @@ async function retention(h,{portfolioId,ownerId,vendorId,manager}) {
  assert.equal((await h.request('/api/bill-attachment?id='+attachmentId)).status,200,'a shared accounting hold preserves the invoice original')
  await h.command('privacy.release',{tenancyId:subjects[1].tenancy.id,holdId:hold.id,reason:'Litigation ended'})
  const erased=await erase();assert.equal(erased.review.personalRetained,false);assert.ok(erased.result.alias)
+ const stockArchive=await(await h.request('/api/backup')).text();assert.ok(!stockArchive.includes('Historic Resident one stock'),'eligible stock free text is redacted while accounting quantities survive')
+ assert.match(stockArchive,/Retained stock/)
  assert.equal((await h.request('/api/bill-attachment?id='+attachmentId)).status,404,'eligible original invoice bytes are removed')
  await h.command('bill.create',{...terms,invoiceNumber:'ATTEMPTED-RESURRECTION'},{status:409})
  const after=(await read()).bills.find(x=>x.id===bill.id)

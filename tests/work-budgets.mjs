@@ -62,9 +62,45 @@ export async function journey({assets=false,inspect}={}) {
   assert.ok((await h.state(t.id)).work.budgetHistory.length===4)
   const future=await prepare('Next year operating','999',{dueDate:'2027-01-01'})
   await h.command('maintenance.approve',{jobId:future.id,version:1},{as:manager})
-  if(inspect)await inspect({h,t,asset,property,manager})
+  const purchase=await capture(13,'20',null)
+  await approveBill(purchase)
+  const lot=await h.command('stock.receive',{tenancyId:t.id,billId:purchase.id,billVersion:1,name:'Furnace filter',quantity:3,day:'2026-06-03',reference:'synthetic-terrace-14 received purchase'})
+  await h.command('stock.receive',{tenancyId:t.id,billId:purchase.id,billVersion:1,name:'Duplicate',quantity:3,day:'2026-06-03',reference:'synthetic-terrace-15'},{status:409})
+  await h.command('stock.consume',{tenancyId:t.id,lotId:lot.id,jobId:work.id,jobVersion:1,quantity:1,day:'2026-06-04',reference:'synthetic-terrace-16 repair part'},{as:member,status:403})
+  await h.command('stock.consume',{tenancyId:privateT.id,lotId:lot.id,jobId:work.id,jobVersion:1,quantity:1,day:'2026-06-04',reference:'synthetic-terrace-17 wrong property'},{status:404})
+  // Existing approved over-budget work has no remaining room; receipt alone does not create repair expense.
+  const stockUse={tenancyId:t.id,lotId:lot.id,jobId:future.id,jobVersion:(await h.state(t.id)).work.jobs.find(j=>j.id===future.id).version,quantity:1,day:'2026-06-04',reference:'synthetic-terrace-18 repair use'}
+  await h.command('stock.consume',{...stockUse,jobId:work.id,jobVersion:(await h.state(t.id)).work.jobs.find(j=>j.id===work.id).version},{status:409})
+  const successor=await h.command('owner.add',{kind:'individual',legalName:'Stock successor',email:'stock-successor@example.test',mailingAddress:'2 Alder Street'})
+  await h.command('ownership.set',{propertyId:property.id,effectiveFrom:'2026-06-05',reason:'synthetic-terrace-21 ownership transfer',shares:[{ownerId:successor.id,percent:'100'}]})
+  await h.command('stock.consume',{...stockUse,day:'2026-06-06'},{status:409})
+  await h.command('stock.consume',stockUse)
+  const stock=(await h.state(t.id)).work.stock
+  assert.equal(stock.lots[0].used_quantity,1);assert.equal(stock.lots[0].used_cents,666)
+  assert.equal(stock.uses[0].job_id,future.id)
+  assert.equal((await h.state(t.id)).work.categoryBudgets.find(b=>b.kind==='operating'&&!b.asset_id).spentCents,11500,'stock purchase is no longer a repair reservation; part use stays within the approved estimate')
+  const journal=await(await h.request('/api/journal?propertyId='+property.id)).json()
+  const inventory=journal.entries.flatMap(j=>j.lines).filter(l=>l.account==='inventory').reduce((n,l)=>n+l.debit-l.credit,0)
+  assert.equal(inventory,1334,'unconsumed tax-inclusive cost remains an asset')
+  assert.equal(journal.entries.filter(j=>j.source_kind==='stock_use').flatMap(j=>j.lines).filter(l=>l.account==='expense').reduce((n,l)=>n+l.debit,0),666)
+  assert.equal(journal.entries.filter(j=>j.source_kind==='stock_receipt').flatMap(j=>j.lines).filter(l=>l.account==='expense').reduce((n,l)=>n+l.credit,0),2000)
+  const useEntry=journal.entries.find(j=>j.source_kind==='stock_use')
+  assert.equal(useEntry.owner_key,owner.id)
+  await h.command('journal.reverse',{entryId:useEntry.id,day:'2026-06-04',reference:'synthetic-terrace-19 bypass'},{status:409})
+  await h.command('bill.attach',{billId:purchase.id,version:1,attachment:{name:'source.pdf',type:'application/pdf',base64:Buffer.from('%PDF-1.4\nsynthetic-terrace-20\n%%EOF').toString('base64')}},{status:409})
+  await h.command('stock.consume',{...stockUse,quantity:3},{status:409})
+  if(inspect)await inspect({h,t,asset,property,manager,purchase,future,capture,approveBill,lot})
+  const races=await h.atOnce([1,2].map(()=>['/api/commands',{method:'POST',body:{command:'stock.consume',...stockUse,quantity:2}}]))
+  assert.equal(races.filter(r=>r.status===200).length,1)
+  assert.ok(races.every(r=>[200,409].includes(r.status)))
+  assert.equal((await h.state(t.id)).work.stock.lots[0].used_cents,2000,'final part carries the remaining exact cents')
+  const combined=await capture(41,'990',future.id)
+  await h.command('bill.approve',{billId:combined.id,version:1},{as:manager,status:409})
+  assert.ok((await(await h.request('/api/bills')).json()).bills.find(b=>b.id===combined.id).authority.reasons.some(r=>r.includes('cumulative invoices and parts')))
+  await h.restart();assert.equal((await h.state(t.id)).work.stock.lots[0].used_quantity,3)
+
   const archive=await(await h.request('/api/backup')).text();assert.match(archive,/tt_budget_changes/)
   const fresh=await installation()
-  try{const form=new FormData();form.set('command','data.restore');form.set('confirm','RESTORE');form.set('backup',new File([archive],'budgets.rer'));const response=await fresh.request('/api/commands',{method:'POST',form});assert.equal(response.status,200,await response.clone().text());const restored=(await fresh.state(t.id)).work;assert.deepEqual(restored.categoryBudgets.map(b=>[b.kind,b.asset_id,b.amount_cents,b.spentCents]),(await h.state(t.id)).work.categoryBudgets.map(b=>[b.kind,b.asset_id,b.amount_cents,b.spentCents]));assert.equal(restored.budgetHistory.length,(await h.state(t.id)).work.budgetHistory.length)}finally{await fresh.close()}
+  try{const form=new FormData();form.set('command','data.restore');form.set('confirm','RESTORE');form.set('backup',new File([archive],'budgets.rer'));const response=await fresh.request('/api/commands',{method:'POST',form});assert.equal(response.status,200,await response.clone().text());const restored=(await fresh.state(t.id)).work;assert.deepEqual(restored.categoryBudgets.map(b=>[b.kind,b.asset_id,b.amount_cents,b.spentCents]),(await h.state(t.id)).work.categoryBudgets.map(b=>[b.kind,b.asset_id,b.amount_cents,b.spentCents]));assert.deepEqual(restored.stock.lots,(await h.state(t.id)).work.stock.lots);assert.equal(restored.stock.uses.length,2);assert.equal(restored.budgetHistory.length,(await h.state(t.id)).work.budgetHistory.length)}finally{await fresh.close()}
  }finally{await h.close()}
 }

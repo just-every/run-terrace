@@ -17,10 +17,11 @@ export async function billAuthority(c: Context, b: Row) {
   guards.push(guard(c,'COALESCE((SELECT id FROM tt_ownership_sets WHERE property_id=? AND effective_from<=? ORDER BY effective_from DESC LIMIT 1),\'\')=?',a.propertyId,terms.day,set?.id??''),guard(c,'COALESCE((SELECT id FROM tt_management_agreements WHERE property_id=? AND starts<=? ORDER BY starts DESC LIMIT 1),\'\')=?',a.propertyId,terms.day,agreement?.id??''))
   const jobs=await all(c,"SELECT j.id,j.version,j.estimate_cents FROM tt_maintenance_jobs j JOIN tt_tenancies t ON t.id=j.tenancy_id JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND j.state IN ('approved','sent') AND substr(j.due_date,1,4)=?",a.propertyId,terms.day.slice(0,4))
   // Existing work estimates already reserve the linked work's cost; unpaid bills add only costs not covered by a work order.
-  const bills=await all(c,"SELECT r.terms FROM tt_bills b JOIN tt_bill_revisions r ON r.bill_id=b.id AND r.version=b.version WHERE b.state='payable' AND b.id<>? AND substr(b.day,1,4)=?",b.id,terms.day.slice(0,4))
+  const bills=await all(c,"SELECT r.terms FROM tt_bills b JOIN tt_bill_revisions r ON r.bill_id=b.id AND r.version=b.version WHERE b.state='payable' AND b.id<>? AND substr(b.day,1,4)=? AND NOT EXISTS(SELECT 1 FROM tt_stock_lots l WHERE l.bill_id=b.id AND l.property_id=?)",b.id,terms.day.slice(0,4),a.propertyId)
   const prior=bills.flatMap(r=>JSON.parse(r.terms).allocations).filter((x:Row)=>x.propertyId===a.propertyId)
   const actual=new Map<string,number>()
   for(const x of prior.filter((x:Row)=>x.jobId))actual.set(x.jobId,(actual.get(x.jobId)??0)+x.amountCents)
+  for(const u of await all(c,'SELECT u.job_id,u.amount_cents FROM tt_stock_uses u JOIN tt_stock_lots l ON l.id=u.lot_id WHERE l.property_id=?',a.propertyId))actual.set(u.job_id,(actual.get(u.job_id)??0)+u.amount_cents)
   const reservations=new Map<string,number>(jobs.map(j=>[j.id,j.estimate_cents]))
   for(const [key,amount] of actual)reservations.set(key,Math.max(reservations.get(key)??0,amount))
   const spent=prior.filter((x:Row)=>!x.jobId).reduce((n:number,x:Row)=>n+x.amountCents,0)+[...reservations.values()].reduce((n,x)=>n+x,0)
@@ -43,7 +44,8 @@ export async function billAuthority(c: Context, b: Row) {
    guards.push(guard(c,'EXISTS(SELECT 1 FROM tt_maintenance_jobs WHERE id=? AND version=? AND state=?)',j.id,j.version,j.state))
    const others=await all(c,"SELECT r.terms FROM tt_bills b JOIN tt_bill_revisions r ON r.bill_id=b.id AND r.version=b.version WHERE b.state='payable' AND b.id<>?",b.id)
    const prior=others.reduce((n,r)=>n+JSON.parse(r.terms).allocations.filter((x:Row)=>x.jobId===a.jobId).reduce((s:number,x:Row)=>s+x.amountCents,0),0)
-   if(prior+a.amountCents>j.estimate_cents) reasons.push(`${prop!.name}: cumulative invoices exceed approved work amount`)
+   const parts=(await one(c,'SELECT COALESCE(SUM(amount_cents),0) AS amount FROM tt_stock_uses WHERE job_id=?',j.id))!.amount
+   if(prior+parts+a.amountCents>j.estimate_cents) reasons.push(`${prop!.name}: cumulative invoices and parts exceed approved work amount`)
   }
   // A concurrent work approval changes the exact budget basis and must trigger a fresh review.
   guards.push(guard(c,"(SELECT COALESCE(SUM(j.version),0) FROM tt_maintenance_jobs j JOIN tt_tenancies t ON t.id=j.tenancy_id JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND j.state IN ('approved','sent') AND substr(j.due_date,1,4)=?)=?",a.propertyId,terms.day.slice(0,4),jobs.reduce((s,j)=>s+j.version,0)))

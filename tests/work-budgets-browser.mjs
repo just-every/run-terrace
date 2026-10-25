@@ -5,10 +5,11 @@ import {chromium} from '@playwright/test'
 import {journey} from './work-budgets.mjs'
 const out=resolve(process.env.BUDGET_SCREENSHOTS||'.rer/budget-screens');await mkdir(out,{recursive:true})
 const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
-try{await journey({assets:true,inspect:async({h,t,asset,property})=>{
+try{await journey({assets:true,inspect:async({h,t,asset,property,future,capture,approveBill,lot})=>{
  const context=await browser.newContext();await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return{name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}));const page=await context.newPage()
  for(const [width,height]of [[1440,900],[390,844]]){
   await page.setViewportSize({width,height});await page.goto(h.origin+'/app?tab=work&tenancy='+t.id)
+  await page.getByRole('heading',{name:'Maintenance stock',exact:true}).waitFor();assert.match(await page.getByRole('heading',{name:'Maintenance stock',exact:true}).locator('..').innerText(),/Furnace filter.*2 parts remaining.*\$13\.34/s)
   const section=page.getByRole('heading',{name:'Operating and capital budgets',exact:true}).locator('..')
   await section.waitFor();assert.match(await section.innerText(),/capital.*\$200\.00.*\$190\.00/s);assert.match(await section.innerText(),/operating.*\$100\.00.*\$115\.00/s)
   await section.scrollIntoViewIfNeeded();assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'work page fits '+width)
@@ -20,6 +21,16 @@ try{await journey({assets:true,inspect:async({h,t,asset,property})=>{
   if(width===1440){await form.getByRole('button',{name:'Save approved budget',exact:true}).click();await page.getByText('Source: synthetic-terrace-12 browser 1440',{exact:false}).waitFor()}
   const person=page.getByRole('link',{name:'Manage people',exact:true}),tip=page.getByRole('tooltip',{name:'Manage people',exact:true})
   await person.hover();await page.waitForTimeout(350);await tip.waitFor({state:'visible'});await page.screenshot({path:join(out,'tooltip-hover-'+width+'.png')});await page.mouse.move(0,0);await person.focus();await tip.waitFor({state:'visible'});await page.screenshot({path:join(out,'tooltip-focus-'+width+'.png')})
+  const purchased=await capture(30+width,'20',null);await approveBill(purchased)
+  await page.goto(h.origin+'/app?tab=work&tenancy='+t.id)
+  const stock=page.getByRole('heading',{name:'Maintenance stock',exact:true}).locator('..')
+  await stock.getByText('Receive purchased parts',{exact:true}).click()
+  const receipt=stock.locator('form:has(input[name="billId"][value="'+purchased.id+'"])')
+  await receipt.getByLabel('Part name',{exact:true}).fill('Browser filter '+width);await receipt.getByLabel('Recorded date',{exact:true}).fill('2026-06-08');await receipt.getByLabel('Whole parts',{exact:true}).fill('1');await receipt.getByLabel('Source reference',{exact:true}).fill('synthetic-terrace-22 browser receipt '+width)
+  await receipt.screenshot({path:join(out,'stock-receipt-'+width+'.png')});await receipt.getByRole('button',{name:'Receive stock',exact:true}).click();await page.getByText('Browser filter '+width,{exact:true}).waitFor()
+  const part=page.getByRole('heading',{name:'Furnace filter',exact:true}).locator('..')
+  await part.getByText('Use on approved repair',{exact:true}).click();const use=part.locator('form');await use.getByLabel('Approved repair',{exact:true}).selectOption({label:'Next year operating'});await use.getByLabel('Recorded date',{exact:true}).fill('2026-06-04');await use.getByLabel('Whole parts',{exact:true}).fill('1');await use.getByLabel('Source reference',{exact:true}).fill('synthetic-terrace-23 reviewed use')
+  await stock.screenshot({path:join(out,'stock-use-'+width+'.png')});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'stock controls fit '+width)
   await page.goto(h.origin+'/app?tab=bills');await page.getByText('Capture an invoice',{exact:true}).click();await page.locator('form:has(input[name=command][value="bill.create"])').getByLabel('Unlinked cost category for Budget house',{exact:true}).selectOption('capital');assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'bill page fits '+width);await page.screenshot({path:join(out,'bills-'+width+'.png'),fullPage:true})
  }
  await context.close()
