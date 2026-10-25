@@ -65,25 +65,9 @@ export async function emergencyCommand(c: Context, command: string, p: Row): Pro
   return { id: key, tab: 'emergencies', notice: `On-call for ${portfolio.name} saved. New emergencies alert the on-call person; escalation to the backup is a recorded action.` }
  }
  if (command === 'emergency.report') {
-  const t = await tenancy(c, p.tenancyId)
-  insist(t.unit_id, 'unit_required', 'Link this tenancy to a unit first: the unit’s portfolio decides who is on call.', 409)
-  const place = await one(c, 'SELECT p.portfolio_id FROM tt_units u JOIN tt_properties p ON p.id=u.property_id WHERE u.id=?', t.unit_id)
-  const r = risk(p.risk), channel = String(p.channel ?? '')
-  insist(CHANNELS.includes(channel), 'invalid_input', 'Record how it arrived: phone, email, in person or observed by staff.')
-  insist(['yes', 'no'].includes(String(p.emergency)), 'invalid_input', 'Classify it: emergency yes or no. Terrace never classifies it for you.')
-  const g = await currentGuidance(c, r), emergency = p.emergency === 'yes'
-  insist(emergency || !(IMMEDIATE.includes(r) || g?.immediate_danger), 'emergency_policy', 'Your emergency policy treats this risk as immediate danger: record it as an emergency.', 409)
-  const asset = await serviceableAsset(c, t.id, p.assetId), oncall = emergency ? await currentOncall(c, place!.portfolio_id) : null
-  const given = g ? [g.call_instruction, g.guidance].filter(Boolean).join('\n') : NO_GUIDANCE, key = id(), at = reportedAt(c, p.reportedAt)
-  c.source = text(p.reporter, 'Reported by (name and contact)', 300)
-  await commit(c, [
-   ...(g ? [guard(c, '(SELECT MAX(version) FROM tt_emergency_guidance WHERE risk=?)=?', r, g.version)] : [guard(c, 'NOT EXISTS(SELECT 1 FROM tt_emergency_guidance WHERE risk=?)', r)]),
-   ...(oncall ? [guard(c, '(SELECT id FROM tt_oncall WHERE portfolio_id=? ORDER BY set_at DESC,rowid DESC LIMIT 1)=?', place!.portfolio_id, oncall.id)] : []),
-   sql(c, 'INSERT INTO tt_emergencies(id,tenancy_id,unit_id,portfolio_id,asset_id,channel,reporter,description,risk,emergency,reported_at,guidance_id,guidance_given,oncall_id,primary_id,backup_id,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', key, t.id, t.unit_id, place!.portfolio_id, asset?.id ?? null, channel, c.source, text(p.description, 'What was reported', 2000), r, emergency ? 1 : 0, at, g?.id ?? null, given, oncall?.id ?? null, oncall?.primary_id ?? null, oncall?.backup_id ?? null, c.actor.id, c.now),
-   event(c, key, 'reported', g ? `guidance ${r} v${g.version} given` : 'no approved guidance', emergency ? 'classified emergency by staff' : 'classified not an emergency by staff'),
-  ], command, key)
-  const alert = oncall ? { caseId: key, recipientId: oncall.primary_id, kind: 'alert' } : null
-  return { id: key, tenancyId: t.id, tab: 'emergencies', guidance: given, guidanceVersion: g?.version ?? null, alert, notice: emergency ? (oncall ? 'Emergency recorded. Read the guidance to the caller now.' : 'Emergency recorded with no on-call person for this portfolio: no alert was sent. Call your on-call service now.') : 'Recorded as not an emergency. Read the guidance to the caller and route the repair to maintenance.' }
+  const prepared = await prepareEmergency(c,p)
+  await commit(c,prepared.statements,command,prepared.result.id)
+  return prepared.result
  }
  const e = await emergencyCase(c, p.emergencyId)
  const version = Number(p.version)
@@ -111,6 +95,29 @@ export async function emergencyCommand(c: Context, command: string, p: Row): Pro
  c.source = fieldWork
  await commit(c, [caseGuard(c, e), sql(c, "UPDATE tt_emergencies SET state='resolved',acknowledged_at=COALESCE(acknowledged_at,?),resolved_by=?,resolved_at=?,field_work=?,resident_followup=?,version=version+1 WHERE id=?", c.now, c.actor.id, c.now, fieldWork, followup, e.id), event(c, e.id, 'resolved', fieldWork, FOLLOWUP_LABEL)], command, e.id)
  return { id: e.id, tenancyId: e.tenancy_id, version: version + 1, tab: 'emergencies', notice: 'Resolved with field-work evidence and the resident’s follow-up.' }
+}
+
+/** Shared intake preparation; caller commits its own live authority fence with these statements. */
+export async function prepareEmergency(c: Context,p: Row) {
+  const t = await tenancy(c, p.tenancyId)
+  insist(t.unit_id, 'unit_required', 'Link this tenancy to a unit first: the unit’s portfolio decides who is on call.', 409)
+  const place = await one(c, 'SELECT p.portfolio_id FROM tt_units u JOIN tt_properties p ON p.id=u.property_id WHERE u.id=?', t.unit_id)
+  const r = risk(p.risk), channel = String(p.channel ?? '')
+  insist(CHANNELS.includes(channel), 'invalid_input', 'Record how it arrived: phone, email, in person or observed by staff.')
+  insist(['yes', 'no'].includes(String(p.emergency)), 'invalid_input', 'Classify it: emergency yes or no. Terrace never classifies it for you.')
+  const g = await currentGuidance(c, r), emergency = p.emergency === 'yes'
+  insist(emergency || !(IMMEDIATE.includes(r) || g?.immediate_danger), 'emergency_policy', 'Your emergency policy treats this risk as immediate danger: record it as an emergency.', 409)
+  const asset = await serviceableAsset(c, t.id, p.assetId), oncall = emergency ? await currentOncall(c, place!.portfolio_id) : null
+  const given = g ? [g.call_instruction, g.guidance].filter(Boolean).join('\n') : NO_GUIDANCE, key = id(), at = reportedAt(c, p.reportedAt)
+  c.source = text(p.reporter, 'Reported by (name and contact)', 300)
+  const statements = [
+   ...(g ? [guard(c, '(SELECT MAX(version) FROM tt_emergency_guidance WHERE risk=?)=?', r, g.version)] : [guard(c, 'NOT EXISTS(SELECT 1 FROM tt_emergency_guidance WHERE risk=?)', r)]),
+   ...(oncall ? [guard(c, '(SELECT id FROM tt_oncall WHERE portfolio_id=? ORDER BY set_at DESC,rowid DESC LIMIT 1)=?', place!.portfolio_id, oncall.id)] : []),
+   sql(c, 'INSERT INTO tt_emergencies(id,tenancy_id,unit_id,portfolio_id,asset_id,channel,reporter,description,risk,emergency,reported_at,guidance_id,guidance_given,oncall_id,primary_id,backup_id,recorded_by,recorded_at,intake_origin) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', key, t.id, t.unit_id, place!.portfolio_id, asset?.id ?? null, channel, c.source, text(p.description, 'What was reported', 2000), r, emergency ? 1 : 0, at, g?.id ?? null, given, oncall?.id ?? null, oncall?.primary_id ?? null, oncall?.backup_id ?? null, c.actor.id, c.now, p.residentSubmission ? 'resident_portal' : 'staff'),
+   event(c, key, 'reported', g ? `guidance ${r} v${g.version} given` : 'no approved guidance', p.residentSubmission ? 'resident safety report; treated as emergency under approved policy' : emergency ? 'classified emergency by staff' : 'classified not an emergency by staff'),
+  ]
+  const alert = oncall ? { caseId: key, recipientId: oncall.primary_id, kind: 'alert' } : null
+  return { statements, result: { id: key, tenancyId: t.id, tab: 'emergencies', guidance: given, guidanceVersion: g?.version ?? null, alert, notice: emergency ? (oncall ? 'Emergency recorded. Read the guidance to the caller now.' : 'Emergency recorded with no on-call person for this portfolio: no alert was sent. Call your on-call service now.') : 'Recorded as not an emergency. Read the guidance to the caller and route the repair to maintenance.' } }
 }
 
 export async function emergencyData(c: Context) {

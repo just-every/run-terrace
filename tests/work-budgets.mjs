@@ -98,6 +98,7 @@ export async function journey({assets=false,inspect}={}) {
   await h.command('chargeback.prepare',{...proposed,consent:'no'},{status:400})
   await h.command('chargeback.prepare',{...proposed,ownerId:successor.id},{status:409})
   await h.command('chargeback.prepare',{...proposed,recipientId:'synthetic-terrace-52 unrelated resident'},{status:409})
+  const unsent=h.messages.length
   await h.command('chargeback.prepare',proposed,{as:member,status:403})
   await h.command('chargeback.prepare',{...proposed,tenancyId:privateT.id},{as:manager,status:404})
   const pending=await h.command('chargeback.prepare',proposed)
@@ -113,6 +114,9 @@ export async function journey({assets=false,inspect}={}) {
   for(const p of [ownerProposal,insuranceProposal]){const row=(await h.state(t.id)).work.chargebacks.proposals.find(r=>r.id===p.id);await h.command('chargeback.approve',{chargebackId:p.id,sha256:row.sha256},{as:manager})}
   cb=(await h.state(t.id)).work.chargebacks
   assert.equal(cb.costs.find(s=>s.id===source.id).recoveredCents,400);assert.equal(cb.costs.find(s=>s.id===source.id).netOwnerCostCents,266)
+  const frozen=cb.proposals.find(p=>p.id===pending.id).terms
+  assert.equal(frozen.sourceId,source.id);assert.equal(frozen.recipientId,resident.id);assert.equal(frozen.amountCents,200);assert.equal(frozen.day,'2026-06-10')
+  assert.equal(frozen.taxTreatment,'Source tax included in cost; no new tax assessed')
   assert.equal(cb.proposals.find(p=>p.id===pending.id).terms.authority,proposed.authority)
   assert.equal(cb.proposals.find(p=>p.id===pending.id).terms.authorizationDeclaration,'Recorded authorization covers this exact recipient, source, amount and tax treatment');assert.equal(cb.proposals.find(p=>p.id===pending.id).terms.authorizationVersion,1)
   await h.command('chargeback.prepare',{...proposed,amount:'3.00'},{status:409})
@@ -136,6 +140,10 @@ export async function journey({assets=false,inspect}={}) {
   await h.command('ownership.set',{propertyId:property.id,effectiveFrom:'2026-10-24',reason:'synthetic-terrace-57 changed current ownership',shares:[{ownerId:successor.id,percent:'100'}]})
   await h.command('chargeback.approve',{chargebackId:ownershipPending.id,sha256:ownershipRow.sha256},{as:manager,status:409})
   await h.command('ownership.set',{propertyId:property.id,effectiveFrom:'2026-10-25',reason:'synthetic-terrace-58 restored current ownership',shares:[{ownerId:owner.id,percent:'100'}]})
+  assert.equal(h.messages.length,unsent,'proposals and approved allocations send no notices')
+  const access=await(await h.request('/api/resident-access?tenancyId='+t.id)).json()
+  assert.ok(access.chargebacks.some(p=>p.id===pending.id&&p.amount_cents===200));assert.ok(!JSON.stringify(access.chargebacks).includes(proposed.authority),'subject access excludes private authorization text')
+  assert.equal((await h.request('/api/resident-access?tenancyId='+t.id,{as:member})).status,403)
   if(inspect)await inspect({h,t,asset,property,manager,purchase,future,capture,approveBill,lot,chargebackSource:source,resident,owner})
 
   const races=await h.atOnce([1,2].map(()=>['/api/commands',{method:'POST',body:{command:'stock.consume',...stockUse,quantity:2}}]))

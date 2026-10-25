@@ -1,3 +1,4 @@
+import { staffRequestPhoto } from './portal-requests'
 import {CHARGEBACK_COMMANDS,chargebackCommand} from './work-chargebacks'
 import {STOCK_COMMANDS,stockCommand} from './work-stock'
 import {budgetCommand} from './work-budgets'
@@ -187,7 +188,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
  if(url.pathname==='/portal'||url.pathname.startsWith('/portal/'))return portalResponse(request,env)
  if(!isApi&&!isPage)return null
  // Unknown API paths retain a genuine 404 without leaking installation data.
- if(isApi&&!['/api/requests','/api/report-delivery','/api/report-schedules','/api/report-generation','/api/financial-reports','/api/agent-workloads','/api/reconcile','/api/reconcile-original','/api/record-media','/api/record-media/file','/api/record-media/upload','/api/trust','/api/rules','/api/journal','/api/custom-reports','/api/custom-report','/api/custom-document','/api/delinquency','/api/leasing-report','/api/cash-scenario','/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment','/api/emergencies','/api/prospects','/api/workflows','/api/documents','/api/document','/api/document-versions'].includes(url.pathname)&&!V1_PATH.test(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
+ if(isApi&&!['/api/repair-media','/api/requests','/api/report-delivery','/api/report-schedules','/api/report-generation','/api/financial-reports','/api/agent-workloads','/api/reconcile','/api/reconcile-original','/api/record-media','/api/record-media/file','/api/record-media/upload','/api/trust','/api/rules','/api/journal','/api/custom-reports','/api/custom-report','/api/custom-document','/api/delinquency','/api/leasing-report','/api/cash-scenario','/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment','/api/emergencies','/api/prospects','/api/workflows','/api/documents','/api/document','/api/document-versions'].includes(url.pathname)&&!V1_PATH.test(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
  let c:Context|undefined,p:Row={},idem:string|undefined
  try {
   insist(url.origin===env.AUTH_ORIGIN,'origin','The request origin does not match this installation.',403)
@@ -278,6 +279,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   if(url.pathname==='/api/workflows')return json(await workflowData(c))
   if(url.pathname==='/api/emergencies')return json(await emergencyData(c))
   if(url.pathname==='/api/bills'){const data=await billData(c);await recordRead(c,'bills.read','bills');return json(data)}
+  if(url.pathname==='/api/repair-media'){const f=await staffRequestPhoto(c,String(url.searchParams.get('id') ?? ''));return new Response(new Uint8Array(f.bytes),{headers:{'cache-control':'private, no-store','content-type':f.media_type,'x-content-type-options':'nosniff','content-disposition':'attachment; filename="'+String(f.name).replace(/[^a-zA-Z0-9._-]/g,'_')+'"','content-security-policy':"default-src 'none'; sandbox"}})}
   if(url.pathname==='/api/bill-attachment')return await billAttachment(c,url.searchParams.get('id'))
   if(url.pathname==='/api/resident-access'){const r=await residentAccess(c,url.searchParams.get('tenancyId'));await recordRead(c,'export:resident-access',String(url.searchParams.get('tenancyId')));return r}
   if(url.pathname==='/api/history')return url.searchParams.get('format')==='csv'?new Response(csv(await historyCsv(c,Object.fromEntries(url.searchParams))),{headers:{'content-type':'text/csv;charset=utf-8','content-disposition':'attachment; filename="terrace-history.csv"','cache-control':'no-store'}}):json(await history(c,Object.fromEntries(url.searchParams)))

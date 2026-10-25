@@ -1,3 +1,4 @@
+import { linkRequest, staffRequests } from './portal-requests'
 // ROLE-002. Staff doors for external portal people: invite a resident (or a delegated contact), an owner or a vendor against one
 // record, and revoke a grant or a whole person. Inviting or revoking is an access change, so it needs the fresh email-link proof
 // (SAFE-001). Resident grants are limited to tenancies the staff member reaches; owner and vendor grants are installation-wide
@@ -7,7 +8,7 @@ import { operatorMail } from '../mail.server.mjs'
 import { all, audit, commit, email, everywhere, escape, id, insist, one, sql, tenancy, text, type Context, type Row } from './core'
 import { hash, linkExpiry, secret } from './portal-session'
 
-export const PORTAL_COMMANDS = ['portal.invite', 'portal.revoke']
+export const PORTAL_COMMANDS = ['portal.invite', 'portal.revoke', 'portal.request.link']
 const SUBJECT: Record<string, { access: string[]; column: string }> = { resident: { access: ['resident', 'delegate'], column: 'tenancy_id' }, owner: { access: ['owner'], column: 'owner_id' }, vendor: { access: ['vendor'], column: 'vendor_id' } }
 
 async function subject(c: Context, kind: string, p: Row) {
@@ -22,6 +23,7 @@ async function reach(c: Context, grant: Row) { if (grant.tenancy_id) await tenan
 
 export async function portalCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (!PORTAL_COMMANDS.includes(command)) return
+ if (command === 'portal.request.link') return linkRequest(c,p)
  if (command === 'portal.invite') {
   const kind = String(p.kind), spec = SUBJECT[kind]
   insist(spec, 'portal_kind', 'Choose resident, owner or vendor.')
@@ -64,7 +66,7 @@ export async function portalData(c: Context) {
  const grants = await all(c, 'SELECT g.id,g.identity_id,g.access,g.tenancy_id,g.owner_id,g.vendor_id,g.source,g.granted_at,g.revoked_at,t.address,t.unit_id,o.legal_name AS owner_name,v.name AS vendor_name FROM tt_portal_grants g LEFT JOIN tt_tenancies t ON t.id=g.tenancy_id LEFT JOIN tt_owners o ON o.id=g.owner_id LEFT JOIN tt_vendors v ON v.id=g.vendor_id ORDER BY g.granted_at')
  const wide = c.actor.role === 'owner' || !!c.actor.staff?.all, reachable = (g: Row) => g.tenancy_id ? (wide || c.actor.staff?.units.has(g.unit_id)) : wide
  const seen = grants.filter(reachable)
- return { people: people.filter(p => seen.some(g => g.identity_id === p.id)).map(p => ({ ...p, grants: seen.filter(g => g.identity_id === p.id).map(g => ({ id: g.id, access: g.access, record: g.address ?? g.owner_name ?? g.vendor_name, source: g.source, grantedAt: g.granted_at, revokedAt: g.revoked_at })) })),
+ return { requests: await staffRequests(c), people: people.filter(p => seen.some(g => g.identity_id === p.id)).map(p => ({ ...p, grants: seen.filter(g => g.identity_id === p.id).map(g => ({ id: g.id, access: g.access, record: g.address ?? g.owner_name ?? g.vendor_name, source: g.source, grantedAt: g.granted_at, revokedAt: g.revoked_at })) })),
   owners: wide ? await all(c, 'SELECT id,legal_name AS name FROM tt_owners ORDER BY legal_name') : [], vendors: wide ? await all(c, 'SELECT id,name FROM tt_vendors ORDER BY name') : [] }
 }
 
@@ -81,6 +83,6 @@ export async function sendPortalEmail(c: Context, env: Bindings, m: Row) {
 export async function portalErasureStatements(c: Context, tenancyId: string) {
  const orphans = (await all(c, "SELECT DISTINCT g.identity_id AS id FROM tt_portal_grants g JOIN tt_portal_identities i ON i.id=g.identity_id WHERE g.tenancy_id=? AND i.kind='resident' AND NOT EXISTS(SELECT 1 FROM tt_portal_grants o WHERE o.identity_id=g.identity_id AND o.tenancy_id IS NOT ?)", tenancyId, tenancyId)).map(r => r.id as string)
  const marks = orphans.map(() => '?').join(',')
- return [sql(c, 'UPDATE tt_portal_sessions SET revoked_at=COALESCE(revoked_at,?) WHERE identity_id IN (SELECT identity_id FROM tt_portal_grants WHERE tenancy_id=?)', c.now, tenancyId), sql(c, 'DELETE FROM tt_portal_grants WHERE tenancy_id=?', tenancyId),
+ return [sql(c, 'DELETE FROM tt_resident_requests WHERE tenancy_id=?', tenancyId), sql(c, 'UPDATE tt_portal_sessions SET revoked_at=COALESCE(revoked_at,?) WHERE identity_id IN (SELECT identity_id FROM tt_portal_grants WHERE tenancy_id=?)', c.now, tenancyId), sql(c, 'DELETE FROM tt_portal_grants WHERE tenancy_id=?', tenancyId),
   ...(orphans.length ? ['tt_portal_sessions', 'tt_portal_links'].map(t => sql(c, `DELETE FROM ${t} WHERE identity_id IN (${marks})`, ...orphans)).concat(sql(c, `DELETE FROM tt_portal_identities WHERE id IN (${marks})`, ...orphans)) : [])]
 }

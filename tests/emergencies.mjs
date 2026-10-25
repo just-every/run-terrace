@@ -3,7 +3,7 @@ import {installation,tenancyInput} from './api/harness.mjs'
 
 /** WORK-001 and BOUND-003, invoked inside the maintenance integration test: await journey(). No new test count. */
 export async function journey() {
- const h=await installation();try {
+ const h=await installation({now:'2026-10-25T12:00:00Z',asyncDatabase:true});try {
  const place=async(name,n)=>{const f=await h.command('portfolio.add',{name}),p=await h.command('property.add',{portfolioId:f.id,name:name+' House',address:`${n} ${name} Road, Oakland, CA 94607`,kind:'duplex',timeZone:'America/Los_Angeles'}),u=await h.command('unit.add',{propertyId:p.id,identifier:'A',bedrooms:'2',bathrooms:'1'});return {f,p,u,t:await h.command('tenancy.create',{...tenancyInput,unitId:u.id,address:`Unit A, ${n} ${name} Road, Oakland, CA`,tenantEmail:name.toLowerCase()+'-resident@example.test',timeZone:'America/Los_Angeles'})}}
  const north=await place('North','10'),west=await place('West','30')
  await h.stepUp()
@@ -24,7 +24,7 @@ export async function journey() {
  await h.command('emergency.oncall',{portfolioId:north.f.id,primaryId:who('oncall'),backupId:who('backup')},{...as('oncall'),status:403})
  await h.command('emergency.oncall',{portfolioId:north.f.id,primaryId:who('oncall'),backupId:who('backup')})
  // A gas smell at 2:10 a.m. Pacific last night: staff record it, policy refuses "not an emergency", the guidance is read out and the on-call person is emailed a sign-in link only.
- const night=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Los_Angeles',year:'numeric',month:'2-digit',day:'2-digit'}).format(Date.now()-86400000),offset=new Intl.DateTimeFormat('en-US',{timeZone:'America/Los_Angeles',timeZoneName:'longOffset'}).formatToParts(new Date(night+'T09:10:00Z')).find(p=>p.type==='timeZoneName').value.replace('GMT',''),reportedAt=`${night}T02:10${offset}`
+ const night=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Los_Angeles',year:'numeric',month:'2-digit',day:'2-digit'}).format(Date.parse('2026-10-25T12:00:00Z')-86400000),offset=new Intl.DateTimeFormat('en-US',{timeZone:'America/Los_Angeles',timeZoneName:'longOffset'}).formatToParts(new Date(night+'T09:10:00Z')).find(p=>p.type==='timeZoneName').value.replace('GMT',''),reportedAt=`${night}T02:10${offset}`
  const gas={tenancyId:north.t.id,risk:'gas',emergency:'yes',channel:'phone',reporter:'Alex Chen, 510-555-0101',reportedAt,description:'Strong gas smell in the kitchen'}
  await h.command('emergency.report',gas,{...as('preparer'),status:403})
  assert.equal((await h.command('emergency.report',{...gas,emergency:'no'},{...as('oncall'),status:409})).error,'emergency_policy')

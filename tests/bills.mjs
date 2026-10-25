@@ -172,6 +172,11 @@ async function retention(h,{portfolioId,ownerId,vendorId,manager}) {
  const repair=await h.command('maintenance.prepare',{tenancyId:historic.tenancy.id,title:'Historic stock repair',vendorId,trade:'landscaping',dueDate:'2011-06-03',estimate:'20'})
  const approvedRepair=await h.command('maintenance.approve',{jobId:repair.id,version:1},{as:manager})
  await h.command('stock.consume',{tenancyId:historic.tenancy.id,lotId:lot.id,jobId:repair.id,jobVersion:approvedRepair.version,quantity:1,day:'2011-06-03',reference:'Historic Resident one stock use'})
+ const cbSource=(await h.state(historic.tenancy.id)).work.chargebacks.costs.find(s=>s.source_kind==='stock_use')
+ const cb=await h.command('chargeback.prepare',{tenancyId:historic.tenancy.id,sourceId:cbSource.id,ownerId,kind:'owner',recipientId:ownerId,amount:'1',day:'2011-06-04',authority:'synthetic-terrace-59 private historic authorization',consent:'yes'})
+ const cbRow=(await h.state(historic.tenancy.id)).work.chargebacks.proposals.find(p=>p.id===cb.id)
+ await h.command('chargeback.approve',{chargebackId:cb.id,sha256:cbRow.sha256},{as:manager})
+ const beforeErasure=await(await h.request('/api/backup')).text()
  const hold=await h.command('privacy.hold',{tenancyId:subjects[1].tenancy.id,class:'accounting',reason:'Other resident litigation'})
  const erase=async()=>{
   const request=await h.command('privacy.request',{tenancyId:subjects[0].tenancy.id,kind:'erase',source:'Historic resident request'})
@@ -179,13 +184,19 @@ async function retention(h,{portfolioId,ownerId,vendorId,manager}) {
   return {review:reviewed.review,result:await h.command('tenancy.erase',{tenancyId:subjects[0].tenancy.id,requestId:request.id,fingerprint:reviewed.review.fingerprint,confirm:subjects[0].email})}
  }
  const held=await erase();assert.equal(held.review.personalRetained,true);assert.equal(held.result.alias,null)
+ assert.ok((await(await h.request('/api/backup')).text()).includes('synthetic-terrace-59 private historic authorization'),'an accounting hold preserves chargeback authorization')
  const accounting=held.review.classes.find(x=>x.class==='accounting');assert.ok(accounting.retained)
  assert.ok(!JSON.stringify(held.review).includes('Other resident litigation'),'shared evidence hold reason does not reveal the counterpart reason')
  assert.equal((await h.request('/api/bill-attachment?id='+attachmentId)).status,200,'a shared accounting hold preserves the invoice original')
  await h.command('privacy.release',{tenancyId:subjects[1].tenancy.id,holdId:hold.id,reason:'Litigation ended'})
  const erased=await erase();assert.equal(erased.review.personalRetained,false);assert.ok(erased.result.alias)
- const stockArchive=await(await h.request('/api/backup')).text();assert.ok(!stockArchive.includes('Historic Resident one stock'),'eligible stock free text is redacted while accounting quantities survive')
+ const stockArchive=await(await h.request('/api/backup')).text()
+ const archivedRows=stockArchive.trim().split('\n').map(l=>JSON.parse(l)).filter(p=>p.kind==='part').flatMap(p=>p.items).filter(i=>i.kind==='row')
+ const chargebackAfter=archivedRows.find(i=>i.table==='tt_work_chargebacks'&&i.row.id===cb.id).row
+ assert.equal(JSON.parse(chargebackAfter.terms).authority,'Retained accounting authorization');assert.equal(chargebackAfter.amount_cents,100);assert.ok(archivedRows.some(i=>i.table==='tt_work_chargeback_approvals'&&i.row.chargeback_id===cb.id))
+ assert.ok(!stockArchive.includes('synthetic-terrace-59 private historic authorization'));assert.ok(!stockArchive.includes('Historic Resident one stock'),'eligible stock free text is redacted while accounting quantities survive')
  assert.match(stockArchive,/Retained stock/)
+ const fresh=await installation({asyncDatabase:true});try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([beforeErasure],'before.rer'),journal:new File([stockArchive],'after.rer')},{status:409});assert.equal((await fresh.state()).tenancies.length,0,'later erasure journal refuses old private chargeback authorization atomically')}finally{await fresh.close()}
  assert.equal((await h.request('/api/bill-attachment?id='+attachmentId)).status,404,'eligible original invoice bytes are removed')
  await h.command('bill.create',{...terms,invoiceNumber:'ATTEMPTED-RESURRECTION'},{status:409})
  const after=(await read()).bills.find(x=>x.id===bill.id)
