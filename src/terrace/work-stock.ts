@@ -1,5 +1,4 @@
-import {all,allow,can,commit,date,guard,id,insist,one,sql,tenancy,tenancyGuard,text,type Context,type Row} from './core'
-import {billData} from './bills'
+import {all,allow,can,commit,date,Fault,guard,id,insist,one,sql,tenancy,tenancyGuard,text,type Context,type Row} from './core'
 import {bill,billGuard} from './bills-input'
 import {budgetAuthority,budgetGuard,budgetScope,budgetSpend,budgetBasis} from './work-budgets'
 import {localDate} from './zones'
@@ -55,6 +54,14 @@ export async function stockData(c:Context,tenancyId:string){
  const t=await tenancy(c,tenancyId);allow(c,'work.read');if(!can(c,'bills.read'))return{lots:[],uses:[],mayReceive:false,mayConsume:false,visible:false};const scope=await budgetScope(c,t)
  const lots=await all(c,'SELECT l.*,COALESCE(SUM(u.quantity),0) AS used_quantity,COALESCE(SUM(u.amount_cents),0) AS used_cents FROM tt_stock_lots l LEFT JOIN tt_stock_uses u ON u.lot_id=l.id WHERE l.property_id=? GROUP BY l.id ORDER BY l.day,l.id',scope.startsWith('property:')?scope.slice(9):'')
  const uses=await all(c,'SELECT u.*,l.name FROM tt_stock_uses u JOIN tt_stock_lots l ON l.id=u.lot_id WHERE u.tenancy_id=? ORDER BY u.recorded_at',t.id)
- const purchases=can(c,'stock.receive')?(await billData(c)).bills.filter((b:Row)=>b.state==='payable'&&b.parsed.allocations.some((a:Row)=>'property:'+a.propertyId===scope&&!a.jobId&&!a.assetId)&&!lots.some(l=>l.bill_id===b.id)).map((b:Row)=>({id:b.id,version:b.version,label:b.parsed.supplier+' · '+b.invoice_number})):[]
+ const purchases:Row[]=[]
+ if(can(c,'stock.receive')){
+  const property=scope.startsWith('property:')?scope.slice(9):''
+  const candidates=await all(c,"SELECT b.id FROM tt_bills b JOIN tt_bill_revisions r ON r.bill_id=b.id AND r.version=b.version WHERE b.state='payable' AND NOT EXISTS(SELECT 1 FROM tt_stock_lots l WHERE l.bill_id=b.id AND l.property_id=?) AND EXISTS(SELECT 1 FROM json_each(r.terms,'$.allocations') a WHERE json_extract(a.value,'$.propertyId')=? AND json_extract(a.value,'$.jobId') IS NULL AND json_extract(a.value,'$.assetId') IS NULL)",property,property)
+  for(const candidate of candidates)try{
+   const b=await bill(c,candidate.id)
+   purchases.push({id:b.id,version:b.version,label:b.parsed.supplier+' · '+b.invoice_number})
+  }catch(e){if(!(e instanceof Fault&&e.code==='not_found'))throw e}
+ }
  return{visible:true,purchases,lots,uses,mayReceive:can(c,'stock.receive'),mayConsume:can(c,'stock.consume')}
 }
