@@ -36,6 +36,7 @@ export async function stripeEventResponse(request:Request,env:Bindings){
   insist(request.method==='POST','method','Use POST.',405)
   const raw=await request.text();insist(raw.length<=4096,'body_limit','Event notification too large.',413)
   let data:Row;try{data=JSON.parse(raw)}catch{throw new Fault('provider_event','Send a Stripe event notification.')}
-  return Response.json(await verifiedCardEvent(env,data.id,new Date().toISOString()),{headers:{'cache-control':'no-store'}})
+  const result=await verifiedCardEvent(env,data.id,new Date().toISOString())
+  return Response.json({received:true,replayed:result.replayed},{headers:{'cache-control':'no-store'}})
  }catch(e){if(e instanceof Fault)return Response.json({error:e.code,message:e.message},{status:e.status,headers:{'cache-control':'no-store'}});throw e}
 }

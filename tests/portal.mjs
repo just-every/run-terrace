@@ -177,6 +177,33 @@ export async function journey({inspect,revokeDelegate,assets=false}={}){
   const approvedVendorBill=(await(await r.request('/api/bills')).json()).bills.find(b=>b.id===submitted.billId);assert.equal(approvedVendorBill.state,'payable');assert.equal(approvedVendorBill.expenses.reduce((n,e)=>n+e.amount_cents,0),6600)
   assert.match((await data('vendor1','/portal/api/vendor')).invoices.find(b=>b.id===submitted.billId).payment,/Approved as payable/)
   await inspect?.({phase:'vendor-invoice-approved',r,north,cookies,billId:submitted.billId})
+  // Bank changes are private staff evidence, with fresh proof on both sides and no self-verification.
+  const bankFields={vendorId:river.id,version:0,bankName:'BANK-PRIVATE-SENTINEL',last4:'8821',accountReference:'synthetic-terrace-bank-1',source:'Vendor requested a new external bank reference',reason:'Verified contact will confirm replacement'}
+  const freshOwner=await r.signIn('owner@example.test')
+  // Age only these test identities' issued proof timestamps; the guarded writes still use public HTTP doors.
+  const oldProof=Date.now()-20*60000
+  await r.db.prepare("UPDATE oa_sessions SET created_at=? WHERE operator_id IN (SELECT id FROM oa_operators WHERE email IN ('owner@example.test','approver@example.test'))").bind(oldProof).run()
+  await r.db.prepare("UPDATE oa_step_up_challenges SET consumed_at=? WHERE operator_id IN (SELECT id FROM oa_operators WHERE email IN ('owner@example.test','approver@example.test')) AND consumed_at IS NOT NULL").bind(oldProof).run()
+  assert.equal((await r.command('vendor.bank.prepare',bankFields,{as:freshOwner,status:403})).error,'step_up_required')
+  await r.stepUp('owner@example.test',freshOwner)
+  await r.stepUp()
+  const bank=await r.command('vendor.bank.prepare',bankFields,{as:freshOwner})
+  await r.command('vendor.bank.verify',{vendorId:river.id,version:bank.version,verificationReference:'synthetic-terrace-verification-1',consent:'VERIFIED'},{as:freshOwner,status:403})
+  const verification={vendorId:river.id,version:bank.version,verificationReference:'synthetic-terrace-verification-1',consent:'VERIFIED'}
+  assert.equal((await r.command('vendor.bank.verify',verification,{as:staff.approver,status:403})).error,'step_up_required')
+  assert.equal((await r.request('/api/vendor-bank?vendorId='+river.id,{as:staff.southmanager})).status,404)
+  assert.equal((await r.request('/api/vendor-bank?vendorId='+river.id,{as:staff.leasing})).status,403)
+  await r.stepUp('approver@example.test',staff.approver)
+  const nativeBank=await inspect?.({phase:'staff-bank-verification',r,north,cookies,staff,bank,river,verification})
+  if(!nativeBank?.verified)await r.command('vendor.bank.verify',verification,{as:staff.approver})
+  const verifiedBank=await(await r.request('/api/vendor-bank?vendorId='+river.id)).json();assert.equal(verifiedBank.state,'verified');assert.equal(verifiedBank.current.last4,'8821')
+  assert.notEqual(verifiedBank.current.prepared_by,verifiedBank.current.verified_by)
+  assert.equal((await body('vendor1','/portal/api/vendor')).includes('BANK-PRIVATE-SENTINEL'),false,'no bank fields reach the vendor portal')
+  assert.equal((await body('resident','/portal/api/resident?tenancyId='+north.id)).includes('BANK-PRIVATE-SENTINEL'),false)
+  await r.command('vendor.bank.prepare',{...bankFields,version:bank.version,last4:'9922',accountReference:'synthetic-terrace-bank-2'},{as:freshOwner})
+  const replacement=await(await r.request('/api/vendor-bank?vendorId='+river.id)).json();assert.equal(replacement.state,'held');assert.equal(replacement.current,null)
+  await r.command('vendor.bank.verify',verification,{as:staff.approver,status:409})
+  await inspect?.({phase:'staff-bank-replacement',r,north,cookies,staff,river})
   // Vendor estimates enter the real staff comparison door without changing spend authority.
   const estimateFields={jobId:job.id,version:responseVersion,scope:'Replace the kitchen valve and test the seal',availableDate:'2026-11-01',amount:'180.00',tax:'18.00',consent:'yes'}
   const estimate=(k,fields={},options={})=>r.request('/portal/api/estimate',{method:'POST',as:cookies[k]??'',form:new URLSearchParams({...estimateFields,...fields}),...options})
@@ -311,6 +338,7 @@ export async function journey({inspect,revokeDelegate,assets=false}={}){
    await restored.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'backup.rer')})
    assert.equal((await restored.db.prepare("SELECT COUNT(*) AS n FROM tt_job_quotes WHERE id LIKE 'portal-quote:%'").first()).n,1,'submitted estimate survives restore as staff comparison evidence')
    assert.equal((await restored.db.prepare("SELECT COUNT(*) AS n FROM tt_appointment_events WHERE id LIKE 'portal-appointment:%'").first()).n,2,'vendor appointment evidence survives restore without credentials')
+   assert.equal((await restored.db.prepare('SELECT COUNT(*) AS n FROM tt_vendor_bank_references').first()).n,2,'private bank-reference evidence survives native restore')
    assert.equal((await restored.db.prepare('SELECT COUNT(*) AS n FROM tt_vendor_invoices').first()).n,1,'vendor original and pending invoice custody survive restore')
    assert.equal((await restored.db.prepare('SELECT COUNT(*) AS n FROM tt_vendor_appointment_proposals').first()).n,1,'proposed availability survives credential-free restore')
    assert.equal((await restored.db.prepare('SELECT COUNT(*) AS n FROM tt_vendor_work_responses').first()).n,2,'attributable responses survive restore without portal credentials')

@@ -42,15 +42,16 @@ export async function stripe(env: StripeEnv, path: string, params?: URLSearchPar
 }
 
 /** Hosted card entry: no resident identity or card details leave Terrace here. */
-export async function createCheckout(env: StripeEnv, input: { id: string; amountCents: number; origin: string; tenancyId: string }): Promise<Row> {
+export async function createCheckout(env: StripeEnv, input: { id: string; amountCents: number; origin: string; tenancyId: string; staff?: boolean }): Promise<Row> {
   if (!Number.isSafeInteger(input.amountCents) || input.amountCents <= 0) throw new Fault('invalid_money', 'Enter a positive amount in exact cents.')
   let cancel: URL
   try {
     const origin = new URL(input.origin)
     if (!['https:', 'http:'].includes(origin.protocol) || origin.username || origin.password) throw new Error()
-    cancel = new URL('/portal/card', origin.origin)
+    cancel = new URL(input.staff?'/app':'/portal/card', origin.origin)
   } catch { throw new Fault('invalid_input', 'A valid payment return origin is required.') }
   cancel.searchParams.set('tenancy', input.tenancyId)
+  if(input.staff)cancel.searchParams.set('tab','ledger')
   cancel.searchParams.set('payment', input.id)
   const success = new URL(cancel)
   success.searchParams.set('returned', '1')

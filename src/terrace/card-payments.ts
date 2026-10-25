@@ -25,7 +25,7 @@ export async function startCard(c:Context,env:Bindings,p:Row,proof:D1PreparedSta
  const saved=await one(c,'SELECT c.*,l.checkout_url FROM tt_card_payments c LEFT JOIN tt_card_checkout_links l ON l.payment_id=c.payment_id WHERE c.payment_id=?',key)
  if(saved?.checkout_id){insist(saved.checkout_url,'restore_hold','This restored payment has no active hosted link. Ask staff to reconcile it.',409);return{paymentId:key,checkoutUrl:saved.checkout_url,tenancyId:t.id}}
  let checkout:Row
- try{checkout=await createCheckout(env,{id:key,amountCents:prior?.amount_cents??amountCents,origin:env.AUTH_ORIGIN,tenancyId:t.id})}
+ try{checkout=await createCheckout(env,{id:key,amountCents:prior?.amount_cents??amountCents,origin:env.AUTH_ORIGIN,tenancyId:t.id,staff:!c.actor.id.startsWith('portal:')})}
  catch(e){if(e instanceof Fault&&e.code==='stripe_rejected')await c.db.batch([guard(c,"EXISTS(SELECT 1 FROM tt_card_payments WHERE payment_id=? AND state='reserved' AND checkout_id IS NULL)",key),sql(c,"UPDATE tt_payments SET state='failed',version=version+1 WHERE id=? AND state='pending'",key),sql(c,"UPDATE tt_card_payments SET state='expired' WHERE payment_id=?",key),event(c,key,'failed','Stripe rejected Checkout creation',localDate(c.now,t.time_zone)),audit(c,'card.rejected',key)]);throw e}
  await c.db.batch([guard(c,"EXISTS(SELECT 1 FROM tt_card_payments WHERE payment_id=? AND (state='reserved' OR (state='checkout' AND checkout_id=?)))",key,checkout.id),sql(c,"UPDATE tt_card_payments SET checkout_id=?,state='checkout' WHERE payment_id=?",checkout.id,key),sql(c,'INSERT INTO tt_card_checkout_links VALUES(?,?) ON CONFLICT(payment_id) DO NOTHING',key,checkout.url)])
  return{paymentId:key,checkoutUrl:checkout.url,tenancyId:t.id}
