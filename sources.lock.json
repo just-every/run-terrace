@@ -4369,7 +4369,7 @@
       "executable": false
     },
     "tests/messages-browser.mjs": {
-      "sha256": "cda7013212a55d496597347ae66d25061e5978788ea994f4f45def99df8ac396",
+      "sha256": "c19c55f19ce5d6e39efae6c7346e1eec258f1d8bfdf592e6bc5829de1e6a372a",
       "executable": false
     },
     "tests/messages.mjs": {
