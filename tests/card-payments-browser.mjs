@@ -5,7 +5,7 @@ import {chromium} from '@playwright/test'
 import {journey} from './card-payments.mjs'
 const out=resolve(process.env.CARD_SCREENSHOTS??'.rer/card-native-screens');await mkdir(out,{recursive:true})
 const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
-try{await journey({assets:true,inspect:async({phase,h,t,resident,pay,paymentId})=>{
+try{await journey({assets:true,bufferedTransport:process.argv.includes('--buffered-http'),inspect:async({phase,h,t,resident,pay,paymentId})=>{
  const ctx=await browser.newContext(),cookies=value=>value.split('; ').map(p=>{const i=p.indexOf('=');return{name:p.slice(0,i),value:p.slice(i+1),url:h.origin}});await ctx.addCookies(cookies(resident));const page=await ctx.newPage()
  const proof=async name=>{for(const [width,height]of [[1440,900],[390,844]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),name+' fits '+width);await page.screenshot({path:join(out,name+'-'+width+'.png'),fullPage:true})}}
  try{

@@ -4197,7 +4197,7 @@
       "executable": false
     },
     "tests/card-payments-browser.mjs": {
-      "sha256": "9fa8455e1acf542ced2f2411c18f5c86676736746a3d5f563ceab653205733c5",
+      "sha256": "5bf28be7a51389729adfb1a35f37fb0c16409a9a784a8482900068049f67cb12",
       "executable": false
     },
     "tests/card-payments-live.mjs": {
@@ -4205,7 +4205,7 @@
       "executable": false
     },
     "tests/card-payments.mjs": {
-      "sha256": "5c7be614e43d60b0202563534b12285d9f7ee8ef2f404d17c9c515b59f8867ae",
+      "sha256": "111d96d82666e95daa4cc58baa3e964454a82430a07d980f1efd04a01acc69ea",
       "executable": false
     },
     "tests/credentials-browser.mjs": {
