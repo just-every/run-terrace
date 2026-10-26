@@ -25,7 +25,7 @@ export async function cardFixture({assets=false,live=false,provider,inspect}={})
   if(url.pathname.startsWith('/v1/checkout/sessions/'))return Response.json([...sessions.values()].find(s=>s.id===url.pathname.split('/').at(-1)))
   throw Error('Unexpected provider edge '+url.pathname)
  }
- const h=await installation({assets,asyncDatabase:live||undefined,stripeKey:live?process.env.STRIPE_SECRET_KEY:'synthetic-terrace-1',stripeRequest,now:live?undefined:'2026-10-26T12:00:00.000Z'})
+ const h=await installation({assets,bufferedTransport:live,asyncDatabase:live||undefined,stripeKey:live?process.env.STRIPE_SECRET_KEY:'synthetic-terrace-1',stripeRequest,now:live?undefined:'2026-10-26T12:00:00.000Z'})
  try{
   const f=await h.command('portfolio.add',{name:'Alder Homes'}),property=await h.command('property.add',{portfolioId:f.id,name:'Alder Court',address:'1840 Alder Street, Oakland, CA',kind:'duplex',timeZone:'America/Los_Angeles'}),u=await h.command('unit.add',{propertyId:property.id,identifier:'1C',bedrooms:'2',bathrooms:'1'}),t=await h.command('tenancy.create',{...tenancyInput,unitId:u.id,rent:'1000.00',cadence:'monthly'})
   const day=(await h.state(t.id)).ledger.today

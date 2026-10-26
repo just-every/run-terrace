@@ -4156,12 +4156,16 @@
       "sha256": "e155731f0e8497e538e57d65cd4addcbf0b02fce5d3924ff8a0bca70db0c54b4",
       "executable": false
     },
+    "tests/api/buffered-http.mjs": {
+      "sha256": "826525280f66d15f2b92761553f5773dac93a152401430ae6f5b23ae829d8cf4",
+      "executable": false
+    },
     "tests/api/demo-worker.ts": {
       "sha256": "bbfdd3a8314a42b95fa359f4932f763da9e29817cb835e3fd8b6ddbbfcf888af",
       "executable": false
     },
     "tests/api/harness.mjs": {
-      "sha256": "25d21927c896e1dcf099007f8655c302504d5d9358868893b1bec722204218ec",
+      "sha256": "6b2594bc136a8a44a264473b5a702259e739ca582874ffe8ecbe9f112712ef0a",
       "executable": false
     },
     "tests/api/worker.ts": {
@@ -4201,7 +4205,7 @@
       "executable": false
     },
     "tests/card-payments.mjs": {
-      "sha256": "a0333e2b97b2ecefe4fba55e66b29cbde6c9264f594d92c34cf1773f7530798b",
+      "sha256": "5c7be614e43d60b0202563534b12285d9f7ee8ef2f404d17c9c515b59f8867ae",
       "executable": false
     },
     "tests/credentials-browser.mjs": {
