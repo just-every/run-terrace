@@ -4165,7 +4165,7 @@
       "executable": false
     },
     "tests/api/harness.mjs": {
-      "sha256": "6b2594bc136a8a44a264473b5a702259e739ca582874ffe8ecbe9f112712ef0a",
+      "sha256": "11a837961fee30ec1b1917c568f010c69499c607cc5c993607c58b1db13bb354",
       "executable": false
     },
     "tests/api/worker.ts": {
