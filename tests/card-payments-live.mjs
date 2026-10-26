@@ -22,7 +22,7 @@ try{await cardFixture({assets:true,live:true,inspect:async({h,t,resident})=>{
  }
  const publish=async event=>{const r=await h.request('/api/stripe/events',{method:'POST',as:'',body:{id:event.id}});assert.equal(r.status,200,await r.clone().text());return r.json()}
  for(const scenario of ['success','declined','authentication']){
-  await page.goto(h.origin+'/portal/card?tenancy='+t.id);await page.getByLabel('Payment amount USD',{exact:true}).fill(scenario==='declined'?'12.00':'10.00');await page.getByLabel('I authorize this one-time payment',{exact:false}).check();await proof(page,scenario+'-review');await page.setViewportSize({width:1440,height:1000});await page.getByRole('button',{name:'Continue to Stripe',exact:true}).click();await page.waitForURL('https://checkout.stripe.com/**',{timeout:60000,waitUntil:'domcontentloaded'});
+  await page.goto(h.origin+'/portal/card?tenancy='+t.id);await page.getByLabel('Payment amount USD',{exact:true}).fill(scenario==='declined'?'12.00':'10.00');await page.getByLabel('I authorize this one-time payment',{exact:false}).check();await proof(page,scenario+'-review');await page.setViewportSize({width:1440,height:1000});const postResponse=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/portal/card');await page.getByRole('button',{name:'Continue to Stripe',exact:true}).click({noWaitAfter:true});const posted=await postResponse;assert.equal(posted.status(),303,await page.locator('main').innerText());await page.waitForURL('https://checkout.stripe.com/**',{timeout:60000,waitUntil:'domcontentloaded'});
   const sessionId=page.url().match(/cs_test_[A-Za-z0-9]+/)?.[0];assert.ok(sessionId)
   await page.locator('input[name="email"]').fill('stripe-card-proof@example.test',{timeout:60000})
   await page.locator('input[name="cardNumber"]').fill(scenario==='success'?'4242424242424242':scenario==='declined'?'4000000000000002':'4000000000003220')
@@ -38,7 +38,9 @@ try{await cardFixture({assets:true,live:true,inspect:async({h,t,resident})=>{
    const expired=await fetch('https://api.stripe.com/v1/checkout/sessions/'+sessionId+'/expire',{method:'POST',headers:{authorization:'Bearer '+process.env.STRIPE_SECRET_KEY}});assert.ok(expired.ok,'Stripe expiry '+expired.status);await publish(await eventFor('checkout.session.expired',sessionId));await page.goto(h.origin+'/portal/card?tenancy='+t.id);await proof(page,'declined-resident-result');await staffProof('declined-staff-result');continue
   }
   if(scenario==='authentication'){
-   const frame=page.frameLocator('iframe[name="stripe-challenge-frame"]');await frame.getByRole('button',{name:'Complete authentication',exact:true}).click({timeout:60000})
+   const until=Date.now()+60000;let authenticate
+   while(Date.now()<until&&!authenticate){for(const frame of page.frames()){const button=frame.getByRole('button',{name:'Complete authentication',exact:true});if(await button.isVisible().catch(()=>false)){authenticate=button;break}}if(!authenticate)await page.waitForTimeout(250)}
+   assert.ok(authenticate,'Stripe exposed the required 3DS challenge');await proof(page,'authentication-challenge');await authenticate.click()
   }
   await page.waitForURL(h.origin+'/portal/card**',{timeout:60000})
   const session=await api('checkout/sessions/'+sessionId);assert.equal(session.payment_status,'paid');const completed=await eventFor('checkout.session.completed',sessionId)

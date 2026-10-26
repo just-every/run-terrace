@@ -7,12 +7,16 @@ export async function cardFixture({assets=false,live=false,provider,inspect}={})
  const edge={failNextCreate:false},calls=[],sessions=new Map(),events=new Map(),intents=new Map(),charges=new Map()
  const stripeRequest=async request=>{
   const url=new URL(request.url);calls.push(url.pathname)
-  if(live)return fetch(request)
+  if(live){
+   const response=await fetch(request.url,{method:request.method,headers:Object.fromEntries([...request.headers].filter(([name])=>['authorization','content-type','stripe-version','idempotency-key'].includes(name.toLowerCase()))),...(['GET','HEAD'].includes(request.method)?{}:{body:await request.arrayBuffer()})})
+   if(!response.ok){const error=await response.clone().json();const key=process.env.STRIPE_SECRET_KEY;const message=String(error.error?.message??'').split(key).join('[redacted]').replace(/\b(?:sk|pk|rk)_(?:test|live)_[^\s<>"']+/g,'[redacted]');console.log(JSON.stringify({stripeStatus:response.status,type:error.error?.type,code:error.error?.code,message}))}
+   return response
+  }
   if(provider)return provider(request)
   const body=new URLSearchParams(await request.text()),key=request.headers.get('idempotency-key')
   if(url.pathname==='/v1/checkout/sessions'&&request.method==='POST'){
    if(sessions.has(key))return Response.json(sessions.get(key))
-   assert.equal(body.get('payment_method_types[0]'),'card');assert.equal(body.get('line_items[0][price_data][currency]'),'usd')
+   assert.equal(body.get('allowed_payment_method_types[0]'),'card');assert.equal(body.get('line_items[0][price_data][currency]'),'usd')
    assert.equal(body.has('customer_email'),false,'no resident contact is disclosed')
    const session={id:'cs_test_'+randomUUID().replaceAll('-',''),url:'https://checkout.stripe.com/c/pay/synthetic-terrace-1',livemode:false,currency:'usd',amount_total:Number(body.get('line_items[0][price_data][unit_amount]')),metadata:{terrace_payment_id:body.get('metadata[terrace_payment_id]')},payment_status:'unpaid'}
    sessions.set(key,session);if(edge.failNextCreate){edge.failNextCreate=false;return Response.json({error:{code:'synthetic_terrace_uncertain'}},{status:503})}return Response.json(session)

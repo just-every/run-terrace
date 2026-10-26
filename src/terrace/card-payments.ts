@@ -1,5 +1,5 @@
 import type {Bindings} from '../auth.server'
-import {all,audit,authority,cents,Fault,guard,id,insist,one,sql,tenancy,type Context,type Row} from './core'
+import {all,audit,cents,Fault,guard,id,insist,one,sql,tenancy,type Context,type Row} from './core'
 import {preparePayment,receipt,event} from './payment-admission'
 import {localDate} from './zones'
 import {createCheckout,stripe} from './stripe-provider'

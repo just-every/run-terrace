@@ -8,7 +8,7 @@ import {randomBytes} from 'node:crypto'
 import assert from 'node:assert/strict'
 /** legacy(db): writes rows as an older release would, before migration 0018 (PORT-001) runs. */
 export async function installation({legacy,beforeMigration,assets=false,demo=false,mailResponse,mailProvider='resend',stripeKey,stripeRequest,now,asyncDatabase=process.env.TERRACE_ASYNC_SQL==='1'}={}){
- const root=await mkdtemp(join(tmpdir(),'terrace-api-')),bundle=await build({...(now?{plugins:[{name:'journey-clock',setup(build){build.onLoad({filter:/[/\\]terrace[/\\](?:api|portal-http)\.ts$/},async({path})=>({contents:(await readFile(path,'utf8')).replaceAll('new Date().toISOString()',JSON.stringify(now)),loader:'ts'}))}}]}:{}),entryPoints:[demo?'tests/api/demo-worker.ts':'tests/api/worker.ts'],bundle:true,write:false,format:'esm',platform:'neutral',target:'es2022',external:['node:*','cloudflare:*'],loader:{'.css':'text','.svg':'text','.txt':'text'}})
+ const root=await mkdtemp(join(tmpdir(),'terrace-api-')),bundle=await build({...(now?{plugins:[{name:'journey-clock',setup(build){build.onLoad({filter:/[/\\]terrace[/\\](?:api|portal-http|card-http)\.ts$/},async({path})=>({contents:(await readFile(path,'utf8')).replaceAll('new Date().toISOString()',JSON.stringify(now)),loader:'ts'}))}}]}:{}),entryPoints:[demo?'tests/api/demo-worker.ts':'tests/api/worker.ts'],bundle:true,write:false,format:'esm',platform:'neutral',target:'es2022',external:['node:*','cloudflare:*'],loader:{'.css':'text','.svg':'text','.txt':'text'}})
  const secret=()=>randomBytes(32).toString('hex'),setup=secret(),devKey=secret(),sessionSecret=secret()
  const messages=[]
  let origin='http://localhost'

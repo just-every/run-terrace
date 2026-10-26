@@ -3397,11 +3397,11 @@
       "executable": false
     },
     "src/terrace/card-http.ts": {
-      "sha256": "137d1a6e6a9f002e9ce734bc399293b397911de898d68503e9a408c0d8ea785c",
+      "sha256": "f7bb7eeb7475b5857223fa4450873a895631513cfc714f6c0aa36d3904f2840f",
       "executable": false
     },
     "src/terrace/card-payments.ts": {
-      "sha256": "928f782b7702f3170f1dc7da12d530ba6a850fa810170fba44aad96f25a7fbec",
+      "sha256": "a92d76683f4c7f730e744ef17db9b05dfa84c2aba506df422b976de75caac3d1",
       "executable": false
     },
     "src/terrace/card-view.ts": {
@@ -3749,7 +3749,7 @@
       "executable": false
     },
     "src/terrace/payments.ts": {
-      "sha256": "c8d9822a9d5e59d870959c8c3afbaa099623ccaab0cdd657c0547f5c2f4f1544",
+      "sha256": "c9531338aac41271cf5d27bdf41485f24507dd572a315572b9324efdf0efc194",
       "executable": false
     },
     "src/terrace/people.ts": {
@@ -3981,7 +3981,7 @@
       "executable": false
     },
     "src/terrace/stripe-provider.ts": {
-      "sha256": "3e3bf640ce7c5af4517b1971ece837c3a962ac34fc2f11246eba9a9e9dffa3e8",
+      "sha256": "fc9fb94d454229b40faf9c097f77c1b8b670978c1138993c104dc1abcfc5eda1",
       "executable": false
     },
     "src/terrace/tax.ts": {
@@ -4125,7 +4125,7 @@
       "executable": false
     },
     "tests/api/harness.mjs": {
-      "sha256": "ad2186c5b163f4f62f43efd35ae9370ace04ef3d2672e04ffbfb51a46a15d746",
+      "sha256": "7dc5908f5c8a4210651c8c1fc21bd59b49b2b3ab1681f4972a515bd47b73029a",
       "executable": false
     },
     "tests/api/worker.ts": {
@@ -4161,11 +4161,11 @@
       "executable": false
     },
     "tests/card-payments-live.mjs": {
-      "sha256": "c5def8e10643459d710ec0722222015c68d9fbeb927ad07e4a8b000ebb339c61",
+      "sha256": "9114b65dee53cf7c743499f7287e1d0b689e81088232dc09e9c0f548b77b2eab",
       "executable": false
     },
     "tests/card-payments.mjs": {
-      "sha256": "e00c568708364b9a0e7e0dad4a84292c3c7874e22226c7336ae125c107a303eb",
+      "sha256": "9d5e2822ca4139dccb9962592e096ee875af6208128bde74c0b0ccf987fcc18d",
       "executable": false
     },
     "tests/credentials-browser.mjs": {
