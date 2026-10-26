@@ -1,3 +1,4 @@
+import {BALANCE} from './ledger'
 import { all, allow, commit, date, guard, id, insist, one, recordRead, sha256, sql, tenancy, tenancyGuard, text, type Context, type Row } from './core'
 import { independence } from './dual-control'
 import { localDate } from './zones'
@@ -74,6 +75,7 @@ export async function hapChangeCommand(c:Context,name:string,p:Row):Promise<Row|
   if(!residentId&&residentDelta>0){
    residentId=id();writes.push(sql(c,'INSERT INTO tt_charges(id,tenancy_id,due_date,amount_cents,description,reference,created_at,currency,term_id,period_start,period_end) VALUES(?,?,?,?,?,?,?,?,?,?,?)',residentId,t.id,l.hap.due_date,residentDelta,'Resident HAP portion',l.hap.reference.replace(/-HAP$/,''),c.now,'USD',l.hap.term_id,l.hap.period_start,l.hap.period_end));residentDelta=0
   }
+  if(l.resident)writes.push(guard(c,`NOT EXISTS(SELECT 1 FROM tt_payment_reserved WHERE charge_id=? AND amount_cents>0) OR (SELECT ${BALANCE} FROM tt_charges q WHERE id=?)+?>=(SELECT amount_cents FROM tt_payment_reserved WHERE charge_id=?)`,l.resident.id,l.resident.id,l.residentDelta,l.resident.id))
   const effectId=id()
   writes.push(guard(c,`NOT EXISTS(SELECT 1 FROM tt_hap_allocations a JOIN tt_hap_remittances r ON r.id=a.remittance_id WHERE a.charge_id=? AND r.state='pending') OR (SELECT q.amount_cents+${PHA_EFFECT} FROM tt_hap_charges q WHERE q.id=?)+?>=(SELECT COALESCE(SUM(a.amount_cents),0) FROM tt_hap_allocations a JOIN tt_hap_remittances r ON r.id=a.remittance_id WHERE a.charge_id=? AND r.state<>'failed')`,l.hap.id,l.hap.id,l.phaDelta,l.hap.id))
   writes.push(sql(c,'INSERT INTO tt_hap_effects(id,change_id,tenancy_id,resident_charge_id,hap_charge_id,resident_delta,pha_delta,posting_day,effective_from,effective_to,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)',effectId,v.id,t.id,residentId,l.hap.id,residentDelta,l.phaDelta,day,l.hap.period_start,l.hap.period_end,c.now),...await correctionJournal(c,l.hap,l.phaDelta,effectId,'pha',day),...(l.resident?await correctionJournal(c,l.resident,l.residentDelta,effectId,'resident',day):[]))

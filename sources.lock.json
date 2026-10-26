@@ -597,7 +597,7 @@
       "executable": false
     },
     "migrations/core/0091_hap_changes.sql": {
-      "sha256": "1541415e191dccd1d12751f41e9eed52ab0fb0a93c0399f98ff724e05e2d5d71",
+      "sha256": "5e3f861649b846f129748931f2e070166dd2fe5d26604d7301a84e28da2805f4",
       "executable": false
     },
     "migrations/core/0098_hap_remittances.sql": {
@@ -3661,7 +3661,7 @@
       "executable": false
     },
     "src/terrace/hap-changes.ts": {
-      "sha256": "06bd39e36e08f296dbb8572022cefb4dcd70be6dc306227a3bc09b850d5d260e",
+      "sha256": "dd56ee30f46d415670761103fa1bbb9ba3e3d6d2542d25bebff00528c074ca3f",
       "executable": false
     },
     "src/terrace/hap-charges.ts": {
@@ -3681,7 +3681,7 @@
       "executable": false
     },
     "src/terrace/hap-remittances.ts": {
-      "sha256": "57d956a9d1fab10091a451ffccf6fdab98afb4a4886d9030dbc557735bad15a4",
+      "sha256": "3a7f789d81262c65b7282f4a7585cb19593b57bf57f384d4037ded7da0a2ba77",
       "executable": false
     },
     "src/terrace/hap-view.ts": {
@@ -3789,7 +3789,7 @@
       "executable": false
     },
     "src/terrace/ledger.ts": {
-      "sha256": "17639223f0911c24bd32c92728cc068d958036c51afadee6d083690cc499c2b1",
+      "sha256": "2f32163311c4fcfc6afad416e79b59c5d821a5fe793ab716a0f37e7ce7ec6457",
       "executable": false
     },
     "src/terrace/message-context.ts": {
@@ -4021,7 +4021,7 @@
       "executable": false
     },
     "src/terrace/resident-statements.ts": {
-      "sha256": "37df311950e5fa69294cdbc2b859ad74fec7321d8d93d2d5c187e8b9b26a4fa0",
+      "sha256": "45d1940c7306a9458181330eccee382243d57ef52590e73f2481c0b9ce0c5d13",
       "executable": false
     },
     "src/terrace/retention-view.ts": {
@@ -4389,7 +4389,7 @@
       "executable": false
     },
     "tests/hap-browser.mjs": {
-      "sha256": "3f18393e09713f2948c71ae779f8ee3a9e1b01e64736e452a4d74adf05656cbe",
+      "sha256": "cf7d6aae2d35c6c1a31ad7fc0fcd2fa0f5cb6fee965473d77805d05f91184258",
       "executable": false
     },
     "tests/hap-changes.mjs": {
@@ -4401,7 +4401,7 @@
       "executable": false
     },
     "tests/hap-portals.mjs": {
-      "sha256": "7d6951c33c7f97f6ae8622190618f075a673e938c57d5d8afff864cb9a306213",
+      "sha256": "e291129935e348d0002d855ad0f4a699c4fac2ff28816224fca822d6e19374fe",
       "executable": false
     },
     "tests/hap-remittances.mjs": {

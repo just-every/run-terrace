@@ -19,7 +19,8 @@ async function linked(c:Context,r:Row) {
 async function remittance(c:Context,value:unknown) {
  const r=await one(c,'SELECT * FROM tt_hap_remittances WHERE id=?',text(value,'Remittance',100))
  insist(r,'not_found','Remittance not found.',404)
- return {r,tenancies:await linked(c,r)}
+ const tenancies=await linked(c,r);c.tenancyId=r.source_tenancy_id
+ return {r,tenancies}
 }
 const reviewed = (c:Context,r:Row) => guard(c,'EXISTS(SELECT 1 FROM tt_hap_remittances WHERE id=? AND version=? AND state=?)',r.id,r.version,r.state)
 const result = async(c:Context,key:string) => {

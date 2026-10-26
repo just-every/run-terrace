@@ -5,7 +5,7 @@ import {chromium} from '@playwright/test'
 import {journey} from './hap.mjs'
 const out=resolve(process.env.HAP_SCREENSHOTS??'.rer/hap-screens');await mkdir(out,{recursive:true})
 const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH}:{}),args:['--no-sandbox','--use-mock-keychain','--password-store=basic']})
-try{await journey({assets:true,inspect:async({h,leases,phase,preview,comparisons,residentCookie,ownerCookie})=>{
+try{await journey({assets:true,inspect:async({h,leases,phase,preview,comparisons,residentCookie,ownerCookie,transactionId})=>{
  const context=await browser.newContext();await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return{name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}));const page=await context.newPage()
  const proof=async name=>{for(const [width,height]of [[1440,900],[390,844]]){
   await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no page overflow at '+width)
@@ -42,7 +42,7 @@ try{await journey({assets:true,inspect:async({h,leases,phase,preview,comparisons
    await review.getByRole('button',{name:'Review payer changes',exact:true}).click();await page.getByRole('heading',{name:'Review exact payer correction',exact:true}).waitFor();await proof('retroactive-pha-notice-review');return
   }
   if(phase==='payer-portals'){
-   for(const [name,cookie,path,heading]of [['resident',residentCookie,'/portal/lease?tenancy='+leases[0].t.id,'Separate housing authority balance'],['owner',ownerCookie,'/portal/owner','Properties and ownership periods']]){
+   for(const [name,cookie,path,heading]of [['resident',residentCookie,'/portal/lease?tenancy='+leases[0].t.id,'Separate housing authority balance'],['owner',ownerCookie,'/portal/owner','Properties and ownership periods'],['resident-monthly',residentCookie,'/portal/statement?tenancyId='+leases[0].t.id+'&month=2026-10','Statement transactions'],['resident-correction',residentCookie,'/portal/transaction?tenancyId='+leases[0].t.id+'&id='+transactionId,'PHA-notice resident entitlement correction']]){
     await context.clearCookies();await context.addCookies(cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return{name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}));await page.goto(h.origin+path);await page.getByRole('heading',{name:heading,exact:true}).waitFor()
     for(const [width,height]of [[1440,900],[390,844]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:join(out,'payer-'+name+'-portal-'+width+'.png'),fullPage:true})}
    }return

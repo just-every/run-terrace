@@ -51,6 +51,7 @@ export async function statement(c:Context,tenancyId:string,from:string,to:string
  const t=await tenancy(c,tenancyId); from=date(from,'Period start');to=date(to,'Period end');insist(to>=from,'period','Period end must follow its start.')
  const ledger=await ledgerData(c,t.id)
  const events=[...ledger.charges.map(x=>({date:x.due_date,kind:'Charge',reference:x.reference,chargeCents:x.amount_cents,receiptCents:0,adjustmentCents:0})),...ledger.receipts.map(x=>({date:x.received_date,kind:'Recorded external receipt',reference:x.reference,chargeCents:0,receiptCents:x.amount_cents,adjustmentCents:0})),...ledger.adjustments.map(x=>({date:x.posting_day??localDate(x.at,t.time_zone),kind:'Charge reduction',reference:x.reason,chargeCents:0,receiptCents:0,adjustmentCents:x.amount_cents}))].sort((a,b)=>a.date.localeCompare(b.date))
+ events.push(...ledger.hapEffects.filter(x=>x.resident_delta!==0).map(x=>({date:x.posting_day,kind:'PHA-notice resident entitlement correction',reference:x.reference,chargeCents:x.resident_delta,receiptCents:0,adjustmentCents:0})));events.sort((a,b)=>a.date.localeCompare(b.date))
  const delta=(x:typeof events[number])=>x.chargeCents-x.receiptCents-x.adjustmentCents
  const opening=events.filter(x=>x.date<from).reduce((s,x)=>s+delta(x),0),period=events.filter(x=>x.date>=from&&x.date<=to),closing=opening+period.reduce((s,x)=>s+delta(x),0)
  // The inclusive period is property-local: it starts at the start of `from` and ends before the start of the day after `to`, each with that day's UTC offset.
