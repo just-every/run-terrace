@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "ce7b9f85d492c8d7e579e747d29ba1eebf16676890fef9b7367a2d93ecda2a75",
+      "sha256": "875437354831d54d9750bad9c4fddfc84e749a8c0e51c5a318b1d8b65b5bfe9f",
       "executable": false
     },
     "AGENTS.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "a0f90365457f719294aa4d477829daf36a9b143b56426288319cd42aa5433931",
+      "sha256": "87812e1d1e3660c4bf2059fb4a7e38f3128a0e1c8d144acb54cc4c94baec6c1a",
       "executable": false
     },
     "DEMO.md": {
@@ -4161,7 +4161,7 @@
       "executable": false
     },
     "tests/card-payments-live.mjs": {
-      "sha256": "9114b65dee53cf7c743499f7287e1d0b689e81088232dc09e9c0f548b77b2eab",
+      "sha256": "02f6206f3f57b9b759e80163c46ad94c09955cb2aaf5d3d4d72e365d19d02614",
       "executable": false
     },
     "tests/card-payments.mjs": {
