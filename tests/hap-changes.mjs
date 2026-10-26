@@ -14,8 +14,8 @@ export async function hapChangeFlow(h,leases,manager,{inspect}={}){
  assert.deepEqual((await h.state(t.id)).ledger,before,'preparation and preview post nothing')
  await h.command('hap.change.approve',{changeId:prepared.changeId,fingerprint:'stale'},{as:manager,status:409})
  await h.command('hap.change.approve',{changeId:prepared.changeId,fingerprint:preview.fingerprint},{status:403})
- if(inspect)await inspect({h,leases,phase:'correction-review',preview})
- await h.command('hap.change.approve',{changeId:prepared.changeId,fingerprint:preview.fingerprint},{as:manager})
+ const native=await inspect?.({h,leases,phase:'correction-review',preview,approvalCookie:manager})
+ if(!native?.approved)await h.command('hap.change.approve',{changeId:prepared.changeId,fingerprint:preview.fingerprint},{as:manager})
  await h.command('hap.change.approve',{changeId:prepared.changeId,fingerprint:preview.fingerprint},{as:manager,status:409})
  const corrected=(await h.state(t.id)).ledger
  assert.equal(corrected.balanceCents,before.balanceCents-30000);assert.equal(corrected.residentCreditCents,10000,'already paid resident entitlement becomes a separate credit, never PHA arrears')
@@ -37,7 +37,7 @@ export async function hapChangeFlow(h,leases,manager,{inspect}={}){
  assert.equal(r.effects.length,4);assert.ok(r.effects.every(e=>e.notice_version_id&&e.posting_day==='2026-10-26'))
  const historical=await(await h.request('/api/hap-reconciliation?tenancyId='+t.id+'&asOf=2026-09-30')).json();assert.equal(historical.differenceCents,0);assert.equal(historical.resident.creditCents,0)
  const csv=await(await h.request('/api/hap-reconciliation?tenancyId='+t.id+'&format=csv')).text();assert.ok(csv.includes(source.versionId)&&csv.includes(abatementSource.versionId))
- const aging=await(await h.request('/api/delinquency?asOf=2026-10-26&tenancyId='+t.id)).json();assert.equal(aging.rows[0].balanceCents,0);assert.equal(aging.rows[0].creditCents,10000);assert.equal(aging.rows[0].phaAging.balanceCents,r.pha.balanceCents)
+ const aging=await(await h.request('/api/delinquency?asOf=2026-10-26&tenancyId='+t.id)).json();assert.equal(aging.rows[0].balanceCents,0);assert.equal(aging.rows[0].creditCents,10000);assert.equal(aging.rows[0].phaAging.balanceCents,r.pha.balanceCents);assert.equal(aging.rows[0].payerCorrections.length,4);assert.equal(aging.totals[0].phaBalanceCents,r.pha.balanceCents);const agingCsv=await(await h.request('/api/delinquency?asOf=2026-10-26&tenancyId='+t.id+'&format=csv')).text();assert.ok(agingCsv.includes(source.versionId)&&agingCsv.includes(abatementSource.versionId))
  const pack=syntheticPack('CA');pack.fields.lateFee={citation:'synthetic-terrace-217',effectiveDate:'2025-01-01',value:{fullUnpaidDays:4,basis:'monthly_rent',smallStructureMaxUnits:4,smallStructureCapBp:500,largeStructureCapBp:500,weekendRule:'calendar',holidays:[],pendingPolicy:'exclude_timely',reversalPolicy:'hold'}}
  await h.command('property.rules',{propertyId:first.p.id,stateCode:'CA',version:0,reference:'synthetic-terrace-218'});const saved=await h.command('rules.pack',pack);await h.command('rules.activate',{packId:saved.id,consent:'REVIEWED'})
  await h.command('latefee.policy',{tenancyId:t.id,chargeId:abated.charges[0].id,version:0,reference:'synthetic-terrace-219',terms:{fullUnpaidDays:4,feeCents:1000,capCents:1000,weekendRule:'calendar',excludeTimely:true}})

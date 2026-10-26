@@ -5,7 +5,7 @@ import {chromium} from '@playwright/test'
 import {journey} from './hap.mjs'
 const out=resolve(process.env.HAP_SCREENSHOTS??'.rer/hap-screens');await mkdir(out,{recursive:true})
 const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH}:{}),args:['--no-sandbox','--use-mock-keychain','--password-store=basic']})
-try{await journey({assets:true,inspect:async({h,leases,phase,preview,comparisons,residentCookie,ownerCookie,transactionId})=>{
+try{await journey({assets:true,inspect:async({h,leases,phase,preview,comparisons,residentCookie,ownerCookie,transactionId,approvalCookie})=>{
  const context=await browser.newContext();await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return{name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}));const page=await context.newPage()
  const proof=async name=>{for(const [width,height]of [[1440,900],[390,844]]){
   await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no page overflow at '+width)
@@ -40,7 +40,10 @@ try{await journey({assets:true,inspect:async({h,leases,phase,preview,comparisons
   }
   if(phase==='correction-review'){
    const review=page.locator('form').filter({has:page.locator('input[name="command"][value="hap.change.preview"]')}).filter({has:page.locator('input[name="changeId"][value="'+preview.changeId+'"]')})
-   await review.getByRole('button',{name:'Review payer changes',exact:true}).click();await page.getByRole('heading',{name:'Review exact payer correction',exact:true}).waitFor();await proof('retroactive-pha-notice-review');return
+   await review.getByRole('button',{name:'Review payer changes',exact:true}).click();await page.getByRole('heading',{name:'Review exact payer correction',exact:true}).waitFor();await proof('retroactive-pha-notice-review')
+   await context.clearCookies();await context.addCookies(approvalCookie.split('; ').map(pair=>{const i=pair.indexOf('=');return{name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}));await page.goto(h.origin+'/app?tab=ledger&tenancy='+leases[0].t.id)
+   await page.locator('form').filter({has:page.locator('input[name="command"][value="hap.change.preview"]')}).filter({has:page.locator('input[name="changeId"][value="'+preview.changeId+'"]')}).getByRole('button',{name:'Review payer changes',exact:true}).click()
+   await page.getByRole('button',{name:'Approve exact payer correction',exact:true}).click();await page.getByText('Reviewed PHA correction applied once.',{exact:false}).waitFor();return {approved:true}
   }
   if(phase==='payer-portals'){
    for(const [name,cookie,path,heading]of [['resident',residentCookie,'/portal/lease?tenancy='+leases[0].t.id,'Separate housing authority balance'],['owner',ownerCookie,'/portal/owner','Properties and ownership periods'],['resident-monthly',residentCookie,'/portal/statement?tenancyId='+leases[0].t.id+'&month=2026-10','Statement transactions'],['resident-correction',residentCookie,'/portal/transaction?tenancyId='+leases[0].t.id+'&id='+transactionId,'PHA-notice resident entitlement correction']]){
@@ -59,7 +62,7 @@ try{await journey({assets:true,inspect:async({h,leases,phase,preview,comparisons
   if(phase==='reconciled'){
    const downloadPromise=page.waitForEvent('download');await page.getByRole('link',{name:'Download payer reconciliation',exact:true}).click();const download=await downloadPromise;assert.equal(await download.failure(),null);await download.saveAs(join(out,'payer-reconciliation.csv'))
   }
-  await page.goto(h.origin+'/app?tab=delinquency&asOf=2026-10-01&tenancyId='+leases[0].t.id);await page.getByText('Housing authority balance:',{exact:false}).waitFor();await proof('separate-pha-aging')
+  await page.goto(h.origin+'/app?tab=delinquency&asOf=2026-10-26&tenancyId='+leases[0].t.id);await page.getByText('Housing authority balance:',{exact:false}).waitFor();await page.getByText('Dated housing authority and payer correction sources',{exact:true}).click();await proof('separate-pha-aging')
   const downloadPromise=page.waitForEvent('download');await page.getByRole('link',{name:'Download CSV',exact:true}).click();const download=await downloadPromise;assert.equal(await download.failure(),null);await download.saveAs(join(out,'hap-aging.csv'))
  }finally{await context.close()}
 }});console.log('HAP native browser proof PASS')}finally{await browser.close()}

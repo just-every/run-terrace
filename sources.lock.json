@@ -3377,7 +3377,7 @@
       "executable": false
     },
     "src/terrace/api.ts": {
-      "sha256": "01d1da4d0f55e8ce84860d9a8e31fb4ff7847b3ca8bda6802cbc7180727c3066",
+      "sha256": "4109baa218f342a3391230e5ceeeb599538c4ce6f7c3a50f7f3ba4ec94d14aea",
       "executable": false
     },
     "src/terrace/appointments-view.ts": {
@@ -3533,11 +3533,11 @@
       "executable": false
     },
     "src/terrace/delinquency-report.ts": {
-      "sha256": "6c084e21ef100074cf2dd1f1feb4e6371a73e7ef66fe255c1d6d835d62d12f8c",
+      "sha256": "a0a50c25bb9689592371d7c616add3fab60043a1e3f8ed1f4e90cd16cc81b7e9",
       "executable": false
     },
     "src/terrace/delinquency-view.ts": {
-      "sha256": "5c67df5a844b8e16f4f188e8b3e60921288ab0a62545e4a9e9a25232eb911bd2",
+      "sha256": "2dadc5441fa1370498de84c637d5517b8ebbda95622589493a33c18a7a769938",
       "executable": false
     },
     "src/terrace/demo/portfolio.ts": {
@@ -4393,7 +4393,7 @@
       "executable": false
     },
     "tests/hap-browser.mjs": {
-      "sha256": "582b7eb1da0d167d31573dad43dd20c6b6efaa18a61582d48dc6051d87ffbf70",
+      "sha256": "0015a6bda5ffdbb1aa3240890ee433e14ef3811b59f2c94b8917c5076875c5dd",
       "executable": false
     },
     "tests/hap-cadences.mjs": {
@@ -4401,7 +4401,7 @@
       "executable": false
     },
     "tests/hap-changes.mjs": {
-      "sha256": "3020c604434845f3367bd3b5e37a4fc21e8a75dfc5a99709af9cde95a2924674",
+      "sha256": "4757d269efb36ffb8bae75f21c8498ef5c1afb52b6c0d431c1d70407e4fdba78",
       "executable": false
     },
     "tests/hap-erasure.mjs": {

@@ -101,13 +101,13 @@ export async function delinquencyReport(c: Context, q: Row) {
   const nextAction = !person ? 'assign follow-up owner' : approvedDraft ? 'review and send externally; Terrace has not sent it' : 'prepare and review an arrears proposal'
   const external=await externalFundsAsOf(c,t.id,asOf)
   return { tenancyId: t.id, unitId: t.unit_id, propertyId: t.property_id ?? null, property: t.property_name ?? t.address, unit: t.unit ?? '', resident: t.tenant_name,
-   ...aging, phaAging, household, ownership: ownershipRows, approvedDraft, assignment, assignmentVersion: current?.version ?? 0,
+   ...aging, phaAging,payerCorrections:effects.filter(e=>e.posting_day<=asOf), household, ownership: ownershipRows, approvedDraft, assignment, assignmentVersion: current?.version ?? 0,
    assignees: operational(c) && can(c, 'arrears.prepare') ? assignees : [], nextAction,
    pendingFunds: 'Processor pending payments not recorded; manual external funds shown separately',pendingExternalCents:external.pendingCents,pendingExternalPayments:external.pending, returnedAch: 'not recorded', paymentPlan: 'not recorded', subsidyShare: phaCharges.length?'Separate PHA receivables recorded':'Separate HAP posting not recorded', collectionOutcome: 'not recorded' }
  }))
  const totals = [...new Set(rows.map(r => r.currency))].map(currency => {
   const mine = rows.filter(r => r.currency === currency)
-  const sum = (key: 'balanceCents' | 'overdueCents' | 'billedCents' | 'receivedCents' | 'reductionsCents') => {
+  const sum = (key: 'balanceCents' | 'overdueCents' | 'billedCents' | 'receivedCents' | 'reductionsCents' | 'creditCents') => {
    const total = mine.reduce((n, r) => n + r[key], 0)
    insist(Number.isSafeInteger(total), 'invalid_receivable', 'Receivable total exceeds exact integer cents.')
    return total
@@ -117,7 +117,7 @@ export async function delinquencyReport(c: Context, q: Row) {
    buckets[key] += r.buckets[key]
    insist(Number.isSafeInteger(buckets[key]), 'invalid_receivable', 'Receivable total exceeds exact integer cents.')
   }
-  return { currency, households: mine.length, overdueHouseholds: mine.filter(r => r.overdueCents > 0).length, buckets, balanceCents: sum('balanceCents'), overdueCents: sum('overdueCents'), billedCents: sum('billedCents'), receivedCents: sum('receivedCents'), reductionsCents: sum('reductionsCents') }
+  return { currency,creditCents:sum('creditCents'),phaBalanceCents:mine.reduce((n,r)=>n+r.phaAging.balanceCents,0),phaOverdueCents:mine.reduce((n,r)=>n+r.phaAging.overdueCents,0),phaCreditCents:mine.reduce((n,r)=>n+r.phaAging.creditCents,0), households: mine.length, overdueHouseholds: mine.filter(r => r.overdueCents > 0).length, buckets, balanceCents: sum('balanceCents'), overdueCents: sum('overdueCents'), billedCents: sum('billedCents'), receivedCents: sum('receivedCents'), reductionsCents: sum('reductionsCents') }
  })
  return { asOf, snapshotAt: c.now, filters: { propertyId, tenancyId, ownerId }, rows, totals, properties,
   owners: [...ownersMap.values()].sort((a, b) => a.name.localeCompare(b.name)), gaps,
@@ -136,6 +136,7 @@ export function delinquencyTable(r: Awaited<ReturnType<typeof delinquencyReport>
   ...r.rows.map(x => [x.tenancyId, x.property, x.unit, x.resident, x.currency, amount(x.buckets.current), amount(x.buckets.days1to30), amount(x.buckets.days31to60), amount(x.buckets.days61to90), amount(x.buckets.over90), amount(x.balanceCents), amount(x.overdueCents), x.assignment?.name ?? 'Unassigned', x.nextAction, x.assignment?.reference ?? '', x.approvedDraft?.proposalId ?? 'Not recorded']),
   ...r.totals.map(t => ['Total', t.currency, 'Households', t.households, 'Current', amount(t.buckets.current), '1–30', amount(t.buckets.days1to30), '31–60', amount(t.buckets.days31to60), '61–90', amount(t.buckets.days61to90), 'Over 90', amount(t.buckets.over90), 'Balance', amount(t.balanceCents), 'Overdue', amount(t.overdueCents)]),
   ['Separate housing authority receivables'],['Tenancy','Currency','PHA balance','PHA overdue'],...r.rows.map(x=>[x.tenancyId,x.currency,amount(x.phaAging.balanceCents),amount(x.phaAging.overdueCents)]),
+  ['Reviewed payer correction sources'],['Tenancy','Correction','Economic from','Economic to','Approval posting day','Resident delta','PHA delta','Notice'],...r.rows.flatMap(x=>x.payerCorrections.map(e=>[x.tenancyId,e.id,e.effective_from,e.effective_to,e.posting_day,amount(e.resident_delta),amount(e.pha_delta),e.notice_version_id])),
   ['Dated PHA charge sources'],['Tenancy','Charge','Due','Outstanding','Credit','Receipt sources'],...r.rows.flatMap(x=>x.phaAging.charges.map(q=>[x.tenancyId,q.chargeId,q.dueDate,amount(q.outstandingCents),amount(q.creditCents),q.receipts.map(p=>p.reference).join('; ')])),
   ['Dated charge sources'], ['Tenancy', 'Charge', 'Due', 'Age', 'Currency', 'Billed', 'External receipts', 'Reductions', 'Outstanding', 'Receipt references', 'Reduction sources'],
   ...r.rows.flatMap(x => x.charges.map(q => [x.tenancyId, q.chargeId, q.dueDate, q.ageDays, q.currency, amount(q.billedCents), amount(q.receiptsCents), amount(q.reductionsCents), amount(q.outstandingCents), q.receipts.map(p => `${p.id} ${p.date} ${p.reference}`).join('; '), q.reductions.map(a => `${a.id} ${a.date} ${a.reason}`).join('; ')])),
