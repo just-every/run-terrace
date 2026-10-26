@@ -35,6 +35,7 @@ export async function journey({assets=false,inspect}={}){
   assert.equal(sent.state,'accepted');assert.equal((await h.request('/api/messages?tenancyId='+t.id,{as:member})).status,403)
   const status={MessageSid:sent.provider_id,MessageStatus:'delivered',From:twilio.from,To:contactInput.phone,FutureField:'preserved in signature'}
   assert.equal((await callback('/api/twilio/status',status,false)).status,403)
+  assert.equal((await callback('/api/twilio/status',{...status,AccountSid:'synthetic-terrace-228'})).status,403,'a signed event for another account cannot change delivery')
   assert.equal((await callback('/api/twilio/status',status)).status,200);assert.equal((await callback('/api/twilio/status',status)).status,200)
   await callback('/api/twilio/status',{...status,MessageStatus:'sent'})
   assert.equal((await data()).messages.find(x=>x.id===m.id).state,'delivered','late sent callback cannot regress a delivered outcome')
