@@ -18,13 +18,13 @@ async function reviewed(c:Context,v:Row,t:Row){
  const haps=await all(c,'SELECT * FROM tt_hap_charges WHERE tenancy_id=? AND period_end>=? AND period_start<=? ORDER BY period_start,id',t.id,v.effective_from,v.effective_to)
  const lines:Row[]=[]
  for(const q of haps){
-  insist(q.payer===v.payer&&q.period_start>=v.effective_from&&q.period_end<=v.effective_to,'hap_coverage','The notice must cover complete posted rent segments for the same PHA.',409)
+  insist(q.payer===v.payer&&q.due_date>=v.effective_from&&q.period_end<=v.effective_to,'hap_coverage','The notice must cover complete posted rent segments for the same PHA.',409)
   const resident=await one(c,'SELECT q.*,('+RESIDENT_EFFECT+') AS delta FROM tt_charges q WHERE tenancy_id=? AND term_id=? AND period_start=? AND period_end=?',t.id,q.term_id,q.period_start,q.period_end)
   const oldPha=q.amount_cents+effects.filter(e=>e.hap_charge_id===q.id).reduce((n,e)=>n+e.pha_delta,0),oldResident=resident?resident.amount_cents+resident.delta:0
   const payload=JSON.parse((await one(c,'SELECT payload FROM tt_lease_versions WHERE id=?',q.lease_version_id))!.payload),term=payload.terms.find((x:Row)=>x.id===q.term_id)
-  const days=(Date.parse(q.period_end)-Date.parse(q.period_start))/86400000+1,periodDays=new Date(Number(q.period_start.slice(0,4)),Number(q.period_start.slice(5,7)),0).getDate()
+  const coverageEnd=[q.period_end,term?.ends,t.ended_on??t.end_date].filter(Boolean).sort()[0],days=(Date.parse(coverageEnd)-Date.parse(q.due_date))/86400000+1,periodDays=(Date.parse(q.period_end)-Date.parse(q.period_start))/86400000+1
   // A notice changes entitlement, never the signed gross rent or the other payer's arrears.
-  insist(term&&v.kind==='abatement'||term&&v.resident_cents+v.pha_cents===term.amountCents,'hap_split','The revised portions must equal the signed gross monthly rent.',409)
+  insist(term&&v.kind==='abatement'||term&&v.resident_cents+v.pha_cents===term.amountCents,'hap_split','The revised portions must equal the signed gross rent for its cadence.',409)
   let residentDelta=0,phaDelta=-oldPha
   if(v.kind==='split'){
    insist(!effects.some(e=>e.hap_charge_id===q.id&&e.kind==='abatement'),'abatement_review','An abated period needs a new explicit accounting review rather than recreating subsidy.',409)
@@ -58,7 +58,9 @@ export async function hapChangeCommand(c:Context,name:string,p:Row):Promise<Row|
   insist(from<=to&&from>=t.start_date&&to<=(t.ended_on??t.end_date)&&to<=localDate(c.now,t.time_zone),'hap_period','Use a completed entitlement interval within the lease and no later than today.')
   insist(kind!=='abatement'||from.slice(0,7)===to.slice(0,7),'hap_period','Record each inspection abatement as one explicitly reviewed month.')
   const source=await notice(c,p.noticeVersionId,t.id),key=id(),resident=kind==='split'?portion(p.residentPortion):null,pha=kind==='split'?portion(p.phaPortion):null
-  await commit(c,[tenancyGuard(c,t),sql(c,'INSERT INTO tt_hap_changes(id,tenancy_id,kind,effective_from,effective_to,resident_cents,pha_cents,payer,notice_version_id,reason,reference,base_version,prepared_by,prepared_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',key,t.id,kind,from,to,resident,pha,payer,source.id,text(p.reason,'PHA reason',1000),text(p.reference,'Unique PHA change reference',150),t.version,c.actor.id,c.now)],name,key)
+  const reference=text(p.reference,'Unique PHA change reference',150)
+  insist(!await one(c,'SELECT 1 FROM tt_hap_changes WHERE tenancy_id=? AND reference=?',t.id,reference),'duplicate_change','This PHA notice change was already recorded.',409)
+  await commit(c,[tenancyGuard(c,t),guard(c,'NOT EXISTS(SELECT 1 FROM tt_hap_changes WHERE tenancy_id=? AND reference=?)',t.id,reference),sql(c,'INSERT INTO tt_hap_changes(id,tenancy_id,kind,effective_from,effective_to,resident_cents,pha_cents,payer,notice_version_id,reason,reference,base_version,prepared_by,prepared_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',key,t.id,kind,from,to,resident,pha,payer,source.id,text(p.reason,'PHA reason',1000),reference,t.version,c.actor.id,c.now)],name,key)
   return {changeId:key,tenancyId:t.id,tab:'ledger',notice:'PHA notice recorded. Review the exact payer changes before independent approval.'}
  }
  const v=await one(c,'SELECT * FROM tt_hap_changes WHERE id=?',text(p.changeId,'PHA change',100));insist(v,'not_found','PHA change not found.',404)

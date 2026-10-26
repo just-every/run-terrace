@@ -1,3 +1,4 @@
+import {syntheticPack} from './rule-packs.mjs'
 import assert from 'node:assert/strict'
 
 /** Native notice, independent exact approval, three prior months and inspection-only subsidy abatement. */
@@ -37,6 +38,10 @@ export async function hapChangeFlow(h,leases,manager,{inspect}={}){
  const historical=await(await h.request('/api/hap-reconciliation?tenancyId='+t.id+'&asOf=2026-09-30')).json();assert.equal(historical.differenceCents,0);assert.equal(historical.resident.creditCents,0)
  const csv=await(await h.request('/api/hap-reconciliation?tenancyId='+t.id+'&format=csv')).text();assert.ok(csv.includes(source.versionId)&&csv.includes(abatementSource.versionId))
  const aging=await(await h.request('/api/delinquency?asOf=2026-10-26&tenancyId='+t.id)).json();assert.equal(aging.rows[0].balanceCents,0);assert.equal(aging.rows[0].creditCents,10000);assert.equal(aging.rows[0].phaAging.balanceCents,r.pha.balanceCents)
+ const pack=syntheticPack('CA');pack.fields.lateFee={citation:'synthetic-terrace-217',effectiveDate:'2025-01-01',value:{fullUnpaidDays:4,basis:'monthly_rent',smallStructureMaxUnits:4,smallStructureCapBp:500,largeStructureCapBp:500,weekendRule:'calendar',holidays:[],pendingPolicy:'exclude_timely',reversalPolicy:'hold'}}
+ await h.command('property.rules',{propertyId:first.p.id,stateCode:'CA',version:0,reference:'synthetic-terrace-218'});const saved=await h.command('rules.pack',pack);await h.command('rules.activate',{packId:saved.id,consent:'REVIEWED'})
+ await h.command('latefee.policy',{tenancyId:t.id,chargeId:abated.charges[0].id,version:0,reference:'synthetic-terrace-219',terms:{fullUnpaidDays:4,feeCents:1000,capCents:1000,weekendRule:'calendar',excludeTimely:true}})
+ const fees=await h.command('latefee.preview',{tenancyId:t.id,on:'2026-10-26'});assert.ok(fees.lines.every(l=>l.state==='not_due'&&l.feeCents===0),'unpaid PHA never creates a fee on timely paid resident rent');assert.equal(fees.lines.length,1)
  const next=await h.command('charges.preview',{month:'2026-10'});const nextPortions=next.lines.filter(l=>l.tenancyId===t.id);assert.deepEqual(nextPortions.map(l=>l.amountCents),[20001,80000],'new rent runs inherit the revised payer entitlement without repeating an abatement')
  const scoped=await h.invite('member','synthetic-terrace-216@example.test');await h.command('hap.change.prepare',input,{as:scoped,status:403})
  if(inspect)await inspect({h,leases,phase:'reconciled',reconciliation:r})

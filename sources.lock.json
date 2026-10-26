@@ -597,7 +597,7 @@
       "executable": false
     },
     "migrations/core/0091_hap_changes.sql": {
-      "sha256": "e65279906a72b3622d55ae2c244d8c463f2dfed7b043f1b2ab103b16d8baccc5",
+      "sha256": "1541415e191dccd1d12751f41e9eed52ab0fb0a93c0399f98ff724e05e2d5d71",
       "executable": false
     },
     "migrations/core/0098_hap_remittances.sql": {
@@ -3569,7 +3569,7 @@
       "executable": false
     },
     "src/terrace/documents.ts": {
-      "sha256": "09718596dbad5e18c739edb5ccf768637c97e899d5e5547da7fffbc128b6d889",
+      "sha256": "3c3cbd0e7e8a7d9de26d626b6dc8c8882db21fdb9eb8ef2e9a0216c136058dea",
       "executable": false
     },
     "src/terrace/dual-control.ts": {
@@ -3661,11 +3661,15 @@
       "executable": false
     },
     "src/terrace/hap-changes.ts": {
-      "sha256": "4f18384f898acbeaa0ebb963d7cc15258643c40fcbf6914934e4b3012be6d2ce",
+      "sha256": "06bd39e36e08f296dbb8572022cefb4dcd70be6dc306227a3bc09b850d5d260e",
       "executable": false
     },
     "src/terrace/hap-charges.ts": {
-      "sha256": "24cabdef6a4d160abb9850ab4330dd48cadb3948d7c0a0ebf9657f772f333a05",
+      "sha256": "18d6faf7b03c1edda2030f59bde73755f9ab17c3635124c06152b5a41f1baf80",
+      "executable": false
+    },
+    "src/terrace/hap-portal.ts": {
+      "sha256": "bdcdcb6e8535cc3eba6445b6b76b57e7cf4597a17f389d1c30ccd7c60b84a59f",
       "executable": false
     },
     "src/terrace/hap-reconciliation.ts": {
@@ -3681,7 +3685,7 @@
       "executable": false
     },
     "src/terrace/hap-view.ts": {
-      "sha256": "55cbd1f335d54e755c619a43b0695c791cf7ec558b5b140b87565c79a6712ae5",
+      "sha256": "389296f9be0d258eff06b26926f8d454dbb8ddf38ee3d5a38bc1bdb665bbb287",
       "executable": false
     },
     "src/terrace/history.ts": {
@@ -4389,7 +4393,15 @@
       "executable": false
     },
     "tests/hap-changes.mjs": {
-      "sha256": "59fb3fe15fed45d2b36668771b3d49b235ab468984880393c91b9f71d121183b",
+      "sha256": "3020c604434845f3367bd3b5e37a4fc21e8a75dfc5a99709af9cde95a2924674",
+      "executable": false
+    },
+    "tests/hap-erasure.mjs": {
+      "sha256": "c4163af259d5795cf70f2d0f5e0c7ea331242311524b8ac58cbee62744efeadf",
+      "executable": false
+    },
+    "tests/hap-portals.mjs": {
+      "sha256": "7d6951c33c7f97f6ae8622190618f075a673e938c57d5d8afff864cb9a306213",
       "executable": false
     },
     "tests/hap-remittances.mjs": {
