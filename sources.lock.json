@@ -161,7 +161,7 @@
       "executable": false
     },
     "docs/communications.md": {
-      "sha256": "fa8197fb7508099bae1d896d87f290d60fea604ec2d49c75c07294649a122e28",
+      "sha256": "c97ee552802dae37492783fd0774a3dcdd20df4767d6c336a79d97b5ac6688f0",
       "executable": false
     },
     "docs/financial-reports.md": {
@@ -1121,7 +1121,7 @@
       "executable": false
     },
     "scripts/twilio-sandbox.mjs": {
-      "sha256": "ad4a9627d7ee2f58683d83f0fb3b3fc8221232450f93ef45c76cf686db753b18",
+      "sha256": "e56f5a3005e7f9d7f55a2db5e595d220a4ccc6b110a5f8ca0305aa9706f44b9c",
       "executable": false
     },
     "scripts/verify-app.mjs": {
@@ -4369,7 +4369,7 @@
       "executable": false
     },
     "tests/messages-browser.mjs": {
-      "sha256": "c19c55f19ce5d6e39efae6c7346e1eec258f1d8bfdf592e6bc5829de1e6a372a",
+      "sha256": "cffe070c1ed982285f4838ebf518c516898d889d6687b973a42fa44676980b36",
       "executable": false
     },
     "tests/messages.mjs": {

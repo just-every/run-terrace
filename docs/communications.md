@@ -52,7 +52,9 @@ callbacks are disabled before any provider request.
 
 `tests/messages.mjs` exercises the public command and webhook doors with provider
 fakes only at the network edge. `scripts/twilio-sandbox.mjs` uses injected TEST
-credentials and the magic number through the same approved public commands.
+credentials and the magic number against the real provider adapter. Native
+authority and routing are proved separately through the public commands with
+the contract's allowed provider-edge fake.
 Twilio TEST acceptance originates no call, handset text, status callback or
 inbound reply. Signed fixtures establish local routing only.
 

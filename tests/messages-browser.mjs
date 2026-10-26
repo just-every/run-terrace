@@ -11,7 +11,7 @@ async function capture(name){
   await page.setViewportSize({width,height})
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),name+' fits '+width)
   const control=page.getByRole('link',{name:'Manage people',exact:true})
-  await control.focus();await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(resolve)));assert.equal(await control.locator('[role="tooltip"]').evaluate(el=>getComputedStyle(el).opacity),'1')
+  await control.focus();await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(resolve)));const focus=await control.evaluate(el=>({active:document.activeElement===el,focus:el.matches(':focus'),focusVisible:el.matches(':focus-visible'),documentFocus:document.hasFocus(),opacity:getComputedStyle(el.querySelector('[role="tooltip"]')).opacity,delay:getComputedStyle(el.querySelector('[role="tooltip"]')).transitionDelay}));assert.equal(focus.opacity,'1',JSON.stringify({screen:name,width,focus}))
   await page.locator('h1').click();await control.hover();await page.waitForTimeout(400)
   assert.equal(await control.locator('[role="tooltip"]').evaluate(el=>getComputedStyle(el).opacity),'1')
   await page.screenshot({path:join(out,`${name}-${width}.png`),fullPage:true})
