@@ -64,6 +64,14 @@ export async function journey({assets=false,inspect}={}){
   const frozenPdf=await h.request(receiptPath+'&format=pdf',{as});assert.equal(frozenPdf.status,200)
   const current=await(await h.request(path+'&format=json',{as})).json(),matching=await(await h.request('/portal/api/resident?tenancyId='+t.id,{as})).json();assert.equal(current.currentBalanceCents,10100);assert.equal(current.currentBalanceCents,matching.balanceCents)
   const sourcePdf=Buffer.from(await frozenPdf.arrayBuffer());assert.ok(sourcePdf.includes(Buffer.from('/StructTreeRoot')));assert.ok(sourcePdf.includes(Buffer.from('/ActualText')))
+  const archive=await(await h.request('/api/backup')).text(),readable=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer());assert.ok(readable.includes(Buffer.from(receipt.id)),'readable export retains receipt delivery evidence')
+  const fresh=await installation({now:clock})
+  try{
+   await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'resident-documents.rer')})
+   const restored=await(await fresh.request('/api/resident-document?id='+receipt.id+'&format=json')).json();assert.equal(restored.fingerprint,receiptData.fingerprint);assert.equal(restored.receipt.amountCents,20000);assert.equal(restored.delivery.state,'delivered')
+   assert.equal((await fresh.request(receiptPath,{as})).status,401,'portal access does not transfer');await fresh.stepUp();await fresh.command('resident.delivery.send',{deliveryId:statement.id,fingerprint:statement.fingerprint,consent:'SEND PRIVATE LINK',reference:'synthetic-terrace-161 destination sends nothing'},{status:409})
+   assert.ok(!fresh.messages.some(m=>/Your Terrace (?:monthly statement|payment receipt)/.test(m.subject)),'restore sends no resident document')
+  }finally{await fresh.close()}
   if(inspect)await inspect({h,t,as,delegated,transaction,receiptPath,statementId:statement.id,pdf:sourcePdf})
   if((await queue()).deliveries.find(d=>d.id===statement.id).task_open)await h.command('resident.delivery.followup',{deliveryId:statement.id,reference:'synthetic-terrace-160 owner contacted resident and reconciled the failure'})
   assert.equal((await notify(statement,'email.bounced','synthetic-terrace-158')).status,200);assert.equal((await queue()).deliveries.find(d=>d.id===statement.id).task_open,0,'callback replay cannot reopen a completed delivery task')

@@ -4421,7 +4421,7 @@
       "executable": false
     },
     "tests/resident-statements.mjs": {
-      "sha256": "f7bf6cd88d21ffff611a6979145bf8a064abcc4ea9bf6139c6a81cfebdde335c",
+      "sha256": "34540e7c9f5a2d2b405975e50d830b54b0ac3c92dd79459ec0f5719727b44b80",
       "executable": false
     },
     "tests/retention.mjs": {
