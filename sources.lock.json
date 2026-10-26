@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "73a642b5f795551d0499b877266534279d1fdc2487d84ed260f14cdfddb8165f",
+      "sha256": "78d8aaf02651d613a1faa765c24ee58388040cb50ab828575b3791f030c626af",
       "executable": false
     },
     "AGENTS.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "0b8d7fb7357ff619fe77c9886f96a3f450ad3c693ab514748ddb0f95910cbbba",
+      "sha256": "55584f5a0caf1275a3659d27df06fa08ec733f9c6ead4d8e6e96f7bcc9ff639b",
       "executable": false
     },
     "DEMO.md": {
@@ -161,7 +161,7 @@
       "executable": false
     },
     "docs/communications.md": {
-      "sha256": "54b49ce9b316af3fe87dd931b9a4c89f5ec69b7a2e23691e1d3ddc682be664d9",
+      "sha256": "d803466963b6b78b47a5b6c977a0a241aa81ecfa3bcf3e946fc94310ad4cd894",
       "executable": false
     },
     "docs/financial-reports.md": {
@@ -3745,7 +3745,7 @@
       "executable": false
     },
     "src/terrace/message-http.ts": {
-      "sha256": "20311cd9f276a75df088a7559f9fd83eb827c958de8fa7fb513967b2e506b13a",
+      "sha256": "38c47b2692f8a1489bf02e5b056346c99b58d2465946acaee88243b482aedb8a",
       "executable": false
     },
     "src/terrace/message-send.ts": {
@@ -3757,7 +3757,7 @@
       "executable": false
     },
     "src/terrace/messages.ts": {
-      "sha256": "57dc8a931926d3b355077c6b250d740c70b8136f03b8400bed256af830986507",
+      "sha256": "54e8cb13f34f8bc095ec40d762fcad2ef9a1d16b0aeda048388c7ca40e8a859a",
       "executable": false
     },
     "src/terrace/month.ts": {
@@ -4373,7 +4373,7 @@
       "executable": false
     },
     "tests/messages.mjs": {
-      "sha256": "8898078a3733f01f0ee30c5c28f9a13f931327c6bfe942a01e83d97952834856",
+      "sha256": "810b9330fe5c812ea1bad79e6d435a6117c681c176fd14086c04ca328f78ca37",
       "executable": false
     },
     "tests/mobile-inspections-browser.mjs": {

@@ -48,7 +48,7 @@ export async function twilioResponse(request:Request,env:Bindings){
   const arrivals=messages.filter(x=>x.purpose==='arrival'&&['accepted','sent','delivered'].includes(x.state))
   const outstanding:Row[]=[]
   for(const arrival of arrivals){const a=await one(c,"SELECT id FROM tt_appointments WHERE id=? AND state IN ('proposed','confirmed') AND resident_confirmed_at IS NULL AND ends_at>?",arrival.appointment_id,c.now);if(a&&!outstanding.some(x=>x.appointment_id===arrival.appointment_id))outstanding.push(arrival)}
-  if(!stop&&!r.stopped&&r.sms_consent===1&&body.trim().toUpperCase()==='Y'&&outstanding.length===1&&outstanding[0].contact_version===r.version){
+  if(!stop&&!r.stopped&&r.sms_consent===1&&body.trim().toUpperCase()==='Y'&&outstanding.length===1&&new Set(arrivals.map(x=>x.appointment_id)).size===1&&outstanding[0].contact_version===r.version){
    try{reply=await arrivalReplyStatements(c,outstanding[0].appointment_id,JSON.parse(outstanding[0].snapshot),sid,`Resident Y reply via ${fixture}; access permission remains separate`)}catch(e){if(!(e instanceof Fault))throw e}
   }
   await c.db.batch([...changes,guard(c,'EXISTS(SELECT 1 FROM tt_message_contacts WHERE id=? AND version=?)',r.id,stop?r.version+1:r.version),messageEvent(c,m.id,stop?'opted_out':reply.length?'arrival_confirmed':'received',`${fixture}: ${body}`,key),...reply])

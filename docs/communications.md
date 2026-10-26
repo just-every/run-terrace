@@ -21,8 +21,9 @@ follow-up; inbound email routing and postal fallback remain incomplete.
 An arrival text contains the separately permitted current appointment window.
 A signed Y confirms only one unambiguous active window with unchanged approved
 work and current vendor qualification. It supplies no new entry permission or
-legal notice. Vendor confirmation remains separate. Cancelled, superseded and
-stale windows cannot be revived by a reply. Cancellation notifications to both
+legal notice. Vendor confirmation remains separate. If an earlier arrival invitation exists in
+the thread, a bare Y needs staff review; it never selects a newer window by guesswork.
+Cancelled, superseded and stale windows cannot be revived by a reply. Cancellation notifications to both
 parties are separate reviewed messages.
 
 Safety pages carry no case details and never acknowledge or close the emergency.

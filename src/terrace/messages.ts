@@ -40,7 +40,7 @@ export async function messageCommand(c:Context,command:string,p:Row):Promise<Row
    const a=await one(c,'SELECT a.*,j.tenancy_id,j.version AS job_version FROM tt_appointments a JOIN tt_maintenance_jobs j ON j.id=a.job_id WHERE a.id=?',text(p.appointmentId,'Appointment',100));insist(a&&a.tenancy_id===t.id,'not_found','Appointment not found.',404)
    appointmentId=a.id;snapshot={approvalId:a.approval_id,jobVersion:a.job_version}
    const fmt=(at:string)=>new Intl.DateTimeFormat('en-US',{timeZone:a.time_zone,dateStyle:'medium',timeStyle:'short'}).format(new Date(at))
-   body=`Terrace repair arrival: ${fmt(a.starts_at)} to ${fmt(a.ends_at)} (${a.time_zone}). Reply Y to confirm this window. Access permission remains as separately recorded. Reply STOP to stop texts.`
+   body=`Terrace repair arrival: ${fmt(a.starts_at)} to ${fmt(a.ends_at)} (${a.time_zone}). Reply Y to confirm this window. If this thread contains an earlier arrival window, staff must review your reply. Access permission remains as separately recorded. Reply STOP to stop texts.`
   }
   if(purpose==='page'){
    insist(r.kind==='responder'&&['sms','voice'].includes(channel),'invalid_input','Pages use a named responder and a phone channel.')

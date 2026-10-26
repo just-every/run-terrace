@@ -65,6 +65,8 @@ export async function journey({assets=false,inspect}={}){
   assert.equal(h.messages.filter(x=>x.text?.includes('Tuesday morning appointment was cancelled')).length,2,'both parties receive separately approved cancellation notices at the mail boundary')
   const nextAppointment=await h.command('appointment.book',{...window,previousId:ap.id,reason:'Vendor cancelled; resident gave fresh permission',startsAt:'2026-10-27T13:00-07:00',endsAt:'2026-10-27T14:00-07:00',accessStartsAt:'2026-10-27T12:00-07:00',accessEndsAt:'2026-10-27T15:00-07:00',permissionReference:'New afternoon permission'})
   const nextArrival=await approve(await prepare({purpose:'arrival',appointmentId:nextAppointment.id}));await send(nextArrival)
+  await callback('/api/twilio/inbound',{...y,MessageSid:'synthetic-terrace-229'})
+  assert.equal((await h.state(t.id)).work.appointments.find(x=>x.id===nextAppointment.id).resident_confirmed_at,null,'a delayed Y cannot be guessed to refer to a different arrival window')
   await h.command('maintenance.revise',{jobId:j.id,version:2,scope:'Add the supply hose; requires renewed approval'})
   await callback('/api/twilio/inbound',{...y,MessageSid:'synthetic-terrace-227'})
   assert.equal((await h.state(t.id)).work.appointments.find(x=>x.id===nextAppointment.id).resident_confirmed_at,null,'a reply to superseded work terms supplies no confirmation')
