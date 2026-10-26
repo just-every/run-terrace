@@ -4401,7 +4401,7 @@
       "executable": false
     },
     "tests/hap-portals.mjs": {
-      "sha256": "e291129935e348d0002d855ad0f4a699c4fac2ff28816224fca822d6e19374fe",
+      "sha256": "10665af2b5d943825fa5bf5109ebf8ad10de959ee2f7001478a1d35efab9b61f",
       "executable": false
     },
     "tests/hap-remittances.mjs": {

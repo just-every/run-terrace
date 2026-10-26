@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 export async function hapPortalFlow(h,leases,{inspect}={}){
- const first=leases[0],residentEmail='synthetic-terrace-920@example.test',ownerEmail='synthetic-terrace-921@example.test'
+ const first=leases[0],residentEmail='hap1@example.test',ownerEmail='synthetic-terrace-921@example.test'
  await h.stepUp()
  await h.command('portal.invite',{kind:'resident',tenancyId:first.t.id,email:residentEmail,displayName:'synthetic-terrace-920',source:'synthetic-terrace-922'})
  await h.command('portal.invite',{kind:'owner',ownerId:first.o.id,email:ownerEmail,displayName:'synthetic-terrace-921',source:'synthetic-terrace-923'})
