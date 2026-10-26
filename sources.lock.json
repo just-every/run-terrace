@@ -3917,7 +3917,7 @@
       "executable": false
     },
     "src/terrace/resident-delivery-http.ts": {
-      "sha256": "c2d83f02874c294949cf0eb81a5766f8f880e77b7b7f2fe3afbb93011b49d850",
+      "sha256": "54150a81c41c6b180473de30f9ed1582a850366ed36ed4eb7daec7a8ec4e3a08",
       "executable": false
     },
     "src/terrace/resident-delivery-view.ts": {
