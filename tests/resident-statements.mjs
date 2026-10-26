@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict'
-import {createHmac} from 'node:crypto'
+import {generateKeyPairSync,sign} from 'node:crypto'
 import {installation,tenancyInput} from './api/harness.mjs'
 import {syntheticPack} from './rule-packs.mjs'
 export async function journey({assets=false,inspect}={}){
- const clock='2026-10-26T12:00:00.000Z',webhookBytes=Buffer.from('synthetic-terrace-150-webhook-key'),mailWebhookKey='whsec_'+webhookBytes.toString('base64'),h=await installation({assets,mailWebhookKey,now:clock})
+ const clock='2026-10-26T12:00:00.000Z',webhook=generateKeyPairSync('ec',{namedCurve:'prime256v1'}),mailWebhookKey=webhook.publicKey.export({type:'spki',format:'der'}).toString('base64'),h=await installation({assets,mailProvider:'sendgrid',mailWebhookKey,now:clock})
  try{
   const f=await h.command('portfolio.add',{name:'Statement portfolio'}),p=await h.command('property.add',{portfolioId:f.id,name:'Statement house',address:'1 Synthetic Terrace Road',kind:'duplex',timeZone:'America/Chicago'}),u=await h.command('unit.add',{propertyId:p.id,identifier:'A',bedrooms:'2',bathrooms:'1'}),t=await h.command('tenancy.create',{...tenancyInput,unitId:u.id,cadence:'monthly',rent:'1000.00'})
   const q=await h.command('rent.charge',{tenancyId:t.id,dueDate:'2026-10-01',amount:'1000.00',description:'October rent – East',reference:'synthetic-terrace-140 private charge reference'}),r=await h.command('rent.receipt',{chargeId:q.id,amount:'200.00',receivedDate:'2026-10-02',method:'card',reference:'synthetic-terrace-141 private bank reference'})
@@ -48,8 +48,8 @@ export async function journey({assets=false,inspect}={}){
   await send(receipt).then(()=>assert.fail('cannot resend accepted delivery'),error=>assert.match(error.message,/409|already claimed/))
   const sent=await queue(),row=id=>sent.deliveries.find(d=>d.id===id)
   const notify=async(delivery,type,eventId,recipient='statement-resident@example.test',signed=true)=>{
-   const body={type,created_at:clock,data:{email_id:row(delivery.id).provider_id,to:[recipient]}},raw=JSON.stringify(body),stamp=String(Date.parse(clock)/1000),signature=createHmac('sha256',webhookBytes).update(eventId+'.'+stamp+'.'+raw).digest('base64')
-   return h.request('/api/resident-mail/events',{method:'POST',as:'',body,headers:{'svix-id':eventId,'svix-timestamp':stamp,'svix-signature':'v1,'+(signed?signature:'invalid')}})
+   const stamp=String(Date.parse(clock)/1000),body=[{event:type==='email.delivered'?'delivered':'bounce',timestamp:Number(stamp),email:recipient,sg_event_id:eventId,sg_message_id:row(delivery.id).provider_id+'.filter',rer_delivery_id:delivery.id}],signature=sign('sha256',Buffer.from(stamp+JSON.stringify(body)),webhook.privateKey).toString('base64')
+   return h.request('/api/resident-mail/events',{method:'POST',as:'',body,headers:{'x-twilio-email-event-webhook-timestamp':stamp,'x-twilio-email-event-webhook-signature':signed?signature:'invalid'}})
   }
   assert.equal((await notify(receipt,'email.delivered','synthetic-terrace-155','statement-resident@example.test',false)).status,400)
   assert.equal((await notify(receipt,'email.delivered','synthetic-terrace-156','another@example.test')).status,400)
