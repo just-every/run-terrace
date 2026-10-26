@@ -189,7 +189,7 @@
       "executable": false
     },
     "docs/rent-and-statements.md": {
-      "sha256": "c02dba8ece7ca052a6dff7496e851f1534317092abceede6e9abf14eaa831187",
+      "sha256": "6621efa484a386917e0e8616aae94391a162463a951fcb57b0e0fa869201eede",
       "executable": false
     },
     "docs/report-schedules.md": {
@@ -3913,7 +3913,7 @@
       "executable": false
     },
     "src/terrace/resident-deliveries.ts": {
-      "sha256": "a886a0e2edebced1d500eb7b67e2a1cef7f6bde2ee489aca7d9309a15911e069",
+      "sha256": "9cf2d64065cbf77b1aecf37766815cd538ba9d86aafbb1bdb09b44137923e1b8",
       "executable": false
     },
     "src/terrace/resident-delivery-http.ts": {
@@ -3921,7 +3921,7 @@
       "executable": false
     },
     "src/terrace/resident-delivery-view.ts": {
-      "sha256": "65cd80f71662115cea290e999fd857d927c7fb2f0749bc8d4af341e38224bce6",
+      "sha256": "f36126a4bc19a62b178669a1e668546e60f0f91eb8393872c9b4dbe7355de7d5",
       "executable": false
     },
     "src/terrace/resident-mail.d.ts": {
@@ -4413,11 +4413,11 @@
       "executable": false
     },
     "tests/resident-statements-browser.mjs": {
-      "sha256": "8e5789cb773b06335d65725f1806cc8c7fafb991002f78eb65e69dc81ddca513",
+      "sha256": "299f3d814df62cb9c73ace7155b7007b72c2c8a5c2c723a5b0472f86892652c9",
       "executable": false
     },
     "tests/resident-statements-live.mjs": {
-      "sha256": "6259d3155b6f54150f9afb5dd008cc2d3f2aff825e36fa8d3c676e8c99f47a94",
+      "sha256": "e01ec4f754339a4d75f3948365679b927d0a78448970f1cb81e991ee3d6de5f8",
       "executable": false
     },
     "tests/resident-statements.mjs": {

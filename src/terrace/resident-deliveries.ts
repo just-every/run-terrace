@@ -4,7 +4,7 @@ import {residentMonthlyStatement,residentTransaction} from './resident-statement
 import {operatorMail} from '../mail.server.mjs'
 import type {Bindings} from '../auth.server'
 
-export const RESIDENT_DELIVERY_COMMANDS=['resident.delivery.prepare','resident.delivery.send','resident.delivery.outcome']
+export const RESIDENT_DELIVERY_COMMANDS=['resident.delivery.prepare','resident.delivery.send','resident.delivery.outcome','resident.delivery.followup']
 export const DELIVERY_CONSENT='resident-statement-link-v1'
 const digest=(v:unknown)=>sha256(new TextEncoder().encode(JSON.stringify(v)))
 const owner=(c:Context)=>insist(c.actor.role==='owner'&&!c.actor.credential&&!c.scheduler,'forbidden','Only the signed-in installation owner manages resident delivery.',403)
@@ -28,6 +28,11 @@ export async function residentDeliveryCommand(c:Context,name:string,p:Row){
   return{id:key,fingerprint,tenancyId:t.id,notice:'Document frozen for review. No email sent.'}
  }
  const d=await one(c,'SELECT * FROM tt_resident_deliveries WHERE id=?',text(p.deliveryId,'Delivery',100));insist(d,'not_found','Delivery not found.',404);await tenancy(c,d.tenancy_id)
+ if(name==='resident.delivery.followup'){
+  insist(d.task_open===1&&!['uncertain','accepted','delivered'].includes(d.state),'delivery_state','Reconcile uncertain delivery before completing its follow-up task.',409)
+  await commit(c,[guard(c,'EXISTS(SELECT 1 FROM tt_resident_deliveries WHERE id=? AND version=? AND task_open=1)',d.id,d.version),sql(c,"UPDATE tt_resident_deliveries SET task_open=0,version=version+1,next_action='Owner completed the delivery follow-up; the recorded delivery outcome is unchanged' WHERE id=?",d.id),deliveryEvent(c,d.id,'followup_completed',text(p.reference,'Follow-up action source',500))],name,d.id)
+  return{tenancyId:d.tenancy_id,notice:'Follow-up recorded. No email sent; the prior delivery outcome is unchanged.'}
+ }
  if(name==='resident.delivery.outcome'){
   insist(['accepted','delivered'].includes(d.state),'delivery_state','Only a provider-accepted email can have a recorded delivery outcome.',409)
   insist(['delivered','bounced'].includes(p.outcome),'delivery_outcome','Choose delivered or bounced with provider evidence.')

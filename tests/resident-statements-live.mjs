@@ -5,7 +5,7 @@ const {MAIL_API_KEY,MAIL_FROM,TEST_MAIL_TO,MAILBOX_RECEIPT_URL,QA_INBOX_RECEIPT_
 assert.ok(MAIL_API_KEY&&MAIL_FROM&&TEST_MAIL_TO&&MAILBOX_RECEIPT_URL&&QA_INBOX_RECEIPT_TOKEN,'Inject the held mail and QA reader configuration')
 const accepted=new Map(),since=new Date().toISOString();let stage='installation',h
 try{
- h=await installation({mailProvider:'sendgrid',mailFrom:MAIL_FROM,mailResponse:async(message,wire)=>{
+ h=await installation({asyncDatabase:true,mailProvider:'sendgrid',mailFrom:MAIL_FROM,mailResponse:async(message,wire)=>{
   if(!message.subject.startsWith('Your Terrace payment receipt')&&!message.subject.startsWith('Your Terrace monthly statement'))return new Response(null,{status:202,headers:{'x-message-id':crypto.randomUUID()}})
   assert.deepEqual(message.to,[TEST_MAIL_TO],'only the consenting QA recipient')
   const response=await fetch('https://api.sendgrid.com/v3/mail/send',{method:'POST',headers:{authorization:'Bearer '+MAIL_API_KEY,'content-type':'application/json'},body:JSON.stringify(wire),signal:AbortSignal.timeout(20000)})
