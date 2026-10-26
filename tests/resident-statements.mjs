@@ -65,6 +65,8 @@ export async function journey({assets=false,inspect}={}){
   const current=await(await h.request(path+'&format=json',{as})).json(),matching=await(await h.request('/portal/api/resident?tenancyId='+t.id,{as})).json();assert.equal(current.currentBalanceCents,10100);assert.equal(current.currentBalanceCents,matching.balanceCents)
   const sourcePdf=Buffer.from(await frozenPdf.arrayBuffer());assert.ok(sourcePdf.includes(Buffer.from('/StructTreeRoot')));assert.ok(sourcePdf.includes(Buffer.from('/ActualText')))
   if(inspect)await inspect({h,t,as,delegated,transaction,receiptPath,statementId:statement.id,pdf:sourcePdf})
+  if((await queue()).deliveries.find(d=>d.id===statement.id).task_open)await h.command('resident.delivery.followup',{deliveryId:statement.id,reference:'synthetic-terrace-160 owner contacted resident and reconciled the failure'})
+  assert.equal((await notify(statement,'email.bounced','synthetic-terrace-158')).status,200);assert.equal((await queue()).deliveries.find(d=>d.id===statement.id).task_open,0,'callback replay cannot reopen a completed delivery task')
   await h.command('household.leave',{memberId:residentMember.id,left:'2026-10-25'});assert.equal((await h.request(receiptPath,{as})).status,404);assert.equal((await h.request(path,{as})).status,404)
   await h.command('portal.revoke',{grantId:resident.grantId,reason:'synthetic-terrace-148 access ended'})
   assert.equal((await h.request(path,{as})).status,401);assert.equal((await h.request(transaction,{as})).status,401);assert.equal((await h.request(receiptPath,{as})).status,401)

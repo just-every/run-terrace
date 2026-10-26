@@ -577,7 +577,7 @@
       "executable": false
     },
     "migrations/core/0087_resident_delivery.sql": {
-      "sha256": "0892671b908599b0a63c5767814f594c8d48b3ac961659d1c2bbd55b1bf55e36",
+      "sha256": "6b9bdfe3cf5f37870a067302140d84b0d9ea747a40bb83370895af89ad1ab0da",
       "executable": false
     },
     "migrations/core/0088_resident_mail_events.sql": {
@@ -3917,7 +3917,7 @@
       "executable": false
     },
     "src/terrace/resident-delivery-http.ts": {
-      "sha256": "19eb836a7673f1aae0aff8112367f0b1631346fbd7ba9e3b77616706799b9666",
+      "sha256": "c2d83f02874c294949cf0eb81a5766f8f880e77b7b7f2fe3afbb93011b49d850",
       "executable": false
     },
     "src/terrace/resident-delivery-view.ts": {
@@ -4421,7 +4421,7 @@
       "executable": false
     },
     "tests/resident-statements.mjs": {
-      "sha256": "faef068031bb2415f52ca035ebd8bf1f4fc6800826e844b8db3b0a7b183e248f",
+      "sha256": "f7bf6cd88d21ffff611a6979145bf8a064abcc4ea9bf6139c6a81cfebdde335c",
       "executable": false
     },
     "tests/retention.mjs": {

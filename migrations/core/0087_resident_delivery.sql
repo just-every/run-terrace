@@ -6,7 +6,7 @@ CREATE TABLE tt_resident_deliveries (
  prepared_by TEXT NOT NULL, prepared_at TEXT NOT NULL,
  consent_reference TEXT NOT NULL, consent_version TEXT NOT NULL,
  state TEXT NOT NULL DEFAULT 'prepared', version INTEGER NOT NULL DEFAULT 1,
- provider TEXT, provider_id TEXT, installation TEXT NOT NULL,
+ provider TEXT, provider_id TEXT, applied_event_id TEXT, installation TEXT NOT NULL,
  next_action TEXT NOT NULL, task_open INTEGER NOT NULL DEFAULT 0
 );
 CREATE TABLE tt_resident_delivery_events (
