@@ -8,7 +8,7 @@ export async function cardFixture({assets=false,live=false,provider,inspect}={})
  const stripeRequest=async request=>{
   const url=new URL(request.url);calls.push(url.pathname)
   if(live){
-   const response=await fetch(request.url,{method:request.method,headers:Object.fromEntries([...request.headers].filter(([name])=>['authorization','content-type','stripe-version','idempotency-key'].includes(name.toLowerCase()))),...(['GET','HEAD'].includes(request.method)?{}:{body:await request.arrayBuffer()})})
+   const response=await fetch(request.url,{method:request.method,headers:Object.fromEntries([...request.headers].filter(([name])=>['authorization','content-type','stripe-version','idempotency-key'].includes(name.toLowerCase()))),signal:AbortSignal.timeout(20000),...(['GET','HEAD'].includes(request.method)?{}:{body:await request.arrayBuffer()})})
    if(!response.ok){const error=await response.clone().json();const key=process.env.STRIPE_SECRET_KEY;const message=String(error.error?.message??'').split(key).join('[redacted]').replace(/\b(?:sk|pk|rk)_(?:test|live)_[^\s<>"']+/g,'[redacted]');console.log(JSON.stringify({stripeStatus:response.status,type:error.error?.type,code:error.error?.code,message}))}
    return response
   }

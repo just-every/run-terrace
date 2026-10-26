@@ -907,7 +907,7 @@ test('PAY-006: reviewed state caps, weekend and holiday grace, timely pending se
 
 test('PAY-009: exact independent approvals refuse changed refund sources, record one external refund with original owner effects and retain reasoned corrections and forwarding check drafts',financialJourney)
 
-test('PAY-010: monthly resident statements reconcile recorded payments, pending funds and separate credit, with scoped transaction inspection and no delivery claim',residentStatementJourney)
+test('PAY-010: resident statements, delivered receipts, failed-email tasks and private accessible downloads',residentStatementJourney)
 
 test('ACCT-006: reviewed bank imports, exact matching, outstanding items and guarded three-way close',reconcileJourney)
 

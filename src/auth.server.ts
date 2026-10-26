@@ -14,6 +14,7 @@ import { owesSecondFactor } from './terrace/second-factor'
 const theme = { href: '/rer-theme.css', productName: branding.name, accentColor: branding.primaryColor }
 
 export interface Bindings {
+ RESIDENT_MAIL_WEBHOOK_KEY?: string
  STRIPE_SECRET_KEY?: string
  RER_DEMO?: string
  RER_OWNER_CLAIM_PUBLIC_KEYS?: string

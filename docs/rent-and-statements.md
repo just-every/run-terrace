@@ -50,3 +50,17 @@ Under **Owner statement**, choose **Period start** and **Period end**, then sele
 The opening receivable uses entries dated before the period. Charge entries use their due date; receipts use their received date; reductions use the property-local day they were recorded. Closing receivable equals opening receivable plus period charges, minus period receipts and reductions.
 
 This is a record of rent receivables. It is not a statutory trust, owner disbursement, bank reconciliation or tax statement. Store and share the downloaded CSV with the same care as other tenant and owner records.
+
+## Resident statements and receipts
+
+Full residents select a month on their lease account, inspect each source transaction and download CSV or a tagged PDF with selectable text, document language, headings and reading order. Pending funds are not deducted, and unapplied credit stays separate. The document states its property-local date and currency.
+
+The signed-in installation owner opens **Resident statements and receipts** on the tenancy ledger. Select the current full resident grant, statement month and document kind. A receipt also names its payment source. Record the resident's affirmative request for private email links, then prepare and inspect the frozen document. Review its exact recipient and fingerprint before explicitly sending. The email contains a private portal link rather than financial contents; the resident must sign in with a current grant. Delegates receive no document access. Changed sources require a newly reviewed document.
+
+The consent version `resident-statement-link-v1` records the resident request: “Email me a private sign-in link to my Terrace statement or payment receipt.” This request supplies neither collection authority nor authority for other communications. The owner's send authorization is retained separately. This conservative authority and consent default awaits ct approval; PAY-010 stays PARTIAL. PORTAL-001 and PORTAL-005 inherit the resident grant, consent and honest delivery boundary before future doors ship.
+
+Mail provider acceptance is not delivery. The queue distinguishes delivered, bounced, unsent and uncertain outcomes. A verified failure opens a delivery follow-up task. The owner may record delivered or bounced from actual provider evidence, explicitly labeled as owner-recorded. Claimed sends cannot be sent again; reconcile uncertainty before preparing another document. No scheduler sends or retries. Development and demo mail stay suppressed.
+
+Use the installation mail provider and sender. For authenticated delivery updates configure `RESIDENT_MAIL_WEBHOOK_KEY` on the server and send provider callbacks to `/api/resident-mail/events`. With SendGrid use its signed Event Webhook verification public key and preserve the signed `rer_delivery_id` custom argument. With Resend use its webhook signing key. Each event must match the stored provider message and exact recipient. Replays and out-of-order events preserve terminal outcomes. A callback never grants document access.
+
+Documents and delivery evidence follow SAFE-004 communication retention and holds. Native backups and readable exports preserve the frozen documents and history. Restored records cannot authorize a send or grant recipient access; invite the resident again and prepare a new reviewed document.
