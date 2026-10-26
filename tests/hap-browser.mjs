@@ -11,6 +11,7 @@ try{await journey({assets:true,inspect:async({h,leases,phase,preview,comparisons
   await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no page overflow at '+width)
   const people=page.getByRole('link',{name:'Manage people',exact:true});await people.focus();assert.equal(await page.locator('#people-tooltip').evaluate(e=>getComputedStyle(e).visibility),'visible');await page.locator('h1').click();await page.mouse.move(0,0);await people.hover();await page.waitForTimeout(100);assert.equal(await page.locator('#people-tooltip').evaluate(e=>getComputedStyle(e).visibility),'hidden');await page.waitForTimeout(250);assert.equal(await page.locator('#people-tooltip').evaluate(e=>getComputedStyle(e).visibility),'visible');await page.locator('h1').click()
   await page.screenshot({path:join(out,name+'-'+width+'.png'),fullPage:true})
+  for(const heading of ['PHA remittances and corrections','Payer and owner reconciliation','Recorded payer activity alongside forecasts']){const target=page.getByRole('heading',{name:heading,exact:true});if(await target.count())await target.locator('..').screenshot({path:join(out,name+'-'+heading.toLowerCase().replaceAll(' ','-')+'-'+width+'.png')})
  }}
  try{
   await page.goto(h.origin+'/app?tab=ledger&tenancy='+leases[0].t.id+'&run=2026-07')

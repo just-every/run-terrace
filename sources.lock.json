@@ -172,6 +172,10 @@
       "sha256": "da68699ed9576cf2b29a52a312bb612069a3dfa368546501e2121e5c27c515d5",
       "executable": false
     },
+    "docs/hap-accounting.md": {
+      "sha256": "1e646c98d1c45bac80b07c6db6bbe25cb219e5075d87176636f2cabf8b92bfa2",
+      "executable": false
+    },
     "docs/index.md": {
       "sha256": "a89c2b2d9adf1363c3984d3a03427c62920a6b22ad862e53c5befa36183c38cc",
       "executable": false
@@ -3685,7 +3689,7 @@
       "executable": false
     },
     "src/terrace/hap-view.ts": {
-      "sha256": "389296f9be0d258eff06b26926f8d454dbb8ddf38ee3d5a38bc1bdb665bbb287",
+      "sha256": "8688f65057d115345fb9e3de89846e229288a95d3dec650dea3a9c9490fec8e6",
       "executable": false
     },
     "src/terrace/history.ts": {
@@ -4389,7 +4393,11 @@
       "executable": false
     },
     "tests/hap-browser.mjs": {
-      "sha256": "cf7d6aae2d35c6c1a31ad7fc0fcd2fa0f5cb6fee965473d77805d05f91184258",
+      "sha256": "bf81835ec19e5304c2f5161da7e48eae15ed4be3ffe0cc22233882b458ec25da",
+      "executable": false
+    },
+    "tests/hap-cadences.mjs": {
+      "sha256": "ebf43ed6dec6974f339296beac2a476db67488e94f6998a4022109e62c35c590",
       "executable": false
     },
     "tests/hap-changes.mjs": {
