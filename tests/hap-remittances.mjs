@@ -33,6 +33,7 @@ export async function remittanceFlow(h,leases,{inspect}={}) {
 
  // A dated ownership change must not move the old receivable's beneficiary.
  const successor=await h.command('owner.add',{kind:'individual',legalName:'synthetic-terrace-177',email:'synthetic-terrace-177@example.test',mailingAddress:'synthetic-terrace-177'})
+ first.successor=successor
  await h.command('ownership.set',{propertyId:first.p.id,effectiveFrom:'2026-08-01',reason:'synthetic-terrace-178',shares:[{ownerId:successor.id,percent:'100'}]})
  const receivedSource=await source(179),received=await h.command('hap.remittance.record',{...input,method:'check',amount:'300.20',reference:'synthetic-terrace-180',state:'received',sourceDocumentVersionId:receivedSource.versionId})
  const paid=await h.command('hap.remittance.allocate',{remittanceId:received.id,version:received.version,reference:'synthetic-terrace-181',allocations:[{chargeId:charges[0].id,amount:'100.01'},{chargeId:charges[1].id,amount:'200.02'}]})
@@ -48,6 +49,20 @@ export async function remittanceFlow(h,leases,{inspect}={}) {
  }
  await h.command('hap.remittance.allocate',{remittanceId:received.id,version:paid.version,reference:'synthetic-terrace-181',allocations:[{chargeId:charges[0].id,amount:'0.01'}]},{status:409})
  await h.command('hap.remittance.allocate',{remittanceId:received.id,version:paid.version,reference:'synthetic-terrace-182',allocations:[{chargeId:charges[0].id,amount:'0.01'}]},{status:409})
+
+ const achSource=await source(200),ach=await h.command('hap.remittance.record',{...input,amount:'30.20',reference:'synthetic-terrace-201',state:'received',sourceDocumentVersionId:achSource.versionId})
+ const achPaid=await h.command('hap.remittance.allocate',{remittanceId:ach.id,version:ach.version,reference:'synthetic-terrace-202',allocations:[{chargeId:charges[0].id,amount:'10.01'},{chargeId:charges[1].id,amount:'20.02'}]})
+ assert.equal(achPaid.heldCents,17)
+ const achDetail=(await detail()).find(r=>r.id===ach.id)
+ assert.deepEqual([achDetail.method,achDetail.state,achDetail.amount_cents,achDetail.held_cents],['ach','received',3020,17])
+ assert.deepEqual(achDetail.allocations.map(a=>[a.charge_id,a.tenancy_id,a.amount_cents]).sort(),[[charges[0].id,first.t.id,1001],[charges[1].id,second.t.id,2002]].sort())
+ for(const [i,x] of leases.entries()) {
+  const ledger=(await h.state(x.t.id)).ledger,entries=(await journal(x)).filter(e=>achDetail.allocations.some(a=>a.id===e.source_id))
+  assert.equal(ledger.hapBalanceCents,before[i]-[11002,22004][i])
+  assert.equal(ledger.balanceCents,resident[i],'received ACH preserves resident receivables')
+  assert.deepEqual(entries.map(e=>[e.owner_key,e.tenancy_id,e.property_id]),[[x.o.id,x.t.id,x.p.id]],'one received ACH retains each original beneficiary across both properties')
+  assert.equal(entries.reduce((n,e)=>n+e.lines.filter(l=>l.account==='cash').reduce((s,l)=>s+l.debit-l.credit,0),0),[1001,2002][i])
+ }
 
  await h.stepUp()
  await h.command('operator.invite',{displayName:'synthetic-terrace-183',email:'synthetic-terrace-183@example.test',role:'bookkeeper',['portfolio:'+first.f.id]:'1'})
@@ -68,7 +83,7 @@ export async function remittanceFlow(h,leases,{inspect}={}) {
  const ready=(await detail()).find(r=>r.id===scopedRemit.id)
  const settled=await h.command('hap.remittance.outcome',{remittanceId:scopedRemit.id,version:ready.version,state:'received',on:'2026-09-03',reference:'synthetic-terrace-196'})
  assert.equal(settled.state,'received')
- assert.equal((await h.state(first.t.id)).ledger.hapBalanceCents,before[0]-10101)
+ assert.equal((await h.state(first.t.id)).ledger.hapBalanceCents,before[0]-11102)
  await h.command('hap.remittance.outcome',{remittanceId:scopedRemit.id,version:ready.version,state:'received',on:'2026-09-03',reference:'synthetic-terrace-196'},{status:409})
  const excessSource=await source(197),excess=await h.command('hap.remittance.record',{...input,amount:'10000.00',reference:'synthetic-terrace-198',sourceDocumentVersionId:excessSource.versionId})
  await h.command('hap.remittance.allocate',{remittanceId:excess.id,version:1,reference:'synthetic-terrace-199',allocations:[{chargeId:charges[0].id,amount:'10000.00'}]},{status:409})
@@ -76,6 +91,6 @@ export async function remittanceFlow(h,leases,{inspect}={}) {
  const history=await(await h.request('/api/history?action=read:hap-remittances')).json();assert.ok(history.rows.some(r=>r.action==='read:hap-remittances'&&r.tenancyId===first.t.id),'documentary remittance reads retain attributable scoped history')
  await h.restart()
  assert.deepEqual(await detail(),snapshot,'restart retains explicit outcomes and immutable allocations')
- await inspect?.({h,leases,phase:'remittances',remittance:lump})
- return {received,paid,pending,failed,scopedRemit}
+ await inspect?.({h,leases,phase:'remittances',remittance:lump,achRemittance:achDetail,expected:{phaBalancesCents:[58898,57997],residentBalancesCents:resident,achHeldCents:17,achAllocationCents:[1001,2002]}})
+ return {received,paid,pending,failed,scopedRemit,ach,achPaid}
 }

@@ -33,9 +33,21 @@ export async function hapChangeFlow(h,leases,manager,{inspect}={}){
  for(const q of abated.charges.filter(q=>q.balance_cents>0))await h.command('rent.receipt',{chargeId:q.id,amount:(q.balance_cents/100).toFixed(2),receivedDate:'2026-10-26',reference:'synthetic-terrace-215-'+q.id})
  const response=await h.request('/api/hap-reconciliation?tenancyId='+t.id),r=await response.json();assert.equal(response.status,200)
  assert.equal(r.resident.balanceCents,0);assert.equal(r.resident.creditCents,10000);assert.equal(r.differenceCents,0);assert.equal(r.ownerNetCents,r.residentNetCents+r.phaNetCents)
+ const ownerAmounts=rows=>rows.map(({ownerId,receivableCents,externalCashCents,incomeCents})=>({ownerId,receivableCents,externalCashCents,incomeCents})).sort((a,b)=>a.ownerId.localeCompare(b.ownerId))
+ const expected={residentBalanceCents:0,residentCreditCents:10000,residentNetCents:-10000,phaBalanceCents:148898,phaCreditCents:0,phaNetCents:148898,ownerNetCents:138898,owners:[
+  {ownerId:first.o.id,receivableCents:58898,externalCashCents:41103,incomeCents:100001},
+  {ownerId:first.successor.id,receivableCents:80000,externalCashCents:40002,incomeCents:120002},
+ ]}
+ assert.deepEqual([r.residentNetCents,r.pha.balanceCents,r.pha.creditCents,r.phaNetCents,r.ownerNetCents],[-10000,148898,0,148898,138898])
+ assert.deepEqual(ownerAmounts(r.owners),ownerAmounts(expected.owners),'complete reconciliation names the frozen beneficiaries with exact receivable, cash and income cents')
+ const otherResponse=await h.request('/api/hap-reconciliation?tenancyId='+other.t.id),otherReconciliation=await otherResponse.json();assert.equal(otherResponse.status,200)
+ assert.deepEqual([otherReconciliation.resident.balanceCents,otherReconciliation.resident.creditCents,otherReconciliation.pha.balanceCents,otherReconciliation.pha.creditCents,otherReconciliation.ownerNetCents,otherReconciliation.differenceCents],[40000,0,217999,0,257999,0])
+ assert.deepEqual(ownerAmounts(otherReconciliation.owners),[{ownerId:other.o.id,receivableCents:257999,externalCashCents:42004,incomeCents:300003}],'the other lease retains its own beneficiary and payer amounts')
  assert.equal(r.pha.charges.find(q=>q.dueDate==='2026-08-01').outstandingCents,0)
  assert.equal(r.effects.length,4);assert.ok(r.effects.every(e=>e.notice_version_id&&e.posting_day==='2026-10-26'))
  const historical=await(await h.request('/api/hap-reconciliation?tenancyId='+t.id+'&asOf=2026-09-30')).json();assert.equal(historical.differenceCents,0);assert.equal(historical.resident.creditCents,0)
+ assert.deepEqual([historical.resident.balanceCents,historical.residentNetCents,historical.pha.balanceCents,historical.pha.creditCents,historical.phaNetCents,historical.ownerNetCents],[60002,60002,198898,0,198898,258900])
+ assert.deepEqual(ownerAmounts(historical.owners),ownerAmounts([{ownerId:first.o.id,receivableCents:58898,externalCashCents:41103,incomeCents:100001},{ownerId:first.successor.id,receivableCents:200002,externalCashCents:0,incomeCents:200002}]),'historical beneficiaries exclude corrections and receipts posted after the report date')
  const csv=await(await h.request('/api/hap-reconciliation?tenancyId='+t.id+'&format=csv')).text();assert.ok(csv.includes(source.versionId)&&csv.includes(abatementSource.versionId))
  const aging=await(await h.request('/api/delinquency?asOf=2026-10-26&tenancyId='+t.id)).json();assert.equal(aging.rows[0].balanceCents,0);assert.equal(aging.rows[0].creditCents,10000);assert.equal(aging.rows[0].phaAging.balanceCents,r.pha.balanceCents);assert.equal(aging.rows[0].payerCorrections.length,4);assert.equal(aging.totals[0].phaBalanceCents,r.pha.balanceCents);const agingCsv=await(await h.request('/api/delinquency?asOf=2026-10-26&tenancyId='+t.id+'&format=csv')).text();assert.ok(agingCsv.includes(source.versionId)&&agingCsv.includes(abatementSource.versionId))
  const pack=syntheticPack('CA');pack.fields.lateFee={citation:'synthetic-terrace-217',effectiveDate:'2025-01-01',value:{fullUnpaidDays:4,basis:'monthly_rent',smallStructureMaxUnits:4,smallStructureCapBp:500,largeStructureCapBp:500,weekendRule:'calendar',holidays:[],pendingPolicy:'exclude_timely',reversalPolicy:'hold'}}
@@ -44,6 +56,6 @@ export async function hapChangeFlow(h,leases,manager,{inspect}={}){
  const fees=await h.command('latefee.preview',{tenancyId:t.id,on:'2026-10-26'});assert.ok(fees.lines.every(l=>l.state==='not_due'&&l.feeCents===0),'unpaid PHA never creates a fee on timely paid resident rent');assert.equal(fees.lines.length,1)
  const next=await h.command('charges.preview',{month:'2026-10'});const nextPortions=next.lines.filter(l=>l.tenancyId===t.id);assert.deepEqual(nextPortions.map(l=>l.amountCents),[20001,80000],'new rent runs inherit the revised payer entitlement without repeating an abatement')
  const scoped=await h.invite('member','synthetic-terrace-216@example.test');await h.command('hap.change.prepare',input,{as:scoped,status:403})
- if(inspect)await inspect({h,leases,phase:'reconciled',reconciliation:r})
+ if(inspect)await inspect({h,leases,phase:'reconciled',reconciliation:r,expected})
  return {source,abatementSource,reconciliation:r}
 }

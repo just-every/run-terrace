@@ -38,6 +38,14 @@
         "pnpm run test:demo",
         "node --test --test-concurrency=1 tests/payer-accounting.test.mjs"
       ]
+    },
+    {
+      "name": "hap-browser",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/hap-browser.mjs"
+      ]
     }
   ],
   "nightly": [
@@ -135,8 +143,7 @@
       "hosted": false,
       "commands": [
         "node tests/payments-browser.mjs",
-        "node tests/card-payments-browser.mjs",
-        "node tests/hap-browser.mjs"
+        "node tests/card-payments-browser.mjs"
       ]
     },
     {

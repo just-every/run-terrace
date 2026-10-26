@@ -9,7 +9,7 @@ import {installation,tenancyInput} from './api/harness.mjs'
 import {editArchive} from './archive-edit.mjs'
 import {leaseFields} from './leases.mjs'
 export async function journey({assets=false,inspect}={}){
- const h=await installation({assets,now:'2026-10-26T12:00:00.000Z'})
+ const h=await installation({assets,bufferedTransport:true,now:'2026-10-26T12:00:00.000Z'})
  try{
   const manager=await h.invite('admin','hap-manager@example.test'),leases=[]
   for(const [i,resident,pha] of [[1,'300.01','700.00'],[2,'200.00','800.01']]){
@@ -56,7 +56,7 @@ export async function journey({assets=false,inspect}={}){
   await h.stepUp();await h.command('operator.invite',{displayName:'Scoped bookkeeper',email:'hap-bookkeeper@example.test',role:'bookkeeper',['portfolio:'+leases[0].f.id]:'1'});const scoped=await h.accept('hap-bookkeeper@example.test')
   assert.equal((await h.request('/api/state?tenancy='+leases[1].t.id,{as:scoped})).status,404)
   const visible=await h.command('charges.preview',{month:'2026-07'},{as:scoped});assert.ok(visible.lines.every(l=>l.tenancyId===leases[0].t.id))
-  const backup=await(await h.request('/api/backup')).text(),fresh=await installation()
+  const backup=await(await h.request('/api/backup')).text(),fresh=await installation({bufferedTransport:true})
   try{const invalid=await editArchive(backup,(table,row)=>{if(table==='tt_hap_charges')row.amount_cents+=1});await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([invalid],'invalid-hap.rer')},{status:400});assert.equal((await fresh.state()).tenancies.length,0);await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([backup],'hap.rer')});for(const x of leases){const restored=(await fresh.state(x.t.id)).ledger;assert.deepEqual(restored.hapCharges,(await h.state(x.t.id)).ledger.hapCharges);assert.equal(restored.balanceCents,(await h.state(x.t.id)).ledger.balanceCents);assert.equal(restored.hapBalanceCents,(await h.state(x.t.id)).ledger.hapBalanceCents)}}finally{await fresh.close()}
   await hapErasureFlow(backup,leases)
   await h.restart();assert.equal((await h.command('charges.preview',{month:'2026-07'})).newLines,0)

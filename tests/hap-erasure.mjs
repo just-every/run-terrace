@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import {createHash} from 'node:crypto'
 import {readArchive} from '../src/modules/portability/index.mjs'
 import {installation} from './api/harness.mjs'
 
@@ -15,6 +16,28 @@ function absent(text,privateText,surface){for(const value of privateText)assert.
 async function read(h,path){const response=await h.request(path);assert.equal(response.status,200,path);return response}
 const snapshot=async h=>(await read(h,'/api/backup')).text()
 const restore=(h,archive)=>h.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'synthetic-terrace-801.rer')})
+
+function csvRows(bytes){
+ assert.ok(bytes,'readable export includes the requested table')
+ const text=bytes.toString(),lines=[]
+ let row=[],cell='',quoted=false
+ for(let i=0;i<text.length;i++){
+  const ch=text[i]
+  if(ch==='"'){
+   if(quoted&&text[i+1]==='"'){cell+='"';i++}else quoted=!quoted
+  }else if(ch===','&&!quoted){row.push(cell);cell=''}
+  else if((ch==='\r'||ch==='\n')&&!quoted){
+   row.push(cell);lines.push(row);row=[];cell=''
+   if(ch==='\r'&&text[i+1]==='\n')i++
+  }else cell+=ch
+ }
+ assert.equal(quoted,false,'readable CSV has complete quoted cells')
+ if(cell||row.length){row.push(cell);lines.push(row)}
+ const header=lines.shift()
+ return lines.map(values=>{assert.equal(values.length,header.length);return Object.fromEntries(header.map((key,i)=>[key,values[i]]))})
+}
+// Readable CSV protects formula-like values, including negative financial cents.
+const csvValues=row=>Object.fromEntries(Object.entries(row).map(([key,value])=>[key,value===null?'':String(value).replace(/^[=+@-]/,"'$&").replace(/^[=+@-]/,"'$&")]))
 
 /** PAY-013 and SAFE-004 share the posted, corrected and externally receipted leases. */
 export async function hapErasureFlow(backup,leases){
@@ -35,6 +58,7 @@ export async function hapErasureFlow(backup,leases){
  assert.ok(shared.length,'the erasure journey must include a remittance linking both subjects')
  assert.ok(['split','abatement'].every(kind=>changes.some(row=>row.kind===kind&&row.approved_at)),'approved payer changes must reach erasure')
  assert.ok(versions.length&&changes.every(row=>versions.some(v=>v.id===row.notice_version_id)))
+ assert.ok(remittances.every(row=>versions.some(v=>v.id===row.source_document_version_id)),'every PHA remittance original reaches readable export')
  for(const id of subjects)assert.ok(new Set(haps.filter(row=>row.tenancy_id===id).map(row=>row.period_start.slice(0,7))).size>=3,'three posted months reach retention review')
 
  // Compare preserved financial identities, amounts and dates after a real archive restore.
@@ -55,11 +79,31 @@ export async function hapErasureFlow(backup,leases){
   ...remittances.flatMap(row=>[row.reference,row.outcome_reference]),...batches.map(row=>row.reference),
   ...documents.map(row=>row.title),...versions.flatMap(row=>[row.name,row.note,row.content_text]),
  ].filter(value=>typeof value==='string'&&value.length>0))]
- const originals=new Map(),h=await installation({now})
+ const originals=new Map(),h=await installation({now,bufferedTransport:true})
  let latest
  try{
   await restore(h,backup)
   for(const version of versions)originals.set(version.id,Buffer.from(await(await read(h,'/api/document?id='+version.id)).arrayBuffer()))
+  const exported=Buffer.from(await(await read(h,'/api/readable-export')).arrayBuffer()),entries=new Map()
+  for(let o=0;exported.readUInt32LE(o)===0x04034b50;){const n=exported.readUInt16LE(o+26),x=exported.readUInt16LE(o+28),size=exported.readUInt32LE(o+18);entries.set(exported.subarray(o+30,o+30+n).toString(),exported.subarray(o+30+n+x,o+30+n+x+size));o+=30+n+x+size}
+  const manifest=JSON.parse(entries.get('manifest.json')),exportedVersions=csvRows(entries.get('tables/tt_document_versions.csv'))
+  for(const version of versions){
+   const record=exportedVersions.find(row=>row.id===version.id)
+   assert.ok(record,'readable export includes each PHA notice and remittance version before erasure')
+   const reference=/^file:(.+) sha256:([a-f0-9]{64})$/.exec(record.bytes)
+   assert.ok(reference,'PHA original CSV names its file and checksum')
+   const file=manifest.files.find(row=>row.path===reference[1]),original=originals.get(version.id)
+   assert.ok(file,'readable manifest includes each PHA original')
+   assert.deepEqual(pick(file,['table','column','size','sha256']),{table:'tt_document_versions',column:'bytes',size:original.length,sha256:version.sha256})
+   assert.equal(reference[2],version.sha256,'PHA original CSV retains its recorded checksum')
+   assert.deepEqual(entries.get(file.path),original,'readable export retains exact PHA notice and remittance original bytes before erasure')
+   assert.equal(createHash('sha256').update(entries.get(file.path)).digest('hex'),version.sha256,'exported PHA original matches its recorded checksum')
+   assert.deepEqual(record,csvValues({...version,bytes:record.bytes}),'readable export retains the PHA original version and source identity')
+  }
+  for(const [table,before] of financial){
+   const ids=new Set(before.map(row=>row.id)),exportedRows=csvRows(entries.get('tables/'+table+'.csv')).filter(row=>ids.has(row.id))
+   assert.deepEqual(sorted(exportedRows),sorted(before.map(csvValues)),table+' readable export retains exact financial rows before erasure')
+  }
   const requests=[]
   for(const [index,t] of tenancies.entries())requests.push(await h.command('privacy.request',{tenancyId:t.id,kind:'erase',source:'synthetic-terrace-'+(802+index)}))
   const hold=await h.command('privacy.hold',{tenancyId:tenancies[1].id,class:'accounting',reason:'synthetic-terrace-804'})
@@ -111,14 +155,14 @@ export async function hapErasureFlow(backup,leases){
   for(const bytes of originals.values())assert.ok(!readable.includes(bytes),'readable export has no erased PHA original bytes')
  }finally{await h.close()}
 
- const blocked=await installation({now})
+ const blocked=await installation({now,bufferedTransport:true})
  try{
   const result=await blocked.formCommand('data.restore',{confirm:'RESTORE',backup:new File([backup],'synthetic-terrace-806.rer'),journal:new File([latest],'synthetic-terrace-807.rer')},{status:409})
   assert.equal(result.error,'erasure_fence')
   assert.equal((await blocked.state()).tenancies.length,0,'older archive rejection leaves the destination empty')
  }finally{await blocked.close()}
 
- const restored=await installation({now})
+ const restored=await installation({now,bufferedTransport:true})
  try{
   await restore(restored,latest)
   for(const t of tenancies){

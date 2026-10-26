@@ -43,6 +43,16 @@ export async function hapScenarioFlow(h, leases) {
   const { remittances } = await remittanceResponse.json()
   const receivedAllocations = remittances.filter(s => s.state === 'received' && s.outcome_date >= q.from && s.outcome_date <= a.through).flatMap(s => s.allocations.filter(v => v.tenancy_id === x.t.id))
   assert.equal(a.housingAuthority.receivedCents, receivedAllocations.reduce((n, s) => n + s.amount_cents, 0), 'PHA actuals reconcile to this tenancy’s external remittance allocations only')
+  const outcomes=remittances.flatMap(r=>r.allocations.filter(v=>v.tenancy_id===x.t.id).map(v=>({id:v.id,remittanceId:r.id,chargeId:v.charge_id,state:r.state,amountCents:v.amount_cents,date:r.outcome_date??r.received_date}))).filter(r=>r.date>=q.from&&r.date<=a.through)
+  const outcomeValues=rows=>rows.map(({id,remittanceId,chargeId,state,amountCents,date})=>({id,remittanceId,chargeId,state,amountCents,date})).sort((a,b)=>a.id.localeCompare(b.id))
+  assert.deepEqual(outcomeValues(a.housingAuthority.outcomes),outcomeValues(outcomes),'forecast payer outcomes retain every dated allocation and explicit result')
+  for(const state of ['received','failed'])assert.ok(a.housingAuthority.outcomes.some(r=>r.state===state),'the forecast exercises '+state+' PHA outcomes')
+  assert.deepEqual(a.resident.outcomes.filter(r=>r.state==='recorded_external').map(r=>r.id).sort(),a.resident.receipts.filter(r=>!r.reversalOf).map(r=>r.id).sort())
+  const pendingReport=await read(comparison(x.t.id,'2026-07-01','2026-09-01')),pending=pendingReport.facts.payerActuals.housingAuthority
+  assert.ok(pending.outcomes.some(r=>r.state==='pending'),'the historical forecast exercises an explicitly pending PHA allocation')
+  assert.ok(!pending.outcomes.some(r=>r.state==='failed'),'the later failure never backdates its outcome')
+  assert.equal(pending.pendingCents,[1101,2002][index])
+
   const effects = before.hapEffects.filter(s => s.posting_day >= q.from && s.posting_day <= a.through)
   assert.equal(a.housingAuthority.adjustmentCents, effects.reduce((n, s) => n + s.pha_delta, 0))
   assert.ok(a.resident.receipts.every(s => before.charges.some(c => c.id === s.chargeId)))

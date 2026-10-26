@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "f6bba96328148c8c831c65fc52c8ac8fe6c287a358fceda204431e43ba0df95a",
+      "sha256": "c440433c4bb978a261380fe4b7760bbba6371a68ce50b094f0c002e2a845b367",
       "executable": false
     },
     "AGENTS.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "305c17a30720217c8b8163d8355f4926335864eec08bba6cf2315c6c5e28c42f",
+      "sha256": "b0a0fd00ab738a5d42a7047fbe4d30f250edb58bef607d6fc448f142176eaa7a",
       "executable": false
     },
     "DEMO.md": {
@@ -649,7 +649,7 @@
       "executable": false
     },
     "public/app/pages.css": {
-      "sha256": "5d3a22fa285e15960b4efca7035190f095ca6c054e73e891c10cb630efe9dbfe",
+      "sha256": "2f2da7a804fc40ec83b224a188de7f7d83ed15df9e0ba8d964dc22544524dba2",
       "executable": false
     },
     "public/app/record-media.js": {
@@ -3453,7 +3453,7 @@
       "executable": false
     },
     "src/terrace/charge-run-view.ts": {
-      "sha256": "fc931eded8a63568f9114cdf3ddc3c35e94c971e4d637b5a51d0d092f7dd68a4",
+      "sha256": "1979059c6a453e5338d8e14b30dcff7477141cd6631f83b73f9ae176903cf609",
       "executable": false
     },
     "src/terrace/charge-run.ts": {
@@ -3789,7 +3789,7 @@
       "executable": false
     },
     "src/terrace/ledger-view.ts": {
-      "sha256": "ec149a9a171b6647294fb89701ca66f1fadf4a628f727e02a33f6e529f2e041e",
+      "sha256": "496ccd85489191eb6143dea24c754afa7156b90e00e64be6133e1780bcd65afe",
       "executable": false
     },
     "src/terrace/ledger.ts": {
@@ -4393,7 +4393,7 @@
       "executable": false
     },
     "tests/hap-browser.mjs": {
-      "sha256": "0015a6bda5ffdbb1aa3240890ee433e14ef3811b59f2c94b8917c5076875c5dd",
+      "sha256": "18f26f74fb2cff0fde60cbcf055fafd9bb0bc838965a237ae1d5743c27162861",
       "executable": false
     },
     "tests/hap-cadences.mjs": {
@@ -4401,27 +4401,27 @@
       "executable": false
     },
     "tests/hap-changes.mjs": {
-      "sha256": "4757d269efb36ffb8bae75f21c8498ef5c1afb52b6c0d431c1d70407e4fdba78",
+      "sha256": "9199541697e436e327ef24877debe2b1738dd0e018ae1a6c16be6f4212fb73b7",
       "executable": false
     },
     "tests/hap-erasure.mjs": {
-      "sha256": "c4163af259d5795cf70f2d0f5e0c7ea331242311524b8ac58cbee62744efeadf",
+      "sha256": "b88b2bb98a4b4b5a8ede704d0ef4a5ed065a395b9026fff025b1b411d946648a",
       "executable": false
     },
     "tests/hap-portals.mjs": {
-      "sha256": "10665af2b5d943825fa5bf5109ebf8ad10de959ee2f7001478a1d35efab9b61f",
+      "sha256": "33c1e611c1315b4703872a36506b868d9f3f49c6f15786016c011bee4b888b07",
       "executable": false
     },
     "tests/hap-remittances.mjs": {
-      "sha256": "b53bc2ac849b84095f1df5bb480e489f9531d0371a95f4562cced6f2bd11c1c6",
+      "sha256": "33a82baaf413d95fd4882b967adbc7aaec652ef935ba17fc821e4f401a422137",
       "executable": false
     },
     "tests/hap-scenarios.mjs": {
-      "sha256": "b9e2e33ffd7a46031c13e9bd24f4fda02d05f9b0e11c49702fc41e837634e081",
+      "sha256": "4ecce2b92c23c5b0630f8d103bc43a8ecbfc04d1c4981ca37e12be415ac159bb",
       "executable": false
     },
     "tests/hap.mjs": {
-      "sha256": "a7dd617587579ded064b9496430777621ff434cead878fb23f0f192902486d5d",
+      "sha256": "80bd151120621b78df4ebb3ad6acddabe29da5a88665e7fd7caa93ebf32d38f8",
       "executable": false
     },
     "tests/households-browser.mjs": {
@@ -4657,7 +4657,7 @@
       "executable": false
     },
     "verification.json": {
-      "sha256": "0d8aaa6ef681b1add98f6eee3657cd08764fe0a80fcef38dd85d713142001571",
+      "sha256": "c660b58348239cf743db4138d197831b3039c802ae358ba20e43e83d92482c3f",
       "executable": false
     },
     "VERIFY-WORKFLOW.md": {

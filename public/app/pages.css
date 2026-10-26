@@ -22,6 +22,7 @@
 .tenancy-chooser{display:grid;grid-template-columns:minmax(0,560px) auto;align-items:end;justify-content:start;gap:12px;margin:0 0 20px}.tenancy-chooser button{margin:0}
 .selected-address{font-size:26px;font-weight:800;letter-spacing:-.035em;margin:0 0 20px}
 .ledger-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(300px,1fr);gap:20px;align-items:start}
+.ledger-layout>div{min-width:0}
 .metrics{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
 .metrics>div{padding:18px 22px;border:1px solid var(--rule);border-radius:16px;background:var(--card);box-shadow:var(--card-shadow)}
 .metrics p{font-size:14px;color:var(--body);margin:0 0 6px}.metrics strong{font:800 28px/1.2 var(--rer-font-heading);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
