@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "6cb49e3bc5ac2a8f8cfdc5161d83a7e27c883dcb22743fbbe8a899f6d24e47bf",
+      "sha256": "14518974abfd1ad558d36dbe1b731b90486ddf2eeeeba027aeb1447fb7ea7109",
       "executable": false
     },
     "AGENTS.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "759441f84cb0df3834df6548d7f5a539359d1c68811676e2e101e8b54f025ad0",
+      "sha256": "9b59ea1126d9a24292144d06b98eee8a58c0ab6a11a28c4a60b24460f2138002",
       "executable": false
     },
     "DEMO.md": {
@@ -901,7 +901,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "635adf56d8a8a00be291defd92ba1a0080eb2b8ba56e04f827ba0be5501cc139",
+      "sha256": "70396b73cd692d3785ef124e4061faa2ff55e86bb30d9e0dfd1a11921d4a3e3f",
       "executable": false
     },
     "rer-project.json": {
@@ -4201,7 +4201,7 @@
       "executable": false
     },
     "tests/card-payments-live.mjs": {
-      "sha256": "ffbd3fcf4c7f1f72cd90d9a5ae6e2ce1ba3040c0e9ae32d24d6c438f28089a17",
+      "sha256": "4525010710087eea0f57aa54705b655885bd49f614e0de8bcb44422d6b6d849c",
       "executable": false
     },
     "tests/card-payments.mjs": {
