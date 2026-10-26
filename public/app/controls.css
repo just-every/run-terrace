@@ -30,7 +30,7 @@ details[open]>summary{margin-bottom:12px}
 
 /* Icon-only at compact widths: delay hover, immediate keyboard focus. */
 .person{position:relative}.control-tooltip{position:absolute;z-index:10;right:8px;top:calc(100% - 4px);padding:6px 10px;border-radius:6px;background:var(--ink);color:white;font-size:13px;white-space:nowrap;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 0s,visibility 0s}
-.person:hover .control-tooltip{opacity:1;visibility:visible;transition-delay:300ms}.person:focus .control-tooltip{opacity:1;visibility:visible;transition-delay:0s}
+.person:hover .control-tooltip{opacity:1;visibility:visible;transition-delay:300ms}.person:focus .control-tooltip{opacity:1;visibility:visible;transition:none}
 
 
 [data-field-capture] fieldset{min-inline-size:0;max-width:100%;border:1px solid var(--rule);border-radius:10px;padding:16px;margin:0 0 16px}[data-field-capture] legend{padding:0 6px;font-weight:600}[data-field-capture] pre{max-width:100%}
