@@ -4496,6 +4496,10 @@
       "sha256": "3bcd1eb756726f93bda2b28e36c8d3f22b8082ddebf83db698b06f6fd110a35e",
       "executable": false
     },
+    "tests/payer-accounting.test.mjs": {
+      "sha256": "0fbd8172fae7b27671dc8f523c22dcb25d0c5e9e2d38e7a1f843985a8143756a",
+      "executable": false
+    },
     "tests/payments-browser.mjs": {
       "sha256": "2032405f70fedf58098d93e9a01091a9a62510676582f7c189b06eb6bce5651c",
       "executable": false
