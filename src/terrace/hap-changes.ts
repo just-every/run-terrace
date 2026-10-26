@@ -19,11 +19,12 @@ async function reviewed(c:Context,v:Row,t:Row){
  const haps=await all(c,'SELECT * FROM tt_hap_charges WHERE tenancy_id=? AND period_end>=? AND period_start<=? ORDER BY period_start,id',t.id,v.effective_from,v.effective_to)
  const lines:Row[]=[]
  for(const q of haps){
-  insist(q.payer===v.payer&&q.due_date>=v.effective_from&&q.period_end<=v.effective_to,'hap_coverage','The notice must cover complete posted rent segments for the same PHA.',409)
+  insist(q.payer===v.payer&&q.due_date>=v.effective_from,'hap_coverage','The notice must cover complete posted rent segments for the same PHA.',409)
   const resident=await one(c,'SELECT q.*,('+RESIDENT_EFFECT+') AS delta FROM tt_charges q WHERE tenancy_id=? AND term_id=? AND period_start=? AND period_end=?',t.id,q.term_id,q.period_start,q.period_end)
   const oldPha=q.amount_cents+effects.filter(e=>e.hap_charge_id===q.id).reduce((n,e)=>n+e.pha_delta,0),oldResident=resident?resident.amount_cents+resident.delta:0
   const payload=JSON.parse((await one(c,'SELECT payload FROM tt_lease_versions WHERE id=?',q.lease_version_id))!.payload),term=payload.terms.find((x:Row)=>x.id===q.term_id)
   const coverageEnd=[q.period_end,term?.ends,t.ended_on??t.end_date].filter(Boolean).sort()[0],days=(Date.parse(coverageEnd)-Date.parse(q.due_date))/86400000+1,periodDays=(Date.parse(q.period_end)-Date.parse(q.period_start))/86400000+1
+  insist(coverageEnd<=v.effective_to,'hap_coverage','The notice must cover the complete effective charge segment.',409)
   // A notice changes entitlement, never the signed gross rent or the other payer's arrears.
   insist(term&&v.kind==='abatement'||term&&v.resident_cents+v.pha_cents===term.amountCents,'hap_split','The revised portions must equal the signed gross rent for its cadence.',409)
   let residentDelta=0,phaDelta=-oldPha

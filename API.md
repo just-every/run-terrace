@@ -1,5 +1,14 @@
 # Terrace commands
 
+Voucher payer accounting uses `hap.remittance.record`, `hap.remittance.allocate`,
+`hap.remittance.outcome`, `hap.change.prepare`, `hap.change.preview` and
+`hap.change.approve`. The native Rent & arrears forms use these same commands.
+`GET /api/hap-remittances?tenancyId=ID` returns completely scoped remittance
+records and held remainders. `GET /api/hap-reconciliation?tenancyId=ID&asOf=YYYY-MM-DD`
+returns separate payer and owner balances; `format=csv` downloads the same
+reconciliation. See [voucher payer accounting](docs/hap-accounting.md) for
+authority, original custody, exact approval and documentary receipt boundaries.
+
 All reads and writes authenticate a current Base operator session. Send the session cookie privately, never in a URL. Mutations require `Origin` equal to the installation origin, including command-line requests. Revoking an operator or changing their sign-in tier invalidates their sessions. There is no anonymous or implicit agent authority.
 
 ROLE-001: the Authority column lists the roles whose rows in the capability table (`tt_role_actions`, migration 0030) grant each command; the owner holds every command. Staff with assigned portfolios reach only tenancies on units in those portfolios: any other record answers `404`, and a command outside their role answers `403` before any record is read. Company, legal entity, operating account and portfolio changes and tenancies without a unit need all-portfolio scope. `operator.invite` (displayName, email, role, allPortfolios or `portfolio:<id>` fields), `operator.role` (operatorId, role, scope as for invite) and `operator.status` (operatorId, status) are the owner's alone and recorded.

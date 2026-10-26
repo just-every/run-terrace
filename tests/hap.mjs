@@ -1,3 +1,4 @@
+import {hapCadenceFlow} from './hap-cadences.mjs'
 import {hapPortalFlow} from './hap-portals.mjs'
 import {hapErasureFlow} from './hap-erasure.mjs'
 import {remittanceFlow} from './hap-remittances.mjs'
@@ -44,6 +45,7 @@ export async function journey({assets=false,inspect}={}){
   await hapChangeFlow(h,leases,manager,{inspect})
   await hapPortalFlow(h,leases,{inspect})
   const comparisons=await hapScenarioFlow(h,leases);if(inspect)await inspect({h,leases,phase:'payer-scenarios',comparisons})
+  await hapCadenceFlow(h,leases,manager)
   // A fully subsidized partial month posts no zero or phantom resident charge.
   const zunit=await h.command('unit.add',{propertyId:leases[1].p.id,identifier:'B',bedrooms:1,bathrooms:1}),z=await h.command('tenancy.create',{...tenancyInput,unitId:zunit.id,tenantEmail:'hap-zero@example.test',startDate:'2026-07-16',endDate:'2027-06-30',cadence:'monthly',rent:'1000.01'})
   const zs=leaseFields(z.id,'2026-07-16','1000.01','0','0','synthetic-terrace-140');zs.terms=zs.terms.filter(x=>x.kind==='rent');Object.assign(zs.obligations.find(x=>x.kind==='hap'),{details:'Fully subsidized',housingAuthority:'Synthetic Housing Authority',reference:'synthetic-terrace-141',tenantPortion:'0',hapPortion:'1000.01',ends:'2026-07-31'})

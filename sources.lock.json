@@ -109,7 +109,7 @@
       "executable": false
     },
     "API.md": {
-      "sha256": "8df0641813b965ac2e95fdddcdc20d4e7d1c4de3e3169598f8b1b7bbc31f7610",
+      "sha256": "0db4207c1268b30487293c6b5185d8e4c76f61e553666b6b59a474b9369cfbe3",
       "executable": false
     },
     "base-copies.json": {
@@ -3661,7 +3661,7 @@
       "executable": false
     },
     "src/terrace/hap-changes.ts": {
-      "sha256": "dd56ee30f46d415670761103fa1bbb9ba3e3d6d2542d25bebff00528c074ca3f",
+      "sha256": "d29e4be172ef0cf7ba155b22c279893354a40578de0ce773b793149e0f505f9d",
       "executable": false
     },
     "src/terrace/hap-charges.ts": {
@@ -4413,7 +4413,7 @@
       "executable": false
     },
     "tests/hap.mjs": {
-      "sha256": "bdb92d8f79e3c879304e2520041eb87fb27ad45126a04786f1135f9b532d4bd4",
+      "sha256": "a7dd617587579ded064b9496430777621ff434cead878fb23f0f192902486d5d",
       "executable": false
     },
     "tests/households-browser.mjs": {
