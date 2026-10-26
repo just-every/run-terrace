@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "2fd3c385d23b87137b942ff6163b429628643be44a97bf7dc4964ceb26a27bd2",
+      "sha256": "b1c802c6d03c63b68fe4152ec2bb397afa8db9b86f2970143cfe1110d1948869",
       "executable": false
     },
     "AGENTS.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "69dd49c0a3ef741a3181af98db3c0af75bc34d4ed14c6289eef146b80cb77eca",
+      "sha256": "5201e52682200eb15b63cf2830340b413a147e3942ff39ca5ea0eb7f965b6d3f",
       "executable": false
     },
     "DEMO.md": {
@@ -173,7 +173,7 @@
       "executable": false
     },
     "docs/hap-accounting.md": {
-      "sha256": "1e646c98d1c45bac80b07c6db6bbe25cb219e5075d87176636f2cabf8b92bfa2",
+      "sha256": "75abaf37a4276644dc8377032982bb6c3400b102735ebb54f3674c3791dc5d4b",
       "executable": false
     },
     "docs/index.md": {
@@ -3377,7 +3377,7 @@
       "executable": false
     },
     "src/terrace/api.ts": {
-      "sha256": "4109baa218f342a3391230e5ceeeb599538c4ce6f7c3a50f7f3ba4ec94d14aea",
+      "sha256": "3fa217ecdafd464171a50428045d4d1738e2d180e070dc64bd2aa965ebf58b97",
       "executable": false
     },
     "src/terrace/appointments-view.ts": {
@@ -3573,7 +3573,7 @@
       "executable": false
     },
     "src/terrace/documents.ts": {
-      "sha256": "3c3cbd0e7e8a7d9de26d626b6dc8c8882db21fdb9eb8ef2e9a0216c136058dea",
+      "sha256": "09718596dbad5e18c739edb5ccf768637c97e899d5e5547da7fffbc128b6d889",
       "executable": false
     },
     "src/terrace/dual-control.ts": {
@@ -4413,7 +4413,7 @@
       "executable": false
     },
     "tests/hap-remittances.mjs": {
-      "sha256": "754e6bf9f6f8649c492529d41776dcbcd3275a20b9541010d59335654dff8c83",
+      "sha256": "88392e0176d4e3a151bf75deab54de39df35d92682000f2ddf91e10dad556906",
       "executable": false
     },
     "tests/hap-scenarios.mjs": {

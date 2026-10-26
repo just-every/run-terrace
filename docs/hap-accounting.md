@@ -9,8 +9,8 @@ Terrace does not reconstruct a split that was never recorded.
 
 In Documents, upload the original as **PHA notice or remittance**. These are
 accounting records with seven-year fiscal retention, legal holds and an original
-fingerprint. Existing document upload authority applies; scoped ledger readers
-can read PHA accounting evidence. Tax and screening rights remain separate.
+fingerprint. Existing document upload and read authority applies to PHA accounting
+evidence. Ledger authority alone does not open the Documents door. Tax and screening rights remain separate.
 
 In Rent & arrears, open **Record an external PHA remittance**. Record the named
 PHA, ACH or check, exact amount, external reference, date and stored remittance

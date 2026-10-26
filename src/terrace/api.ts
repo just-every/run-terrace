@@ -274,7 +274,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   insist(!c.gated,'second_factor_required','Pass your second factor first: open /app?tab=security.',403)
   if(V1_PATH.test(url.pathname))return await apiV1(c,url)
   if(url.pathname==='/api/commands')return json({commands:COMMANDS.filter(name=>can(c!,name)&&(!c!.actor.credential||c!.actor.credential.scope==='prepare'&&PREPARE_COMMANDS.includes(name)))})
-  if(url.pathname==='/api/hap-remittances')return json(await hapRemittanceData(c,url.searchParams.get('tenancyId')??undefined))
+  if(url.pathname==='/api/hap-remittances'){const d=await hapRemittanceData(c,url.searchParams.get('tenancyId')??undefined);await recordRead(c,'read:hap-remittances',url.searchParams.get('tenancyId')??'remittances');return json(d)}
   if(url.pathname==='/api/hap-reconciliation'){const r=await hapReconciliation(c,text(url.searchParams.get('tenancyId'),'Tenancy'),url.searchParams.get('asOf')??undefined);await recordRead(c,'read:hap-reconciliation',r.tenancyId);return url.searchParams.get('format')==='csv'?new Response(csv(hapReconciliationTable(r)),{headers:{'content-type':'text/csv;charset=utf-8','content-disposition':'attachment; filename=terrace-payers.csv','cache-control':'no-store'}}):json(r)}
   if(url.pathname==='/api/state') {
    const tenancies=(await tenancyData(c)).sort((a,b)=>a.address.localeCompare(b.address)||a.tenant_name.localeCompare(b.tenant_name)||a.id.localeCompare(b.id)),tenancyId=url.searchParams.get('tenancy'),t=tenancyId?await tenancy(c,tenancyId):undefined,ledger=t&&can(c,'ledger.read')?{...await ledgerData(c,t.id),payments:await paymentData(c,t.id),lateFees:await lateFeeData(c,t.id),financialActions:await financialData(c,t.id)}:undefined

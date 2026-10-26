@@ -72,6 +72,7 @@ export async function remittanceFlow(h,leases,{inspect}={}) {
  const excessSource=await source(197),excess=await h.command('hap.remittance.record',{...input,amount:'10000.00',reference:'synthetic-terrace-198',sourceDocumentVersionId:excessSource.versionId})
  await h.command('hap.remittance.allocate',{remittanceId:excess.id,version:1,reference:'synthetic-terrace-199',allocations:[{chargeId:charges[0].id,amount:'10000.00'}]},{status:409})
  const snapshot=await detail()
+ const history=await(await h.request('/api/history?action=read:hap-remittances')).json();assert.ok(history.rows.some(r=>r.action==='read:hap-remittances'&&r.tenancyId===first.t.id),'documentary remittance reads retain attributable scoped history')
  await h.restart()
  assert.deepEqual(await detail(),snapshot,'restart retains explicit outcomes and immutable allocations')
  await inspect?.({h,leases,phase:'remittances',remittance:lump})

@@ -11,7 +11,7 @@ import { LIMIT, scan } from './document-scan'
 export const DOCUMENT_COMMANDS = ['document.upload', 'document.revise']
 /** The kinds a tenancy document may be uploaded as: its retention class, its sensitivity class and the right that reads it. */
 export const KINDS: Record<string, { label: string; retention: string; restriction: '' | 'screening' | 'tax'; right: string }> = {
- hap: { label: 'PHA notice or remittance', retention: 'accounting', restriction: '', right: 'ledger.read' },
+ hap: { label: 'PHA notice or remittance', retention: 'accounting', restriction: '', right: 'document.read' },
  lease: { label: 'Lease or amendment', retention: 'lease', restriction: '', right: 'document.read' },
  application: { label: 'Application', retention: 'screening', restriction: 'screening', right: 'document.application' },
  screening: { label: 'Screening report', retention: 'screening', restriction: 'screening', right: 'document.screening' },
@@ -23,7 +23,7 @@ export const right = (kind: string) => KINDS[kind]?.right ?? 'document.read'
 /** A restricted document is invisible, not forbidden, to a reader without its kind's right, and never reachable by an API credential. */
 const mayRead = (c: Context, kind: string) => { const r = right(kind); return can(c, r) && (r === 'document.read' || !c.actor.credential) }
 /** Whether the Documents door opens at all: any document right (an accountant's is tax documents only). */
-export const readsDocuments = (c: Context) => ['document.read', 'document.application', 'document.screening', 'document.tax', 'ledger.read'].some(r => can(c, r))
+export const readsDocuments = (c: Context) => ['document.read', 'document.application', 'document.screening', 'document.tax'].some(r => can(c, r))
 export const enterDocuments = (c: Context) => insist(readsDocuments(c), 'forbidden', 'Your role does not allow this action.', 403)
 
 async function file(value: unknown) {
