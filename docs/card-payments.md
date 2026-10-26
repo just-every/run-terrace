@@ -1,6 +1,6 @@
 # Card collection in Stripe test mode
 
-Full residents open Pay by card from their lease account. Delegated contacts cannot collect or inspect card outcomes. Staff with the existing rent-receipt responsibility use Online card payments on the scoped ledger. Both doors require explicit one-time consent and the same PAY-005 lease policy, reviewed property rules, delinquency stage, charge priority and atomic pending reservation. Permitted excess remains separately identified credit; it is never automatically spent.
+Full residents open Pay by card from their lease account. Delegated contacts cannot collect or inspect card outcomes. Staff with the existing rent-receipt responsibility use Online card payments on the scoped ledger. Both doors retain the accepted consent wording, revision, actor and time with the frozen payment amount, refuse stale wording revisions, and require explicit one-time consent and the same PAY-005 lease policy, reviewed property rules, delinquency stage, charge priority and atomic pending reservation. Permitted excess remains separately identified credit; it is never automatically spent.
 
 The payer fee is zero. The entered payment amount is the complete payer total; the property absorbs processing fees. Stripe-hosted Checkout collects the card and any required authentication. Terrace receives no card number or security code. Terrace disables adaptive currency conversion and Link for these USD sessions and requests no mandate or saved-card authorization. ACH and autopay remain separate clauses.
 
@@ -8,7 +8,7 @@ Configure the server binding `STRIPE_SECRET_KEY` with an authorized Stripe test 
 
 A successful verified event posts the frozen charge allocations once and retains the provider event, session, payment and charge ids. Staff can verify an event from the ledger when reconciling provider delivery. The resident’s payment detail is a receipt only after that event. Declines post no receipt and remain retryable in the same Stripe session; a verified expiry releases the reservation. Replayed events, including concurrent delivery and process restart, add no second receipt. A definitive Checkout creation rejection releases its reservation; an uncertain creation stays held for provider reconciliation and is never automatically retried.
 
-Staff see the provider’s fee and net when available. These figures and the internal mapped rent-trust bookkeeping are not evidence of a bank deposit. Deposit collection, separate deposit liability and routing Stripe settlement into the correct mapped deposit or rent-trust bank remain open PAY-003 points. The inherited PAY-005 policy remains CT-held. Card collection is PARTIAL.
+Staff see the provider’s fee and net when available. These figures and the ledger receipt are not evidence of a bank deposit. Deposit collection, separate deposit liability and routing Stripe settlement into the correct mapped deposit or rent-trust bank remain open PAY-003 points. The inherited PAY-005 policy remains CT-held. Card collection is PARTIAL.
 
 Native backup and readable export preserve financial allocations and provider references. Hosted Checkout links and provider credentials do not transfer; a restored installation cannot replay collection or provider posting for an originating installation’s attempt. Pending restored attempts require originating-provider reconciliation.
 

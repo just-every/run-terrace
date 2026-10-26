@@ -1,3 +1,4 @@
+import {CARD_CONSENT_TEXT,CARD_CONSENT_VERSION} from './card-consent'
 import type {Bindings} from '../auth.server'
 import {all,audit,cents,Fault,guard,id,insist,one,sql,tenancy,type Context,type Row} from './core'
 import {preparePayment,receipt,event} from './payment-admission'
@@ -11,7 +12,7 @@ export async function cardRows(c:Context,tenancyId:string){
 export async function startCard(c:Context,env:Bindings,p:Row,proof:D1PreparedStatement[]){
  insist(env.RER_DEMO!=='1','demo_payment','Card collection is disabled in the demo.',403)
  insist(env.STRIPE_SECRET_KEY,'stripe_unavailable','Stripe test-mode collection is not configured.',503)
- insist(p.consent==='yes','consent_required','Confirm this one-time card payment and the disclosed total.')
+ insist(p.consent==='yes'&&p.consentVersion===CARD_CONSENT_VERSION,'consent_required','Confirm this one-time card payment and the disclosed total.')
  insist(typeof p.requestKey==='string'&&/^[a-f0-9-]{36}$/.test(p.requestKey),'request_key','Open the payment form again.')
  const t=await tenancy(c,p.tenancyId),amount=String(p.amount),amountCents=cents(amount);insist(amountCents>=50,'invalid_money','Card payments must be at least $0.50.');const prior=await one(c,'SELECT c.*,p.amount_cents,p.tenancy_id,p.recorded_at FROM tt_card_payments c JOIN tt_payments p ON p.id=c.payment_id WHERE c.initiated_by=? AND c.request_key=?',c.actor.id,p.requestKey)
  let key=prior?.payment_id
@@ -19,7 +20,7 @@ export async function startCard(c:Context,env:Bindings,p:Row,proof:D1PreparedSta
  else{
   key=id()
   const prepared=await preparePayment(c,{paymentKey:key,tenancyId:t.id,amount,state:'pending',payerKind:'resident',method:'card',receivedDate:localDate(c.now,t.time_zone),reference:'stripe:'+key})
-  try{await c.db.batch([...proof,...prepared.writes,sql(c,"INSERT INTO tt_card_payments(payment_id,request_key,initiated_by,state) VALUES(?,?,?,'reserved')",key,p.requestKey,c.actor.id),sql(c,'INSERT INTO tt_card_checkout_links VALUES(?,NULL)',key),audit(c,'card.start',key)])}
+  try{await c.db.batch([...proof,...prepared.writes,sql(c,"INSERT INTO tt_card_payments(payment_id,request_key,initiated_by,consent_version,consent_text,consented_at,state) VALUES(?,?,?,?,?,?,'reserved')",key,p.requestKey,c.actor.id,CARD_CONSENT_VERSION,CARD_CONSENT_TEXT,c.now),sql(c,'INSERT INTO tt_card_checkout_links VALUES(?,NULL)',key),audit(c,'card.start',key)])}
   catch(e){const concurrent=await one(c,'SELECT c.payment_id,p.amount_cents,p.tenancy_id,p.recorded_at FROM tt_card_payments c JOIN tt_payments p ON p.id=c.payment_id WHERE c.initiated_by=? AND c.request_key=?',c.actor.id,p.requestKey);if(concurrent&&concurrent.amount_cents===amountCents&&concurrent.tenancy_id===t.id)key=concurrent.payment_id;else if(String(e).includes('CHECK constraint')||String(e).includes('UNIQUE constraint'))throw new Fault('conflict','The balance, access or payment request changed. Review the account again.',409);else throw e}
  }
  const saved=await one(c,'SELECT c.*,l.checkout_url FROM tt_card_payments c LEFT JOIN tt_card_checkout_links l ON l.payment_id=c.payment_id WHERE c.payment_id=?',key)

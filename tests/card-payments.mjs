@@ -25,14 +25,15 @@ export async function cardFixture({assets=false,live=false,provider,inspect}={})
   if(url.pathname.startsWith('/v1/checkout/sessions/'))return Response.json([...sessions.values()].find(s=>s.id===url.pathname.split('/').at(-1)))
   throw Error('Unexpected provider edge '+url.pathname)
  }
- const h=await installation({assets,stripeKey:live?process.env.STRIPE_SECRET_KEY:'synthetic-terrace-1',stripeRequest,now:live?undefined:'2026-10-26T12:00:00.000Z'})
+ const h=await installation({assets,asyncDatabase:live||undefined,stripeKey:live?process.env.STRIPE_SECRET_KEY:'synthetic-terrace-1',stripeRequest,now:live?undefined:'2026-10-26T12:00:00.000Z'})
  try{
   const f=await h.command('portfolio.add',{name:'Alder Homes'}),property=await h.command('property.add',{portfolioId:f.id,name:'Alder Court',address:'1840 Alder Street, Oakland, CA',kind:'duplex',timeZone:'America/Los_Angeles'}),u=await h.command('unit.add',{propertyId:property.id,identifier:'1C',bedrooms:'2',bathrooms:'1'}),t=await h.command('tenancy.create',{...tenancyInput,unitId:u.id,rent:'1000.00',cadence:'monthly'})
   const day=(await h.state(t.id)).ledger.today
   const q=await h.command('rent.charge',{tenancyId:t.id,dueDate:day,amount:'1000.00',description:'October rent',reference:'synthetic-terrace-80'})
   const stages=[{minDaysPastDue:0,allowPartial:true,overpayment:'credit'}]
   await h.command('payment.policy',{tenancyId:t.id,version:0,terms:{stages,priority:[q.id]},reference:'synthetic-terrace-81'})
-  const pay={tenancyId:t.id,amount:'100.00',requestKey:randomUUID(),consent:'yes'}
+  const cardForm=await(await h.request('/app?tab=ledger&tenancy='+t.id)).text(),consentVersion=cardForm.match(/name="consentVersion" value="([^"]+)"/)?.[1];assert.ok(consentVersion)
+  const pay={tenancyId:t.id,amount:'100.00',requestKey:randomUUID(),consent:'yes',consentVersion}
   await h.command('payment.card',pay,{status:409});assert.equal(calls.length,0,'missing reviewed rules hold before provider egress')
   await h.command('property.rules',{propertyId:property.id,stateCode:'CA',version:0,reference:'synthetic-terrace-82'})
   const pack=syntheticPack('CA');pack.fields.partialPayments.value={stages};const published=await h.command('rules.pack',pack);await h.command('rules.activate',{packId:published.id,consent:'REVIEWED'})
@@ -47,6 +48,7 @@ export async function journey({assets=false,inspect}={}){
   assert.equal((await post(pay,delegate)).status,404)
   assert.equal((await post({...pay,tenancyId:randomUUID()})).status,404)
   assert.equal((await post({...pay,consent:'no'})).status,400)
+  assert.equal((await post({...pay,consentVersion:'synthetic-terrace-outdated'})).status,400,'changed consent terms require a new review')
   assert.equal((await h.request('/portal/api/card',{method:'POST',as:resident,originHeader:'https://elsewhere.test',form:new URLSearchParams(pay)})).status,403)
   const member=await h.invite('member','card-preparer@example.test');await h.command('payment.card',pay,{as:member,status:403})
   await inspect?.({phase:'review',h,t,resident,pay})
