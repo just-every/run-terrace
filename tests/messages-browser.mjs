@@ -7,6 +7,7 @@ const out=resolve(process.env.MESSAGE_SCREENSHOTS??'.rer/message-screens');await
 const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
 let context,page,currentOrigin
 async function capture(name){
+ await page.bringToFront()
  for(const [width,height]of [[1440,900],[390,844]]){
   await page.setViewportSize({width,height})
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),name+' fits '+width)
