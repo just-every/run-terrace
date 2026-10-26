@@ -3937,7 +3937,7 @@
       "executable": false
     },
     "src/terrace/resident-statements.ts": {
-      "sha256": "e729259365a631ed38b1568bd2e5525a127d51023e1ddbb9e52c675e1b13a255",
+      "sha256": "37df311950e5fa69294cdbc2b859ad74fec7321d8d93d2d5c187e8b9b26a4fa0",
       "executable": false
     },
     "src/terrace/retention-view.ts": {
@@ -4417,7 +4417,7 @@
       "executable": false
     },
     "tests/resident-statements-browser.mjs": {
-      "sha256": "954be95068bd4815e8dae2bd490a48cf0ef207051a6e37dd1b3a07e7f84afbff",
+      "sha256": "5ee0a0109fff1afe4b17aced579fa24e9955d5c87fb0c8029ab5899a68997408",
       "executable": false
     },
     "tests/resident-statements-live.mjs": {
