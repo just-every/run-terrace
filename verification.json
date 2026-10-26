@@ -22,9 +22,7 @@
       "browser": false,
       "hosted": false,
       "commands": [
-        "pnpm run test:terrace",
-        "node --test --test-concurrency=1 tests/field-capture.test.mjs",
-        "pnpm run test:demo"
+        "pnpm run test:terrace"
       ]
     },
     {
@@ -35,7 +33,9 @@
         "pnpm run build",
         "pnpm run test:runtime",
         "pnpm run test:email-link",
-        "pnpm run test:app-journey"
+        "pnpm run test:app-journey",
+        "node --test --test-concurrency=1 tests/field-capture.test.mjs",
+        "pnpm run test:demo"
       ]
     }
   ],
