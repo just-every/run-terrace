@@ -40,7 +40,7 @@ export async function messageData(c:Context,tenancyId:unknown){
  messageAccess(c,'message.read');const t=await tenancy(c,tenancyId)
  const [contacts,messages,events,appointments,emergencies]=await Promise.all([
   all(c,'SELECT * FROM tt_message_contacts WHERE tenancy_id=? ORDER BY name',t.id),
-  all(c,'SELECT m.*,r.name FROM tt_messages m JOIN tt_message_contacts r ON r.id=m.contact_id WHERE m.tenancy_id=? ORDER BY m.prepared_at,m.rowid',t.id),
+  all(c,"SELECT m.*,json_extract(v.evidence,'$.name') AS name,CASE WHEN m.channel='email' THEN json_extract(v.evidence,'$.email') ELSE json_extract(v.evidence,'$.phone') END AS recipient FROM tt_messages m JOIN tt_message_contact_versions v ON v.contact_id=m.contact_id AND v.version=m.contact_version WHERE m.tenancy_id=? ORDER BY m.prepared_at,m.rowid",t.id),
   all(c,'SELECT e.* FROM tt_message_events e JOIN tt_messages m ON m.id=e.message_id WHERE m.tenancy_id=? ORDER BY e.at,e.rowid',t.id),
   all(c,"SELECT a.id,a.starts_at,a.ends_at,a.time_zone FROM tt_appointments a JOIN tt_maintenance_jobs j ON j.id=a.job_id WHERE j.tenancy_id=? AND a.state IN ('proposed','confirmed') AND j.state IN ('approved','sent') ORDER BY a.starts_at",t.id),
   all(c,"SELECT id,risk,primary_id,backup_id FROM tt_emergencies WHERE tenancy_id=? AND state='open' AND emergency=1",t.id)])

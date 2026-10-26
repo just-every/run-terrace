@@ -3741,7 +3741,7 @@
       "executable": false
     },
     "src/terrace/message-context.ts": {
-      "sha256": "d8c506210bd1e996f1d727f72950e9a272fdbee801a253d309e62976916558e1",
+      "sha256": "916f463d724c58ea66cbe532a5d1fc274be9b4dbf4bf21f1901c75ed6022bef0",
       "executable": false
     },
     "src/terrace/message-http.ts": {
@@ -3753,7 +3753,7 @@
       "executable": false
     },
     "src/terrace/message-view.ts": {
-      "sha256": "2230c4609821b924e958ee98e9bbc443a85ac1e2e20e3a417a81fbacf6f5e257",
+      "sha256": "0d8a753c1b9ad00ec8d0ed585ce25a53bdaf75a0b0b531b0621acc2af7838ff1",
       "executable": false
     },
     "src/terrace/messages.ts": {
