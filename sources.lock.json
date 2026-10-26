@@ -161,7 +161,7 @@
       "executable": false
     },
     "docs/communications.md": {
-      "sha256": "d803466963b6b78b47a5b6c977a0a241aa81ecfa3bcf3e946fc94310ad4cd894",
+      "sha256": "fa8197fb7508099bae1d896d87f290d60fea604ec2d49c75c07294649a122e28",
       "executable": false
     },
     "docs/financial-reports.md": {
@@ -3757,7 +3757,7 @@
       "executable": false
     },
     "src/terrace/messages.ts": {
-      "sha256": "54e8cb13f34f8bc095ec40d762fcad2ef9a1d16b0aeda048388c7ca40e8a859a",
+      "sha256": "9ef9d3fe56a77385e5e7ee47b8bafbbff3fe6a992f93d3e592bfe5d41bda6242",
       "executable": false
     },
     "src/terrace/month.ts": {
@@ -4373,7 +4373,7 @@
       "executable": false
     },
     "tests/messages.mjs": {
-      "sha256": "330073210431d64633f3adaba7490954ea08c4c5bab01a27fd7e08a4a2319ecd",
+      "sha256": "09026ed46d7ae3783d3089b70600e371369e38be36b0ad4c8129e4d28bb42b96",
       "executable": false
     },
     "tests/mobile-inspections-browser.mjs": {

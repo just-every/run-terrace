@@ -27,7 +27,8 @@ Cancelled, superseded and stale windows cannot be revived by a reply. Cancellati
 parties are separate reviewed messages.
 
 Safety pages carry no case details and never acknowledge or close the emergency.
-Only the named person acknowledges in Terrace. The installation email remains.
+Only the named person acknowledges in Terrace. Before paging the backup, record
+the existing manual escalation and its reason on the safety case; its email remains.
 Nothing escalates on a timer under the existing ct ruling; timed paging and real
 human reach remain unproved.
 

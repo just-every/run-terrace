@@ -45,6 +45,7 @@ export async function messageCommand(c:Context,command:string,p:Row):Promise<Row
   if(purpose==='page'){
    insist(r.kind==='responder'&&['sms','voice'].includes(channel),'invalid_input','Pages use a named responder and a phone channel.')
    const e=await one(c,'SELECT * FROM tt_emergencies WHERE id=? AND tenancy_id=?',text(p.emergencyId,'Safety case',100),t.id);insist(e&&[e.primary_id,e.backup_id].includes(r.subject_id),'not_found','Safety case not found.',404)
+   if(r.subject_id===e.backup_id)insist(await one(c,"SELECT id FROM tt_emergency_events WHERE emergency_id=? AND kind='escalated' AND recipient_id=?",e.id,r.subject_id),'escalation_required','Record the manual escalation and its reason on the safety case before paging the backup.',409)
    emergencyId=e.id;snapshot={recipientId:r.subject_id}
    body='Urgent: a Terrace safety case needs a person now. Sign in to Terrace and acknowledge the case. Provider acceptance does not confirm anyone was reached.'
   }

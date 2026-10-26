@@ -112,10 +112,12 @@ export async function journey({assets=false,inspect}={}){
   const caseData=async()=>(await(await h.request('/api/emergencies')).json()).cases.find(x=>x.id===emergency.id)
   assert.equal((await caseData()).state,'open','voice completed is never a person acknowledgement')
   const backupContact=await h.command('message.contact',{...contactInput,tenancyId:t.id,kind:'responder',subjectId:backupId,phone:'+15005550006',voiceConsent:'unknown',smsConsent:'granted',reference:'Backup explicitly agreed to receive safety text pages'})
+  await h.command('message.prepare',{contactId:backupContact.id,purpose:'page',channel:'sms',emergencyId:emergency.id},{status:409})
+  await h.command('emergency.escalate',{emergencyId:emergency.id,version:1,to:'backup',reason:'On-call asked the backup to attend while acknowledgement is still outstanding'})
   const backupPage=await approve(await prepare({contactId:backupContact.id,purpose:'page',channel:'sms',emergencyId:emergency.id}));await send(backupPage)
   assert.equal(wire.at(-1).Body,(await data()).messages.find(x=>x.id===backupPage.id).body)
 
-  await h.command('emergency.acknowledge',{emergencyId:emergency.id,version:1,reference:'Owner called utility and is waiting outside'})
+  await h.command('emergency.acknowledge',{emergencyId:emergency.id,version:(await caseData()).version,reference:'Owner called utility and is waiting outside'})
   await h.command('message.prepare',{contactId:responder.id,purpose:'page',channel:'voice',emergencyId:emergency.id},{status:409})
   assert.equal((await h.request('/api/messages?tenancyId='+t.id,{as:backupCookie})).status,200)
   const other=await h.command('portfolio.add',{name:'Other portfolio'}),op=await h.command('property.add',{portfolioId:other.id,name:'Other house',address:'2 Other Road',kind:'duplex',timeZone:'America/Los_Angeles'}),ou=await h.command('unit.add',{propertyId:op.id,identifier:'A',bedrooms:'1',bathrooms:'1'}),ot=await h.command('tenancy.create',{...tenancyInput,unitId:ou.id,tenantEmail:'other-resident@example.test'})
