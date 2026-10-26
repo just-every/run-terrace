@@ -67,6 +67,7 @@ export async function journey({assets=false,inspect}={}){
   const nextArrival=await approve(await prepare({purpose:'arrival',appointmentId:nextAppointment.id}));await send(nextArrival)
   await callback('/api/twilio/inbound',{...y,MessageSid:'synthetic-terrace-229'})
   assert.equal((await h.state(t.id)).work.appointments.find(x=>x.id===nextAppointment.id).resident_confirmed_at,null,'a delayed Y cannot be guessed to refer to a different arrival window')
+  await inspect?.({phase:'ambiguous',h,t,r})
   await h.command('maintenance.revise',{jobId:j.id,version:2,scope:'Add the supply hose; requires renewed approval'})
   await callback('/api/twilio/inbound',{...y,MessageSid:'synthetic-terrace-227'})
   assert.equal((await h.state(t.id)).work.appointments.find(x=>x.id===nextAppointment.id).resident_confirmed_at,null,'a reply to superseded work terms supplies no confirmation')

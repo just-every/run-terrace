@@ -4369,11 +4369,11 @@
       "executable": false
     },
     "tests/messages-browser.mjs": {
-      "sha256": "09c6b055e4a7851a938055063d8d7df6c2173f980c33d24348104ad93ea70507",
+      "sha256": "cda7013212a55d496597347ae66d25061e5978788ea994f4f45def99df8ac396",
       "executable": false
     },
     "tests/messages.mjs": {
-      "sha256": "810b9330fe5c812ea1bad79e6d435a6117c681c176fd14086c04ca328f78ca37",
+      "sha256": "330073210431d64633f3adaba7490954ea08c4c5bab01a27fd7e08a4a2319ecd",
       "executable": false
     },
     "tests/mobile-inspections-browser.mjs": {

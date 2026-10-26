@@ -40,6 +40,7 @@ try{
    await page.goto(h.origin+'/app?tab=messages&tenancy='+t.id)
    const article=phase==='thread'?page.locator('article').filter({hasText:'Will the plumber bring a replacement valve?'}):page.locator('article').last();await article.locator('summary').click();await capture(phase)
    if(phase==='complete'){await page.goto(h.origin+'/app?tab=emergencies');await capture('manual-page-case')}
+   if(phase==='ambiguous'){await page.goto(h.origin+'/app?tab=work&tenancy='+t.id);await capture('ambiguous-window')}
   }
  }})
 }finally{await context?.close();await browser.close()}
