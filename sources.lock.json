@@ -3565,7 +3565,7 @@
       "executable": false
     },
     "src/terrace/erasure.ts": {
-      "sha256": "92f4d438ed0bb0db9f09cc5e91267638e95dbf0b1d9220782389b7fbf6fd03ba",
+      "sha256": "890f93436d5c1ff1e3a1a80fdce0b794a83ddb9a62b9394fe1b792315bae9706",
       "executable": false
     },
     "src/terrace/exports.ts": {
@@ -4417,7 +4417,7 @@
       "executable": false
     },
     "tests/resident-statements-live.mjs": {
-      "sha256": "e01ec4f754339a4d75f3948365679b927d0a78448970f1cb81e991ee3d6de5f8",
+      "sha256": "15805260e5e4ce1c4ec5be49c9ea157327a4fb3c2d6575de3fbe8f82a5dc33c6",
       "executable": false
     },
     "tests/resident-statements.mjs": {

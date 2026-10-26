@@ -9,7 +9,7 @@ try{
   if(!message.subject.startsWith('Your Terrace payment receipt')&&!message.subject.startsWith('Your Terrace monthly statement'))return new Response(null,{status:202,headers:{'x-message-id':crypto.randomUUID()}})
   assert.deepEqual(message.to,[TEST_MAIL_TO],'only the consenting QA recipient')
   const response=await fetch('https://api.sendgrid.com/v3/mail/send',{method:'POST',headers:{authorization:'Bearer '+MAIL_API_KEY,'content-type':'application/json'},body:JSON.stringify(wire),signal:AbortSignal.timeout(20000)})
-  accepted.set(message.deliveryId,response.headers.get('x-message-id'));if(response.body)await response.body.cancel();return new Response(null,{status:response.status,headers:{'x-message-id':response.headers.get('x-message-id')??''}})
+  console.log(JSON.stringify({provider:'sendgrid',httpStatus:response.status,messageId:response.headers.get('x-message-id')}));accepted.set(message.deliveryId,response.headers.get('x-message-id'));if(response.body)await response.body.cancel();return new Response(null,{status:response.status,headers:{'x-message-id':response.headers.get('x-message-id')??''}})
  }})
  stage='test portfolio';const t=await h.command('tenancy.create',{...tenancyInput,tenantEmail:TEST_MAIL_TO,cadence:'monthly',rent:'1000.00'}),month=(await h.state(t.id)).ledger.today.slice(0,7),day=month+'-01'
  const charge=await h.command('rent.charge',{tenancyId:t.id,dueDate:day,amount:'1000.00',description:'Synthetic QA rent',reference:'synthetic-terrace-170'}),payment=await h.command('rent.receipt',{chargeId:charge.id,amount:'200.00',receivedDate:day,reference:'synthetic-terrace-171'})
@@ -17,7 +17,7 @@ try{
  const data=await(await h.request('/api/resident-deliveries?tenancyId='+t.id)).json(),document=await h.command('resident.delivery.prepare',{tenancyId:t.id,grantId:grant.grantId,kind:'receipt',month,transactionId:'receipt:'+payment.id,consentVersion:data.consentVersion,consent:'RESIDENT REQUESTED EMAIL',reference:'synthetic-terrace-173 consenting QA receipt proof'})
  stage='provider send';const sent=await h.command('resident.delivery.send',{deliveryId:document.id,fingerprint:document.fingerprint,consent:'SEND PRIVATE LINK',reference:'synthetic-terrace-174 owner-approved QA send'});assert.equal(sent.emailOutcome,'accepted');assert.ok(accepted.get(document.id))
  stage='mailbox receipt';const base=new URL(MAILBOX_RECEIPT_URL);assert.equal(base.protocol,'https:')
- const read=async url=>{assert.equal(url.origin,base.origin);const r=await fetch(url,{headers:{authorization:'Bearer '+QA_INBOX_RECEIPT_TOKEN},redirect:'manual',signal:AbortSignal.timeout(15000)});assert.equal(r.status,200);return r}
+ const read=async url=>{assert.equal(url.origin,base.origin);const r=await fetch(url,{headers:{authorization:'Bearer '+QA_INBOX_RECEIPT_TOKEN},redirect:'manual',signal:AbortSignal.timeout(15000)});if(r.status!==200)console.log('QA reader HTTP '+r.status);assert.equal(r.status,200);return r}
  let receipt
  for(let i=0;i<24&&!receipt;i++){
   const url=new URL(base);url.searchParams.set('to',TEST_MAIL_TO);url.searchParams.set('since',since);url.searchParams.set('limit','20')
