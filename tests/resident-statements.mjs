@@ -13,7 +13,7 @@ export async function journey({assets=false,inspect}={}){
   await h.command('payment.policy',{tenancyId:t.id,version:0,terms:{stages,priority:[q.id]},reference:'synthetic-terrace-143'})
   await h.command('payment.record',{tenancyId:t.id,amount:'100.00',state:'pending',payerKind:'resident',method:'ach',receivedDate:'2026-10-03',reference:'synthetic-terrace-144 private pending reference'})
   await h.command('payment.record',{tenancyId:t.id,amount:'750.00',state:'settled',payerKind:'resident',method:'card',receivedDate:'2026-10-04',reference:'synthetic-terrace-145 private settled reference'})
-  await h.stepUp();const resident=await h.command('portal.invite',{kind:'resident',tenancyId:t.id,email:'statement-resident@example.test',displayName:'Statement resident',source:'synthetic-terrace-146 resident asked'}),as=await h.portalSignIn('statement-resident@example.test')
+  const residentMember=await h.command('household.add',{tenancyId:t.id,role:'co_tenant',name:'Statement resident',email:'statement-resident@example.test',contactBy:'email',joined:'2025-01-01'});await h.stepUp();const resident=await h.command('portal.invite',{kind:'resident',tenancyId:t.id,email:'statement-resident@example.test',displayName:'Statement resident',source:'synthetic-terrace-146 resident asked'}),as=await h.portalSignIn('statement-resident@example.test')
   const delegate=await h.command('portal.invite',{kind:'resident',access:'delegate',tenancyId:t.id,email:'statement-delegate@example.test',displayName:'Statement delegate',source:'synthetic-terrace-147 delegated balance view'}),delegated=await h.portalSignIn('statement-delegate@example.test')
   const path='/portal/statement?tenancyId='+t.id+'&month=2026-10',response=await h.request(path+'&format=json',{as});assert.equal(response.status,200);const d=await response.json()
   assert.deepEqual([d.currency,d.openingCents,d.closingCents,d.currentBalanceCents,d.pendingCents,d.unappliedCreditCents],['USD',0,10000,10000,10000,5000]);assert.equal(d.lines.filter(l=>l.kind==='Recorded external payment').reduce((n,l)=>n+l.amountCents,0),90000)
@@ -34,6 +34,11 @@ export async function journey({assets=false,inspect}={}){
   const member=await h.invite('member','statement-preparer@example.test');await h.command('resident.delivery.prepare',prepare,{as:member,status:403})
   await h.command('resident.delivery.prepare',{...prepare,grantId:delegate.grantId},{status:409})
   await h.command('resident.delivery.prepare',{...prepare,consent:'no'},{status:400})
+  for(const [email,contactBy,joined] of [['no-statement@example.test','none','2025-01-01'],['future-statement@example.test','email','2026-11-01']]){
+   await h.command('household.add',{tenancyId:t.id,role:'co_tenant',name:'Synthetic statement recipient',email,contactBy,joined})
+   const grant=await h.command('portal.invite',{kind:'resident',tenancyId:t.id,email,displayName:'Synthetic statement recipient',source:'synthetic-terrace-159 test document access'});await h.portalSignIn(email)
+   await h.command('resident.delivery.prepare',{...prepare,grantId:grant.grantId},{status:409})
+  }
   const stale=await h.command('resident.delivery.prepare',prepare);await h.command('resident.delivery.prepare',prepare,{status:409})
   await h.command('rent.charge',{tenancyId:t.id,dueDate:'2026-10-05',amount:'1.00',description:'Reviewed extra charge',reference:'synthetic-terrace-152 reviewed correction'})
   await h.command('resident.delivery.send',{deliveryId:stale.id,fingerprint:stale.fingerprint,consent:'SEND PRIVATE LINK',reference:'synthetic-terrace-153 reviewed send'},{status:409})
@@ -60,6 +65,7 @@ export async function journey({assets=false,inspect}={}){
   const current=await(await h.request(path+'&format=json',{as})).json(),matching=await(await h.request('/portal/api/resident?tenancyId='+t.id,{as})).json();assert.equal(current.currentBalanceCents,10100);assert.equal(current.currentBalanceCents,matching.balanceCents)
   const sourcePdf=Buffer.from(await frozenPdf.arrayBuffer());assert.ok(sourcePdf.includes(Buffer.from('/StructTreeRoot')));assert.ok(sourcePdf.includes(Buffer.from('/ActualText')))
   if(inspect)await inspect({h,t,as,delegated,transaction,receiptPath,statementId:statement.id,pdf:sourcePdf})
+  await h.command('household.leave',{memberId:residentMember.id,left:'2026-10-25'});assert.equal((await h.request(receiptPath,{as})).status,404);assert.equal((await h.request(path,{as})).status,404)
   await h.command('portal.revoke',{grantId:resident.grantId,reason:'synthetic-terrace-148 access ended'})
   assert.equal((await h.request(path,{as})).status,401);assert.equal((await h.request(transaction,{as})).status,401);assert.equal((await h.request(receiptPath,{as})).status,401)
  }finally{await h.close()}

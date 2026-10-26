@@ -1,3 +1,4 @@
+import {statementRecipient} from './resident-recipient'
 import {all,escape as e,insist,money,tenancy,text,type Context,type Row} from './core'
 import {ledgerData} from './ledger'
 import {externalFundsAsOf} from './payments'
@@ -5,7 +6,7 @@ import {localDate} from './zones'
 import {shell} from './portal-view'
 import {csv} from './exports'
 async function events(c:Context,grant:Row){
- insist(grant.access==='resident','not_found','Not found.',404)
+ insist(grant.access==='resident','not_found','Not found.',404);await statementRecipient(c,grant.id)
  const t=await tenancy(c,grant.tenancy_id),ledger=await ledgerData(c,t.id)
  const rows:Row[]=[...ledger.charges.map(q=>({id:'charge:'+q.id,date:q.due_date,kind:'Lease charge',description:q.description,chargeId:q.id,amountCents:q.amount_cents,receivableDeltaCents:q.amount_cents})),...ledger.receipts.map(r=>({id:'receipt:'+r.id,date:r.received_date,kind:r.reversal_of?'Recorded external refund or reversal':'Recorded external payment',description:ledger.charges.find(q=>q.id===r.charge_id)?.description??'Lease charge',chargeId:r.charge_id,amountCents:r.amount_cents,receivableDeltaCents:-r.amount_cents})),...ledger.adjustments.map(a=>({id:'adjustment:'+a.id,date:a.posting_day??localDate(a.at,t.time_zone),kind:'Charge reduction',description:ledger.charges.find(q=>q.id===a.charge_id)?.description??'Lease charge',chargeId:a.charge_id,amountCents:a.amount_cents,receivableDeltaCents:-a.amount_cents}))]
  rows.sort((a,b)=>a.date.localeCompare(b.date)||a.id.localeCompare(b.id))
