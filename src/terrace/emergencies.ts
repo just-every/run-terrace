@@ -1,8 +1,8 @@
 // WORK-001 / BOUND-003. Staff record a safety intake; the owner (or a manager over every portfolio) approves the
 // guidance for each risk; each portfolio names an on-call person and a backup. An emergency alerts the on-call person
 // by the installation's email with a sign-in link only, and stays urgent and open until a named person acknowledges it
-// in Terrace. Escalation to the backup is a recorded human action; nothing escalates on a timer and no SMS or voice
-// page is sent (PORTAL-005 carries both). Only the owner or a portfolio manager resolves, with field-work evidence and
+// in Terrace. Escalation to the backup is a recorded human action; nothing escalates on a timer. Separate approved
+// pages use the PORTAL-005 communication door. Only the owner or a portfolio manager resolves, with field-work evidence and
 // the resident's follow-up as staff recorded it. Terrace never diagnoses, classifies or closes a case by inference.
 import { all, allow, commit, everywhere, guard, id, insist, one, reaches, reachesPortfolio, sql, tenancy, text, type Context, type Row } from './core'
 import { serviceableAsset } from './assets'

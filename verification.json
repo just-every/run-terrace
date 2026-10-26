@@ -105,7 +105,8 @@
       "commands": [
         "node tests/documents-browser.mjs",
         "node tests/action-requests-browser.mjs",
-        "node tests/vendor-proposals-browser.mjs"
+        "node tests/vendor-proposals-browser.mjs",
+        "node tests/messages-browser.mjs"
       ]
     },
     {

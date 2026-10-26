@@ -267,3 +267,20 @@ Full residents use `/portal/card` and staff rent-receipt recorders use `payment.
 `vendor.bank.prepare` records an owner-prepared bank name, last four digits and external account reference; `vendor.bank.verify` requires a different authorized person’s exact external verification. Both need fresh email-link proof. `/api/vendor-bank?vendorId=ID` and the native Data & access Settings section check current staff role and every related portfolio. A replacement holds prior verification. These references authorize no bank instruction or payment. CT review of the conservative authority and custody default is pending.
 
 Card collection consent: read the current `consentVersion` from the native review form and submit it with the explicit one-time `consent` and amount. Stale wording revisions are refused. The payment retains the accepted wording, revision, actor and time with its frozen amount; later provider outcomes do not substitute a new authorization.
+
+
+## Repair communication commands
+
+`message.contact` records a current resident, assigned vendor or named responder,
+per-channel consent evidence and recipient timezone. `message.prepare` freezes
+content for `repair`, `arrival` or `page`; `message.approve` requires
+`APPROVE EXACT MESSAGE`; `message.send` performs one explicit approved attempt.
+Every command requires a fresh native sign-in by the owner or an in-scope
+portfolio manager. Current role, scope and source revisions are rechecked.
+`GET /api/messages?tenancyId=...` returns that authorized tenancy's thread.
+
+Twilio form webhooks use `POST /api/twilio/inbound` and
+`POST /api/twilio/status` with the account's `X-Twilio-Signature`. Unverified,
+wrong-account and unrelated events are refused. Test-mode callbacks are labeled
+signed fixtures. See [repair communications](docs/communications.md) for provider
+bindings, opt-out, quiet hours, restored authority and remaining policy gaps.

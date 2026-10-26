@@ -4,7 +4,7 @@ import {createHash} from 'node:crypto'
 import {installation,tenancyInput} from './api/harness.mjs'
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jz1sAAAAASUVORK5CYII=','base64')
 export async function retentionJourney(){
- const h=await installation();try{
+ const clock='2026-10-26T18:00:00.000Z',h=await installation({now:clock});try{
   const member=await h.invite('member','privacy-member@example.test')
   const current=await h.command('tenancy.create',{...tenancyInput,tenantEmail:'current@example.test'})
   await h.command('privacy.hold',{tenancyId:current.id,class:'all',reason:'forbidden'},{as:member,status:403})
@@ -16,7 +16,7 @@ export async function retentionJourney(){
   const cr=await h.command('privacy.request',{tenancyId:current.id,kind:'erase',source:'Resident request CURRENT'})
   const reviewCurrent=await h.command('privacy.review',{tenancyId:current.id,requestId:cr.id})
   assert.ok(reviewCurrent.review.classes.find(c=>c.class==='lease').retained,'SAFE-004: current lease retention prevents erasure')
-  const screen=reviewCurrent.review.classes.find(c=>c.class==='screening');assert.ok(screen.present&&screen.retained&&screen.through>new Date(Date.now()+400*864e5).toISOString().slice(0,10),'PORT-007: screening documents keep their own 2-year class')
+  const screen=reviewCurrent.review.classes.find(c=>c.class==='screening');assert.ok(screen.present&&screen.retained&&screen.through>new Date(Date.parse(clock)+400*864e5).toISOString().slice(0,10),'PORT-007: screening documents keep their own 2-year class')
   const year=Number(reviewCurrent.review.today.slice(0,4)),kept=k=>reviewCurrent.review.classes.find(c=>c.class===k)
   assert.ok(kept('accounting').present&&kept('accounting').retained&&kept('accounting').through===`${year+7}-12-31`,'PORT-007: tax documents keep the accounting class, 7 years after their fiscal year')
   assert.ok(kept('communications').present&&kept('communications').retained&&kept('communications').through.startsWith(String(year+3)),'PORT-007: notices keep the communications class, 3 years after upload')
@@ -76,7 +76,7 @@ export async function retentionJourney(){
   const journal=await(await h.request('/api/backup')).text();assert.ok(!journal.includes('Casey Historic'));assert.ok(!journal.includes('casey-history@example.test'));assert.ok(journal.includes(result.alias))
   const fresh=await installation();try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([oldArchive],'before.rer'),journal:new File([journal],'after.rer')},{status:409});assert.equal((await fresh.state()).tenancies.length,0)}finally{await fresh.close()}
   await h.command('tenancy.create',{...tenancyInput,tenantEmail:'casey-history@example.test'},{status:409})
-  const restored=await installation();try{
+  const restored=await installation({now:clock});try{
    await restored.formCommand('data.restore',{confirm:'RESTORE',backup:new File([journal],'after.rer')})
    const db=await restored.mf.getD1Database('DB'),q=await db.prepare('SELECT * FROM tt_charges WHERE id=?').bind(charge.id).first()
    assert.equal(q.amount_cents,10000);assert.equal(q.description,'Retained accounting record');assert.equal(q.reference,charge.id)

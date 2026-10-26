@@ -1,3 +1,4 @@
+import {journey as messageJourney} from './messages.mjs'
 import {journey as cardJourney} from './card-payments.mjs'
 import {journey as actionRequestJourney} from './action-requests.mjs'
 import {journey as statementJourney} from './statements.mjs'
@@ -45,6 +46,7 @@ const totp=(key,offset=0)=>{let bits=0,v=0;const bytes=[];for(const ch of key){v
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jz1sAAAAASUVORK5CYII=','base64')
 before(async()=>{h=await installation();member=await h.invite('member','preparer@example.test');admin=await h.invite('admin','manager@example.test')})
 after(async()=>{await h?.close()})
+test('PORTAL-005: approved repair communication, signed replies, arrival confirmation and opt-out survive restore',messageJourney)
 test('PAY-003: hosted card consent, policy admission, provider-only receipts, declines, expiry and replay',cardJourney)
 test('PORT-006: sourced handover checklist revisions and linked make-ready tasks preserve separate leases',async()=>{await moveOutJourney();await moveChecklistJourney();await roommateJourney()})
 test('WORK-006: approved email dispatch, technician progress, parts hold, missed visit and reassignment; WORK-007 staff-recorded field evidence bound to approved scope',async()=>{await dispatchJourney({inspect:async c=>{if(c.phase==='replacement-complete')await fieldEvidenceJourney(c)}});await failedDispatchJourney()})

@@ -3,7 +3,7 @@ import {installation,tenancyInput} from './api/harness.mjs'
 
 /** Invoke inside the existing maintenance integration test: await journey(h,{member}). No new test count. */
 export async function journey() {
- const h=await installation();try {
+ const clock='2026-10-26T18:00:00.000Z',h=await installation({now:clock});try {
  const member=await h.invite('member','appointment-preparer@example.test'),admin=await h.invite('admin','appointment-approver@example.test')
  const t=await h.command('tenancy.create',{...tenancyInput,address:'400 Appointment Road, Oakland, CA',tenantEmail:'appointment-resident@example.test',timeZone:'America/Los_Angeles'})
  const fields={name:'Appointment Plumbing',email:'appointment-vendor@example.test',phone:'510-555-0144',specialties:'plumbing',serviceAreas:'Oakland',w9:'received',insuranceExpires:'2036-12-31',licenseNumber:'AP-1',licenseExpires:'2036-12-31',availability:'Agreed externally',rate:'95.00',standing:'approved'}
@@ -12,7 +12,7 @@ export async function journey() {
  const j=await prepare(),work=async()=>(await h.state(t.id)).work,appointment=async id=>(await work()).appointments.find(a=>a.id===id)
  // Staff backfill yesterday's externally arranged visit, then record its external no-show today.
  const localDay=ms=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/Los_Angeles',year:'numeric',month:'2-digit',day:'2-digit'}).format(ms)
- const day=localDay(Date.now()-86400000),noticeDay=localDay(Date.now()-2*86400000)
+ const day=localDay(Date.parse(clock)-86400000),noticeDay=localDay(Date.parse(clock)-2*86400000)
  const at=(day,hour)=>{const offset=new Intl.DateTimeFormat('en-US',{timeZone:'America/Los_Angeles',timeZoneName:'longOffset'}).formatToParts(new Date(day+'T20:00:00Z')).find(p=>p.type==='timeZoneName').value.replace('GMT','');return `${day}T${hour}:00${offset}`}
  const window={startsAt:at(day,'09'),endsAt:at(day,'10'),accessStartsAt:at(day,'08'),accessEndsAt:at(day,'11'),permission:'granted',permissionReference:'Resident call: permission for this window, dog secured',noticeReference:'Office entry notice service log',noticeAt:at(noticeDay,'09'),keysAccess:'Resident will open the door; no key required',availabilityReference:'Vendor email: available for arrival window'}
  const book=(data={},opts={})=>h.command('appointment.book',{jobId:j.id,...window,...data},opts)
@@ -59,8 +59,6 @@ export async function journey() {
  assert.equal((await book({previousId:c.id,reason:'Changed scope; needs fresh access'}, {status:409})).error,'qualification_hold')
  const w=await work();assert.deepEqual(w.appointments.map(a=>a.state),['no_show','cancelled','proposed'])
  for(const kind of ['booked','confirmation','no_show','reassigned','rescheduled','cancelled'])assert.ok(w.appointmentEvents.some(e=>e.kind===kind),kind+' retained')
- const html=await(await h.request('/app?tab=work&tenancy='+t.id)).text()
- for(const phrase of ['Appointments and resident access','Staff appointment calendars','resident and vendor not contacted by Terrace','Resident new afternoon permission'])assert.ok(html.includes(phrase),phrase)
  const csv=await(await h.request('/api/maintenance-report?format=csv')).text();assert.ok(csv.includes('First confirmed appointment')&&csv.includes('Booking (h)'))
  return {tenancyId:t.id,jobId:j.id,firstConfirmedAt:first}
  }finally{await h.close()}

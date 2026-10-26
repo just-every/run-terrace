@@ -6,11 +6,13 @@ import type { D1Database, D1Sql } from '../modules/import-kit/src/d1/index.ts'
 import type { Row } from './core'
 
 export const tenancyDependencies: [string, string][] = [
- ...['tt_resident_deliveries','tt_charges','tt_proposals','tt_lease_history','tt_inspections','tt_maintenance_jobs','tt_assets','tt_schedules','tt_household_members','tt_lease_terms','tt_lease_versions','tt_delinquency_assignments','tt_delinquency_assignment_events','tt_renewals','tt_close_corrections','tt_recovery_authorizations','tt_utility_allocations','tt_renewal_events','tt_legal_holds','tt_privacy_requests','tt_erasure_work','tt_bill_subjects','tt_emergencies','tt_move_checklists','tt_workflow_runs','tt_workflow_events','tt_payments','tt_payment_policies','tt_late_fee_policies','tt_late_fee_runs','tt_financial_actions'].map(table => [table, 'r.tenancy_id=s.id'] as [string,string]),
+ ...['tt_messages','tt_message_contacts','tt_resident_deliveries','tt_charges','tt_proposals','tt_lease_history','tt_inspections','tt_maintenance_jobs','tt_assets','tt_schedules','tt_household_members','tt_lease_terms','tt_lease_versions','tt_delinquency_assignments','tt_delinquency_assignment_events','tt_renewals','tt_close_corrections','tt_recovery_authorizations','tt_utility_allocations','tt_renewal_events','tt_legal_holds','tt_privacy_requests','tt_erasure_work','tt_bill_subjects','tt_emergencies','tt_move_checklists','tt_workflow_runs','tt_workflow_events','tt_payments','tt_payment_policies','tt_late_fee_policies','tt_late_fee_runs','tt_financial_actions'].map(table => [table, 'r.tenancy_id=s.id'] as [string,string]),
  ...['tt_payment_allocations','tt_payment_events'].map(table=>[table,'r.payment_id IN (SELECT id FROM tt_payments WHERE tenancy_id=s.id)'] as [string,string]),
  ['tt_late_fees','r.source_charge_id IN (SELECT id FROM tt_charges WHERE tenancy_id=s.id)'],
  ['tt_late_fee_waivers','r.fee_id IN (SELECT f.id FROM tt_late_fees f JOIN tt_charges q ON q.id=f.fee_charge_id WHERE q.tenancy_id=s.id)'],
  ...['tt_financial_revisions','tt_financial_approvals','tt_financial_recordings','tt_refund_checks','tt_financial_cancellations'].map(table=>[table,'r.action_id IN (SELECT id FROM tt_financial_actions WHERE tenancy_id=s.id)'] as [string,string]),
+ ['tt_message_events','r.message_id IN (SELECT id FROM tt_messages WHERE tenancy_id=s.id)'],
+ ['tt_message_contact_versions','r.contact_id IN (SELECT id FROM tt_message_contacts WHERE tenancy_id=s.id)'],
  ['tt_resident_delivery_events','r.delivery_id IN (SELECT id FROM tt_resident_deliveries WHERE tenancy_id=s.id)'],
  ['tt_tenancies','r.transferred_from=s.id'],
  ['tt_household_members','r.moved_to IN (SELECT id FROM tt_household_members WHERE tenancy_id=s.id)'],

@@ -88,6 +88,8 @@ test('DEMO-001: ordinary installs are empty; native demo records, approvals and 
   assert.notEqual(work.approved_by,work.prepared_by,'the authenticated person approves the preparer’s work')
   const owner=await(await h.request('/auth/session')).json()
   assert.equal(owner.operator.displayName,'Demo visiting owner','seed runs once instead of overwriting visitor edits on refresh')
+  await h.command('message.send',{messageId:'synthetic-terrace-230',version:1},{status:403})
+  for(const path of ['/api/twilio/inbound','/api/twilio/status'])assert.equal((await h.request(path,{method:'POST',as:'',form:new URLSearchParams({Body:'Y'})})).status,403,'demo messaging door blocks egress and callbacks')
   assert.equal(h.messages.length,0,'no provider request escaped demo mode during invitations or work approval/handoff')
  }finally{await h.close()}
 })

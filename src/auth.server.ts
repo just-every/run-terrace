@@ -14,6 +14,11 @@ import { owesSecondFactor } from './terrace/second-factor'
 const theme = { href: '/rer-theme.css', productName: branding.name, accentColor: branding.primaryColor }
 
 export interface Bindings {
+ TWILIO_ACCOUNT_SID?: string
+ TWILIO_AUTH_TOKEN?: string
+ TWILIO_FROM_NUMBER?: string
+ TWILIO_MODE?: 'test' | 'live'
+
  RESIDENT_MAIL_WEBHOOK_KEY?: string
  STRIPE_SECRET_KEY?: string
  RER_DEMO?: string

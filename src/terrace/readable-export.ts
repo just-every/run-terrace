@@ -11,6 +11,7 @@ const EXT: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', '
 const bytes = (b64: string) => Uint8Array.from(atob(b64), ch => ch.charCodeAt(0))
 
 export const RECONNECT = [
+ 'Repair messages: archived content, delivery events and opt-outs are evidence only. Set Twilio credentials, record consent again and prepare new messages; restored messages never authorize sends.',
  'Resident document delivery: frozen documents and delivery evidence are retained, but restored deliveries never authorize a send or a recipient. Invite the resident again and prepare a new reviewed document.',
  'Mail delivery: set MAIL_PROVIDER, MAIL_FROM and the provider key on the new installation; invitations and sign-in links use it.',
  'People: operator accounts and sessions are not in the archive. The new owner signs in, invites each person again and sets their role and portfolios (ROLE-001).',

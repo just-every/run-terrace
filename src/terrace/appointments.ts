@@ -120,3 +120,15 @@ export async function appointmentData(c: Context, t: Row) {
  ])
  return { appointmentProposals:proposals, appointmentNow: c.now, appointments: appointments.map(a => ({ ...a, current: current({ state: a.job_state }, a, { id: a.current_approval }) })), appointmentEvents: events, appointmentCalendar: calendar.filter(a => reaches(c, a.unit_id)), appointmentStaff: staff }
 }
+
+/** A signed resident reply confirms only the already permitted current window. */
+export async function arrivalReplyStatements(c:Context,appointmentId:string,snapshot:Row,reference:string,label:string){
+ const a=await one(c,'SELECT * FROM tt_appointments WHERE id=?',appointmentId)
+ insist(a&&ACTIVE.includes(a.state)&&a.ends_at>c.now,'appointment_state','The arrival window ended or changed.',409)
+ const {j,t,approval}=await job(c,a.job_id)
+ insist(current(j,a,approval)&&a.approval_id===snapshot.approvalId&&j.version===snapshot.jobVersion,'not_approved','The work terms changed.',409)
+ insist(!a.resident_confirmed_at,'appointment_state','Resident confirmation is already recorded.',409)
+ const h=await qualified(c,j,t,a.ends_at),both=!!a.vendor_confirmed_at
+ return[jobGuard(c,j),vendorGuard(c,j,h.vendorVersion),guard(c,'EXISTS(SELECT 1 FROM tt_appointments WHERE id=? AND version=?)',a.id,a.version),
+  event(c,a.id,'confirmation',reference,'resident','confirmed',label),sql(c,"UPDATE tt_appointments SET resident_confirmed_at=?,confirmed_at=?,state=?,version=version+1 WHERE id=?",c.now,both?c.now:null,both?'confirmed':'proposed',a.id)]
+}

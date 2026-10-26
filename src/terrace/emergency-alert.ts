@@ -26,7 +26,7 @@ export async function deliverAlert(c: Context, env: Bindings, alert: Row) {
   try {
    const link = new URL('/app', env.AUTH_ORIGIN)
    link.searchParams.set('tab', 'emergencies'); link.searchParams.set('case', alert.caseId)
-   const body = 'A safety case in Terrace needs a person now. This email has no case details. If you cannot act, tell your backup. Terrace does not call or text.'
+   const body = 'A safety case in Terrace needs a person now. This email has no case details. If you cannot act, tell your backup. This email confirms no phone contact; any separate page requires explicit human approval in Terrace.'
    const sent = await mail.send({ deliveryId: alert.eventId, from: env.MAIL_FROM!, to: [to.email], subject: 'Urgent: a Terrace safety case needs you now', text: `${body}\n\nSign in and acknowledge it: ${link}\n`, html: `<p>${body}</p><p><a href="${escape(link.href)}">Sign in and acknowledge it</a></p>`, headers: { 'Auto-Submitted': 'auto-generated' } })
    outcome = sent.status; provider = sent.providerMessageId ?? null
   } catch { outcome = 'failed' }

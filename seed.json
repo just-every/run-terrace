@@ -57,7 +57,9 @@
       "/signin",
       "/portal",
       "/api/stripe/events",
-      "/api/resident-mail/events"
+      "/api/resident-mail/events",
+      "/api/twilio/status",
+      "/api/twilio/inbound"
     ],
     "notes": "Native owner sessions guard /app; unknown paths return real 404s; the development outbox is local-only."
   },
