@@ -96,7 +96,7 @@ export async function hapRemittanceData(c:Context,tenancyId?:string) {
  for(const r of rows) {
   const ts=await all(c,'SELECT t.id,t.unit_id,t.erased_at FROM tt_tenancies t WHERE t.id=? OR t.id IN (SELECT q.tenancy_id FROM tt_hap_allocations a JOIN tt_hap_charges q ON q.id=a.charge_id WHERE a.remittance_id=?)',r.source_tenancy_id,r.id)
   if(!ts.every(t=>!t.erased_at&&reaches(c,t.unit_id)))continue
-  const allocations=await all(c,'SELECT a.*,q.tenancy_id FROM tt_hap_allocations a JOIN tt_hap_charges q ON q.id=a.charge_id WHERE a.remittance_id=? ORDER BY a.recorded_at,a.id',r.id),batches=await all(c,'SELECT * FROM tt_hap_allocation_batches WHERE remittance_id=? ORDER BY recorded_at,id',r.id),held=r.amount_cents-allocations.reduce((n,a)=>n+a.amount_cents,0)
+  const allocations=await all(c,'SELECT a.*,q.tenancy_id,q.due_date,t.address FROM tt_hap_allocations a JOIN tt_hap_charges q ON q.id=a.charge_id JOIN tt_tenancies t ON t.id=q.tenancy_id WHERE a.remittance_id=? ORDER BY a.recorded_at,a.id',r.id),batches=await all(c,'SELECT * FROM tt_hap_allocation_batches WHERE remittance_id=? ORDER BY recorded_at,id',r.id),held=r.amount_cents-allocations.reduce((n,a)=>n+a.amount_cents,0)
   remittances.push({...r,allocations,batches,held_cents:held,heldCents:held})
  }
  return {remittances}

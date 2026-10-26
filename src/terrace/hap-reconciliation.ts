@@ -1,4 +1,4 @@
-import {all,allow,date,insist,tenancy,type Context,type Row} from './core'
+import {all,allow,date,insist,one,tenancy,type Context,type Row} from './core'
 import {effectiveCharges,hapEffects} from './hap-balances'
 import {hapRemittanceData} from './hap-remittances'
 import {ageReceivables} from './delinquency-math'
@@ -16,7 +16,7 @@ export async function hapReconciliation(c:Context,tenancyId:string,on?:string){
  ])
  const resident=ageReceivables(t,effectiveCharges(charges,effects,asOf,'resident'),receipts,adjustments,asOf),pha=ageReceivables(t,effectiveCharges(haps,effects,asOf,'pha'),phaPaid,[],asOf)
  const owners:Row[]=[]
- for(const j of journal){let owner=owners.find(o=>o.ownerId===j.owner_key);if(!owner){owner={ownerId:j.owner_key,receivableCents:0,externalCashCents:0,incomeCents:0,sources:[]};owners.push(owner)}
+ for(const j of journal){let owner=owners.find(o=>o.ownerId===j.owner_key);if(!owner){const named=await one(c,'SELECT legal_name FROM tt_owners WHERE id=?',j.owner_key);insist(named||j.owner_key.startsWith('lease-owner:'),'hap_owner','The accounting beneficiary record is missing.',409);owner={ownerId:j.owner_key,name:named?named.legal_name:'Recorded lease owner',receivableCents:0,externalCashCents:0,incomeCents:0,sources:[]};owners.push(owner)}
   for(const l of JSON.parse(j.lines)){const net=l.debit-l.credit;if(l.account==='receivable')owner.receivableCents+=net;if(l.account==='cash')owner.externalCashCents+=net;if(l.account==='lease_income')owner.incomeCents-=net}
   owner.sources.push({id:j.id,kind:j.source_kind,sourceId:j.source_id,day:j.day})
  }
