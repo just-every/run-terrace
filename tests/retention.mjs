@@ -74,11 +74,11 @@ export async function retentionJourney(){
   assert.match(result.alias,/^resident-/);assert.ok(!(await h.state()).tenancies.some(t=>t.id===oldId));assert.ok((await h.state()).tenancies.some(t=>t.id===current.id))
   assert.equal((await h.request('/api/state?tenancy='+oldId)).status,404)
   const journal=await(await h.request('/api/backup')).text();assert.ok(!journal.includes('Casey Historic'));assert.ok(!journal.includes('casey-history@example.test'));assert.ok(journal.includes(result.alias))
-  const fresh=await installation();try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([oldArchive],'before.rer'),journal:new File([journal],'after.rer')},{status:409});assert.equal((await fresh.state()).tenancies.length,0)}finally{await fresh.close()}
+  const fresh=await installation({now:clock,asyncDatabase:true});try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([oldArchive],'before.rer'),journal:new File([journal],'after.rer')},{status:409});assert.equal((await fresh.state()).tenancies.length,0)}finally{await fresh.close()}
   await h.command('tenancy.create',{...tenancyInput,tenantEmail:'casey-history@example.test'},{status:409})
   const restored=await installation({now:clock,asyncDatabase:true});try{
    await restored.formCommand('data.restore',{confirm:'RESTORE',backup:new File([journal],'after.rer')})
-   const db=await restored.mf.getD1Database('DB'),q=await db.prepare('SELECT * FROM tt_charges WHERE id=?').bind(charge.id).first()
+   const db=restored.db,q=await db.prepare('SELECT * FROM tt_charges WHERE id=?').bind(charge.id).first()
    assert.equal(q.amount_cents,10000);assert.equal(q.description,'Retained accounting record');assert.equal(q.reference,charge.id)
    const receipts=(await db.prepare('SELECT * FROM tt_receipts WHERE charge_id=?').bind(charge.id).all()).results;assert.equal(receipts[0].amount_cents,6000)
    const close=await db.prepare("SELECT statement FROM tt_period_closes WHERE month='2011-04'").first();assert.ok(!close.statement.includes('Casey Historic'));assert.ok(JSON.parse(close.statement).some(l=>l.id===charge.id&&l.amountCents===10000&&l.reference===charge.id))
