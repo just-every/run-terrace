@@ -62,8 +62,10 @@ async function review(c: Context, v: Row, current: Row, month: unknown) {
  const payload = JSON.parse(v.payload)
  insist(await digest(payload) === v.payload_sha256, 'invalid_snapshot', 'The prepared lease payload does not match its recorded digest.', 409)
  const blocked = await one(c, 'SELECT MAX(q.period_end) AS last FROM tt_charges q JOIN tt_lease_terms l ON l.id=q.term_id WHERE l.tenancy_id=? AND l.superseded_by IS NULL AND (l.ends IS NULL OR l.ends>=?) AND q.period_end>=?', t.id, v.effective, v.effective)
+ const hapBlocked=await one(c,'SELECT MAX(period_end) AS last FROM tt_hap_charges WHERE tenancy_id=? AND period_end>=?',t.id,v.effective)
+ insist(!hapBlocked?.last,'posted_period','HAP charges already cover this amendment period. Retroactive HAP amendments require the dedicated adjustment journey.',409)
  insist(!blocked?.last, 'posted_period', `Existing terms are posted through ${blocked?.last}. Use an effective date after that period.`, 409)
- const proposedTerms = proposed(v, payload, terms), run = await previewLease(c, t, proposedTerms, month)
+ const proposedTerms = proposed(v, payload, terms), run = await previewLease(c, t, proposedTerms, month, v)
  insist(run.month >= v.effective.slice(0,7) && run.month <= (t.ended_on ?? t.end_date).slice(0,7), 'invalid_month', 'Preview a month from the version’s effective month through the tenancy end.')
  // Full records catch changes made by older term doors that did not increment the tenancy's version.
  const fingerprint = await digest({leaseId: v.id, payloadSha256: v.payload_sha256, sourceSha256: v.source_sha256, tenancy: t, priorId: prior?.id ?? null, terms, charges, adjustments, unit, taxRules, month: run.month, runFingerprint: run.fingerprint, lines: run.lines, missing: run.missing})
@@ -103,7 +105,7 @@ export async function leaseCommand(c: Context, command: string, p: Row): Promise
  insist(p.fingerprint === r.run.fingerprint, 'review_changed', 'The lease or charge preview changed. Preview again before approving.', 409)
  insist(r.run.missing.length === 0, 'incomplete_run', 'Resolve the missing rent or concession terms shown in the preview before approving.', 409)
  const independent = await independence(c, command, [v.prepared_by])
- const writes: D1PreparedStatement[] = [...independent.guards, rowGuard(c, 'tt_tenancies', t), rowGuard(c, 'tt_lease_versions', v), priorGuard(c, t.id, v.prior_id),
+ const writes: D1PreparedStatement[] = [guard(c,'NOT EXISTS(SELECT 1 FROM tt_hap_charges WHERE tenancy_id=? AND period_end>=?)',t.id,v.effective),...independent.guards, rowGuard(c, 'tt_tenancies', t), rowGuard(c, 'tt_lease_versions', v), priorGuard(c, t.id, v.prior_id),
   guard(c, '(SELECT COUNT(*) FROM tt_lease_terms WHERE tenancy_id=?)=?', t.id, r.terms.length), ...r.terms.map(term => rowGuard(c, 'tt_lease_terms', term)),
   guard(c, '(SELECT COUNT(*) FROM tt_charges WHERE tenancy_id=?)=?', t.id, r.charges.length), ...r.charges.map(q => rowGuard(c, 'tt_charges', q)),
   guard(c, '(SELECT COUNT(*) FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id WHERE q.tenancy_id=?)=?', t.id, r.adjustments.length), ...r.adjustments.map(a => rowGuard(c, 'tt_adjustments', a)),

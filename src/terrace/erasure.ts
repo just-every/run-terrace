@@ -44,6 +44,7 @@ export async function eraseTenancy(c:Context,p:Row){
    sql(c,"UPDATE tt_payment_events SET reference=id WHERE payment_id IN (SELECT id FROM tt_payments WHERE tenancy_id=?)",t.id),
    sql(c,"UPDATE tt_receipt_reversals SET reference=id,reason='Retained accounting record' WHERE receipt_id IN (SELECT r.id FROM tt_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=?)",t.id),
    sql(c,'UPDATE tt_receipts SET reference=id WHERE charge_id IN (SELECT id FROM tt_charges WHERE tenancy_id=?)',t.id),
+   sql(c,"UPDATE tt_hap_charges SET payer='Retained housing authority',contract_reference=id,source_clause='Retained accounting record' WHERE tenancy_id=?",t.id),
    sql(c,"UPDATE tt_adjustments SET reason='Retained accounting record',reference=NULL WHERE charge_id IN (SELECT id FROM tt_charges WHERE tenancy_id=?)",t.id),
    sql(c,'UPDATE tt_audit SET subject=tenancy_id,source=NULL WHERE tenancy_id=?',t.id))
   for(const run of await all(c,'SELECT id,snapshot FROM tt_late_fee_runs WHERE tenancy_id=?',t.id)){

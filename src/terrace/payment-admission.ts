@@ -39,6 +39,7 @@ export async function preparePayment(c:Context,p:Row){
    writes.push(guard(c,'EXISTS(SELECT 1 FROM tt_household_members WHERE id=? AND version=?)',m.id,m.version))
   }
   if(p.payerKind==='housing_authority'){
+   insist(!await one(c,'SELECT 1 FROM tt_hap_charges WHERE tenancy_id=?',t.id),'hap_separate','PHA funds cannot pay resident portions. Separate HAP remittance allocation is not yet available.',409)
    const v=await one(c,'SELECT id,payload FROM tt_lease_versions WHERE tenancy_id=? AND approved_at IS NOT NULL AND effective<=? ORDER BY effective DESC LIMIT 1',t.id,day)
    const hap=v&&JSON.parse(v.payload).obligations.find((o:Row)=>o.kind==='hap'&&o.housingAuthority&&o.starts<=day&&(!o.ends||o.ends>=day))
    insist(hap,'hap_required','An approved HAP lease obligation is required; PAY-013 owns subsidy reconciliation.',409)

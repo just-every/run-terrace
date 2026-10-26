@@ -1,3 +1,4 @@
+import {journey as hapJourney} from './hap.mjs'
 import {journey as messageJourney} from './messages.mjs'
 import {journey as cardJourney} from './card-payments.mjs'
 import {journey as actionRequestJourney} from './action-requests.mjs'
@@ -903,6 +904,7 @@ test('ROLE-002: residents, delegated contacts, joint owners and vendors see only
 test('PORT-007: versioned documents are found by unit and content, restricted records and other portfolios return 404, uploads are checked, downloads recorded, backup and readable export keep the originals',()=>documentJourney())
 test('ACCT-002 designated bank custody preserves beneficiary funds through approved transfers',async()=>{await trustJourney()})
 
+test('PAY-013: signed voucher portions post once to separate resident and PHA receivables with dated owner journals and aging',hapJourney)
 test('PAY-005: reviewed lease stages reserve concurrent co-tenant payments, allocate settlement once, separate credit and block partial or excess funds',paymentJourney)
 
 test('PAY-006: reviewed state caps, weekend and holiday grace, timely pending settlement and reasoned waivers retain original calculations',lateFeeJourney)

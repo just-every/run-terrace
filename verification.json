@@ -134,7 +134,8 @@
       "hosted": false,
       "commands": [
         "node tests/payments-browser.mjs",
-        "node tests/card-payments-browser.mjs"
+        "node tests/card-payments-browser.mjs",
+        "node tests/hap-browser.mjs"
       ]
     },
     {

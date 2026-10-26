@@ -17,6 +17,11 @@ export default {
   if(!q || !r || !a) throw new Error('Terrace rent tables are required.');
   const bad=await db.prepare(`SELECT 1 FROM "${q}" q WHERE q.amount_cents < -${refunded}-COALESCE((SELECT SUM(r.amount_cents) FROM "${reversals}" x JOIN "${r}" r ON r.id=x.receipt_id WHERE r.charge_id=q.id),0)+COALESCE((SELECT SUM(amount_cents) FROM "${r}" WHERE charge_id=q.id),0)+COALESCE((SELECT SUM(amount_cents) FROM "${a}" WHERE charge_id=q.id),0) LIMIT 1`).first();
   if(bad) throw new Error('Receipt and adjustment totals exceed the charge.');
+  const hap=tables.tt_hap_charges,tenancies=tables.tt_tenancies;
+  if(hap&&tenancies){
+   const invalid=await db.prepare(`SELECT 1 FROM "${hap}" h LEFT JOIN "${tenancies}" t ON t.id=h.tenancy_id WHERE t.id IS NULL OR h.currency<>'USD' OR t.currency<>'USD' OR h.amount_cents<=0 OR h.amount_cents>100000000 OR h.due_date<h.period_start OR h.due_date>h.period_end OR NOT EXISTS(SELECT 1 FROM "${tables.tt_journal}" j WHERE j.source_kind='hap_charge' AND j.source_id=h.id AND j.tenancy_id=h.tenancy_id) OR h.amount_cents<>(SELECT COALESCE(SUM(json_extract(l.value,'$.debit')),0) FROM "${tables.tt_journal}" j,json_each(j.lines) l WHERE j.source_kind='hap_charge' AND j.source_id=h.id AND json_extract(l.value,'$.account')='receivable') LIMIT 1`).first();
+   if(invalid)throw Error('HAP receivable archive lacks valid currency, dates, tenancy or journal evidence.');
+  }
   const j=tables.tt_journal,chart=tables.tt_gl_accounts;
   const chargebacks=tables.tt_work_chargebacks,approvals=tables.tt_work_chargeback_approvals;
   if(chargebacks&&approvals&&j){

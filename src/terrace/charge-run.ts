@@ -9,6 +9,7 @@ import { all, cents, commit, date, guard, id, insist, allow, one, sha256, sql, t
 import { BALANCE } from './ledger'
 import { localDate } from './zones'
 import { taxCharge } from './tax'
+import { hapInsert, hapLines } from './hap-charges'
 import { concessionLines } from './charge-concessions'
 
 export const KINDS = ['rent','utility','pet','parking','concession'] as const
@@ -41,11 +42,11 @@ export async function preview(c: Context, value: unknown) {
  return runFor(c,m,tenancies,terms,posted)
 }
 /** PORT-005 previews the exact same engine against the proposed effective term view, without writing. */
-export async function previewLease(c:Context,t:Row,terms:Row[],value:unknown) {
+export async function previewLease(c:Context,t:Row,terms:Row[],value:unknown,proposed?:Row) {
  const posted=await all(c,"SELECT id,tenancy_id,reference FROM tt_charges WHERE tenancy_id=? AND reference LIKE 'RUN-%'",t.id)
- return runFor(c,month(value),[t],terms,posted)
+ return runFor(c,month(value),[t],terms,posted,proposed)
 }
-async function runFor(c:Context,m:string,tenancies:Row[],terms:Row[],posted:Row[]) {
+async function runFor(c:Context,m:string,tenancies:Row[],terms:Row[],posted:Row[],proposed?:Row) {
  const lines: Row[] = [], missing: Row[] = []
  for (const t of tenancies) for (const [ps, pe] of periods(t, m)) {
   const from = ps > t.start_date ? ps : t.start_date, end = t.ended_on ?? t.end_date, to = pe < end ? pe : end, length = days(ps, pe)
@@ -54,7 +55,12 @@ async function runFor(c:Context,m:string,tenancies:Row[],terms:Row[],posted:Row[
    const a = term.starts > from ? term.starts : from, b = term.ends && term.ends < to ? term.ends : to, covered = days(a, b)
    const reference = `RUN-${term.id.slice(0, 8)}-${ps}`, amount = prorate(term.amount_cents, covered, length)
    const line = { tenancyId: t.id, address: t.address, termId: term.id, kind: term.kind, description: term.description, currency: t.currency, shown: shown(t), periodStart: ps, periodEnd: pe, dueDate: a, coveredDays: covered, periodDays: length, amountCents: amount, termVersion:term.version, sourceClause: term.source_clause ?? null, leaseVersionId: term.lease_version_id ?? null, coveredFrom:a, coveredTo:b, reference, posted: posted.some(q => q.tenancy_id === t.id && q.reference === reference) } as Row
-   if (term.kind === 'rent') rents.push(line)
+   if (term.kind === 'rent') {
+    const split=await hapLines(c,t,line,proposed)
+    const resident=split.find(x=>x.kind==='rent')
+    rents.push(resident??{...line,amountCents:0})
+    lines.push(...split);continue
+   }
    if (term.kind === 'concession') {
     const result=await concessionLines(c,line,rents)
     if(result.reason)missing.push({tenancyId:t.id,address:t.address,period:[ps,pe],reason:result.reason})
@@ -103,7 +109,7 @@ export async function chargeRunCommand(c: Context, command: string, p: Row): Pro
   const writes: D1PreparedStatement[] = [], chargeIds = new Map<string, string>()
   for(const l of run.lines.filter(l=>!l.posted&&l.termId))writes.push(guard(c,'EXISTS(SELECT 1 FROM tt_lease_terms WHERE id=? AND version=? AND superseded_by IS NULL)',l.termId,l.termVersion))
   for (const l of run.lines.filter(l => !l.posted && l.kind !== 'concession')) {
-   const key = id(); chargeIds.set(l.tenancyId + l.reference, key)
+   const key = id(); if(l.kind==='hap'){writes.push(hapInsert(c,key,l));continue} chargeIds.set(l.tenancyId + l.reference, key)
    writes.push(sql(c, 'INSERT INTO tt_charges(id,tenancy_id,due_date,amount_cents,description,reference,created_at,currency,term_id,period_start,period_end,tax_rule_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(tenancy_id,reference) DO NOTHING', key, l.tenancyId, l.dueDate, l.amountCents, `${l.description} ${l.periodStart} to ${l.periodEnd}${l.coveredDays < l.periodDays ? ` (${l.coveredDays} of ${l.periodDays} days)` : ''}`, l.reference, c.now, l.currency, l.termId, l.periodStart, l.periodEnd, l.taxRuleId ?? null))
   }
   for (const l of run.lines.filter(l => !l.posted && l.kind === 'concession')) {
