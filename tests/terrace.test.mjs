@@ -1,4 +1,3 @@
-import {journey as hapJourney} from './hap.mjs'
 import {journey as messageJourney} from './messages.mjs'
 import {journey as cardJourney} from './card-payments.mjs'
 import {journey as actionRequestJourney} from './action-requests.mjs'
@@ -7,10 +6,6 @@ import {journey as reconcileJourney} from './reconcile.mjs'
 import {journey as agentWorkloadJourney} from './agent-workloads.mjs'
 import {journey as reportScheduleJourney} from './report-schedules.mjs'
 import {journey as financialReportJourney} from './financial-reports.mjs'
-import {journey as residentStatementJourney} from './resident-statements.mjs'
-import {journey as financialJourney} from './financial-actions.mjs'
-import {journey as lateFeeJourney} from './late-fees.mjs'
-import {journey as paymentJourney} from './payments.mjs'
 import {journey as trustJourney} from './trust.mjs'
 import {journey as rulePackJourney} from './rule-packs.mjs'
 import {journey as journalJourney} from './journal.mjs'
@@ -904,14 +899,9 @@ test('ROLE-002: residents, delegated contacts, joint owners and vendors see only
 test('PORT-007: versioned documents are found by unit and content, restricted records and other portfolios return 404, uploads are checked, downloads recorded, backup and readable export keep the originals',()=>documentJourney())
 test('ACCT-002 designated bank custody preserves beneficiary funds through approved transfers',async()=>{await trustJourney()})
 
-test('PAY-013: signed voucher portions, held remittances, retroactive notices, PHA-only abatement and complete payer reconciliation survive restore and erasure',hapJourney)
-test('PAY-005: reviewed lease stages reserve concurrent co-tenant payments, allocate settlement once, separate credit and block partial or excess funds',paymentJourney)
 
-test('PAY-006: reviewed state caps, weekend and holiday grace, timely pending settlement and reasoned waivers retain original calculations',lateFeeJourney)
 
-test('PAY-009: exact independent approvals refuse changed refund sources, record one external refund with original owner effects and retain reasoned corrections and forwarding check drafts',financialJourney)
 
-test('PAY-010: resident statements, delivered receipts, failed-email tasks and private accessible downloads',residentStatementJourney)
 
 test('ACCT-006: reviewed bank imports, exact matching, outstanding items and guarded three-way close',reconcileJourney)
 

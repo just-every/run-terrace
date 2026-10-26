@@ -30,7 +30,7 @@
     "check": "rer check",
     "deps": "rer install",
     "rer": "rer",
-    "test:terrace": "node --test --test-concurrency=1 tests/terrace.test.mjs",
+    "test:terrace": "node --test --test-concurrency=1 tests/terrace.test.mjs tests/payer-accounting.test.mjs",
     "test:demo": "node --test --test-concurrency=1 tests/demo.test.mjs",
     "test:demo-hosted": "node tests/demo-hosted.mjs",
     "delivery:spec": "node scripts/build-deployment-spec.mjs",
