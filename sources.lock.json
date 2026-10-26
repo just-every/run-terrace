@@ -4157,7 +4157,7 @@
       "executable": false
     },
     "tests/api/buffered-http.mjs": {
-      "sha256": "826525280f66d15f2b92761553f5773dac93a152401430ae6f5b23ae829d8cf4",
+      "sha256": "39ca22f103f768729057bbb139714ee0fb552b0f5aec2af0b4b2b7edfbb535c9",
       "executable": false
     },
     "tests/api/demo-worker.ts": {

@@ -7,7 +7,7 @@ export async function bufferedHttp(dispatch){
   try{
    const chunks=[];for await(const chunk of req)chunks.push(chunk)
    const headers=new Headers();for(const [name,value]of Object.entries(req.headers))if(value)headers.set(name,Array.isArray(value)?value.join(', '):value)
-   const response=await dispatch('http://'+req.headers.host+req.url,{method:req.method,headers,...(['GET','HEAD'].includes(req.method)?{}:{body:Buffer.concat(chunks)})})
+   const response=await dispatch('http://'+req.headers.host+req.url,{method:req.method,headers,redirect:'manual',...(['GET','HEAD'].includes(req.method)?{}:{body:Buffer.concat(chunks)})})
    const bytes=Buffer.from(await response.arrayBuffer())
    for(const [name,value]of response.headers)if(!['set-cookie','content-length','transfer-encoding','connection'].includes(name))res.setHeader(name,value)
    const cookies=response.headers.getSetCookie();if(cookies.length)res.setHeader('set-cookie',cookies)
