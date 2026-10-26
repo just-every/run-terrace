@@ -3,7 +3,7 @@ import {installation,tenancyInput} from './api/harness.mjs'
 
 /** Invoke inside the existing maintenance integration test: await journey(h,{member}). No new test count. */
 export async function journey() {
- const clock='2026-10-26T18:00:00.000Z',h=await installation({now:clock});try {
+ const clock='2026-10-26T18:00:00.000Z',h=await installation({now:clock,asyncDatabase:true});try {
  const member=await h.invite('member','appointment-preparer@example.test'),admin=await h.invite('admin','appointment-approver@example.test')
  const t=await h.command('tenancy.create',{...tenancyInput,address:'400 Appointment Road, Oakland, CA',tenantEmail:'appointment-resident@example.test',timeZone:'America/Los_Angeles'})
  const fields={name:'Appointment Plumbing',email:'appointment-vendor@example.test',phone:'510-555-0144',specialties:'plumbing',serviceAreas:'Oakland',w9:'received',insuranceExpires:'2036-12-31',licenseNumber:'AP-1',licenseExpires:'2036-12-31',availability:'Agreed externally',rate:'95.00',standing:'approved'}

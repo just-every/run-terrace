@@ -24,7 +24,7 @@ const cookieFrom=response=>response.headers.getSetCookie().map(value=>value.spli
 // and visitor isolation are exercised separately against the deployed demo.
 test('DEMO-001: ordinary installs are empty; native demo records, approvals and mail suppression persist',async()=>{
  for(const verb of ['build','deploy'])await refusesProduction(verb)
- const ordinary=await installation()
+ const ordinary=await installation({asyncDatabase:true})
  try{
   const empty=await ordinary.state()
   assert.deepEqual(empty.tenancies,[],'an ordinary installation has no fabricated tenancies')
@@ -32,7 +32,7 @@ test('DEMO-001: ordinary installs are empty; native demo records, approvals and 
   assert.equal((await ordinary.request('/auth/one-click?as=owner%40example.test&returnTo=%2Fapp',{as:''})).status,404,'ordinary production-style one-click is unavailable without dev admission')
  }finally{await ordinary.close()}
 
- const h=await installation({demo:true})
+ const h=await installation({demo:true,asyncDatabase:true})
  try{
   const initial=await h.state()
   assert.ok(initial.tenancies.length>0,'demo mode seeds real tenancies after owner bootstrap')

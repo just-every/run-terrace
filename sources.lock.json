@@ -4197,11 +4197,11 @@
       "executable": false
     },
     "tests/api/demo-worker.ts": {
-      "sha256": "bbfdd3a8314a42b95fa359f4932f763da9e29817cb835e3fd8b6ddbbfcf888af",
+      "sha256": "425177c81c2bee9b47c4e96e74336fff993871856f9d9b978be4fad1e8e5e545",
       "executable": false
     },
     "tests/api/harness.mjs": {
-      "sha256": "acd678350b294867d2d5ce9b4ddba2223785579f0f04343489eea747860e1855",
+      "sha256": "841471b3c46357f8cbf196cee7982508e70da82abccbd22c851498c8fd8e7cda",
       "executable": false
     },
     "tests/api/worker.ts": {
@@ -4213,7 +4213,7 @@
       "executable": false
     },
     "tests/appointments.mjs": {
-      "sha256": "08755553531b876b2de879493f6d81af73a7af98e48329f6d163bf5021c624e9",
+      "sha256": "ef50ea3affff9a4775708dec6c28d0734521ddace1a7cf5d47b65964ab960ed8",
       "executable": false
     },
     "tests/archive-edit.mjs": {
@@ -4277,7 +4277,7 @@
       "executable": false
     },
     "tests/demo.test.mjs": {
-      "sha256": "1666dcb56511c27cfa2bbc7d9b2b098bb5d870d74814814d06b24e7080a64b1c",
+      "sha256": "5ed38e3081fc18be57e7ade7922e63efcb63bd08e2fd68c30323f70c28c99de2",
       "executable": false
     },
     "tests/dispatch-browser.mjs": {
@@ -4473,7 +4473,7 @@
       "executable": false
     },
     "tests/retention.mjs": {
-      "sha256": "da438d0563fe08f81c40b3f5b49649769701a28f46f9f03cab487affe83c2bbc",
+      "sha256": "cf4865b1b0f49df057f9cb72a4e2992a1cb620ecb9da9b4fd1c6732b3bae9bc0",
       "executable": false
     },
     "tests/roommates.mjs": {
