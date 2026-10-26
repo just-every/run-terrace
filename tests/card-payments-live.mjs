@@ -28,8 +28,8 @@ try{await cardFixture({assets:true,live:true,inspect:async({h,t,resident})=>{
   await page.locator('input[name="cardNumber"]').fill(scenario==='success'?'4242424242424242':scenario==='declined'?'4000000000000002':'4000000000003220')
   await page.locator('input[name="cardExpiry"]').fill('1230');await page.locator('input[name="cardCvc"]').fill('123');
   const name=page.locator('input[name="billingName"]');if(await name.count())await name.fill('Alex Chen')
-  const zip=page.locator('input[name="billingPostalCode"]');if(await zip.count())await zip.fill('94607')
-  await proof(page,scenario+'-stripe');await page.getByRole('button',{name:/Pay \$/}).click()
+  const country=page.getByLabel('Country or region',{exact:true});await country.selectOption('US');await page.locator('input[name="billingPostalCode"]').fill('94607')
+  await proof(page,scenario+'-stripe');await page.getByRole('button',{name:/^Pay(?:\s|$)/}).click()
   if(scenario==='declined'){
    await page.getByText(/Your card was declined/i).first().waitFor({timeout:60000});await proof(page,'declined-stripe-result')
    const session=await api('checkout/sessions/'+sessionId);assert.equal(session.payment_status,'unpaid');const failed=await eventFor('payment_intent.payment_failed',session.payment_intent);await publish(failed);assert.equal((await h.state(t.id)).ledger.receipts.length,1)
@@ -46,7 +46,7 @@ try{await cardFixture({assets:true,live:true,inspect:async({h,t,resident})=>{
   const session=await api('checkout/sessions/'+sessionId);assert.equal(session.payment_status,'paid');const completed=await eventFor('checkout.session.completed',sessionId)
   assert.equal((await h.state(t.id)).ledger.receipts.length,scenario==='success'?0:1,'browser return cannot post money')
   await proof(page,scenario+'-awaiting-event');await publish(completed);await h.restart();const replay=await publish(completed);assert.equal(replay.replayed,true)
-  await page.reload();await page.getByRole('heading',{name:/Card payment receipt/}).waitFor();await proof(page,scenario+'-resident-receipt');await staffProof(scenario+'-staff-reconciled')
+  await page.reload();await page.getByRole('heading',{name:/Card payment receipt/}).first().waitFor();await proof(page,scenario+'-resident-receipt');await staffProof(scenario+'-staff-reconciled')
   const intent=await api('payment_intents/'+session.payment_intent),charge=await api('charges/'+intent.latest_charge),ledger=(await h.state(t.id)).ledger
   assert.equal(ledger.receipts.length,scenario==='success'?1:2);if(scenario==='authentication')assert.equal(charge.payment_method_details.card.three_d_secure.result,'authenticated')
   console.log(JSON.stringify({scenario,session:sessionId,intent:intent.id,charge:charge.id,event:completed.id,authentication:charge.payment_method_details.card.three_d_secure?.result??null,ledgerReceiptCount:ledger.receipts.length,replayNoDoublePosting:true}))

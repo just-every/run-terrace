@@ -58,6 +58,8 @@ export async function createCheckout(env: StripeEnv, input: { id: string; amount
   const params = new URLSearchParams({
     mode: 'payment',
     'allowed_payment_method_types[0]': 'card',
+    'adaptive_pricing[enabled]': 'false',
+    'wallet_options[link][display]': 'never',
     'payment_method_options[card][request_three_d_secure]': 'automatic',
     'line_items[0][price_data][currency]': 'usd',
     'line_items[0][price_data][unit_amount]': String(input.amountCents),

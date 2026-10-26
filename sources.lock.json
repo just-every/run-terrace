@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "87812e1d1e3660c4bf2059fb4a7e38f3128a0e1c8d144acb54cc4c94baec6c1a",
+      "sha256": "c42925d9118ec192dcc5962f9665866da4c01ccdea075dfc93754dcbf9ca74db",
       "executable": false
     },
     "DEMO.md": {
@@ -157,7 +157,7 @@
       "executable": false
     },
     "docs/card-payments.md": {
-      "sha256": "fd642809e9b48c3a6289d8f1bbb6203dfbf83a63732ddd6e50ffd77bc1cfd478",
+      "sha256": "e3cb06052d6dc4d37dcb954a84e2abcb39a54896cc898643e3cc5314d23c38d8",
       "executable": false
     },
     "docs/financial-reports.md": {
@@ -3981,7 +3981,7 @@
       "executable": false
     },
     "src/terrace/stripe-provider.ts": {
-      "sha256": "fc9fb94d454229b40faf9c097f77c1b8b670978c1138993c104dc1abcfc5eda1",
+      "sha256": "32ad3aac08104f83765e517f513753a8efa64046eab8dcdd4f08a03cab1c44cd",
       "executable": false
     },
     "src/terrace/tax.ts": {
@@ -4101,7 +4101,7 @@
       "executable": false
     },
     "test-budget.json": {
-      "sha256": "4443c6e372222091fdc357b4b86689ad246fead302c9491ddbb4db667a963a09",
+      "sha256": "69ad5fa168f29cf42ce8b3dff204ca8e431de541e6737baa9cfaba4a6253e351",
       "executable": false
     },
     "tests/action-requests-browser.mjs": {
@@ -4161,7 +4161,7 @@
       "executable": false
     },
     "tests/card-payments-live.mjs": {
-      "sha256": "02f6206f3f57b9b759e80163c46ad94c09955cb2aaf5d3d4d72e365d19d02614",
+      "sha256": "a3e640c7e548447c5ba4aa831c52d9bafeb374cf99502f76edcb5b2dede25692",
       "executable": false
     },
     "tests/card-payments.mjs": {
@@ -4477,7 +4477,7 @@
       "executable": false
     },
     "verification.json": {
-      "sha256": "25fffff614586896ce606c3a055cbb60f8bf054a8669fee77b137456f54f0463",
+      "sha256": "ad9e62c4444f75108bece99fd946f2a44ed381290b67d3346a6a63c86e26590f",
       "executable": false
     },
     "VERIFY-WORKFLOW.md": {

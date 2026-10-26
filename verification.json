@@ -104,7 +104,8 @@
       "hosted": false,
       "commands": [
         "node tests/documents-browser.mjs",
-        "node tests/action-requests-browser.mjs"
+        "node tests/action-requests-browser.mjs",
+        "node tests/vendor-proposals-browser.mjs"
       ]
     },
     {
@@ -131,7 +132,8 @@
       "browser": true,
       "hosted": false,
       "commands": [
-        "node tests/payments-browser.mjs"
+        "node tests/payments-browser.mjs",
+        "node tests/card-payments-browser.mjs"
       ]
     },
     {
