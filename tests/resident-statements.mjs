@@ -6,15 +6,17 @@ export async function journey({assets=false,inspect}={}){
  const clock='2026-10-26T12:00:00.000Z',webhook=generateKeyPairSync('ec',{namedCurve:'prime256v1'}),mailWebhookKey=webhook.publicKey.export({type:'spki',format:'der'}).toString('base64'),h=await installation({assets,mailProvider:'sendgrid',mailWebhookKey,now:clock})
  try{
   const f=await h.command('portfolio.add',{name:'Statement portfolio'}),p=await h.command('property.add',{portfolioId:f.id,name:'Statement house',address:'1 Synthetic Terrace Road',kind:'duplex',timeZone:'America/Chicago'}),u=await h.command('unit.add',{propertyId:p.id,identifier:'A',bedrooms:'2',bathrooms:'1'}),t=await h.command('tenancy.create',{...tenancyInput,unitId:u.id,cadence:'monthly',rent:'1000.00'})
-  const q=await h.command('rent.charge',{tenancyId:t.id,dueDate:'2026-10-01',amount:'1000.00',description:'October rent – East',reference:'synthetic-terrace-140 private charge reference'}),r=await h.command('rent.receipt',{chargeId:q.id,amount:'200.00',receivedDate:'2026-10-02',method:'card',reference:'synthetic-terrace-141 private bank reference'})
+  const q=await h.command('rent.charge',{tenancyId:t.id,dueDate:'2026-10-01',amount:'1000.00',description:'October rent – East',reference:'synthetic-terrace-140 private charge reference'})
+  const residentMember=await h.command('household.add',{tenancyId:t.id,role:'co_tenant',name:'Statement resident',email:'statement-resident@example.test',contactBy:'email',joined:'2025-01-01'});await h.stepUp();const resident=await h.command('portal.invite',{kind:'resident',tenancyId:t.id,email:'statement-resident@example.test',displayName:'Statement resident',source:'synthetic-terrace-146 resident asked'}),as=await h.portalSignIn('statement-resident@example.test')
+  const delegate=await h.command('portal.invite',{kind:'resident',access:'delegate',tenancyId:t.id,email:'statement-delegate@example.test',displayName:'Statement delegate',source:'synthetic-terrace-147 delegated balance view'}),delegated=await h.portalSignIn('statement-delegate@example.test')
+  const unpaid=await(await h.request('/portal/statement?tenancyId='+t.id+'&month=2026-10&format=json',{as})).json();assert.equal(unpaid.currentBalanceCents,100000,'generate the monthly statement before the partial payment')
+  const r=await h.command('rent.receipt',{chargeId:q.id,amount:'200.00',receivedDate:'2026-10-02',method:'card',reference:'synthetic-terrace-141 private bank reference'})
   await h.command('household.add',{tenancyId:t.id,role:'co_tenant',name:'Synthetic private co-tenant',email:'private-co@example.test',joined:'2025-01-01'})
   await h.command('property.rules',{propertyId:p.id,stateCode:'CA',version:0,reference:'synthetic-terrace-142'})
   const stages=[{minDaysPastDue:0,allowPartial:true,overpayment:'credit'}],pack=syntheticPack('CA');pack.fields.partialPayments.value={stages};const saved=await h.command('rules.pack',pack);await h.command('rules.activate',{packId:saved.id,consent:'REVIEWED'})
   await h.command('payment.policy',{tenancyId:t.id,version:0,terms:{stages,priority:[q.id]},reference:'synthetic-terrace-143'})
   await h.command('payment.record',{tenancyId:t.id,amount:'100.00',state:'pending',payerKind:'resident',method:'ach',receivedDate:'2026-10-03',reference:'synthetic-terrace-144 private pending reference'})
   await h.command('payment.record',{tenancyId:t.id,amount:'750.00',state:'settled',payerKind:'resident',method:'card',receivedDate:'2026-10-04',reference:'synthetic-terrace-145 private settled reference'})
-  const residentMember=await h.command('household.add',{tenancyId:t.id,role:'co_tenant',name:'Statement resident',email:'statement-resident@example.test',contactBy:'email',joined:'2025-01-01'});await h.stepUp();const resident=await h.command('portal.invite',{kind:'resident',tenancyId:t.id,email:'statement-resident@example.test',displayName:'Statement resident',source:'synthetic-terrace-146 resident asked'}),as=await h.portalSignIn('statement-resident@example.test')
-  const delegate=await h.command('portal.invite',{kind:'resident',access:'delegate',tenancyId:t.id,email:'statement-delegate@example.test',displayName:'Statement delegate',source:'synthetic-terrace-147 delegated balance view'}),delegated=await h.portalSignIn('statement-delegate@example.test')
   const path='/portal/statement?tenancyId='+t.id+'&month=2026-10',response=await h.request(path+'&format=json',{as});assert.equal(response.status,200);const d=await response.json()
   assert.deepEqual([d.currency,d.openingCents,d.closingCents,d.currentBalanceCents,d.pendingCents,d.unappliedCreditCents],['USD',0,10000,10000,10000,5000]);assert.equal(d.lines.filter(l=>l.kind==='Recorded external payment').reduce((n,l)=>n+l.amountCents,0),90000)
   const portal=await(await h.request('/portal/api/resident?tenancyId='+t.id,{as})).json();assert.equal(d.currentBalanceCents,portal.balanceCents)
@@ -46,9 +48,8 @@ export async function journey({assets=false,inspect}={}){
   const send=delivery=>h.command('resident.delivery.send',{deliveryId:delivery.id,fingerprint:delivery.fingerprint,consent:'SEND PRIVATE LINK',reference:'synthetic-terrace-154 exact send approved'})
   const messagesBefore=h.messages.length;assert.equal((await send(receipt)).emailOutcome,'accepted');assert.equal((await send(statement)).emailOutcome,'accepted');assert.equal(h.messages.length,messagesBefore+2)
   await send(receipt).then(()=>assert.fail('cannot resend accepted delivery'),error=>assert.match(error.message,/409|already claimed/))
-  const sent=await queue(),row=id=>sent.deliveries.find(d=>d.id===id)
-  const notify=async(delivery,type,eventId,recipient='statement-resident@example.test',signed=true)=>{
-   const stamp=String(Date.parse(clock)/1000),body=[{event:type==='email.delivered'?'delivered':'bounce',timestamp:Number(stamp),email:recipient,sg_event_id:eventId,sg_message_id:row(delivery.id).provider_id+'.filter',rer_delivery_id:delivery.id}],signature=sign('sha256',Buffer.from(stamp+JSON.stringify(body)),webhook.privateKey).toString('base64')
+    const notify=async(delivery,type,eventId,recipient='statement-resident@example.test',signed=true)=>{
+   const row=(await queue()).deliveries.find(d=>d.id===delivery.id),stamp=String(Date.parse(clock)/1000),body=[{event:type==='email.delivered'?'delivered':'bounce',timestamp:Number(stamp),email:recipient,sg_event_id:eventId,sg_message_id:row.provider_id+'.filter',rer_delivery_id:delivery.id}],signature=sign('sha256',Buffer.from(stamp+JSON.stringify(body)),webhook.privateKey).toString('base64')
    return h.request('/api/resident-mail/events',{method:'POST',as:'',body,headers:{'x-twilio-email-event-webhook-timestamp':stamp,'x-twilio-email-event-webhook-signature':signed?signature:'invalid'}})
   }
   assert.equal((await notify(receipt,'email.delivered','synthetic-terrace-155','statement-resident@example.test',false)).status,400)
@@ -72,9 +73,11 @@ export async function journey({assets=false,inspect}={}){
    assert.equal((await fresh.request(receiptPath,{as})).status,401,'portal access does not transfer');await fresh.stepUp();await fresh.command('resident.delivery.send',{deliveryId:statement.id,fingerprint:statement.fingerprint,consent:'SEND PRIVATE LINK',reference:'synthetic-terrace-161 destination sends nothing'},{status:409})
    assert.ok(!fresh.messages.some(m=>/Your Terrace (?:monthly statement|payment receipt)/.test(m.subject)),'restore sends no resident document')
   }finally{await fresh.close()}
-  if(inspect)await inspect({h,t,as,delegated,transaction,receiptPath,statementId:statement.id,pdf:sourcePdf})
+  const nativeStatement=await inspect?.({h,t,as,delegated,transaction,receiptPath,statementId:statement.id,pdf:sourcePdf,notify})
   if((await queue()).deliveries.find(d=>d.id===statement.id).task_open)await h.command('resident.delivery.followup',{deliveryId:statement.id,reference:'synthetic-terrace-160 owner contacted resident and reconciled the failure'})
   assert.equal((await notify(statement,'email.bounced','synthetic-terrace-158')).status,200);assert.equal((await queue()).deliveries.find(d=>d.id===statement.id).task_open,0,'callback replay cannot reopen a completed delivery task')
+  const recovered=nativeStatement??await h.command('resident.delivery.prepare',prepare);if(!nativeStatement){await send(recovered);assert.equal((await notify(recovered,'email.delivered','synthetic-terrace-162')).status,200)}
+  assert.equal((await queue()).deliveries.find(d=>d.id===recovered.id).state,'delivered','the reviewed replacement monthly statement is delivered separately from the payment receipt')
   await h.command('household.leave',{memberId:residentMember.id,left:'2026-10-25'});assert.equal((await h.request(receiptPath,{as})).status,404);assert.equal((await h.request(path,{as})).status,404)
   await h.command('portal.revoke',{grantId:resident.grantId,reason:'synthetic-terrace-148 access ended'})
   assert.equal((await h.request(path,{as})).status,401);assert.equal((await h.request(transaction,{as})).status,401);assert.equal((await h.request(receiptPath,{as})).status,401)

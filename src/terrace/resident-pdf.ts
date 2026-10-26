@@ -14,7 +14,7 @@ export function residentPdf(d:Row,receipt=false){
  const paragraphs:{role:string,text:string}[]=[{role:'H1',text:title},...(d.receipt?[{role:'P',text:`Payment received ${d.receipt.date}: ${m(d.receipt.amountCents)}. ${d.receipt.description}. Receipt source ${d.receipt.id}.`}]:[]),{role:'P',text:d.tenancy.address},{role:'P',text:`${d.month} | ${d.from} through ${d.to} | ${d.timeZone} | ${d.currency}`},
   {role:'P',text:`Opening receivable: ${m(d.openingCents)}. Closing receivable: ${m(d.closingCents)}.`},
   {role:'P',text:`Pending funds, not deducted: ${m(d.pendingCents)}. Unapplied credit, separate: ${m(d.unappliedCreditCents)}.`},
-  {role:'P',text:`Current recorded balance as of ${d.currentAsOf}: ${m(d.currentBalanceCents)}.`},{role:'H2',text:'Itemized transactions'},
+  {role:'P',text:`${d.delivery?'Recorded balance at preparation':'Current recorded balance'} as of ${d.currentAsOf}: ${m(d.currentBalanceCents)}.`},{role:'H2',text:'Itemized transactions'},
   ...d.lines.map((r:Row)=>({role:'P',text:`${r.kind==='Lease charge'?'Due':'Dated'} ${r.date}. ${r.kind}. ${r.description}. Amount ${m(r.amountCents)}. Receivable change ${m(r.receivableDeltaCents)}. Source ${r.id}.`})),{role:'P',text:d.notice}]
  const lines:{role:string,text:string}[]=[]
  for(const p of paragraphs){let line='';for(const word of p.text.split(/\s+/)){if(width(line+' '+word,p.role)>528&&line){lines.push({role:p.role,text:line});line=''}for(const char of word){if(width(line+char,p.role)>528){lines.push({role:p.role,text:line});line=''}line+=char}line+=' '}if(line.trim())lines.push({role:p.role,text:line.trim()})}
