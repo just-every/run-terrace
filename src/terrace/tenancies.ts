@@ -3,7 +3,7 @@ import { all, audit, cents, commit, date, email, guard, id, insist, allow, one, 
 import { officeZone } from './company'
 import { usZone } from './zones'
 import { freeUnit, unitAddress, unitFor } from './properties'
-import { offerInput } from './renewals'
+import { offerInput, renewalItem } from './renewals'
 
 export async function tenancyCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'tenancy.create') {
@@ -38,7 +38,9 @@ export async function tenancyCommand(c: Context, command: string, p: Row): Promi
   } else {
    payload={message:text(p.message,'Follow-up message',3000),followUpDate:date(p.followUpDate,'Follow-up date')}
   }
-  await commit(c,[sql(c,'INSERT INTO tt_proposals(id,tenancy_id,kind,payload,tenancy_version,prepared_by,prepared_at) VALUES(?,?,?,?,?,?,?)',key,t.id,command.split('.')[0],JSON.stringify(payload),t.version,c.actor.id,c.now)],command,key)
+  const campaign=payload.renewalId?(await renewalItem(c,payload.renewalId)).r:null
+  const sequence=campaign?Number((await one(c,"SELECT COALESCE(MAX(renewal_sequence),0)+1 AS n FROM tt_proposals WHERE json_extract(payload,'$.renewalId')=?",campaign.id))!.n):null
+  await commit(c,[...(campaign?[guard(c,'EXISTS(SELECT 1 FROM tt_renewals WHERE id=? AND version=?)',campaign.id,payload.renewalVersion),guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)',t.id,t.version)]:[]),sql(c,'INSERT INTO tt_proposals(id,tenancy_id,kind,payload,tenancy_version,prepared_by,prepared_at,renewal_sequence) VALUES(?,?,?,?,?,?,?,?)',key,t.id,command.split('.')[0],JSON.stringify(payload),t.version,c.actor.id,c.now,sequence)],command,key)
   return {id:key,state:'pending'}
  }
  if(command==='proposal.approve' || command==='proposal.reject') {
@@ -51,7 +53,11 @@ export async function tenancyCommand(c: Context, command: string, p: Row): Promi
   // exact term revision; confirmation preserves its source and superseded terms.
   const writes=[guard(c,"EXISTS(SELECT 1 FROM tt_proposals WHERE id=? AND state='pending')",r.id),guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)',t.id,r.tenancy_version),...solo.guards,sql(c,'UPDATE tt_proposals SET state=?,approved_by=?,approved_at=?,approval_label=? WHERE id=?',approved?'approved':'rejected',c.actor.id,c.now,solo.label,r.id)]
   // LEASE-012: approving a campaign offer approves its exact terms, recipients and deadline for sending; the signed renewal activates later.
-  if(payload.renewalId)writes.push(guard(c,"EXISTS(SELECT 1 FROM tt_renewals WHERE id=? AND state IN ('open','countered') AND lease_end=?)",payload.renewalId,t.end_date))
+  if(payload.renewalId){
+   const {r:campaign}=await renewalItem(c,payload.renewalId)
+   writes.push(guard(c,"EXISTS(SELECT 1 FROM tt_renewals WHERE id=? AND version=? AND state IN ('open','countered') AND lease_end=?)",campaign.id,campaign.version,t.end_date))
+   if(approved)writes.push(sql(c,"UPDATE tt_renewals SET state='open',version=version+1 WHERE id=?",campaign.id))
+  }
   if(approved && r.kind==='renewal' && !payload.renewalId) {
    writes.push(sql(c,'INSERT INTO tt_lease_history(id,tenancy_id,start_date,end_date,rent_cents,proposal_id,confirmed_by,confirmed_at,currency) VALUES(?,?,?,?,?,?,?,?,?)',id(),t.id,t.start_date,t.end_date,t.rent_cents,r.id,c.actor.id,c.now,t.currency),sql(c,'UPDATE tt_tenancies SET end_date=?,rent_cents=?,version=version+1 WHERE id=?',payload.endDate,payload.rentCents,t.id))
   }

@@ -26,7 +26,7 @@ async function acceptedOffer(c: Context, t: Row, renewalId: unknown) {
  const {r} = await renewalItem(c, renewalId)
  insist(r.tenancy_id === t.id, 'not_found', 'Renewal not found.', 404)
  insist(r.state === 'accepted' && r.lease_end === t.end_date && !t.ended_on, 'renewal_state', 'Record the signed renewal only after the household accepted the approved offer for the current lease end.', 409)
- const offer = await one(c, "SELECT * FROM tt_proposals WHERE kind='renewal' AND state='approved' AND json_extract(payload,'$.renewalId')=? ORDER BY approved_at DESC,id DESC LIMIT 1", r.id)
+ const offer = await one(c, "SELECT * FROM tt_proposals WHERE kind='renewal' AND state='approved' AND json_extract(payload,'$.renewalId')=? ORDER BY renewal_sequence DESC,prepared_at DESC,id DESC LIMIT 1", r.id)
  insist(offer, 'renewal_state', 'The accepted renewal has no approved offer.', 409)
  return {r, offer, terms: JSON.parse(offer.payload)}
 }
@@ -83,6 +83,7 @@ export async function leaseCommand(c: Context, command: string, p: Row): Promise
   if (accepted) {
    insist(payload.effective === nextDay(t.end_date), 'invalid_effective', 'A signed renewal takes effect the day after the current lease end.')
    insist(payload.terms.filter((x: Row) => x.kind === 'rent').every((x: Row) => x.amountCents === accepted.terms.rentCents), 'renewal_terms', 'The signed renewal rent differs from the accepted offer. Prepare and approve a revised offer first.', 409)
+   if(accepted.terms.requiredSigners)insist(accepted.terms.requiredSigners.every((name:string)=>payload.signers.some((s:Row)=>s.name.toLocaleLowerCase('en-US')===name.toLocaleLowerCase('en-US'))),'renewal_signers','The staff-recorded original is missing a required signer from the approved offer.',409)
    payload.renewal = {id: accepted.r.id, proposalId: accepted.offer.id, endDate: accepted.terms.endDate, rentCents: accepted.terms.rentCents, label: SIGNED_LABEL}
   }
   const [source, prior] = await Promise.all([prepareLeaseSource(c, p.source), latest(c, t.id)])
@@ -117,7 +118,7 @@ export async function leaseCommand(c: Context, command: string, p: Row): Promise
   sql(c, 'INSERT INTO tt_lease_history(id,tenancy_id,start_date,end_date,rent_cents,proposal_id,confirmed_by,confirmed_at,currency) VALUES(?,?,?,?,?,?,?,?,?)', id(), t.id, t.start_date, t.end_date, t.rent_cents, renewal.proposalId, c.actor.id, c.now, t.currency),
   sql(c, 'UPDATE tt_tenancies SET end_date=?,rent_cents=? WHERE id=?', renewal.endDate, renewal.rentCents, t.id),
   sql(c, "UPDATE tt_renewals SET state='executed',lease_version_id=?,version=version+1 WHERE id=?", v.id, renewal.id),
-  sql(c, 'INSERT INTO tt_renewal_events(id,renewal_id,tenancy_id,kind,happened_on,detail,reference,label,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?,?,?,?)', id(), renewal.id, t.id, 'executed', localDate(c.now, t.time_zone), JSON.stringify({leaseVersionId: v.id, proposalId: renewal.proposalId, effective: v.effective, endDate: renewal.endDate, rentCents: renewal.rentCents, signedDate: v.signed_date}), v.reference, `renewed terms activated; ${SIGNED_LABEL}`, c.actor.id, c.now))
+  sql(c, 'INSERT INTO tt_renewal_events(id,renewal_id,tenancy_id,kind,happened_on,detail,reference,label,recorded_by,recorded_at,sequence) VALUES(?,?,?,?,?,?,?,?,?,?,(SELECT COALESCE(MAX(sequence),0)+1 FROM tt_renewal_events WHERE renewal_id=?))', id(), renewal.id, t.id, 'executed', localDate(c.now, t.time_zone), JSON.stringify({leaseVersionId: v.id, proposalId: renewal.proposalId, effective: v.effective, endDate: renewal.endDate, rentCents: renewal.rentCents, signedDate: v.signed_date}), v.reference, `renewed terms activated; ${SIGNED_LABEL}`, c.actor.id, c.now, renewal.id))
  for (const term of r.terms.filter(term => !term.superseded_by && (!term.ends || term.ends >= v.effective))) {
   if (term.starts < v.effective) writes.push(sql(c, 'UPDATE tt_lease_terms SET ends=?,version=version+1 WHERE id=?', previousDay(v.effective), term.id))
   else writes.push(sql(c, 'UPDATE tt_lease_terms SET superseded_by=?,version=version+1 WHERE id=?', v.id, term.id))

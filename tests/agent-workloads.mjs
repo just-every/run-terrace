@@ -96,10 +96,10 @@ export async function journey({assets=false,inspect}={}){
 
   // Interrupt after claiming the attempt but before the domain commit; cancellation fences later execution.
   const interrupted=await h.command('agent.enqueue',{...spec,credentialId:replacement.id,arguments:{...args,title:'synthetic-terrace-35 interrupted workload'}})
-  const db=await h.mf.getD1Database('DB')
-  await db.exec("CREATE TRIGGER synthetic_agent_failure BEFORE INSERT ON tt_maintenance_jobs WHEN NEW.title='synthetic-terrace-35 interrupted workload' BEGIN SELECT RAISE(ABORT,'synthetic agent domain failure'); END")
+  const db=h.db
+  await db.prepare("CREATE TRIGGER synthetic_agent_failure BEFORE INSERT ON tt_maintenance_jobs WHEN NEW.title='synthetic-terrace-35 interrupted workload' BEGIN SELECT RAISE(ABORT,'synthetic agent domain failure'); END").run()
   await execute(replacement,interrupted,400)
-  await db.exec('DROP TRIGGER synthetic_agent_failure')
+  await db.prepare('DROP TRIGGER synthetic_agent_failure').run()
   assert.equal((await workload(interrupted.id)).state,'running')
   await control('agent.cancel',interrupted.id)
   await execute(replacement,await workload(interrupted.id),409)

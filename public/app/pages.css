@@ -76,3 +76,6 @@
 @media(max-width:650px){.inspection-comparison,.inspection-comparison tbody{display:block}.inspection-comparison thead{display:none}.inspection-comparison tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;border-bottom:1px solid var(--rule);padding:12px 0}.inspection-comparison th,.inspection-comparison td{display:block;min-width:0;padding:6px;border:0}.inspection-comparison th,.inspection-comparison td:last-child{grid-column:1/-1}.inspection-comparison td::before{content:attr(data-label);display:block;font-size:11px;font-weight:650;color:var(--muted);margin-bottom:8px}.inspection-comparison code{font-size:11px}}
 
 .request-hash{overflow-wrap:anywhere;font-size:13px}
+
+/* Renewal facts keep their complete values beneath each label at every width. */
+.renewal-facts{grid-template-columns:minmax(0,1fr);gap:12px}.renewal-facts>div{min-width:0}.renewal-facts dt{font-weight:600}

@@ -44,7 +44,8 @@
       "browser": true,
       "hosted": false,
       "commands": [
-        "node tests/hap-browser.mjs"
+        "node tests/hap-browser.mjs",
+        "node tests/renewals-browser.mjs"
       ]
     }
   ],

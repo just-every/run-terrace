@@ -131,7 +131,7 @@ export async function journey({assets=false,inspect}={}) {
   assert.equal((await h.command('workflow.step',{runId:T.id,version:T.version,reference:'again'},{as:lead,status:409})).error,'workflow_closed')
 
   // Rent and delinquency on the same records: an overdue step escalates on a sweep; a record that resolved itself pauses the run.
-  const db=await h.mf.getD1Database('DB'),rent=await runFor(e.id),late=await runFor(d.id)
+  const db=h.db,rent=await runFor(e.id),late=await runFor(d.id)
   assert.equal(rent.template_name,'Rent reminder');assert.equal(late.template_name,'Delinquency follow-up')
   await db.prepare('UPDATE tt_workflow_runs SET step_due_on=? WHERE id=?').bind(add(today,-1),rent.id).run()
   const lead7=await h.command('prospect.add',{propertyId:elm.id,name:'Pat Quill',email:'pat@example.test',source:'own_site',reference:'Listing enquiry synthetic-terrace-7',consent_email:'refused',consent_phone:'granted',consent_text:'unknown'})
@@ -222,7 +222,7 @@ export async function scheduledJourney({assets=false,inspect}={}) {
   await h.command('operator.role',{operatorId:scopedId,role:'portfolio_manager',['portfolio:'+north.id]:'1'})
   await h.command('workflow.sweep',{}, {as:await h.signIn('scheduler-former@example.test'),status:403});await h.command('workflow.sweep',{}, {as:await h.signIn('scheduler-scoped@example.test'),status:403})
   const started=await h.command('workflow.start',{templateKey:template.templateKey,subjectId:ra,reference:'Overdue before tick'})
-  const db=await h.mf.getD1Database('DB');await db.prepare('UPDATE tt_workflow_runs SET step_due_on=? WHERE id=?').bind(add(today,-1),started.id).run()
+  const db=h.db;await db.prepare('UPDATE tt_workflow_runs SET step_due_on=? WHERE id=?').bind(add(today,-1),started.id).run()
   const vendor=await h.command('vendor.add',{name:'Scheduler safety vendor',email:'vendor@example.test',phone:'(510) 555-0100',specialties:'general',serviceAreas:'Oakland',w9:'received',insuranceExpires:add(today,365),licenseNumber:'',availability:'Weekdays',rate:'60',standing:'approved'})
   await h.command('schedule.add',{tenancyId:a.id,title:'Due safety inspection',trade:'general',vendorId:vendor.id,intervalMonths:12,firstDue:today,budget:'60',leadDays:0})
   const out=h.messages.length,tick=Math.floor(Date.now()/3600000)*3600000
@@ -256,7 +256,7 @@ export async function scheduledJourney({assets=false,inspect}={}) {
 
   // Prospect mail: accepted counts, known non-sends do not, uncertain pauses; every result keeps the source email event.
   const leasingTpl=await h.command('workflow.template',{name:'Prospect mail workflow',kind:'leasing',staleDays:1,contactLimit:2,escalateTo:owner,steps:'contact | Answer the enquiry | 3',reference:'Synthetic prospect playbook'})
-  const prospect=async name=>{const p=await h.command('prospect.add',{propertyId:property.id,name,email:name.toLowerCase()+'@example.test',source:'own_site',reference:'synthetic-terrace-20',consent_email:'granted'});await (await h.mf.getD1Database('DB')).prepare('UPDATE tt_prospects SET last_activity_at=? WHERE id=?').bind(new Date(Date.now()-2*86400000).toISOString(),p.id).run();await h.command('workflow.start',{templateKey:leasingTpl.templateKey,subjectId:p.id,reference:'Enquiry waiting'});return p}
+  const prospect=async name=>{const p=await h.command('prospect.add',{propertyId:property.id,name,email:name.toLowerCase()+'@example.test',source:'own_site',reference:'synthetic-terrace-20',consent_email:'granted'});await (h.db).prepare('UPDATE tt_prospects SET last_activity_at=? WHERE id=?').bind(new Date(Date.now()-2*86400000).toISOString(),p.id).run();await h.command('workflow.start',{templateKey:leasingTpl.templateKey,subjectId:p.id,reference:'Enquiry waiting'});return p}
   const p=await prospect('ProspectOne'),q=await prospect('ProspectTwo')
   const send=async(p,opts={})=>{const rows=(await(await h.request('/api/prospects')).json()).prospects;const row=rows.find(r=>r.id===p.id);return h.command('prospect.email',{prospectId:p.id,version:row.version,subject:'Workflow synthetic reply',body:'Thank you for your enquiry.'},opts)}
   mode='accepted';assert.equal((await send(p)).emailOutcome,'accepted')

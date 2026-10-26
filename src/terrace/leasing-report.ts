@@ -26,7 +26,7 @@ export async function leasingReport(c: Context, q: Row) {
    LEFT JOIN tt_lease_terms term ON term.id=q.term_id WHERE r.received_date>=? AND r.received_date<=?
    ORDER BY r.received_date,r.id`, from, to),
   turnoverData(c),
-  all(c, 'SELECT e.id,e.kind,e.happened_on,e.detail,e.reference,e.label,e.recorded_at,r.tenancy_id,r.lease_end FROM tt_renewal_events e JOIN tt_renewals r ON r.id=e.renewal_id ORDER BY e.recorded_at,e.rowid'),
+  all(c, 'SELECT e.id,e.kind,e.happened_on,e.detail,e.reference,e.label,e.recorded_at,r.tenancy_id,r.lease_end FROM tt_renewal_events e JOIN tt_renewals r ON r.id=e.renewal_id ORDER BY e.renewal_id,e.sequence'),
  ])
  const visibleProperties = propertyRows.filter(p => reachesPortfolio(c, p.portfolio_id))
  insist(!propertyId || visibleProperties.some(p => p.id === propertyId), 'not_found', 'Property not found.', 404)

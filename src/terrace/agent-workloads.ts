@@ -3,10 +3,12 @@ import {all,allow,commit,date,guard,id,insist,one,reaches,sha256,sql,tenancy,tex
 import {workCommand} from './work'
 import {tenancyCommand} from './tenancies'
 import {appointmentCommand} from './appointments'
+import {renewalItem} from './renewals'
 export const AGENT_COMMANDS=['agent.enqueue','agent.pause','agent.cancel','agent.resume','agent.reassign','agent.reply','agent.execute']
 const fields:Record<string,string[]>={
  'maintenance.prepare':['tenancyId','title','vendorId','trade','tradeName','tradeEmail','dueDate','estimate','checklist','scope','assetId'],
  'arrears.prepare':['tenancyId','message','followUpDate'],
+ 'renewal.prepare':['tenancyId','renewalId','endDate','rent','deadline','marketRent','marketRentDate','marketRentSource','vacantDays','makeReadyCost','makeReadySource','leasingCost','leasingSource','source','alternatives','conditionSource','communicationSource','cashSource','requiredSigners'],
  'appointment.book':['tenancyId','jobId','startsAt','endsAt','accessStartsAt','accessEndsAt','permission','permissionReference','noticeReference','noticeAt','keysAccess','availabilityReference','staffId','previousId','reason'],
 }
 const event=(c:Context,key:string,kind:string,detail:string)=>sql(c,'INSERT INTO tt_agent_workload_events(workload_id,kind,actor,at,detail) VALUES(?,?,?,?,?)',key,kind,c.actor.id,c.now,detail)
@@ -25,13 +27,22 @@ export async function agentCommand(c:Context,name:string,p:Row):Promise<Row|unde
  if(name!=='agent.execute')owner(c)
  if(name==='agent.enqueue'){
   const command=text(p.action,'Proposal action',100)
-  insist(Object.hasOwn(fields,command),'agent_action','Choose maintenance.prepare, arrears.prepare or appointment.book; this door never sends, pays or approves.')
+  insist(Object.hasOwn(fields,command),'agent_action','Choose maintenance.prepare, arrears.prepare, renewal.prepare or appointment.book; this door never sends, pays or approves.')
   insist(p.arguments&&typeof p.arguments==='object'&&!Array.isArray(p.arguments),'agent_arguments','Supply structured proposal arguments.')
   insist(Object.keys(p.arguments).every(k=>fields[command].includes(k)),'agent_arguments','Unexpected proposal argument; documents cannot supply actions or authority.')
   const t=await tenancy(c,p.arguments.tenancyId),k=await assigned(c,p.credentialId,command,t.unit_id),key=id()
+  const args={...p.arguments}
+  if(command==='renewal.prepare'){
+   const {r}=await renewalItem(c,args.renewalId)
+   insist(r.tenancy_id===t.id,'not_found','Renewal not found.',404)
+   insist(Array.isArray(args.alternatives)&&args.alternatives.length>=2,'renewal_options','Supply at least two sourced alternatives.')
+   for(const key of ['conditionSource','communicationSource','cashSource'])text(args[key],key,1000)
+   insist(Array.isArray(args.requiredSigners)&&args.requiredSigners.length>0,'renewal_signers','Name the required signers from the owner-reviewed legal source.')
+   args.expectedTenancyVersion=t.version;args.expectedRenewalVersion=r.version
+  }
   const purpose=text(p.purpose,'Purpose',1000),next=text(p.nextStep,'Next step',1000),due=date(p.dueOn,'Due date')
   const document=p.untrustedDocument===undefined?null:await sha256(new TextEncoder().encode(text(p.untrustedDocument,'Untrusted document',20000)))
-  await commit(c,[live(c,k,command),sql(c,'INSERT INTO tt_agent_workloads(id,tenancy_id,credential_id,credential_version,command,payload,purpose,next_step,due_at,document_sha256,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',key,t.id,k.id,k.version,command,JSON.stringify(p.arguments),purpose,next,due,document,c.actor.id,c.now),event(c,key,'queued',document?'Document instructions ignored; only owner-entered structured arguments apply.':'Owner entered structured proposal arguments.')],name,key)
+  await commit(c,[live(c,k,command),sql(c,'INSERT INTO tt_agent_workloads(id,tenancy_id,credential_id,credential_version,command,payload,purpose,next_step,due_at,document_sha256,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',key,t.id,k.id,k.version,command,JSON.stringify(args),purpose,next,due,document,c.actor.id,c.now),event(c,key,'queued',document?'Document instructions ignored; only owner-entered structured arguments apply.':'Owner entered structured proposal arguments.')],name,key)
   return {id:key,version:1,state:'queued',notice:'Workload queued. The live assigned credential records only the structured action; human authority remains separate.'}
  }
  const r=await one(c,'SELECT * FROM tt_agent_workloads WHERE id=?',text(p.workloadId,'Workload',100))
@@ -43,10 +54,17 @@ export async function agentCommand(c:Context,name:string,p:Row):Promise<Row|unde
   insist(r.state==='queued','agent_stopped','This workload is not queued. The owner must review it before any execution.',409)
   insist(c.actor.version===r.credential_version,'agent_stopped','The assigned credential changed.',409)
   allow(c,r.command)
+  const args=JSON.parse(r.payload)
+  if(r.command==='renewal.prepare'){
+   const {r:campaign}=await renewalItem(c,args.renewalId)
+   if(args.expectedTenancyVersion!==t.version||args.expectedRenewalVersion!==campaign.version){
+    await commit(c,[current(c,r),sql(c,"UPDATE tt_agent_workloads SET state='paused',version=version+1 WHERE id=?",r.id),event(c,r.id,'stopped','Lease terms or renewal history changed; owner review and a new workload are required.')],name,r.id)
+    insist(false,'renewal_changed','Lease terms or renewal history changed. The workload is paused for owner review.',409)
+   }
+  }
   await commit(c,[current(c,r),sql(c,"UPDATE tt_agent_workloads SET state='running',attempts=attempts+1,version=version+1 WHERE id=?",r.id),event(c,r.id,'attempt','Executing the structured action. No external send, payment or approval is permitted.')],name,r.id)
   c.action=r.command;c.agentWorkload={id:r.id,version:r.version+1}
   // The domain commit atomically checks cancellation and revocation again and records its proposal result.
-  const args=JSON.parse(r.payload)
   const result=await workCommand(c,r.command,args)??await tenancyCommand(c,r.command,args)??await appointmentCommand(c,r.command,args)
   insist(result,'agent_action','Unsupported proposal action.')
   return {...result,workloadId:r.id}
