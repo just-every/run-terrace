@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "b1c802c6d03c63b68fe4152ec2bb397afa8db9b86f2970143cfe1110d1948869",
+      "sha256": "59c93fcacf71cf22010e4857687ec52ab1804f9a50b963414b0b50d1526f0ab2",
       "executable": false
     },
     "AGENTS.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "5201e52682200eb15b63cf2830340b413a147e3942ff39ca5ea0eb7f965b6d3f",
+      "sha256": "8c6bef7b76a0d2c150f702e81629d4a8339b25eb9f8835d8919ef5b1bb0e8c07",
       "executable": false
     },
     "DEMO.md": {
@@ -4413,7 +4413,7 @@
       "executable": false
     },
     "tests/hap-remittances.mjs": {
-      "sha256": "88392e0176d4e3a151bf75deab54de39df35d92682000f2ddf91e10dad556906",
+      "sha256": "b53bc2ac849b84095f1df5bb480e489f9531d0371a95f4562cced6f2bd11c1c6",
       "executable": false
     },
     "tests/hap-scenarios.mjs": {

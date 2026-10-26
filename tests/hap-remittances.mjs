@@ -58,6 +58,7 @@ export async function remittanceFlow(h,leases,{inspect}={}) {
  await h.command('hap.remittance.allocate',{remittanceId:scopedRemit.id,version:1,reference:'synthetic-terrace-187',allocations:[{chargeId:charges[0].id,amount:'0.50'},{chargeId:charges[1].id,amount:'0.50'}]},{as:scoped,status:404})
  assert.equal((await detail()).find(r=>r.id===scopedRemit.id).allocations.length,0,'scoped refusal leaves no partial allocation')
 
+ assert.equal((await h.request('/api/document?id='+scopedSource.versionId,{as:scoped})).status,403,'receipt authority does not grant original-document authority')
  const otherSource=await source(188),other=await h.command('hap.remittance.record',{...input,payerName:'synthetic-terrace-189',amount:'1.00',reference:'synthetic-terrace-190',sourceDocumentVersionId:otherSource.versionId})
  await h.command('hap.remittance.allocate',{remittanceId:other.id,version:1,reference:'synthetic-terrace-191',allocations:[{chargeId:charges[0].id,amount:'1.00'}]},{status:409})
  await h.command('hap.remittance.allocate',{remittanceId:scopedRemit.id,version:1,reference:'synthetic-terrace-192',allocations:[{chargeId:charges[0].id,amount:'1.01'}]},{status:409})
