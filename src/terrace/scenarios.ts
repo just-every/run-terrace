@@ -1,4 +1,5 @@
 import { all, allow, date, insist, one, tenancy, text, type Context, type Row } from './core'
+import { hapActuals } from './hap-actuals'
 
 const DAY = 86400000
 const addDays = (day: string, n: number) => new Date(Date.parse(day + 'T00:00:00Z') + n * DAY).toISOString().slice(0, 10)
@@ -77,9 +78,10 @@ export async function scenarioReport(c: Context, q: Row): Promise<Row> {
  insist(t.currency === 'USD', 'scenario_currency', 'Current management-agreement reserves and vendor payables are USD. This tenancy uses another currency; a mixed-currency comparison cannot be calculated.', 409)
  const property = t.unit_id ? await one(c, 'SELECT p.id,p.name,p.time_zone FROM tt_properties p JOIN tt_units u ON u.property_id=p.id WHERE u.id=?', t.unit_id) : null
  insist(property, 'scenario_property', 'A property-linked tenancy is required to source current payables and the dated reserve agreement.', 409)
- const [agreements, bills] = await Promise.all([
+ const [agreements, bills, payerActuals] = await Promise.all([
   all(c, 'SELECT id,starts,reserve_cents,reference FROM tt_management_agreements WHERE property_id=? AND starts<=? ORDER BY starts', property.id, to),
   all(c, "SELECT b.id,b.version,b.invoice_number,b.day,r.terms FROM tt_bills b JOIN tt_bill_revisions r ON r.bill_id=b.id AND r.version=b.version WHERE b.state='payable' ORDER BY b.day,b.id"),
+  hapActuals(c, { ...t, time_zone: property.time_zone }, from, to),
  ])
  const firstAgreement = agreements.filter(a => a.starts <= from).at(-1), agreement = agreements.at(-1)
  insist(firstAgreement && agreement, 'scenario_agreement', 'Record a management agreement effective by the horizon start. An absent reserve requirement is unknown, not zero.', 409)
@@ -96,11 +98,11 @@ export async function scenarioReport(c: Context, q: Row): Promise<Row> {
   const availableBeforeDistributionsCents = p.openingCashCents + rent.collectedRentCents - p.concessionCents - payableCents - p.capitalCents - reserveCents
   const afterDistributionsCents = availableBeforeDistributionsCents - p.distributionsCents
   const deposits = { alreadyHeldCents: p.depositsHeldCents, newExpectedCents: p.newDepositsCents, refundsCents: p.depositRefundsCents, closingLiabilityCashCents: p.depositsHeldCents + p.newDepositsCents - p.depositRefundsCents, category: 'Separate deposit liability cash; excluded from operating cash and owner distributions; new receipts are not discounted by collection percent' }
-  return { ...p, ...dates, ...rent, payableCents, reserveRequirementCents: reserveCents, availableBeforeDistributionsCents, afterDistributionsCents, potentialShortfallCents: Math.max(0, -afterDistributionsCents), deposits }
+  return { ...p, ...dates, ...rent, rentBasis: payerActuals.forecastBasis, payableCents, reserveRequirementCents: reserveCents, availableBeforeDistributionsCents, afterDistributionsCents, potentialShortfallCents: Math.max(0, -afterDistributionsCents), deposits }
  })
  return {
   tenancyId: t.id, from, to, horizonDays, currency: t.currency, zone: t.time_zone, assumptions,
-  facts: { renewals: { actual: actualRenewals, proposed: proposedRenewals }, tenancy: { id: t.id, rentCents: t.rent_cents, cadence: t.cadence, currency: t.currency, zone: t.time_zone, leaseEnd: t.end_date, version: t.version }, property, payables, payableCents, agreement: { id: agreement.id, starts: agreement.starts, reference: agreement.reference, reserveRequirementCents: reserveCents, currency: 'USD' }, reserveSchedule: [firstAgreement, ...agreements.filter(a => a.starts > from)] },
+  facts: { payerActuals, renewals: { actual: actualRenewals, proposed: proposedRenewals }, tenancy: { id: t.id, rentCents: t.rent_cents, cadence: t.cadence, currency: t.currency, zone: t.time_zone, leaseEnd: t.end_date, version: t.version }, property, payables, payableCents, agreement: { id: agreement.id, starts: agreement.starts, reference: agreement.reference, reserveRequirementCents: reserveCents, currency: 'USD' }, reserveSchedule: [firstAgreement, ...agreements.filter(a => a.starts > from)] },
   plans,
   difference: { direction: 'Immediate marketing minus repair before listing', cashCents: plans[1].afterDistributionsCents - plans[0].afterDistributionsCents, vacantDays: plans[1].vacantDaysInHorizon - plans[0].vacantDaysInHorizon, readyDays: daysBetween(plans[0].readyDate, plans[1].readyDate) },
   boundary: 'Read-only estimates, not bank balances or lease-pricing/distribution approval. Dates are inclusive property-local days. All current approved unpaid vendor allocations are deducted once, regardless of invoice date; do not repeat them in capital assumptions. Reserve is the dated requirement at horizon end, not cash held. Opening operating cash, deposits, new rent and renewals are source-labelled assumptions, not inferred history. Make-ready and letting run sequentially for repairs and concurrently for immediate marketing. Ready date is the first assumed rent day. Collection percent is a user estimate applied only to exact gross rent; concessions and all costs are deducted at their full assumed amount. No other fees, taxes, arrears or bank reconciliation are inferred; include additional expected operating costs in capital with a source note. Actual books remain unchanged.',

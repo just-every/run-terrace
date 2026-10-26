@@ -1,3 +1,6 @@
+import {remittanceFlow} from './hap-remittances.mjs'
+import {hapChangeFlow} from './hap-changes.mjs'
+import {hapScenarioFlow} from './hap-scenarios.mjs'
 import assert from 'node:assert/strict'
 import {installation,tenancyInput} from './api/harness.mjs'
 import {editArchive} from './archive-edit.mjs'
@@ -9,7 +12,7 @@ export async function journey({assets=false,inspect}={}){
   for(const [i,resident,pha] of [[1,'300.01','700.00'],[2,'200.00','800.01']]){
    const f=await h.command('portfolio.add',{name:'HAP '+i}),p=await h.command('property.add',{portfolioId:f.id,name:'Voucher property '+i,address:i+' Synthetic Terrace Road',kind:'duplex',timeZone:'America/Los_Angeles'}),u=await h.command('unit.add',{propertyId:p.id,identifier:'A',bedrooms:2,bathrooms:1}),o=await h.command('owner.add',{kind:'individual',legalName:'Synthetic owner '+i,email:'hap-owner'+i+'@example.test',mailingAddress:i+' Synthetic Terrace Road'})
    await h.command('ownership.set',{propertyId:p.id,effectiveFrom:'2026-01-01',reason:'synthetic-terrace-101',shares:[{ownerId:o.id,percent:'100'}]})
-   const t=await h.command('tenancy.create',{...tenancyInput,unitId:u.id,tenantEmail:'hap'+i+'@example.test',startDate:'2026-07-01',endDate:'2027-06-30',cadence:'monthly',rent:'1000.01'}),signed=leaseFields(t.id,'2026-07-01','1000.01','0','0','synthetic-terrace-'+(110+i))
+   const t=await h.command('tenancy.create',{...tenancyInput,unitId:u.id,tenantName:'synthetic-terrace-'+(100+i),tenantEmail:'hap'+i+'@example.test',startDate:'2026-07-01',endDate:'2027-06-30',cadence:'monthly',rent:'1000.01'}),signed=leaseFields(t.id,'2026-07-01','1000.01','0','0','synthetic-terrace-'+(110+i))
    signed.terms=signed.terms.filter(x=>x.kind==='rent');Object.assign(signed.obligations.find(x=>x.kind==='hap'),{details:'Tenant-based HAP contract',housingAuthority:'Synthetic Housing Authority',reference:'synthetic-terrace-'+(120+i),tenantPortion:resident,hapPortion:pha})
    const v=await h.command('lease.prepare',signed),preview=await h.command('lease.preview',{leaseId:v.leaseId,month:'2026-07'})
    assert.deepEqual(preview.lines.map(x=>x.amountCents),[Math.round(Number(resident)*100),Math.round(Number(pha)*100)])
@@ -35,6 +38,9 @@ export async function journey({assets=false,inspect}={}){
    const report=await(await h.request('/api/delinquency?asOf=2026-10-01&tenancyId='+x.t.id)).json();assert.equal(report.rows[0].balanceCents,0);assert.equal(report.rows[0].phaAging.overdueCents,hap.amount_cents)
    const csv=await(await h.request('/api/delinquency?asOf=2026-10-01&tenancyId='+x.t.id+'&format=csv')).text();assert.ok(csv.includes(hap.id)&&csv.includes('Separate housing authority receivables'))
   }
+  await remittanceFlow(h,leases,{inspect})
+  await hapChangeFlow(h,leases,manager,{inspect})
+  const comparisons=await hapScenarioFlow(h,leases);if(inspect)await inspect({h,leases,phase:'payer-scenarios',comparisons})
   // A fully subsidized partial month posts no zero or phantom resident charge.
   const zunit=await h.command('unit.add',{propertyId:leases[1].p.id,identifier:'B',bedrooms:1,bathrooms:1}),z=await h.command('tenancy.create',{...tenancyInput,unitId:zunit.id,tenantEmail:'hap-zero@example.test',startDate:'2026-07-16',endDate:'2027-06-30',cadence:'monthly',rent:'1000.01'})
   const zs=leaseFields(z.id,'2026-07-16','1000.01','0','0','synthetic-terrace-140');zs.terms=zs.terms.filter(x=>x.kind==='rent');Object.assign(zs.obligations.find(x=>x.kind==='hap'),{details:'Fully subsidized',housingAuthority:'Synthetic Housing Authority',reference:'synthetic-terrace-141',tenantPortion:'0',hapPortion:'1000.01',ends:'2026-07-31'})
@@ -46,7 +52,7 @@ export async function journey({assets=false,inspect}={}){
   assert.equal((await h.request('/api/state?tenancy='+leases[1].t.id,{as:scoped})).status,404)
   const visible=await h.command('charges.preview',{month:'2026-07'},{as:scoped});assert.ok(visible.lines.every(l=>l.tenancyId===leases[0].t.id))
   const backup=await(await h.request('/api/backup')).text(),fresh=await installation()
-  try{const invalid=await editArchive(backup,(table,row)=>{if(table==='tt_hap_charges')row.amount_cents+=1});await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([invalid],'invalid-hap.rer')},{status:400});assert.equal((await fresh.state()).tenancies.length,0);await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([backup],'hap.rer')});for(const x of leases){const restored=(await fresh.state(x.t.id)).ledger;assert.deepEqual(restored.hapCharges,(await h.state(x.t.id)).ledger.hapCharges);assert.equal(restored.balanceCents,0)}}finally{await fresh.close()}
+  try{const invalid=await editArchive(backup,(table,row)=>{if(table==='tt_hap_charges')row.amount_cents+=1});await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([invalid],'invalid-hap.rer')},{status:400});assert.equal((await fresh.state()).tenancies.length,0);await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([backup],'hap.rer')});for(const x of leases){const restored=(await fresh.state(x.t.id)).ledger;assert.deepEqual(restored.hapCharges,(await h.state(x.t.id)).ledger.hapCharges);assert.equal(restored.balanceCents,(await h.state(x.t.id)).ledger.balanceCents);assert.equal(restored.hapBalanceCents,(await h.state(x.t.id)).ledger.hapBalanceCents)}}finally{await fresh.close()}
   await h.restart();assert.equal((await h.command('charges.preview',{month:'2026-07'})).newLines,0)
   if(inspect)await inspect({h,leases,phase:'posted',run})
  }finally{await h.close()}

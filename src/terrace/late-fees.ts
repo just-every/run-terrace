@@ -1,3 +1,4 @@
+import {RESIDENT_EFFECT} from './hap-balances'
 import {tenancyGuard,all,allow,can,cents,commit,date,guard,id,insist,one,sha256,shown,sql,tenancy,text,type Context,type Row} from './core'
 import {rulePreview} from './rule-packs'
 import {BALANCE} from './ledger'
@@ -28,7 +29,8 @@ export async function lateFeePreview(c:Context,tenancyId:unknown,onValue:unknown
  insist(on<=today,'future_schedule','Preview an elapsed schedule day, not a future outcome.')
  const configs=await all(c,'SELECT p.* FROM tt_late_fee_policies p WHERE tenancy_id=? AND version=(SELECT MAX(x.version) FROM tt_late_fee_policies x WHERE x.charge_id=p.charge_id) ORDER BY charge_id',t.id),lines:Row[]=[]
  for(const config of configs){
-  const q=await one(c,`SELECT q.*,${BALANCE} AS current_balance,${RESERVED} AS reserved FROM tt_charges q WHERE id=?`,config.charge_id),existing=await one(c,'SELECT * FROM tt_late_fees WHERE source_charge_id=?',config.charge_id),old=existing?JSON.parse(existing.snapshot):null,terms=old?.leaseTerms??JSON.parse(config.terms),property=await one(c,'SELECT p.*,r.version AS jurisdiction_version FROM tt_units u JOIN tt_properties p ON p.id=u.property_id LEFT JOIN tt_property_rules r ON r.property_id=p.id WHERE u.id=?',t.unit_id)
+  const q=await one(c,`SELECT q.*,q.amount_cents+${RESIDENT_EFFECT} AS effective_rent,${BALANCE} AS current_balance,${RESERVED} AS reserved FROM tt_charges q WHERE id=?`,config.charge_id),existing=await one(c,'SELECT * FROM tt_late_fees WHERE source_charge_id=?',config.charge_id),old=existing?JSON.parse(existing.snapshot):null,terms=old?.leaseTerms??JSON.parse(config.terms),property=await one(c,'SELECT p.*,r.version AS jurisdiction_version FROM tt_units u JOIN tt_properties p ON p.id=u.property_id LEFT JOIN tt_property_rules r ON r.property_id=p.id WHERE u.id=?',t.unit_id)
+  q!.amount_cents=q!.effective_rent
   const line:Row={sourceChargeId:q!.id,description:q!.description,rentCents:q!.amount_cents,dueDate:q!.due_date,on,leaseTerms:terms,policyId:old?.policyId??config.id,policyVersion:old?.policyVersion??config.version,packs:[],state:'held',gaps:[],currentBalance:q!.current_balance,reserved:q!.reserved,feeId:existing?.id??null}
   lines.push(line)
   if(!property){line.gaps.push('Link the lease to a property with reviewed rules.');continue}
@@ -38,7 +40,9 @@ export async function lateFeePreview(c:Context,tenancyId:unknown,onValue:unknown
   if(!old&&preview.state==='held'){line.gaps=preview.gaps;continue}
   line.packs=preview.packs
   const receipts=await all(c,'SELECT r.* FROM tt_net_receipts r WHERE charge_id=? AND received_date<=? ORDER BY id',q!.id,on),adjustments=await all(c,'SELECT * FROM tt_adjustments WHERE charge_id=? AND COALESCE(posting_day,substr(at,1,10))<=? ORDER BY id',q!.id,on)
-  const unpaid=Math.max(0,q!.amount_cents-receipts.reduce((n,r)=>n+r.amount_cents,0)-adjustments.reduce((n,r)=>n+r.amount_cents,0))
+  const payerEffects=await all(c,'SELECT resident_delta,posting_day FROM tt_hap_effects WHERE resident_charge_id=? ORDER BY posting_day',q!.id)
+  const datedRent=(day:string)=>q!.amount_cents-payerEffects.filter(e=>e.posting_day>day).reduce((n,e)=>n+e.resident_delta,0)
+  const unpaid=Math.max(0,datedRent(on)-receipts.reduce((n,r)=>n+r.amount_cents,0)-adjustments.reduce((n,r)=>n+r.amount_cents,0))
   line.unpaidCents=unpaid;line.receipts=receipts.map(r=>r.id);line.adjustments=adjustments.map(r=>r.id)
   const allocations=await all(c,'SELECT p.*,a.amount_cents AS allocated FROM tt_payment_allocations a JOIN tt_payments p ON p.id=a.payment_id WHERE a.charge_id=? AND p.received_date<=? ORDER BY p.id',q!.id,on),outcomes:Row[]=[]
   for(const p of allocations){const event=await one(c,"SELECT state,on_day FROM tt_payment_events WHERE payment_id=? AND on_day<=? ORDER BY on_day DESC,recorded_at DESC,CASE state WHEN 'pending' THEN 0 ELSE 1 END DESC LIMIT 1",p.id,on);outcomes.push({...p,outcome:event})}
@@ -48,7 +52,7 @@ export async function lateFeePreview(c:Context,tenancyId:unknown,onValue:unknown
    insist(['exclude_timely','count_pending'].includes(rule.pendingPolicy)&&['hold','recalculate_once'].includes(rule.reversalPolicy),'late_fee_policy','Reviewed packs must explicitly state pendingPolicy and reversalPolicy.')
    const grace=Math.max(whole(rule.fullUnpaidDays,'Pack grace',366),terms.fullUnpaidDays),first=calendar(rule,add(q!.due_date,grace+1)),leaseFirst=calendar({weekendRule:terms.weekendRule,holidays:rule.holidays},first),firstFeeDay=first>leaseFirst?first:leaseFirst
    const basisAsOfDay=on<firstFeeDay?on:firstFeeDay
-   const unpaidAtEligibility=Math.max(0,q!.amount_cents-receipts.filter(r=>r.received_date<=basisAsOfDay).reduce((n,r)=>n+r.amount_cents,0)-adjustments.filter(r=>(r.posting_day??r.at.slice(0,10))<=basisAsOfDay).reduce((n,r)=>n+r.amount_cents,0))
+   const unpaidAtEligibility=Math.max(0,datedRent(basisAsOfDay)-receipts.filter(r=>r.received_date<=basisAsOfDay).reduce((n,r)=>n+r.amount_cents,0)-adjustments.filter(r=>(r.posting_day??r.at.slice(0,10))<=basisAsOfDay).reduce((n,r)=>n+r.amount_cents,0))
    const timely=outcomes.filter(p=>p.received_date<firstFeeDay)
    const protectedPending=(rule.pendingPolicy==='exclude_timely'||terms.excludeTimely)?timely.filter(p=>p.outcome?.state==='pending'||(p.outcome?.state==='settled'&&p.outcome.on_day>basisAsOfDay)).reduce((n,p)=>n+p.allocated,0):0
    const eligible=Math.max(0,unpaidAtEligibility-protectedPending),count=line.structureUnits

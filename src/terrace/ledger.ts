@@ -1,3 +1,6 @@
+import {RESIDENT_EFFECT,hapEffects} from './hap-balances'
+import {HAP_RECEIVED} from './hap-remittances'
+import {PHA_EFFECT} from './hap-balances'
 import {hapData} from './hap-charges'
 import {RESERVED} from './payments'
 // Adapted from Nectar c76a60ccffa39cc1a207b52c152bda16d6d7b1df
@@ -5,7 +8,7 @@ import {RESERVED} from './payments'
 // with a balance guard in the same batch as every allocation or adjustment.
 import {tenancyGuard, all, cents, commit, date, guard, id, insist, allow, one, shown, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
 import { dayStart, localDate, nextDay } from './zones'
-export const BALANCE = `(q.amount_cents - COALESCE((SELECT SUM(amount_cents) FROM tt_net_receipts WHERE charge_id=q.id),0) - COALESCE((SELECT SUM(amount_cents) FROM tt_adjustments WHERE charge_id=q.id),0))`
+export const BALANCE = `(q.amount_cents + ${RESIDENT_EFFECT} - COALESCE((SELECT SUM(amount_cents) FROM tt_net_receipts WHERE charge_id=q.id),0) - COALESCE((SELECT SUM(amount_cents) FROM tt_adjustments WHERE charge_id=q.id),0))`
 export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|undefined> {
  if(!['rent.charge','rent.receipt','rent.adjust'].includes(command)) return
  allow(c, command)
@@ -39,8 +42,8 @@ export async function ledgerData(c:Context,tenancyId:string) {
  const charges=await all(c,`SELECT q.*,${RESERVED} AS reserved_cents,lt.source_clause,lt.lease_version_id,${BALANCE} AS balance_cents FROM tt_charges q LEFT JOIN tt_lease_terms lt ON lt.id=q.term_id WHERE q.tenancy_id=? ORDER BY due_date,created_at`,tenancyId)
  const receipts=await all(c,'SELECT r.* FROM tt_net_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=? ORDER BY received_date,created_at',tenancyId)
  const adjustments=await all(c,'SELECT a.* FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id WHERE q.tenancy_id=? ORDER BY at',tenancyId)
- const hapCharges=await hapData(c,t.id)
- return {hapCharges,hapBalanceCents:hapCharges.reduce((n,q)=>n+q.amount_cents,0),currency:shown(t),timeZone:t.time_zone as string,today,charges,receipts,adjustments,balanceCents:charges.reduce((s,r)=>s+r.balance_cents,0),arrearsCents:charges.filter(q=>q.due_date<today).reduce((s,r)=>s+r.balance_cents,0)}
+ const hapCharges=await all(c,`SELECT q.*,q.amount_cents+${PHA_EFFECT} AS effective_amount_cents,${HAP_RECEIVED} AS received_cents,q.amount_cents+${PHA_EFFECT}-${HAP_RECEIVED} AS balance_cents FROM tt_hap_charges q WHERE tenancy_id=? ORDER BY due_date,id`,t.id),effects=await hapEffects(c,t.id)
+ return {hapCharges,hapEffects:effects,hapBalanceCents:hapCharges.reduce((n,q)=>n+q.balance_cents,0),hapCreditCents:hapCharges.reduce((n,q)=>n+Math.max(0,-q.balance_cents),0),residentCreditCents:charges.reduce((n,q)=>n+Math.max(0,-q.balance_cents),0),currency:shown(t),timeZone:t.time_zone as string,today,charges,receipts,adjustments,balanceCents:charges.reduce((s,r)=>s+r.balance_cents,0),arrearsCents:charges.filter(q=>q.due_date<today).reduce((s,r)=>s+Math.max(0,r.balance_cents),0)}
 }
 // Every amount is period-based, with no pagination cap in a statement.
 export async function statement(c:Context,tenancyId:string,from:string,to:string) {

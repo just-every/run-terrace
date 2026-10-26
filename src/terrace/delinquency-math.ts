@@ -37,7 +37,7 @@ export function ageReceivables(tenancy: Row, charges: Row[], receipts: Row[], ad
  // Validate stored currencies, including allocations outside the requested date window.
  for (const row of [...mine, ...reduced]) {
   insist(row.currency === tenancy.currency, 'currency_mismatch', 'A receivable record has a different stored currency from its tenancy.')
-  amount(row.amount_cents)
+  if(mine.includes(row))insist(Number.isSafeInteger(row.amount_cents)&&row.amount_cents>=0,'invalid_receivable','Effective entitlement must be nonnegative integer cents.');else amount(row.amount_cents)
  }
  for(const r of paid){
   insist(r.currency===tenancy.currency,'currency_mismatch','A receivable record has a different stored currency from its tenancy.')
@@ -55,16 +55,16 @@ export function ageReceivables(tenancy: Row, charges: Row[], receipts: Row[], ad
   const chargeReceipts = receiptRows.filter(r => r.chargeId === q.id && r.date <= asOf).map(({ chargeId: _, ...r }) => r)
   const chargeReductions = reductionRows.filter(a => a.chargeId === q.id && a.date <= asOf).map(({ chargeId: _, ...a }) => a)
   const billedCents = q.amount_cents as number, receiptsCents = sum(chargeReceipts.map(r => r.cents)), reductionsCents = sum(chargeReductions.map(a => a.cents))
-  const outstandingCents = billedCents - sum([receiptsCents, reductionsCents])
-  insist(outstandingCents >= 0, 'invalid_receivable', 'As-of receipts and reductions exceed their charge.')
+  const netCents=billedCents-sum([receiptsCents,reductionsCents]),creditCents=Math.max(0,-netCents),outstandingCents=Math.max(0,netCents)
+  insist(netCents>=0||q.original_amount_cents!==undefined,'invalid_receivable','As-of receipts and reductions exceed their charge without a reviewed entitlement correction.')
   const ageDays = calendarDay(asOf) - calendarDay(dueDate)
-  return { chargeId: q.id as string, dueDate, ageDays, bucket: bucketFor(ageDays), currency, billedCents, receiptsCents, reductionsCents, outstandingCents, receipts: chargeReceipts, reductions: chargeReductions }
+  return { chargeId: q.id as string, dueDate, ageDays, bucket: bucketFor(ageDays), currency, billedCents, receiptsCents, reductionsCents, outstandingCents, creditCents, receipts: chargeReceipts, reductions: chargeReductions }
  }).sort((a, b) => a.dueDate.localeCompare(b.dueDate) || a.chargeId.localeCompare(b.chargeId))
  const buckets: Record<Bucket, number> = { current: 0, days1to30: 0, days31to60: 0, days61to90: 0, over90: 0 }
  for (const line of lines) buckets[line.bucket] = sum([buckets[line.bucket], line.outstandingCents])
  return {
   asOf, currency, timeZone: tenancy.time_zone as string, charges: lines, buckets,
   billedCents: sum(lines.map(q => q.billedCents)), receivedCents: sum(lines.map(q => q.receiptsCents)), reductionsCents: sum(lines.map(q => q.reductionsCents)),
-  balanceCents: sum(lines.map(q => q.outstandingCents)), overdueCents: sum(lines.filter(q => q.ageDays > 0).map(q => q.outstandingCents)),
+  creditCents:sum(lines.map(q=>q.creditCents)),balanceCents: sum(lines.map(q => q.outstandingCents)), overdueCents: sum(lines.filter(q => q.ageDays > 0).map(q => q.outstandingCents)),
  }
 }

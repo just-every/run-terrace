@@ -1,3 +1,5 @@
+import {effectiveCharges,hapEffects} from './hap-balances'
+import {phaReceipts} from './hap-reconciliation'
 import {hapData} from './hap-charges'
 import {externalFundsAsOf} from './payments'
 import { all, allow, can, commit, date, guard, id, insist, one, reaches, reachesPortfolio, sql, tenancy, text, type Context, type Row } from './core'
@@ -77,12 +79,12 @@ export async function delinquencyReport(c: Context, q: Row) {
   { code: 'pending_payments_not_recorded', message: 'Processor pending payments are not recorded (PAY-008). PAY-005 external pending records are shown separately and never prove settlement.' },
   { code: 'returned_ach_not_recorded', message: 'Returned ACH and attempted collection outcomes are not recorded (PAY-008).' },
   { code: 'payment_plans_not_recorded', message: 'Payment plans and broken promises are not recorded (PAY-011).' },
-  { code: 'subsidy_history_partial', message: 'Separate HAP postings are shown where recorded. Historical shared charges have no inferred split; remittances, retroactive recertification and abatement remain incomplete (PAY-013).' },
+  { code: 'subsidy_history_partial', message: 'Separate HAP postings are shown where recorded. Historical shared charges have no inferred split; dated remittances, approved PHA corrections and inspection abatements remain separately sourced. Historical shared charges have no reconstructed payer split.' },
   { code: 'delivery_not_recorded', message: 'Approved arrears proposals are unsent drafts; notice delivery and collection resolution are not recorded.' },
  ]
  const rows = await Promise.all(selected.map(async t => {
-  const aging = ageReceivables({ ...t, time_zone: t.property_zone ?? t.time_zone }, charges, receipts, adjustments, asOf)
-  const phaCharges=await hapData(c,t.id),phaAging=ageReceivables({...t,time_zone:t.property_zone??t.time_zone},phaCharges,[],[],asOf)
+  const effects=await hapEffects(c,t.id),aging = ageReceivables({ ...t, time_zone: t.property_zone ?? t.time_zone }, effectiveCharges(charges,effects,asOf,'resident'), receipts, adjustments, asOf)
+  const phaCharges=await hapData(c,t.id),phaAging=ageReceivables({...t,time_zone:t.property_zone??t.time_zone},effectiveCharges(phaCharges,effects,asOf,'pha'),await phaReceipts(c,t.id),[],asOf)
   const set = sharesOn(ownership.byProperty[t.property_id], asOf)
   const ownershipRows = (set?.shares ?? []).map((s: Row) => ({ ownerId: s.owner_id, name: s.legal_name, basisPoints: s.share_bp, setId: set!.id, effectiveFrom: set!.effective_from, reference: set!.reason }))
   if (!set) gaps.push({ code: 'ownership_not_recorded', tenancyId: t.id, propertyId: t.property_id ?? null, message: 'No ownership set is recorded at this date.' })
@@ -134,7 +136,7 @@ export function delinquencyTable(r: Awaited<ReturnType<typeof delinquencyReport>
   ...r.rows.map(x => [x.tenancyId, x.property, x.unit, x.resident, x.currency, amount(x.buckets.current), amount(x.buckets.days1to30), amount(x.buckets.days31to60), amount(x.buckets.days61to90), amount(x.buckets.over90), amount(x.balanceCents), amount(x.overdueCents), x.assignment?.name ?? 'Unassigned', x.nextAction, x.assignment?.reference ?? '', x.approvedDraft?.proposalId ?? 'Not recorded']),
   ...r.totals.map(t => ['Total', t.currency, 'Households', t.households, 'Current', amount(t.buckets.current), '1–30', amount(t.buckets.days1to30), '31–60', amount(t.buckets.days31to60), '61–90', amount(t.buckets.days61to90), 'Over 90', amount(t.buckets.over90), 'Balance', amount(t.balanceCents), 'Overdue', amount(t.overdueCents)]),
   ['Separate housing authority receivables'],['Tenancy','Currency','PHA balance','PHA overdue'],...r.rows.map(x=>[x.tenancyId,x.currency,amount(x.phaAging.balanceCents),amount(x.phaAging.overdueCents)]),
-  ['Dated PHA charge sources'],['Tenancy','Charge','Due','Outstanding'],...r.rows.flatMap(x=>x.phaAging.charges.map(q=>[x.tenancyId,q.chargeId,q.dueDate,amount(q.outstandingCents)])),
+  ['Dated PHA charge sources'],['Tenancy','Charge','Due','Outstanding','Credit','Receipt sources'],...r.rows.flatMap(x=>x.phaAging.charges.map(q=>[x.tenancyId,q.chargeId,q.dueDate,amount(q.outstandingCents),amount(q.creditCents),q.receipts.map(p=>p.reference).join('; ')])),
   ['Dated charge sources'], ['Tenancy', 'Charge', 'Due', 'Age', 'Currency', 'Billed', 'External receipts', 'Reductions', 'Outstanding', 'Receipt references', 'Reduction sources'],
   ...r.rows.flatMap(x => x.charges.map(q => [x.tenancyId, q.chargeId, q.dueDate, q.ageDays, q.currency, amount(q.billedCents), amount(q.receiptsCents), amount(q.reductionsCents), amount(q.outstandingCents), q.receipts.map(p => `${p.id} ${p.date} ${p.reference}`).join('; '), q.reductions.map(a => `${a.id} ${a.date} ${a.reason}`).join('; ')])),
   ['Manually recorded pending payment sources (not deducted)'],['Tenancy','Payment','Initiated','Method','Pending amount'],...r.rows.flatMap(x=>x.pendingExternalPayments.map(p=>[x.tenancyId,p.id,p.initiatedOn,p.method,amount(p.amountCents)])),

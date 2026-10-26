@@ -11,7 +11,8 @@ export async function hapLines(c:Context,t:Row,line:Row,proposed?:Row) {
  if(!recorded.length)return [line]
  const haps=recorded.filter((o:Row)=>o.starts<=line.coveredTo&&(!o.ends||o.ends>=line.coveredFrom))
  insist(haps.length===1&&haps[0].starts<=line.coveredFrom&&(!haps[0].ends||haps[0].ends>=line.coveredTo),'hap_coverage','HAP coverage must match a complete effective rent segment. Split the signed rent schedule at the HAP boundary.',409)
- const hap=haps[0],term=payload.terms.find((x:Row)=>x.id===line.termId)
+ const correction=await one(c,"SELECT * FROM tt_hap_changes WHERE tenancy_id=? AND kind='split' AND approved_at IS NOT NULL AND effective_from<=? ORDER BY approved_at DESC,rowid DESC LIMIT 1",t.id,line.coveredFrom)
+ const hap=correction?{...haps[0],tenantPortionCents:correction.resident_cents,hapPortionCents:correction.pha_cents}:haps[0],term=payload.terms.find((x:Row)=>x.id===line.termId)
  insist(shown(t)==='USD'&&t.cadence==='monthly','hap_currency','HAP posting currently requires confirmed USD monthly rent.',409)
  insist(term&&hap.tenantPortionCents+hap.hapPortionCents===term.amountCents,'hap_split','Signed resident and PHA portions must equal the full rent in exact cents.',409)
  const resident=prorate(hap.tenantPortionCents,day(line.coveredTo)-day(line.coveredFrom)+1,line.periodDays)
