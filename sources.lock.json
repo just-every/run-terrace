@@ -4393,7 +4393,7 @@
       "executable": false
     },
     "tests/hap-browser.mjs": {
-      "sha256": "bf81835ec19e5304c2f5161da7e48eae15ed4be3ffe0cc22233882b458ec25da",
+      "sha256": "582b7eb1da0d167d31573dad43dd20c6b6efaa18a61582d48dc6051d87ffbf70",
       "executable": false
     },
     "tests/hap-cadences.mjs": {
