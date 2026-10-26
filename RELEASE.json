@@ -10,7 +10,7 @@
     "WORK-001": "Partial retained: resident self-report is implemented; timed SMS and voice paging remains under PORTAL-005.",
     "PORTAL-003": "Partial retained: explicit vendor appointment confirmation and cancellation and qualification-gated estimate submission into native staff quote comparison. Responses use live assignment, exact approval, consent and retry evidence; resident permission and staff spend authority remain separate. Conservative appointment and estimate default awaits ct approval; proposals, completion originals, invoice submission, access windows and staff bank-detail proof remain open.",
     "PAY-010": "Partial retained: private frozen statements and receipts, tagged PDF and CSV downloads, explicit owner-reviewed sending, authenticated delivery events and failed-delivery tasks. The conservative authority and consent default awaits ct approval; provider qualification is recorded separately.",
-    "PAY-013": "Missing to partial: approved signed monthly USD HAP rent posts separate resident and PHA receivables once, with dated owner journals, separate aging, native source review and backup restore. Remittance allocation, retroactive split changes, PHA-only abatement, complete custody proof and payer forecast sourcing remain open."
+    "PAY-013": "Partial to done on ct judgment at 95275242: approved signed monthly USD HAP rent posts separate resident and PHA receivables once, with dated owner journals, one received ACH allocated across both voucher households, retroactive split changes, PHA-only abatement, payer forecast sourcing, complete custody and erasure proof, separate aging and native source review at 1440 and 390. No scope or acceptance change."
   },
   "extensionPointChanges": [],
   "migrations": [

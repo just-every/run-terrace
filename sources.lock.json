@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "c440433c4bb978a261380fe4b7760bbba6371a68ce50b094f0c002e2a845b367",
+      "sha256": "c46af35aa0650397453b54236d0b6a3aa839f0b7d7d7141ea87c7972b57ef114",
       "executable": false
     },
     "AGENTS.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "b0a0fd00ab738a5d42a7047fbe4d30f250edb58bef607d6fc448f142176eaa7a",
+      "sha256": "73a4dc317bc112f145c23fd3bff303f1c088b4679ab6da282bbc88d7e8e071f8",
       "executable": false
     },
     "DEMO.md": {
@@ -925,7 +925,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "0aa5861bdaa05ec730f4a9bdef7f70b2736958d5081a4512ec01709ba3ff46fb",
+      "sha256": "c9e2dd8d4e4f0ffc54b65e691b00f60c5236529655eff29ade639df04aceb71a",
       "executable": false
     },
     "rer-project.json": {
