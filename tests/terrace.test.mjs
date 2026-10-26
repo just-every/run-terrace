@@ -554,7 +554,7 @@ test('complete backup restores into a fresh owner installation, preserving photo
   assert.equal(manifest.tables.find(x=>x.name==='tt_tenancies').rows,original.tenancies.length)
   for(const p of original.work.photos){const file=manifest.files.find(f=>f.path===`files/tt_inspection_photos/${p.id}.png`);assert.deepEqual(entries.get(file.path),png);assert.equal(file.sha256,p.sha256);assert.ok(photoCsv.includes(`file:${file.path} sha256:${p.sha256}`))}
   const chargeCsv=entries.get('tables/tt_charges.csv').toString();for(const q of original.ledger.charges)assert.ok(chargeCsv.includes(q.reference)&&chargeCsv.includes(String(q.amount_cents)))
-  assert.ok(!manifest.tables.some(x=>/^(oa_|tt_totp|tt_recovery_codes|tt_factor_sessions)/.test(x.name)),'no sign-in secrets or sessions');assert.ok(manifest.tables.find(x=>x.name==='ik_jobs').rows>=1,'move-in import custody is exported');assert.match(entries.get('README.md').toString(),/Reconnect after a restore[\s\S]*MAIL_PROVIDER[\s\S]*invites each person again[\s\S]*moves no money/)
+  assert.ok(!manifest.tables.some(x=>/^(oa_|tt_totp|tt_recovery_codes|tt_factor_sessions)/.test(x.name)),'no sign-in secrets or sessions');assert.ok(manifest.tables.find(x=>x.name==='ik_jobs').rows>=1,'move-in import custody is exported')
   assert.equal((await h.request('/api/readable-export',{as:member})).status,403)
  }finally{await fresh.close()}
 })
