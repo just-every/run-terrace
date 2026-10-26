@@ -30,7 +30,7 @@ export async function hapActuals(c: Context, t: Row, from: string, to: string) {
  }
  const residentCharges = charges.filter(q => inside(q.due_date)).map(q => source('charge', q, q.due_date, q.amount_cents, { chargeId: q.id, leaseVersionId: q.lease_version_id, sourceClause: q.source_clause, periodStart: q.period_start, periodEnd: q.period_end }))
  const residentReceipts = receipts.filter(r => inside(r.received_date)).map(r => source(r.reversal_of ? 'receipt_reversal' : 'external_receipt', r, r.received_date, r.amount_cents, { chargeId: r.charge_id, reversalOf: r.reversal_of }))
- const residentAdjustments = adjustments.map(a => ({ ...a, day: a.posting_day ?? localDate(a.at, t.time_zone) })).filter(a => inside(a.day)).map(a => source('adjustment', a, a.day, -a.amount_cents, { chargeId: a.charge_id, reason: a.reason }))
+ const residentAdjustments = adjustments.map((a):Row => ({ ...a, day: a.posting_day ?? localDate(a.at, t.time_zone) })).filter(a => inside(a.day)).map(a => source('adjustment', a, a.day, -a.amount_cents, { chargeId: a.charge_id, reason: a.reason }))
  const residentOutcomes: Row[] = residentReceipts.map(r => ({ ...r, state: r.reversalOf ? 'reversed_or_refunded' : 'recorded_external' })), residentPending: Row[] = [], residentHeld: Row[] = []
  for (const p of payments) {
   const dated = events.filter(e => e.payment_id === p.id && e.on_day <= through), last = dated.at(-1)

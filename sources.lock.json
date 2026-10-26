@@ -596,6 +596,14 @@
       "sha256": "bb14071dd6b775ca6557e56e7ded30817777b1c7e4c42890acd022f292d20149",
       "executable": false
     },
+    "migrations/core/0091_hap_changes.sql": {
+      "sha256": "e65279906a72b3622d55ae2c244d8c463f2dfed7b043f1b2ab103b16d8baccc5",
+      "executable": false
+    },
+    "migrations/core/0098_hap_remittances.sql": {
+      "sha256": "27c8ae1d280e59e1ad7bf08c6667d6035554ce024b0a5bc537b50f8bf8fe1655",
+      "executable": false
+    },
     "ONBOARDING.md": {
       "sha256": "d9ae36e9db2e9bd75e88a78688c3a94155aec155ce7213160ebfd101c93ff3c5",
       "executable": false
@@ -3640,8 +3648,40 @@
       "sha256": "8777466ee7028a2af0ae46951da19461e78efe4302d4750c412a7f8fa7ed3f35",
       "executable": false
     },
+    "src/terrace/hap-actuals.ts": {
+      "sha256": "2912c029a20dfa06d2d0b12afefca7cd20ebcc9fd2d6ab5b1f422b5ce0bc26f3",
+      "executable": false
+    },
+    "src/terrace/hap-archive.mjs": {
+      "sha256": "14baf21d5abd61fcf4293ac7fcb96ab5f0fa2f39961cadfd834506f096ba8952",
+      "executable": false
+    },
+    "src/terrace/hap-balances.ts": {
+      "sha256": "c808475d2eb3a07a56b59048515529e9bde9a782ba9821394d03f7a02337f799",
+      "executable": false
+    },
+    "src/terrace/hap-changes.ts": {
+      "sha256": "4f18384f898acbeaa0ebb963d7cc15258643c40fcbf6914934e4b3012be6d2ce",
+      "executable": false
+    },
     "src/terrace/hap-charges.ts": {
       "sha256": "24cabdef6a4d160abb9850ab4330dd48cadb3948d7c0a0ebf9657f772f333a05",
+      "executable": false
+    },
+    "src/terrace/hap-reconciliation.ts": {
+      "sha256": "b3d772193cd2e574d558d1ac1ccdd404e013a6756664e1218f3fd03f787cd2b3",
+      "executable": false
+    },
+    "src/terrace/hap-remittance-retention.ts": {
+      "sha256": "5e8983774bcd6a19db92db407723062dc2f01212eb786482ef66910b2ccb4da9",
+      "executable": false
+    },
+    "src/terrace/hap-remittances.ts": {
+      "sha256": "57d956a9d1fab10091a451ffccf6fdab98afb4a4886d9030dbc557735bad15a4",
+      "executable": false
+    },
+    "src/terrace/hap-view.ts": {
+      "sha256": "55cbd1f335d54e755c619a43b0695c791cf7ec558b5b140b87565c79a6712ae5",
       "executable": false
     },
     "src/terrace/history.ts": {
@@ -3817,7 +3857,7 @@
       "executable": false
     },
     "src/terrace/portal-data.ts": {
-      "sha256": "3e72211e58493d22ac7f042046a1a7519c2d9de6cd147fff66818239d296e4a1",
+      "sha256": "a5e08c9b695cfaa8e7c0d7e826b2d07bb5b9744c1c7f09d0d4ee0482885b30ed",
       "executable": false
     },
     "src/terrace/portal-http.ts": {
@@ -3853,7 +3893,7 @@
       "executable": false
     },
     "src/terrace/portal-view.ts": {
-      "sha256": "04dad61bb422058a5e3266af064e9fc94daf0c52542b9136da071312953a1db6",
+      "sha256": "fe3cdbce0e9f4585a3c4f0202ae0531e965013e20390b8fe50b1f2043a58cb1a",
       "executable": false
     },
     "src/terrace/portal.ts": {
@@ -4345,11 +4385,23 @@
       "executable": false
     },
     "tests/hap-browser.mjs": {
-      "sha256": "203937be817deec5011552436adba391e6ca494b5daecc88c2f0972b068a946c",
+      "sha256": "3f18393e09713f2948c71ae779f8ee3a9e1b01e64736e452a4d74adf05656cbe",
+      "executable": false
+    },
+    "tests/hap-changes.mjs": {
+      "sha256": "59fb3fe15fed45d2b36668771b3d49b235ab468984880393c91b9f71d121183b",
+      "executable": false
+    },
+    "tests/hap-remittances.mjs": {
+      "sha256": "754e6bf9f6f8649c492529d41776dcbcd3275a20b9541010d59335654dff8c83",
+      "executable": false
+    },
+    "tests/hap-scenarios.mjs": {
+      "sha256": "b9e2e33ffd7a46031c13e9bd24f4fda02d05f9b0e11c49702fc41e837634e081",
       "executable": false
     },
     "tests/hap.mjs": {
-      "sha256": "9dc495fbb36661762e85fcab49c353788112ed441fc5d3e88f234f73dfd86b00",
+      "sha256": "bdb92d8f79e3c879304e2520041eb87fb27ad45126a04786f1135f9b532d4bd4",
       "executable": false
     },
     "tests/households-browser.mjs": {

@@ -1,3 +1,4 @@
+import {ownerPayerBalances} from './hap-portal'
 import {vendorAppointmentProposals} from './portal-vendor-proposals'
 import {vendorAppointments,vendorEstimates,vendorResponses} from './portal-vendor'
 // ROLE-002: what each kind of portal person may read. Every function takes the one record a live grant names and projects
@@ -18,6 +19,8 @@ export async function residentData(c: Context, grant: Row) {
   charges: l.charges.map(q => ({ id: q.id, dueDate: q.due_date, description: q.description, amountCents: q.amount_cents, balanceCents: q.balance_cents })),
   boundary: 'Recorded rent only. Payments are made outside Terrace.',
   ...(delegate ? {} : {
+   housingAuthority:l.hapCharges.length?{balanceCents:l.hapBalanceCents,creditCents:l.hapCreditCents,charges:l.hapCharges.map(q=>({id:q.id,dueDate:q.due_date,payer:q.payer,amountCents:q.effective_amount_cents,balanceCents:q.balance_cents}))}:null,
+   payerCorrections:l.hapEffects.map(x=>({id:x.id,kind:x.kind,residentDeltaCents:x.resident_delta,phaDeltaCents:x.pha_delta,postingDay:x.posting_day,effectiveFrom:x.effective_from,effectiveTo:x.effective_to})),
    receipts: l.receipts.map(r => ({ date: r.received_date, amountCents: r.amount_cents })),
    adjustments: l.adjustments.map(a => ({ date: a.at.slice(0, 10), amountCents: a.amount_cents })),
    delegates: (await all(c, "SELECT g.id,i.display_name FROM tt_portal_grants g JOIN tt_portal_identities i ON i.id=g.identity_id WHERE g.tenancy_id=? AND g.access='delegate' AND g.revoked_at IS NULL ORDER BY g.granted_at,g.id", t.id)).map(r => ({ grantId: r.id as string, name: r.display_name as string })),
@@ -28,7 +31,7 @@ const cell = (v: unknown) => '"' + String(v ?? '').replaceAll('"', '""').replace
 export function residentCsv(d: NonNullable<Awaited<ReturnType<typeof residentData>>>) {
  const rows: unknown[][] = [['Terrace account statement', d.tenancy.address], ['Currency', d.currency], ['Date', 'Kind', 'Description', 'Amount'],
   ...d.charges.map(q => [q.dueDate, 'Charge', q.description, (q.amountCents / 100).toFixed(2)]), ...(d.receipts ?? []).map(r => [r.date, 'Recorded payment', '', (r.amountCents / 100).toFixed(2)]), ...(d.adjustments ?? []).map(a => [a.date, 'Charge reduction', '', (a.amountCents / 100).toFixed(2)]),
-  ['Balance', '', '', (d.balanceCents / 100).toFixed(2)], [d.boundary]]
+  ...(d.payerCorrections??[]).map(x=>[x.postingDay,'Reviewed payer correction',x.effectiveFrom+' through '+x.effectiveTo,(x.residentDeltaCents/100).toFixed(2)]),['Resident balance', '', '', (d.balanceCents / 100).toFixed(2)],...(d.housingAuthority?[['Separate PHA balance','','',(d.housingAuthority.balanceCents/100).toFixed(2)],['PHA credit','','',(d.housingAuthority.creditCents/100).toFixed(2)]]:[]),[d.boundary]]
  return rows.map(r => r.map(cell).join(',')).join('\r\n') + '\r\n'
 }
 
@@ -39,10 +42,10 @@ export async function ownerData(c: Context, ownerId: string) {
  if (!ids.length) return { properties: [] }
  const marks = ids.map(() => '?').join(','), props = await all(c, `SELECT id,name,address FROM tt_properties WHERE id IN (${marks}) ORDER BY name`, ...ids)
  const sets = await all(c, `SELECT id,property_id,effective_from FROM tt_ownership_sets WHERE property_id IN (${marks}) ORDER BY property_id,effective_from`, ...ids)
- return { properties: props.map(p => {
+ const properties=await Promise.all(props.map(async p => {
   const list = sets.filter(s => s.property_id === p.id)
-  return { id: p.id, name: p.name, address: p.address, periods: list.flatMap((s, i) => { const m = mine.find(x => x.set_id === s.id); return m ? [{ from: s.effective_from, to: list[i + 1] ? day(list[i + 1].effective_from) : null, shareBp: m.share_bp }] : [] }) }
- }) }
+  return { id: p.id, name: p.name, address: p.address,payerBalances:await ownerPayerBalances(c,ownerId,p.id), periods: list.flatMap((s, i) => { const m = mine.find(x => x.set_id === s.id); return m ? [{ from: s.effective_from, to: list[i + 1] ? day(list[i + 1].effective_from) : null, shareBp: m.share_bp }] : [] }) }
+ }));return {properties}
 }
 export async function ownerPeriodStatement(c: Context, ownerId: string, from: unknown, to: unknown, propertyId?: string) {
  const s = await ownerStatement(c, ownerId, from, to, propertyId)
