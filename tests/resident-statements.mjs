@@ -40,7 +40,7 @@ export async function journey({assets=false,inspect}={}){
    await h.command('resident.delivery.prepare',{...prepare,grantId:grant.grantId},{status:409})
   }
   const stale=await h.command('resident.delivery.prepare',prepare);await h.command('resident.delivery.prepare',prepare,{status:409})
-  await h.command('rent.charge',{tenancyId:t.id,dueDate:'2026-10-05',amount:'1.00',description:'Reviewed extra charge',reference:'synthetic-terrace-152 reviewed correction'})
+  const fee=await h.command('rent.charge',{tenancyId:t.id,dueDate:'2026-10-05',amount:'1.00',description:'Staff-recorded lease fee',reference:'synthetic-terrace-152 fee source'});await h.command('rent.adjust',{chargeId:fee.id,amount:'0.25',reason:'Synthetic reviewed fee credit'})
   await h.command('resident.delivery.send',{deliveryId:stale.id,fingerprint:stale.fingerprint,consent:'SEND PRIVATE LINK',reference:'synthetic-terrace-153 reviewed send'},{status:409})
   const receipt=await h.command('resident.delivery.prepare',{...prepare,kind:'receipt',transactionId:'receipt:'+r.id}),statement=await h.command('resident.delivery.prepare',prepare)
   const send=delivery=>h.command('resident.delivery.send',{deliveryId:delivery.id,fingerprint:delivery.fingerprint,consent:'SEND PRIVATE LINK',reference:'synthetic-terrace-154 exact send approved'})
@@ -62,7 +62,7 @@ export async function journey({assets=false,inspect}={}){
   assert.equal((await h.request(receiptPath,{as:delegated})).status,404);assert.equal((await h.request(receiptPath,{as:''})).status,401)
   assert.equal((await h.request('/api/resident-document?id='+receipt.id,{as:member})).status,403)
   const frozenPdf=await h.request(receiptPath+'&format=pdf',{as});assert.equal(frozenPdf.status,200)
-  const current=await(await h.request(path+'&format=json',{as})).json(),matching=await(await h.request('/portal/api/resident?tenancyId='+t.id,{as})).json();assert.equal(current.currentBalanceCents,10100);assert.equal(current.currentBalanceCents,matching.balanceCents)
+  const current=await(await h.request(path+'&format=json',{as})).json(),matching=await(await h.request('/portal/api/resident?tenancyId='+t.id,{as})).json();assert.equal(current.currentBalanceCents,10075);assert.equal(current.currentBalanceCents,matching.balanceCents);assert.ok(current.lines.some(l=>l.id==='charge:'+fee.id&&l.date==='2026-10-05'&&l.amountCents===100));assert.ok(current.lines.some(l=>l.chargeId===fee.id&&l.receivableDeltaCents===-25),'the statement itemizes its recorded fee credit separately')
   const sourcePdf=Buffer.from(await frozenPdf.arrayBuffer());assert.ok(sourcePdf.includes(Buffer.from('/StructTreeRoot')));assert.ok(sourcePdf.includes(Buffer.from('/ActualText')))
   const archive=await(await h.request('/api/backup')).text(),readable=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer());assert.ok(readable.includes(Buffer.from(receipt.id)),'readable export retains receipt delivery evidence')
   const fresh=await installation({now:clock})
