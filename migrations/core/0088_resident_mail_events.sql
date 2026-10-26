@@ -23,3 +23,13 @@ CREATE TABLE IF NOT EXISTS rer_mail_event_states (
   terminal INTEGER NOT NULL CHECK (terminal IN (0, 1)),
   PRIMARY KEY (provider, tenant_id, event_namespace, provider_message_id, recipient)
 );
+
+-- Keep callback intake atomic with eligible financial-document erasure.
+CREATE TRIGGER tt_resident_mail_custody_fence BEFORE INSERT ON rer_mail_event_receipts
+WHEN NEW.event_namespace='terrace-resident-documents' AND NOT EXISTS(
+ SELECT 1 FROM tt_resident_deliveries d WHERE d.provider=NEW.provider
+ AND d.recipient=json_extract(NEW.event_json,'$.recipients[0]')
+ AND (d.id=json_extract(NEW.event_json,'$.deliveryId') OR
+ (json_extract(NEW.event_json,'$.deliveryId') IS NULL AND d.provider_id=json_extract(NEW.event_json,'$.providerMessageId')))
+)
+BEGIN SELECT RAISE(ABORT,'resident_delivery_erased'); END;

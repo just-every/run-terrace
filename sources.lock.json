@@ -581,7 +581,7 @@
       "executable": false
     },
     "migrations/core/0088_resident_mail_events.sql": {
-      "sha256": "c18a168f27d6994d2930730e775422d65cb97023f5550cdccc2d95fdf64440b1",
+      "sha256": "4cacf05080fedff58645ff23099fc530d9694b5959f1c9976d61f0864926d3f5",
       "executable": false
     },
     "ONBOARDING.md": {
@@ -4413,7 +4413,7 @@
       "executable": false
     },
     "tests/resident-statements-browser.mjs": {
-      "sha256": "299f3d814df62cb9c73ace7155b7007b72c2c8a5c2c723a5b0472f86892652c9",
+      "sha256": "f98e92ce50ea11da83bae707bb3b88586dbd438baa15084a4602f19703d8b76f",
       "executable": false
     },
     "tests/resident-statements-live.mjs": {
