@@ -45,7 +45,8 @@
       "hosted": false,
       "commands": [
         "node tests/hap-browser.mjs",
-        "node tests/renewals-browser.mjs"
+        "node tests/renewals-browser.mjs",
+        "node tests/portal-threads-browser.mjs"
       ]
     }
   ],

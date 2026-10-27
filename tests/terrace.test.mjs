@@ -912,3 +912,6 @@ test('ACCT-013: cash and accrual statements reconcile unpaid rent and bills, set
 test('REPORT-006: reviewed owner links enforce send approval, live scope, frozen portal fields, archive isolation and audited hold-aware deletion',reportScheduleJourney)
 
 test('PORTAL-007: scoped request actions, expiry, replacement, validated originals and exact owner decisions',actionRequestJourney)
+
+import {journey as sharedThreadJourney} from './portal-threads.mjs'
+test('PORTAL-006: private notes, scoped conversations, exact notices and per-recipient building service evidence survive restore',sharedThreadJourney)
