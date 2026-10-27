@@ -4,7 +4,7 @@ import { previewLease } from './charge-run'
 import { LEASE_COMMANDS, leaseDigestInput, leaseInput } from './lease-input'
 import { prepareLeaseSource } from './lease-source'
 import { freeUnit } from './properties'
-import { renewalItem, SIGNED_LABEL } from './renewals'
+import { renewalItem, renewalRoster, rosterGuards, SIGNED_LABEL } from './renewals'
 import { localDate } from './zones'
 export { LEASE_COMMANDS } from './lease-input'
 export { leaseSource, leaseErasureStatements } from './lease-source'
@@ -28,7 +28,9 @@ async function acceptedOffer(c: Context, t: Row, renewalId: unknown) {
  insist(r.state === 'accepted' && r.lease_end === t.end_date && !t.ended_on, 'renewal_state', 'Record the signed renewal only after the household accepted the approved offer for the current lease end.', 409)
  const offer = await one(c, "SELECT * FROM tt_proposals WHERE kind='renewal' AND state='approved' AND json_extract(payload,'$.renewalId')=? ORDER BY renewal_sequence DESC,prepared_at DESC,id DESC LIMIT 1", r.id)
  insist(offer, 'renewal_state', 'The accepted renewal has no approved offer.', 409)
- return {r, offer, terms: JSON.parse(offer.payload)}
+ const terms=JSON.parse(offer.payload)
+ insist(!terms.householdRoster||JSON.stringify(terms.householdRoster)===JSON.stringify(await renewalRoster(c,t.id)),'renewal_changed','Household roster changed after offer approval. Review a new offer and required signer roster.',409)
+ return {r, offer, terms}
 }
 async function version(c: Context, value: unknown) {
  const v = await one(c, 'SELECT * FROM tt_lease_versions WHERE id=?', text(value, 'Lease version', 100))
@@ -60,6 +62,7 @@ async function review(c: Context, v: Row, current: Row, month: unknown) {
  const taxRules = unit ? await all(c, 'SELECT * FROM tt_tax_rules WHERE property_id=? ORDER BY id', unit.property_id) : []
  fresh(v, t, prior)
  const payload = JSON.parse(v.payload)
+ if(payload.renewal){const accepted=await acceptedOffer(c,current,payload.renewal.id);insist(accepted.offer.id===payload.renewal.proposalId,'renewal_changed','The approved offer changed after the signed original was recorded.',409)}
  insist(await digest(payload) === v.payload_sha256, 'invalid_snapshot', 'The prepared lease payload does not match its recorded digest.', 409)
  const blocked = await one(c, 'SELECT MAX(q.period_end) AS last FROM tt_charges q JOIN tt_lease_terms l ON l.id=q.term_id WHERE l.tenancy_id=? AND l.superseded_by IS NULL AND (l.ends IS NULL OR l.ends>=?) AND q.period_end>=?', t.id, v.effective, v.effective)
  const hapBlocked=await one(c,'SELECT MAX(period_end) AS last FROM tt_hap_charges WHERE tenancy_id=? AND period_end>=?',t.id,v.effective)
@@ -91,7 +94,7 @@ export async function leaseCommand(c: Context, command: string, p: Row): Promise
   const key = id(), payloadSha = await digest(payload)
   await commit(c, [rowGuard(c, 'tt_tenancies', t), priorGuard(c, t.id, prior?.id ?? null),
    guard(c, 'NOT EXISTS(SELECT 1 FROM tt_erased_lease_files WHERE sha256=?)', source.sha),
-   ...(accepted ? [guard(c, "EXISTS(SELECT 1 FROM tt_renewals WHERE id=? AND version=? AND state='accepted')", accepted.r.id, accepted.r.version), ...(t.unit_id ? [freeUnit(c, t.unit_id, payload.effective, accepted.terms.endDate, t.id)] : [])] : []),
+   ...(accepted ? [...(accepted.terms.householdRoster?rosterGuards(c,t.id,accepted.terms.householdRoster):[]),guard(c, "EXISTS(SELECT 1 FROM tt_renewals WHERE id=? AND version=? AND state='accepted')", accepted.r.id, accepted.r.version), ...(t.unit_id ? [freeUnit(c, t.unit_id, payload.effective, accepted.terms.endDate, t.id)] : [])] : []),
    sql(c, 'INSERT INTO tt_lease_versions(id,tenancy_id,effective,signed_date,signers,reference,payload,payload_sha256,source_sha256,source_name,source_size,base_version,prior_id,prepared_by,prepared_at,renewal_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', key, t.id, payload.effective, payload.signedDate, JSON.stringify(payload.signers), payload.reference, JSON.stringify(payload), payloadSha, source.sha, source.name, source.size, t.version, prior?.id ?? null, c.actor.id, c.now, accepted?.r.id ?? null),
    sql(c, 'INSERT INTO tt_lease_sources(lease_version_id,name,media_type,bytes,sha256) VALUES(?,?,?,?,?)', key, source.name, source.media_type, source.bytes, source.sha)
   ], command, key)
@@ -114,6 +117,7 @@ export async function leaseCommand(c: Context, command: string, p: Row): Promise
   guard(c, 'NOT EXISTS(SELECT 1 FROM tt_charges q JOIN tt_lease_terms l ON l.id=q.term_id WHERE l.tenancy_id=? AND l.superseded_by IS NULL AND (l.ends IS NULL OR l.ends>=?) AND q.period_end>=?)', t.id, v.effective, v.effective)]
  // LEASE-012: the accepted renewal activates once, extending the tenancy atomically and retaining its prior term.
  const renewal = JSON.parse(v.payload).renewal
+ if (renewal) {const accepted=await acceptedOffer(c,t,renewal.id);writes.push(...(accepted.terms.householdRoster?rosterGuards(c,t.id,accepted.terms.householdRoster):[]))}
  if (renewal) writes.push(guard(c, "EXISTS(SELECT 1 FROM tt_renewals WHERE id=? AND state='accepted' AND lease_end=?)", renewal.id, t.end_date), ...(t.unit_id ? [freeUnit(c, t.unit_id, v.effective, renewal.endDate, t.id)] : []),
   sql(c, 'INSERT INTO tt_lease_history(id,tenancy_id,start_date,end_date,rent_cents,proposal_id,confirmed_by,confirmed_at,currency) VALUES(?,?,?,?,?,?,?,?,?)', id(), t.id, t.start_date, t.end_date, t.rent_cents, renewal.proposalId, c.actor.id, c.now, t.currency),
   sql(c, 'UPDATE tt_tenancies SET end_date=?,rent_cents=? WHERE id=?', renewal.endDate, renewal.rentCents, t.id),

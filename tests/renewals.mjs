@@ -41,6 +41,8 @@ export async function journey({assets=false,inspect}={}) {
   const spec={credentialId:credential.id,action:'renewal.prepare',arguments:options,purpose:'Compare sourced renewal alternatives',nextStep:'A person reviews pricing, legal terms and notices',dueOn:end}
   await h.command('agent.enqueue',spec,{as:member,status:403})
   const workload=await h.command('agent.enqueue',spec),outbound=h.messages.length
+  const workloadEvidence=async(id=workload.id)=>(await(await h.request('/api/agent-workloads')).json()).workloads.find(w=>w.id===id)
+  const stewardship=async phase=>{const w=await workloadEvidence();assert.equal(w.stewardship.phase,phase);assert.equal(w.nextStep,w.stewardship.nextStep);assert.equal(w.stewardship.renewalId,ra.id);return w.stewardship}
   const executed=await h.command('agent.execute',{workloadId:workload.id,version:workload.version},{as:'',headers:{authorization:'Bearer '+credential.token,'idempotency-key':'synthetic-terrace-91-prepare'}})
   let oa={id:executed.id}
   assert.equal(h.messages.length,outbound,'agent preparation sends nothing')
@@ -48,6 +50,16 @@ export async function journey({assets=false,inspect}={}) {
   assert.deepEqual([evidence.state,evidence.attempts,evidence.costs.modelCents,evidence.costs.providerCents],['prepared',1,0,0])
   assert.equal(evidence.arguments.conditionSource,'Inspection reviewed: ordinary wear')
   assert.equal(evidence.outcomeEvidence.subjectId,oa.id)
+  await stewardship('approval_needed')
+  const ownerId=(await(await h.request('/auth/operators')).json()).find(o=>o.email==='owner@example.test').id
+  assert.deepEqual(evidence.events.map(e=>[e.kind,e.actor,e.at]),[['queued',ownerId,now],['attempt',credential.id,now],['prepared',credential.id,now]])
+  const audit=evidence.events.map(e=>JSON.parse(e.detail))
+  assert.equal(audit[0].reason,spec.purpose);assert.equal(audit[0].policy,'owner');assert.equal(audit[0].before,null)
+  assert.deepEqual(audit[0].after,{state:'queued',version:1,arguments:evidence.arguments,nextStep:spec.nextStep,dueOn:end})
+  assert.deepEqual(audit[1].before,{state:'queued',version:1,attempts:0});assert.deepEqual(audit[1].after,{state:'running',version:2,attempts:1})
+  assert.equal(audit[1].reason,'Execute owner-configured renewal preparation');assert.equal(audit[1].policy,'member v1 via API credential (prepare)')
+  assert.deepEqual(audit[2].before,{state:'running',version:2});assert.deepEqual(audit[2].after,{state:'prepared',version:3,subjectId:oa.id})
+  assert.equal(audit[2].reason,'Structured renewal offer prepared; independent human approval remains required');assert.equal(audit[2].policy,audit[1].policy)
   await h.command('proposal.approve',{proposalId:oa.id},{as:'',status:403,headers:{authorization:'Bearer '+credential.token,'idempotency-key':'synthetic-terrace-91-no-approval'}})
   const stale=await h.command('agent.enqueue',{...spec,arguments:{...options,tenancyId:b.id,renewalId:rb.id}})
   await h.command('renewal.prepare',{tenancyId:a.id,...offer(ra.id,end,'1880.00')},{as:member,status:409})
@@ -73,6 +85,7 @@ export async function journey({assets=false,inspect}={}) {
   assert.equal((await h.command('agent.execute',{workloadId:stale.id,version:stale.version},{as:'',status:409,headers:{authorization:'Bearer '+credential.token,'idempotency-key':'synthetic-terrace-91-stale'}})).error,'renewal_changed')
   const stopped=(await(await h.request('/api/agent-workloads')).json()).workloads.find(w=>w.id===stale.id)
   assert.deepEqual([stopped.state,stopped.executionAvailable,stopped.events.at(-1).kind],['paused',false,'stopped'])
+  assert.equal((await stewardship('offer_follow_up')).offerId,oa.id)
   let s=await h.state(a.id)
   assert.equal(s.tenancies.find(x=>x.id===a.id).end_date,end,'an approved offer is not a renewal');assert.equal(s.renewals[0].nextAction,'Send the approved offer')
 
@@ -85,14 +98,19 @@ export async function journey({assets=false,inspect}={}) {
   assert.equal((await h.command('renewal.send',{renewalId:ra.id},{status:409})).error,'already_sent');assert.equal(h.messages.length,out+2)
   for(const r of [rb,rc])await h.command('renewal.send',{renewalId:r.id})
 
+  assert.match((await stewardship('offer_follow_up')).nextStep,/Escalate unanswered offer/)
+
   // A counteroffer invalidates the prior authority until another exact offer is approved.
   await h.command('renewal.reply',{renewalId:ra.id,outcome:'counteroffer',on:end,source:'synthetic-terrace-91 resident counteroffer',note:'1875 per month requested'})
+  assert.match((await stewardship('counteroffer_review')).nextStep,/prepare a revised offer/)
   assert.equal((await h.command('renewal.send',{renewalId:ra.id},{status:409})).error,'offer_not_approved')
   await h.command('renewal.reply',{renewalId:ra.id,outcome:'accepted',on:end,source:'Cannot accept obsolete offer'},{status:409})
   await h.command('lease.prepare',{...leaseFields(a.id,add(end,1),'1890'),renewalId:ra.id},{status:409})
   await inspect?.({h,stage:'counteroffer',renewalId:ra.id})
   oa=await h.command('renewal.prepare',{tenancyId:a.id,...offer(ra.id,end,'1875.00')},{as:member})
   assert.equal((await item(a)).offer.state,'pending')
+  assert.equal((await stewardship('approval_needed')).offerId,oa.id)
+  await inspect?.({h,stage:'revised-offer',renewalId:ra.id})
   await h.command('renewal.send',{renewalId:ra.id},{status:409})
   await h.command('proposal.approve',{proposalId:oa.id},{as:manager})
   await h.command('renewal.send',{renewalId:ra.id})
@@ -107,6 +125,8 @@ export async function journey({assets=false,inspect}={}) {
   await h.command('renewal.close',{renewalId:rb.id,outcome:'nonrenewal',on:end,source:'Owner decision recorded in the call note'})
   assert.equal((await h.command('renewal.close',{renewalId:rc.id,outcome:'no_response',on:end,source:'No reply'},{status:409})).error,'deadline_open')
 
+  assert.deepEqual((await stewardship('signatures_needed')).requiredSigners,['Ana Ruiz','Luis Ruiz','Rowan Ellis'])
+
   // The signed renewal is a staff-recorded original matching the accepted offer, activated once by another person.
   const signed={...leaseFields(a.id,add(end,1),'1875','100','25','Signed renewal'),signers:['Ana Ruiz','Luis Ruiz','Rowan Ellis'],renewalId:ra.id}
   assert.equal((await h.command('lease.prepare',{...signed,signers:['Ana Ruiz','Rowan Ellis']},{as:manager,status:409})).error,'renewal_signers','a missing co-tenant signature cannot be recorded as complete')
@@ -114,6 +134,7 @@ export async function journey({assets=false,inspect}={}) {
   assert.equal((await h.command('lease.prepare',{...signed,...leaseFields(a.id,add(end,1),'1900','100','25','Signed renewal'),renewalId:ra.id},{as:manager,status:409})).error,'renewal_terms')
   const version=await h.command('lease.prepare',signed,{as:manager})
   assert.match(version.notice,/signature recorded by staff, not verified by an e-signature provider/)
+  assert.equal((await stewardship('charge_review')).leaseId,version.leaseId)
   assert.equal((await h.state(a.id)).tenancies.find(x=>x.id===a.id).end_date,end,'recording the signed original activates nothing')
   const preview=await h.command('lease.preview',{leaseId:version.leaseId,month:'2026-11'})
   assert.deepEqual(preview.lines.map(x=>[x.kind,x.amountCents]),[['rent',187500],['utility',4000],['pet',2500],['parking',7500],['concession',10000]],'future charges match every executed term in exact cents')
@@ -127,12 +148,19 @@ export async function journey({assets=false,inspect}={}) {
   assert.equal(s.renewals[0].state,'executed');assert.equal(s.renewals[0].nextAction,null)
   assert.equal(s.leaseVersions[0].payload.renewal.proposalId,oa.id)
   assert.deepEqual(s.leaseVersions[0].signers.map(s=>s.name),['Ana Ruiz','Luis Ruiz','Rowan Ellis'],'the original records every owner-reviewed required signer')
+  const tracked=await stewardship('future_charges_ready')
+  assert.equal(tracked.leaseId,version.leaseId)
+  assert.deepEqual(tracked.futureCharges.lines,preview.lines)
+  assert.equal(tracked.futureCharges.missing.length,0)
   const run=await h.command('charges.preview',{month:preview.month})
   assert.deepEqual(run.lines.filter(x=>x.tenancyId===a.id&&x.kind==='rent').map(x=>x.termId),preview.lines.filter(x=>x.kind==='rent').map(x=>x.termId),'the ordinary run posts the reviewed renewal schedule')
 
   assert.deepEqual(run.lines.filter(x=>x.tenancyId===a.id),preview.lines,'ordinary future charges match the reviewed signed terms in full')
   await h.command('charges.post',{month:run.month,fingerprint:run.fingerprint})
   assert.equal((await h.command('charges.preview',{month:run.month})).newLines,0,'posted renewal charges cannot repeat')
+  const postedEvidence=await stewardship('future_charges_recorded')
+  assert.ok(postedEvidence.futureCharges.lines.length>0&&postedEvidence.futureCharges.lines.every(line=>line.posted))
+  assert.match(postedEvidence.nextStep,/monitors the recorded renewal charges/)
   const posted=await h.state(a.id)
   assert.deepEqual(posted.ledger.charges.map(x=>x.amount_cents).sort((a,b)=>a-b),[2500,4000,7500,187500])
   assert.deepEqual(posted.ledger.adjustments.map(x=>x.amount_cents),[10000])
@@ -160,6 +188,49 @@ export async function journey({assets=false,inspect}={}) {
   assert.ok(plan.plans.every(p=>p.renewalDate===add(end,1)&&p.renewalRentCents===187500&&/^Actual/.test(p.renewalBasis)))
   const other=await(await h.request('/api/cash-scenario?'+new URLSearchParams({...q,tenancyId:c.id}))).json()
   assert.deepEqual(other.facts.renewals.proposed.map(x=>[x.rentCents,x.basis]),[[180000,'Assumption: renewal offer not executed']])
+
+  // A changed household invalidates a queued preparation, even when the tenancy revision is unchanged.
+  const rosterLease=await lease('F1','Fran Roster'),revokedLease=await lease('G1','Gus Revoked')
+  await h.command('renewal.schedule',{from:end,to:end,propertyId:property.id})
+  const rosterItem=await item(rosterLease),revokedItem=await item(revokedLease)
+  const rosterWork=await h.command('agent.enqueue',{...spec,arguments:{...options,tenancyId:rosterLease.id,renewalId:rosterItem.id}})
+  await h.command('household.add',{tenancyId:rosterLease.id,role:'co_tenant',name:'New required review',email:'synthetic-roster@example.test',joined:start})
+  assert.equal((await h.command('agent.execute',{workloadId:rosterWork.id,version:1},{as:'',status:409,headers:{authorization:'Bearer '+credential.token,'idempotency-key':'synthetic-terrace-92-roster'}})).error,'renewal_changed')
+  assert.equal((await workloadEvidence(rosterWork.id)).state,'paused')
+  assert.equal((await item(rosterLease)).offers.length,0)
+  const reviewedRoster=['Fran Roster','New required review','Rowan Ellis']
+  await h.command('renewal.prepare',{tenancyId:rosterLease.id,...offer(rosterItem.id,end,'1890'),requiredSigners:reviewedRoster},{as:member,status:403})
+  let rosterOffer=await h.command('renewal.prepare',{tenancyId:rosterLease.id,...offer(rosterItem.id,end,'1890'),requiredSigners:reviewedRoster})
+  await h.command('household.add',{tenancyId:rosterLease.id,role:'occupant',name:'Roster changed before approval',joined:start})
+  assert.equal((await h.command('proposal.approve',{proposalId:rosterOffer.id},{as:manager,status:409})).error,'conflict')
+  await h.command('proposal.reject',{proposalId:rosterOffer.id})
+  rosterOffer=await h.command('renewal.prepare',{tenancyId:rosterLease.id,...offer(rosterItem.id,end,'1890'),requiredSigners:reviewedRoster})
+  await h.command('proposal.approve',{proposalId:rosterOffer.id},{as:manager})
+  await h.command('household.add',{tenancyId:rosterLease.id,role:'occupant',name:'Roster changed after approval',joined:start})
+  assert.equal((await h.command('renewal.send',{renewalId:rosterItem.id},{status:409})).error,'renewal_changed')
+  assert.equal((await h.command('renewal.reply',{renewalId:rosterItem.id,outcome:'accepted',on:end,source:'Stale roster'},{status:409})).error,'renewal_changed')
+  const refreshedOffer=await h.command('renewal.prepare',{tenancyId:rosterLease.id,...offer(rosterItem.id,end,'1890'),requiredSigners:reviewedRoster})
+  await h.command('proposal.approve',{proposalId:refreshedOffer.id},{as:manager})
+  await h.command('renewal.send',{renewalId:rosterItem.id})
+  await h.command('renewal.reply',{renewalId:rosterItem.id,outcome:'accepted',on:end,source:'synthetic-terrace-92 recorded agreement'})
+  const rosterSigned={...leaseFields(rosterLease.id,add(end,1),'1890'),renewalId:rosterItem.id,signers:reviewedRoster}
+  const rosterVersion=await h.command('lease.prepare',rosterSigned,{as:manager})
+  await h.command('household.add',{tenancyId:rosterLease.id,role:'occupant',name:'Changed household source',joined:start})
+  assert.equal((await h.command('lease.preview',{leaseId:rosterVersion.leaseId,month:'2026-11'},{status:409})).error,'renewal_changed')
+  const beforeRosterSend=h.messages.length
+  assert.equal((await h.command('renewal.send',{renewalId:rosterItem.id},{status:409})).error,'renewal_changed')
+  assert.equal((await h.command('lease.prepare',{...leaseFields(rosterLease.id,add(end,1),'1890'),renewalId:rosterItem.id,signers:reviewedRoster},{as:manager,status:409})).error,'renewal_changed')
+  assert.equal(h.messages.length,beforeRosterSend,'a changed roster grants no send or signature authority')
+
+  // Revoke after the attempt is claimed, at the database boundary before proposal preparation.
+  // The production credential-stop trigger must fence the following domain transaction.
+  const interrupted=await h.command('agent.enqueue',{...spec,arguments:{...options,tenancyId:revokedLease.id,renewalId:revokedItem.id}})
+  await h.db.prepare("CREATE TRIGGER synthetic_renewal_revoke AFTER INSERT ON tt_agent_workload_events WHEN NEW.workload_id='"+interrupted.id+"' AND NEW.kind='attempt' BEGIN UPDATE tt_api_credentials SET revoked_at='2026-10-26T12:00:00.000Z',revoked_by='"+ownerId+"',version=version+1 WHERE id=(SELECT credential_id FROM tt_agent_workloads WHERE id=NEW.workload_id); END").run()
+  try{assert.equal((await h.command('agent.execute',{workloadId:interrupted.id,version:1},{as:'',status:409,headers:{authorization:'Bearer '+credential.token,'idempotency-key':'synthetic-terrace-93-revoke'}})).error,'conflict')}finally{await h.db.prepare('DROP TRIGGER synthetic_renewal_revoke').run()}
+  const revoked=await workloadEvidence(interrupted.id)
+  assert.deepEqual([revoked.state,revoked.executionAvailable,revoked.events.at(-1).kind],['paused',false,'stopped'])
+  assert.equal((await item(revokedLease)).offers.length,0,'revocation during execution creates no renewal offer')
+  assert.equal((await stewardship('authority_changed')).nextStep,'Owner reviews changed credential authority; no further execution is permitted')
 
   // SAFE-005: the signed renewal and campaign history are in the readable export and survive a fresh restore.
   const bytes=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer()),entries=new Map()

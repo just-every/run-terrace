@@ -1,9 +1,10 @@
 // AGENT-008: owner-controlled structured workloads. Document text is fingerprinted and discarded, never interpreted.
-import {all,allow,commit,date,guard,id,insist,one,reaches,sha256,sql,tenancy,text,type Context,type Row} from './core'
+import {all,allow,commit,date,guard,id,insist,one,policy,reaches,sha256,sql,tenancy,text,type Context,type Row} from './core'
 import {workCommand} from './work'
 import {tenancyCommand} from './tenancies'
 import {appointmentCommand} from './appointments'
-import {renewalItem} from './renewals'
+import {renewalItem,renewalRoster} from './renewals'
+import {renewalStewardship} from './renewal-stewardship'
 export const AGENT_COMMANDS=['agent.enqueue','agent.pause','agent.cancel','agent.resume','agent.reassign','agent.reply','agent.execute']
 const fields:Record<string,string[]>={
  'maintenance.prepare':['tenancyId','title','vendorId','trade','tradeName','tradeEmail','dueDate','estimate','checklist','scope','assetId'],
@@ -38,11 +39,11 @@ export async function agentCommand(c:Context,name:string,p:Row):Promise<Row|unde
    insist(Array.isArray(args.alternatives)&&args.alternatives.length>=2,'renewal_options','Supply at least two sourced alternatives.')
    for(const key of ['conditionSource','communicationSource','cashSource'])text(args[key],key,1000)
    insist(Array.isArray(args.requiredSigners)&&args.requiredSigners.length>0,'renewal_signers','Name the required signers from the owner-reviewed legal source.')
-   args.expectedTenancyVersion=t.version;args.expectedRenewalVersion=r.version
+   args.expectedRoster=await renewalRoster(c,t.id);args.expectedTenancyVersion=t.version;args.expectedRenewalVersion=r.version
   }
   const purpose=text(p.purpose,'Purpose',1000),next=text(p.nextStep,'Next step',1000),due=date(p.dueOn,'Due date')
   const document=p.untrustedDocument===undefined?null:await sha256(new TextEncoder().encode(text(p.untrustedDocument,'Untrusted document',20000)))
-  await commit(c,[live(c,k,command),sql(c,'INSERT INTO tt_agent_workloads(id,tenancy_id,credential_id,credential_version,command,payload,purpose,next_step,due_at,document_sha256,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',key,t.id,k.id,k.version,command,JSON.stringify(args),purpose,next,due,document,c.actor.id,c.now),event(c,key,'queued',document?'Document instructions ignored; only owner-entered structured arguments apply.':'Owner entered structured proposal arguments.')],name,key)
+  await commit(c,[live(c,k,command),sql(c,'INSERT INTO tt_agent_workloads(id,tenancy_id,credential_id,credential_version,command,payload,purpose,next_step,due_at,document_sha256,created_by,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',key,t.id,k.id,k.version,command,JSON.stringify(args),purpose,next,due,document,c.actor.id,c.now),event(c,key,'queued',command==='renewal.prepare'?JSON.stringify({policy:policy(c),reason:purpose,before:null,after:{state:'queued',version:1,arguments:args,nextStep:next,dueOn:due}}):document?'Document instructions ignored; only owner-entered structured arguments apply.':'Owner entered structured proposal arguments.')],name,key)
   return {id:key,version:1,state:'queued',notice:'Workload queued. The live assigned credential records only the structured action; human authority remains separate.'}
  }
  const r=await one(c,'SELECT * FROM tt_agent_workloads WHERE id=?',text(p.workloadId,'Workload',100))
@@ -57,12 +58,12 @@ export async function agentCommand(c:Context,name:string,p:Row):Promise<Row|unde
   const args=JSON.parse(r.payload)
   if(r.command==='renewal.prepare'){
    const {r:campaign}=await renewalItem(c,args.renewalId)
-   if(args.expectedTenancyVersion!==t.version||args.expectedRenewalVersion!==campaign.version){
-    await commit(c,[current(c,r),sql(c,"UPDATE tt_agent_workloads SET state='paused',version=version+1 WHERE id=?",r.id),event(c,r.id,'stopped','Lease terms or renewal history changed; owner review and a new workload are required.')],name,r.id)
-    insist(false,'renewal_changed','Lease terms or renewal history changed. The workload is paused for owner review.',409)
+   if(args.expectedTenancyVersion!==t.version||args.expectedRenewalVersion!==campaign.version||JSON.stringify(args.expectedRoster)!==JSON.stringify(await renewalRoster(c,t.id))){
+    await commit(c,[current(c,r),sql(c,"UPDATE tt_agent_workloads SET state='paused',version=version+1 WHERE id=?",r.id),event(c,r.id,'stopped','Lease terms, household roster or renewal history changed; owner review and a new workload are required.')],name,r.id)
+    insist(false,'renewal_changed','Lease terms, household roster or renewal history changed. The workload is paused for owner review.',409)
    }
   }
-  await commit(c,[current(c,r),sql(c,"UPDATE tt_agent_workloads SET state='running',attempts=attempts+1,version=version+1 WHERE id=?",r.id),event(c,r.id,'attempt','Executing the structured action. No external send, payment or approval is permitted.')],name,r.id)
+  await commit(c,[current(c,r),sql(c,"UPDATE tt_agent_workloads SET state='running',attempts=attempts+1,version=version+1 WHERE id=?",r.id),event(c,r.id,'attempt',r.command==='renewal.prepare'?JSON.stringify({policy:policy(c),reason:'Execute owner-configured renewal preparation',before:{state:r.state,version:r.version,attempts:r.attempts},after:{state:'running',version:r.version+1,attempts:r.attempts+1}}):'Executing the structured action. No external send, payment or approval is permitted.')],name,r.id)
   c.action=r.command;c.agentWorkload={id:r.id,version:r.version+1}
   // The domain commit atomically checks cancellation and revocation again and records its proposal result.
   const result=await workCommand(c,r.command,args)??await tenancyCommand(c,r.command,args)??await appointmentCommand(c,r.command,args)
@@ -93,7 +94,8 @@ export async function agentWorkloads(c:Context){
  const visible=rows.filter(r=>c.actor.role==='owner'||r.credential_id===c.actor.id&&reaches(c,r.unit_id))
  return {workloads:await Promise.all(visible.map(async r=>{
   const k=await one(c,'SELECT label,role,version,revoked_at FROM tt_api_credentials WHERE id=?',r.credential_id)
-  return {id:r.id,version:r.version,purpose:r.purpose,arguments:JSON.parse(r.payload),permittedData:{tenancyId:r.tenancy_id},permittedActions:[r.command],credential:{id:r.credential_id,label:k?.label??'Unavailable after restore',role:k?.role??null,version:r.credential_version},state:r.state,executionAvailable:!!k&&!k.revoked_at&&k.version===r.credential_version&&r.state==='queued',nextStep:r.next_step,dueOn:r.due_at,attempts:r.attempts,humanApproval:r.command==='appointment.book'?'Existing human work approval and documented resident access are required; this workload grants neither.':'Required separately through the existing proposal door; this workload never approves.',costs:{currency:'USD',modelCents:0,providerCents:0,reason:'No model or provider is called by this workload.'},untrustedDocument:r.document_sha256?{sha256:r.document_sha256,instructions:'Ignored; content not retained or executed.'}:null,outcomeEvidence:r.result_subject?{subjectId:r.result_subject}:null,events:await all(c,'SELECT id,kind,actor,at,detail FROM tt_agent_workload_events WHERE workload_id=? ORDER BY id',r.id)}
+  const stewardship=r.command==='renewal.prepare'&&r.result_subject?await renewalStewardship(c,r,!!k&&!k.revoked_at&&k.version===r.credential_version):null
+  return {stewardship,id:r.id,version:r.version,purpose:r.purpose,arguments:JSON.parse(r.payload),permittedData:{tenancyId:r.tenancy_id},permittedActions:[r.command],credential:{id:r.credential_id,label:k?.label??'Unavailable after restore',role:k?.role??null,version:r.credential_version},state:r.state,executionAvailable:!!k&&!k.revoked_at&&k.version===r.credential_version&&r.state==='queued',nextStep:stewardship?.nextStep??r.next_step,dueOn:stewardship?.dueOn??r.due_at,attempts:r.attempts,humanApproval:r.command==='appointment.book'?'Existing human work approval and documented resident access are required; this workload grants neither.':'Required separately through the existing proposal door; this workload never approves.',costs:{currency:'USD',modelCents:0,providerCents:0,reason:'No model or provider is called by this workload.'},untrustedDocument:r.document_sha256?{sha256:r.document_sha256,instructions:'Ignored; content not retained or executed.'}:null,outcomeEvidence:r.result_subject?{subjectId:r.result_subject}:null,events:await all(c,'SELECT id,kind,actor,at,detail FROM tt_agent_workload_events WHERE workload_id=? ORDER BY id',r.id)}
  }))}
 }
 export function workloadText(data:Awaited<ReturnType<typeof agentWorkloads>>){return data.workloads.map(w=>JSON.stringify(w,null,2)).join('\n\n')||'No visible agent workloads.\n'}

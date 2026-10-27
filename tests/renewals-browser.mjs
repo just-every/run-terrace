@@ -19,6 +19,10 @@ try{await journey({assets:true,inspect:async({h,stage,renewalId,leaseId})=>{
     assert.match(await card.innerText(),/estimated concession \$100\.00/)
     assert.ok((await card.locator('dd').first().boundingBox()).width>width/2,'alternative values have readable width')
     assert.equal(await card.getByRole('button',{name:'Approve offer',exact:true}).count(),1)
+   }else if(stage==='revised-offer'){
+    assert.match(await card.innerText(),/Approve or reject the revised offer/)
+    assert.equal(await card.getByRole('button',{name:'Approve offer',exact:true}).count(),1)
+    assert.equal(await card.getByRole('button',{name:'Send offer',exact:true}).count(),0)
    }else if(stage==='counteroffer'){
     assert.match(await card.innerText(),/Counteroffer received: prepare a revised offer/)
     assert.equal(await card.getByRole('button',{name:'Send offer',exact:true}).count(),0)
