@@ -1,3 +1,4 @@
+import {conversationBrowser} from './conversations-browser.mjs'
 // Renewal alternatives, fresh counteroffer approval and future terms through native screens.
 import assert from 'node:assert/strict'
 import {mkdir} from 'node:fs/promises'
@@ -6,7 +7,9 @@ import {chromium} from '@playwright/test'
 import {journey} from './renewals.mjs'
 const out=resolve(process.env.RENEWAL_SCREENSHOTS??'.rer/renewal-screens');await mkdir(out,{recursive:true})
 const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH}:{}),args:['--no-sandbox','--use-mock-keychain','--password-store=basic']})
-try{await journey({assets:true,inspect:async({h,stage,renewalId,leaseId})=>{
+try{
+ await conversationBrowser(browser)
+ await journey({assets:true,inspect:async({h,stage,renewalId,leaseId})=>{
  const context=await browser.newContext()
  try{
   await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return{name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}))

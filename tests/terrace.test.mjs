@@ -1,3 +1,4 @@
+import {journey as conversationJourney} from './conversations.mjs'
 import {journey as messageJourney} from './messages.mjs'
 import {journey as cardJourney} from './card-payments.mjs'
 import {journey as actionRequestJourney} from './action-requests.mjs'
@@ -42,6 +43,7 @@ const totp=(key,offset=0)=>{let bits=0,v=0;const bytes=[];for(const ch of key){v
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jz1sAAAAASUVORK5CYII=','base64')
 before(async()=>{h=await installation();member=await h.invite('member','preparer@example.test');admin=await h.invite('admin','manager@example.test')})
 after(async()=>{await h?.close()})
+test('PORTAL-006: scoped conversation assignment, private notes and portable history',conversationJourney)
 test('PORTAL-005: approved repair communication, signed replies, arrival confirmation and opt-out survive restore',messageJourney)
 test('PAY-003: hosted card consent, policy admission, provider-only receipts, declines, expiry and replay',cardJourney)
 test('PORT-006: sourced handover checklist revisions and linked make-ready tasks preserve separate leases',async()=>{await moveOutJourney();await moveChecklistJourney();await roommateJourney()})

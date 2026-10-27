@@ -1,3 +1,4 @@
+import {residentConversation} from './building-notices'
 import {ownerInvoiceFile,ownerInvoices} from './owner-invoices'
 import {deliveryDocument} from './resident-deliveries'
 import {residentDocumentResponse} from './resident-delivery-http'
@@ -138,6 +139,13 @@ export async function portalResponse(request: Request, env: Bindings): Promise<R
    if(format==='pdf')return new Response(residentPdf(d),{headers:headers({'content-type':'application/pdf','content-disposition':'attachment; filename="terrace-monthly-statement.pdf"'})})
    if(format==='csv')return new Response(residentMonthlyCsv(d),{headers:headers({'content-type':'text/csv;charset=utf-8','content-disposition':'attachment; filename="terrace-monthly-statement.csv"'})})
    return format==='json'?json(d):html(residentMonthlyPage(portal.identity,{...d,deliveries:await residentDeliveryList(c,grant)}))
+  }
+  if(path==='/portal/api/conversation'){
+   const grant=mine('tenancy_id',url.searchParams.get('tenancyId'))
+   if(!grant||grant.access==='delegate')return missing(true)
+   const resident=await env.DB.prepare('SELECT tenant_email FROM tt_tenancies WHERE id=? AND erased_at IS NULL').bind(grant.tenancy_id).first<Row>()
+   if(!resident||resident.tenant_email!==portal.identity.email)return missing(true)
+   return json(await residentConversation(c,grant.tenancy_id))
   }
   const resident = async () => { const g = mine('tenancy_id', url.searchParams.get(path.startsWith('/portal/api') ? 'tenancyId' : path === '/portal/statement' ? 'tenancyId' : 'tenancy')); return g ? residentData(c, g) : null }
   if (['/portal/lease', '/portal/api/resident', '/portal/statement'].includes(path)) {
