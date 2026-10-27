@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "6dd498944550d69f5a9985dfbf30acac3878c556711a35faf0be38997f25ec3e",
+      "sha256": "82d00ae2a6d4463f44e1ee5d89cd14ab283e7fb611b9398e27b01fee2242167d",
       "executable": false
     },
     "AGENTS.md": {
@@ -109,7 +109,7 @@
       "executable": false
     },
     "API.md": {
-      "sha256": "f0dac91104dc45cc9a3d95a23e546e76736b1ef94582a1afb422f1d13b49b0bd",
+      "sha256": "a72cafdf5a368f28551f1fcf27f93bb32ac0a6eee442dc451d659a5a4adca680",
       "executable": false
     },
     "base-copies.json": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "51e02b4505fbe31cd907aad063a8fdde41269c8419c42d16654c40796af41a1c",
+      "sha256": "edaa4017867a4638b131821ae7c2763ebfe96e884214a952a3fb3bf6c3123702",
       "executable": false
     },
     "DEMO.md": {
@@ -3973,7 +3973,7 @@
       "executable": false
     },
     "src/terrace/renewal-stewardship.ts": {
-      "sha256": "9bbdd87ed15e4de7933bbad88af06364d55089ae40af7906fc3ad92f61881967",
+      "sha256": "ea8eaa618c0e4c395066e0f2abd80e92f842aff8f2aaa64f3be3b585e07c8517",
       "executable": false
     },
     "src/terrace/renewal-view.ts": {
@@ -4553,7 +4553,7 @@
       "executable": false
     },
     "tests/renewals.mjs": {
-      "sha256": "f977e3821dea9ab3f5c5926730ffc76060bbc162dfc5f16454b4483a1250ec00",
+      "sha256": "86e8b32fe7f6b92d0549d9b8455bead22814258afd301ea4b17f27d87467e265",
       "executable": false
     },
     "tests/report-schedules-browser.mjs": {

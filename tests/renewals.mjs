@@ -222,6 +222,26 @@ export async function journey({assets=false,inspect}={}) {
   assert.equal((await h.command('lease.prepare',{...leaseFields(rosterLease.id,add(end,1),'1890'),renewalId:rosterItem.id,signers:reviewedRoster},{as:manager,status:409})).error,'renewal_changed')
   assert.equal(h.messages.length,beforeRosterSend,'a changed roster grants no send or signature authority')
 
+  // A manually entered charge cannot impersonate the reviewed run merely by sharing its reference.
+  const collisionLease=await lease('H1','Hal Ledger'),collisionSigners=['Hal Ledger','Rowan Ellis']
+  await h.command('renewal.schedule',{from:end,to:end,propertyId:property.id})
+  const collisionItem=await item(collisionLease)
+  const collisionWork=await h.command('agent.enqueue',{...spec,arguments:{...options,tenancyId:collisionLease.id,renewalId:collisionItem.id,requiredSigners:collisionSigners}})
+  const collisionOffer=await h.command('agent.execute',{workloadId:collisionWork.id,version:1},{as:'',headers:{authorization:'Bearer '+credential.token,'idempotency-key':'synthetic-terrace-94-collision'}})
+  await h.command('proposal.approve',{proposalId:collisionOffer.id},{as:manager})
+  await h.command('renewal.send',{renewalId:collisionItem.id})
+  await h.command('renewal.reply',{renewalId:collisionItem.id,outcome:'accepted',on:end,source:'synthetic-terrace-94 recorded agreement'})
+  const collisionVersion=await h.command('lease.prepare',{...leaseFields(collisionLease.id,add(end,1),'1890'),renewalId:collisionItem.id,signers:collisionSigners},{as:manager})
+  const collisionPreview=await h.command('lease.preview',{leaseId:collisionVersion.leaseId,month:'2026-11'})
+  await h.command('lease.approve',{leaseId:collisionVersion.leaseId,month:collisionPreview.month,fingerprint:collisionPreview.fingerprint})
+  assert.equal((await workloadEvidence(collisionWork.id)).stewardship.phase,'future_charges_ready')
+  const impersonated=collisionPreview.lines.find(line=>line.kind==='rent')
+  await h.command('rent.charge',{tenancyId:collisionLease.id,dueDate:impersonated.dueDate,amount:'0.01',description:'synthetic-terrace-94 manual reference collision',reference:impersonated.reference})
+  const collisionEvidence=await workloadEvidence(collisionWork.id)
+  assert.equal(collisionEvidence.stewardship.phase,'charge_mismatch')
+  assert.match(collisionEvidence.nextStep,/Owner reconciles changed future charges/)
+  assert.deepEqual((await h.state(collisionLease.id)).ledger.charges.map(q=>[q.amount_cents,q.term_id]),[[1,null]],'verification neither alters the mismatched entry nor posts replacement charges')
+
   // Revoke after the attempt is claimed, at the database boundary before proposal preparation.
   // The production credential-stop trigger must fence the following domain transaction.
   const interrupted=await h.command('agent.enqueue',{...spec,arguments:{...options,tenancyId:revokedLease.id,renewalId:revokedItem.id}})
