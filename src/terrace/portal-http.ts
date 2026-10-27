@@ -1,3 +1,5 @@
+import {externalThreads,externalThreadPost,threadFile} from './portal-threads'
+import {externalThreadView} from './portal-thread-view'
 import {deliveryDocument} from './resident-deliveries'
 import {residentDocumentResponse} from './resident-delivery-http'
 import {residentPdf} from './resident-pdf'
@@ -31,7 +33,7 @@ const missing = (api: boolean) => api ? json({ error: 'not_found', message: 'Not
 const cookie = (env: Bindings, value: string, age: number) => `${COOKIE}=${value}; Path=/portal; HttpOnly; SameSite=Lax; Max-Age=${age}${env.AUTH_ORIGIN.startsWith('https') ? '; Secure' : ''}`
 
 export async function portalResponse(request: Request, env: Bindings): Promise<Response> {
- const url = new URL(request.url), now = new Date().toISOString(), path = url.pathname.replace(/\/$/, '') || '/portal', api = path.startsWith('/portal/api/') || ['/portal/resident-document','/portal/report', '/portal/statement', '/portal/transaction', '/portal/owner-statement', '/portal/invoice-file'].includes(path)
+ const url = new URL(request.url), now = new Date().toISOString(), path = url.pathname.replace(/\/$/, '') || '/portal', api = path.startsWith('/portal/api/') || ['/portal/thread-file','/portal/resident-document','/portal/report', '/portal/statement', '/portal/transaction', '/portal/owner-statement', '/portal/invoice-file'].includes(path)
  try {
   if (url.origin !== env.AUTH_ORIGIN) return html(shell('Forbidden', '<p>The request origin does not match this installation.</p>'), 403)
   if (request.method === 'POST') insist(request.headers.get('origin') === env.AUTH_ORIGIN && request.headers.get('sec-fetch-site') !== 'cross-site', 'origin', 'Same-origin confirmation is required.', 403)
@@ -60,6 +62,11 @@ export async function portalResponse(request: Request, env: Bindings): Promise<R
   if (!portal) return api ? json({ error: 'unauthorized', message: 'Sign in first.' }, 401) : new Response(null, { status: 303, headers: headers({ location: '/portal/signin' }) })
   if (path === '/portal/signout') { await env.DB.prepare('UPDATE tt_portal_sessions SET revoked_at=? WHERE hash=?').bind(now, portal.sessionHash).run(); return new Response(null, { status: 303, headers: headers({ location: '/portal/signin', 'set-cookie': cookie(env, '', 0) }) }) }
   const c = portalContext(env.DB, portal, now, env.SESSION_SECRET), mine = (key: string, value: unknown) => portal.grants.find(g => g[key] === value)
+  if(path==='/portal/thread-file')return await threadFile(c,url.searchParams.get('id')??'',portal)
+  if(['/portal/threads','/portal/api/threads'].includes(path)){
+   if(request.method==='POST'){const result=await externalThreadPost(c,portal,Object.fromEntries(form));return api?json(result):new Response(null,{status:303,headers:headers({location:'/portal/threads'})})}
+   const data=await externalThreads(c,portal,Object.fromEntries(url.searchParams));return api?json(data):html(shell('Your conversations',externalThreadView(data),{...portal.identity,can_threads:true}))
+  }
   if(['/portal/card','/portal/api/card'].includes(path))return await portalCard(request,env,c,portal,form)
   if(['/portal/api/invoice','/portal/invoice'].includes(path)){
    insist(request.method==='POST','method','Method not allowed.',405)

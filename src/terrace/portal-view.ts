@@ -8,7 +8,7 @@ import { usDate } from './format'
 const styles = ['shell', 'controls', 'content', 'pages'].map(n => `<link rel="stylesheet" href="/app/${n}.css">`).join('')
 const form = (action: string, body: string) => `<form method="post" action="${action}">${body}</form>`
 export function shell(title: string, body: string, person?: Row) {
- const nav = person ? `<nav class="app-nav" aria-label="Portal"><a href="/portal">Home</a></nav><form method="post" action="/portal/signout" class="person"><span class="person-name">${e(person.display_name)}</span> <button type="submit" class="secondary">Sign out</button></form>` : ''
+ const nav = person ? `<nav class="app-nav" aria-label="Portal">${person.can_threads?'<a href="/portal/threads">Conversations</a> ':''}<a href="/portal">Home</a></nav><form method="post" action="/portal/signout" class="person"><span class="person-name">${e(person.display_name)}</span> <button type="submit" class="secondary">Sign out</button></form>` : ''
  return `<!doctype html><html lang="en" class="terrace-app"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${e(title)} · Terrace portal</title><link rel="icon" href="/brand/mark.svg">${fontHead}<link rel="stylesheet" href="/rer-theme.css">${styles}</head><body><a class="skip-link" href="#content">Skip to content</a><header class="app-header"><a class="app-brand" href="/portal"><img src="/brand/mark.svg" alt="" width="36" height="24"><span>Terrace</span></a>${nav}</header><main id="content"><div class="title-row"><div><h1>${e(title)}<span class="dot" aria-hidden="true">.</span></h1></div></div>${body}</main></body></html>`
 }
 export const signinPage = (note = '') => shell('Sign in', `${note ? `<div role="status" class="notice">${e(note)}</div>` : ''}<section><p>Enter the email address your property manager invited. If it has portal access, a one-time sign-in link is sent to it.</p>${form('/portal/signin', '<label>Email<input type="email" name="email" required autocomplete="email"></label><button type="submit">Send sign-in link</button>')}</section>`)
@@ -17,7 +17,7 @@ export const failurePage = (message: string) => shell('Link not valid', `<sectio
 
 export function homePage(person: Row, grants: Row[]) {
  const items = grants.map(g => g.tenancy_id ? `<li><a href="/portal/lease?tenancy=${encodeURIComponent(g.tenancy_id)}">${g.access === 'delegate' ? 'Delegated account' : 'Lease account'}: ${e(g.label)}</a></li>` : g.owner_id ? `<li><a href="/portal/owner">Owned properties and statements</a></li>` : `<li><a href="/portal/work">Assigned work and invoices</a></li>`).join('')
- return shell('Your portal', `<section><p>Signed in as ${e(person.email)}. You see only the records below.</p>${items ? `<ul>${items}</ul>` : '<p class="empty">Nothing is shared with you right now.</p>'}</section>`, person)
+ return shell('Your portal', `<section><p>Signed in as ${e(person.email)}. You see only the records below.</p>${items ? `<ul>${items}</ul>` : '<p class="empty">Nothing is shared with you right now.</p>'}</section>`, {...person,can_threads:grants.some(g=>['resident','owner','vendor'].includes(g.access))})
 }
 export function leasePage(person: Row, d: Row, revoked = false) {
  const t = d.tenancy, cur = d.currency
