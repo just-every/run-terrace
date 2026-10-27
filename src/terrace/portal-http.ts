@@ -1,3 +1,4 @@
+import {ownerInvoiceFile,ownerInvoices} from './owner-invoices'
 import {deliveryDocument} from './resident-deliveries'
 import {residentDocumentResponse} from './resident-delivery-http'
 import {residentPdf} from './resident-pdf'
@@ -31,7 +32,7 @@ const missing = (api: boolean) => api ? json({ error: 'not_found', message: 'Not
 const cookie = (env: Bindings, value: string, age: number) => `${COOKIE}=${value}; Path=/portal; HttpOnly; SameSite=Lax; Max-Age=${age}${env.AUTH_ORIGIN.startsWith('https') ? '; Secure' : ''}`
 
 export async function portalResponse(request: Request, env: Bindings): Promise<Response> {
- const url = new URL(request.url), now = new Date().toISOString(), path = url.pathname.replace(/\/$/, '') || '/portal', api = path.startsWith('/portal/api/') || ['/portal/resident-document','/portal/report', '/portal/statement', '/portal/transaction', '/portal/owner-statement', '/portal/invoice-file'].includes(path)
+ const url = new URL(request.url), now = new Date().toISOString(), path = url.pathname.replace(/\/$/, '') || '/portal', api = path.startsWith('/portal/api/') || ['/portal/resident-document','/portal/report', '/portal/statement', '/portal/transaction', '/portal/owner-statement', '/portal/owner-invoice', '/portal/invoice-file'].includes(path)
  try {
   if (url.origin !== env.AUTH_ORIGIN) return html(shell('Forbidden', '<p>The request origin does not match this installation.</p>'), 403)
   if (request.method === 'POST') insist(request.headers.get('origin') === env.AUTH_ORIGIN && request.headers.get('sec-fetch-site') !== 'cross-site', 'origin', 'Same-origin confirmation is required.', 403)
@@ -146,15 +147,22 @@ export async function portalResponse(request: Request, env: Bindings): Promise<R
    await recordRead(c, 'portal.read:lease', d.tenancy.id); return html(leasePage(portal.identity, d, url.searchParams.has('revoked')))
   }
   const ownerGrant = portal.grants.find(g => g.owner_id), vendorGrant = portal.grants.find(g => g.vendor_id)
-  if (['/portal/owner', '/portal/api/owner', '/portal/owner-statement'].includes(path)) {
+  if(path==='/portal/owner-invoice'){
+   if(!ownerGrant)return missing(true)
+   const f=await ownerInvoiceFile(c,ownerGrant.owner_id,String(url.searchParams.get('id')??''));if(!f)return missing(true)
+   await recordRead(c,'portal.read:owner-invoice',f.id)
+   return new Response(new Uint8Array(f.bytes),{headers:headers({'content-type':f.type,'content-disposition':'attachment; filename="'+String(f.name).replace(/[^a-zA-Z0-9._-]/g,'_')+'"','content-security-policy':"default-src 'none'; sandbox"})})
+  }
+  if (['/portal/owner', '/portal/api/owner', '/portal/api/owner-invoices', '/portal/owner-statement'].includes(path)) {
    if (!ownerGrant) return missing(api)
    const d = await ownerData(c, ownerGrant.owner_id), today = now.slice(0, 10), first = d.properties.flatMap(p => p.periods.map(x => x.from)).sort()[0] ?? today
    if (path === '/portal/api/owner') return json(d)
    if (path === '/portal/owner') return html(ownerPage(portal.identity, d, first, today))
-   const from = url.searchParams.get('from') ?? first, to = url.searchParams.get('to') ?? today, s = await ownerPeriodStatement(c, ownerGrant.owner_id, from, to), format = url.searchParams.get('format') ?? 'html'
+   const from = url.searchParams.get('from') ?? first, to = url.searchParams.get('to') ?? today, base = await ownerPeriodStatement(c, ownerGrant.owner_id, from, to), s = {...base,invoices:await ownerInvoices(c,ownerGrant.owner_id,base.expenses)}, format = url.searchParams.get('format') ?? 'html'
+   if(path==='/portal/api/owner-invoices'){await recordRead(c,'portal.read:owner-invoices',ownerGrant.owner_id);return json({invoices:s.invoices})}
    await recordRead(c, 'portal.read:owner-statement', `${ownerGrant.owner_id} ${s.from}..${s.to}`)
-   if (format === 'csv') return new Response(csv(ownerStatementTable(s as Parameters<typeof ownerStatementTable>[0])), { headers: headers({ 'content-type': 'text/csv;charset=utf-8', 'content-disposition': 'attachment; filename="terrace-owner-statement.csv"' }) })
-   return format === 'json' ? json(s) : html(statementPage(portal.identity, s))
+   if (format === 'csv') return new Response(csv(ownerStatementTable(s)), { headers: headers({ 'content-type': 'text/csv;charset=utf-8', 'content-disposition': 'attachment; filename="terrace-owner-statement.csv"' }) })
+   return format === 'json' ? json(base) : html(statementPage(portal.identity, s))
   }
   if (['/portal/work', '/portal/api/vendor', '/portal/invoice-file'].includes(path)) {
    if (!vendorGrant) return missing(api)

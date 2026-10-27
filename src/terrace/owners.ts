@@ -154,7 +154,8 @@ export async function ownerStatement(c: Context, ownerId: unknown, fromValue: un
 }
 const amount = (n: number) => (n / 100).toFixed(2)
 const pct = (bp: number) => (bp / 100).toFixed(2) + '%'
-export const ownerStatementTable = (s: Awaited<ReturnType<typeof ownerStatement>>): (string | number)[][] => [
+type OwnerStatementTable = Pick<Awaited<ReturnType<typeof ownerStatement>>, 'from'|'to'|'rows'|'totals'|'reserves'|'fees'|'expenses'|'cash'|'boundary'> & {owner:{name:string};cashDraft?:Awaited<ReturnType<typeof statementCash>>|null}
+export const ownerStatementTable = (s: OwnerStatementTable): (string | number)[][] => [
  ['Terrace owner allocation statement', s.owner.name], ['Period', s.from, s.to],
  ['Received', 'Property', 'Tenancy', 'Reference', 'Currency', 'Receipt', 'Share', 'Allocated', 'Fee rate', 'Fee', 'Net'],
  ...s.rows.map(r => [r.date, r.property, r.address, r.reference, r.currency, amount(r.receiptCents), pct(r.shareBp), amount(r.allocatedCents), pct(r.feeBp), amount(r.feeCents), amount(r.netCents)]),

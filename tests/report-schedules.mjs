@@ -87,7 +87,7 @@ export async function journey({assets=false,inspect}={}){
   await h.command('report.delivery.delete',deletion)
   assert.equal((await h.request('/api/report-delivery?id='+custody.id)).status,404)
   assert.equal((await h.request('/portal/report?id='+custody.id,{as:people[6].cookie})).status,404)
-  const stored=await(await h.mf.getD1Database('DB')).prepare('SELECT snapshot,state FROM tt_report_deliveries WHERE id=?').bind(custody.id).first();assert.deepEqual(stored,{snapshot:'',state:'deleted'})
+  const stored=await h.db.prepare('SELECT snapshot,state FROM tt_report_deliveries WHERE id=?').bind(custody.id).first();assert.deepEqual(stored,{snapshot:'',state:'deleted'})
   await h.command('report.delivery.prepare',{generationId:generation.id,grantId:people[6].grantId,fingerprint:generation.fingerprint,reference:'synthetic-terrace-31',consent:'DELIVER OWNER REPORT'},{status:409})
   const history=(await(await h.request('/api/history?limit=2000')).json()).rows
   for(const action of ['report.delivery.hold','report.delivery.release','report.delivery.delete'])assert.ok(history.some(x=>x.action===action&&x.subject===custody.id&&x.outcome==='recorded'),'custody action is audited: '+action)
