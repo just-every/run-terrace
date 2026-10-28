@@ -4,3 +4,8 @@
  #cash-scenario dl{grid-template-columns:minmax(0,1fr);gap:4px}
  #cash-scenario dd{margin-bottom:12px}
 }
+
+/* Keep collection amounts intact inside the existing horizontal table scroll. */
+.collection-comparison{min-width:36rem}
+.collection-comparison th{font-size:13px}
+.collection-comparison td:not(:first-child){white-space:nowrap}

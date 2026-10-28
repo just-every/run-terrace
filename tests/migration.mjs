@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import {installation} from './api/harness.mjs'
 import {migrationFixture,recount} from './migration-fixture.mjs'
 export async function journey({inspect,assets=false}={}){
- const h=await installation({assets,now:'2026-10-28T12:00:00.000Z'})
+ const h=await installation({assets,asyncDatabase:true,now:'2026-10-28T12:00:00.000Z'})
  try{
   const m=recount(migrationFixture()),preview=source=>h.command('migration.preview',{manifest:JSON.stringify(source)}),apply=(source,review)=>h.command('migration.apply',{manifest:JSON.stringify(source),fingerprint:review.migrationPreview.fingerprint})
   const productCounts=async()=>{const names=(await h.db.prepare("SELECT name FROM sqlite_schema WHERE type='table' ORDER BY name").all()).results.map(r=>r.name).filter(n=>/^(tt|ik)_[a-z0-9_]+$/.test(n));const batches=[];for(let i=0;i<names.length;i+=5)batches.push(h.db.prepare(names.slice(i,i+5).map(n=>"SELECT '"+n+"' AS name,count(*) AS n FROM "+n).join(' UNION ALL ')));return (await h.db.batch(batches)).flatMap(r=>r.results)}
@@ -136,10 +136,17 @@ export async function journey({inspect,assets=false}={}){
   assert.equal((await tokenCall()).status,403)
   await h.command('credential.revoke',{credentialId:credential.id,version:1})
   assert.equal((await tokenCall()).status,401,'revoked credential cannot reach retained migration custody')
-  const oldArchive=await(await h.request('/api/backup')).text(),restored=await installation({now:'2026-10-28T12:00:00.000Z'})
+  const oldArchive=await(await h.request('/api/backup')).text(),restored=await installation({asyncDatabase:true,now:'2026-10-28T12:00:00.000Z'})
   try{
    await restored.formCommand('data.restore',{confirm:'RESTORE',backup:new File([oldArchive],'synthetic-terrace-40.rer')})
    assert.deepEqual((await restored.command('migration.journal',{migrationId})).migration.report,report)
+   const restoredDeposits=(await(await restored.request('/api/journal')).json()).entries.filter(e=>e.source_kind==='deposit')
+   for(const [source,lease,amount]of [[firstDeposit,leases[0],50000],[secondDeposit,leases[1],20000]]){
+    const entry=restoredDeposits.find(e=>e.source_id===source.targetId)
+    assert.ok(entry,'restore retains the individual native deposit source')
+    assert.equal(entry.tenancy_id,lease.targetId)
+    assert.deepEqual(entry.lines,[{account:'cash',debit:amount,credit:0},{account:'deposit_liability',debit:0,credit:amount}],'restored deposit money is independent of aggregate opening balances')
+   }
    assert.equal((await restored.state(leases[0].targetId)).ledger.balanceCents,12000)
    assert.deepEqual((await restored.state(leases[0].targetId)).ledger.migrationHistory,first.ledger.migrationHistory)
    assert.equal((await restored.request('/portal/statement?tenancyId='+leases[0].targetId+'&month=2024-07&format=json',{as:resident})).status,401)
@@ -169,7 +176,7 @@ export async function journey({inspect,assets=false}={}){
   assert.ok(unrelatedSource,'unrelated original source facts remain')
   assert.equal(JSON.parse(unrelatedSource).sourceNote,'Synthetic unrelated source note')
   assert.equal((await h.db.prepare("SELECT record FROM tt_migration_records WHERE kind='household' AND ref='synthetic-terrace-30'").first()).record,null,'excluded duplicates carry no erased-person copy')
-  const laterArchive=await(await h.request('/api/backup')).text(),fresh=await installation({now:'2045-01-01T12:00:00.000Z'})
+  const laterArchive=await(await h.request('/api/backup')).text(),fresh=await installation({asyncDatabase:true,now:'2045-01-01T12:00:00.000Z'})
   assert.ok(laterArchive.includes('Synthetic unrelated source note'),'backup preserves unrelated original source fields')
   assert.ok(!laterArchive.includes('Synthetic subject source note'),'backup withdraws erased-person source fields')
   try{
