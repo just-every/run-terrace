@@ -6,6 +6,7 @@ import {rulePreview} from './rule-packs'
 
 export const addDays=(day:string,n:number)=>new Date(Date.parse(day+'T00:00:00Z')+n*86400000).toISOString().slice(0,10)
 export const installationKey=(c:Context)=>sha256(new TextEncoder().encode(c.secret??''))
+export const canRecordService=(a:Row)=>a.kind.includes('notice')&&!!a.approved_at&&!['draft','stopped','served'].includes(a.state)
 export const native=(c:Context)=>insist(!c.actor.credential&&!c.agentWorkload,'forbidden','A signed-in person must perform this action.',403)
 export async function receivable(c:Context,t:Row,asOf=localDate(c.now,t.time_zone)){
  const [charges,receipts,adjustments,effects]=await Promise.all([all(c,'SELECT * FROM tt_charges WHERE tenancy_id=?',t.id),all(c,'SELECT r.* FROM tt_net_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=?',t.id),all(c,'SELECT a.* FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id WHERE q.tenancy_id=?',t.id),hapEffects(c,t.id)])
@@ -32,7 +33,7 @@ export async function collectionCase(c:Context,value:unknown,asOf?:string){
  if(config?.hold&&config.hold!=='none')reasons.push(config.hold+' hold: human review required')
  if(!config?.email_consent||!config.contact_limit)reasons.push('No current email consent or contact allowance')
  const nextAction=reasons.length?reasons.join('; '):plan?.state==='broken'?'Broken promise: human review of plan or notice':plan?.state==='active'?'Monitor agreed installments; no automatic contact':actions.some(a=>a.kind.includes('notice')&&a.state==='served')?'Review served notice expiry and refer to authorized counsel':'Review and approve the next collection action'
- return{tenancy:t,asOf:day,config,balance,plan,plans:plans.map(p=>({...p,installments:JSON.parse(p.installments)})),actions,events:events.map((e):Row=>({...e,detail:JSON.parse(e.detail)})),reasons,nextAction,collectionOutcome:balance.balanceCents===0?'Recorded receivable cleared; bank settlement not established':plan?.state==='met'?'Plan met by recorded receipts; remaining charges stay open':'Open',paidSince}
+ return{tenancy:t,asOf:day,config,balance,plan,plans:plans.map((p):Row=>({...p,installments:JSON.parse(p.installments)})),actions,events:events.map((e):Row=>({...e,detail:JSON.parse(e.detail)})),reasons,nextAction,collectionOutcome:balance.balanceCents===0?'Recorded receivable cleared; bank settlement not established':plan?.state==='met'?'Plan met by recorded receipts; remaining charges stay open':'Open',paidSince}
 }
 export function noticeExpiry(day:string,rule:Row,method:string){
  const advance=(from:string,count:number,basis:string)=>{

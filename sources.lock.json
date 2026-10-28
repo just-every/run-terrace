@@ -3477,7 +3477,7 @@
       "executable": false
     },
     "src/terrace/arrears-forecast.ts": {
-      "sha256": "00053f3fd5d2a1cd034213dd3df27cd605e54d3fd85d65084822955c3cf57b28",
+      "sha256": "47e6a206770fdecef71462e623f6b64c2329f5c679bda70f16fb39cc35b53785",
       "executable": false
     },
     "src/terrace/arrears-mail.ts": {
@@ -3485,15 +3485,15 @@
       "executable": false
     },
     "src/terrace/arrears-state.ts": {
-      "sha256": "a82b1ea68e20aac469a6e39655d29927423f10659b0bbad6067cb631ba544f14",
+      "sha256": "bfbfc4d7a3256ad1957c6ef029ab4d7d99a6cd981d59aaba3d9e3cfe6196aa5c",
       "executable": false
     },
     "src/terrace/arrears-view.ts": {
-      "sha256": "05155ace6ef0aef63c57e9bdd33783af6a47b23a38a3dcc797efe45163d184ca",
+      "sha256": "5c9ebff220ffda842301e1818925af49c909fd054f034d4536ec9da103cb39d0",
       "executable": false
     },
     "src/terrace/arrears.ts": {
-      "sha256": "17df5b1aaa8c32f1d340a60b3a2490dfe43e255d265e9ac7ca9e6325f11ae6e0",
+      "sha256": "bbcdf307dec4e204063cea39232a06fc1331e99717786ff7d827b1dc35e549c3",
       "executable": false
     },
     "src/terrace/asset-view.ts": {
@@ -4433,11 +4433,11 @@
       "executable": false
     },
     "tests/arrears-browser.mjs": {
-      "sha256": "8e67e42b105f878689c5252325cb46b111bf5ebcc5c46d569d9e32239701efb2",
+      "sha256": "8933dd33514b6f34ac9bac75bac6ca21d7cfa2f13c583990a90dfdc8eb3f0cd7",
       "executable": false
     },
     "tests/arrears.mjs": {
-      "sha256": "5afaf16c850b62795c02c7622ca8a27ae580ad358c267dec387f873e75e0b6dc",
+      "sha256": "d35f64b584df40d98860781fd5f1943719793ccd7202e4d91bdbcbcbd92dd41f",
       "executable": false
     },
     "tests/bills.mjs": {

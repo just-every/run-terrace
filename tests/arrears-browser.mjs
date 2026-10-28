@@ -6,7 +6,29 @@ import {journey} from './arrears.mjs'
 const out=resolve(process.env.ARREARS_SCREENSHOTS??'.rer/arrears-screens');await mkdir(out,{recursive:true})
 const browser=await chromium.launch({headless:true,...(process.env.RER_CHROMIUM_PATH?{executablePath:process.env.RER_CHROMIUM_PATH}:{}),args:['--no-sandbox','--use-mock-keychain','--password-store=basic']})
 try{
- await journey({assets:true,inspect:async({h,cases,goodDraft,staff})=>{
+ await journey({assets:true,beforeService:async({h,tenancy,action})=>{
+  const context=await browser.newContext({viewport:{width:1440,height:900}})
+  try{
+   await context.addCookies(h.cookie.split('; ').map(pair=>{const at=pair.indexOf('=');return{name:pair.slice(0,at),value:pair.slice(at+1),url:h.origin}}))
+   const page=await context.newPage()
+   await page.goto(h.origin+'/app?tab=delinquency&tenancy='+tenancy.id)
+   const notice=page.locator('article').filter({has:page.getByRole('heading',{name:'Collection action '+action.id.slice(0,8),exact:true})})
+   assert.ok((await notice.innerText()).includes('bounced'))
+   await notice.getByText('Record physical service',{exact:true}).click()
+   assert.equal(await notice.getByRole('button',{name:'Record approved notice service',exact:true}).isVisible(),true,'a failed notice email retains the native physical-service door')
+   for(const [width,height]of [[1440,900],[390,844]]){await page.setViewportSize({width,height});await page.screenshot({path:join(out,'collection-bounced-notice-service-'+width+'.png'),fullPage:true})}
+  }finally{await context.close()}
+ },afterReplacement:async({h,tenancy})=>{
+  const context=await browser.newContext({viewport:{width:1440,height:900}})
+  try{
+   await context.addCookies(h.cookie.split('; ').map(pair=>{const at=pair.indexOf('=');return{name:pair.slice(0,at),value:pair.slice(at+1),url:h.origin}}))
+   const page=await context.newPage()
+   await page.goto(h.origin+'/app?tab=delinquency&tenancy='+tenancy.id)
+   const comparison=page.getByRole('table',{name:'Collection option comparison'}).last()
+   assert.match(await comparison.getByRole('row').filter({has:page.getByRole('cell',{name:'plan',exact:true})}).innerText(),/\$200\.00/,'the native forecast retains the missed-plan weight after replacement')
+   for(const [width,height]of [[1440,900],[390,844]]){await page.setViewportSize({width,height});await page.screenshot({path:join(out,'collection-replaced-plan-forecast-'+width+'.png'),fullPage:true})}
+  }finally{await context.close()}
+ },inspect:async({h,cases,goodDraft,staff})=>{
   const context=await browser.newContext({viewport:{width:1440,height:900}})
   try{
    await context.addCookies(h.cookie.split('; ').map(pair=>{const at=pair.indexOf('=');return{name:pair.slice(0,at),value:pair.slice(at+1),url:h.origin}}))

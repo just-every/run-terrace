@@ -1,5 +1,6 @@
 import {escape as e,money,type Row} from './core'
 import {form,hidden,input,button} from './view'
+import {canRecordService} from './arrears-state'
 const select=(label:string,name:string,options:string[],current='')=>`<label>${e(label)}<select aria-label="${e(label)}" name="${e(name)}">${options.map(value=>`<option value="${e(value)}"${value===current?' selected':''}>${e(value.replaceAll('_',' '))}</option>`).join('')}</select></label>`
 const note=(label:string,name:string)=>`<label>${e(label)}<textarea name="${e(name)}" required rows="3"></textarea></label>`
 const source=()=>input('Evidence reference','reference')
@@ -18,7 +19,7 @@ export function collectionView(s:Row,mayAct:boolean){
   if(mayAct&&!s.reasons.length){
    if(a.state==='draft')controls+=form('arrears.approve',common(a)+source()+hidden('consent','APPROVE EXACT ACTION')+button('Approve exact collection action'),t.id,'delinquency')
    if(a.state==='approved')controls+=form('arrears.send',common(a)+hidden('consent','SEND EXACT ACTION')+button('Send exact collection action'),t.id,'delinquency')
-   if(a.kind.includes('notice')&&['approved','accepted','delivered'].includes(a.state))controls+=`<details><summary>Record physical service</summary>${form('arrears.service',common(a)+input('Service instant with timezone','servedAt','text','', 'placeholder="2026-10-28T10:00:00-07:00"')+select('Service method','method',a.snapshot.rules[0].methods)+input('Person who served','server')+source()+'<label>Original service photo<input type="file" name="photo" accept="image/jpeg,image/png" required></label>'+hidden('consent','RECORD SERVICE')+button('Record approved notice service'),t.id,'delinquency','enctype="multipart/form-data"')}</details>`
+   if(canRecordService(a))controls+=`<details><summary>Record physical service</summary>${form('arrears.service',common(a)+input('Service instant with timezone','servedAt','text','', 'placeholder="2026-10-28T10:00:00-07:00"')+select('Service method','method',a.snapshot.rules[0].methods)+input('Person who served','server')+source()+'<label>Original service photo<input type="file" name="photo" accept="image/jpeg,image/png" required></label>'+hidden('consent','RECORD SERVICE')+button('Record approved notice service'),t.id,'delinquency','enctype="multipart/form-data"')}</details>`
   }
   const service=a.service?`<p>Staff-recorded ${e(a.service.method)} by ${e(a.service.server)} at ${e(a.service.served_at)}. Expiry: <strong>${e(a.service.expires_on)}</strong>. ${e(a.service.reference)} · <a href="/api/arrears-photo?tenancyId=${e(t.id)}&amp;actionId=${e(a.id)}">Open original service photo</a></p>`:''
   return`<article class="card"><h3>Collection action ${e(a.id.slice(0,8))}</h3>${review}${terms}${rules}${service}${controls}</article>`

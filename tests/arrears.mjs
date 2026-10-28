@@ -4,9 +4,12 @@ import {installation,tenancyInput} from './api/harness.mjs'
 import {syntheticPack} from './rule-packs.mjs'
 const address=n=>['synthetic-terrace-'+n,'example.test'].join('@')
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a7xkAAAAASUVORK5CYII=','base64')
-export async function journey({assets=false,inspect}={}){
+export async function journey({assets=false,inspect,beforeService,afterReplacement}={}){
  const signing=generateKeyPairSync('ec',{namedCurve:'prime256v1'}),mailWebhookKey=signing.publicKey.export({type:'spki',format:'der'}).toString('base64')
  const h=await installation({assets,mailProvider:'sendgrid',mailWebhookKey,now:'2026-10-20T12:00:00.000Z'})
+ const request=h.request
+ // Drain status-only responses before changing the local Worker's dated clock.
+ h.request=async(...args)=>{const response=await request(...args);return new Response(await response.arrayBuffer(),response)}
  try{
   const portfolio=await h.command('portfolio.add',{name:'Collection portfolio'}),p=await h.command('property.add',{portfolioId:portfolio.id,name:'Synthetic collection house',address:'1 Synthetic Terrace Road',kind:'multifamily',timeZone:'America/New_York'})
   await h.command('property.rules',{propertyId:p.id,stateCode:'CA',version:0,reference:'synthetic-terrace-200'})
@@ -18,7 +21,7 @@ export async function journey({assets=false,inspect}={}){
   const draft=async(t,kind='reminder',extra={})=>h.command('arrears.draft',{tenancyId:t.id,kind,dueOn:'2026-10-20',body:'Please review the recorded rent and reply with your proposed next step.',...extra})
   const approve=async(t,a,opts={})=>h.command('arrears.approve',{tenancyId:t.id,actionId:a.id,version:(await read(t)).actions.find(x=>x.id===a.id).version,consent:'APPROVE EXACT ACTION',reference:'synthetic-terrace-202 exact human review'},opts)
   const send=async(t,a,opts={})=>h.command('arrears.send',{tenancyId:t.id,actionId:a.id,version:(await read(t)).actions.find(x=>x.id===a.id).version,consent:'SEND EXACT ACTION'},opts)
-  const plan=async(t,installments)=>{const r=await h.command('arrears.plan',{tenancyId:t.id,installments,reference:'synthetic-terrace-203 sourced resident agreement'});await h.command('arrears.plan-approve',{tenancyId:t.id,planId:r.id,consent:'APPROVE EXACT PLAN',reference:'synthetic-terrace-204 exact terms reviewed'});return r}
+  const plan=async(t,installments,opts={})=>{const r=await h.command('arrears.plan',{tenancyId:t.id,installments,reference:'synthetic-terrace-203 sourced resident agreement'});await h.command('arrears.plan-approve',{tenancyId:t.id,planId:r.id,consent:'APPROVE EXACT PLAN',reference:'synthetic-terrace-204 exact terms reviewed'},opts);return r}
   const notify=async(t,a,{recipient,type='delivered',valid=true,key='synthetic-terrace-'+Math.random(),action:known,deliveryId}={})=>{
    const action=known??(await read(t)).actions.find(x=>x.id===a.id),timestamp=String(Math.floor(Date.now()/1000))
    const raw=JSON.stringify([{email:recipient??action.snapshot.recipient,event:type,sg_message_id:action.provider_id+'.synthetic-terrace-278',rer_delivery_id:deliveryId??action.id,sg_event_id:key,timestamp:Date.parse('2026-10-20T12:00:00Z')/1000}])
@@ -70,11 +73,18 @@ export async function journey({assets=false,inspect}={}){
   const goodDraft=await draft(plausible.t,'plan',{dueOn:'2026-10-23',forecastId:good.id}),badDraft=await draft(missed.t,'pay_or_quit_notice',{dueOn:'2026-10-23',forecastId:bad.id})
   const beforeDrafts=h.messages.length
   await send(plausible.t,goodDraft,{status:409});await send(missed.t,badDraft,{status:409});assert.equal(h.messages.length,beforeDrafts)
+  const serviceInput={tenancyId:missed.t.id,actionId:badDraft.id,servedAt:'2026-10-23T12:00:00Z',method:'posted',server:'Synthetic service person',reference:'synthetic-terrace-243 posting evidence',photo:new File([png],'service.png',{type:'image/png'}),consent:'RECORD SERVICE'}
+  await h.formCommand('arrears.service',{...serviceInput,version:(await read(missed.t)).actions.find(a=>a.id===badDraft.id).version},{status:409})
+  assert.equal((await read(missed.t)).actions.find(a=>a.id===badDraft.id).service,null,'unapproved physical service leaves no evidence')
   await approve(plausible.t,goodDraft);await approve(missed.t,badDraft)
   await send(plausible.t,goodDraft);await send(missed.t,badDraft);assert.equal(h.messages.length,beforeDrafts+2)
   assert.match(h.messages.at(-2).text,/2026-10-24: 50000 USD cents/,'delivery includes the exact approved installment terms')
+  const bounceKey='synthetic-terrace-280'
+  assert.equal((await notify(missed.t,badDraft,{type:'bounce',key:bounceKey})).status,200)
   const notice=(await read(missed.t)).actions.find(a=>a.id===badDraft.id)
-  const service={tenancyId:missed.t.id,actionId:badDraft.id,version:notice.version,servedAt:'2026-10-23T12:00:00Z',method:'posted',server:'Synthetic service person',reference:'synthetic-terrace-243 posting evidence',photo:new File([png],'service.png',{type:'image/png'}),consent:'RECORD SERVICE'}
+  assert.equal(notice.state,'bounced');assert.ok(notice.approved_at,'email failure retains the exact human approval')
+  if(beforeService)await beforeService({h,tenancy:missed.t,action:notice})
+  const service={...serviceInput,version:notice.version},beforeServiceMessages=h.messages.length
   await h.formCommand('arrears.service',{...service,method:'unsupported'},{status:409})
   await h.formCommand('arrears.service',service)
   const served=(await read(missed.t)).actions.find(a=>a.id===badDraft.id).service
@@ -82,6 +92,12 @@ export async function journey({assets=false,inspect}={}){
   assert.equal(served.server,'Synthetic service person');assert.equal(served.served_at,'2026-10-23T12:00:00Z')
   assert.deepEqual(Buffer.from(await(await h.request('/api/arrears-photo?tenancyId='+missed.t.id+'&actionId='+badDraft.id)).arrayBuffer()),png)
   assert.equal((await read(missed.t)).actions.find(a=>a.id===badDraft.id).state,'served')
+  assert.equal((await notify(missed.t,badDraft,{type:'bounce',key:bounceKey})).status,200)
+  const servedAction=(await read(missed.t)).actions.find(a=>a.id===badDraft.id)
+  assert.equal(servedAction.state,'served','replaying the bounce cannot remove physical service')
+  assert.ok((await read(missed.t)).events.some(e=>e.kind==='bounced'&&e.detail.actionId===badDraft.id),'failed email history remains in custody')
+  await h.formCommand('arrears.service',{...service,version:servedAction.version},{status:409})
+  assert.equal(h.messages.length,beforeServiceMessages,'physical service never retries the email')
   await h.command('rent.receipt',{chargeId:plausible.q.id,amount:'500',receivedDate:'2026-10-23',reference:'synthetic-terrace-244 first plan receipt'})
   const report=await(await h.request('/api/delinquency?asOf=2026-10-23')).json()
   assert.equal(report.rows.find(r=>r.tenancyId===plausible.t.id).paymentPlan,'active')
@@ -100,6 +116,9 @@ export async function journey({assets=false,inspect}={}){
   await config(missed.t)
   const stale=await draft(missed.t,'pay_or_quit_notice',{dueOn:'2026-10-23'});await approve(missed.t,stale);await config(missed.t,'manual')
   await send(missed.t,stale,{status:409});assert.equal(h.messages.length,heldMessages)
+  const heldAction=(await read(missed.t)).actions.find(a=>a.id===stale.id)
+  await h.formCommand('arrears.service',{...serviceInput,actionId:stale.id,version:heldAction.version},{status:409})
+  assert.equal((await read(missed.t)).actions.find(a=>a.id===stale.id).service,null,'a hold still refuses physical service without changing evidence')
   await h.stepUp()
   const staff=[]
   for(const [n,role]of [[260,'portfolio_manager'],[261,'leasing']]){await h.command('operator.invite',{email:address(n),displayName:role,role,['portfolio:'+portfolio.id]:'1'});staff.push(await h.accept(address(n)))}
@@ -124,6 +143,22 @@ export async function journey({assets=false,inspect}={}){
   assert.equal((await tokenCommand('arrears.compare',{tenancyId:plausible.t.id,...assumptions})).status,401,'revoked agent credential cannot prepare or expose another comparison')
   if(inspect)await inspect({h,cases,good,bad,goodDraft,badDraft,config,plan,assumptions,staff})
   await h.setTime('2026-11-08T12:00:00.000Z')
+  const replacementAssumptions={...assumptions,on:'2026-11-08',installments:[{on:'2026-11-09',cents:100000}]}
+  const compareReplacement=()=>h.command('arrears.compare',{tenancyId:missed.t.id,...replacementAssumptions})
+  const unpaidForecast=await compareReplacement()
+  assert.equal(unpaidForecast.comparison.options.find(o=>o.kind==='plan').cashCents,20000)
+  await plan(missed.t,replacementAssumptions.installments,{as:staff[0]})
+  assert.equal((await read(missed.t)).plan.state,'active')
+  const replacedForecast=await compareReplacement()
+  assert.equal(replacedForecast.comparison.missedPlans,1,'the replaced missed plan remains in payment history')
+  assert.equal(replacedForecast.comparison.options.find(o=>o.kind==='plan').cashCents,20000,'replacement without payment cannot raise expected cash')
+  assert.equal(replacedForecast.comparison.probabilityBp,unpaidForecast.comparison.probabilityBp)
+  await plan(missed.t,[{on:'2026-11-10',cents:100000}],{as:staff[0]})
+  await h.restart()
+  const restartedForecast=await compareReplacement()
+  assert.equal(restartedForecast.comparison.missedPlans,1,'replacing an unmissed plan neither clears nor duplicates the earlier miss')
+  assert.equal(restartedForecast.comparison.options.find(o=>o.kind==='plan').cashCents,20000,'payment history survives restart')
+  if(afterReplacement)await afterReplacement({h,tenancy:missed.t})
   await h.command('rent.receipt',{chargeId:plausible.q.id,amount:'500',receivedDate:'2026-10-26',reference:'synthetic-terrace-272 final plan receipt'})
   assert.equal((await read(plausible.t)).plan.state,'met');assert.equal((await read(plausible.t)).balance.balanceCents,0)
   assert.equal((await read(plausible.t)).forecasts.find(f=>f.id===good.id).actual.cashCents,100000,'the chosen plan forecast is compared with completed receipts')

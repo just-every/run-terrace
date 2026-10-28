@@ -1,5 +1,6 @@
-import {all,allow,date,id,insist,sql,text,commit,tenancyGuard,type Context,type Row} from './core'
+import {allow,date,id,insist,sql,text,commit,tenancyGuard,type Context,type Row} from './core'
 import {collectionCase,noticeRules,noticeExpiry} from './arrears-state'
+import {localDate} from './zones'
 const integer=(v:unknown,label:string,max=100000000)=>{const n=Number(v);insist(v!==''&&v!==undefined&&Number.isSafeInteger(n)&&n>=0&&n<=max,'assumption',label+' requires an explicit whole number.');return n}
 const round=(n:bigint,d:bigint)=>Number((n*2n+d)/(d*2n))
 export async function compareArrears(c:Context,p:Row){
@@ -11,7 +12,13 @@ export async function compareArrears(c:Context,p:Row){
  const assumption={on,vacantDays:integer(p.vacantDays,'Vacant days',366),makeReadyCents:integer(p.makeReadyCents,'Make-ready cents'),leasingCents:integer(p.leasingCents,'Leasing cents'),waitingDays:integer(p.waitingDays,'Waiting days',366),noticeRecoveryBp:integer(p.noticeRecoveryBp,'Notice recovery basis points',10000),source:text(p.source,'Dated assumptions source',2000),rules}
  const turnover=rules.map((r:Row)=>{insist(Number.isInteger(r.turnoverDays)&&r.turnoverDays>=0&&r.turnoverDays<=730,'rule_gap','The pack must explicitly provide the eventual turnover timeline.',409);return (Date.parse(noticeExpiry(on,r,'posted'))-Date.parse(on))/86400000+r.turnoverDays})
  const due=s.balance.charges.filter(q=>q.ageDays>0),paid=due.filter(q=>q.outstandingCents===0).length
- const missedPlans=(await all(c,"SELECT detail FROM tt_arrears_events WHERE tenancy_id=? AND kind='broken_promise'",t.id)).length+(s.plan?.state==='broken'?1:0)
+ // A replacement ends future obligations, but cannot erase a missed installment.
+ const approvedPlans=s.plans.filter(p=>p.approved_at&&p.approved_at<=c.now).sort((a,b)=>a.approved_at.localeCompare(b.approved_at))
+ const missedPlans=approvedPlans.filter((plan,index)=>{
+  const through=approvedPlans[index+1]?localDate(approvedPlans[index+1].approved_at,t.time_zone):on
+  const baseline=JSON.parse(plan.baseline);let promised=0
+  return plan.installments.some((x:Row)=>{promised+=x.cents;return x.on<through&&s.paidSince(baseline,x.on)<promised})
+ }).length
  // Laplace smoothing expresses the uncertainty of a small payment-history sample.
  const probabilityBp=Math.floor((paid+1)*10000/(due.length+2+missedPlans*2))
  const candidate=typeof p.installments==='string'?JSON.parse(p.installments):p.installments

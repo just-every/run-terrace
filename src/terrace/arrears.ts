@@ -2,7 +2,7 @@ import {all,allow,commit,date,guard,id,insist,one,sha256,sql,tenancy,tenancyGuar
 import {localDate} from './zones'
 import {independence} from './dual-control'
 import {scan,LIMIT} from './document-scan'
-import {actionCurrent,addDays,collectionCase,installationKey,native,noticeRules,noticeExpiry} from './arrears-state'
+import {actionCurrent,addDays,canRecordService,collectionCase,installationKey,native,noticeRules,noticeExpiry} from './arrears-state'
 import {compareArrears} from './arrears-forecast'
 export const ARREARS_COMMANDS=['arrears.contact','arrears.reply','arrears.plan','arrears.plan-approve','arrears.draft','arrears.approve','arrears.send','arrears.service','arrears.outcome','arrears.compare']
 export const event=(c:Context,t:string,kind:string,detail:Row,reference:string,on:string)=>sql(c,'INSERT INTO tt_arrears_events(id,tenancy_id,kind,detail,reference,on_day,actor,at) VALUES(?,?,?,?,?,?,?,?)',id(),t,kind,JSON.stringify(detail),reference,on,c.actor.id,c.now)
@@ -65,7 +65,7 @@ export async function arrearsCommand(c:Context,name:string,p:Row):Promise<Row|un
   insist(Number(p.version)===a.version,'conflict','Reload the current collection action.',409)
   insist(a.installation===await installationKey(c)&&s.config?.installation===a.installation,'restored_authority','Restored evidence cannot authorize execution. Record new consent and prepare a new action.',409)
   if(name==='arrears.service'){
-   insist(a.kind.includes('notice')&&a.approved_at&&['approved','accepted','delivered'].includes(a.state),'approval','An approved notice is required before recording physical service.',409)
+   insist(canRecordService(a),'approval','An approved notice is required before recording physical service.',409)
    const current=await actionCurrent(c,a);base.push(current.fence)
    insist(p.consent==='RECORD SERVICE','confirmation','Confirm the exact notice and sourced service evidence.')
    const served=text(p.servedAt,'Service instant',35);insist(/(?:Z|[+-]\d\d:\d\d)$/.test(served)&&Number.isFinite(Date.parse(served))&&Date.parse(served)<=Date.parse(c.now),'service_date','Use an actual service instant with a timezone, no later than now.')
