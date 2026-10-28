@@ -7,6 +7,8 @@ import { applicationFile } from './application-answers'
 import { applicationFeeData, reconcileStaffApplicationFee } from './application-fees'
 import { staffApplications, applicationSettings } from './application-view'
 import {THREAD_COMMANDS,threadCommand,threadData,threadChoices,threadFile} from './portal-threads'
+import {printFile} from './office-print'
+import {servicePhoto} from './notice-service'
 import {threadView} from './portal-thread-view'
 import {HAP_CHANGE_COMMANDS,hapChangeCommand,hapChanges} from './hap-changes'
 import {HAP_REMITTANCE_COMMANDS,hapRemittanceCommand,hapRemittanceData} from './hap-remittances'
@@ -224,7 +226,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
  if(url.pathname==='/portal'||url.pathname.startsWith('/portal/'))return portalResponse(request,env)
  if(!isApi&&!isPage)return null
  // Unknown API paths retain a genuine 404 without leaking installation data.
- if(isApi&&!['/api/integrations','/api/professional-referrals','/api/applications','/api/application-file','/api/threads','/api/thread-file','/api/hap-remittances','/api/hap-reconciliation','/api/messages','/api/resident-document','/api/resident-deliveries','/api/vendor-bank','/api/repair-media','/api/requests','/api/report-delivery','/api/report-schedules','/api/report-generation','/api/financial-reports','/api/agent-workloads','/api/reconcile','/api/reconcile-original','/api/record-media','/api/record-media/file','/api/record-media/upload','/api/trust','/api/rules','/api/journal','/api/custom-reports','/api/custom-report','/api/custom-document','/api/delinquency','/api/leasing-report','/api/cash-scenario','/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment','/api/emergencies','/api/prospects','/api/workflows','/api/documents','/api/document-access','/api/document','/api/document-versions'].includes(url.pathname)&&!V1_PATH.test(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
+ if(isApi&&!['/api/integrations','/api/professional-referrals','/api/applications','/api/application-file','/api/threads','/api/thread-file','/api/thread-print','/api/thread-service-photo','/api/hap-remittances','/api/hap-reconciliation','/api/messages','/api/resident-document','/api/resident-deliveries','/api/vendor-bank','/api/repair-media','/api/requests','/api/report-delivery','/api/report-schedules','/api/report-generation','/api/financial-reports','/api/agent-workloads','/api/reconcile','/api/reconcile-original','/api/record-media','/api/record-media/file','/api/record-media/upload','/api/trust','/api/rules','/api/journal','/api/custom-reports','/api/custom-report','/api/custom-document','/api/delinquency','/api/leasing-report','/api/cash-scenario','/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment','/api/emergencies','/api/prospects','/api/workflows','/api/documents','/api/document-access','/api/document','/api/document-versions'].includes(url.pathname)&&!V1_PATH.test(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
  let c:Context|undefined,p:Row={},idem:string|undefined
  try {
   insist(url.origin===env.AUTH_ORIGIN,'origin','The request origin does not match this installation.',403)
@@ -332,6 +334,8 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   if(url.pathname==='/api/agent-workloads'){const data=await agentWorkloads(c);return url.searchParams.get('format')==='text'?new Response(workloadText(data),{headers:{'content-type':'text/plain;charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff'}}):json(data)}
   if(url.pathname==='/api/workflows')return json(await workflowData(c))
   if(url.pathname==='/api/threads')return json(await threadData(c,Object.fromEntries(url.searchParams)))
+  if(url.pathname==='/api/thread-print')return await printFile(c,url.searchParams)
+  if(url.pathname==='/api/thread-service-photo')return await servicePhoto(c,url.searchParams.get('id')??'')
   if(url.pathname==='/api/thread-file')return await threadFile(c,url.searchParams.get('id')??'')
   if(url.pathname==='/api/messages')return json(await messageData(c,url.searchParams.get('tenancyId')))
   if(url.pathname==='/api/emergencies')return json(await emergencyData(c))
