@@ -50,6 +50,27 @@ test('PORT-006: sourced handover checklist revisions and linked make-ready tasks
 test('WORK-006: approved email dispatch, technician progress, parts hold, missed visit and reassignment; WORK-007 staff-recorded field evidence bound to approved scope',async()=>{await dispatchJourney({inspect:async c=>{if(c.phase==='replacement-complete')await fieldEvidenceJourney(c)}});await failedDispatchJourney()})
 test('OPS-003: persistent workflow templates run across restarts, escalate to a person and complete only on evidence',async()=>{await workflowJourney();await scheduledJourney()})
 test('REPORT-005: typed custom fields, governed reports, frozen merges and hidden-field refusal',customReportJourney)
+test('OPS-001: inherited resource names follow the unknown-name public response for a signed-in member',async()=>{
+ // V1 reads use GET. POST to that read-only door keeps its existing method refusal;
+ // inherited command names sent to the mutation door remain unknown commands.
+ const unknown=await h.request('/api/v1/unknown-resource',{as:member}),expected=await unknown.text()
+ assert.equal(unknown.status,404)
+ assert.ok(expected===JSON.stringify({ok:false,error:'not_found',message:'Unknown resource.'}),'the unknown resource response contains only the public error')
+ for(const name of ['constructor','__proto__']){
+  const response=await h.request('/api/v1/'+name,{as:member}),body=await response.text()
+  assert.equal(response.status,404,name+' is an unknown resource')
+  assert.ok(body===(name==='constructor'?expected:'Not found'),'only the standard unknown-name response is returned')
+  const post=await h.request('/api/v1/'+name,{method:'POST',as:member,body:{}})
+  assert.equal(post.status,name==='constructor'?405:404,'the resource door retains its method/path refusal')
+  const command=await h.request('/api/commands',{method:'POST',as:member,body:{command:name}}),answer=await command.text()
+  assert.equal(command.status,404,'an inherited command name is unknown')
+  assert.ok(answer===JSON.stringify({ok:false,error:'unknown_command',message:'Unknown Terrace command.'}),'the error contains only the public unknown-command response')
+ }
+ const registered=await h.request('/api/v1/leases',{as:member})
+ assert.equal(registered.status,200,'a registered resource still works')
+ let data;try{data=await registered.json()}catch{assert.fail('the registered resource returns JSON')}
+ assert.ok(Array.isArray(data.data),'the registered resource returns its collection')
+})
 test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned portfolios, CSRF and revocation',async()=>{
  assert.equal((await h.request('/api/state',{as:''})).status,401)
  assert.equal((await h.request('/api/commands',{method:'POST',body:{command:'tenancy.create',...tenancyInput},originHeader:'https://elsewhere.test'})).status,403)
