@@ -1,6 +1,6 @@
 import {escape as e,type Row} from './core'
 import {form,hidden,input} from './view'
-const select=(label:string,name:string,options:string)=>`<label>${e(label)}<select name="${name}" required>${options}</select></label>`
+const select=(label:string,name:string,options:string)=>`<label>${e(label)}<select aria-label="${e(label)}" name="${name}" required>${options}</select></label>`
 const option=(id:string,label:string)=>`<option value="${e(id)}">${e(label)}</option>`
 const file='<label>Response original<input name="file" type="file" accept=".pdf,.txt,.eml,.png,.jpg" required></label>'
 const caseForm=(command:string,r:Row,body:string)=>form(command,hidden('referralId',r.id)+hidden('sourceRevision',r.source_revision)+body,r.tenancy_id,'rules','enctype="multipart/form-data"')

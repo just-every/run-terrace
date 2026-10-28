@@ -1,3 +1,4 @@
+import {redactSensitive,redactErrorReport} from './sensitive-metadata'
 import { APPLICATION_COMMANDS, applicationCommand, applicationData, applicationRecord } from './applications'
 import { applicationResponse } from './application-http'
 import { sendApplicationLink } from './application-access'
@@ -52,7 +53,7 @@ import {recordMediaView} from './field-evidence-media-view'
 import {PORTAL_COMMANDS,portalCommand,portalData,sendPortalEmail} from './portal'
 import {portalResponse} from './portal-http'
 import {portalSection} from './portal-view-staff'
-import {DOCUMENT_COMMANDS,documentCommand,documentDownload,documentSearch,documentVersions,enterDocuments} from './documents'
+import {DOCUMENT_COMMANDS,documentCommand,documentDownload,documentAccess,documentSearch,documentVersions,enterDocuments} from './documents'
 import {documentView} from './document-view'
 import {TRUST_COMMANDS,trustCommand,trustData} from './trust'
 import {trustView} from './trust-view'
@@ -222,7 +223,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
  if(url.pathname==='/portal'||url.pathname.startsWith('/portal/'))return portalResponse(request,env)
  if(!isApi&&!isPage)return null
  // Unknown API paths retain a genuine 404 without leaking installation data.
- if(isApi&&!['/api/professional-referrals','/api/applications','/api/application-file','/api/threads','/api/thread-file','/api/hap-remittances','/api/hap-reconciliation','/api/messages','/api/resident-document','/api/resident-deliveries','/api/vendor-bank','/api/repair-media','/api/requests','/api/report-delivery','/api/report-schedules','/api/report-generation','/api/financial-reports','/api/agent-workloads','/api/reconcile','/api/reconcile-original','/api/record-media','/api/record-media/file','/api/record-media/upload','/api/trust','/api/rules','/api/journal','/api/custom-reports','/api/custom-report','/api/custom-document','/api/delinquency','/api/leasing-report','/api/cash-scenario','/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment','/api/emergencies','/api/prospects','/api/workflows','/api/documents','/api/document','/api/document-versions'].includes(url.pathname)&&!V1_PATH.test(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
+ if(isApi&&!['/api/professional-referrals','/api/applications','/api/application-file','/api/threads','/api/thread-file','/api/hap-remittances','/api/hap-reconciliation','/api/messages','/api/resident-document','/api/resident-deliveries','/api/vendor-bank','/api/repair-media','/api/requests','/api/report-delivery','/api/report-schedules','/api/report-generation','/api/financial-reports','/api/agent-workloads','/api/reconcile','/api/reconcile-original','/api/record-media','/api/record-media/file','/api/record-media/upload','/api/trust','/api/rules','/api/journal','/api/custom-reports','/api/custom-report','/api/custom-document','/api/delinquency','/api/leasing-report','/api/cash-scenario','/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment','/api/emergencies','/api/prospects','/api/workflows','/api/documents','/api/document-access','/api/document','/api/document-versions'].includes(url.pathname)&&!V1_PATH.test(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
  let c:Context|undefined,p:Row={},idem:string|undefined
  try {
   insist(url.origin===env.AUTH_ORIGIN,'origin','The request origin does not match this installation.',403)
@@ -253,7 +254,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
    // ROLE-001: an unknown command is 404; a known command outside the actor's role is 403 before any record is read.
    insist(COMMANDS.includes(name),'unknown_command','Unknown Terrace command.',404);credentialGate(c,name);allow(c,name);c.action=name
    // SAFE-002: the source the person gave (a lease reference, receipt or handoff reference, or reason) goes into the history row.
-   c.source=([p.source,p.reference,p.reason].find(v=>typeof v==='string'&&v.trim()) as string|undefined)?.trim().slice(0,500)??null
+   c.source=redactSensitive(([p.source,p.reference,p.reason].find(v=>typeof v==='string'&&v.trim()) as string|undefined)?.trim().slice(0,500)??'')||null
    insist(!c.gated||FACTOR_COMMANDS.includes(name),'second_factor_required','Pass your second factor first: open /app?tab=security.',403)
    // SAFE-001: bank references, legal entities and access changes need Base's fresh email-link proof (10 minutes). Base's proof is per sign-in, not per action; Terrace asks under 'credentials:mint'.
    if(STEPPED.includes(name))await operatorAuth(env).requireStepUp(request,'credentials:mint').catch(e=>{throw e?.code==='step_up_required'?new Fault('step_up_required','Confirm it is you: request a link at /auth/step-up, open it in this browser, then try again within 10 minutes.',403):e})
@@ -323,7 +324,8 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   if(url.pathname==='/api/record-media/file')return await mediaDownload(c,url.searchParams.get('id'))
   if(url.pathname==='/api/record-media/upload')return json(await mediaStatus(c,url.searchParams.get('id')))
   if(url.pathname==='/api/documents')return json(await documentSearch(c,Object.fromEntries(url.searchParams)))
-  if(url.pathname==='/api/document')return await documentDownload(c,url.searchParams.get('id'))
+  if(url.pathname==='/api/document-access')return await documentAccess(c,url.searchParams.get('id'),url.searchParams.get('format')==='json')
+  if(url.pathname==='/api/document')return await documentDownload(c,url.searchParams.get('id'),url.searchParams.get('authorization'))
   if(url.pathname==='/api/document-versions')return json(await documentVersions(c,url.searchParams.get('id')))
   if(url.pathname==='/api/agent-workloads'){const data=await agentWorkloads(c);return url.searchParams.get('format')==='text'?new Response(workloadText(data),{headers:{'content-type':'text/plain;charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff'}}):json(data)}
   if(url.pathname==='/api/workflows')return json(await workflowData(c))
@@ -359,8 +361,8 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
  } catch(error) {
   // A command may already have committed before a later write fails. Keep its claimed key pending;
   // an uncertain attempt must never become runnable again, including after a Worker restart.
-  const x=error as any,conflict=String(x.message).includes('UNIQUE constraint'),status=conflict?409:(x.status??400),message=conflict?'That reference already exists. Use the existing record or a distinct reference.':x.message??'The operation failed.',code=conflict?'duplicate':x.code??'operation_failed'
-  if(isApi)return json({ok:false,error:code,message,...(x.report?{report:x.report}:{})},status)
+  const x=error as any,conflict=String(x.message).includes('UNIQUE constraint'),known=error instanceof Fault,status=conflict?409:(x.status??400),message=conflict?'That reference already exists. Use the existing record or a distinct reference.':known?redactSensitive(x.message):'The operation failed. Try again or ask the owner to review it.',code=conflict?'duplicate':known?x.code:'operation_failed'
+  if(isApi)return json({ok:false,error:code,message,...(x.report?{report:redactErrorReport(x.report)}:{})},status)
   if(c) {const dest=new URL('/app',url);dest.searchParams.set('tab',String(p.tab??url.searchParams.get('tab')??'tenancy'));dest.searchParams.set('tenancy',String(p.tenancyId??url.searchParams.get('tenancy')??''));try{return await render(c,dest,message,{},status,request,env)}catch{return page(c,'Unable to continue','<p><a href="/app">Back to tenancies</a></p>',message,status)}}
   return new Response(message,{status})
  }

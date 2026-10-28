@@ -1,5 +1,6 @@
 import {all,allow,commit,date,guard,id,insist,one,reachesPortfolio,sql,tenancy,tenancyGuard,text,type Context,type Row} from './core'
 import {noCredential} from './credentials'
+import {redactSensitive} from './sensitive-metadata'
 import {stored} from './documents'
 import {journalProperty} from './journal'
 import {ruleSource} from './rule-sources'
@@ -45,7 +46,7 @@ export async function referralData(c:Context,q:Row={}){
   const d=await source(c,r.decision_id),current=await applicable(c,d,r.source_revision)
   const responses=await all(c,'SELECT r.*,v.sha256,v.name,v.media_type,v.size,w.next_action,w.reference AS review_reference,w.reviewed_by,w.reviewed_at FROM tt_professional_responses r JOIN tt_document_versions v ON v.id=r.version_id LEFT JOIN tt_professional_reviews w ON w.response_id=r.id WHERE r.referral_id=? ORDER BY r.sequence',r.id)
   const last=responses.at(-1)
-  cases.push({...r,source:JSON.parse(d.snapshot),action:d.action,gaps:JSON.parse(d.result).gaps,sourceCurrent:current,open:true,status:!current?'source_changed':!last?'awaiting_response':last.outcome==='rejected'?'response_rejected':last.reviewed_at?'reviewed_record_only':'needs_review',responses:responses.map(x=>({...x,applicable:current,url:'/api/document?id='+x.version_id}))})
+  cases.push({...r,source:JSON.parse(d.snapshot),action:d.action,gaps:JSON.parse(d.result).gaps,sourceCurrent:current,open:true,status:!current?'source_changed':!last?'awaiting_response':last.outcome==='rejected'?'response_rejected':last.reviewed_at?'reviewed_record_only':'needs_review',responses:responses.map(x=>({...x,name:redactSensitive(x.name),reference:redactSensitive(x.reference),next_action:x.next_action?redactSensitive(x.next_action):null,review_reference:x.review_reference?redactSensitive(x.review_reference):null,applicable:current,url:'/api/document-access?id='+x.version_id}))})
  }
  const people=await all(c,"SELECT id,display_name FROM oa_operators WHERE status='active' ORDER BY display_name"),assignees:Row[]=[]
  for(const person of people)for(const propertyId of propertyIds){
