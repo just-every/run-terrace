@@ -91,6 +91,7 @@ export async function journey({assets=false,inspect}={}) {
   await db.exec("CREATE TRIGGER synthetic_response_failure BEFORE UPDATE OF state ON tt_api_idempotency WHEN NEW.state='done' BEGIN SELECT RAISE(ABORT,'synthetic response persistence failure'); END")
   const failed=await post(agent,interrupted,400,interruptedKey)
   assert.equal(failed.error,'operation_failed')
+  assert.ok(!JSON.stringify(failed).includes('synthetic response persistence failure'),'the refused attempt conceals storage details')
   await db.exec('DROP TRIGGER synthetic_response_failure')
   const committed=(await get(agent,'/api/v1/work')).data.filter(j=>j.title===interrupted.title)
   assert.equal(committed.length,1,'the proposal committed before response persistence failed')

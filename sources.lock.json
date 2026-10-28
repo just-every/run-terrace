@@ -3481,7 +3481,11 @@
       "executable": false
     },
     "src/terrace/archive-policy.mjs": {
-      "sha256": "86dd624d9313f90971bc71abf75ef37ec684a83764b05dce1e119551c8188a88",
+      "sha256": "4bf9557bc76465ff5b402329b3af373415cc285eacf15f5c08e2d44e0ac09f07",
+      "executable": false
+    },
+    "src/terrace/archive-validation.mjs": {
+      "sha256": "02eb5c835c362b075477ba9d100037f806b0c2bcb988c61f1b2570e2dfcc0d3d",
       "executable": false
     },
     "src/terrace/asset-view.ts": {
@@ -3753,7 +3757,7 @@
       "executable": false
     },
     "src/terrace/hap-archive.mjs": {
-      "sha256": "14baf21d5abd61fcf4293ac7fcb96ab5f0fa2f39961cadfd834506f096ba8952",
+      "sha256": "bfefde76461a68112798f7bfe9c5f5b19334e595b87153fef565ba1f0adf91cd",
       "executable": false
     },
     "src/terrace/hap-balances.ts": {
@@ -3973,7 +3977,7 @@
       "executable": false
     },
     "src/terrace/payment-archive.mjs": {
-      "sha256": "c8f452292756ad1d7d5bdffc647d91ec23f8c6862d62572d9ebfe4d2c9b32445",
+      "sha256": "0e43f59c15ca00bf259bdaf7a229fccb8eb9bba5cd9bd74e29e29791ec9036f5",
       "executable": false
     },
     "src/terrace/payment-view.ts": {
@@ -4293,7 +4297,7 @@
       "executable": false
     },
     "src/terrace/trust-archive.mjs": {
-      "sha256": "9ce99a1bb0fc6fe82edfce71fe9bbb45855f91fa162fb0732d3498ca6036c502",
+      "sha256": "e0494b0dbdc1e5eabe8422428f73fdac1cbed565cdf5b063daf82a2412cf9d9b",
       "executable": false
     },
     "src/terrace/trust-view.ts": {
@@ -4417,7 +4421,7 @@
       "executable": false
     },
     "tests/agent-workloads.mjs": {
-      "sha256": "fee560f50a794ecaca3cd07cec4aa5a270c39196894715a55177f53d5e3cf46e",
+      "sha256": "e0fa223c310a47c6000a8bb39191a5efbdfcd2e3a0b09aa41f56f3b08e58fe2d",
       "executable": false
     },
     "tests/api/buffered-http.mjs": {
@@ -4497,7 +4501,7 @@
       "executable": false
     },
     "tests/credentials.mjs": {
-      "sha256": "bcaae2c45577b4831c045f97c08422acad75452608098e04e4b30ef1947f7495",
+      "sha256": "0f6e56ef56a9b8b5a37003ffdf061d9b261bec7f10d18c7709c4d32b9ff2ee32",
       "executable": false
     },
     "tests/custom-browser.mjs": {
