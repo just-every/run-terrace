@@ -170,9 +170,12 @@ export async function journey({assets=false,inspect}={}){
   assert.equal(createHash('sha256').update(Buffer.from(await(await r.request('/api/thread-print?id='+office.printBatchId)).arrayBuffer())).digest('hex'),office.pdfSha256)
   const archive=await(await r.request('/api/backup')).text(),readable=new Uint8Array(await(await r.request('/api/readable-export')).arrayBuffer());const readableText=new TextDecoder().decode(readable)
   for(const text of ['tt_print_batches.csv','tt_print_items.csv','tt_print_approvals.csv',office.pdfSha256,'tt_threads.csv','tt_thread_service.csv','tt_thread_reconciliations.csv','tt_thread_events.csv','Synthetic independent witness receipt','Synthetic public original','Synthetic private original',publicEntry.sha256])assert.ok(readableText.includes(text),text+' is readable and portable')
+  assertOfficeExport(readable,office,servicePng)
   const restored=await installation({now:'2026-10-27T16:00:00.000Z'});try{
    await restored.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'backup.rer')})
    assert.ok((await(await restored.request('/api/threads?id='+office.threadId)).json()).threads[0].prints[0].inert)
+   const restoredExport=Buffer.from(await(await restored.request('/api/readable-export')).arrayBuffer());assertOfficeExport(restoredExport,office,servicePng)
+   assert.equal((await(await restored.request('/api/threads?id='+office.threadId)).json()).threads[0].service.photo_sha256,office.photoSha256)
    assert.ok([404,409].includes((await restored.request('/api/thread-print?id='+office.printBatchId)).status))
    await restored.stepUp();await restored.command('thread.print.approve',{printBatchId:office.printBatchId,manifestSha256:office.manifestSha256,pdfSha256:office.pdfSha256,consent:'APPROVE EXACT PRINT',reference:'Synthetic restored evidence refuses authority'},{status:404})
    const d=(await(await restored.request('/api/threads?id='+thread.id)).json()).threads[0];assert.equal(d.entries.length,current.entries.length);assert.equal(d.assigned_to,manager);assert.deepEqual(d.events,conversationHistory)
@@ -275,7 +278,7 @@ async function officePrintJourney({r,t,create,data,mutate,staff,manager,grants,s
  const manifestResponse=await wire('&manifest=1'),manifestBytes=Buffer.from(await manifestResponse.arrayBuffer())
  assert.equal(createHash('sha256').update(manifestBytes).digest('hex'),batch.manifest_sha256)
  const manifest=JSON.parse(manifestBytes);assert.equal(manifest.items.length,5);assert.equal(manifest.pdfSha256,batch.pdf_sha256)
- const pdfs=[]
+ const pdfs=[],recipientPdfs=[]
  for(const item of batch.items){
   const original=await wire('&item='+item.id),pdf=Buffer.from(await original.arrayBuffer())
   assert.equal(createHash('sha256').update(pdf).digest('hex'),item.pdf_sha256)
@@ -283,7 +286,7 @@ async function officePrintJourney({r,t,create,data,mutate,staff,manager,grants,s
   assert.ok(pdf.includes(Buffer.from('Office certified notice').toString('hex')),'PDF contains selectable subject text')
   assert.ok(pdf.includes(Buffer.from(item.recipient).toString('hex')),'PDF names its recipient')
   assert.ok(pdf.includes(Buffer.from(item.address).toString('hex')),'PDF names its mailing address')
-  pdfs.push(item.pdf_sha256)
+  pdfs.push(item.pdf_sha256);recipientPdfs.push({id:item.id,bytes:pdf,sha256:item.pdf_sha256})
   assert.equal((await data(item.thread_id)).service,null,'printing is distinct from service')
  }
  assert.equal(new Set(pdfs).size,5,'each recipient has distinct frozen bytes')
@@ -315,5 +318,18 @@ async function officePrintJourney({r,t,create,data,mutate,staff,manager,grants,s
  await r.db.prepare('UPDATE tt_portal_grants SET revoked_at=? WHERE id=?').bind('2026-10-27T16:00:00.000Z',grants[0].grantId).run()
  assert.equal((await r.request('/api/thread-print?id='+revoking.printBatchId+'&review=1')).status,404)
  await r.db.prepare('UPDATE tt_portal_grants SET revoked_at=NULL WHERE id=?').bind(grants[0].grantId).run()
- return {...prepared,threadId:notice.id,noticeIds:notice.ids}
+ return {...prepared,threadId:notice.id,noticeIds:notice.ids,pdfBytes:bytes,recipientPdfs,photoSha256:served.service.photo_sha256}
+}
+
+function assertOfficeExport(value,office,photo){
+ const zip=Buffer.from(value),entries=new Map()
+ for(let offset=0;zip.readUInt32LE(offset)===0x04034b50;){
+  const size=zip.readUInt32LE(offset+18),length=zip.readUInt16LE(offset+26),extra=zip.readUInt16LE(offset+28),start=offset+30+length+extra
+  entries.set(zip.subarray(offset+30,offset+30+length).toString(),zip.subarray(start,start+size));offset=start+size
+ }
+ const inventory=JSON.parse(entries.get('manifest.json')).files
+ assert.deepEqual(entries.get(`files/tt_print_batches/${office.printBatchId}.pdf`),office.pdfBytes,'readable export preserves the exact combined PDF')
+ for(const item of office.recipientPdfs)assert.deepEqual(entries.get(`files/tt_print_items/${item.id}.pdf`),item.bytes,'readable export preserves each recipient PDF')
+ const photograph=inventory.find(f=>f.table==='tt_thread_service'&&f.column==='photo_bytes'&&f.sha256===office.photoSha256)
+ assert.ok(photograph);assert.ok(photograph.path.endsWith('.png'));assert.deepEqual(entries.get(photograph.path),photo,'readable export preserves the service photograph')
 }
