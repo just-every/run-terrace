@@ -57,6 +57,17 @@ export async function journey({inspect,assets=false}={}){
   const rows=await h.db.prepare('SELECT * FROM tt_migration_records WHERE migration_id=?').bind(migrationId).all()
   assert.equal(rows.results.length,report.sourceCount)
   const native=await(await h.request('/api/journal')).json()
+  const deposits=native.entries.filter(e=>e.source_kind==='deposit')
+  assert.equal(deposits.length,2,'each source deposit has its own native journal entry')
+  const firstDeposit=report.records.find(r=>r.kind==='deposit'&&r.value.amountCents===50000)
+  const secondDeposit=report.records.find(r=>r.kind==='deposit'&&r.value.amountCents===20000)
+  for(const [source,lease,amount]of [[firstDeposit,leases[0],50000],[secondDeposit,leases[1],20000]]){
+   const entry=deposits.find(e=>e.source_id===source.targetId)
+   assert.ok(entry,'native deposit retains its distinct source link')
+   assert.equal(entry.tenancy_id,lease.targetId,'native deposit links the individual lease')
+   assert.equal(entry.fund,'deposit')
+   assert.deepEqual(entry.lines,[{account:'cash',debit:amount,credit:0},{account:'deposit_liability',debit:0,credit:amount}],'native deposit preserves its own cents independently of the opening aggregate')
+  }
   for(const expected of report.tieOut){const property=report.records.find(r=>r.kind==='property'&&r.ref===expected.propertyRef).targetId,owner=report.records.find(r=>r.kind==='owner'&&r.ref===expected.ownerRef).targetId
    const actual=native.entries.filter(e=>e.property_id===property&&e.owner_key===owner&&e.fund===expected.fund).flatMap(e=>e.lines).filter(l=>l.account===expected.account).reduce((n,l)=>n+l.debit-l.credit,0)
    assert.equal(actual,expected.terraceCents,'native opening '+expected.propertyRef+' '+expected.fund+' '+expected.account)

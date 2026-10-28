@@ -1,3 +1,4 @@
+import {collectionCase} from './arrears-state'
 import {effectiveCharges,hapEffects} from './hap-balances'
 import {phaReceipts} from './hap-reconciliation'
 import {hapData} from './hap-charges'
@@ -78,9 +79,7 @@ export async function delinquencyReport(c: Context, q: Row) {
  const gaps: Row[] = [
   { code: 'pending_payments_not_recorded', message: 'Processor pending payments are not recorded (PAY-008). PAY-005 external pending records are shown separately and never prove settlement.' },
   { code: 'returned_ach_not_recorded', message: 'Returned ACH and attempted collection outcomes are not recorded (PAY-008).' },
-  { code: 'payment_plans_not_recorded', message: 'Payment plans and broken promises are not recorded (PAY-011).' },
   { code: 'subsidy_history_partial', message: 'Separate HAP postings are shown where recorded. Historical shared charges have no inferred split; dated remittances, approved PHA corrections and inspection abatements remain separately sourced. Historical shared charges have no reconstructed payer split.' },
-  { code: 'delivery_not_recorded', message: 'Approved arrears proposals are unsent drafts; notice delivery and collection resolution are not recorded.' },
  ]
  const rows = await Promise.all(selected.map(async t => {
   const effects=await hapEffects(c,t.id),aging = ageReceivables({ ...t, time_zone: t.property_zone ?? t.time_zone }, effectiveCharges(charges,effects,asOf,'resident'), receipts, adjustments, asOf)
@@ -98,12 +97,15 @@ export async function delinquencyReport(c: Context, q: Row) {
   const person = historical ? assignees.find(a => a.id === historical.assigned_to) : null
   const assignment = historical ? { assignedTo: person?.id ?? null, name: person?.name ?? null, previousAssignedTo: person ? null : historical.assigned_to, status: person ? 'assigned' : 'unassigned', reason: person ? null : 'assignee_not_eligible', version: historical.version, assignedAt: historical.assigned_at, reference: historical.reference } : null
   if (!person) gaps.push({ code: historical ? 'assignee_not_eligible' : 'followup_unassigned', tenancyId: t.id, message: 'Assign an active follow-up owner with current portfolio authority.' })
-  const nextAction = !person ? 'assign follow-up owner' : approvedDraft ? 'review and send externally; Terrace has not sent it' : 'prepare and review an arrears proposal'
+  const collection=await collectionCase(c,t.id,asOf)
+  const notices=[]
+  for(const a of collection.actions.filter(a=>a.kind.includes('notice'))){const service=await one(c,'SELECT action_id,served_at,method,server,reference,sha256,expires_on,at FROM tt_arrears_service WHERE action_id=?',a.id);const dated=collection.events.filter(e=>e.detail.actionId===a.id);notices.push({id:a.id,kind:a.kind,state:dated.at(-1)?.kind??'draft',rules:a.snapshot.rules,service:service&&localDate(service.at,t.time_zone)<=asOf?service:null})}
+  const nextAction = collection.config ? collection.nextAction : !person ? 'assign follow-up owner' : approvedDraft ? 'review and send externally; Terrace has not sent it' : 'prepare and review an arrears proposal'
   const external=await externalFundsAsOf(c,t.id,asOf)
   return { tenancyId: t.id, unitId: t.unit_id, propertyId: t.property_id ?? null, property: t.property_name ?? t.address, unit: t.unit ?? '', resident: t.tenant_name,
    ...aging, phaAging,payerCorrections:effects.filter(e=>e.posting_day<=asOf), household, ownership: ownershipRows, approvedDraft, assignment, assignmentVersion: current?.version ?? 0,
    assignees: operational(c) && can(c, 'arrears.prepare') ? assignees : [], nextAction,
-   pendingFunds: 'Processor pending payments not recorded; manual external funds shown separately',pendingExternalCents:external.pendingCents,pendingExternalPayments:external.pending, returnedAch: 'not recorded', paymentPlan: 'not recorded', subsidyShare: phaCharges.length?'Separate PHA receivables recorded':'Separate HAP posting not recorded', collectionOutcome: 'not recorded' }
+   pendingFunds: 'Processor pending payments not recorded; manual external funds shown separately',pendingExternalCents:external.pendingCents,pendingExternalPayments:external.pending, returnedAch: 'not recorded', paymentPlan: collection.plan?.state??'not recorded',paymentPlanSource:collection.plan,collectionEvents:collection.events,notices, subsidyShare: phaCharges.length?'Separate PHA receivables recorded':'Separate HAP posting not recorded', collectionOutcome: collection.config?collection.collectionOutcome:'not recorded' }
  }))
  const totals = [...new Set(rows.map(r => r.currency))].map(currency => {
   const mine = rows.filter(r => r.currency === currency)
@@ -126,7 +128,7 @@ export async function delinquencyReport(c: Context, q: Row) {
    ownership: 'The owner filter matches the ownership set effective on As of. Each household balance is counted once in full; amounts are not allocated by ownership percentage. Missing ownership is unknown, never inferred from tenancy contact names.',
    household: 'One receivable balance per tenancy, shared by its household. Membership uses inclusive joining/leaving dates. Roles identify liability; no balance is multiplied by member count.',
    followup: 'Approved arrears drafts and assignment events are dated through As of. Assignee eligibility is checked against live active role and portfolio scope; assignment changes no financial or sending authority.',
-  }, boundary: 'Effective-date reconstruction from records known now, not a snapshot of what was known then. Currencies remain separate, including currency unconfirmed. Recorded external receipts are not proof of bank settlement. Manually recorded external pending funds are shown separately without reducing receivables. Processor pending payments, returns, plans, promises, historical subsidy splits and collection outcomes are not inferred; none is inferred zero, resolved or collected. This report exposes no screening records.' }
+  }, boundary: 'Effective-date reconstruction from records known now, not a snapshot of what was known then. Currencies remain separate, including currency unconfirmed. Recorded external receipts are not proof of bank settlement. Manually recorded external pending funds are shown separately without reducing receivables. Processor pending payments, returns and historical subsidy splits are not inferred; collection plans, notices and outcomes use their dated sources; none is inferred zero, resolved or collected. This report exposes no screening records.' }
 }
 
 export function delinquencyTable(r: Awaited<ReturnType<typeof delinquencyReport>>): (string | number)[][] {
@@ -145,6 +147,8 @@ export function delinquencyTable(r: Awaited<ReturnType<typeof delinquencyReport>
   ...r.rows.flatMap(x => x.ownership.map((o: Row) => [x.tenancyId, o.ownerId, o.name, o.basisPoints, o.setId, o.effectiveFrom, o.reference])),
   ['Household membership sources'],
   ...r.rows.flatMap(x => x.household.map(m => [x.tenancyId, m.memberId ?? 'primary resident', m.name, m.role, m.joined, m.leftOn ?? '', m.liable ? 'liable' : 'not liable'])),
+  ['Collection plan, notice and outcome sources'],
+  ...r.rows.flatMap(x=>[...x.collectionEvents.map((v:Row)=>[x.tenancyId,v.kind,v.on_day,v.reference,JSON.stringify(v.detail)]),...x.notices.map((n:Row)=>[x.tenancyId,n.kind,n.state,n.service?.served_at??'',n.service?.expires_on??''])]),
   ['Follow-up sources'],
   ...r.rows.map(x => [x.tenancyId, x.assignment?.assignedTo ?? 'unassigned', x.assignment?.assignedAt ?? '', x.assignment?.reference ?? '', x.approvedDraft?.proposalId ?? '', x.approvedDraft?.approvedAt ?? '', x.approvedDraft?.followUpDate ?? '', x.nextAction]),
   ...r.gaps.map(g => ['Not recorded / gap', g.code, g.tenancyId ?? '', g.message]), [r.boundary] ]

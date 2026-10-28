@@ -1,3 +1,4 @@
+import {journey as arrearsJourney} from './arrears.mjs'
 import {journey as applicationJourney} from './applications.mjs'
 import {journey as messageJourney} from './messages.mjs'
 import {journey as cardJourney} from './card-payments.mjs'
@@ -896,6 +897,7 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  await scenarioJourney()
  await leasingReportJourney()
  await delinquencyJourney()
+ await arrearsJourney()
 })
 
 test('ROLE-002: residents, delegated contacts, joint owners and vendors see only the record a live grant names; ownership dates, assignments and revocation apply at once; document doors refuse them',()=>portalJourney())

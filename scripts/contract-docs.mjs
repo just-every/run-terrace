@@ -2,7 +2,7 @@ import {readFile,writeFile,mkdir} from 'node:fs/promises'
 import {parseContract} from '../src/base/seed-contract.mjs'
 
 // Preserve the legacy acceptance document while migrating one clause projection at a time.
-const ids=['LEASE-007','MOVE-001','MOVE-010'],mode=process.argv[2]
+const ids=['LEASE-007','MOVE-001','MOVE-010','PAY-011','AGENT-009'],mode=process.argv[2]
 if(!['write','check'].includes(mode))throw Error('Use contract-docs.mjs write or check')
 let source=await readFile('CONTRACT.md','utf8')
 const original=source
