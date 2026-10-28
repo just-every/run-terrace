@@ -67,7 +67,18 @@ export async function journey({assets=false,inspect}={}){
   da=await ownData(h,a.cookie);assert.equal(da.applicant.answers.income,completeAnswers.income,'adult A resumes a durable incomplete draft')
   assert.equal(da.applicant.answers.rentalHistory,'')
   await applicantPost(h,b.cookie,{action:'save',version:1,...completeAnswers,identity:'Synthetic adult B private identity',income:'Synthetic adult B income 6100 USD'})
+  const priorCookie=b.cookie
+  assert.equal((await h.request('/apply/signout',{method:'POST',as:priorCookie,form:new FormData()})).status,303)
+  assert.equal((await h.request('/apply/api/application',{as:priorCookie})).status,401,'sign-out ends the old applicant session')
+  await h.setTime('2026-10-28T12:02:00.000Z')
+  assert.equal((await h.request('/apply/signin',{method:'POST',as:'',form:new URLSearchParams({email:applicantEmail(2)})})).status,202)
+  const resumeToken=h.messages.findLast(m=>m.to.includes(applicantEmail(2))).text.match(/\/apply\/accept\?token=([a-f0-9]+)/)?.[1]
+  assert.ok(resumeToken,'the applicant can request a fresh resume link without another staff invitation')
+  const resumed=await h.request('/apply/accept',{method:'POST',as:'',form:new URLSearchParams({token:resumeToken})})
+  assert.equal(resumed.status,303,await resumed.text())
+  b.cookie=resumed.headers.getSetCookie().map(x=>x.split(';')[0]).join('; ')
   db=await ownData(h,b.cookie);assert.equal(db.applicant.answers.income,'Synthetic adult B income 6100 USD','adult B independently resumes saved answers')
+  assert.equal((await h.request('/apply/api/application',{as:priorCookie})).status,401,'fresh sign-in does not revive the signed-out session')
   assert.ok(!JSON.stringify(da).includes('Synthetic adult B private identity'))
   await applicantPost(h,a.cookie,{action:'save',version:1,...completeAnswers},409)
   await applicantPost(h,a.cookie,{action:'submit',version:2,consent:'SUBMIT MY ANSWERS',disclosureHash:da.disclosureHash},400)
