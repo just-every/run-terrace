@@ -1,6 +1,6 @@
 <!-- Generated from CONTRACT.md by contract-docs. Edit CONTRACT.md, then regenerate. -->
 
-# Terrace product homepage claims
+# Terrace homepage claims
 
 A claim is done when every clause behind it is done, missing when every one is missing, and partial otherwise.
 
@@ -9,7 +9,7 @@ A claim is done when every clause behind it is done, missing when every one is m
 | 1 | "Terrace fills your units" | `LEASE-001` missing; `LEASE-002` missing; `LEASE-003` missing; `LEASE-004` missing; `LEASE-005` done; `LEASE-006` missing; `LEASE-007` missing; `LEASE-008` missing; `LEASE-009` missing; `LEASE-010` missing; `LEASE-011` missing | partial |
 | 2 | "collects the rent" | `PAY-001` done; `PAY-002` missing; `PAY-003` partial; `PAY-004` missing; `TER-004` done | partial |
 | 3 | "fixes what breaks" | `TER-008` done; `WORK-003` done; `WORK-004` done; `WORK-005` partial; `WORK-006` done; `AGENT-001` partial | partial |
-| 4 | "keeps every owner's books reconciled" | `ACCT-001` done; `ACCT-002` partial; `ACCT-006` done; `ACCT-012` partial; `TER-006` done | partial |
+| 4 | "keeps every owner's books reconciled" | `ACCT-001` partial; `ACCT-002` partial; `ACCT-006` done; `ACCT-012` partial; `TER-006` done | partial |
 | 5 | "100% free, open source" | `OPEN-001` done | done |
 | 6 | "alternative to AppFolio, Buildium and Rent Manager" | `MOVE-011` missing; `MOVE-002` missing; `MOVE-003` missing; `MOVE-004` missing | missing |
 | 7 | "Owner statement · October · $14,220.40 · Sent" | `ACCT-012` partial; `PORTAL-002` partial | partial |
@@ -25,11 +25,11 @@ A claim is done when every clause behind it is done, missing when every one is m
 | 17 | "Applications, screening and the lease all happen in Terrace." | `LEASE-007` missing; `LEASE-008` missing; `LEASE-010` missing; `LEASE-011` missing | missing |
 | 18 | Applicants approved or declined by Kim Lee, TransUnion report, income rule, notice sent | `LEASE-008` missing; `LEASE-009` missing | missing |
 | 19 | Lease e-signed by resident and manager; deposit to the deposit account | `LEASE-011` missing; `ACCT-002` partial; `ACCT-003` missing | partial |
-| 20 | "Terrace's agent runs the repair from the report to the matched invoice, inside the owner's limit." | `AGENT-001` partial; `ROLE-003` done | partial |
+| 20 | "Terrace's agent runs the repair from the report to the matched invoice, inside the owner's limit." | `AGENT-001` partial; `ROLE-003` partial | partial |
 | 21 | Report and triage: "Plumbing, urgent. Asked Jordan to close the valve." | `PORTAL-004` done; `WORK-001` partial | partial |
 | 22 | Booked with a quote; vendor no-show rebooked with another vendor; resident confirmed by text | `WORK-003` done; `WORK-004` done; `WORK-005` partial; `WORK-006` done; `PORTAL-005` partial | partial |
 | 23 | Completion check: photos and the resident's "All dry." | `WORK-007` partial; `WORK-008` done | partial |
-| 24 | "$385.00 = $360 labor + $25 parts · Under owner limit $500 · Posted to Alder Court ledger" | `WORK-009` missing; `ACCT-007` done; `ROLE-003` done | partial |
+| 24 | "$385.00 = $360 labor + $25 parts · Under owner limit $500 · Posted to Alder Court ledger" | `WORK-009` missing; `ACCT-007` done; `ROLE-003` partial | partial |
 | 25 | "Work order WO-2291 · closed in 20 h 28 m" | `AGENT-001` partial; `WORK-006` done; `REPORT-004` done | partial |
 | 26 | Resident portal: balance, repair status, "Request a repair" | `PORTAL-001` missing; `PORTAL-004` done | partial |
 | 27 | Arrival text "Reply Y to confirm" | `PORTAL-005` partial; `WORK-005` partial | partial |
@@ -37,14 +37,14 @@ A claim is done when every clause behind it is done, missing when every one is m
 | 29 | Vendor work order: upload photos, submit invoice | `PORTAL-003` partial | partial |
 | 30 | "Residents pay and report from their phone. Owners see their books. Vendors get the job, the photos and the invoice form." | `PORTAL-001` missing; `PORTAL-002` partial; `PORTAL-003` partial | partial |
 | 31 | "The agent weighs each case in cash and vacant days" (plan vs pay-or-quit, $2,318 lost) | `AGENT-009` missing; `AGENT-004` partial; `REPORT-007` done | partial |
-| 32 | "drafts the plan or the notice, and you press Send" | `TER-005` done; `AGENT-004` partial; `PAY-011` partial; `PORTAL-005` partial | partial |
+| 32 | "drafts the plan or the notice, and you press Send" | `TER-005` partial; `AGENT-004` partial; `PAY-011` partial; `PORTAL-005` partial | partial |
 | 33 | Payment plan sent, agreed and first $925 received | `PAY-011` partial | partial |
-| 34 | "Renew 12 mo at $1,940 (+4.9%) · Market rent $1,975 · Turnover cost est. $3,100 · Renewed Oct 14" | `TER-003` done; `LEASE-012` done; `AGENT-005` partial | partial |
+| 34 | "Renew 12 mo at $1,940 (+4.9%) · Market rent $1,975 · Turnover cost est. $3,100 · Renewed Oct 14" | `TER-003` done; `LEASE-012` partial; `AGENT-005` partial | partial |
 | 35 | Mid-month states per unit (Paid, Cash posted, Partial, Renewed) | `TER-004` done; `TER-003` done | done |
 | 36 | Mid-month states "All dry", "On a plan", "Leased · Moves in Nov 1" | `WORK-008` done; `PAY-011` partial; `LEASE-011` missing; `PORT-006` partial | partial |
-| 37 | "Every dollar sits in a trust ledger by owner, property and resident." | `ACCT-001` done; `ACCT-002` partial | partial |
+| 37 | "Every dollar sits in a trust ledger by owner, property and resident." | `ACCT-001` partial; `ACCT-002` partial | partial |
 | 38 | "Terrace matches the bank line by line and flags what doesn't fit." | `ACCT-005` missing; `ACCT-006` done | partial |
-| 39 | Duplicate receipt traced through resident, property and owner ledgers to its reversal | `ACCT-001` done; `SAFE-002` done; `AGENT-003` missing | partial |
+| 39 | Duplicate receipt traced through resident, property and owner ledgers to its reversal | `ACCT-001` partial; `SAFE-002` partial; `AGENT-003` missing | partial |
 | 40 | "Security deposits · separate account ···5530 · $312,450.00 held" | `ACCT-002` partial; `ACCT-003` missing | partial |
 | 41 | "Statements go out with receipts attached" | `ACCT-012` partial | partial |
 | 42 | "money goes out by ACH" (ACH to 14 owners) | `ACCT-010` missing; `ACCT-018` missing | missing |

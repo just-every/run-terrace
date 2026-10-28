@@ -245,3 +245,15 @@ a deep local variant can still adopt or adapt later upstream improvements.
 ## Terrace
 
 Read README.md, ACCEPTANCE.md and API.md. Package-mode RER is pinned exactly. Test through public doors using `pnpm run test:terrace`; keep the suite under 200. Never add trust-money movement or send a prepared agent action without human approval. Use the Base publication scan before any public push.
+
+### Contract documents
+
+CONTRACT.md is the only acceptance text and status source, in the RER contract standard. ACCEPTANCE.md, docs/CLAIMS.md and the Status summary rows are generated from it: after any CONTRACT.md change, run the generator, then its check, and commit the generated files with the contract. Exact clause terms are in docs/contract/terms/, rulings in RULINGS.md and history in CHANGELOG.md.
+
+```sh
+node src/base/contract-docs.mjs write
+node src/base/contract-docs.mjs check
+```
+
+Lander-Regenerate: node src/base/contract-docs.mjs write
+Lander-Regenerate: node scripts/edition-authoring/cli.mjs lock

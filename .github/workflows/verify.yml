@@ -37,6 +37,8 @@ jobs:
         env:
           TIER: ${{ inputs.tier || 'push' }}
         run: echo "matrix=$(node scripts/verify-ci.mjs --matrix "$TIER")" >> "$GITHUB_OUTPUT"
+      - name: Check generated contract documents
+        run: node src/base/contract-docs.mjs check
 
   shards:
     needs: plan

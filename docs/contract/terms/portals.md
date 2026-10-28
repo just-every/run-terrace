@@ -1,0 +1,27 @@
+# Resident owner and vendor service portals: exact terms
+
+The exact terms of the clauses in the “Resident owner and vendor service portals” area of [CONTRACT.md](../../../CONTRACT.md). Each clause there is the requirement; the terms below define it.
+
+## PORTAL-003 — Give vendors a work and invoice portal
+
+Portal response semantics: a live invited vendor explicitly accepts or declines the current approved or sent job assigned to that vendor. Confirmation version 1 records the declaration ‘I confirm this is my response to this exact approved work.’ with the exact approval fingerprint, mailbox hash and time. The response is once-only per vendor and job version; an identical retry returns stored evidence and a conflicting answer is refused. Qualification holds apply before this action. Responses change no staff approval, assignment, appointment, dispatch or payment state and send nothing. Existing accounting payment labels remain read-only; no payment execution is claimed. Response evidence follows the work record in native backup and readable export, with no portal session, grant or link carried to a restored installation.
+
+SAFE-002 attributable history, SAFE-004 retention and erasure, and SAFE-005 native backup, readable export and restoration apply to response and estimate evidence; portal sessions, grants and links do not transfer to a restored installation.
+
+WORK-005 retains resident arrival-window messaging, reply routing and notification obligations.
+
+Submission grants no notification or payment authority. ACCT-008 and ACCT-018 retain payment execution.
+
+Vendor bank references: only the installation owner prepares a bank name, last four digits and reference to the account held in an existing external system. The owner or a scoped portfolio manager who did not prepare the candidate independently records external verification of that exact revision. Both writes require Base’s fresh email-link proof; API credentials and self-verification are refused. A replacement immediately holds the previous verification. No full account number, routing number, credentials, bank instruction or payment is recorded or sent. Existing ROLE-001 portfolio scope and ROLE-003 independence apply; no bank fields reach a resident or vendor portal. Native accounting-reference history is portable, but opaque source actors confer no destination authority. ACCT-008 and ACCT-018 inherit exact verified destination and reconnect authority before execution.
+
+## PORTAL-004 — Receive resident maintenance requests
+
+Approved ct riders: only the submitting verified mailbox with a live resident grant sees its report. Owners and in-scope portfolio managers link work. An answer resolves that report only; it never closes another concern or the work order. Fresh authorized invitations recover reports after restore without restoring credentials or sessions. Other households, vendors and delegated contacts see no reports. Safety selection creates an emergency without diagnosis, freezes the approved guidance and alerts the current on-call person by installation email. Source intake is explicitly recorded as resident portal.
+
+## PORTAL-005 — Deliver two-way email and SMS
+
+Communication terms: the installation owner and in-scope portfolio managers, using native sign-in proof fresh within ten minutes, may record explicit recipient identity and per-channel consent evidence, prepare exact content, approve it and explicitly send it once. API credentials and other roles cannot manage these communications. Recipients are limited to the tenancy's current primary resident, its assigned approved-work vendors and named active emergency responders. Unknown consent denies; phone contact requires a recorded timezone and is suppressed outside 8 a.m. to 8 p.m. there. STOP creates a durable hashed suppression which staff cannot override by editing consent. No send is scheduled, retried or escalated automatically. A claim survives interruption, and an uncertain attempt requires manual provider reconciliation. A signed reply grants no general access or new entry permission; a bare Y after a previous arrival invitation requires staff review, and ambiguous, ended or stale arrival windows cannot be confirmed. Callback account, exact external URL, full form signature and recipient are checked, and replay has one effect. Provider acceptance or call completion never proves a person reached. Evidence follows SAFE-004's three-year communication retention and holds; eligible erasure removes content while retaining minimal hashed suppression. SAFE-005 carries evidence and immutable consent revisions, with no restored send authority, credentials or provider-event authority. Demo commands and callbacks refuse before egress. PORTAL-006 and PORTAL-009 inherit these constraints before their future shared-thread and postal doors ship.
+
+## PORTAL-009 — Print mail and record service of notices
+
+PORTAL-006 service obligation: accept the exact approved notice identity, original hash, recipient and revision without treating portal publication as service. Retain provider or physical-service evidence, actual method, actor, date and time, source, tracking and each failed or uncertain outcome under the existing reviewed jurisdictional rules. A recorded claim is not independent legal validation. Complete the existing printing, Lob, returned-mail, deadline and follow-up acceptance, with no authority restored from archived evidence.
