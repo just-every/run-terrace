@@ -57,6 +57,16 @@ export async function journey({inspect,assets=false}={}){
   const rows=await h.db.prepare('SELECT * FROM tt_migration_records WHERE migration_id=?').bind(migrationId).all()
   assert.equal(rows.results.length,report.sourceCount)
   const native=await(await h.request('/api/journal')).json()
+  const deposits=native.entries.filter(e=>e.source_kind==='deposit')
+  assert.equal(deposits.length,2,'both resident deposits have native source entries, not just an opening adjustment')
+  const target=(kind,ref)=>report.records.find(r=>r.kind===kind&&r.ref===ref).targetId
+  for(const [deposit,lease,property,owner,amount]of [[11,7,3,1,50000],[12,8,4,2,20000]]){
+   const ref='synthetic-terrace-'+deposit,entry=deposits.find(e=>e.source_id===target('deposit',ref))
+   assert.ok(entry,'native deposit retains its source link: '+ref)
+   assert.deepEqual([entry.tenancy_id,entry.property_id,entry.owner_key,entry.fund,entry.reference],[target('lease','synthetic-terrace-'+lease),target('property','synthetic-terrace-'+property),target('owner','synthetic-terrace-'+owner),'deposit',ref],'native deposit belongs to the reviewed resident, property and beneficiary')
+   assert.deepEqual(entry.lines.map(l=>[l.account,l.debit,l.credit]).sort(),[['cash',amount,0],['deposit_liability',0,amount]],'individual native deposit cash and liability: '+amount+' cents')
+  }
+  assert.equal(native.entries.filter(e=>e.fund==='deposit').flatMap(e=>e.lines).filter(l=>l.account==='deposit_liability').reduce((n,l)=>n+l.credit-l.debit,0),70000,'combined opening liability agrees separately with the individual native deposits')
   for(const expected of report.tieOut){const property=report.records.find(r=>r.kind==='property'&&r.ref===expected.propertyRef).targetId,owner=report.records.find(r=>r.kind==='owner'&&r.ref===expected.ownerRef).targetId
    const actual=native.entries.filter(e=>e.property_id===property&&e.owner_key===owner&&e.fund===expected.fund).flatMap(e=>e.lines).filter(l=>l.account===expected.account).reduce((n,l)=>n+l.debit-l.credit,0)
    assert.equal(actual,expected.terraceCents,'native opening '+expected.propertyRef+' '+expected.fund+' '+expected.account)
