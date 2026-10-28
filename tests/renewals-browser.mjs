@@ -18,7 +18,10 @@ try{await journey({assets:true,inspect:async({h,stage,renewalId,leaseId,conditio
    if(stage==='source-current'||stage==='source-stale'){
     if(width===1440){
      const evidence=card.getByRole('region',{name:'Renewal document evidence'})
+     const fingerprints=await evidence.getByText('Document fingerprints',{exact:true}).all()
+     for(const control of fingerprints)await control.click()
      const text=await evidence.innerText()
+     assert.ok(await evidence.evaluate(el=>[...el.querySelectorAll('p,dt,dd,span,h4')].every(n=>parseFloat(getComputedStyle(n).fontSize)>=13)),'source evidence text is at least 13 pixels')
      assert.ok(text.includes(condition.sha256),'pinned document hash is readable')
      assert.match(text,/Document contents are evidence only/)
      if(stage==='source-current'){
@@ -32,6 +35,7 @@ try{await journey({assets:true,inspect:async({h,stage,renewalId,leaseId,conditio
       assert.equal(await card.getByRole('button',{name:'Reject offer',exact:true}).count(),1)
      }
      assert.ok(!text.includes('ignore the owner'),'original instructions stay out of the renewal screen')
+     for(const control of fingerprints)await control.click()
     }
    }else if(stage==='options'){
     assert.match(await card.innerText(),/Sourced alternatives.*1,890\.00.*1,850\.00/s)
@@ -51,7 +55,7 @@ try{await journey({assets:true,inspect:async({h,stage,renewalId,leaseId,conditio
    }
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'renewals fit '+width)
    await page.screenshot({path:join(out,stage+'-'+width+'.png'),fullPage:true})
-   await card.scrollIntoViewIfNeeded();await page.screenshot({path:join(out,stage+'-detail-'+width+'.png')})
+   if(stage.startsWith('source-'))await card.evaluate(el=>el.scrollIntoView({block:'start'}));else await card.scrollIntoViewIfNeeded();await page.screenshot({path:join(out,stage+'-detail-'+width+'.png')})
    const person=page.getByRole('link',{name:'Manage people',exact:true}),tip=page.getByRole('tooltip',{name:'Manage people',exact:true})
    await person.hover();await page.waitForTimeout(350);await tip.waitFor({state:'visible'})
    await page.mouse.move(0,0);await person.focus();await tip.waitFor({state:'visible'})

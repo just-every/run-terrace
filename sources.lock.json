@@ -985,7 +985,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "0bfbb001ddfdb907a033f5a30b926f73f73d2b17300249bf8bb99b221dfb0e97",
+      "sha256": "fa68b8cc29a2f20c1e2d5e00d317848a8f5751cc67aa7477035a32d9f2a2a8d8",
       "executable": false
     },
     "rer-project.json": {
@@ -4121,7 +4121,7 @@
       "executable": false
     },
     "src/terrace/renewal-sources.ts": {
-      "sha256": "bec2b5ea3a262480e500789c57204a83ac4e366669f9af58b92d1d6dbb9028c9",
+      "sha256": "e946dd1fd32c7afd3582c906b72e55cca98e6b6fdd6efbab21a64cfdcb42946d",
       "executable": false
     },
     "src/terrace/renewal-stewardship.ts": {
@@ -4129,11 +4129,11 @@
       "executable": false
     },
     "src/terrace/renewal-view.ts": {
-      "sha256": "e2f57681eebefae4153e7249b95fa5347e2273cc33a1f39cbd2c3a21b6db5028",
+      "sha256": "1dfc47164580d5b112ceee3669a2902781cca314cbd5f0e3b10d6cfcb181b049",
       "executable": false
     },
     "src/terrace/renewals.ts": {
-      "sha256": "60bb9b42a6405ef6afad95ffa8ad12e19e8fb9c610d8dbcd970442639c7027cf",
+      "sha256": "031a5ad2ef60342c29a05703cdd2087857175ec7a12d3ebe4a8597060b6714c1",
       "executable": false
     },
     "src/terrace/rent-roll-view.ts": {
@@ -4289,7 +4289,7 @@
       "executable": false
     },
     "src/terrace/tenancies.ts": {
-      "sha256": "cd0da8a92e0c0e1ec35bf1c53540fbfc4d974f00709d1ec3f9504eaf6bbe72fa",
+      "sha256": "0dd9510ff53c09e03feac4245776032e002f63689a947c65685b02c4c2cf486e",
       "executable": false
     },
     "src/terrace/tenancy-view.ts": {
@@ -4781,11 +4781,11 @@
       "executable": false
     },
     "tests/renewals-browser.mjs": {
-      "sha256": "c45ee5ce785db59375a5c039081edf8cdfbde0629ac16adceb6b7477868a6a6e",
+      "sha256": "31fb6f709bd6feb3a0f12b20049d2b40d500ff418eecd57284e3c19a1176b688",
       "executable": false
     },
     "tests/renewals.mjs": {
-      "sha256": "984285bdea424cd9e06fb4f6658967ddedd7cb997087f1872aea6b7a0e510235",
+      "sha256": "68fe4bd9c6996ded44d97058cd03c6647737dfa80a19751f51cafd17cf636c38",
       "executable": false
     },
     "tests/report-schedules-browser.mjs": {

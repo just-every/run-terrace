@@ -272,6 +272,13 @@ export async function journey({assets=false,inspect}={}) {
   assert.deepEqual(pinned.sources.sources.map(s=>[s.purpose,s.pinned.versionId,s.pinned.sha256,s.current.sha256,s.state]),[['condition',condition.versionId,condition.sha256,condition.sha256,'current'],['communication',communication.versionId,communication.sha256,communication.sha256,'current'],['cash',cash.versionId,cash.sha256,cash.sha256,'current']])
   assert.ok(!JSON.stringify(pinned.payload).includes('ignore the owner'),'document text supplies no proposal arguments')
   assert.equal((await workloadEvidence(sourceWork.id)).stewardship.phase,'approval_needed')
+  await h.db.prepare("DELETE FROM tt_role_actions WHERE role='portfolio_manager' AND action='document.read'").run()
+  try{
+   const unavailable=(await item(sourceLease)).offer
+   assert.ok(unavailable.sources.sources.every(s=>s.state==='unavailable'&&s.current===null),'native offers reflect the assigned reader losing document rights')
+   assert.equal((await h.command('proposal.approve',{proposalId:sourceOffer.id},{status:409})).error,'renewal_sources_changed')
+   assert.equal((await item(sourceLease)).offer.state,'pending')
+  }finally{await h.db.prepare("INSERT INTO tt_role_actions(role,action) VALUES('portfolio_manager','document.read')").run()}
   await inspect?.({h,stage:'source-current',renewalId:sourceItem.id,condition})
   const condition2=await h.command('document.revise',{documentId:condition.documentId,version:1,source:'synthetic-terrace-100 explicit updated condition',file:file('synthetic-terrace-100 changed condition')})
   const changed=await workloadEvidence(sourceWork.id)

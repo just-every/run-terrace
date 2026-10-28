@@ -4,7 +4,7 @@ import { officeZone } from './company'
 import { usZone } from './zones'
 import { freeUnit, unitAddress, unitFor } from './properties'
 import { offerInput, renewalItem, rosterGuards } from './renewals'
-import {renewalSourceGuards,renewalSourceState,SOURCE_REVIEW} from './renewal-sources'
+import {renewalOfferSourceGuards,renewalOfferSourceState,renewalSourceGuards,SOURCE_REVIEW} from './renewal-sources'
 
 export async function tenancyCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (command === 'tenancy.create') {
@@ -50,10 +50,10 @@ export async function tenancyCommand(c: Context, command: string, p: Row): Promi
   insist(r && ['renewal','arrears'].includes(r.kind),'not_found','Proposal not found.',404)
   insist(r.state==='pending','proposal_state','This proposal has already been decided.',409)
   const t=await tenancy(c,r.tenancy_id), payload=JSON.parse(r.payload), approved=command==='proposal.approve', solo=approved?await independence(c,command,[r.prepared_by]):{label:null,guards:[]}
-  if(approved)insist(!(await renewalSourceState(c,t,payload.documentSources,payload.sourceInstallation))?.stale,'renewal_sources_changed',SOURCE_REVIEW,409)
+  if(approved)insist(!(await renewalOfferSourceState(c,t,r.id,payload))?.stale,'renewal_sources_changed',SOURCE_REVIEW,409)
   // Adapted from Locket obligations.ts confirmTermsWrites: a proposal names the
   // exact term revision; confirmation preserves its source and superseded terms.
-  const writes=[...(approved?renewalSourceGuards(c,t,payload.documentSources):[]),...(approved&&payload.householdRoster?rosterGuards(c,t.id,payload.householdRoster):[]),guard(c,"EXISTS(SELECT 1 FROM tt_proposals WHERE id=? AND state='pending')",r.id),guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)',t.id,r.tenancy_version),...solo.guards,sql(c,'UPDATE tt_proposals SET state=?,approved_by=?,approved_at=?,approval_label=? WHERE id=?',approved?'approved':'rejected',c.actor.id,c.now,solo.label,r.id)]
+  const writes=[...(approved?await renewalOfferSourceGuards(c,t,r.id,payload):[]),...(approved&&payload.householdRoster?rosterGuards(c,t.id,payload.householdRoster):[]),guard(c,"EXISTS(SELECT 1 FROM tt_proposals WHERE id=? AND state='pending')",r.id),guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)',t.id,r.tenancy_version),...solo.guards,sql(c,'UPDATE tt_proposals SET state=?,approved_by=?,approved_at=?,approval_label=? WHERE id=?',approved?'approved':'rejected',c.actor.id,c.now,solo.label,r.id)]
   // LEASE-012: approving a campaign offer approves its exact terms, recipients and deadline for sending; the signed renewal activates later.
   if(payload.renewalId){
    const {r:campaign}=await renewalItem(c,payload.renewalId)

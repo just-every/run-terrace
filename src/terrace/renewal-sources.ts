@@ -56,6 +56,29 @@ export async function renewalSourceState(c:Context,t:Row,pins:Row|undefined,inst
  return {stale,sources,nextStep:stale?SOURCE_REVIEW:'Pinned evidence is current. A person still approves pricing, legal terms and notices.'}
 }
 
+/** Native offer readers also see when the original assigned reader has lost its source authority. */
+async function offerReader(c:Context,offerId:string){
+ const w=await one(c,'SELECT credential_id,credential_version FROM tt_agent_workloads WHERE result_subject=?',offerId)
+ if(!w)return {assigned:false,reader:null}
+ const reader=await sourceReader(c,w.credential_id)
+ return {assigned:true,reader:reader?.actor.version===w.credential_version?reader:null}
+}
+export async function renewalOfferSourceState(c:Context,t:Row,offerId:string,p:Row){
+ const visible=await renewalSourceState(c,t,p.documentSources,p.sourceInstallation)
+ if(!visible||visible.stale)return visible
+ const {assigned,reader}=await offerReader(c,offerId)
+ if(!assigned)return visible
+ if(!reader)return {...visible,stale:true,nextStep:SOURCE_REVIEW,sources:visible.sources.map(s=>({...s,state:'unavailable',current:null}))}
+ const permitted=await renewalSourceState(reader,t,p.documentSources,p.sourceInstallation)
+ return permitted?.stale?permitted:visible
+}
+export async function renewalOfferSourceGuards(c:Context,t:Row,offerId:string,p:Row){
+ if(!p.documentSources)return []
+ const {assigned,reader}=await offerReader(c,offerId)
+ insist(!assigned||reader,'renewal_sources_changed',SOURCE_REVIEW,409)
+ return [...renewalSourceGuards(c,t,p.documentSources),...(reader?renewalSourceGuards(reader,t,p.documentSources):[])]
+}
+
 /** Recheck exact sources and present rights in the proposal's atomic write batch. */
 export function renewalSourceGuards(c:Context,t:Row,pins:Row|undefined){
  if(!pins)return []
