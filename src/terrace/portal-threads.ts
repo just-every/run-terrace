@@ -1,9 +1,11 @@
+import {printCommand,printData} from './office-print'
+import {serviceStatement} from './notice-service'
 import {threadEvent} from './thread-events'
 import {all,allow,audit,commit,date,guard,id,insist,one,reaches,sha256,sql,tenancy,tenancyGuard,text,type Context,type Row} from './core'
 import {type Portal} from './portal-session'
 import {localDate} from './zones'
 import {LIMIT,scan} from './document-scan'
-export const THREAD_COMMANDS=['thread.create','thread.reply','thread.assign','thread.approve','thread.service','thread.readmark','thread.reconcile']
+export const THREAD_COMMANDS=['thread.create','thread.reply','thread.assign','thread.approve','thread.service','thread.readmark','thread.reconcile','thread.print.prepare','thread.print.approve']
 export function threadAccess(c:Context){insist(!c.actor.credential,'forbidden','Native staff sign-in is required.',403);allow(c,'thread.read')}
 const missing=(ok:unknown)=>insist(ok,'not_found','Conversation not found.',404)
 export async function threadGrant(c:Context,grantId:string,t:Row,kind='conversation'){
@@ -22,11 +24,11 @@ export async function threadGrant(c:Context,grantId:string,t:Row,kind='conversat
  if(g.access==='vendor')return await one(c,"SELECT 1 FROM tt_maintenance_jobs WHERE tenancy_id=? AND vendor_id=? AND state IN ('approved','sent')",t.id,g.vendor_id)?g:null
  return null
 }
-async function liveThreadGrant(c:Context,r:Row,t:Row){
+export async function liveThreadGrant(c:Context,r:Row,t:Row){
  const g=await threadGrant(c,r.grant_id,t,r.kind)
  return g&&(g.household_id??null)===(r.recipient_member_id??null)?g:null
 }
-function recipientFence(c:Context,g:Row,t:Row){
+export function recipientFence(c:Context,g:Row,t:Row){
  const base="EXISTS(SELECT 1 FROM tt_portal_grants g JOIN tt_portal_identities i ON i.id=g.identity_id WHERE g.id=? AND g.identity_id=? AND g.revoked_at IS NULL AND i.status='active')"
  const args=[g.id,g.identity_id]
  if(g.household_id)return guard(c,base+" AND EXISTS(SELECT 1 FROM tt_household_members WHERE id=? AND tenancy_id=? AND email=? AND role IN ('co_tenant','guarantor','authorized_contact') AND contact_by<>'none' AND joined<=? AND (left_on IS NULL OR left_on>=?))",...args,g.household_id,t.id,g.email,localDate(c.now,t.time_zone),localDate(c.now,t.time_zone))
@@ -34,7 +36,7 @@ function recipientFence(c:Context,g:Row,t:Row){
  if(g.access==='owner')return guard(c,base+" AND EXISTS(SELECT 1 FROM tt_units u JOIN tt_ownership_sets s ON s.property_id=u.property_id JOIN tt_ownership_shares h ON h.set_id=s.id WHERE u.id=? AND h.owner_id=? AND s.effective_from=(SELECT MAX(x.effective_from) FROM tt_ownership_sets x WHERE x.property_id=u.property_id AND x.effective_from<=?))",...args,t.unit_id,g.owner_id,localDate(c.now,t.time_zone))
  return guard(c,base,...args)
 }
-async function staffThread(c:Context,value:unknown){threadAccess(c);const r=await one(c,'SELECT * FROM tt_threads WHERE id=?',text(value,'Conversation',100));missing(r);const t=await tenancy(c,r!.tenancy_id);return {r:r!,t}}
+export async function staffThread(c:Context,value:unknown){threadAccess(c);const r=await one(c,'SELECT * FROM tt_threads WHERE id=?',text(value,'Conversation',100));missing(r);const t=await tenancy(c,r!.tenancy_id);return {r:r!,t}}
 async function attachment(c:Context,p:Row){
  if(!(p.file instanceof File)||!p.file.size)return {values:[null,null,null,null]}
  const f=p.file;insist(f.size<=LIMIT,'file_limit','Attachments are limited to 5 MB.',413)
@@ -54,7 +56,7 @@ export async function threadData(c:Context,q:Row={}){
  const result:Row[]=[]
  for(const r of rows){const entries=await all(c,'SELECT id,sequence,private,body,actor,at,filename,media_type,sha256 FROM tt_thread_entries WHERE thread_id=? ORDER BY sequence',r.id);if(q.q&&![r.subject,...entries.map(e=>e.body)].join(' ').toLowerCase().includes(String(q.q).toLowerCase()))continue
  const read=await one(c,'SELECT sequence FROM tt_thread_reads WHERE thread_id=? AND actor=?',r.id,c.actor.id)
- result.push({...r,entries,unread:entries.some(e=>e.actor!==c.actor.id&&e.sequence>(read?.sequence??0)),service:await one(c,'SELECT * FROM tt_thread_service WHERE thread_id=?',r.id),reconciliations:await all(c,'SELECT * FROM tt_thread_reconciliations WHERE thread_id=? ORDER BY revision',r.id),events:await all(c,'SELECT * FROM tt_thread_events WHERE thread_id=? ORDER BY at,after_revision,id',r.id)})}
+ result.push({...r,entries,unread:entries.some(e=>e.actor!==c.actor.id&&e.sequence>(read?.sequence??0)),prints:await printData(c,r.id),service:await one(c,'SELECT thread_id,outcome,method,reference,served_at,actor,recorded_at,fingerprint,server_name,server_reference,occurred_at,tracking,photo_name,photo_type,photo_sha256,print_batch_id FROM tt_thread_service WHERE thread_id=?',r.id),reconciliations:await all(c,'SELECT * FROM tt_thread_reconciliations WHERE thread_id=? ORDER BY revision',r.id),events:await all(c,'SELECT * FROM tt_thread_events WHERE thread_id=? ORDER BY at,after_revision,id',r.id)})}
  const batches=new Set(result.filter(r=>r.kind==='broadcast').map(r=>r.batch_id))
  const announcements=[]
  for(const r of scoped.filter(r=>batches.has(r.batch_id)))announcements.push({id:r.id,tenancyId:r.tenancy_id,batchId:r.batch_id,subject:r.subject,recipient:r.recipient_name,approved:!!r.approved_at,service:await one(c,'SELECT outcome FROM tt_thread_service WHERE thread_id=?',r.id)})
@@ -69,6 +71,7 @@ export async function threadChoices(c:Context,tenancyId:string){
 export async function threadCommand(c:Context,command:string,p:Row):Promise<Row|undefined>{
  if(!THREAD_COMMANDS.includes(command))return
  threadAccess(c)
+ if(command.startsWith('thread.print.'))return printCommand(c,command,p)
  if(command==='thread.create'){
   const t=await tenancy(c,p.tenancyId),kind=String(p.kind??'conversation');insist(['conversation','broadcast','legal'].includes(kind),'kind','Choose conversation, broadcast or legal notice.')
   const consentReference=text(p.consentReference,'Recipient permission or reviewed service authority evidence',1000)
@@ -117,20 +120,19 @@ export async function threadCommand(c:Context,command:string,p:Row):Promise<Row|
   const prior=await one(c,'SELECT * FROM tt_thread_reconciliations WHERE thread_id=? ORDER BY revision DESC LIMIT 1',r.id)
   insist(prior?.outcome!=='delivered','reconciliation','This service outcome is already resolved.',409)
   insist(p.fingerprint===r.fingerprint&&p.consent==='RECORD RECONCILIATION','approval','Review the exact notice and reconciliation evidence.',409)
-  insist(['delivered','failed','uncertain'].includes(p.outcome),'outcome','Choose delivered, failed or uncertain.')
+  insist(['delivered','failed','uncertain','returned'].includes(p.outcome),'outcome','Choose delivered, failed, uncertain or returned.')
   const choices=await threadChoices(c,t.id);insist(choices.staff.some(s=>s.id===p.assignedTo),'assignee','Choose an active owner or manager in this portfolio.')
   const nextAction=text(p.nextAction,'Accountable next action or resolution',1000),dueOn=date(p.dueOn,'Follow-up date'),reference=text(p.reference,'Independent reconciliation evidence',1000)
   c.source=reference
   statements=[sql(c,'INSERT INTO tt_thread_reconciliations(id,thread_id,revision,outcome,assigned_to,next_action,due_on,reference,actor,at,fingerprint) VALUES(?,?,?,?,?,?,?,?,?,?,?)',id(),r.id,r.version+1,p.outcome,p.assignedTo,nextAction,dueOn,reference,c.actor.id,c.now,r.fingerprint),sql(c,'UPDATE tt_threads SET version=version+1 WHERE id=?',r.id)]
  }else{
+  missing(await liveThreadGrant(c,r,t))
   insist(r.approved_at&&p.fingerprint===r.fingerprint,'approval','Exact human approval is required before recording service.',409)
-  insist(['delivered','failed','uncertain'].includes(p.outcome),'outcome','Choose delivered, failed or uncertain.')
+  insist(['delivered','failed','uncertain','returned'].includes(p.outcome),'outcome','Choose delivered, failed, uncertain or returned.')
   insist(!await one(c,'SELECT 1 FROM tt_thread_service WHERE thread_id=?',r.id),'recorded','Service evidence is already recorded. Use the accountable reconciliation action; never silently retry.',409)
-  const served=date(p.servedAt,'Service date');insist(served<=localDate(c.now,t.time_zone),'future_service','Future service cannot be recorded.')
-  const method=text(p.method,'Staff-recorded service method',200),reference=text(p.reference,'Named service evidence',1000)
   insist(p.consent==='RECORD EVIDENCE','consent','Confirm this is staff-recorded evidence, not legal validation.')
-  c.source=reference
-  statements=[sql(c,'INSERT INTO tt_thread_service(thread_id,outcome,method,reference,served_at,actor,recorded_at,fingerprint) VALUES(?,?,?,?,?,?,?,?)',r.id,p.outcome,method,reference,served,c.actor.id,c.now,r.fingerprint),sql(c,'UPDATE tt_threads SET version=version+1 WHERE id=?',r.id)]
+  c.source=text(p.reference,'Named service evidence',1000)
+  statements=[await serviceStatement(c,r,t,p),sql(c,'UPDATE tt_threads SET version=version+1 WHERE id=?',r.id)]
  }
  if(command==='thread.service'&&p.outcome!=='delivered'){
   statements.push(sql(c,'INSERT INTO tt_thread_reconciliations(id,thread_id,revision,outcome,assigned_to,next_action,due_on,reference,actor,at,fingerprint) VALUES(?,?,?,?,?,?,?,?,?,?,?)',id(),r.id,r.version+1,p.outcome,c.actor.id,'Review the recorded attempt and obtain independent service evidence; do not retry automatically.',localDate(c.now,t.time_zone),String(p.reference),c.actor.id,c.now,r.fingerprint))
