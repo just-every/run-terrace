@@ -29,7 +29,7 @@ Generated from CONTRACT.md. Edit its claim mapping and Status rows, then run `no
 | 23 | Completion check: photos and the resident's "All dry." | `WORK-007`, `WORK-008` | partial |
 | 24 | "$385.00 = $360 labor + $25 parts · Under owner limit $500 · Posted to Alder Court ledger" | `WORK-009`, `ACCT-007`, `ROLE-003` | partial |
 | 25 | "Work order WO-2291 · closed in 20 h 28 m" | `AGENT-001`, `WORK-006`, `REPORT-004` | partial |
-| 26 | Resident portal: balance, repair status, "Request a repair" | `PORTAL-001`, `PORTAL-004` | done |
+| 26 | Resident portal: balance, repair status, "Request a repair" | `PORTAL-001`, `PORTAL-004` | partial |
 | 27 | Arrival text "Reply Y to confirm" | `PORTAL-005`, `WORK-005` | partial |
 | 28 | Owner email "3A kitchen sink fixed · $385.00 · 2 photos", on the October statement | `PORTAL-010`, `PORTAL-002`, `ACCT-012` | partial |
 | 29 | Vendor work order: upload photos, submit invoice | `PORTAL-003` | missing |
