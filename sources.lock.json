@@ -4417,7 +4417,7 @@
       "executable": false
     },
     "test-budget.json": {
-      "sha256": "32e8eae7bba34a391cbce565f4c9cf02a34beb9ba4540052117e788d2a0fec50",
+      "sha256": "8edb29c0b8fb596fbe4a441e4ce96af6d0c74097525d1ab6960c81ac3f01835b",
       "executable": false
     },
     "tests/action-requests-browser.mjs": {
@@ -4753,7 +4753,7 @@
       "executable": false
     },
     "tests/portal-threads.mjs": {
-      "sha256": "19ddd704bd9063d21681b64d7ff454ca6dbbffa15a30d827ffeaf3fcb4f52c98",
+      "sha256": "2a73bdcdbb4e36893c85c9abf6ff7d4d914003072a436aaf90cd34b8be517bc1",
       "executable": false
     },
     "tests/portal.mjs": {
