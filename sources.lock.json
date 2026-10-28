@@ -656,6 +656,10 @@
       "sha256": "9849f604058ca390c56b332e478d55e59dacaf7aac8b6e1b6a8e568efa11841b",
       "executable": false
     },
+    "migrations/core/0107_arrears_mail_identity.sql": {
+      "sha256": "90df388e6306b957ea73c6cdcb91a41d1e56706ebda7b34085d2d28421323f32",
+      "executable": false
+    },
     "ONBOARDING.md": {
       "sha256": "d9ae36e9db2e9bd75e88a78688c3a94155aec155ce7213160ebfd101c93ff3c5",
       "executable": false
@@ -3477,7 +3481,7 @@
       "executable": false
     },
     "src/terrace/arrears-mail.ts": {
-      "sha256": "ec5296ba2d2d4f7a9d0008857fffb19011d31f91943d8cddd4cf5f8bf5b6c648",
+      "sha256": "d4d1bb95d3e3c7b8eac8c3118dc7a3da4e88df651dc4f0a43d0c4697bb8ae6f5",
       "executable": false
     },
     "src/terrace/arrears-state.ts": {
@@ -3689,7 +3693,7 @@
       "executable": false
     },
     "src/terrace/erasure.ts": {
-      "sha256": "5caec7e0870b388428651b21edbba8113ec39774ed56c541be9b6db2e169ee4f",
+      "sha256": "c4671a5785aa967897cac7f90818e82502d08536c8be3851481d0ca65308eb8c",
       "executable": false
     },
     "src/terrace/exports.ts": {
@@ -4433,7 +4437,7 @@
       "executable": false
     },
     "tests/arrears.mjs": {
-      "sha256": "5fd41fe0cd356aeaae21c78172b472984993e10109896e5cc016d132ce571395",
+      "sha256": "5afaf16c850b62795c02c7622ca8a27ae580ad358c267dec387f873e75e0b6dc",
       "executable": false
     },
     "tests/bills.mjs": {

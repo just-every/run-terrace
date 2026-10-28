@@ -1,3 +1,4 @@
+import {localDate} from './zones'
 import type {Bindings} from '../auth.server'
 import {operatorMail} from '../mail.server.mjs'
 import {createDeliveryEventIntake,createD1EventStore} from '../modules/mail/index.mjs'
@@ -33,16 +34,20 @@ export async function arrearsMailWebhook(request:Request,env:Bindings){
   const rawBody=new Uint8Array(length);let offset=0;for(const part of chunks){rawBody.set(part,offset);offset+=part.length}
   const installation=await sha256(new TextEncoder().encode(env.SESSION_SECRET??'')),owned=new Map<string,Row>()
   const intake=createDeliveryEventIntake({provider:env.MAIL_PROVIDER,tenantId:env.AUTH_ORIGIN,eventNamespace:'terrace-arrears',key:env.RESIDENT_MAIL_WEBHOOK_KEY,clock:()=>Date.now(),store:createD1EventStore({db:env.DB}),authorize:async e=>{
-   const a=await env.DB.prepare('SELECT a.*,t.erased_at,t.custody_retired_at FROM tt_arrears_actions a JOIN tt_tenancies t ON t.id=a.tenancy_id WHERE a.provider_id=?').bind(e.providerMessageId).first<Row>()
-   if(!a||a.erased_at||a.custody_retired_at||a.installation!==installation||a.provider!==e.provider||e.recipients.length!==1||e.recipients[0]!==JSON.parse(a.snapshot).recipient||!a.claimed_at||e.deliveryId&&e.deliveryId!==a.id)return false
-   owned.set(a.id,a);return true
+   const a=await env.DB.prepare('SELECT a.*,t.erased_at,t.custody_retired_at,t.time_zone FROM tt_arrears_actions a JOIN tt_tenancies t ON t.id=a.tenancy_id WHERE '+(e.deliveryId?'a.id=?':'a.provider_id=?')).bind(e.deliveryId??e.providerMessageId).first<Row>()
+   if(!a||a.erased_at||a.custody_retired_at||a.installation!==installation||a.provider!==e.provider||e.recipients.length!==1||e.recipients[0]!==JSON.parse(a.snapshot).recipient||!a.claimed_at||!a.provider_id||!(e.providerMessageId===a.provider_id||e.provider==='sendgrid'&&e.providerMessageId.startsWith(a.provider_id+'.'))||e.deliveryId&&e.deliveryId!==a.id)return false
+   owned.set(a.id,{...a,eventMessageId:e.providerMessageId});return true
   }})
   await intake.ingestWebhook({rawBody,headers:request.headers})
   for(const a of owned.values()){
-   const state=await env.DB.prepare('SELECT * FROM rer_mail_event_states WHERE provider=? AND tenant_id=? AND event_namespace=? AND provider_message_id=? AND recipient=?').bind(a.provider,env.AUTH_ORIGIN,'terrace-arrears',a.provider_id,JSON.parse(a.snapshot).recipient).first<Row>()
+   const state=await env.DB.prepare('SELECT * FROM rer_mail_event_states WHERE provider=? AND tenant_id=? AND event_namespace=? AND provider_message_id=? AND recipient=?').bind(a.provider,env.AUTH_ORIGIN,'terrace-arrears',a.eventMessageId,JSON.parse(a.snapshot).recipient).first<Row>()
    if(!state)continue
    // The verified event store owns ordering and replay. A failed update is recoverable on replay.
-   await env.DB.batch([env.DB.prepare("UPDATE tt_arrears_actions SET state=?,version=version+1 WHERE id=? AND state<>? AND state<>'served'").bind(state.status,a.id,state.status),env.DB.prepare('INSERT INTO tt_arrears_events(id,tenancy_id,kind,detail,reference,on_day,actor,at) VALUES(?,?,?,?,?,?,?,?) ON CONFLICT DO NOTHING').bind('provider:'+a.id+':'+state.event_id,a.tenancy_id,state.status,JSON.stringify({actionId:a.id,providerId:a.provider_id}),state.event_id,new Date(state.occurred_at).toISOString().slice(0,10),'provider:'+a.provider,new Date(state.occurred_at).toISOString())])
+   const recipient=JSON.parse(a.snapshot).recipient,occurred=new Date(state.occurred_at).toISOString()
+   await env.DB.batch([
+    env.DB.prepare("UPDATE tt_arrears_actions SET state=?,version=version+1 WHERE id=? AND state<>? AND state<>'served' AND ?=(SELECT event_id FROM rer_mail_event_states WHERE provider=? AND tenant_id=? AND event_namespace='terrace-arrears' AND provider_message_id=? AND recipient=?) AND EXISTS(SELECT 1 FROM tt_tenancies t WHERE t.id=tenancy_id AND t.erased_at IS NULL AND t.custody_retired_at IS NULL)").bind(state.status,a.id,state.status,state.event_id,a.provider,env.AUTH_ORIGIN,a.eventMessageId,recipient),
+    env.DB.prepare("INSERT INTO tt_arrears_events(id,tenancy_id,kind,detail,reference,on_day,actor,at) SELECT ?,?,?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM tt_arrears_actions x JOIN tt_tenancies t ON t.id=x.tenancy_id WHERE x.id=? AND x.installation=? AND t.erased_at IS NULL AND t.custody_retired_at IS NULL) ON CONFLICT DO NOTHING").bind('provider:'+a.id+':'+state.event_id,a.tenancy_id,state.status,JSON.stringify({actionId:a.id,providerId:a.provider_id}),state.event_id,localDate(occurred,a.time_zone),'provider:'+a.provider,occurred,a.id,installation)
+   ])
   }
   return Response.json({received:true},{headers:{'cache-control':'no-store'}})
  }catch(e){return Response.json({error:e instanceof Fault?e.code:'delivery_event_rejected',message:e instanceof Fault?e.message:'Invalid, unverified or unauthorized provider event.'},{status:e instanceof Fault?e.status:400,headers:{'cache-control':'no-store'}})}

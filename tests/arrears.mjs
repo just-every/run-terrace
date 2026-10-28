@@ -19,9 +19,9 @@ export async function journey({assets=false,inspect}={}){
   const approve=async(t,a,opts={})=>h.command('arrears.approve',{tenancyId:t.id,actionId:a.id,version:(await read(t)).actions.find(x=>x.id===a.id).version,consent:'APPROVE EXACT ACTION',reference:'synthetic-terrace-202 exact human review'},opts)
   const send=async(t,a,opts={})=>h.command('arrears.send',{tenancyId:t.id,actionId:a.id,version:(await read(t)).actions.find(x=>x.id===a.id).version,consent:'SEND EXACT ACTION'},opts)
   const plan=async(t,installments)=>{const r=await h.command('arrears.plan',{tenancyId:t.id,installments,reference:'synthetic-terrace-203 sourced resident agreement'});await h.command('arrears.plan-approve',{tenancyId:t.id,planId:r.id,consent:'APPROVE EXACT PLAN',reference:'synthetic-terrace-204 exact terms reviewed'});return r}
-  const notify=async(t,a,{recipient,type='delivered',valid=true,key='synthetic-terrace-'+Math.random(),action:known}={})=>{
+  const notify=async(t,a,{recipient,type='delivered',valid=true,key='synthetic-terrace-'+Math.random(),action:known,deliveryId}={})=>{
    const action=known??(await read(t)).actions.find(x=>x.id===a.id),timestamp=String(Math.floor(Date.now()/1000))
-   const raw=JSON.stringify([{email:recipient??action.snapshot.recipient,event:type,sg_message_id:action.provider_id,sg_event_id:key,timestamp:Date.parse('2026-10-20T12:00:00Z')/1000}])
+   const raw=JSON.stringify([{email:recipient??action.snapshot.recipient,event:type,sg_message_id:action.provider_id+'.synthetic-terrace-278',rer_delivery_id:deliveryId??action.id,sg_event_id:key,timestamp:Date.parse('2026-10-20T12:00:00Z')/1000}])
    const signature=sign('sha256',Buffer.from(timestamp+raw),signing.privateKey).toString('base64')
    const r=await h.request('/api/arrears-mail/events',{method:'POST',as:'',body:JSON.parse(raw),headers:{'x-twilio-email-event-webhook-timestamp':timestamp,'x-twilio-email-event-webhook-signature':valid?signature:'invalid'}})
    return r
@@ -37,6 +37,7 @@ export async function journey({assets=false,inspect}={}){
    await send(t,reminder,{status:409});assert.equal(h.messages.length,before+1,'replay never sends twice')
    assert.equal((await notify(t,reminder,{valid:false})).status,400)
    assert.equal((await notify(t,reminder,{recipient:address(299)})).status,400)
+   assert.equal((await notify(t,reminder,{deliveryId:'synthetic-terrace-279'})).status,400,'signed metadata does not grant another message authority')
    const key='synthetic-terrace-'+(230+i);assert.equal((await notify(t,reminder,{key})).status,200)
    assert.equal((await notify(t,reminder,{key})).status,200,'provider replay is harmless')
    assert.equal((await read(t)).actions.find(a=>a.id===reminder.id).state,'delivered','verified delivery remains distinct from provider acceptance')
