@@ -28,14 +28,14 @@ export async function siblingCommand(c: Context, command: string, p: Row): Promi
  if (command === 'sibling.origin') {
   insist(c.actor.role === 'owner', 'forbidden', 'Only the installation owner sets sibling product addresses.', 403)
   const product = text(p.product, 'Product', 10), o = origin(p.origin)
-  insist(PRODUCTS[product], 'invalid_input', 'Choose Cabin or Chest.')
+  insist(Object.hasOwn(PRODUCTS, product), 'invalid_input', 'Choose Cabin or Chest.')
   await commit(c, [sql(c, 'INSERT INTO tt_sibling_origins(product,origin,set_by,set_at) VALUES(?,?,?,?) ON CONFLICT(product) DO UPDATE SET origin=excluded.origin,set_by=excluded.set_by,set_at=excluded.set_at', product, o, c.actor.id, c.now)], command, product)
   return { product, origin: o, notice: `${PRODUCTS[product]} address saved.` }
  }
  if (command === 'sibling.link') {
   const property = await scopedProperty(c, p.propertyId), product = text(p.product, 'Product', 10)
   const configured = await one(c, 'SELECT origin FROM tt_sibling_origins WHERE product=?', product)
-  insist(PRODUCTS[product] && configured, 'sibling_unconfigured', 'The owner has not set this sibling product’s address.', 409)
+  insist(Object.hasOwn(PRODUCTS, product) && configured, 'sibling_unconfigured', 'The owner has not set this sibling product’s address.', 409)
   const url = text(p.url, 'Record address', 500)
   let parsed: URL | null = null
   try { parsed = new URL(url) } catch { /* refused below */ }
