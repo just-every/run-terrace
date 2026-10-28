@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "c6847e81c878ff2dc7e7c91261644772b1e53b607dc4ba607390f49dc06226d3",
+      "sha256": "e3efa6bb7ad719f0b4ee436d32d8b28559a3bf08bb1d54299e2076f55437583d",
       "executable": false
     },
     "AGENTS.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "1a5d09fcbcca07a8bdcddae90cc110903ece9ab9307e5bcc102082531f028dcd",
+      "sha256": "47e9b0b0e2991b672125dc44608c306118af944696941b7df78d2834204d9f8f",
       "executable": false
     },
     "DEMO.md": {
@@ -161,7 +161,7 @@
       "executable": false
     },
     "docs/CLAIMS.md": {
-      "sha256": "3bbf896254fc4c1d09163fa71015d3241df87f4f80cd1dd0dd579598a09829ae",
+      "sha256": "4507d51fd353d4cac074da1fa569b125a68cffe6184ef528a35d3901afcff334",
       "executable": false
     },
     "docs/communications.md": {
@@ -189,7 +189,7 @@
       "executable": false
     },
     "docs/move-in.md": {
-      "sha256": "0a8059887da70df6f2d959944aadbfe4888e6200b919eeec54b746d4146ebf9e",
+      "sha256": "b08fc496a803ecc24a494ef01f5fb222c4e0946e2ce2dbde10fe35bffdc15057",
       "executable": false
     },
     "docs/payment-policies.md": {
@@ -3629,7 +3629,7 @@
       "executable": false
     },
     "src/terrace/erasure.ts": {
-      "sha256": "11e84443b868fefb20106067c562f357e5a4b917317cccd044a536954551bd19",
+      "sha256": "418ff27018c34af1f15acee8cc59412ae9ce4595de3104aafc9ccc6715176db4",
       "executable": false
     },
     "src/terrace/exports.ts": {
@@ -3869,7 +3869,7 @@
       "executable": false
     },
     "src/terrace/migration.ts": {
-      "sha256": "060eb6454cd45a97a646602eb31c000e2981bf8c3d906a1d9e05e5553920b6ee",
+      "sha256": "6719ebfae58a6d7020af91b837a428ec981f42331a97a3155d827cce7295c23a",
       "executable": false
     },
     "src/terrace/month.ts": {
@@ -4105,7 +4105,7 @@
       "executable": false
     },
     "src/terrace/retention.ts": {
-      "sha256": "cc7bde347b1a56a1fda85b94bc41aa5414b3506ab2f8a66611e0242683dab152",
+      "sha256": "22271bc2bcb9aadcac9581e0bdb3a3585fcd4a1734c331eefeb9a94112587426",
       "executable": false
     },
     "src/terrace/roles.ts": {
@@ -4545,11 +4545,11 @@
       "executable": false
     },
     "tests/migration-fixture.mjs": {
-      "sha256": "ec7f7f246cdd6db615c3d6594f6da215b95e20cf91f8481c1d5b62e0d991e173",
+      "sha256": "f0cb86f137e1e282a801e60b21f527dd4f761e7ea0c227eda77e4c52440bc649",
       "executable": false
     },
     "tests/migration.mjs": {
-      "sha256": "2d2caf34f379c36d2ccd388c249c809cb35bbbf6e029171d7cb25efd785b8eaa",
+      "sha256": "b1e6eaee99ac5b5f74912efea9fcf3e521d028dd073b61596ddc71da1f3b7877",
       "executable": false
     },
     "tests/mobile-inspections-browser.mjs": {

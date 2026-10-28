@@ -94,10 +94,27 @@ export async function migrationCommand(c: Context, command: string, p: Row): Pro
 function base64(value: string) {const bytes=new TextEncoder().encode(value);let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(binary)}
 export const migrationData = (c: Context) => all(c,'SELECT id,namespace,approved_at,retired_at FROM tt_migrations ORDER BY approved_at DESC,id')
 
-/** Retiring an affected source also withdraws its shared original and review text, never another resident's native records. */
-export function migrationErasure(c: Context, tenancyId: string, accounting: boolean) {
- const affected='SELECT DISTINCT migration_id FROM tt_migration_records WHERE tenancy_id=?'
- const writes=[sql(c,`UPDATE tt_migrations SET original=NULL,report=?,retired_at=? WHERE id IN (${affected})`,JSON.stringify({retired:true,notice:'Original and review retired by erasure.'}),c.now,tenancyId),sql(c,`UPDATE tt_migration_records SET record=NULL WHERE migration_id IN (${affected})`,tenancyId)]
+const sharedHold = `SELECT 1 FROM tt_migration_records own JOIN tt_migrations m ON m.id=own.migration_id JOIN tt_migration_records peer ON peer.migration_id=own.migration_id JOIN tt_legal_holds h ON h.tenancy_id=peer.tenancy_id WHERE own.tenancy_id=? AND peer.tenancy_id<>? AND m.original IS NOT NULL AND h.released_at IS NULL`
+export async function migrationSharedHolds(c: Context, tenancyId: string) {
+ return await one(c,sharedHold,tenancyId,tenancyId)?[{class:'all',reason:'Shared migration originals are under another resident’s legal hold'}]:[]
+}
+/** Withdraw shared originals under the existing custody rule, preserving unrelated source facts and numeric tie-out. */
+export async function migrationErasure(c: Context, tenancyId: string, accounting: boolean) {
+ const jobs=await all(c,'SELECT DISTINCT m.* FROM tt_migrations m JOIN tt_migration_records r ON r.migration_id=m.id WHERE r.tenancy_id=?',tenancyId)
+ const resident=await one(c,'SELECT tenant_email FROM tt_tenancies WHERE id=?',tenancyId)
+ const bills=await all(c,"SELECT entity_id FROM tt_bill_subjects WHERE tenancy_id=? AND kind='bill'",tenancyId)
+ const writes=[guard(c,'NOT EXISTS('+sharedHold+')',tenancyId,tenancyId)]
+ for(const job of jobs) {
+  const records=await all(c,'SELECT * FROM tt_migration_records WHERE migration_id=?',job.id)
+  const values: Row[]=records.map(r=>({...r,value:r.record?JSON.parse(r.record):{}}))
+  const householdRefs=new Set(values.filter(r=>r.kind==='lease'&&r.tenancy_id===tenancyId).map(r=>r.value.householdRef))
+  for(const r of values)if(r.kind==='household'&&r.value.email===resident?.tenant_email)householdRefs.add(r.ref)
+  const leaseRefs=new Set(values.filter(r=>r.kind==='lease'&&r.tenancy_id===tenancyId).map(r=>r.ref))
+  const sharedHouseholds=new Set(values.filter(r=>r.kind==='lease'&&r.tenancy_id&&r.tenancy_id!==tenancyId).map(r=>r.value.householdRef))
+  const old=JSON.parse(job.report),retained={retired:true,notice:'Original and personal review retired by erasure.',counts:old.counts,tieOut:(old.tieOut??[]).map((r:Row)=>({...r,exception:r.exception?'Named exception retained after erasure':''}))}
+  writes.push(guard(c,'EXISTS(SELECT 1 FROM tt_migrations WHERE id=? AND report IS ? AND retired_at IS ?)',job.id,job.report,job.retired_at),sql(c,'UPDATE tt_migrations SET original=NULL,report=?,retired_at=COALESCE(retired_at,?) WHERE id=?',JSON.stringify(retained),c.now,job.id))
+  for(const r of values)if(r.tenancy_id===tenancyId||r.kind==='household'&&householdRefs.has(r.ref)&&!sharedHouseholds.has(r.ref)||r.kind==='lease'&&leaseRefs.has(r.ref)||leaseRefs.has(r.value.leaseRef)||r.kind==='bill'&&bills.some(b=>b.entity_id===r.target_id))writes.push(sql(c,'UPDATE tt_migration_records SET record=NULL WHERE migration_id=? AND kind=? AND ref=?',job.id,r.kind,r.ref))
+ }
  if(accounting)writes.push(sql(c,"UPDATE tt_migration_history SET reference=id,source_ref=id WHERE tenancy_id=?",tenancyId))
  return writes
 }

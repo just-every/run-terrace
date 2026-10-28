@@ -6,7 +6,7 @@ export function migrationFixture(){
  for(const [owner,property,household,lease,charge,deposit,history,doc,balance,security]of [[1,3,5,7,9,11,13,17,12000,50000],[2,4,6,8,10,12,15,18,2500,20000]]){
   add('owner',owner,{name:'Synthetic owner '+owner,email:address(owner),kind:'individual',mailingAddress:owner+' Synthetic Road',w9:'received'})
   add('property',property,{name:'Synthetic homes '+property,address:property+' Synthetic Road',kind:'duplex',timeZone:'America/Los_Angeles',ownershipFrom:'2024-01-01',owners:[{ownerRef:ref(owner),shareBp:10000}]})
-  add('household',household,{identity:ref(household),name:'Synthetic resident '+household,email:address(household),members:[{role:'occupant',name:'Synthetic occupant '+household,joined:'2024-01-01'}]})
+  add('household',household,{identity:ref(household),sourceNote:household===6?'Synthetic unrelated source note':'Synthetic subject source note',name:'Synthetic resident '+household,email:address(household),members:[{role:'occupant',name:'Synthetic occupant '+household,joined:'2024-01-01'}]})
   add('unit',lease+25,{propertyRef:ref(property),identifier:'A',bedrooms:2,bathrooms:1,rentable:true,amenities:['Porch']})
   add('lease',lease,{propertyRef:ref(property),ownerRef:ref(owner),householdRef:ref(household),unitRef:ref(lease+25),starts:'2024-01-01',ends:'2027-12-31',rentCents:100000,cadence:'monthly',leaseType:'residential',depositCents:security,historyFrom:'2024-06-30',historyOpeningCents:0})
   add('charge',charge,{leaseRef:ref(lease),day:'2026-06-01',amountCents:balance,description:'Unpaid source rent',reference:ref(charge)})

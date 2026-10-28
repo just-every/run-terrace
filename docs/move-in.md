@@ -85,7 +85,7 @@ account with its difference and named exception. The browser transports original
 text as `manifestBase64` to preserve line endings. Native imports never grant
 portal access, staff approval, consent, signatures or outbound permission.
 Erasing an affected resident withdraws shared source custody and approval replay;
-other residents' native records remain. Financial amounts follow existing
+other residents' native records and unrelated source fields remain. Another subject's active legal hold protects the shared original. Erasure keeps the numeric account tie-out while withdrawing personal review text. Financial amounts follow existing
 retention and archive fences. Full-manifest undo is not offered; MOVE-009 owns
 reviewed compensation for these broader migrations.
 
