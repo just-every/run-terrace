@@ -16,12 +16,22 @@ export function residentPdf(d:Row,receipt=false){
   {role:'P',text:`Pending funds, not deducted: ${m(d.pendingCents)}. Unapplied credit, separate: ${m(d.unappliedCreditCents)}.`},
   {role:'P',text:`${d.delivery?'Recorded balance at preparation':'Current recorded balance'} as of ${d.currentAsOf}: ${m(d.currentBalanceCents)}.`},{role:'H2',text:'Itemized transactions'},
   ...d.lines.map((r:Row)=>({role:'P',text:`${r.kind==='Lease charge'?'Due':'Dated'} ${r.date}. ${r.kind}. ${r.description}. Amount ${m(r.amountCents)}. Receivable change ${m(r.receivableDeltaCents)}. Source ${r.id}.`})),{role:'P',text:d.notice}]
+ return textPdf(title,paragraphs)
+}
+
+export type PdfParagraph={role:string;text:string;pageBreak?:boolean}
+/** Tagged letter pages use the same reading order and typography as resident statements. */
+export function textPdf(title:string,paragraphs:PdfParagraph[]){
  const lines:{role:string,text:string}[]=[]
- for(const p of paragraphs){let line='';for(const word of p.text.split(/\s+/)){if(width(line+' '+word,p.role)>528&&line){lines.push({role:p.role,text:line});line=''}for(const char of word){if(width(line+char,p.role)>528){lines.push({role:p.role,text:line});line=''}line+=char}line+=' '}if(line.trim())lines.push({role:p.role,text:line.trim()})}
+ const breaks=new Set<number>()
+ for(const p of paragraphs){if(p.pageBreak&&lines.length)breaks.add(lines.length);let line='';for(const word of p.text.split(/\s+/)){if(width(line+' '+word,p.role)>528&&line){lines.push({role:p.role,text:line});line=''}for(const char of word){if(width(line+char,p.role)>528){lines.push({role:p.role,text:line});line=''}line+=char}line+=' '}if(line.trim())lines.push({role:p.role,text:line.trim()})}
  const objects:string[]=[],put=(s:string)=>{objects.push(s);return objects.length},set=(n:number,s:string)=>{objects[n-1]=s}
  const catalog=put(''),pages=put(''),font=put('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>'),tree=put(''),parents=put(''),info=put(`<< /Title <${unicode(title)}> /Author (Terrace) >>`),kids:number[]=[],tags:number[]=[],nums:string[]=[]
- for(let start=0;start<lines.length;start+=38){
-  const page=put(''),content=put(''),pageTags:number[]=[],part=lines.slice(start,start+38)
+ for(let start=0;start<lines.length;){
+  let end=Math.min(start+38,lines.length)
+  for(let at=start+1;at<end;at++)if(breaks.has(at)){end=at;break}
+  const page=put(''),content=put(''),pageTags:number[]=[],part=lines.slice(start,end)
+  start=end
   const stream=part.map((l,i)=>{const tag=put(`<< /Type /StructElem /S /${l.role} /P ${tree} 0 R /Pg ${page} 0 R /K ${i} >>`);tags.push(tag);pageTags.push(tag);return`/${l.role} << /MCID ${i} /ActualText <${unicode(l.text)}> >> BDC BT /F1 ${size(l.role)} Tf 1 0 0 1 42 ${744-i*18} Tm <${encoded(l.text)}> Tj ET EMC`}).join('\n')
   set(content,`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`)
   set(page,`<< /Type /Page /Parent ${pages} 0 R /MediaBox [0 0 612 792] /StructParents ${kids.length} /Resources << /Font << /F1 ${font} 0 R >> >> /Contents ${content} 0 R >>`)
