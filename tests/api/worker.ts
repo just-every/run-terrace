@@ -4,6 +4,7 @@ import { authResponse } from '../../src/auth.server'
 export default {
  scheduled:workflowScheduled,
  async fetch(request:Request,env:any) {
+  if(env.HARNESS_NOW)(globalThis as any).__terraceJourneyNow=env.HARNESS_NOW
   const testPath=new URL(request.url).pathname
   if(env.HARNESS_SQL_KEY&&request.headers.get('x-terrace-harness-key')===env.HARNESS_SQL_KEY){
    try{

@@ -4,7 +4,7 @@ import { anyZone } from './zones'
 import { scan } from './document-scan'
 
 export const MIGRATION_FORMAT = 'terrace-migration-v1'
-export const MIGRATION_KINDS = ['owner','property','household','lease','vendor','document','deposit','charge','bill','work','schedule','vendor_ytd','owner_ytd','history','opening'] as const
+export const MIGRATION_KINDS = ['owner','property','unit','household','lease','vendor','document','deposit','charge','bill','work','schedule','vendor_ytd','owner_ytd','history','opening'] as const
 export type MigrationKind = typeof MIGRATION_KINDS[number]
 export type MigrationRecord = { kind: MigrationKind; ref: string; value: Row; targetId: string; excluded: boolean }
 export type MigrationIssue = { key: string; kind: string; ref: string; message: string; resolved: boolean; reason: string; action: string }
@@ -14,7 +14,7 @@ const ref = (v: unknown) => { const s = text(v,'Source reference',100); insist(/
 const amount = (v: unknown, signed = false) => { insist(Number.isSafeInteger(v) && Math.abs(Number(v)) <= 100_000_000 && (signed || Number(v) >= 0),'migration_money','Money must be integer cents, at most 100,000,000 per value.'); return Number(v) }
 const positive = (v: unknown) => { const n = amount(v); insist(n > 0,'migration_money','Amount must be positive.'); return n }
 const choice = (v: unknown, choices: string[]) => { insist(typeof v === 'string' && choices.includes(v),'migration_value','Choose one of: ' + choices.join(', ') + '.'); return v }
-const list = (v: unknown, label: string): Row[] => { insist(Array.isArray(v),'migration_shape',label + ' must be an array.'); return v }
+const list = (v: unknown, label: string): Row[] => { insist(Array.isArray(v)&&v.every(x=>x&&typeof x==='object'&&!Array.isArray(x)),'migration_shape',label + ' must be an array of objects.'); return v }
 const obj = (v: unknown): Row => { insist(v && typeof v === 'object' && !Array.isArray(v),'migration_shape','Each source row must be an object.'); return v as Row }
 const named = (p: Row, key: string, max = 500) => text(p[key],key,max)
 
@@ -27,6 +27,7 @@ export async function migrationSource(input: unknown): Promise<MigrationSource> 
  const namespace = ref(source.namespace), cutover = date(source.cutoverDate), rows = list(source.records,'Records'), issues: MigrationIssue[] = []
  insist(rows.length > 0 && rows.length <= 100,'migration_size','Review between 1 and 100 source records per manifest.')
  const resolutions = list(source.resolutions ?? [],'Resolutions'), seen = new Set<string>(), artifacts: Row[] = []
+ insist(new Set(resolutions.map(r=>r.key)).size===resolutions.length,'migration_resolution','Each exception has one resolution.')
  const add = (key: string, kind: string, sourceRef: string, message: string, actions: string[] = []) => {
   const resolution = resolutions.find(r => r.key === key)
   const resolved = !!resolution && actions.includes(resolution.action) && typeof resolution.reason === 'string' && !!resolution.reason.trim() && resolution.reason.trim().length <= 1000
@@ -61,22 +62,25 @@ export async function migrationSource(input: unknown): Promise<MigrationSource> 
     p.owners=list(p.owners,'Property owners').map(s=>({ownerRef:ref(s.ownerRef),shareBp:positive(s.shareBp)}))
     insist(p.owners.length && new Set(p.owners.map((s:Row)=>s.ownerRef)).size===p.owners.length && p.owners.reduce((n:number,s:Row)=>n+s.shareBp,0)===10000,'migration_ownership','Property shares must total 10,000 basis points with distinct owners.')
    }
+   if (kind==='unit') {
+    p.propertyRef=ref(p.propertyRef);p.identifier=named(p,'identifier',100);p.bedrooms=amount(p.bedrooms);insist(p.bedrooms<=20&&Number.isFinite(p.bathrooms)&&p.bathrooms>=0&&p.bathrooms<=20&&typeof p.rentable==='boolean','migration_unit','Supply bedroom and bathroom counts and true or false for rentable.');p.amenities=Array.isArray(p.amenities)?p.amenities.map((v:unknown)=>text(v,'Amenity',100)):[]
+   }
    if (kind==='household') {
     p.identity=ref(p.identity);p.name=named(p,'name',200);p.email=email(p.email)
-    p.members=list(p.members ?? [],'Household members').map(m=>({role:choice(m.role,['co_tenant','guarantor','occupant','emergency_contact','authorized_contact']),name:named(m,'name',200),email:m.email?email(m.email):null,phone:m.phone?text(m.phone,'Phone',100):null}))
+    p.members=list(p.members ?? [],'Household members').map(m=>({role:choice(m.role,['co_tenant','guarantor','occupant','emergency_contact','authorized_contact']),name:named(m,'name',200),email:m.email?email(m.email):null,phone:m.phone?text(m.phone,'Phone',100):null,joined:date(m.joined),leftOn:m.leftOn?date(m.leftOn):null}))
     const duplicate = records.find(x=>x!==r && x.kind===kind && (x.value.identity===p.identity || (x.value.name===p.name && x.value.email===p.email)) && !x.excluded)
     if (duplicate) exclude('Duplicate household of ' + duplicate.ref + '. Remove this duplicate or exclude it and map its leases to the retained household.')
    }
    if (kind==='lease') {
-    p.propertyRef=ref(p.propertyRef);p.householdRef=ref(p.householdRef);p.ownerRef=ref(p.ownerRef);p.unit=named(p,'unit',100);p.starts=date(p.starts);p.ends=date(p.ends);p.rentCents=positive(p.rentCents);p.cadence=choice(p.cadence,['weekly','fortnightly','monthly']);p.depositCents=amount(p.depositCents);p.historyFrom=date(p.historyFrom);p.historyOpeningCents=amount(p.historyOpeningCents,true)
-    insist(p.ends>=p.starts && p.starts<cutover,'migration_lease','Lease dates must be ordered and start before cutover.')
+    p.propertyRef=ref(p.propertyRef);p.householdRef=ref(p.householdRef);p.ownerRef=ref(p.ownerRef);p.unitRef=ref(p.unitRef);p.starts=date(p.starts);p.ends=date(p.ends);p.rentCents=positive(p.rentCents);p.cadence=choice(p.cadence,['weekly','fortnightly','monthly']);p.depositCents=amount(p.depositCents);p.historyFrom=date(p.historyFrom);p.historyOpeningCents=amount(p.historyOpeningCents,true)
+    insist(p.ends>=p.starts,'migration_lease','Lease dates must be ordered.')
     const twoYears = new Date(cutover + 'T00:00:00.000Z');twoYears.setUTCFullYear(twoYears.getUTCFullYear()-2)
     if (p.historyFrom>twoYears.toISOString().slice(0,10) && p.historyFrom>p.starts) add('history-coverage:' + key,kind,sourceRef,'History must cover at least the previous 24 months, or the whole lease if newer.')
    }
    if (kind==='vendor') {
-    p.name=named(p,'name',200);p.email=email(p.email);p.phone=named(p,'phone',100);p.specialties=named(p,'specialties',200);p.serviceAreas=named(p,'serviceAreas',200);p.w9=choice(p.w9,['received','missing']);p.insuranceExpires=date(p.insuranceExpires);p.availability=named(p,'availability',200)
+    p.name=named(p,'name',200);p.email=email(p.email);p.phone=named(p,'phone',100);p.specialties=named(p,'specialties',200);p.serviceAreas=named(p,'serviceAreas',200);p.w9=choice(p.w9,['received','missing']);p.standing=choice(p.standing,['preferred','approved','blocked']);p.insuranceExpires=date(p.insuranceExpires);p.availability=named(p,'availability',200)
     p.licenseNumber=p.licenseNumber?text(p.licenseNumber,'License number',100):null;p.licenseExpires=p.licenseNumber?date(p.licenseExpires):null
-    p.dba=String(p.dba??'');p.tinStatus=choice(p.tinStatus,['missing','restricted_source','verified_external']);p.eligible1099=!!p.eligible1099;p.box=named(p,'box',50);p.paymentMethod=choice(p.paymentMethod,['check','ach','other']);p.remitAddress=named(p,'remitAddress')
+    p.dba=String(p.dba??'');p.tinStatus=choice(p.tinStatus,['missing','restricted_source','verified_external']);insist(typeof p.eligible1099==='boolean','migration_vendor','1099 eligibility must be true or false.');p.box=named(p,'box',50);p.paymentMethod=choice(p.paymentMethod,['check','ach','other']);p.remitAddress=named(p,'remitAddress')
     if(p.w9!=='received')add('w9:' + key,kind,sourceRef,'Vendor has no W-9. Retain its missing status; importing never qualifies it or authorizes payment.',['hold'])
    }
    if (['document','deposit','charge','work','schedule','history'].includes(kind)) p.leaseRef=ref(p.leaseRef)
@@ -114,10 +118,18 @@ export async function migrationSource(input: unknown): Promise<MigrationSource> 
  }
  for (const r of records.filter(r=>!r.excluded)) {
   const p=r.value, key=r.kind+':'+r.ref
-  for (const [field,kind] of Object.entries({propertyRef:'property',ownerRef:'owner',householdRef:'household',leaseRef:'lease',vendorRef:'vendor'})) if (p[field] && !records.some(x=>x.kind===kind&&x.ref===p[field]&&!x.excluded)) add('reference:'+key+':'+field,r.kind,r.ref,'Missing or excluded ' + kind + ' reference ' + p[field] + '.')
+  for (const [field,kind] of Object.entries({propertyRef:'property',ownerRef:'owner',householdRef:'household',unitRef:'unit',leaseRef:'lease',vendorRef:'vendor'})) if (p[field] && !records.some(x=>x.kind===kind&&x.ref===p[field]&&!x.excluded)) add('reference:'+key+':'+field,r.kind,r.ref,'Missing or excluded ' + kind + ' reference ' + p[field] + '.')
   if(p.artifactRef&&!artifacts.some(a=>a.ref===p.artifactRef))add('original:'+key,r.kind,r.ref,'Missing original file ' + p.artifactRef + '.')
+  if(['owner','property'].includes(r.kind)&&records.some(x=>x!==r&&!x.excluded&&x.kind===r.kind&&x.value.name===p.name&&(r.kind==='property'||x.value.email===p.email)))add('duplicate:'+key,r.kind,r.ref,'Duplicate native owner or property identity. Correct its source mapping before approval.')
+  if(r.kind==='bill'&&records.some(x=>x!==r&&!x.excluded&&x.kind==='bill'&&x.value.vendorRef===p.vendorRef&&String(x.value.invoiceNumber).toLowerCase()===String(p.invoiceNumber).toLowerCase()))add('invoice:'+key,r.kind,r.ref,'This supplier invoice is repeated in the source.')
   if(r.kind==='property') for(const s of Array.isArray(p.owners)?p.owners:[])if(!records.some(x=>x.kind==='owner'&&x.ref===s.ownerRef&&!x.excluded))add('owner:'+key+':'+s.ownerRef,r.kind,r.ref,'Missing property owner ' + s.ownerRef + '.')
+  if(r.kind==='vendor'&&!records.some(x=>x.kind==='vendor_ytd'&&!x.excluded&&x.value.vendorRef===r.ref))add('vendor-ytd:'+key,r.kind,r.ref,'Every vendor needs its reportable-payment balance-forward, including an explicitly recorded zero.')
+  if(r.kind==='property')for(const s of Array.isArray(p.owners)?p.owners:[])if(!records.some(x=>x.kind==='owner_ytd'&&!x.excluded&&x.value.propertyRef===r.ref&&x.value.ownerRef===s.ownerRef))add('owner-ytd:'+key+':'+s.ownerRef,r.kind,r.ref,'Every property owner needs its income and expense balance-forward, including explicitly recorded zeros.')
+  if(r.kind==='household'&&!records.some(x=>x.kind==='lease'&&!x.excluded&&x.value.householdRef===r.ref))add('household-lease:'+key,r.kind,r.ref,'Map this household to a lease before importing it.')
+  if(r.kind==='unit'&&records.some(x=>x!==r&&x.kind==='unit'&&!x.excluded&&x.value.propertyRef===p.propertyRef&&x.value.identifier===p.identifier))add('unit-duplicate:'+key,r.kind,r.ref,'Two unit records have the same property and identifier.')
   if(r.kind==='lease') {
+   const unit=records.find(x=>x.kind==='unit'&&!x.excluded&&x.ref===p.unitRef)
+   if(unit&&unit.value.propertyRef!==p.propertyRef)add('unit-property:'+key,r.kind,r.ref,'The lease unit must belong to its property.')
    const prop=records.find(x=>x.kind==='property'&&x.ref===p.propertyRef&&!x.excluded)
    if(prop&&Array.isArray(prop.value.owners)&&!prop.value.owners.some((s:Row)=>s.ownerRef===p.ownerRef))add('beneficiary:'+key,r.kind,r.ref,'The lease owner must belong to its property.')
    const deposits=records.filter(x=>x.kind==='deposit'&&x.value.leaseRef===r.ref&&!x.excluded).reduce((n,x)=>n+Number(x.value.amountCents??0),0)
@@ -126,9 +138,10 @@ export async function migrationSource(input: unknown): Promise<MigrationSource> 
    const charges=records.filter(x=>x.kind==='charge'&&x.value.leaseRef===r.ref&&!x.excluded).reduce((n,x)=>n+Number(x.value.amountCents??0),0)
    if(closing!==charges)add('history:'+key,r.kind,r.ref,'Resident history closing balance differs from unpaid charges: ' + closing + ' versus ' + charges + ' cents.')
    if(history.some(h=>h.value.day<p.historyFrom))add('history-date:'+key,r.kind,r.ref,'A history line predates the declared history opening.')
-   if(records.some(x=>x!==r&&x.kind==='lease'&&!x.excluded&&x.value.propertyRef===p.propertyRef&&x.value.unit===p.unit&&x.value.starts<=p.ends&&x.value.ends>=p.starts))add('overlap:'+key,r.kind,r.ref,'Two leases overlap on this property and unit.')
+   if(records.some(x=>x!==r&&x.kind==='lease'&&!x.excluded&&x.value.unitRef===p.unitRef&&x.value.starts<=p.ends&&x.value.ends>=p.starts))add('overlap:'+key,r.kind,r.ref,'Two leases overlap on this property and unit.')
   }
  }
+ for(const a of artifacts)if(!records.some(r=>!r.excluded&&['document','bill'].includes(r.kind)&&r.value.artifactRef===a.ref))add('unmapped-original:'+a.ref,'artifact',a.ref,'Original has no mapped document or invoice record.')
  for(const resolution of resolutions) if(!issues.some(x=>x.key===resolution.key)) add('unused-resolution:'+ref(String(resolutions.indexOf(resolution))), 'resolution','review','A resolution no longer matches an exception. Remove it and preview again.')
  const counts=Object.fromEntries(MIGRATION_KINDS.map(kind=>{const group=records.filter(r=>r.kind===kind);return[kind,{source:group.length,imported:group.filter(r=>!r.excluded).length,excluded:group.filter(r=>r.excluded).length}]}))
  return {original:input,source,namespace,cutover,records,issues,artifacts,counts,trial:list(source.trialBalance,'Source trial balance')}

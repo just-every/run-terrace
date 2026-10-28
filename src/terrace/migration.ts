@@ -9,6 +9,7 @@ const issue = (m: MigrationSource, key: string, message: string) => m.issues.pus
 
 async function plan(c: Context, input: unknown) {
  const m=await migrationSource(input), chart=await all(c,'SELECT code,fund FROM tt_gl_chart ORDER BY code'),active=m.records.filter(r=>!r.excluded)
+ if(m.cutover>c.now.slice(0,10))issue(m,'future-cutover','Opening balances describe recorded facts. Cutover cannot be in the future.')
  const openings=active.filter(r=>r.kind==='opening'),buckets=new Set<string>(),target=new Map<string,number>()
  for(const r of openings) {
   const p=r.value,key=bucket(p)
@@ -56,7 +57,7 @@ async function plan(c: Context, input: unknown) {
  }
  for(const a of m.artifacts)if(await one(c,'SELECT 1 FROM tt_erased_document_files WHERE sha256=? UNION SELECT 1 FROM tt_erased_bill_files WHERE sha256=?',a.sha256,a.sha256))issue(m,'erased-file:'+a.ref,'An erased original cannot be restored through migration.')
  const prior=await one(c,'SELECT fingerprint,retired_at FROM tt_migrations WHERE namespace=?',m.namespace)
- const summary={format:m.source.format,namespace:m.namespace,cutoverDate:m.cutover,counts:m.counts,sourceCount:m.records.length,importedCount:active.length,excludedCount:m.records.length-active.length,issues:m.issues,tieOut,artifacts:m.artifacts.map(({ref,name,type,size,sha256})=>({ref,name,type,size,sha256})),records:m.records.map(r=>({kind:r.kind,ref:r.ref,targetId:r.excluded?null:r.targetId,disposition:r.excluded?'excluded':'imported'})),approvalRequired:true,boundary:'Historical source facts only. Work and bills require their native approvals. No money, signature, consent, portal grant or outbound authority is imported.'}
+ const summary={format:m.source.format,namespace:m.namespace,cutoverDate:m.cutover,counts:m.counts,sourceCount:m.records.length,importedCount:active.length,excludedCount:m.records.length-active.length,issues:m.issues,tieOut,artifacts:m.artifacts.map(({ref,name,type,size,sha256})=>({ref,name,type,size,sha256})),records:m.records.map(r=>({kind:r.kind,ref:r.ref,targetId:r.excluded?null:r.targetId,disposition:r.excluded?'excluded':'imported',value:r.value})),approvalRequired:true,boundary:'Historical source facts only. Work and bills require their native approvals. No money, signature, consent, portal grant or outbound authority is imported.'}
  const fingerprint=sha256(canonicalJson({original:m.original,summary,chart}))
  const errors=m.issues.filter(i=>!i.resolved),canApply=errors.length===0&&!prior
  return {m,report:{...summary,fingerprint,canApply,completeSwitch:canApply&&summary.excludedCount===0&&tieOut.every(x=>x.differenceCents===0)&&!m.issues.length,namespaceUsed:!!prior},prior}
@@ -67,7 +68,8 @@ export async function migrationCommand(c: Context, command: string, p: Row): Pro
   const job=await one(c,'SELECT * FROM tt_migrations WHERE id=?',text(p.migrationId,'Migration',100))
   insist(job,'not_found','Migration not found.',404)
   insist(!job.retired_at,'migration_retired','Migration custody was retired by erasure. Its approval cannot be replayed.',410)
-  return {migration:{id:job.id,namespace:job.namespace,approvedBy:job.approved_by,approvedAt:job.approved_at,original:job.original,report:JSON.parse(job.report)},notice:'Retained migration manifest and account tie-out.'}
+  const balanceForwards=await all(c,'SELECT * FROM tt_migration_forwards WHERE migration_id=? ORDER BY id',job.id),vendorDetails=await all(c,'SELECT v.name,d.* FROM tt_migration_vendor_details d JOIN tt_vendors v ON v.id=d.vendor_id WHERE d.migration_id=? ORDER BY vendor_id',job.id)
+  return {migration:{id:job.id,namespace:job.namespace,approvedBy:job.approved_by,approvedAt:job.approved_at,original:job.original,report:JSON.parse(job.report),balanceForwards,vendorDetails},notice:'Retained migration manifest and account tie-out.'}
  }
  let input=p.manifest
  if(input===undefined&&typeof p.manifestBase64==='string')try{input=new TextDecoder('utf-8',{fatal:true}).decode(Uint8Array.from(atob(p.manifestBase64),ch=>ch.charCodeAt(0)))}catch{throw new Fault('migration_shape','The preserved manifest is invalid.')}

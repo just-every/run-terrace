@@ -79,3 +79,10 @@
 
 /* Renewal facts keep their complete values beneath each label at every width. */
 .renewal-facts{grid-template-columns:minmax(0,1fr);gap:12px}.renewal-facts>div{min-width:0}.renewal-facts dt{font-weight:600}
+
+/* The migration review and its resident ledger keep everyday text readable at both release widths. */
+:is([data-view="import"],[data-view="ledger"]) :is(th,.eyebrow,.avatar,.pill,.app-footer){font-size:13px}
+[data-view="ledger"] .ledger-table td:nth-child(3),[data-view="ledger"] .ledger-table td::before{font-size:13px}
+
+.migration-review table{min-width:480px;overflow-wrap:normal}.migration-review .migration-account-table{min-width:1080px}.migration-account-table td:last-child{min-width:220px;max-width:300px}
+[data-view="ledger"] .ledger-layout .scroll table{min-width:640px;overflow-wrap:normal}

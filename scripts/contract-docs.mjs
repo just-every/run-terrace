@@ -3,7 +3,10 @@ import {readFile,writeFile,mkdir} from 'node:fs/promises'
 const mode=process.argv[2],ids=process.argv.slice(3)
 if(!['write','check'].includes(mode))throw Error('Use write or check, followed by the clause ids to regenerate.')
 if(!ids.length)ids.push('MOVE-001')
-const contract=await readFile('CONTRACT.md','utf8'),original=await readFile('ACCEPTANCE.md','utf8')
+const originalContract=await readFile('CONTRACT.md','utf8'),original=await readFile('ACCEPTANCE.md','utf8')
+const statusRows=originalContract.split('\n').filter(l=>/^\| `[A-Z]+-\d+` \|/.test(l)).map(l=>l.split('|').slice(1,-1).map(s=>s.trim()))
+const counts=rows=>['done','partial','missing'].map(state=>rows.filter(r=>r[3]===state).length).concat(rows.length)
+const contract=originalContract.replace(/^\| (Published|Target and push further|All) \|.*$/gm,(_,label)=>'| '+label+' | '+counts(statusRows.filter(r=>label==='All'||(label==='Published'?r[2]==='published':r[2]!=='published'))).join(' | ')+' |')
 let acceptance=original
 const claims=[]
 for(const id of ids){
@@ -20,5 +23,5 @@ for(const id of ids){
  claims.push(`| \`${id}\` | ${title} | ${state} | ${evidence} | ${gap} |`)
 }
 const register='# Generated clause claims\n\nGenerated from CONTRACT.md by the seed contract-docs command. This incremental register covers '+ids.map(id=>'`'+id+'`').join(', ')+'. Other clauses and the homepage claim map remain in CONTRACT.md.\n\n| Clause | Capability | Status | Evidence | Gap |\n| --- | --- | --- | --- | --- |\n'+claims.join('\n')+'\n'
-if(mode==='write'){await writeFile('ACCEPTANCE.md',acceptance);await mkdir('docs',{recursive:true});await writeFile('docs/CLAIMS.md',register)}
-else{let current='';try{current=await readFile('docs/CLAIMS.md','utf8')}catch{}if(acceptance!==original||current!==register)throw Error('Contract documents are stale. Run the seed contract-docs write command.');console.log('Contract documents are current.')}
+if(mode==='write'){if(contract!==originalContract)await writeFile('CONTRACT.md',contract);await writeFile('ACCEPTANCE.md',acceptance);await mkdir('docs',{recursive:true});await writeFile('docs/CLAIMS.md',register)}
+else{let current='';try{current=await readFile('docs/CLAIMS.md','utf8')}catch{}if(contract!==originalContract||acceptance!==original||current!==register)throw Error('Contract documents are stale. Run the seed contract-docs write command.');console.log('Contract documents are current.')}

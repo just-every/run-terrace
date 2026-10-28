@@ -20,17 +20,16 @@ export function nativeMigration(c: Context, m: MigrationSource, jobId: string) {
  }
  for(const r of rows('vendor')) {
   const p=r.value
-  add('tt_vendors',{id:r.targetId,name:p.name,email:p.email,phone:p.phone,specialties:JSON.stringify(p.specialties.split(',').map((s:string)=>s.trim().toLowerCase())),service_areas:JSON.stringify(p.serviceAreas.split(',').map((s:string)=>s.trim())),w9:p.w9,insurance_expires:p.insuranceExpires,license_number:p.licenseNumber,license_expires:p.licenseExpires,availability:p.availability,standing:'approved',currency:'USD',updated_by:c.actor.id,updated_at:c.now})
+  add('tt_vendors',{id:r.targetId,name:p.name,email:p.email,phone:p.phone,specialties:JSON.stringify(p.specialties.split(',').map((s:string)=>s.trim().toLowerCase())),service_areas:JSON.stringify(p.serviceAreas.split(',').map((s:string)=>s.trim())),w9:p.w9,insurance_expires:p.insuranceExpires,license_number:p.licenseNumber,license_expires:p.licenseExpires,availability:p.availability,standing:p.standing,currency:'USD',updated_by:c.actor.id,updated_at:c.now})
   add('tt_migration_vendor_details',{vendor_id:r.targetId,migration_id:jobId,dba:p.dba,tin_status:p.tinStatus,eligible_1099:p.eligible1099?1:0,box:p.box,payment_method:p.paymentMethod,remit_address:p.remitAddress})
  }
- const units = new Set<string>()
+ for(const r of rows('unit')) {const p=r.value;add('tt_units',{id:r.targetId,property_id:target('property',p.propertyRef),identifier:p.identifier,bedrooms:p.bedrooms,bathrooms:p.bathrooms,amenities:JSON.stringify(p.amenities),rentable:p.rentable?1:0,...created})}
  for(const r of rows('lease')) {
-  const p=r.value,property=find('property',p.propertyRef),household=find('household',p.householdRef),owner=find('owner',p.ownerRef),unitId=migrationId(m.namespace,'unit',p.propertyRef + '.' + p.unit)
-  if(!units.has(unitId)){add('tt_units',{id:unitId,property_id:property.targetId,identifier:p.unit,bedrooms:0,bathrooms:0,amenities:'[]',rentable:1,...created});units.add(unitId)}
+  const p=r.value,property=find('property',p.propertyRef),household=find('household',p.householdRef),owner=find('owner',p.ownerRef),unitId=target('unit',p.unitRef)
   for(const address of [household.value.email,...household.value.members.map((s:Row)=>s.email).filter(Boolean)])writes.push(guard(c,'NOT EXISTS(SELECT 1 FROM tt_erasures WHERE subject=?)',sha256(address)))
   add('tt_tenancies',{id:r.targetId,unit_id:unitId,address:property.value.address,owner_name:owner.value.name,owner_email:owner.value.email,tenant_name:household.value.name,tenant_email:household.value.email,start_date:p.starts,end_date:p.ends,rent_cents:p.rentCents,cadence:p.cadence,currency:'USD',time_zone:property.value.timeZone,created_at:c.now})
   add('tt_migration_lease_openings',{tenancy_id:r.targetId,migration_id:jobId,history_from:p.historyFrom,opening_cents:p.historyOpeningCents,cutover_day:m.cutover})
-  household.value.members.forEach((member:Row,index:number)=>add('tt_household_members',{id:migrationId(m.namespace,'member',r.ref+'.'+index),tenancy_id:r.targetId,role:member.role,name:member.name,email:member.email,phone:member.phone,contact_by:'none',joined:p.starts,...created}))
+  household.value.members.forEach((member:Row,index:number)=>add('tt_household_members',{id:migrationId(m.namespace,'member',canonicalJson([r.ref,index])),tenancy_id:r.targetId,role:member.role,name:member.name,email:member.email,phone:member.phone,contact_by:'none',joined:member.joined,left_on:member.leftOn,...created}))
  }
  for(const r of rows('document')) {
   const p=r.value,a=m.artifacts.find(a=>a.ref===p.artifactRef)!,restricted=['application','screening'].includes(p.documentKind)?'screening':p.documentKind==='tax'?'tax':null
@@ -68,6 +67,7 @@ export function nativeMigration(c: Context, m: MigrationSource, jobId: string) {
  }
  for(const r of rows('opening')) {
   const p=r.value,propertyId=target('property',p.propertyRef),ownerId=target('owner',p.ownerRef)
+  add('tt_migration_openings',{id:r.targetId,migration_id:jobId,property_id:propertyId,owner_id:ownerId,fund:p.fund,lines:JSON.stringify(p.lines)})
   // Remove the native charge and deposit projections from the opening adjustment, never from their source records.
   const difference=`SELECT a.code AS account, COALESCE((SELECT SUM(json_extract(value,'$.debit')-json_extract(value,'$.credit')) FROM json_each(?) WHERE json_extract(value,'$.account')=a.code),0)-COALESCE((SELECT SUM(debit_cents-credit_cents) FROM tt_journal_lines WHERE property_id=? AND owner_key=? AND fund=? AND account=a.code),0) AS delta FROM tt_gl_chart a`
   const lines=`SELECT json_group_array(json_object('account',account,'debit',MAX(delta,0),'credit',MAX(-delta,0))) FROM (${difference}) WHERE delta<>0`

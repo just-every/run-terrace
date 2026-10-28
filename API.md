@@ -99,6 +99,7 @@ OPS-003: workflow commands. `workflow.template` (owner or every-portfolio manage
 | `completion.record` | jobId, completedDate, summary, reference, callback (warranty/billable, return visits); optional WORK-007 attachment: fieldEvidence=yes, jobVersion, approvalId, laborMinutes (whole minutes), materials (or explicit none), accessOutcome (granted/not_needed/no_access), completedTasks (every approved task, one per line), beforePhotoId, afterPhotoId (distinct originals from this tenancy) | Owner, portfolio manager, maintenance coordinator, member, after handoff; the vendor's report recorded by staff (WORK-008) |
 | `completion.check` | jobId, outcome (confirmed/unresolved/no_response), note, satisfaction?, safetyConcern? | Owner, portfolio manager, maintenance coordinator, member; the resident's answer recorded by staff, resident not contacted by Terrace |
 | `completion.close` | jobId, reason | Owner, portfolio manager; closes without the resident's confirmation |
+| `migration.preview`, `migration.apply`, `migration.journal` | Exact complete manifest, reviewed fingerprint or retained migration id; see [migration format](docs/move-in.md) | Owner |
 | `import.preview`, `import.apply`, `import.journal`, `import.undo` | See [move-in contract](docs/move-in.md) | Owner |
 | `tenancy.erase` | tenancyId, confirm (exact tenant email) | Owner |
 | `data.restore` | backup file, optional journal file, confirm=RESTORE (multipart) | Owner, empty product destination |

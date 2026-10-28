@@ -39,9 +39,10 @@ The manifest has these fields:
 | --- | --- |
 | `owner` | `name`, `email`, `kind` (individual or entity), `mailingAddress`, `w9` (not_requested, requested or received) |
 | `property` | `name`, `address`, residential `kind`, `timeZone`, `ownershipFrom`, `owners` with `ownerRef` and `shareBp` totaling 10,000 |
-| `household` | stable `identity`, primary `name`, `email`, optional `members` with native `role`, `name`, optional `email` and `phone` |
-| `lease` | `propertyRef`, `householdRef`, `ownerRef`, `unit`, `starts`, `ends`, `rentCents`, `cadence`, `leaseType`, `depositCents`, `historyFrom`, `historyOpeningCents` |
-| `vendor` | `name`, `email`, `phone`, comma-separated `specialties` and `serviceAreas`, `w9`, `insuranceExpires`, optional paired `licenseNumber` and `licenseExpires`, `availability`, `dba`, `tinStatus`, `eligible1099`, `box`, `paymentMethod`, `remitAddress` |
+| `unit` | `propertyRef`, `identifier`, `bedrooms`, `bathrooms`, `rentable`, optional `amenities`; vacant units are inventoried independently of leases |
+| `household` | stable `identity`, primary `name`, `email`, optional `members` with native `role`, `name`, `joined`, optional `leftOn`, `email` and `phone` |
+| `lease` | `propertyRef`, `householdRef`, `ownerRef`, `unitRef`, `starts`, `ends`, `rentCents`, `cadence`, `leaseType`, `depositCents`, `historyFrom`, `historyOpeningCents` |
+| `vendor` | `name`, `email`, `phone`, comma-separated `specialties` and `serviceAreas`, `w9`, `standing`, `insuranceExpires`, optional paired `licenseNumber` and `licenseExpires`, `availability`, `dba`, `tinStatus`, `eligible1099`, `box`, `paymentMethod`, `remitAddress` |
 | `document` | `leaseRef`, `title`, native `documentKind`, `artifactRef` |
 | `deposit` | `leaseRef`, `day`, `amountCents`, `reference` |
 | `charge` | `leaseRef`, `day`, unpaid `amountCents`, `description`, `reference` |
