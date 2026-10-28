@@ -50,7 +50,8 @@
         "node tests/portal-threads-browser.mjs",
         "node tests/applications-browser.mjs",
         "node tests/migration-browser.mjs",
-        "node tests/resident-account-browser.mjs"
+        "node tests/resident-account-browser.mjs",
+        "node tests/professional-referrals-browser.mjs"
       ]
     }
   ],

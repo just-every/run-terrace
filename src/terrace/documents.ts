@@ -19,11 +19,11 @@ export const KINDS: Record<string, { label: string; retention: string; restricti
  tax: { label: 'Tax document', retention: 'accounting', restriction: 'tax', right: 'document.tax' },
 }
 /** Rows stored as an earlier kind (inspection, work, invoice, other) stay readable with document.read. */
-export const right = (kind: string) => (Object.hasOwn(KINDS, kind) ? KINDS[kind].right : undefined) ?? 'document.read'
+export const right = (kind: string) => kind === 'professional' ? 'referral.read' : (Object.hasOwn(KINDS, kind) ? KINDS[kind].right : undefined) ?? 'document.read'
 /** A restricted document is invisible, not forbidden, to a reader without its kind's right, and never reachable by an API credential. */
-const mayRead = (c: Context, kind: string) => { const r = right(kind); return can(c, r) && (r === 'document.read' || !c.actor.credential) }
+const mayRead = (c: Context, kind: string, referralOriginal = false) => { const r = referralOriginal ? 'referral.read' : right(kind); return can(c, r) && (r === 'document.read' || !c.actor.credential) }
 /** Whether the Documents door opens at all: any document right (an accountant's is tax documents only). */
-export const readsDocuments = (c: Context) => ['document.read', 'document.application', 'document.screening', 'document.tax'].some(r => can(c, r))
+export const readsDocuments = (c: Context) => ['document.read', 'document.application', 'document.screening', 'document.tax', 'referral.read'].some(r => can(c, r))
 export const enterDocuments = (c: Context) => insist(readsDocuments(c), 'forbidden', 'Your role does not allow this action.', 403)
 
 async function file(value: unknown) {
@@ -67,7 +67,8 @@ export async function documentCommand(c: Context, command: string, p: Row): Prom
   return { documentId, versionId: s.key, version: 1, sha256: s.digest, tenancyId: t.id, retentionClass: kind.retention, notice: 'Document stored. ' + (kind.restriction ? 'It is restricted: only staff with that right can find it.' : 'Staff in this portfolio can find it.') }
  }
  const doc = await one(c, 'SELECT * FROM tt_documents WHERE id=?', text(p.documentId, 'Document', 100))
- insist(doc && mayRead(c, doc.kind), 'not_found', 'Document not found.', 404)
+ insist(doc && mayRead(c, doc.kind, doc.referral_original), 'not_found', 'Document not found.', 404)
+ insist(!doc.referral_original, 'referral_original', 'Record another response from its referral; an original response cannot be revised.', 409)
  const t = await tenancy(c, doc.tenancy_id)
  insist(Number(p.version) === doc.version, 'conflict', 'This document changed since you opened it. Reload and revise the current version.', 409)
  const version = doc.version + 1, s = await stored(c, p, t.id, doc.id, version)
@@ -88,10 +89,10 @@ export async function documentSearch(c: Context, q: Row, limit = 300) {
  const hay = "lower(d.title||' '||d.kind||' '||v.name||' '||v.note||' '||t.address||' '||t.tenant_name||' '||COALESCE(u.identifier,'')||' '||COALESCE(p.name,'')||' '||COALESCE(v.content_text,''))"
  const first = tokens[0] ?? ''
  for (const word of tokens) scope([`instr(${hay},?)>0`], [word])
- const rows = await all(c, `SELECT d.id AS document_id,d.tenancy_id,d.kind,d.title,d.restriction,d.retention_class,d.version AS current_version,v.id AS version_id,v.version,v.name,v.media_type,v.size,v.sha256,v.note,v.uploaded_by,v.uploaded_at,v.content_text IS NOT NULL AS indexed,
+ const rows = await all(c, `SELECT d.id AS document_id,d.tenancy_id,d.kind,d.title,d.restriction,d.referral_original,d.retention_class,d.version AS current_version,v.id AS version_id,v.version,v.name,v.media_type,v.size,v.sha256,v.note,v.uploaded_by,v.uploaded_at,v.content_text IS NOT NULL AS indexed,
   CASE WHEN ?<>'' AND instr(lower(COALESCE(v.content_text,'')),?)>0 THEN substr(v.content_text,max(1,instr(lower(v.content_text),?)-40),120) END AS snippet,t.unit_id,t.address,t.tenant_name,u.identifier AS unit,p.name AS property
   FROM tt_document_versions v JOIN tt_documents d ON d.id=v.document_id JOIN tt_tenancies t ON t.id=d.tenancy_id LEFT JOIN tt_units u ON u.id=t.unit_id LEFT JOIN tt_properties p ON p.id=u.property_id WHERE ${where.join(' AND ')} ORDER BY v.uploaded_at DESC,v.id LIMIT ?`, first, first, first, ...args, limit)
- const documents: Row[] = rows.filter(r => reaches(c, r.unit_id) && mayRead(c, r.kind)).map(r => ({ documentId: r.document_id, versionId: r.version_id, version: r.version, current: r.version === r.current_version, kind: r.kind, title: r.title, restricted: r.restriction, retentionClass: r.retention_class,
+ const documents: Row[] = rows.filter(r => reaches(c, r.unit_id) && mayRead(c, r.kind, r.referral_original)).map(r => ({ documentId: r.document_id, versionId: r.version_id, version: r.version, current: r.version === r.current_version, kind: r.referral_original ? 'professional' : r.kind, title: r.title, restricted: r.referral_original ? 'professional' : r.restriction, retentionClass: r.retention_class,
   name: r.name, mediaType: r.media_type, size: r.size, sha256: r.sha256, source: r.note, uploadedBy: r.uploaded_by, uploadedAt: r.uploaded_at, contentSearchable: !!r.indexed, snippet: r.snippet ?? null, tenancyId: r.tenancy_id, address: r.address, unit: r.unit ?? null, property: r.property ?? null, url: '/api/document?id=' + r.version_id }))
  const entries = [...documents, ...await originals(c, q, tokens)]
  return { documents: limit < 0 ? entries : entries.slice(0, limit) }
@@ -116,14 +117,14 @@ async function originals(c: Context, q: Row, tokens: string[]) {
 }
 
 async function reachable(c: Context, v: Row | null | undefined) {
- insist(v && mayRead(c, v.kind), 'not_found', 'Document not found.', 404)
+ insist(v && mayRead(c, v.kind, v.referral_original), 'not_found', 'Document not found.', 404)
  await tenancy(c, v.tenancy_id)
  return v
 }
 /** One stored version's original bytes, recorded as a read in the operating history. */
 export async function documentDownload(c: Context, value: unknown) {
  enterDocuments(c)
- const v = await reachable(c, await one(c, 'SELECT v.*,d.tenancy_id,d.kind FROM tt_document_versions v JOIN tt_documents d ON d.id=v.document_id WHERE v.id=?', text(value, 'Document', 100)))
+ const v = await reachable(c, await one(c, 'SELECT v.*,d.tenancy_id,d.kind,d.referral_original FROM tt_document_versions v JOIN tt_documents d ON d.id=v.document_id WHERE v.id=?', text(value, 'Document', 100)))
  await recordRead(c, 'read:document', v.id)
  return new Response(new Uint8Array(v.bytes), { headers: { 'content-type': v.media_type, 'content-disposition': `attachment; filename="${v.name.replace(/[^a-zA-Z0-9._-]/g, '_')}"`, 'cache-control': 'private, no-store', 'x-content-type-options': 'nosniff', 'referrer-policy': 'no-referrer', 'content-security-policy': "default-src 'none'; sandbox", 'x-document-sha256': v.sha256 } })
 }
@@ -133,7 +134,7 @@ export async function documentVersions(c: Context, value: unknown) {
  const d = await reachable(c, await one(c, 'SELECT * FROM tt_documents WHERE id=?', text(value, 'Document', 100)))
  const versions = await all(c, 'SELECT id,version,name,media_type,size,sha256,note,scan,uploaded_by,uploaded_at,content_text IS NOT NULL AS indexed FROM tt_document_versions WHERE document_id=? ORDER BY version DESC', d.id)
  const downloads = await all(c, "SELECT a.subject AS version_id,a.at,a.actor,COALESCE(o.display_name,a.actor) AS actor_name FROM tt_audit a LEFT JOIN oa_operators o ON o.id=a.actor WHERE a.action='read:document' AND a.subject IN (SELECT id FROM tt_document_versions WHERE document_id=?) ORDER BY a.at DESC", d.id)
- return { document: { id: d.id, tenancyId: d.tenancy_id, kind: d.kind, title: d.title, restricted: d.restriction, retentionClass: d.retention_class, version: d.version }, versions: versions.map(v => ({ id: v.id, version: v.version, current: v.version === d.version, name: v.name, mediaType: v.media_type, size: v.size, sha256: v.sha256, source: v.note, scan: JSON.parse(v.scan), contentSearchable: !!v.indexed, uploadedBy: v.uploaded_by, uploadedAt: v.uploaded_at, url: '/api/document?id=' + v.id })), downloads: downloads.map(r => ({ versionId: r.version_id, at: r.at, actorId: r.actor, actorName: r.actor_name })) }
+ return { document: { id: d.id, tenancyId: d.tenancy_id, kind: d.referral_original ? 'professional' : d.kind, title: d.title, restricted: d.referral_original ? 'professional' : d.restriction, retentionClass: d.retention_class, version: d.version }, versions: versions.map(v => ({ id: v.id, version: v.version, current: v.version === d.version, name: v.name, mediaType: v.media_type, size: v.size, sha256: v.sha256, source: v.note, scan: JSON.parse(v.scan), contentSearchable: !!v.indexed, uploadedBy: v.uploaded_by, uploadedAt: v.uploaded_at, url: '/api/document?id=' + v.id })), downloads: downloads.map(r => ({ versionId: r.version_id, at: r.at, actorId: r.actor, actorName: r.actor_name })) }
 }
 
 /** Called only inside the parent's reviewed erasure transaction: the stored bytes go, their hashes stay as a fence against re-upload. */
