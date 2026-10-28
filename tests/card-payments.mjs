@@ -84,6 +84,15 @@ export async function journey({assets=false,bufferedTransport=false,inspect,acco
   const fresh=await installation();try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'cards.rer')});assert.equal((await fresh.state(t.id)).ledger.receipts.length,1);assert.equal((await fresh.request('/portal/api/resident?tenancyId='+t.id,{as:resident})).status,401);assert.equal((await fresh.db.prepare('SELECT COUNT(*) AS n FROM tt_resident_document_shares').first()).n,0,'restoring originals does not restore sharing authority')}finally{await fresh.close()}
   await h.command('portal.revoke',{tenancyId:t.id,identityId:(await(await h.request('/portal/api/me',{as:resident})).json()).person.id,reason:'Synthetic revoked account access'})
   for(const path of ['/portal/api/resident?tenancyId='+t.id,account.current.documents[0].url,'/portal/api/preferences?tenancyId='+t.id])assert.equal((await h.request(path,{as:resident})).status,401)
+  await h.setTime('2045-01-01T12:00:00.000Z')
+  const privacy=await h.command('privacy.request',{tenancyId:t.id,kind:'erase',source:'Synthetic resident account erasure'})
+  const review=await h.command('privacy.review',{tenancyId:t.id,requestId:privacy.id});assert.equal(review.review.eligible,true)
+  await h.command('tenancy.erase',{tenancyId:t.id,requestId:privacy.id,fingerprint:review.review.fingerprint,confirm:tenancyInput.tenantEmail})
+  assert.equal((await h.db.prepare('SELECT count(*) AS n FROM tt_resident_document_shares WHERE tenancy_id=?').bind(t.id).first()).n,0,'erasure removes document sharing authority')
+  assert.equal((await h.request(account.current.documents[0].url,{as:resident})).status,401)
+  const later=await(await h.request('/api/backup')).text(),fenced=await installation({now:'2045-01-01T12:00:00.000Z'})
+  try{await fenced.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'synthetic-terrace-210.rer'),journal:new File([later],'synthetic-terrace-211.rer')},{status:409});assert.equal((await fenced.state()).tenancies.length,0,'an older account archive cannot resurrect an erased resident')}finally{await fenced.close()}
+
  }})
  const h=await installation({demo:true,stripeKey:'synthetic-terrace-1',stripeRequest:()=>{throw Error('Demo escaped to Stripe')}})
  try{const s=await h.state();await h.command('payment.card',{tenancyId:s.tenancies[0].id},{status:403});assert.equal((await h.request('/api/stripe/events',{method:'POST',as:'',body:{id:'evt_syntheticterrace1'}})).status,503)}finally{await h.close()}

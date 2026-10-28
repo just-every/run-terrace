@@ -35,7 +35,7 @@ export async function portalCommand(c: Context, command: string, p: Row): Promis
  if(command==='portal.bank.update'){await tenancy(c,p.tenancyId);insist(false,'hosted_bank_method','Bank methods are managed by the payment provider. Terrace does not accept resident bank details.',403)}
  if (command === 'portal.request.link') return linkRequest(c,p)
  if (command === 'portal.invite') {
-  const kind = String(p.kind), spec = SUBJECT[kind]
+  const kind = String(p.kind), spec = Object.hasOwn(SUBJECT, kind) ? SUBJECT[kind] : undefined
   insist(spec, 'portal_kind', 'Choose resident, owner or vendor.')
   const access = String(p.access ?? spec.access[0])
   insist(spec.access.includes(access), 'portal_access', 'Choose resident or delegated contact access.')

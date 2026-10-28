@@ -19,7 +19,7 @@ export const KINDS: Record<string, { label: string; retention: string; restricti
  tax: { label: 'Tax document', retention: 'accounting', restriction: 'tax', right: 'document.tax' },
 }
 /** Rows stored as an earlier kind (inspection, work, invoice, other) stay readable with document.read. */
-export const right = (kind: string) => KINDS[kind]?.right ?? 'document.read'
+export const right = (kind: string) => (Object.hasOwn(KINDS, kind) ? KINDS[kind].right : undefined) ?? 'document.read'
 /** A restricted document is invisible, not forbidden, to a reader without its kind's right, and never reachable by an API credential. */
 const mayRead = (c: Context, kind: string) => { const r = right(kind); return can(c, r) && (r === 'document.read' || !c.actor.credential) }
 /** Whether the Documents door opens at all: any document right (an accountant's is tax documents only). */
@@ -58,7 +58,7 @@ export async function stored(c: Context, p: Row, tenancyId: string, documentId: 
 export async function documentCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (!DOCUMENT_COMMANDS.includes(command)) return
  if (command === 'document.upload') {
-  const kind = KINDS[String(p.kind)]
+  const name = String(p.kind), kind = Object.hasOwn(KINDS, name) ? KINDS[name] : undefined
   insist(kind, 'document_kind', 'Choose a document type.')
   insist(mayRead(c, String(p.kind)), 'forbidden', 'Your role does not allow this action.', 403)
   const t = await tenancy(c, p.tenancyId), title = text(p.title, 'Title', 200), documentId = id(), s = await stored(c, p, t.id, documentId, 1)

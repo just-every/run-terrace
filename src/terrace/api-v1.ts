@@ -68,7 +68,7 @@ const decode = (cursor: string) => { try { return atob(cursor.replace(/-/g, '+')
 export async function apiV1(c: Context, url: URL): Promise<Response> {
  const [, , , name, key] = url.pathname.split('/'), q = url.searchParams
  if (!name) return Response.json({ version: 1, resources: Object.keys(RESOURCES).map(r => ({ name: r, href: '/api/v1/' + r })), pagination: { limit: `1 to ${MAX_LIMIT}, default ${DEFAULT_LIMIT}`, cursor: 'the next value from the previous page' } }, { headers: head })
- const resource = RESOURCES[name]
+ const resource = Object.hasOwn(RESOURCES, name) ? RESOURCES[name] : undefined
  insist(resource, 'not_found', 'Unknown resource.', 404)
  const rows = (await resource.ids(c, q)).sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
  if (key) {

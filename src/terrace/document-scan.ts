@@ -69,7 +69,7 @@ async function pdf(bytes: Uint8Array): Promise<Scan> {
 }
 
 export async function scan(bytes: Uint8Array, type: string): Promise<Scan> {
- if (!(type in TYPES)) return refuse('This file type is not accepted. Upload a PDF, JPEG, PNG, plain text, CSV or .eml file.')
+ if (!Object.hasOwn(TYPES, type)) return refuse('This file type is not accepted. Upload a PDF, JPEG, PNG, plain text, CSV or .eml file.')
  if (!bytes.length || bytes.length > LIMIT) return refuse('Each document must be between 1 byte and 5 MB.')
  const magic = type === 'application/pdf' ? ascii(bytes, '%PDF-') : type === 'image/png' ? same(bytes, [137, 80, 78, 71, 13, 10, 26, 10]) : type === 'image/jpeg' ? same(bytes, [255, 216, 255]) : true
  if (!magic) return refuse('The file contents do not match its declared type.')

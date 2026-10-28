@@ -21,7 +21,7 @@ const RANK: Record<string, number> = { refused: 0, unknown: 1, granted: 2 }
 const phoneOf = (v: unknown) => { if (v === undefined || v === null || v === '') return null; const d = String(v).replace(/\D/g, ''); insist(d.length >= 10 && d.length <= 15, 'invalid_input', 'Enter a phone number with at least 10 digits.'); return d.length === 11 && d.startsWith('1') ? d.slice(1) : d }
 const emailOf = (v: unknown) => v === undefined || v === null || v === '' ? null : email(v)
 const source = (v: unknown) => { const s = String(v ?? ''); insist(SOURCES.some(x => x[0] === s), 'invalid_input', 'Choose own site, marketplace, email, phone, walk-in or referral.'); return s }
-const consentState = (v: unknown) => { const s = String(v ?? 'unknown'); insist(s in RANK, 'invalid_input', 'Consent is granted, refused or unknown.'); return s }
+const consentState = (v: unknown) => { const s = String(v ?? 'unknown'); insist(Object.hasOwn(RANK, s), 'invalid_input', 'Consent is granted, refused or unknown.'); return s }
 export const event = (c: Context, prospectId: string, kind: string, detail: unknown, reference: string, label = RECORDED) => sql(c, 'INSERT INTO tt_prospect_events(id,prospect_id,kind,detail,reference,label,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?,?)', id(), prospectId, kind, JSON.stringify(detail), reference, label, c.actor.id, c.now)
 /** The owner, or staff whose role may record prospects in that portfolio and who are active. */
 const leasingScope = "o.status='active' AND (o.role='owner' OR EXISTS(SELECT 1 FROM tt_staff_roles r JOIN tt_role_actions k ON k.role=r.role WHERE r.operator_id=o.id AND k.action='prospect.add' AND (r.all_portfolios=1 OR EXISTS(SELECT 1 FROM tt_role_portfolios rp WHERE rp.operator_id=o.id AND rp.portfolio_id=?))))"
