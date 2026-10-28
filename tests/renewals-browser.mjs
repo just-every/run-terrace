@@ -4,9 +4,10 @@ import {mkdir} from 'node:fs/promises'
 import {join,resolve} from 'node:path'
 import {chromium} from '@playwright/test'
 import {journey} from './renewals.mjs'
+process.env.TERRACE_ASYNC_SQL='1'
 const out=resolve(process.env.RENEWAL_SCREENSHOTS??'.rer/renewal-screens');await mkdir(out,{recursive:true})
 const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH}:{}),args:['--no-sandbox','--use-mock-keychain','--password-store=basic']})
-try{await journey({assets:true,inspect:async({h,stage,renewalId,leaseId})=>{
+try{await journey({assets:true,inspect:async({h,stage,renewalId,leaseId,condition,condition2})=>{
  const context=await browser.newContext()
  try{
   await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return{name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}))
@@ -14,7 +15,25 @@ try{await journey({assets:true,inspect:async({h,stage,renewalId,leaseId})=>{
   for(const [width,height]of [[1440,900],[390,844]]){
    await page.setViewportSize({width,height});await page.goto(h.origin+'/app?tab=renewals')
    const card=page.locator('#renewal-'+renewalId)
-   if(stage==='options'){
+   if(stage==='source-current'||stage==='source-stale'){
+    if(width===1440){
+     const evidence=card.getByRole('region',{name:'Renewal document evidence'})
+     const text=await evidence.innerText()
+     assert.ok(text.includes(condition.sha256),'pinned document hash is readable')
+     assert.match(text,/Document contents are evidence only/)
+     if(stage==='source-current'){
+      assert.match(text,/Pinned evidence is current/)
+      assert.equal(await card.getByRole('button',{name:'Approve offer',exact:true}).count(),1)
+     }else{
+      assert.ok(text.includes(condition2.sha256),'current and historical hashes are distinct and visible')
+      assert.match(text,/Evidence needs review/)
+      assert.match(await card.innerText(),/Owner selects current authorized document versions in a new workload/)
+      assert.equal(await card.getByRole('button',{name:'Approve offer',exact:true}).count(),0)
+      assert.equal(await card.getByRole('button',{name:'Reject offer',exact:true}).count(),1)
+     }
+     assert.ok(!text.includes('ignore the owner'),'original instructions stay out of the renewal screen')
+    }
+   }else if(stage==='options'){
     assert.match(await card.innerText(),/Sourced alternatives.*1,890\.00.*1,850\.00/s)
     assert.match(await card.innerText(),/estimated concession \$100\.00/)
     assert.ok((await card.locator('dd').first().boundingBox()).width>width/2,'alternative values have readable width')

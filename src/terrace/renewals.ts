@@ -7,6 +7,7 @@ import { workflowSendClaim } from './workflow-mail'
 import { all, allow, audit, cents, commit, date, guard, id, insist, money, one, reaches, sql, tenancy, text, type Context, type Row } from './core'
 import { householdData } from './households'
 import { localDate } from './zones'
+import {pinRenewalSources,renewalSourceGuards,renewalSourceState,sourceInstallation,SOURCE_REVIEW} from './renewal-sources'
 
 export const RENEWAL_COMMANDS = ['renewal.schedule', 'renewal.send', 'renewal.reply', 'renewal.close']
 const PERIODS: Record<string, number> = { weekly: 52, fortnightly: 26, monthly: 12 }
@@ -48,6 +49,9 @@ export async function offerInput(c: Context, t: Row, p: Row) {
  insist(r.tenancy_id === t.id, 'not_found', 'Renewal not found.', 404)
  if(c.agentWorkload)insist(JSON.stringify(p.expectedRoster)===JSON.stringify(await renewalRoster(c,t.id)),'renewal_changed','Household roster changed; owner review and a new workload are required.',409)
  if(c.agentWorkload)insist(p.expectedTenancyVersion===t.version&&p.expectedRenewalVersion===r.version,'renewal_changed','Renewal terms or history changed after owner configuration. Pause and review a new workload.',409)
+ const documentSources=p.documentSources===undefined?undefined:c.agentWorkload?p.documentSources:await pinRenewalSources(c,t,p.documentSources)
+ const installation=documentSources?(c.agentWorkload?p.sourceInstallation:await sourceInstallation(c)):undefined
+ insist(!(await renewalSourceState(c,t,documentSources,installation))?.stale,'renewal_sources_changed',SOURCE_REVIEW,409)
  insist(['open', 'countered'].includes(r.state), 'renewal_state', 'This renewal is not waiting for an offer.', 409)
  insist(r.lease_end === t.end_date && !t.ended_on, 'renewal_changed', 'The lease end changed after this renewal was scheduled.', 409)
  insist(!await one(c, "SELECT 1 FROM tt_proposals WHERE kind='renewal' AND state='pending' AND json_extract(payload,'$.renewalId')=?", r.id), 'offer_pending', 'An offer for this renewal is already waiting for approval.', 409)
@@ -82,7 +86,7 @@ export async function offerInput(c: Context, t: Row, p: Row) {
   })
   insist(alternatives!.some(a=>a.rentCents===rentCents&&a.endDate===endDate),'renewal_options','The selected offer must match a sourced alternative.')
  }
- return { renewalId: r.id, renewalVersion:r.version, householdRoster:await renewalRoster(c,t.id), ...(requiredSigners?{requiredSigners}:{}), endDate, rentCents, source: text(p.source, 'Lease reference / reason', 1000), deadline, market, vacantDays, makeReady, leasing, recipients: to,
+ return { renewalId: r.id, renewalVersion:r.version, householdRoster:await renewalRoster(c,t.id), ...(documentSources?{documentSources,sourceInstallation:installation}:{}), ...(requiredSigners?{requiredSigners}:{}), endDate, rentCents, source: text(p.source, 'Lease reference / reason', 1000), deadline, market, vacantDays, makeReady, leasing, recipients: to,
   comparison: comparison(t, rentCents, market, vacantDays, makeReady.cents, leasing.cents),
   ...(alternatives?{alternatives,context:{conditionSource:p.conditionSource??null,communicationSource:p.communicationSource??null,cashSource:p.cashSource??null}}:{}) }
 }
@@ -113,12 +117,13 @@ export async function renewalData(c: Context, tenancyId?: string) {
   all(c, "SELECT p.id,p.state,p.payload,p.tenancy_version,p.prepared_at,p.approved_at,p.approval_label,COALESCE(a.display_name,p.prepared_by) AS prepared_name,COALESCE(b.display_name,p.approved_by) AS approved_name FROM tt_proposals p LEFT JOIN oa_operators a ON a.id=p.prepared_by LEFT JOIN oa_operators b ON b.id=p.approved_by WHERE p.kind='renewal' AND json_extract(p.payload,'$.renewalId') IS NOT NULL ORDER BY p.renewal_sequence,p.prepared_at,p.id"),
   all(c, 'SELECT e.*,COALESCE(o.display_name,e.recorded_by) AS recorded_name FROM tt_renewal_events e LEFT JOIN oa_operators o ON o.id=e.recorded_by ORDER BY e.renewal_id,e.sequence'),
  ])
- return scoped.map(r => {
+ return Promise.all(scoped.map(async r => {
   const mine = offers.map((o): Row => ({ ...o, payload: JSON.parse(o.payload) })).filter(o => o.payload.renewalId === r.id), offer = mine.at(-1)
   const history = events.filter(e => e.renewal_id === r.id).map((e): Row => ({ ...e, detail: JSON.parse(e.detail) }))
   const sends = offer ? history.filter(e => e.kind === 'send' && e.detail.proposalId === offer.id) : []
-  return { ...r, offers: mine, offer, events: history, nextAction: nextAction(r, offer, sends, localDate(c.now, r.time_zone)) }
- })
+  for(const o of mine)o.sources=await renewalSourceState(c,{...r,id:r.tenancy_id},o.payload.documentSources,o.payload.sourceInstallation)
+  return { ...r, offers: mine, offer, events: history, nextAction:offer?.sources?.stale?SOURCE_REVIEW:nextAction(r, offer, sends, localDate(c.now, r.time_zone)) }
+ }))
 }
 
 export async function renewalCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
@@ -139,6 +144,7 @@ export async function renewalCommand(c: Context, command: string, p: Row): Promi
  const { r, t } = await renewalItem(c, p.renewalId), today = localDate(c.now, t.time_zone)
  const offer = await one(c, "SELECT * FROM tt_proposals WHERE kind='renewal' AND json_extract(payload,'$.renewalId')=? ORDER BY renewal_sequence DESC,prepared_at DESC,id DESC LIMIT 1", r.id)
  if(command==='renewal.send'||command==='renewal.reply')insist(offer?.tenancy_version===t.version,'renewal_changed','The lease terms changed after offer approval. Review a new offer before contacting or recording agreement.',409)
+ if(command==='renewal.send'&&offer){const p=JSON.parse(offer.payload);insist(!(await renewalSourceState(c,t,p.documentSources,p.sourceInstallation))?.stale,'renewal_sources_changed',SOURCE_REVIEW,409)}
  if((command==='renewal.send'||command==='renewal.reply')&&offer){const payload=JSON.parse(offer.payload);insist(!payload.householdRoster||JSON.stringify(payload.householdRoster)===JSON.stringify(await renewalRoster(c,t.id)),'renewal_changed','Household roster changed after approval. Review a new offer and required signer roster.',409)}
  if (command === 'renewal.send') {
   insist(offer?.state === 'approved' && r.state === 'open', 'offer_not_approved', 'Only an approved offer still waiting for a reply can be sent.', 409)
@@ -152,7 +158,7 @@ export async function renewalCommand(c: Context, command: string, p: Row): Promi
   insist(due.length, 'already_sent', 'This offer was already sent to every recipient, or its outcome is uncertain. It is not sent again.', 409)
   const subject = `Lease renewal offer: ${t.address}`, body = `Hello,\n\nWe are offering to renew your lease at ${t.address} through ${payload.endDate} at ${money(payload.rentCents, t.currency)} per ${t.cadence === 'monthly' ? 'month' : t.cadence === 'weekly' ? 'week' : 'fortnight'}.\nPlease reply to this email by ${payload.deadline}.\n\nThis offer is not a lease. A renewal takes effect only once a signed renewal is recorded.`
   const emails = due.map((x: Row) => ({ eventId: id(), renewalId: r.id, tenancyId: t.id, proposalId: offer.id, day: today, to: x.email, subject, body }))
-  await commit(c, [...await workflowSendClaim(c, 'renewal', r.id, emails[0].eventId), guard(c, "EXISTS(SELECT 1 FROM tt_proposals WHERE id=? AND state='approved')", offer.id), fence(c, r), guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)',t.id,t.version), sql(c, 'UPDATE tt_renewals SET version=version+1 WHERE id=?', r.id),
+  await commit(c, [...renewalSourceGuards(c,t,payload.documentSources),...await workflowSendClaim(c, 'renewal', r.id, emails[0].eventId), guard(c, "EXISTS(SELECT 1 FROM tt_proposals WHERE id=? AND state='approved')", offer.id), fence(c, r), guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)',t.id,t.version), sql(c, 'UPDATE tt_renewals SET version=version+1 WHERE id=?', r.id),
    ...(payload.householdRoster?rosterGuards(c,t.id,payload.householdRoster):[]), ...emails.map((m: Row) => sql(c, 'INSERT INTO tt_renewal_events(id,renewal_id,tenancy_id,kind,happened_on,detail,reference,label,recorded_by,recorded_at,sequence) VALUES(?,?,?,?,?,?,?,?,?,?,(SELECT COALESCE(MAX(sequence),0)+1 FROM tt_renewal_events WHERE renewal_id=?))', m.eventId, r.id, t.id, 'send', today, JSON.stringify({ proposalId: offer.id, eventId: m.eventId, to: m.to, subject }), `Offer ${offer.id}`, 'sending through the installation mail provider', c.actor.id, c.now, r.id))], command, r.id)
   return { renewalId: r.id, tenancyId: t.id, renewalEmails: emails, notice: `Renewal offer sent to ${emails.length} recipient${emails.length === 1 ? '' : 's'}.` }
  }

@@ -2,12 +2,16 @@
 import {all,one,tenancy,type Context,type Row} from './core'
 import {renewalData,renewalRoster} from './renewals'
 import {previewLease} from './charge-run'
+import {renewalSourceState,sourceReader,SOURCE_REVIEW} from './renewal-sources'
 export async function renewalStewardship(c:Context,w:Row,authorityCurrent:boolean){
  const args=JSON.parse(w.payload),campaign=(await renewalData(c,w.tenancy_id)).find((r:Row)=>r.id===args.renewalId) as Row|undefined
- if(!campaign)return {phase:'unavailable',nextStep:'Owner reviews the unavailable renewal record',dueOn:w.due_at}
- const offer=campaign.offer,base={renewalId:campaign.id,campaignVersion:campaign.version,offerId:offer?.id??null,requiredSigners:offer?.payload.requiredSigners??[],events:campaign.events,dueOn:offer?.payload.deadline??w.due_at}
+ if(!campaign)return {phase:'unavailable',sources:null,nextStep:'Owner reviews the unavailable renewal record',dueOn:w.due_at}
+ const t=await tenancy(c,w.tenancy_id),reader=await sourceReader(c,w.credential_id)
+ const sources=await renewalSourceState(reader??c,t,args.documentSources,args.sourceInstallation)
+ const offer=campaign.offer,base={renewalId:campaign.id,campaignVersion:campaign.version,offerId:offer?.id??null,requiredSigners:offer?.payload.requiredSigners??[],events:campaign.events,dueOn:offer?.payload.deadline??w.due_at,sources}
  if(!authorityCurrent)return {...base,phase:'authority_changed',nextStep:'Owner reviews changed credential authority; no further execution is permitted'}
- const t=await tenancy(c,w.tenancy_id)
+ if(sources?.stale)return {...base,phase:'sources_changed',nextStep:SOURCE_REVIEW}
+ if(!w.result_subject)return {...base,phase:'preparation_pending',nextStep:'Owner reviews the queued preparation; only its assigned credential can prepare the offer'}
  if(campaign.state!=='executed'&&offer&&(offer.payload.householdRoster&&JSON.stringify(offer.payload.householdRoster)!==JSON.stringify(await renewalRoster(c,t.id))||offer.tenancy_version!==undefined&&offer.tenancy_version!==t.version))return {...base,phase:'sources_changed',nextStep:'Owner reviews changed lease or household sources and prepares a new offer'}
  if(campaign.state==='executed'){
   const v=await one(c,'SELECT * FROM tt_lease_versions WHERE id=? AND approved_at IS NOT NULL',campaign.lease_version_id)

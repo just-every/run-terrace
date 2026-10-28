@@ -24,7 +24,7 @@ export const KINDS: Record<string, { label: string; retention: string; restricti
 /** Rows stored as an earlier kind (inspection, work, invoice, other) stay readable with document.read. */
 export const right = (kind: string) => kind === 'professional' ? 'referral.read' : (Object.hasOwn(KINDS, kind) ? KINDS[kind].right : undefined) ?? 'document.read'
 /** A restricted document is invisible, not forbidden, to a reader without its kind's right, and never reachable by an API credential. */
-const mayRead = (c: Context, kind: string, referralOriginal = false) => { const r = referralOriginal ? 'referral.read' : right(kind); return can(c, r) && (r === 'document.read' || !c.actor.credential) }
+export const mayRead = (c: Context, kind: string, referralOriginal = false) => { const r = referralOriginal ? 'referral.read' : right(kind); return can(c, r) && (r === 'document.read' || !c.actor.credential) }
 /** Whether the Documents door opens at all: any document right (an accountant's is tax documents only). */
 export const readsDocuments = (c: Context) => ['document.read', 'document.application', 'document.screening', 'document.tax', 'referral.read'].some(r => can(c, r))
 export const enterDocuments = (c: Context) => insist(readsDocuments(c), 'forbidden', 'Your role does not allow this action.', 403)
