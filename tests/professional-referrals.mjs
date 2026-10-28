@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
 import {installation,tenancyInput} from './api/harness.mjs'
+import {documentOriginal} from './api/document-original.mjs'
 import {syntheticPack} from './rule-packs.mjs'
 const mailbox=name=>name+'@'+'example.test'
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex')
@@ -61,7 +62,7 @@ export async function journey({assets=false,inspect}={}){
   assert.deepEqual((await h.state(t.id)).ledger,ledger.ledger,'no financial state changes')
   assert.equal(h.messages.length,mailCount,'referral recording sends nothing')
   for(const entry of [rejected,received]){
-   const result=await h.request('/api/document?id='+entry.versionId,{as:staff.portfolio_manager})
+   const result=await documentOriginal(h,entry.versionId,{as:staff.portfolio_manager})
    assert.equal(result.status,200);assert.match(result.headers.get('cache-control'),/private, no-store/)
    assert.equal(result.headers.get('x-document-sha256'),entry.sha256)
    assert.equal(sha(Buffer.from(await result.arrayBuffer())),entry.sha256)
@@ -93,13 +94,17 @@ export async function journey({assets=false,inspect}={}){
   await h.stepUp();const credential=await h.command('credential.mint',{label:'synthetic-terrace-13',scope:'read',role:'portfolio_manager',portfolioIds:[f.id]})
   const headers={authorization:'Bearer '+credential.token}
   assert.equal((await h.request('/api/professional-referrals',{as:'',headers})).status,403)
+  assert.equal((await h.request('/api/document?id='+received.versionId,{as:'',headers})).status,404)
   await h.command('credential.revoke',{credentialId:credential.id})
   assert.equal((await h.request('/api/professional-referrals',{as:'',headers})).status,401)
+  await h.command('operator.role',{operatorId:managerRow.id,role:'leasing',portfolioIds:[f.id]})
+  assert.equal((await h.request('/api/professional-referrals',{as:staff.portfolio_manager})).status,401,'a former manager loses the existing session immediately')
+  assert.equal((await h.request('/api/document?id='+received.versionId,{as:staff.portfolio_manager})).status,401,'revoked sessions cannot download originals')
   const backup=await(await h.request('/api/backup')).text(),fresh=await installation()
   try{
    await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([backup],'referrals.rer')})
    assert.deepEqual((await(await fresh.request('/api/professional-referrals')).json()).cases,await cases())
-   const original=await fresh.request('/api/document?id='+received.versionId)
+   const original=await documentOriginal(fresh,received.versionId)
    assert.deepEqual(Buffer.from(await original.arrayBuffer()),goodBytes)
    assert.equal((await fresh.request('/api/professional-referrals',{as:'',headers})).status,401,'restore grants no credential authority')
   }finally{await fresh.close()}
@@ -114,7 +119,7 @@ export async function journey({assets=false,inspect}={}){
   const req=await h.command('privacy.request',{tenancyId:t.id,kind:'erase',source:'synthetic-terrace-14'}),hold=await h.command('privacy.hold',{tenancyId:t.id,class:'lease',reason:'synthetic-terrace-15 counsel hold'})
   let retained=await h.command('privacy.review',{tenancyId:t.id,requestId:req.id})
   await h.command('tenancy.erase',{tenancyId:t.id,requestId:req.id,fingerprint:retained.review.fingerprint,confirm:mailbox('synthetic-terrace-1')},{status:409})
-  assert.equal((await h.request('/api/document?id='+received.versionId)).status,200)
+  assert.equal((await documentOriginal(h,received.versionId)).status,200)
   await h.command('privacy.release',{tenancyId:t.id,holdId:hold.id,reason:'synthetic-terrace-16'})
   retained=await h.command('privacy.review',{tenancyId:t.id,requestId:req.id});assert.equal(retained.review.eligible,true)
   await h.command('tenancy.erase',{tenancyId:t.id,requestId:req.id,fingerprint:retained.review.fingerprint,confirm:mailbox('synthetic-terrace-1')})

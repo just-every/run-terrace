@@ -5,6 +5,7 @@
 import { readArchive, type Manifest, type Part, type Closing } from '../modules/portability/index.mjs'
 import { allow, sha256, type Context } from './core'
 import { backup } from './data'
+import {redactSensitive} from './sensitive-metadata'
 import { csv, zip } from './exports'
 
 const EXT: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', 'application/pdf': 'pdf', 'video/mp4': 'mp4', 'video/quicktime': 'mov', 'video/webm': 'webm', 'text/plain': 'txt', 'text/csv': 'csv', 'message/rfc822': 'eml' }
@@ -35,10 +36,12 @@ export async function readableExport(c: Context) {
  const rows = new Map<string, Record<string, unknown>[]>()
  for (const part of records.filter(r => r.kind === 'part') as Part[]) for (const item of part.items) if (item.kind === 'row') rows.set(item.table, [...(rows.get(item.table) ?? []), item.row])
  const files: [string, string | Uint8Array][] = [], inventory: Record<string, unknown>[] = []
+ const restricted=new Set((rows.get('tt_documents')??[]).filter(r=>r.restriction).map(r=>r.id))
  for (const table of manifest.tables) {
   const columns = table.columns.map(col => col.name), list = rows.get(table.name) ?? []
   const lines = [columns, ...await Promise.all(list.map(async (row, i) => Promise.all(columns.map(async name => {
-   const v = row[name] as unknown
+   let v = row[name] as unknown
+   if((table.name==='tt_documents'&&row.restriction||table.name==='tt_document_versions'&&restricted.has(row.document_id))&&['title','name','note','content_text'].includes(name)&&typeof v==='string')v=name==='content_text'?'[Restricted original content]':redactSensitive(v)
    if (v && typeof v === 'object' && 'blob' in (v as object)) {
     const data = bytes((v as { blob: string }).blob), ext = EXT[String(row.media_type ?? row.type)] ?? 'bin', path = `files/${table.name}/${row.id ?? i}.${ext}`, digest = await sha256(data)
     files.push([path, data]); inventory.push({ path, table: table.name, column: name, size: data.length, sha256: digest })
@@ -59,7 +62,7 @@ export async function readableExport(c: Context) {
   files.push([path,data]);inventory.push({path,table:'tt_record_media',id:row.id,attachmentId:row.attachment_id,version:row.version,size:data.length,sha256:digest})
  }
  const summary = { format: 'terrace-readable-export', version: 1, exportedAt: manifest.exportedAt, sourceIdentity: manifest.sourceIdentity, archiveContentHash: closing.contentHash, tables: manifest.tables.map(t => ({ name: t.name, rows: t.count, columns: t.columns.map(col => col.name), file: `tables/${t.name}.csv` })), files: inventory, excludedTables: manifest.excludedTables, excludedColumns: manifest.excludedColumns, reconnect: RECONNECT }
- const readme = `# Terrace readable export\n\nExported ${manifest.exportedAt}. This is a readable copy of the same records as your Terrace backup (.rer), which is the file to restore from.\n\n- tables/<table>.csv: one CSV per table (RFC 4180, UTF-8, header row). Money columns ending _cents are whole cents in the row's currency column; dates are ISO 8601 (YYYY-MM-DD); timestamps are UTC.\n- files/: every stored file as its original bytes. The CSV cell that held it reads file:<path> sha256:<hex>.\n- manifest.json: tables, row counts, columns, file checksums, and tables or columns left out (secrets and platform bookkeeping).\n\n## Reconnect after a restore\n\n${RECONNECT.map(x => `- ${x}`).join('\n')}\n`
+ const readme = `# Terrace readable export\n\nRestricted document metadata is redacted in this readable copy. Original files keep their exact bytes and checksums; the private backup retains complete custody for restore.\n\nExported ${manifest.exportedAt}. This is a readable copy of the same records as your Terrace backup (.rer), which is the file to restore from.\n\n- tables/<table>.csv: one CSV per table (RFC 4180, UTF-8, header row). Money columns ending _cents are whole cents in the row's currency column; dates are ISO 8601 (YYYY-MM-DD); timestamps are UTC.\n- files/: every stored file as its original bytes. The CSV cell that held it reads file:<path> sha256:<hex>.\n- manifest.json: tables, row counts, columns, file checksums, and tables or columns left out (secrets and platform bookkeeping).\n\n## Reconnect after a restore\n\n${RECONNECT.map(x => `- ${x}`).join('\n')}\n`
  files.unshift(['README.md', readme], ['manifest.json', JSON.stringify(summary, null, 1)])
  return new Response(zip(files), { headers: { 'content-type': 'application/zip', 'content-disposition': 'attachment; filename="terrace-readable-export.zip"', 'cache-control': 'no-store' } })
 }

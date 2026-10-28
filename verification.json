@@ -51,7 +51,8 @@
         "node tests/applications-browser.mjs",
         "node tests/migration-browser.mjs",
         "node tests/resident-account-browser.mjs",
-        "node tests/professional-referrals-browser.mjs"
+        "node tests/professional-referrals-browser.mjs",
+        "node tests/document-security-browser.mjs"
       ]
     },
     {

@@ -27,11 +27,11 @@ export async function journey({assets=false,inspect}={}){
  try{
   const catalog=async()=>{const r=await h.request('/api/rules');assert.equal(r.status,200);return r.json()}
   const initial=await catalog();assert.equal(initial.packs.filter(p=>!p.code.includes(':')).length,51);assert.equal(initial.packs.filter(p=>p.code.includes(':')).length,5);assert.ok(initial.packs.every(p=>p.latest===null))
-  const f=await h.command('portfolio.add',{name:'Rule portfolio'}),properties={}
+  const f=await h.command('portfolio.add',{name:'Rule portfolio'}),properties={},heldSources={}
   for(const code of ['CA','TX','FL']){
    const p=await h.command('property.add',{portfolioId:f.id,name:code+' fixture property',address:'1 Synthetic Terrace Road',kind:'duplex',timeZone:'America/Los_Angeles'});properties[code]=p
    await h.command('property.rules',{propertyId:p.id,stateCode:code,version:0,reference:'synthetic-terrace-1'})
-   const held=await h.command('rules.preview',{propertyId:p.id,action:'disposition',on:'2026-10-01',surrenderDate:'2026-10-01',depositCents:180000,claim:true});assert.equal(held.state,'held');assert.match(held.gaps.join(' '),/no dated pack/)
+   const held=await h.command('rules.preview',{propertyId:p.id,action:'disposition',on:'2026-10-01',surrenderDate:'2026-10-01',depositCents:180000,claim:true});assert.equal(held.state,'held');assert.match(held.gaps.join(' '),/no dated pack/);heldSources[code]=held.sourceRevision
   }
   const activate=async p=>h.command('rules.activate',{packId:p.id,consent:'REVIEWED'})
   const tx=await h.command('rules.pack',syntheticPack('TX'));await h.command('rules.activate',{packId:tx.id,consent:'REVIEWED'},{status:409})
@@ -53,7 +53,7 @@ export async function journey({assets=false,inspect}={}){
   const missing=await h.command('rules.preview',{propertyId:properties.CA.id,action:'disposition',on:'2026-10-01',surrenderDate:'2026-10-01',depositCents:180000,claim:true});assert.equal(missing.state,'held');assert.match(missing.gaps.join(' '),/missing Disposition delivery/)
   const next=syntheticPack('CA',3);next.fields.depositItemization.value.days=20
   const v3=await h.command('rules.pack',next);await activate(v3)
-  const latest=await h.command('rules.preview',{propertyId:properties.CA.id,action:'disposition',on:'2026-10-01',surrenderDate:'2026-10-01',depositCents:180000,claim:true});assert.equal(latest.calculations[0].dueOn,'2026-10-21');assert.equal(latest.packs[0].version,3)
+  const latest=await h.command('rules.preview',{propertyId:properties.CA.id,action:'disposition',on:'2026-10-01',surrenderDate:'2026-10-01',depositCents:180000,claim:true});assert.equal(latest.calculations[0].dueOn,'2026-10-21');assert.equal(latest.packs[0].version,3);assert.notEqual(latest.sourceRevision,heldSources.CA,'a new dated source cannot borrow the missing-pack revision')
   const old=(await catalog()).decisions.find(d=>d.id===previews[0].id);assert.equal(old.result.packs[0].version,1);assert.equal(old.result.calculations[0].dueOn,'2026-10-22')
   await h.command('property.rules',{propertyId:properties.CA.id,stateCode:'CA',version:1,overlays:['NY:new_york_city'],reference:'Wrong local pack'},{status:400})
   await h.command('property.rules',{propertyId:properties.CA.id,stateCode:'CA',version:1,overlays:['CA:san_francisco'],reference:'synthetic-terrace-4'})

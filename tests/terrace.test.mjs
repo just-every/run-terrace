@@ -14,7 +14,7 @@ import {journey as journalJourney} from './journal.mjs'
 import {journey as householdJourney} from './households.mjs'
 import {journey as moveChecklistJourney} from './move-checklists.mjs'
 import {journey as roommateJourney} from './roommates.mjs'
-import {journey as documentJourney} from './documents.mjs'
+import {journey as documentJourney,securityJourney as documentSecurityJourney} from './documents.mjs'
 import {journey as portalJourney} from './portal.mjs'
 import {journey as fieldEvidenceJourney} from './field-evidence.mjs'
 import {journey as moveOutJourney} from './move-out.mjs'
@@ -922,7 +922,7 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
 })
 
 test('ROLE-002: residents, delegated contacts, joint owners and vendors see only the record a live grant names; ownership dates, assignments and revocation apply at once; document doors refuse them',()=>portalJourney())
-test('PORT-007: versioned documents are found by unit and content, restricted records and other portfolios return 404, uploads are checked, downloads recorded, backup and readable export keep the originals',()=>documentJourney())
+test('PORT-007: versioned documents are found by unit and content, restricted records and other portfolios return 404, uploads are checked, downloads recorded, backup and readable export keep the originals',async()=>{await documentJourney();await documentSecurityJourney()})
 test('ACCT-002 designated bank custody preserves beneficiary funds through approved transfers',async()=>{await trustJourney()})
 
 

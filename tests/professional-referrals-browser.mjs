@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import {mkdir} from 'node:fs/promises'
 import {resolve,join} from 'node:path'
 import {chromium} from '@playwright/test'
+import {documentOriginal} from './api/document-original.mjs'
 import {journey} from './professional-referrals.mjs'
 const out=resolve(process.env.REFERRAL_SCREENSHOTS??'.rer/referral-screens');await mkdir(out,{recursive:true})
 const browser=await chromium.launch({headless:true,...(process.env.RER_CHROMIUM_PATH?{executablePath:process.env.RER_CHROMIUM_PATH}:{}),args:['--no-sandbox','--use-mock-keychain','--password-store=basic']})
@@ -39,7 +40,7 @@ try{
    await card.getByText('Retain the hold and request clarification from counsel',{exact:false}).waitFor()
    assert.ok((await card.innerText()).includes('Open · response rejected'))
    const download=await card.getByRole('link',{name:'Download response original',exact:true}).getAttribute('href')
-   const original=await h.request(download);assert.equal(await original.text(),'synthetic-terrace-20 native counsel rejects the proposal.')
+   const original=await documentOriginal(h,new URL(download,h.origin).searchParams.get('id'));assert.equal(await original.text(),'synthetic-terrace-20 native counsel rejects the proposal.')
    const person=page.getByRole('link',{name:'Manage people',exact:true})
    await person.focus();await page.waitForTimeout(30);assert.equal(await person.locator('[role=tooltip]').evaluate(el=>getComputedStyle(el).opacity),'1')
    await page.getByRole('heading',{name:'State & local rules',exact:true}).click();await person.hover();await page.waitForTimeout(400);assert.equal(await person.locator('[role=tooltip]').evaluate(el=>getComputedStyle(el).opacity),'1')
