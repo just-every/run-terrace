@@ -148,6 +148,10 @@
       "sha256": "cb9d54b397e62ba7b760d71d67b3117c47923a336436216a3aeab8f0142b0717",
       "executable": false
     },
+    "docs/agent-door-adoption.md": {
+      "sha256": "3f33e88815484b7a1327406bb0ffe2b0929028f7e77de4bf71b6379fd705dbab",
+      "executable": false
+    },
     "docs/applications.md": {
       "sha256": "b3377c7b8e89af34fb451c31f701f1d74cfa5fc30cc6c44b5ea456dc04f6a5fc",
       "executable": false
