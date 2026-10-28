@@ -131,12 +131,12 @@ async function recoveryJourney({h,t,pay,calls,sessions,events,intents,charges,ed
  const metadata=session.metadata
  session.metadata={terrace_payment_id:randomUUID()}
  const conflict=await h.command('payment.card.lookup',{...args,sessionId:session.id})
- assert.equal(conflict.outcome,'conflicting');assert.equal((await caseRow()).session_id,null)
+ assert.equal(conflict.outcome,'conflicting');assert.equal((await caseRow()).session_id,null);assert.equal((await caseRow()).next_action,'resolve_conflict')
  assert.equal((await h.state(t.id)).ledger.payments.pendingCents,pending)
  await inspect?.({phase:'recovery-conflicting',h,t,paymentId,sessionId:session.id})
  session.metadata=metadata
  const lookup=await h.command('payment.card.lookup',{...args,sessionId:session.id})
- assert.equal(lookup.outcome,'awaiting_event');assert.equal((await caseRow()).session_id,session.id)
+ assert.equal(lookup.outcome,'awaiting_event');assert.equal((await caseRow()).session_id,session.id);assert.equal((await caseRow()).next_action,'obtain_event')
  assert.equal((await h.state(t.id)).ledger.receipts.length,1,'session lookup cannot post money')
  await h.command('payment.card.review',{...args,nextAction:'obtain_event'})
  assert.equal((await caseRow()).assigned_to,owner);assert.equal((await caseRow()).next_action,'obtain_event')

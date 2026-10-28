@@ -989,7 +989,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "0bfbb001ddfdb907a033f5a30b926f73f73d2b17300249bf8bb99b221dfb0e97",
+      "sha256": "2aac1d82505fffdcb6bc3420242325f147ceb503d52e76060cfcecea45ff3891",
       "executable": false
     },
     "rer-project.json": {
@@ -3985,7 +3985,7 @@
       "executable": false
     },
     "src/terrace/payment-recovery.ts": {
-      "sha256": "0a3702a55e4078e33868bc05c1a4ce067b1f584fb80847dcd8351c2c66878c2c",
+      "sha256": "ebfd2d26256c98b8dd9b756c7639b32c6df538b42f11c74eb242a6e56d8bd9a4",
       "executable": false
     },
     "src/terrace/payment-view.ts": {
@@ -4501,7 +4501,7 @@
       "executable": false
     },
     "tests/card-payments.mjs": {
-      "sha256": "a02de3fc8235d1eaab8f23d25c5362e93b53aeec8af70d08a11aeef3c3abf9b9",
+      "sha256": "e2c14ed52c5b27f99f5fc8fc641fac4b8d448d87aa1ff4d38cee3b4392260c53",
       "executable": false
     },
     "tests/credentials-browser.mjs": {

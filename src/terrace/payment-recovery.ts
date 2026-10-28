@@ -36,6 +36,6 @@ export async function paymentRecovery(c:Context,env:Bindings,name:string,p:Row){
   outcome=['provider_conflict','provider_event','not_found'].includes(error.code)?'conflicting':'unknown'
   // No provider payload or error text is retained; uncertainty never releases the reservation.
  }
- await commit(c,[tenancyGuard(c,t),guard(c,'EXISTS(SELECT 1 FROM tt_card_checkout_links WHERE payment_id=?)',row.payment_id),sql(c,"UPDATE tt_payment_recovery SET outcome=CASE WHEN outcome='resolved' THEN outcome ELSE ? END,session_id=COALESCE(session_id,?),updated_at=? WHERE payment_id=?",outcome,sessionId,c.now,row.payment_id)],name,row.payment_id)
+ await commit(c,[tenancyGuard(c,t),guard(c,'EXISTS(SELECT 1 FROM tt_card_checkout_links WHERE payment_id=?)',row.payment_id),sql(c,"UPDATE tt_payment_recovery SET outcome=CASE WHEN outcome='resolved' THEN outcome ELSE ? END,session_id=COALESCE(session_id,?),next_action=CASE WHEN outcome='resolved' THEN next_action ELSE ? END,updated_at=? WHERE payment_id=?",outcome,sessionId,outcome==='conflicting'?'resolve_conflict':outcome==='awaiting_event'?'obtain_event':'inspect_provider',c.now,row.payment_id)],name,row.payment_id)
  return {tenancyId:t.id,paymentId:row.payment_id,outcome,notice:outcome==='conflicting'?'Conflicting provider evidence. Reservation remains held for staff review.':outcome==='unknown'?'Provider outcome remains unknown. Reservation remains held.':'Session found. Obtain its canonical event to confirm a financial outcome; lookup changed no money.'}
 }
