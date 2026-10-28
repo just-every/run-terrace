@@ -27,3 +27,5 @@ The repo uses package mode and has no edition recipe or sources.lock.json.
 Demo inspection photographs reuse the existing Terrace sink and tap artwork,
 converted to JPEG for the inspection store. The first two sample properties
 come from the documented tenancy CSV; all sample dates follow demo startup.
+
+The shared agent door, Business settings and operator-auth runtime source are copied from Base `d555e789cffb744a9f83d76ebe42a2e3bdd7a055`. Their origins and byte digests are recorded in `base-copies.json`. Agent and Business persistence is added by migrations 0106–0108; no applied migration is replaced. Runtime copies and the package-mode CLI are separate pins.
