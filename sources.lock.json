@@ -4609,7 +4609,7 @@
       "executable": false
     },
     "tests/migration.mjs": {
-      "sha256": "bf0a8d4a7a20b483ff545422284aa17e21b3080445d1a1dbf13c1c42383fd2d8",
+      "sha256": "58c87048a51f58afead9aa61d8f67a7babc5b9e64d9609565c3182d615777d04",
       "executable": false
     },
     "tests/mobile-inspections-browser.mjs": {
