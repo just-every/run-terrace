@@ -1,16 +1,35 @@
 // PORT-007 and ROLE-002 native screens at 1440 and 390: the Documents page (search, upload, new version), the staff portal-access section and each portal person's pages.
 import assert from 'node:assert/strict'
-import {mkdir,writeFile} from 'node:fs/promises'
+import {mkdir,writeFile,readFile} from 'node:fs/promises'
 import {resolve,join} from 'node:path'
+import {createHash} from 'node:crypto'
 import {chromium} from '@playwright/test'
 import {journey as documents} from './documents.mjs'
 import {journey as portal} from './portal.mjs'
 const out=resolve(process.env.DOCUMENT_SCREENSHOTS??'.rer/document-screens');await mkdir(out,{recursive:true})
-const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
+const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_EXECUTABLE_PATH?{executablePath:process.env.PLAYWRIGHT_EXECUTABLE_PATH}:{}),args:['--no-sandbox','--use-mock-keychain','--password-store=basic']})
 const open=async(origin,cookie,names)=>{const context=await browser.newContext();await context.addCookies(cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return{name:pair.slice(0,i),value:pair.slice(i+1),url:origin}}));return {context,page:await context.newPage()}}
 const shoot=async(page,name)=>{for(const [width,height] of [[1440,900],[390,844]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),name+' fits '+width);await page.screenshot({path:join(out,`${name}-${width}.png`),fullPage:true})}}
 try{
- await documents({assets:true,inspect:async({r,north,staff})=>{
+ await documents({assets:true,inspect:async({phase,r,north,staff,privateDoc,privateBytes,sentinel})=>{
+  if(phase==='restricted'){
+   const {context,page}=await open(r.origin,staff.manager)
+   await page.setViewportSize({width:1440,height:900})
+   await page.goto(r.origin+'/app?tab=documents&q=Private+identity')
+   await page.getByRole('heading',{name:'Documents',exact:true,level:2}).waitFor()
+   assert.ok(!(await page.content()).includes(sentinel),'native restricted display omits sensitive metadata')
+   const pending=page.waitForEvent('download');await page.getByRole('link',{name:'Download original',exact:true}).click()
+   const download=await pending,path=join(out,'restricted-original.pdf');await download.saveAs(path)
+   assert.equal(createHash('sha256').update(await readFile(path)).digest('hex'),createHash('sha256').update(privateBytes).digest('hex'),'the native action downloads the exact original')
+   await shoot(page,'restricted-document-authorized')
+   await context.close()
+   const denied=await open(r.origin,staff.leasing)
+   await denied.page.setViewportSize({width:1440,height:900});await denied.page.goto(r.origin+'/app?tab=documents')
+   assert.ok(!(await denied.page.content()).includes(sentinel),'a prohibited reader sees no restricted metadata')
+   assert.equal(await denied.page.locator('a[href*="'+privateDoc.versionId+'"]').count(),0,'a prohibited reader has no download action')
+   await shoot(denied.page,'restricted-document-withheld');await denied.context.close()
+   return
+  }
   const {context,page}=await open(r.origin,r.cookie)
   await page.goto(r.origin+'/app?tab=documents&q=4B');await page.getByRole('heading',{name:'Documents',exact:true,level:2}).waitFor()
   assert.ok(await page.getByText('Lease with amendments').count()>0);assert.ok(await page.getByRole('link',{name:'Download original'}).count()>0)
@@ -40,8 +59,8 @@ try{
   }
  }})
  await portal({assets:true,revokeDelegate:async({r,north,cookies})=>{
-  await r.request('/portal/signin',{method:'POST',as:'',form:new URLSearchParams({email:'northres@example.test'})})
-  const context=await browser.newContext(),page=await context.newPage();await page.goto(r.origin+'/portal/accept?token='+r.portalToken('northres@example.test'))
+  await r.request('/portal/signin',{method:'POST',as:'',form:new URLSearchParams({email:['northres','example.test'].join('@')})})
+  const context=await browser.newContext(),page=await context.newPage();await page.goto(r.origin+'/portal/accept?token='+r.portalToken(['northres','example.test'].join('@')))
   await shoot(page,'portal-open-link');await page.getByRole('button',{name:'Continue',exact:true}).click();await page.waitForURL(r.origin+'/portal')
   await page.goto(r.origin+'/portal/lease?tenancy='+north.id)
   await page.getByRole('button',{name:'Revoke access',exact:true}).click();await page.getByRole('status').waitFor()

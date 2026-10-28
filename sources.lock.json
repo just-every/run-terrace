@@ -101,11 +101,11 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "ad12119c027df25252a5aa9643f48270bbc4e8f622dbdb726e95832e31eb3fba",
+      "sha256": "123db3265760841b6cbd153ecde97bb36945a07b984b27cbb000157ae5e4da8a",
       "executable": false
     },
     "AGENTS.md": {
-      "sha256": "9f0251138d1bbb0eeb07ed5651b85e2086ded117c3db26bfc6d251bf771bc8bd",
+      "sha256": "c066901769d30018b7060551b27a181c8b6d28d9c6f4de51fe32a6a4fa027ead",
       "executable": false
     },
     "API.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "5bd78d514acc8cd7442d82d3b2c5f079f537e75d513573539413cec81fa2d530",
+      "sha256": "7d9b616fcca064cf47b8cae10b80bf865fa0227ebcff237a5f50d8a69621ea68",
       "executable": false
     },
     "DEMO.md": {
@@ -989,7 +989,7 @@
       "executable": false
     },
     "scripts/contract-docs.mjs": {
-      "sha256": "65f21ab8897d4c68fe0bf21dc2b0ba8472116b9418f7c8a6c5a61205c96f317e",
+      "sha256": "ddd914d78cc7bbb6e426fd5c3c6f0e6e46fdccb00fc15f00d11a7daa062f11a1",
       "executable": false
     },
     "scripts/delivery/base/artifact.mjs": {
@@ -3425,7 +3425,7 @@
       "executable": false
     },
     "src/terrace/api.ts": {
-      "sha256": "f4a533c57e362352c9f8aaf9ec2836bd64e1752cc2f804171fc7cce577ae5aa4",
+      "sha256": "4c7cadfc46194be45d48f7d3d023006897fe63302c4a5f8d33437fd8c4cd3a61",
       "executable": false
     },
     "src/terrace/application-access.ts": {
@@ -3641,11 +3641,11 @@
       "executable": false
     },
     "src/terrace/document-view.ts": {
-      "sha256": "dd37cf2dfdcc0007edbaae75ffe09e6fed386362fa38ef2d9e5cc5e91d306624",
+      "sha256": "c25aaf3fcad2c0989c5e847c8d449ba8dc082c3c33ee8da1001dd362edbec6c7",
       "executable": false
     },
     "src/terrace/documents.ts": {
-      "sha256": "05ce6db96a70515b5b96e202cac8b761f2e7416b88739defd8e3c65572766013",
+      "sha256": "7f7bb36d8db5e3257971743edabdcc8d7b5f4b81b6b65423efae344d49a8adf7",
       "executable": false
     },
     "src/terrace/dual-control.ts": {
@@ -4041,7 +4041,7 @@
       "executable": false
     },
     "src/terrace/readable-export.ts": {
-      "sha256": "b3d2d909e353d452dd23e90c0fa5e52aaa2d7080adb883d380f6e3f526c91e6c",
+      "sha256": "949f821c10138b0138b5eec09e4de3a907fca5c585a65656706a33a7b3daef46",
       "executable": false
     },
     "src/terrace/reconcile-commands.ts": {
@@ -4481,11 +4481,11 @@
       "executable": false
     },
     "tests/documents-browser.mjs": {
-      "sha256": "8a082c93081af29c9059d07c912361353adfc7068d8eeaa158187dba5963e4e3",
+      "sha256": "cc7a48a24acba5105699164b10aff733909641275608a43f870bfc41b5e61d10",
       "executable": false
     },
     "tests/documents.mjs": {
-      "sha256": "71efd48856cfd10e13ab251ed74706f5f163d9add09b4a3a883e1a9326d38c67",
+      "sha256": "c3a38a542db92b827731a56a2a187df0b64a9a1f53696fada0872b45152ed01a",
       "executable": false
     },
     "tests/email-link.mjs": {

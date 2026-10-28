@@ -6,11 +6,13 @@ import { readArchive, type Manifest, type Part, type Closing } from '../modules/
 import { allow, sha256, type Context } from './core'
 import { backup } from './data'
 import { csv, zip } from './exports'
+import { documentExportCell } from './document-redaction'
 
 const EXT: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', 'application/pdf': 'pdf', 'video/mp4': 'mp4', 'video/quicktime': 'mov', 'video/webm': 'webm', 'text/plain': 'txt', 'text/csv': 'csv', 'message/rfc822': 'eml' }
 const bytes = (b64: string) => Uint8Array.from(atob(b64), ch => ch.charCodeAt(0))
 
 export const RECONNECT = [
+ 'Restricted documents: readable metadata is redacted; private original files and the complete owner backup retain their exact bytes. Download authorization belongs to the current sign-in and must be requested again after restore.',
  'Applications: answers, originals, revisions and provider outcomes are retained. Applicant sign-in links, sessions and active Checkout destinations are installation-local. Restore never permits another collection; invite each adult again explicitly.',
  'Repair messages: archived content, delivery events and opt-outs are evidence only. Set Twilio credentials, record consent again and prepare new messages; restored messages never authorize sends.',
  'Resident document delivery: frozen documents and delivery evidence are retained, but restored deliveries never authorize a send or a recipient. Invite the resident again and prepare a new reviewed document.',
@@ -29,11 +31,12 @@ export async function readableExport(c: Context) {
  const manifest = records[0] as Manifest, closing = records.at(-1) as Closing
  const rows = new Map<string, Record<string, unknown>[]>()
  for (const part of records.filter(r => r.kind === 'part') as Part[]) for (const item of part.items) if (item.kind === 'row') rows.set(item.table, [...(rows.get(item.table) ?? []), item.row])
+ const restricted = new Set((rows.get('tt_documents') ?? []).filter(row => row.restriction).map(row => row.id))
  const files: [string, string | Uint8Array][] = [], inventory: Record<string, unknown>[] = []
  for (const table of manifest.tables) {
   const columns = table.columns.map(col => col.name), list = rows.get(table.name) ?? []
   const lines = [columns, ...await Promise.all(list.map(async (row, i) => Promise.all(columns.map(async name => {
-   const v = row[name] as unknown
+   const v = documentExportCell(table.name, row, name, row[name], restricted)
    if (v && typeof v === 'object' && 'blob' in (v as object)) {
     const data = bytes((v as { blob: string }).blob), ext = EXT[String(row.media_type ?? row.type)] ?? 'bin', path = `files/${table.name}/${row.id ?? i}.${ext}`, digest = await sha256(data)
     files.push([path, data]); inventory.push({ path, table: table.name, column: name, size: data.length, sha256: digest })
