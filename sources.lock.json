@@ -109,7 +109,7 @@
       "executable": false
     },
     "API.md": {
-      "sha256": "8638c48289510d88c50c41c597bd30eaedaa7078a77f59997edae642b36d1ad4",
+      "sha256": "326b5d53cb872f3f0644818d0cebc1f03888ca8e5d2f61754c37858a075abbb1",
       "executable": false
     },
     "base-copies.json": {
@@ -3441,7 +3441,7 @@
       "executable": false
     },
     "src/terrace/api.ts": {
-      "sha256": "8526685ba10f1f54a36e9ac91892c1ee84b485352fbf86240b0e06ee928caff0",
+      "sha256": "8406d6c7d3d2141e36498754faaaaa845412608bf3004fe7d63eb38cf26ca9d1",
       "executable": false
     },
     "src/terrace/application-access.ts": {
@@ -4541,11 +4541,11 @@
       "executable": false
     },
     "tests/documents-browser.mjs": {
-      "sha256": "cc7a48a24acba5105699164b10aff733909641275608a43f870bfc41b5e61d10",
+      "sha256": "706f6b56f5c7b3aeffcd052e1ea6bee446d02e9c824a22e22a2753cf0bf9ca9a",
       "executable": false
     },
     "tests/documents.mjs": {
-      "sha256": "87cf510219a73e6c36a52d9984a458736cf6d9306ab9453d4f79c2ea1dcb62ad",
+      "sha256": "b9e3d948770b8234cc6aaac92d938eb5f3b06161d4e8442432ef4af18629683d",
       "executable": false
     },
     "tests/email-link.mjs": {
