@@ -12,7 +12,7 @@ const pdf=(words,{flate=false,extra=''}={})=>{const body=Buffer.from(`BT /F1 12 
 const mp4=Buffer.concat([Buffer.from([0,0,0,24]),Buffer.from('ftypisom'),Buffer.from([0,0,2,0]),Buffer.from('isomiso2'),Buffer.from('mdat inspection walkthrough bytes')])
 const file=(bytes,name,type)=>new File([bytes],name,{type})
 export async function journey({inspect,assets=false}={}){
- const r=await installation({assets})
+ const r=await installation({assets,now:'2026-11-05T12:00:00.000Z'})
  try{
   const place=async(name,unit)=>{const f=await r.command('portfolio.add',{name}),p=await r.command('property.add',{portfolioId:f.id,name:name+' House',address:`${unit} ${name} Road, Oakland, CA 94607`,kind:'duplex',timeZone:'America/Los_Angeles'}),u=await r.command('unit.add',{propertyId:p.id,identifier:unit,bedrooms:'2',bathrooms:'1'});return {f,p,u,t:await r.command('tenancy.create',{...tenancyInput,address:`Unit ${unit}, ${name} Road, Oakland, CA`,unitId:u.id,tenantName:name+' Tenant',tenantEmail:name.toLowerCase()+'@example.test'})}}
   const north=await place('North','4B'),south=await place('South','9Z')
@@ -24,6 +24,7 @@ export async function journey({inspect,assets=false}={}){
    staff[key]=await r.accept(email)
   }
   const as=k=>({as:staff[k]}),get=(k,path)=>r.request(path,k===''?{as:''}:as(k)),json=async(k,path)=>(await get(k,path)).json()
+  const authorized=async(k,doc)=>{const access=await json(k,'/api/document-access?id='+doc.versionId+'&format=json');assert.ok(access.url,'a live reader obtains download authorization');return get(k,access.url)}
   const upload=(extra,opts={},who)=>r.formCommand('document.upload',{tenancyId:north.t.id,kind:'lease',title:'Lease',source:'Signed copy handed over at move-in',...extra},{...(who?as(who):{}),...opts})
   // An amended lease is a new version of the same document; the earlier lease stays recoverable.
   const v1=pdf('Original lease: no pets, rent 620.00 monthly'),v2=pdf('Amended lease: one cat allowed, pet rent 25.00 monthly',{flate:true})
@@ -77,7 +78,7 @@ export async function journey({inspect,assets=false}={}){
   await refuse(file(Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"><script>1</script></svg>'),'x.svg','image/svg+xml'),'SVG image')
   await refuse(file(Buffer.concat([Buffer.from('MZ'),Buffer.alloc(64)]),'tool.pdf','application/pdf'),'executable named PDF')
   await refuse(file(Buffer.concat([Buffer.from([255,216,255,224]),Buffer.from('<script>alert(1)</script>')]),'scan.jpg','image/jpeg'),'script inside an image')
-  await refuse(file(Buffer.from('From: a@example.test\nContent-Type: text/html\n\n<b>x</b>'),'mail.eml','message/rfc822'),'email with HTML part')
+  await refuse(file(Buffer.from('From: '+['a','example.test'].join('@')+'\nContent-Type: text/html\n\n<b>x</b>'),'mail.eml','message/rfc822'),'email with HTML part')
   await refuse(file(Buffer.from('plain'),'x.bin','application/octet-stream'),'unlisted type')
   await r.formCommand('document.upload',{tenancyId:north.t.id,kind:'lease',title:'Big',source:'Test',file:file(Buffer.alloc(5*1024*1024+1,65),'big.txt','text/plain')},{status:413})
   // Restricted records: screening for the owner and portfolio managers, applications also for leasing, tax also for
@@ -122,6 +123,57 @@ export async function journey({inspect,assets=false}={}){
   assert.ok(!(await(await get('southLeasing','/app?tab=documents')).text()).includes('Lease with amendments'))
   const page=await(await get('manager','/app?tab=documents&q=amended')).text();assert.ok(page.includes('Download original')&&page.includes('Upload a new version')&&page.includes(sha(v2)))
   const ownerPage=await(await r.request('/app?tab=documents&q=credit')).text();assert.ok(ownerPage.includes('Restricted')&&ownerPage.includes('Screening report'))
+  // Restricted originals require short-lived authorization bound to one live session and one exact version.
+  const sentinel='synthetic-terrace-903',privateBytes=pdf('Private identity '+sentinel),privateDoc=await upload({kind:'screening',title:'TIN='+sentinel,source:'TIN='+sentinel,file:file(privateBytes,'TIN='+sentinel+'.pdf','application/pdf')})
+  const link=async(k,doc)=>json(k,'/api/document-access?id='+doc.versionId+'&format=json')
+  const access=await link('manager',privateDoc),taxAccess=await link('accountant',tax)
+  assert.equal((await get('manager','/api/document?id='+privateDoc.versionId)).status,403,'the old URL cannot bypass expiry')
+  assert.equal((await get('manager',access.url.replace(privateDoc.versionId,tax.versionId))).status,403,'authorization cannot select another original')
+  assert.equal((await get('manager',access.url.slice(0,-1)+(access.url.endsWith('0')?'1':'0'))).status,403,'a changed signature is refused')
+  assert.equal((await get('southLeasing',access.url)).status,404,'another portfolio receives no original')
+  assert.equal((await get('leasing',access.url)).status,404,'a prohibited role receives no original')
+  const otherSession=await r.signIn(['manager','example.test'].join('@'))
+  assert.equal((await r.request(access.url,{as:otherSession})).status,403,'another sign-in of the same person cannot replay the URL')
+  const privateDownload=await get('manager',access.url)
+  assert.equal(privateDownload.status,200);assert.equal(privateDownload.headers.get('cache-control'),'private, no-store');assert.equal(privateDownload.headers.get('referrer-policy'),'no-referrer')
+  assert.equal(privateDownload.headers.get('x-document-sha256'),sha(privateBytes));assert.deepEqual(Buffer.from(await privateDownload.arrayBuffer()),privateBytes)
+  assert.ok(!privateDownload.headers.get('content-disposition').includes(sentinel),'the download filename is redacted')
+  for(const path of ['/api/documents?q='+sentinel,'/api/document-versions?id='+privateDoc.documentId,'/app?tab=documents','/api/history?limit=2000','/api/history?format=csv']){
+   const response=await get('accountant',path);assert.ok(!(await response.text()).includes(sentinel),'unauthorized output omits restricted metadata: '+path)
+  }
+  const displayed=await json('manager','/api/documents?q='+sentinel)
+  assert.equal(displayed.documents.length,1,'authorized content remains searchable');assert.equal(displayed.documents[0].snippet,null,'sensitive content never becomes a snippet')
+  assert.ok(!JSON.stringify(displayed).includes(sentinel),'search metadata is redacted even for an entitled reader')
+  const versions=await json('manager','/api/document-versions?id='+privateDoc.documentId)
+  assert.ok(!JSON.stringify(versions).includes(sentinel),'version metadata is redacted')
+  assert.ok(!(await(await r.request('/api/history?limit=2000')).text()).includes(sentinel),'the operating log retains attribution without restricted source text')
+  await r.setTime(access.expiresAt)
+  assert.equal((await get('manager',access.url)).status,403,'authorization expires at its deadline')
+  assert.equal((await get('accountant',taxAccess.url)).status,403,'other restricted kinds expire too')
+  assert.deepEqual(Buffer.from(await(await authorized('manager',privateDoc)).arrayBuffer()),privateBytes,'a fresh authorization recovers the unchanged original')
+  await r.stepUp()
+  const operators=(await r.db.prepare('SELECT id,display_name FROM oa_operators').all()).results,manager=operators.find(o=>o.display_name==='manager')
+  const live=await link('manager',privateDoc)
+  await r.command('operator.role',{operatorId:manager.id,role:'leasing',['portfolio:'+north.f.id]:'1'})
+  assert.equal((await get('manager',live.url)).status,401,'revoking the sign-in role invalidates an unexpired URL')
+  staff.manager=await r.signIn(['manager','example.test'].join('@'))
+  assert.equal((await get('manager',live.url)).status,404,'the current weaker role cannot reuse authorization')
+  assert.equal((await get('manager','/api/document-access?id='+privateDoc.versionId)).status,404,'revoked rights cannot mint new authorization')
+  await r.command('operator.role',{operatorId:manager.id,role:'portfolio_manager',['portfolio:'+north.f.id]:'1'})
+  staff.manager=await r.signIn(['manager','example.test'].join('@'))
+  const scoped=await link('manager',privateDoc)
+  await r.command('operator.role',{operatorId:manager.id,role:'portfolio_manager',['portfolio:'+south.f.id]:'1'})
+  assert.equal((await get('manager',scoped.url)).status,404,'a removed portfolio invalidates the URL')
+  await r.command('operator.role',{operatorId:manager.id,role:'portfolio_manager',['portfolio:'+north.f.id]:'1'})
+  // A real storage exception through both command doors must reveal neither its message nor its attached data.
+  await r.db.prepare("CREATE TRIGGER document_failure_probe BEFORE INSERT ON tt_documents BEGIN SELECT RAISE(ABORT, 'synthetic-terrace-904'); END").run()
+  const failedInput={tenancyId:north.t.id,kind:'lease',title:'Storage failure',source:'Safe source',file:{name:'safe.txt',type:'text/plain',base64:Buffer.from('Storage failure probe').toString('base64')}}
+  const failed=await r.command('document.upload',failedInput,{status:400});assert.equal(failed.error,'operation_failed');assert.ok(!JSON.stringify(failed).includes('synthetic-terrace-904'))
+  const form=new FormData();for(const [k,v]of Object.entries({...failedInput,command:'document.upload',tab:'documents',file:file(Buffer.from('Form storage failure'),'safe.txt','text/plain')}))form.set(k,v)
+  const failedPage=await r.request('/app/command',{method:'POST',form});assert.equal(failedPage.status,400);assert.ok(!(await failedPage.text()).includes('synthetic-terrace-904'))
+  await r.db.prepare('DROP TRIGGER document_failure_probe').run()
+  assert.equal((await json('manager','/api/documents?q=Storage+failure')).documents.length,0,'failed writes create no document')
+  await inspect?.({phase:'restricted',r,north,staff,privateDoc,privateBytes,sentinel})
   // History records the downloads and the refused uploads; a restricted download by the manager is attributable.
   const history=(await(await r.request('/api/history?limit=2000')).json()).rows
   assert.ok(history.some(x=>x.action==='read:document'&&x.subject===second.versionId&&x.actorName==='manager'&&x.tenancyId===north.t.id))
@@ -134,16 +186,21 @@ export async function journey({inspect,assets=false}={}){
    const restored=(await(await fresh.request('/api/documents?history=1')).json()).documents,original=(await(await r.request('/api/documents?history=1')).json()).documents
    assert.deepEqual(restored.map(x=>[x.versionId,x.sha256,x.version,x.title]).sort(),original.map(x=>[x.versionId,x.sha256,x.version,x.title]).sort())
    assert.deepEqual(Buffer.from(await(await fresh.request('/api/document?id='+first.versionId)).arrayBuffer()),v1)
-   assert.deepEqual(Buffer.from(await(await documentOriginal(fresh,tax.versionId)).arrayBuffer()),taxBytes)
+   const restoredAccess=await(await fresh.request('/api/document-access?id='+tax.versionId+'&format=json')).json()
+   assert.deepEqual(Buffer.from(await(await fresh.request(restoredAccess.url)).arrayBuffer()),taxBytes)
+   assert.equal((await fresh.request(access.url)).status,403,'restoring originals does not restore download authority')
+   const restoredPrivate=await(await fresh.request('/api/document-access?id='+privateDoc.versionId+'&format=json')).json()
+   assert.deepEqual(Buffer.from(await(await fresh.request(restoredPrivate.url)).arrayBuffer()),privateBytes,'restricted originals retain their exact hash through restore')
    assert.equal((await fresh.request('/api/documents?q=cat+allowed')).status,200)
   }finally{await fresh.close()}
   const zip=Buffer.from(await(await r.request('/api/readable-export')).arrayBuffer()),entries=new Map()
   for(let o=0;zip.readUInt32LE(o)===0x04034b50;){const size=zip.readUInt32LE(o+18),n=zip.readUInt16LE(o+26),x=zip.readUInt16LE(o+28),name=zip.subarray(o+30,o+30+n).toString();entries.set(name,zip.subarray(o+30+n+x,o+30+n+x+size));o+=30+n+x+size}
   const manifest=JSON.parse(entries.get('manifest.json')),csv=entries.get('tables/tt_document_versions.csv').toString()
-  for(const [v,bytes,ext] of [[first,v1,'pdf'],[second,v2,'pdf'],[tax,taxBytes,'pdf'],[screened,screening,'pdf']]){
+  for(const [v,bytes,ext] of [[first,v1,'pdf'],[second,v2,'pdf'],[tax,taxBytes,'pdf'],[screened,screening,'pdf'],[privateDoc,privateBytes,'pdf']]){
    const path=`files/tt_document_versions/${v.versionId}.${ext}`,entry=manifest.files.find(f=>f.path===path)
    assert.ok(entry,path+' is listed');assert.deepEqual(entries.get(path),bytes);assert.equal(entry.sha256,sha(bytes));assert.ok(csv.includes(`file:${path} sha256:${sha(bytes)}`))
   }
+  for(const [name,entry]of entries)if(name.startsWith('tables/')||name==='manifest.json')assert.ok(!entry.toString().includes(sentinel),'readable metadata omits restricted identifiers: '+name)
  }finally{await r.close()}
 }
 
