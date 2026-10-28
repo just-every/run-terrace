@@ -60,7 +60,8 @@
       "browser": true,
       "hosted": false,
       "commands": [
-        "node tests/integration-health-browser.mjs"
+        "node tests/integration-health-browser.mjs",
+        "node tests/card-payments-browser.mjs"
       ]
     }
   ],
@@ -158,8 +159,7 @@
       "browser": true,
       "hosted": false,
       "commands": [
-        "node tests/payments-browser.mjs",
-        "node tests/card-payments-browser.mjs"
+        "node tests/payments-browser.mjs"
       ]
     },
     {

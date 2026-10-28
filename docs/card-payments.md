@@ -15,3 +15,13 @@ Native backup and readable export preserve financial allocations and provider re
 Run the public-door integration journey through the PAY-003 registration in `tests/terrace.test.mjs`; its provider fake exists only at the network edge. Run `tests/card-payments-live.mjs` through the heavy slot with the held Stripe test credential injected into the process environment to exercise actual hosted success, decline, required authentication and event replay. It prints object ids only and captures resident and staff pages at 1440 and 390 pixels.
 
 Stripe’s [Checkout fulfillment guide](https://docs.stripe.com/checkout/fulfillment) explains authoritative payment completion, and its [test-card guide](https://docs.stripe.com/testing) supplies the sandbox card scenarios.
+
+## Recover an interrupted payment
+
+Open **Rent & arrears**, choose the original tenancy, and inspect **Payment recovery worklist**. Each case retains the original payment, known session and canonical event, outcome, responsible person and next action. It is created with the pending reservation before contacting Stripe. An interrupted or failed acknowledgment stays unknown across Worker restarts.
+
+Choose **Inspect original Stripe outcome** and supply the original session id from Stripe. This performs a fixed-origin read and checks the original payment, amount, currency, test mode and session. It never creates Checkout, repeats a provider write, releases a reservation or posts funds. Unknown or conflicting evidence stays visible and held. Choose **Assign recovery next action** to take responsibility and record the next step.
+
+To apply an outcome, supply its canonical Stripe event id. The existing verifier retrieves the event and checks its exact original payment, session, successful intent and charge before posting the frozen allocations once. A failed database acknowledgment rolls the whole financial change back; the same canonical event can then reconcile after restart. Current staff responsibility and portfolio scope still apply. Existing consent and policy admission are retained, with no new payment authority.
+
+Backup carries recovery evidence and assignments. Restored cases have no originating Checkout authority and cannot collect or post in the destination, even when its own Stripe configuration exists. Dispatch-provider lookup, scheduled actions, other payment rails and measured reference-deployment recovery objectives remain unfinished under SAFE-006.

@@ -47,7 +47,7 @@ before(async()=>{h=await installation();member=await h.invite('member','preparer
 after(async()=>{await h?.close()})
 test('OPS-004: owner-only metadata, redacted provider diagnostics, durable counts and inert restore',integrationHealthJourney)
 test('PORTAL-005: approved repair communication, signed replies, arrival confirmation and opt-out survive restore',messageJourney)
-test('PAY-003: hosted card consent, policy admission, provider-only receipts, declines, expiry and replay',cardJourney)
+test('PAY-003 and SAFE-006: hosted consent, provider receipts and durable interrupted-payment recovery',cardJourney)
 test('PORT-006: sourced handover checklist revisions and linked make-ready tasks preserve separate leases',async()=>{await moveOutJourney();await moveChecklistJourney();await roommateJourney()})
 test('WORK-006: approved email dispatch, technician progress, parts hold, missed visit and reassignment; WORK-007 staff-recorded field evidence bound to approved scope',async()=>{await dispatchJourney({inspect:async c=>{if(c.phase==='replacement-complete')await fieldEvidenceJourney(c)}});await failedDispatchJourney()})
 test('OPS-003: persistent workflow templates run across restarts, escalate to a person and complete only on evidence',async()=>{await workflowJourney();await scheduledJourney()})
