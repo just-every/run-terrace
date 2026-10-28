@@ -24,7 +24,7 @@ try{
    const dated=await page.getByRole('list',{name:'Dated expected plan receipts'}).first().innerText()
    assert.match(dated,/2026-10-24.*expected \$166\.65/)
    assert.match(dated,/2026-10-26.*expected \$166\.65/)
-   assert.ok((await page.content()).includes('Notice and turnover timeline: 23 days.'))
+   assert.ok((await page.content()).includes('Notice and turnover timeline: 28 days.'))
    const draftDetails=page.locator('details').filter({has:page.getByText('Prepare the next collection sequence step',{exact:true})})
    await draftDetails.locator('summary').click()
    await draftDetails.getByLabel('Action kind',{exact:true}).selectOption('plan')

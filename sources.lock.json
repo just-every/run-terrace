@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "100af60906db0be1d403007a5ed37b4c8a667d6386eb93d655142e35d301e61d",
+      "sha256": "59f453cd7b1e36ec1811dd66afaf29306163ed54ea1c6f6dcc863d7bec1cd7c6",
       "executable": false
     },
     "AGENTS.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "3e73feb2c783e38c0341faf219186e8a9bceedc56e9decce874f8d5bf3d188d0",
+      "sha256": "27dc9073263126becccb86a7382e349aaab10bada77efbaa19ae9aac0eb83d2f",
       "executable": false
     },
     "DEMO.md": {
@@ -169,7 +169,7 @@
       "executable": false
     },
     "docs/collections.md": {
-      "sha256": "9f057276c9ac2d1b34e9a1f1edb9c4d4c73c1e52cfa7f547449d137ac18acfca",
+      "sha256": "c8b2a3a9c7ab097f507a1829018b7f39e4aad01e5509711ab1c876c0b3be4fa1",
       "executable": false
     },
     "docs/communications.md": {
@@ -3477,7 +3477,7 @@
       "executable": false
     },
     "src/terrace/arrears-forecast.ts": {
-      "sha256": "c86782200eac614394c9ff02cb321491159ad83487d501028c88de4c356b6d52",
+      "sha256": "d2b9cdcfb02a40dfac51a0b68b4b85001be0a4499c2aeaf5850a19550ecf0767",
       "executable": false
     },
     "src/terrace/arrears-mail.ts": {
@@ -3489,7 +3489,7 @@
       "executable": false
     },
     "src/terrace/arrears-view.ts": {
-      "sha256": "4a9236e15ea538fb63a7ac9a3fb18d80dafe514b2d9b787d124efa67ee0864d0",
+      "sha256": "62772aa5232373ee7bec48faf493730c32aa87f346f5527448db41a16e081715",
       "executable": false
     },
     "src/terrace/arrears.ts": {
@@ -4433,11 +4433,11 @@
       "executable": false
     },
     "tests/arrears-browser.mjs": {
-      "sha256": "22b3c720f45c7161598fa0b6849a525013968ebde28ba2b9ff8307b8fe45109b",
+      "sha256": "42ed29a40b30ab0faadec344ed69c2322924baf94d12e2d10a521ff9f4839306",
       "executable": false
     },
     "tests/arrears.mjs": {
-      "sha256": "d5b61fcbdf1e98186f60ba156ac887c0752416a6e29c2649e2bdbd5a07b3d8bd",
+      "sha256": "1afdefcec4c6f7aa80d3908dac36fa86f5e76c83621675965efd2230136eb1c0",
       "executable": false
     },
     "tests/bills.mjs": {

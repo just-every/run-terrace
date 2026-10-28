@@ -25,7 +25,10 @@ assumptions, source charges and receipts, history weights and confidence, with e
 and the combined notice and turnover timeline. It
 requires the property's active reviewed notice pack, including its eventual
 turnover timeline. Change the vacancy or cost assumptions and compare again to
-retain a new forecast. Estimates are not legal advice. A scoped prepare credential
+retain a new forecast. The notice estimate uses a method permitted by every
+applicable pack and conservatively assumes the longest resulting timeline,
+including mailing extensions. It shows that service assumption; a forecast
+never authorizes service. Estimates are not legal advice. A scoped prepare credential
 can compare and draft, but cannot approve, send, serve or post money. A human
 choosing another option records a reason.
 

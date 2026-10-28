@@ -11,7 +11,7 @@ export async function journey({assets=false,inspect,inspectOutcome}={}){
   const portfolio=await h.command('portfolio.add',{name:'Collection portfolio'}),p=await h.command('property.add',{portfolioId:portfolio.id,name:'Synthetic collection house',address:'1 Synthetic Terrace Road',kind:'multifamily',timeZone:'America/New_York'})
   await h.command('property.rules',{propertyId:p.id,stateCode:'CA',version:0,reference:'synthetic-terrace-200'})
   const pack=syntheticPack('CA');for(const field of ['payOrQuit','leaseViolation'])pack.fields[field].value={days:3,dayBasis:'calendar',mailingExtensionBasis:'calendar',excludedDates:[],methods:['posted','first_class_mail'],mailingExtensionDays:5,turnoverDays:20}
-  const rules=await h.command('rules.pack',pack);await h.command('rules.activate',{packId:rules.id,consent:'REVIEWED'})
+  let rules=await h.command('rules.pack',pack);await h.command('rules.activate',{packId:rules.id,consent:'REVIEWED'})
   const cases=[]
   const read=async t=>{const r=await h.request('/api/arrears?tenancyId='+t.id);assert.equal(r.status,200,await r.clone().text());return r.json()}
   const config=async(t,hold='none',consent='granted',limit=7)=>{const s=await read(t);return h.command('arrears.contact',{tenancyId:t.id,version:s.config?.version??0,hold,emailConsent:consent,contactLimit:limit,reference:'synthetic-terrace-201 resident requested collection contact'})}
@@ -58,11 +58,17 @@ export async function journey({assets=false,inspect,inspectOutcome}={}){
   await h.setTime('2026-10-23T12:00:00.000Z')
   assert.equal((await read(missed.t)).plan.state,'broken');assert.match((await read(missed.t)).nextAction,/Broken promise/)
   const assumptions={on:'2026-10-23',vacantDays:30,makeReadyCents:10000,leasingCents:5000,waitingDays:7,noticeRecoveryBp:9500,source:'synthetic-terrace-242 dated vacancy, costs and collection recovery assumptions',installments:[{on:'2026-10-24',cents:50000},{on:'2026-10-26',cents:50000}]}
+  const mailedPack=structuredClone(pack);mailedPack.version=2;mailedPack.fields.payOrQuit.value.methods=['first_class_mail']
+  const mailedRules=await h.command('rules.pack',mailedPack);await h.command('rules.activate',{packId:mailedRules.id,consent:'REVIEWED'})
+  const mailed=await h.command('arrears.compare',{tenancyId:plausible.t.id,...assumptions})
+  assert.equal(mailed.comparison.options.find(o=>o.kind==='pay_or_quit_notice').turnoverDays,28,'a mail-only pack includes the permitted mailing extension in the forecast')
+  pack.version=3;rules=await h.command('rules.pack',pack);await h.command('rules.activate',{packId:rules.id,consent:'REVIEWED'})
   const good=await h.command('arrears.compare',{tenancyId:plausible.t.id,...assumptions})
   assert.equal(good.comparison.recommended,'plan');assert.equal(good.comparison.draft.state,'unsent_suggestion');assert.match(good.comparison.draft.body,/2026-10-24 500.00 USD/);assert.equal(good.comparison.rentAtRiskCents,100000)
   assert.deepEqual(good.comparison.options.find(o=>o.kind==='plan').cashByDate,[{on:'2026-10-24',cents:50000,expectedCents:16665},{on:'2026-10-26',cents:50000,expectedCents:16665}],'dated expected receipts use this household payment history')
   assert.deepEqual(good.comparison.options.map(o=>[o.kind,o.cashCents,o.vacantDays,o.lossCents]),[['plan',33330,0,66670],['pay_or_quit_notice',95000,30,118630],['wait',33330,0,89684]],'each option retains its expected cash, vacant days and loss')
-  assert.equal(good.comparison.options.find(o=>o.kind==='pay_or_quit_notice').turnoverDays,23)
+  assert.equal(good.comparison.options.find(o=>o.kind==='pay_or_quit_notice').turnoverDays,28)
+  assert.equal(good.assumptions.noticeMethod,'first_class_mail','the forecast discloses the conservative permitted service assumption')
   assert.equal(good.assumptions.rules[0].packId,rules.id);assert.equal(good.assumptions.on,'2026-10-23');assert.match(good.comparison.confidence,/low/)
   const before=await h.command('arrears.compare',{tenancyId:missed.t.id,...assumptions})
   const bad=await h.command('arrears.compare',{tenancyId:missed.t.id,...assumptions,vacantDays:0})
