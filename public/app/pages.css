@@ -89,3 +89,5 @@
 
 .terrace-portal th{font-size:13px}
 @media(max-width:650px){.resident-charges,.resident-charges tbody{display:block}.resident-charges thead{display:none}.resident-charges tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px;border:1px solid var(--rule);border-radius:10px;margin-top:12px}.resident-charges td{display:block;padding:0;border:0;min-width:0;overflow-wrap:anywhere}.resident-charges td::before{content:attr(data-label);display:block;font-size:13px;color:var(--muted);margin-bottom:4px}}
+
+[data-view="documents"] :is(.avatar,.pill){font-size:13px}

@@ -245,7 +245,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
    insist(Number(request.headers.get('content-length')??0)<=(credential?1024*1024:25*1024*1024),'body_limit','Request is too large.',413)
    const raw=credential?await request.text():''
    if(credential)try{insist(request.headers.get('content-type')?.includes('application/json'),'input','Send JSON.',415);p=JSON.parse(raw)}catch(e){throw e instanceof Fault?e:new Fault('input','Send a JSON command object.')}
-   else p=request.headers.get('content-type')?.includes('application/json')?await request.json():Object.fromEntries(await request.formData())
+   else {try{p=request.headers.get('content-type')?.includes('application/json')?await request.json():Object.fromEntries(await request.formData())}catch{throw new Fault('input','Send a valid command object or form.')}}
    insist(p&&typeof p==='object'&&!Array.isArray(p),'input','Send a command object.')
    const name=text(p.command,'Command',100)
    insist(!env.RER_DEMO||!MESSAGE_COMMANDS.includes(name),'demo_delivery','Demo messaging is disabled.',403)

@@ -6,7 +6,7 @@ export const withheld = '[Restricted metadata]'
 /** Display copies only. Original bytes and the owner backup remain complete custody records. */
 export function redactSensitive(value: unknown): string {
  return String(value ?? '')
-  .replace(/\b(?:\d{3}-\d{2}-\d{4}|\d{2}-\d{7})\b/g, '[Redacted identifier]')
+  .replace(/\b(?:\d{3}[ -]?\d{2}[ -]?\d{4}|\d{2}[ -]?\d{7})\b/g, '[Redacted identifier]')
   .replace(/\b(?:\d[ -]?){12,18}\d\b/g, '[Redacted number]')
   .replace(/\b((?:tin|ssn|pan|tax[ -]?id|identity[ -]?(?:number|id)|api[ _-]?key|access[ _-]?token|secret|password)\s*[:=]\s*)[^\s,;<>"']+/gi, '$1[Redacted]')
 }

@@ -122,6 +122,12 @@ export async function journey({inspect,assets=false}={}){
   assert.ok(!(await(await get('southLeasing','/app?tab=documents')).text()).includes('Lease with amendments'))
   const page=await(await get('manager','/app?tab=documents&q=amended')).text();assert.ok(page.includes('Download original')&&page.includes('Upload a new version')&&page.includes(sha(v2)))
   const ownerPage=await(await r.request('/app?tab=documents&q=credit')).text();assert.ok(ownerPage.includes('Restricted')&&ownerPage.includes('Screening report'))
+  // Redaction covers formatted and compact identifiers and card numbers in ordinary display metadata too.
+  const tin=['123','45','6789'].join('-'),compact=tin.replaceAll('-',''),pan=['4111','1111','1111','1111'].join(' ')
+  const publicCopy=await upload({title:'Redacted copy '+tin,source:'Reference '+compact,file:file(Buffer.from('Reviewed identity '+tin+'; PAN='+pan),'redacted-'+compact+'.txt','text/plain')})
+  const publicMetadata=await json('manager','/api/documents?q=Reviewed+identity'),publicText=JSON.stringify(publicMetadata)
+  assert.ok(publicMetadata.documents.some(d=>d.versionId===publicCopy.versionId));for(const secret of [tin,compact,pan])assert.ok(!publicText.includes(secret),'identifiers never enter search metadata')
+  assert.deepEqual(Buffer.from(await(await get('manager','/api/document?id='+publicCopy.versionId)).arrayBuffer()),Buffer.from('Reviewed identity '+tin+'; PAN='+pan),'redaction leaves authorized original bytes intact')
   // Restricted originals require short-lived authorization bound to one live session and one exact version.
   const sentinel='synthetic-terrace-903',privateBytes=pdf('Private identity '+sentinel),privateDoc=await upload({kind:'screening',title:'TIN='+sentinel,source:'TIN='+sentinel,file:file(privateBytes,'TIN='+sentinel+'.pdf','application/pdf')})
   const link=async(k,doc)=>json(k,'/api/document-access?id='+doc.versionId+'&format=json')
@@ -200,5 +206,22 @@ export async function journey({inspect,assets=false}={}){
    assert.ok(entry,path+' is listed');assert.deepEqual(entries.get(path),bytes);assert.equal(entry.sha256,sha(bytes));assert.ok(csv.includes(`file:${path} sha256:${sha(bytes)}`))
   }
   for(const [name,entry]of entries)if(name.startsWith('tables/')||name==='manifest.json')assert.ok(!entry.toString().includes(sentinel),'readable metadata omits restricted identifiers: '+name)
+  // Erasure withdraws an already authorized restricted original and prevents old captures from returning it.
+  const erasedEmail=['synthetic-terrace-905','example.test'].join('@')
+  const historic=await r.command('tenancy.create',{...tenancyInput,tenantEmail:erasedEmail,startDate:'2010-01-01',endDate:'2011-12-31'})
+  const erasedBytes=pdf('synthetic-terrace-906'),erasedDoc=await upload({tenancyId:historic.id,kind:'screening',title:'Historic screening',source:'Reviewed historic source',file:file(erasedBytes,'historic.pdf','application/pdf')})
+  const beforeErasure=await(await r.request('/api/backup')).text()
+  await r.setTime('2040-11-05T12:00:00.000Z')
+  const beforeEraseAccess=await(await r.request('/api/document-access?id='+erasedDoc.versionId+'&format=json')).json()
+  assert.equal((await r.request(beforeEraseAccess.url)).status,200,'the owner can read the original before reviewed erasure')
+  const request=await r.command('privacy.request',{tenancyId:historic.id,kind:'erase',source:'Reviewed resident request'})
+  const review=await r.command('privacy.review',{tenancyId:historic.id,requestId:request.id})
+  await r.command('tenancy.erase',{tenancyId:historic.id,requestId:request.id,fingerprint:review.review.fingerprint,confirm:erasedEmail})
+  assert.equal((await r.request(beforeEraseAccess.url)).status,404,'an unexpired authorization cannot resurrect erased bytes')
+  assert.equal((await r.request('/api/document-access?id='+erasedDoc.versionId)).status,404)
+  assert.equal((await(await r.request('/api/documents?q=Historic+screening')).json()).documents.length,0)
+  await upload({kind:'screening',title:'Replayed original',source:'Old capture',file:file(erasedBytes,'historic.pdf','application/pdf')},{status:409})
+  const afterErasure=await(await r.request('/api/backup')).text(),fenced=await installation({now:'2040-11-05T12:00:00.000Z'})
+  try{await fenced.formCommand('data.restore',{confirm:'RESTORE',backup:new File([beforeErasure],'before.rer'),journal:new File([afterErasure],'after.rer')},{status:409});assert.equal((await fenced.state()).tenancies.length,0,'the restore refusal changes nothing')}finally{await fenced.close()}
  }finally{await r.close()}
 }
