@@ -37,6 +37,9 @@ export async function journey({assets=false,inspect}={}){
    assert.ok(!body.includes(sentinel),'Stripe errors redact remote text and codes')
    stripe=(await diagnostics(h)).providers.find(p=>p.provider==='stripe')
    assert.equal(stripe.outcome,outcome,'Stripe boundary distinguishes '+status)
+   const screen=await(await h.request('/app?tab=settings')).text()
+   const visible={denied_scope:'The provider denied access',credential_expired:'The provider rejected the credential',transient_failure:'The provider or transport failed temporarily',semantic_error:'The provider rejected the operation',success:'Last exchange succeeded'}[outcome]
+   assert.ok(screen.includes(visible),'native diagnostics show the actionable Stripe state')
   }
   networkFailure=true
   const failed=await h.request('/api/commands',{method:'POST',body:{command:'payment.card',...pay,requestKey:randomUUID()}})
@@ -58,12 +61,17 @@ export async function journey({assets=false,inspect}={}){
    lastJob=j
   }
   await h.stepUp()
+  const people=await(await h.request('/auth/operators')).json(),operator=people.find(p=>p.email===tenancyInput.ownerEmail)
+  assert.equal((await h.request('/auth/operator/status',{method:'POST',body:{operatorId:operator.id,status:'inactive'}})).status,200)
+  assert.equal((await h.request('/api/integrations',{as:admin})).status,401,'revoked operators cannot read diagnostics')
+  await h.command('integration.save',input,{as:admin,status:401})
   const contact=await h.command('message.contact',{tenancyId:t.id,kind:'resident',subjectId:t.id,phone:'',timeZone:'America/Los_Angeles',emailConsent:'granted',smsConsent:'unknown',voiceConsent:'unknown',reference:'Synthetic resident requested repair email'})
   const message=await h.command('message.prepare',{contactId:contact.id,channel:'email',body:'Synthetic diagnostics repair update'})
   const approved=await h.command('message.approve',{messageId:message.id,version:message.version,consent:'APPROVE EXACT MESSAGE'})
   assert.equal((await h.command('message.send',{messageId:message.id,version:approved.version})).messageOutcome,'accepted')
   const count=mailCalls;await h.command('message.send',{messageId:message.id,version:approved.version},{status:409});assert.equal(mailCalls,count)
   data=await diagnostics(h);const mail=data.providers.find(p=>p.provider==='resend')
+  assert.deepEqual(mail.observations.find(r=>r.operation==='dispatch_mail').outcomes.map(o=>[o.outcome,o.operations]),[['credential_expired',1],['denied_scope',1],['success',1],['transient_failure',1]],'later success preserves each distinct historical failure category')
   assert.equal(mail.requests,5);assert.equal(mail.successes,2);assert.equal(mail.failures,3);assert.equal(mail.metadata.entitlement,'unknown');assert.equal(mail.measuredBilling,null)
   assert.ok(mail.observations.some(r=>r.operation==='message_mail'&&r.successes===1),'resident message sends join the same diagnostics')
   await h.restart();assert.equal((await diagnostics(h)).providers.find(p=>p.provider==='stripe').requests,6,'counters survive process restart')

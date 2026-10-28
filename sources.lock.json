@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "5eba994033690988b725019e4a2e3e2cc8a6d7a233982ce60123bdd41bbae966",
+      "sha256": "7d1894ce1670051e8b7f9c5e06dbc70b50494718105930b8787201fce91a1923",
       "executable": false
     },
     "AGENTS.md": {
@@ -109,7 +109,7 @@
       "executable": false
     },
     "API.md": {
-      "sha256": "c06ecbd4df008abdaf265229884c58eae7a3e3496026aee7d884a95cf5afe906",
+      "sha256": "bbeb13343066172a3cbd8f1d5eb4748b97202d77f278c51e1f601838f32f16fd",
       "executable": false
     },
     "base-copies.json": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "c17ac8d4d955f6eaed9a62cf9169db9077e4bda7facc9fdaf19a215e509f7f04",
+      "sha256": "2a6d9395b81881208f8e4cfbb954144c2659b91f6c74c0abd721e07eadcbe1ba",
       "executable": false
     },
     "DEMO.md": {
@@ -652,6 +652,14 @@
       "sha256": "53e925fcb2c09a9ff9d660e7a9aa0bf5a04469571dd17874a1e3927b73e52781",
       "executable": false
     },
+    "migrations/core/0107_integration_health.sql": {
+      "sha256": "72d111f8d972aa7fe8db48fbcaf1fe34aeff854e4c43b96dff4e027f5f844105",
+      "executable": false
+    },
+    "migrations/core/0108_integration_outcomes.sql": {
+      "sha256": "f44e05d7725134353c2ab904f64731529f2a198e356af8f64e1979c2568b5ac6",
+      "executable": false
+    },
     "ONBOARDING.md": {
       "sha256": "d9ae36e9db2e9bd75e88a78688c3a94155aec155ce7213160ebfd101c93ff3c5",
       "executable": false
@@ -690,6 +698,10 @@
     },
     "public/app/home.css": {
       "sha256": "5e0a461e5ac8c5157d5d5a72fbf89c2ba74b4a537ec68cc2058142fe42619b62",
+      "executable": false
+    },
+    "public/app/integrations.css": {
+      "sha256": "6bf34b06f0b966544ba5642985687a6330fa6dd6fdb776d95cfdb279c908c81f",
       "executable": false
     },
     "public/app/pages.css": {
@@ -3812,6 +3824,18 @@
       "sha256": "5d23511ef5d106116b3c7d03977efdb9627db1255629671bf910994aea89addc",
       "executable": false
     },
+    "src/terrace/integration-health.ts": {
+      "sha256": "cd847b7ec5ca78f26de184e63f617e0cbba9c814e7f44d32e6ab2495d523a11f",
+      "executable": false
+    },
+    "src/terrace/integration-mail.ts": {
+      "sha256": "3c56d7738721eb48f8689e6f7732288efd7de55822a6a551328bafa0efb2154b",
+      "executable": false
+    },
+    "src/terrace/integration-view.ts": {
+      "sha256": "49a4b82dae8cd856d4406b6c7f75f5062a26533d1c55524972734d8f837b8fae",
+      "executable": false
+    },
     "src/terrace/job-writes.ts": {
       "sha256": "2b94b9f9540560bb5ee31fa074d09528ae3a8f9e9888c78f3c2aba9b455f6aa0",
       "executable": false
@@ -4221,7 +4245,7 @@
       "executable": false
     },
     "src/terrace/stripe-provider.ts": {
-      "sha256": "17c12ccdab19de3007e0fd04874bac3fbf2839adf189ca0b950a9e5e4d8c2a33",
+      "sha256": "e702c9ee0df6cabfd31b8b696534dcd86f3c8650ecbe29e10ad3d47752e9fe4a",
       "executable": false
     },
     "src/terrace/tax.ts": {
@@ -4285,7 +4309,7 @@
       "executable": false
     },
     "src/terrace/view.ts": {
-      "sha256": "731ca511853c5ac5fa16db24701fe6b3a2bcbdbc7543b1a05c7cd0a83731f092",
+      "sha256": "9bca1aee5c1dbc4d79544c20b55abf48d0c20461ec9fbc687737cfcbee1015e4",
       "executable": false
     },
     "src/terrace/work-budgets.ts": {
@@ -4566,6 +4590,14 @@
     },
     "tests/households.mjs": {
       "sha256": "dc1d2d2ca7a43ca14f04a11cd34b75ecf6b215a450ad6184cef86fc21b60feff",
+      "executable": false
+    },
+    "tests/integration-health-browser.mjs": {
+      "sha256": "8ade527a208d3446f77d5e0e10395e80d3ad383e0598bd98c99a59fa2189712c",
+      "executable": false
+    },
+    "tests/integration-health.mjs": {
+      "sha256": "d6859c8a9b8b1e7639dc0b261d7820850abc4952b6cf9486d7fc78ed6ced78fb",
       "executable": false
     },
     "tests/journal-browser.mjs": {

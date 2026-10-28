@@ -39,7 +39,7 @@ export async function stripe(env: StripeEnv, path: string, params?: URLSearchPar
     }
     if (!response.ok || !result || typeof result !== 'object' || Array.isArray(result)) {if(response.ok)health='semantic_error';throw unavailable()}
     const row = result as Row
-    if ('livemode' in row && row.livemode !== false) {health='semantic_error';throw unavailable()}
+    if ('error' in row || 'livemode' in row && row.livemode !== false) {health='semantic_error';throw unavailable()}
     return row
   } catch (error) {
     if (error instanceof Fault) throw error

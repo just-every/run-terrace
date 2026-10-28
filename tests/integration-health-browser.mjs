@@ -23,7 +23,7 @@ try{
     assert.equal((await diagnostics(h)).providers.find(p=>p.provider==='stripe').metadata.cents_per_thousand,425,'native form saves dated estimate without provider validation')
     await page.reload();assert.ok((await section.innerText()).includes('$4.25 per thousand'))
    }else{
-    assert.ok((await section.innerText()).includes('restored evidence'))
+    assert.ok((await section.innerText()).includes('Restored evidence retained'))
     assert.ok((await section.innerText()).includes('No successful exchange in this installation'))
    }
    const people=page.getByRole('link',{name:'Manage people',exact:true});await people.focus()
@@ -36,7 +36,7 @@ try{
    for(const [width,height]of [[1440,900],[390,844]]){
     await page.setViewportSize({width,height})
     if(width===1440)assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'diagnostics fit the desktop screen')
-    await page.screenshot({path:join(out,phase+'-'+width+'.png'),fullPage:true})
+    await section.screenshot({path:join(out,phase+'-'+width+'.png')})
    }
   }finally{await context.close()}
  }})

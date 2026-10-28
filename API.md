@@ -323,3 +323,28 @@ under its conservative interim authority policy and legal disclosure boundary.
 Resident account: `/portal` lists each granted lease. `/portal/api/resident?tenancyId=ID` projects charges, pending funds, deposit entries and exact shared lease originals without guarantor or screening records. The owner explicitly shares a reviewed original in Settings using `portal.document.share`; revisions need a new review, and sharing authority is not restored with an archive. `/portal/lease-document` checks the live resident grant and exact original on every download. `/portal/receipt?tenancyId=ID&id=ID` downloads a PDF for a recorded receipt, with CSV and JSON formats available. Browser returns never create a receipt.
 
 Contact Settings under `/portal/settings?tenancyId=ID` changes only the verified person’s optional email preference through `/portal/api/preferences`, with version checks, same-origin confirmation and attributable history. It changes no destination, other person’s preference, legal notice obligation or sign-in address and sends nothing. `portal.bank.update` requires fresh staff email-link proof and always refuses: resident bank methods remain on the provider’s hosted page and Terrace stores no resident bank details.
+
+## Integration diagnostics
+
+The signed-in installation owner can read `GET /api/integrations` and save
+non-secret setup metadata through `integration.save` at `POST /api/commands`.
+Saving also requires fresh email-link confirmation. Other operators receive 403;
+API credentials cannot manage diagnostics. The native controls are under Settings
+on the Data & access page.
+
+The command takes `provider` (Stripe or an existing supported mail provider),
+`scope` (`unknown`, `hosted_test_payments` for Stripe, or `transactional_mail`),
+`entitlement` (`unknown`, `owner_reported_available` or
+`owner_reported_unavailable`), and optional whole USD `centsPerThousand` with
+`costAsOf`. These are owner-reported metadata and dated estimates, never verified
+permissions, entitlements or measured provider billing. Keys stay in private
+installation configuration. Saving makes no provider request.
+
+Diagnostics observe Stripe requests and the existing work-dispatch and resident
+repair-message mail boundaries. Fixed outcome classifications, counts and dates
+are durable and portable; provider response bodies and errors are omitted.
+Restored observations are historical evidence with no current successful exchange.
+Reconnect information is provider-specific, and restoring or reading diagnostics
+initiates no send, collection, provider validation or retry. Other transport paths,
+real authorized setup validation, complete provider coverage and measured billing
+remain outstanding under OPS-004.
