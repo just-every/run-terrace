@@ -8,7 +8,9 @@ Its CSV includes dated plan, notice and outcome sources.
 The owner records primary-resident email consent, its evidence, the contact
 allowance and any hold under **Settings → Collection contact and holds**.
 Disputes, accommodation requests, contact limits and manual or counsel holds
-pause collection contact. A changed balance stops unsent drafts and approvals;
+pause collection contact. Reaching the recorded weekly allowance also pauses new
+preparation. A comparison may retain the figures for review while held, but it
+contains no contact draft until the current consent and hold checks pass. A changed balance stops unsent drafts and approvals;
 review the new facts before preparing another action. An active payment plan
 pauses ordinary reminders. Nothing contacts a person automatically.
 
@@ -19,7 +21,8 @@ the original overdue charges; a promise or pending payment is never cash. A
 missed installment opens human review, rather than automatically serving a notice.
 
 The cash and vacancy comparison shows plan, notice and waiting options, dated
-assumptions, source charges and receipts, history weights and confidence. It
+assumptions, source charges and receipts, history weights and confidence, with each expected plan receipt shown by date
+and the combined notice and turnover timeline. It
 requires the property's active reviewed notice pack, including its eventual
 turnover timeline. Change the vacancy or cost assumptions and compare again to
 retain a new forecast. Estimates are not legal advice. A scoped prepare credential

@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "8e8590f9c4f64655f18e2f34692f5d7533a0d5abc981d2359b0923cd3ddae6a5",
+      "sha256": "1774970b43cded68ac8f4159140424c0b7b84af2958ef59f8ced8c093c3f744b",
       "executable": false
     },
     "AGENTS.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "ab5a7c61aadcc75f7a2acafe9c6423f8f0f01a9b07bf879ba4be4c0eeb57c6b5",
+      "sha256": "adcd727c1e6e951282c544e8d701f0b7299638116a5ef17d679bcb3ee87fac0d",
       "executable": false
     },
     "DEMO.md": {
@@ -169,7 +169,7 @@
       "executable": false
     },
     "docs/collections.md": {
-      "sha256": "672c00613749c012314b57478c286a7514eb1f64dceab6446f3392846b026627",
+      "sha256": "9f057276c9ac2d1b34e9a1f1edb9c4d4c73c1e52cfa7f547449d137ac18acfca",
       "executable": false
     },
     "docs/communications.md": {
@@ -3477,7 +3477,7 @@
       "executable": false
     },
     "src/terrace/arrears-forecast.ts": {
-      "sha256": "00053f3fd5d2a1cd034213dd3df27cd605e54d3fd85d65084822955c3cf57b28",
+      "sha256": "c86782200eac614394c9ff02cb321491159ad83487d501028c88de4c356b6d52",
       "executable": false
     },
     "src/terrace/arrears-mail.ts": {
@@ -3485,11 +3485,11 @@
       "executable": false
     },
     "src/terrace/arrears-state.ts": {
-      "sha256": "a82b1ea68e20aac469a6e39655d29927423f10659b0bbad6067cb631ba544f14",
+      "sha256": "685b651b16a1c26c524abfd536bbf9fd3f875b6d5b00fcf932ad5afe1bd87a16",
       "executable": false
     },
     "src/terrace/arrears-view.ts": {
-      "sha256": "05155ace6ef0aef63c57e9bdd33783af6a47b23a38a3dcc797efe45163d184ca",
+      "sha256": "debe6b1419ce14db2d82bab8831f461aa2b432c65416c42aa0a1943bb5640c02",
       "executable": false
     },
     "src/terrace/arrears.ts": {
@@ -4433,11 +4433,11 @@
       "executable": false
     },
     "tests/arrears-browser.mjs": {
-      "sha256": "8e67e42b105f878689c5252325cb46b111bf5ebcc5c46d569d9e32239701efb2",
+      "sha256": "22b3c720f45c7161598fa0b6849a525013968ebde28ba2b9ff8307b8fe45109b",
       "executable": false
     },
     "tests/arrears.mjs": {
-      "sha256": "5afaf16c850b62795c02c7622ca8a27ae580ad358c267dec387f873e75e0b6dc",
+      "sha256": "d5b61fcbdf1e98186f60ba156ac887c0752416a6e29c2649e2bdbd5a07b3d8bd",
       "executable": false
     },
     "tests/bills.mjs": {

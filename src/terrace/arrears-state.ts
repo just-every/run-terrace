@@ -31,6 +31,7 @@ export async function collectionCase(c:Context,value:unknown,asOf?:string){
  if(balance.overdueCents===0)reasons.push('No overdue balance; stop collection messages')
  if(config?.hold&&config.hold!=='none')reasons.push(config.hold+' hold: human review required')
  if(!config?.email_consent||!config.contact_limit)reasons.push('No current email consent or contact allowance')
+ if(config&&config.contact_limit>0){const recent=await one(c,'SELECT COUNT(*) AS count FROM tt_arrears_actions WHERE tenancy_id=? AND claimed_at>=?',t.id,new Date(Date.parse(c.now)-7*86400000).toISOString());if(recent!.count>=config.contact_limit)reasons.push('Weekly contact allowance reached; human review required')}
  const nextAction=reasons.length?reasons.join('; '):plan?.state==='broken'?'Broken promise: human review of plan or notice':plan?.state==='active'?'Monitor agreed installments; no automatic contact':actions.some(a=>a.kind.includes('notice')&&a.state==='served')?'Review served notice expiry and refer to authorized counsel':'Review and approve the next collection action'
  return{tenancy:t,asOf:day,config,balance,plan,plans:plans.map(p=>({...p,installments:JSON.parse(p.installments)})),actions,events:events.map((e):Row=>({...e,detail:JSON.parse(e.detail)})),reasons,nextAction,collectionOutcome:balance.balanceCents===0?'Recorded receivable cleared; bank settlement not established':plan?.state==='met'?'Plan met by recorded receipts; remaining charges stay open':'Open',paidSince}
 }
