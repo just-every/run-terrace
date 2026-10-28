@@ -1173,7 +1173,7 @@
       "executable": false
     },
     "seed.json": {
-      "sha256": "edc62660976c7d02b30f720a0d89b5931a4d5c4aa57542ba4c4b564da3e870d9",
+      "sha256": "34866c53e833a9bc2bc1e7cd6af0e734838e4463dce809d1080a5346b73d4b00",
       "executable": false
     },
     "SOURCE.md": {
@@ -3397,7 +3397,7 @@
       "executable": false
     },
     "src/terrace/api.ts": {
-      "sha256": "1cec878a67880d014c5ce31b0c6474dedb36a482e0eb918e0693e3a3d214a5aa",
+      "sha256": "96bf2b506c3040e8ca0c405c36df3c921b05556b499cd33d765d5d45fa1cd644",
       "executable": false
     },
     "src/terrace/appointments-view.ts": {
@@ -3413,7 +3413,7 @@
       "executable": false
     },
     "src/terrace/archive-policy.mjs": {
-      "sha256": "3f27ac88c777491e5cc10e6d7bde60bd211cf90d4b3e42a9944a4a6c965bc865",
+      "sha256": "b3ea6cc451c8b3364efb5c186f890d63f48c1cbfe28fd6b03d308dd9edfed563",
       "executable": false
     },
     "src/terrace/asset-view.ts": {
@@ -3953,11 +3953,11 @@
       "executable": false
     },
     "src/terrace/prospect-view.ts": {
-      "sha256": "4663694fed5136edb03892ec12a33db2f7fa448abf7077de2c6528405681ae32",
+      "sha256": "bab99694c51704ab6a2dfd55102670474f8648eab44397389cf83d43e51a5332",
       "executable": false
     },
     "src/terrace/prospects.ts": {
-      "sha256": "ec3b84dbb326c3e5c4138253fe8eab62a665579d005575751b303005218069cc",
+      "sha256": "bd203fa5aa0635bf0a037b224bbe244cb453823323346dc825c762703c9ed59a",
       "executable": false
     },
     "src/terrace/quote-view.ts": {
@@ -3969,7 +3969,7 @@
       "executable": false
     },
     "src/terrace/readable-export.ts": {
-      "sha256": "717eb1cd7dfac39040ac109d4815657f2e974611b7abbf554e715cfb59bea259",
+      "sha256": "b3d2d909e353d452dd23e90c0fa5e52aaa2d7080adb883d380f6e3f526c91e6c",
       "executable": false
     },
     "src/terrace/reconcile-commands.ts": {
@@ -4297,7 +4297,7 @@
       "executable": false
     },
     "tests/api/harness.mjs": {
-      "sha256": "56614b46aeab7502b5d6513680891d359fb8e0624a2ae8828bdcb6f9eecd84e3",
+      "sha256": "e33c43fb9e2f54e27bf695781e41388c0b6cfa0d4ba64141826ea3b843f2507f",
       "executable": false
     },
     "tests/api/worker.ts": {
