@@ -3,6 +3,7 @@ import {validatePaymentArchive} from './payment-archive.mjs'
 import {validateTrustArchive} from './trust-archive.mjs'
 export default {
  product: 'residential/terrace',
+ // OPS-004: diagnostics store only fixed classifications, counters and non-secret setup metadata; all are portable evidence, never execution authority.
  // ROLE-001: the capability table is product configuration each installation's migrations create, never archived data.
  // OPS-001: API credentials, their token hashes and idempotency records stay in the installation; after a restore the owner mints new ones.
  // PORTAL-007: request evidence is portable, but bearer action links never leave the installation.

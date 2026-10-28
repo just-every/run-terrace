@@ -1,6 +1,6 @@
 // A committed claim prevents concurrent/replayed sends, including an uncertain provider outcome.
 import type { Bindings } from '../auth.server'
-import { operatorMail } from '../mail.server.mjs'
+import {integrationMail} from './integration-mail'
 import { audit, authority, escape, guard, money, one, sha256, sql, type Context, type Row } from './core'
 import { dispatchEvent } from './dispatch'
 const labels: Record<string,string> = {
@@ -13,7 +13,7 @@ const labels: Record<string,string> = {
  unconfigured: 'Not sent: configure the installation mail provider before arranging a reviewed handoff.',
 }
 export async function sendDispatch(c: Context, env: Bindings, m: Row) {
- const a = m.snapshot, mail = operatorMail(env)
+ const a = m.snapshot, mail = integrationMail(env,'dispatch_mail',c.now)
  let outcome = mail ? 'uncertain' : 'unconfigured', provider: string | null = null
  // Recheck live authority and the exact approved revision immediately before crossing the mail boundary.
  await c.db.batch([authority(c, 'maintenance.dispatch'), guard(c, "EXISTS(SELECT 1 FROM tt_maintenance_jobs WHERE id=? AND version=? AND state='approved')", m.jobId, m.jobVersion)])

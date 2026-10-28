@@ -52,6 +52,14 @@
         "node tests/migration-browser.mjs",
         "node tests/resident-account-browser.mjs"
       ]
+    },
+    {
+      "name": "integration-browser",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/integration-health-browser.mjs"
+      ]
     }
   ],
   "nightly": [
