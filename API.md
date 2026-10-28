@@ -319,3 +319,7 @@ See [online applications](docs/applications.md) for the separate applicant door,
 versioned submission and missing-document flow, explicit hosted household fee,
 current staff scope and private original custody. LEASE-007 remains partial
 under its conservative interim authority policy and legal disclosure boundary.
+
+Resident account: `/portal` lists each granted lease. `/portal/api/resident?tenancyId=ID` projects charges, pending funds, deposit entries and exact shared lease originals without guarantor or screening records. The owner explicitly shares a reviewed original in Settings using `portal.document.share`; revisions need a new review, and sharing authority is not restored with an archive. `/portal/lease-document` checks the live resident grant and exact original on every download. `/portal/receipt?tenancyId=ID&id=ID` downloads a PDF for a recorded receipt, with CSV and JSON formats available. Browser returns never create a receipt.
+
+Contact Settings under `/portal/settings?tenancyId=ID` changes only the verified person’s optional email preference through `/portal/api/preferences`, with version checks, same-origin confirmation and attributable history. It changes no destination, other person’s preference, legal notice obligation or sign-in address and sends nothing. `portal.bank.update` requires fresh staff email-link proof and always refuses: resident bank methods remain on the provider’s hosted page and Terrace stores no resident bank details.

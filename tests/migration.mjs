@@ -73,6 +73,12 @@ export async function journey({inspect,assets=false}={}){
   assert.deepEqual(journal.migration.balanceForwards.filter(x=>x.kind==='vendor_ytd').map(x=>x.reportable_cents),[120000])
   assert.deepEqual(journal.migration.balanceForwards.filter(x=>x.kind==='owner_ytd').map(x=>[x.income_cents,x.expense_cents]),[[1000000,120000],[1000000,120000]])
   assert.equal(journal.migration.vendorDetails[0].dba,'Synthetic trade');assert.equal(journal.migration.vendorDetails[0].tin_status,'missing');assert.equal(journal.migration.vendorDetails[0].eligible_1099,1);assert.equal(journal.migration.vendorDetails[0].payment_method,'check')
+  const nativeDeposit=ref=>{const record=report.records.find(r=>r.kind==='deposit'&&r.ref===ref);assert.ok(record,'review retains the deposit link');const entry=native.entries.find(j=>j.id===record.targetId&&j.source_kind==='deposit');assert.ok(entry,'native deposit journal exists for '+ref);return entry}
+  const firstDeposit=nativeDeposit('synthetic-terrace-11'),secondDeposit=nativeDeposit('synthetic-terrace-12')
+  assert.equal(firstDeposit.tenancy_id,leases[0].targetId,'first deposit links to its native lease')
+  assert.equal(firstDeposit.lines.find(l=>l.account==='deposit_liability').credit,50000,'first native deposit is 50000 cents independently of the opening aggregate')
+  assert.equal(secondDeposit.tenancy_id,leases[1].targetId,'second deposit links to its native lease')
+  assert.equal(secondDeposit.lines.find(l=>l.account==='deposit_liability').credit,20000,'second native deposit is 20000 cents independently of the opening aggregate')
   assert.equal(native.trialBalance.find(a=>a.code==='lease_income').creditCents-native.trialBalance.find(a=>a.code==='lease_income').debitCents,0,'historical unpaid charges do not re-post income')
   const first=await h.state(leases[0].targetId),second=await h.state(leases[1].targetId)
   assert.equal(first.household.members.find(m=>m.role==='occupant').name,'Synthetic occupant 5')
