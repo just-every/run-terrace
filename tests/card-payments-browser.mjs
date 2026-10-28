@@ -7,7 +7,7 @@ const out=resolve(process.env.CARD_SCREENSHOTS??'.rer/card-native-screens');awai
 const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH}:{}),args:['--no-sandbox','--use-mock-keychain','--password-store=basic']})
 try{await journey({assets:true,bufferedTransport:process.argv.includes('--buffered-http'),inspect:async({phase,h,t,resident,pay,paymentId,sessionId})=>{
  const ctx=await browser.newContext(),cookies=value=>value.split('; ').map(p=>{const i=p.indexOf('=');return{name:p.slice(0,i),value:p.slice(i+1),url:h.origin}});await ctx.addCookies(cookies(resident??h.cookie));const page=await ctx.newPage()
- const proof=async name=>{for(const [width,height]of [[1440,900],[390,844]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),name+' fits '+width);await page.screenshot({path:join(out,name+'-'+width+'.png'),fullPage:true})}}
+ const proof=async name=>{for(const [width,height]of [[1440,900],[390,844]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),name+' fits '+width);await page.screenshot({path:join(out,name+'-'+width+'.png'),fullPage:true});if(name.startsWith('recovery-'))await page.getByRole('region',{name:'Payment recovery',exact:true}).screenshot({path:join(out,name+'-worklist-'+width+'.png')})}}
  try{
   if(phase.startsWith('recovery-')){
    await ctx.clearCookies();await ctx.addCookies(cookies(h.cookie));await page.setViewportSize({width:1440,height:900})
@@ -37,4 +37,4 @@ try{await journey({assets:true,bufferedTransport:process.argv.includes('--buffer
    await page.goto(h.origin+'/portal/card?tenancy='+t.id+'&payment='+paymentId);await page.getByRole('heading',{name:/Card payment receipt/}).waitFor();await proof('resident-card-receipt');await ctx.clearCookies();await ctx.addCookies(cookies(h.cookie));await page.goto(h.origin+'/app?tab=ledger&tenancy='+t.id);await page.getByRole('heading',{name:'Online card payments',exact:true}).waitFor();const people=page.getByRole('link',{name:'Manage people',exact:true});await people.focus();assert.equal(await page.locator('#people-tooltip').evaluate(e=>getComputedStyle(e).visibility),'visible');await proof('staff-card-reconciled')
   }
  }finally{await ctx.close()}
-}})}finally{await browser.close()}
+}});console.log('Card recovery browser journey passed at 1440; native proof captured at 1440 and 390.')}finally{await browser.close()}

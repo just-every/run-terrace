@@ -80,7 +80,7 @@ export async function journey({assets=false,bufferedTransport=false,inspect,acco
   await inspect?.({phase:'uncertain',h,t,resident,pay:uncertainPay})
   const expiredStart=await h.command('payment.card',uncertainPay),second=[...sessions.values()].find(s=>s.metadata.terrace_payment_id===expiredStart.paymentId)
   const expired=make('checkout.session.expired',second,3);assert.equal((await notify(expired)).status,200);ledger=(await h.state(t.id)).ledger;assert.equal(ledger.payments.pendingCents,0);assert.equal(ledger.receipts.length,1)
-  await recoveryJourney({h,t,pay,calls,sessions,events,intents,charges,edge,inspect})
+  const recovered=await recoveryJourney({h,t,pay,calls,sessions,events,intents,charges,edge,inspect})
   const archive=await(await h.request('/api/backup')).text();assert.equal(archive.includes('checkout_url'),false,'hosted links stay in their installation')
   const fresh=await installation();try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'cards.rer')});assert.equal((await fresh.state(t.id)).ledger.receipts.length,2);assert.equal((await fresh.request('/portal/api/resident?tenancyId='+t.id,{as:resident})).status,401);assert.equal((await fresh.db.prepare('SELECT COUNT(*) AS n FROM tt_resident_document_shares').first()).n,0,'restoring originals does not restore sharing authority')}finally{await fresh.close()}
   await h.command('portal.revoke',{tenancyId:t.id,identityId:(await(await h.request('/portal/api/me',{as:resident})).json()).person.id,reason:'Synthetic revoked account access'})
@@ -91,6 +91,8 @@ export async function journey({assets=false,bufferedTransport=false,inspect,acco
   await h.command('tenancy.erase',{tenancyId:t.id,requestId:privacy.id,fingerprint:review.review.fingerprint,confirm:tenancyInput.tenantEmail})
   assert.equal((await h.db.prepare('SELECT count(*) AS n FROM tt_resident_document_shares WHERE tenancy_id=?').bind(t.id).first()).n,0,'erasure removes document sharing authority')
   assert.equal((await h.request(account.current.documents[0].url,{as:resident})).status,401)
+  await h.command('payment.card.lookup',{tenancyId:t.id,paymentId:recovered.paymentId,eventId:recovered.eventId},{status:404})
+  assert.equal((await h.request('/api/stripe/events',{method:'POST',as:'',body:{id:recovered.eventId}})).status,404,'erased financial evidence cannot be revived by a canonical event replay')
   const later=await(await h.request('/api/backup')).text(),fenced=await installation({now:'2045-01-01T12:00:00.000Z'})
   try{await fenced.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'synthetic-terrace-210.rer'),journal:new File([later],'synthetic-terrace-211.rer')},{status:409});assert.equal((await fenced.state()).tenancies.length,0,'an older account archive cannot resurrect an erased resident')}finally{await fenced.close()}
 
@@ -149,6 +151,9 @@ async function recoveryJourney({h,t,pay,calls,sessions,events,intents,charges,ed
  const wrongEvent=[...events.values()].find(e=>e.type==='checkout.session.completed')
  assert.equal((await h.command('payment.card.lookup',{...args,eventId:wrongEvent.id})).outcome,'conflicting','a different original payment in the same tenancy cannot resolve this case')
  assert.equal((await h.state(t.id)).ledger.receipts.length,1)
+ const wrongAmount={...structuredClone(event),id:'evt_syntheticterracewrongamount'};wrongAmount.data.object.amount_total=1;events.set(wrongAmount.id,wrongAmount)
+ assert.equal((await h.command('payment.card.lookup',{...args,eventId:wrongAmount.id})).outcome,'conflicting')
+ assert.equal((await h.state(t.id)).ledger.receipts.length,1);assert.equal((await h.state(t.id)).ledger.payments.pendingCents,pending)
  const removeEventFailure=await h.cardDatabaseFailure('event')
  await h.command('payment.card.lookup',{...args,eventId:event.id},{status:400})
  assert.equal((await h.state(t.id)).ledger.receipts.length,1,'failed canonical acknowledgment rolls back all ledger effects')
@@ -175,4 +180,5 @@ async function recoveryJourney({h,t,pay,calls,sessions,events,intents,charges,ed
  await h.restart();await h.command('payment.card.lookup',{...args,eventId:event.id});assert.equal((await h.state(t.id)).ledger.receipts.length,2,'canonical recovery applies once after restart and replay')
  assert.equal(calls.filter(p=>p==='/v1/checkout/sessions').length,writes)
  await inspect?.({phase:'recovery-resolved',h,t,paymentId,sessionId:session.id})
+ return {paymentId,eventId:event.id}
 }

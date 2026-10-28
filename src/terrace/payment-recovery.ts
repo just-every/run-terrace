@@ -1,5 +1,5 @@
 import type {Bindings} from '../auth.server'
-import {allow,authority,commit,Fault,guard,insist,one,sql,tenancy,tenancyGuard,type Context,type Row} from './core'
+import {allow,authority,audit,commit,Fault,guard,insist,one,sql,tenancy,tenancyGuard,type Context,type Row} from './core'
 import {stripe} from './stripe-provider'
 import {verifiedCardEvent} from './card-payments'
 
@@ -25,7 +25,7 @@ export async function paymentRecovery(c:Context,env:Bindings,name:string,p:Row){
  let outcome='unknown',sessionId:string|null=null
  try{
   if(hasEvent){
-   const result=await verifiedCardEvent(env,p.eventId,c.now,t.id,row.payment_id,[authority(c,name),tenancyGuard(c,t)])
+   const result=await verifiedCardEvent(env,p.eventId,c.now,t.id,row.payment_id,[authority(c,name),tenancyGuard(c,t),audit(c,name,row.payment_id,'canonical event requested')])
    return {...result,notice:'Canonical event verified. Recovery evidence and ledger outcome saved.'}
   }
   const session=await stripe(env,'checkout/sessions/'+p.sessionId)
