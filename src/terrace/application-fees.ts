@@ -7,7 +7,7 @@ export const APPLICATION_FEE_CONSENT_TEXT = 'I authorize this one-time household
 type Applicant = { adultId: string; sessionHash: string; now: string }
 type Start = Applicant & { origin: string; consent: unknown; consentVersion: unknown; requestKey: unknown }
 const context = (env: Bindings, p: Applicant): Context => ({ db: env.DB, now: p.now, actor: { id: 'applicant:' + p.adultId, role: 'member', displayName: 'Applicant' } })
-const LIVE = `EXISTS(SELECT 1 FROM tt_application_sessions s JOIN tt_application_adults d ON d.id=s.adult_id JOIN tt_applications a ON a.id=d.application_id JOIN tt_prospects p ON p.id=a.prospect_id WHERE s.hash=? AND s.adult_id=? AND s.revoked_at IS NULL AND s.expires_at>? AND d.revoked_at IS NULL AND p.merged_into IS NULL)`
+const LIVE = `EXISTS(SELECT 1 FROM tt_application_sessions s JOIN tt_application_adults d ON d.id=s.adult_id JOIN tt_application_access x ON x.adult_id=d.id JOIN tt_applications a ON a.id=d.application_id JOIN tt_prospects p ON p.id=a.prospect_id WHERE s.hash=? AND s.adult_id=? AND s.revoked_at IS NULL AND s.expires_at>? AND d.revoked_at IS NULL AND p.merged_into IS NULL)`
 const liveGuard = (c: Context, p: Applicant) => guard(c, LIVE, p.sessionHash, p.adultId, p.now)
 async function application(c: Context, p: Applicant) {
  insist(await one(c, `SELECT 1 AS ok WHERE ${LIVE}`, p.sessionHash, p.adultId, p.now), 'unauthorized', 'Sign in with a current applicant link.', 401)
@@ -21,7 +21,7 @@ const safeBatch = async (c: Context, writes: D1PreparedStatement[]) => { try { a
 /** Shared household outcome only. Hosted URLs and provider card objects are never staff or co-applicant data. */
 export async function applicationFeeData(db: D1Database, applicationId: string) {
  const c = { db } as Context
- return all(c, 'SELECT id,adult_id,amount_cents,currency,state,consent_version,consent_text,consented_at,checkout_id,intent_id,charge_id,last_event_id FROM tt_application_fees WHERE application_id=? ORDER BY consented_at,id', applicationId)
+ return all(c, 'SELECT id,adult_id,amount_cents,currency,state,consent_version,consent_text,consented_at,checkout_id,intent_id,charge_id,last_event_id,(SELECT kind FROM tt_application_fee_events e WHERE e.id=last_event_id) AS last_event_kind FROM tt_application_fees WHERE application_id=? ORDER BY consented_at,id', applicationId)
 }
 
 /** Only the initiating applicant can recover their in-progress request and hosted destination. */
@@ -47,7 +47,7 @@ export async function startApplicationFee(env: Bindings, p: Start) {
   try {
    await c.db.batch([liveGuard(c, p), guard(c, 'EXISTS(SELECT 1 FROM tt_applications WHERE id=? AND fee_cents=?)', app.id, app.fee_cents),
     sql(c, "INSERT INTO tt_application_fees(id,application_id,adult_id,request_key,amount_cents,currency,state,consent_version,consent_text,consented_at) VALUES(?,?,?,?,?,'usd','reserved',?,?,?)", key, app.id, p.adultId, p.requestKey, app.fee_cents, APPLICATION_FEE_CONSENT_VERSION, APPLICATION_FEE_CONSENT_TEXT, p.now),
-    sql(c, 'INSERT INTO tt_application_fee_links(fee_id,checkout_url) VALUES(?,NULL)', key), audit(c, 'application.fee.start', key)])
+    sql(c, 'INSERT INTO tt_application_fee_links(fee_id,checkout_url) VALUES(?,NULL)', key), sql(c,'UPDATE tt_applications SET last_activity_at=? WHERE id=?',p.now,app.id), audit(c, 'application.fee.start', key)])
   } catch (e) {
    const prior = await one(c, 'SELECT * FROM tt_application_fees WHERE application_id=? AND request_key=?', app.id, p.requestKey)
    if (!prior) { if (/CHECK constraint|UNIQUE constraint/.test(String(e))) throw conflict(); throw e }
@@ -66,7 +66,7 @@ export async function startApplicationFee(env: Bindings, p: Start) {
  insist(Date.parse(p.now) - Date.parse(saved.consented_at) < 23 * 3600000, 'provider_review', 'This uncertain fee needs provider reconciliation before another payment.', 409)
  const cancel = new URL('/apply', origin.origin), success = new URL(cancel)
  success.searchParams.set('returned', '1')
- const params = new URLSearchParams({ mode: 'payment', 'payment_method_types[0]': 'card', 'adaptive_pricing[enabled]': 'false',
+ const params = new URLSearchParams({ mode: 'payment', 'allowed_payment_method_types[0]': 'card', 'adaptive_pricing[enabled]': 'false', 'wallet_options[link][display]': 'never',
   'payment_method_options[card][request_three_d_secure]': 'automatic',
   'line_items[0][price_data][currency]': 'usd', 'line_items[0][price_data][unit_amount]': String(saved.amount_cents),
   'line_items[0][price_data][product_data][name]': 'Terrace household application fee', 'line_items[0][quantity]': '1',
@@ -123,7 +123,7 @@ async function verifiedApplicationFee(env: Bindings, eventId: unknown, now: stri
  insist(['reserved', 'checkout'].includes(fee.state) || fee.state === state, 'fee_finished', 'This fee already has a different terminal outcome.', 409)
  const writes = [...authority, guard(c, 'EXISTS(SELECT 1 FROM tt_application_fees WHERE id=? AND state=?)', fee.id, fee.state),
   sql(c, 'INSERT INTO tt_application_fee_events(id,fee_id,kind,object_id,provider_created,verified_at) VALUES(?,?,?,?,?,?)', ev.id, fee.id, ev.type, object.id, ev.created, now),
-  sql(c, 'UPDATE tt_application_fees SET state=?,intent_id=COALESCE(?,intent_id),charge_id=COALESCE(?,charge_id),last_event_id=? WHERE id=?', state, intent?.id ?? null, charge?.id ?? null, ev.id, fee.id), audit(c, 'application.fee.event', fee.id, ev.type)]
+  sql(c, 'UPDATE tt_application_fees SET state=?,intent_id=COALESCE(?,intent_id),charge_id=COALESCE(?,charge_id),last_event_id=? WHERE id=?', state, intent?.id ?? null, charge?.id ?? null, ev.id, fee.id), sql(c,'UPDATE tt_applications SET last_activity_at=? WHERE id=?',now,applicationId), audit(c, 'application.fee.event', fee.id, ev.type)]
  try { await c.db.batch(writes) } catch (e) {
   if (/UNIQUE constraint|CHECK constraint/.test(String(e)) && await one(c, 'SELECT id FROM tt_application_fee_events WHERE id=? AND fee_id=?', ev.id, fee.id)) { await safeBatch(c, authority); const current = await one(c, 'SELECT state FROM tt_application_fees WHERE id=?', fee.id); return { paymentId: fee.id, state: current?.state, replayed: true } }
   if (/CHECK constraint/.test(String(e))) throw conflict()

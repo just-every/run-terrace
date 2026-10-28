@@ -11,7 +11,8 @@ export function applicationFeeProvider() {
   if (url.pathname === '/v1/checkout/sessions' && request.method === 'POST') {
    const body = new URLSearchParams(await request.text()), key = request.headers.get('idempotency-key')
    assert.ok(key?.startsWith('terrace-application-fee:'))
-   assert.equal(body.get('payment_method_types[0]'),'card')
+   assert.equal(body.get('allowed_payment_method_types[0]'),'card')
+   assert.equal(body.get('wallet_options[link][display]'),'never')
    assert.equal(body.get('line_items[0][price_data][currency]'),'usd')
    assert.equal(body.has('customer_email'),false)
    assert.equal(body.has('customer'),false)

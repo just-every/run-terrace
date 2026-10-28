@@ -1,4 +1,4 @@
-import { all, allow, cents, commit, email, guard, id, insist, one, reachesPortfolio, recordRead, sql, text, type Context, type Row } from './core'
+import { all, allow, cents, commit, email, guard, id, insist, one, reachesPortfolio, recordRead, sha256, sql, text, type Context, type Row } from './core'
 import { portable } from './data'
 import { localDate } from './zones'
 import { applicantData, applicationRevision, applicationFileList } from './application-answers'
@@ -28,6 +28,8 @@ export async function applicationCommand(c: Context, command: string, p: Row): P
  if (!APPLICATION_COMMANDS.includes(command)) return
  allow(c, command)
  insist(!c.actor.credential, 'forbidden', 'Use a current staff sign-in.', 403)
+ // Private references belong to erasable application custody, never immutable audit source text.
+ c.source=null
  if (command === 'application.open') {
   insist(c.actor.role === 'owner', 'forbidden', 'Only the owner prepares an application and its fee.', 403)
   const prospect = await one(c, 'SELECT * FROM tt_prospects WHERE id=?', text(p.prospectId, 'Prospect', 100))
@@ -43,10 +45,11 @@ export async function applicationCommand(c: Context, command: string, p: Row): P
   const property = await one(c, 'SELECT * FROM tt_properties WHERE id=?', prospect.property_id)
   insist(property, 'not_found', 'Property not found.', 404)
   const pack = await disclosures(c, property), amount = cents(p.fee), reference = text(p.reference, 'Reviewed invitation and fee authority', 1000), key = id()
+  insist(amount>=50,'invalid_money','The hosted household fee must be at least 0.50 USD.')
   insist(p.consent === 'PREPARE APPLICATION', 'consent_required', 'Explicitly confirm the roster, required disclosures and one household fee.')
-  c.source = reference
+  c.source = null
   await commit(c, [guard(c, 'EXISTS(SELECT 1 FROM tt_prospects WHERE id=? AND version=? AND merged_into IS NULL)', prospect.id, prospect.version),
-   sql(c, 'INSERT INTO tt_applications(id,prospect_id,property_id,portfolio_id,disclosures,fee_cents,created_by,created_at,last_activity_at) VALUES(?,?,?,?,?,?,?,?,?)', key, prospect.id, prospect.property_id, prospect.portfolio_id, JSON.stringify(pack), amount, c.actor.id, c.now, c.now),
+   sql(c, 'INSERT INTO tt_applications(id,prospect_id,property_id,portfolio_id,disclosures,fee_cents,authority_reference,created_by,created_at,last_activity_at) VALUES(?,?,?,?,?,?,?,?,?,?)', key, prospect.id, prospect.property_id, prospect.portfolio_id, JSON.stringify(pack), amount, reference, c.actor.id, c.now, c.now),
    ...roster.map(a => sql(c, 'INSERT INTO tt_application_adults(id,application_id,name,email) VALUES(?,?,?,?)', a.id, key, a.name, a.email)),
   ], command, key)
   return { id:key, adults:roster.map(a => ({id:a.id,name:a.name})), tab:'applications', notice:'Application prepared. Explicitly send each adult their own sign-in link.' }
@@ -66,6 +69,7 @@ export async function applicationCommand(c: Context, command: string, p: Row): P
   const fee = await one(c, "SELECT 1 AS paid FROM tt_application_fees WHERE application_id=? AND state='paid'", app.id)
   const until = new Date(app.last_activity_at); until.setUTCFullYear(until.getUTCFullYear() + (fee ? 7 : 3))
   insist(Date.parse(c.now) > until.getTime(), 'retention_hold', 'Application evidence is retained for three years after last activity, or seven years with a collected fee.', 409)
+  c.source='erasure-request:'+await sha256(new TextEncoder().encode(String(p.reference)))
   const checkpoint = await (await portable(c)).redactionStatements()
   await commit(c, [guard(c, 'EXISTS(SELECT 1 FROM tt_applications WHERE id=? AND hold_reference IS NULL AND last_activity_at=?)',app.id,app.last_activity_at),...checkpoint,sql(c, 'DELETE FROM tt_applications WHERE id=?', app.id)], command, 'application-'+app.id)
   return {tab:'applications',notice:'Application and private originals erased. A later archive fences older copies.'}
@@ -81,7 +85,7 @@ export async function applicationCommand(c: Context, command: string, p: Row): P
  insist(!adult.revoked_at, 'not_found', 'Applicant not found.', 404)
  if (command === 'application.invite') {
   insist(c.actor.role === 'owner' && p.consent === 'SEND LINK', 'consent_required', 'The owner explicitly approves each sign-in email.', 403)
-  await commit(c, [], command, adult.id)
+  await commit(c, [sql(c,'INSERT INTO tt_application_access(adult_id,granted_by,granted_at) VALUES(?,?,?) ON CONFLICT DO NOTHING',adult.id,c.actor.id,c.now)], command, adult.id)
   return {tab:'applications',applicationEmail:adult.id,notice:'Sign-in email approved.'}
  }
  insist(adult.version === Number(p.version) && adult.state === 'submitted', 'conflict', 'Request evidence from the current submitted revision.', 409)

@@ -21,7 +21,7 @@ export async function applicationResponse(request: Request, env: Bindings) {
   if(path==='/apply/signin') {
    if(request.method==='GET')return html(applicationSignin())
    const email=String(form.get('email')??'').trim().toLowerCase()
-   const adults=await all(anonymous,'SELECT id FROM tt_application_adults WHERE email=? AND revoked_at IS NULL',email)
+   const adults=await all(anonymous,'SELECT a.id FROM tt_application_adults a JOIN tt_application_access x ON x.adult_id=a.id WHERE a.email=? AND a.revoked_at IS NULL',email)
    // One fresh link per matching application; the response never enumerates accounts.
    for(const a of adults)await sendApplicationLink(anonymous,env,a.id)
    return html(applicationSignin('If this address has an application, a one-time link has been sent.'),202)

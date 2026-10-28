@@ -6,6 +6,7 @@ CREATE TABLE tt_applications (
  portfolio_id TEXT NOT NULL,
  disclosures TEXT NOT NULL,
  fee_cents INTEGER NOT NULL CHECK(fee_cents>0),
+ authority_reference TEXT NOT NULL,
  hold_reference TEXT,
  created_by TEXT NOT NULL,
  created_at TEXT NOT NULL,
@@ -106,3 +107,9 @@ CREATE TABLE tt_application_fee_events (
 );
 
 INSERT INTO tt_role_actions(role,action) VALUES ('portfolio_manager','application.fee.reconcile');
+
+CREATE TABLE tt_application_access (
+ adult_id TEXT PRIMARY KEY REFERENCES tt_application_adults(id) ON DELETE CASCADE,
+ granted_by TEXT NOT NULL,
+ granted_at TEXT NOT NULL
+);
