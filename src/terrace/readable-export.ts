@@ -18,6 +18,7 @@ export const RECONNECT = [
  'Cloudflare mail diagnostics: reconnect the key, account and verified sender privately; review mail permission. No restored message is sent.',
  'RER mail diagnostics: reconnect the approved relay privately; origin validation remains Base-held. No restored message is sent.',
  'Restricted documents: readable metadata is redacted; private original files and the complete owner backup retain their exact bytes. Download authorization belongs to the current sign-in and must be requested again after restore.',
+ 'Office prints: frozen PDFs, manifests, approvals and service photographs are retained as evidence. Restored batches grant no printing or service authority; invite recipients again and prepare and approve a new batch.',
  'Applications: answers, originals, revisions and provider outcomes are retained. Applicant sign-in links, sessions and active Checkout destinations are installation-local. Restore never permits another collection; invite each adult again explicitly.',
  'Repair messages: archived content, delivery events and opt-outs are evidence only. Set Twilio credentials, record consent again and prepare new messages; restored messages never authorize sends.',
  'Resident document delivery: frozen documents and delivery evidence are retained, but restored deliveries never authorize a send or a recipient. Invite the resident again and prepare a new reviewed document.',
@@ -43,7 +44,7 @@ export async function readableExport(c: Context) {
   const lines = [columns, ...await Promise.all(list.map(async (row, i) => Promise.all(columns.map(async name => {
    const v = documentExportCell(table.name, row, name, row[name], restricted)
    if (v && typeof v === 'object' && 'blob' in (v as object)) {
-    const data = bytes((v as { blob: string }).blob), ext = EXT[String(row.media_type ?? row.type)] ?? 'bin', path = `files/${table.name}/${row.id ?? i}.${ext}`, digest = await sha256(data)
+    const data = bytes((v as { blob: string }).blob), ext = EXT[String(name==='pdf_bytes'?'application/pdf':name==='photo_bytes'?row.photo_type:row.media_type ?? row.type)] ?? 'bin', path = `files/${table.name}/${row.id ?? i}.${ext}`, digest = await sha256(data)
     files.push([path, data]); inventory.push({ path, table: table.name, column: name, size: data.length, sha256: digest })
     return `file:${path} sha256:${digest}`
    }
