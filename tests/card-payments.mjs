@@ -1,3 +1,4 @@
+import {accountBefore,accountPaid} from './resident-account.mjs'
 import assert from 'node:assert/strict'
 import {randomUUID} from 'node:crypto'
 import {installation,tenancyInput} from './api/harness.mjs'
@@ -43,8 +44,9 @@ export async function cardFixture({assets=false,live=false,bufferedTransport=liv
   return await inspect({h,t,q,day,resident,delegate,pay,post,calls,sessions,events,intents,charges,edge})
  }finally{await h.close()}
 }
-export async function journey({assets=false,bufferedTransport=false,inspect}={}){
+export async function journey({assets=false,bufferedTransport=false,inspect,accountInspect}={}){
  await cardFixture({assets,bufferedTransport,inspect:async({h,t,q,day,resident,delegate,pay,post,calls,sessions,events,intents,charges,edge})=>{
+  const account=await accountBefore({h,t,q,day,resident,delegate,pay,post,calls,sessions,events,intents,charges,edge},accountInspect)
   assert.equal((await post(pay,delegate)).status,404)
   assert.equal((await post({...pay,tenancyId:randomUUID()})).status,404)
   assert.equal((await post({...pay,consent:'no'})).status,400)
@@ -57,6 +59,7 @@ export async function journey({assets=false,bufferedTransport=false,inspect}={})
   assert.equal((await h.state(t.id)).ledger.balanceCents,100000,'hosted redirect posts no receipt')
   const p=(await h.state(t.id)).ledger.payments.payments[0];assert.equal(p.amount_cents,10000);assert.equal(p.state,'pending')
   await h.command('payment.settle',{paymentId:p.id,version:p.version,on:day,reference:'synthetic-terrace-83'},{status:409})
+  const portalPending=await(await h.request('/portal/api/resident?tenancyId='+t.id,{as:resident})).json();assert.equal(portalPending.pendingCents,10000);assert.equal(portalPending.balanceCents,100000,'pending funds do not reduce the resident balance')
   const session=[...sessions.values()][0],intent='pi_syntheticterrace1',charge='ch_syntheticterrace1'
   session.payment_intent=intent;intents.set(intent,{id:intent,livemode:false,status:'succeeded',currency:'usd',amount_received:10000,latest_charge:charge,metadata:session.metadata});charges.set(charge,{id:charge,livemode:false,paid:true,captured:true,refunded:false,amount:10000,payment_intent:intent,balance_transaction:{fee:320,net:9680}})
   const notify=async ev=>{events.set(ev.id,ev);return h.request('/api/stripe/events',{method:'POST',as:'',body:{id:ev.id,data:{object:{amount_total:1}}}})}
@@ -71,13 +74,25 @@ export async function journey({assets=false,bufferedTransport=false,inspect}={})
   const receipt=await h.request('/portal/card?tenancy='+t.id+'&payment='+result.paymentId,{as:resident});assert.equal(receipt.status,200);assert.match(await receipt.text(),new RegExp(charge))
   const staff=await h.request('/app?tab=ledger&tenancy='+t.id);assert.match(await staff.text(),/ch_syntheticterrace1/)
   await inspect?.({phase:'paid',h,t,resident,pay,paymentId:result.paymentId})
+  await accountPaid({h,t,q,day,resident,delegate,pay,post,calls,sessions,events,intents,charges,edge},account,accountInspect)
   const uncertainPay={...pay,requestKey:randomUUID(),amount:'50.00'};edge.failNextCreate=true
   await h.command('payment.card',uncertainPay,{status:503});assert.equal((await h.state(t.id)).ledger.payments.pendingCents,5000,'an uncertain creation holds the original reservation')
   await inspect?.({phase:'uncertain',h,t,resident,pay:uncertainPay})
   const expiredStart=await h.command('payment.card',uncertainPay),second=[...sessions.values()].find(s=>s.metadata.terrace_payment_id===expiredStart.paymentId)
   const expired=make('checkout.session.expired',second,3);assert.equal((await notify(expired)).status,200);ledger=(await h.state(t.id)).ledger;assert.equal(ledger.payments.pendingCents,0);assert.equal(ledger.receipts.length,1)
   const archive=await(await h.request('/api/backup')).text();assert.equal(archive.includes('checkout_url'),false,'hosted links stay in their installation')
-  const fresh=await installation();try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'cards.rer')});assert.equal((await fresh.state(t.id)).ledger.receipts.length,1)}finally{await fresh.close()}
+  const fresh=await installation();try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'cards.rer')});assert.equal((await fresh.state(t.id)).ledger.receipts.length,1);assert.equal((await fresh.request('/portal/api/resident?tenancyId='+t.id,{as:resident})).status,401);assert.equal((await fresh.db.prepare('SELECT COUNT(*) AS n FROM tt_resident_document_shares').first()).n,0,'restoring originals does not restore sharing authority')}finally{await fresh.close()}
+  await h.command('portal.revoke',{tenancyId:t.id,identityId:(await(await h.request('/portal/api/me',{as:resident})).json()).person.id,reason:'Synthetic revoked account access'})
+  for(const path of ['/portal/api/resident?tenancyId='+t.id,account.current.documents[0].url,'/portal/api/preferences?tenancyId='+t.id])assert.equal((await h.request(path,{as:resident})).status,401)
+  await h.setTime('2045-01-01T12:00:00.000Z')
+  const privacy=await h.command('privacy.request',{tenancyId:t.id,kind:'erase',source:'Synthetic resident account erasure'})
+  const review=await h.command('privacy.review',{tenancyId:t.id,requestId:privacy.id});assert.equal(review.review.eligible,true)
+  await h.command('tenancy.erase',{tenancyId:t.id,requestId:privacy.id,fingerprint:review.review.fingerprint,confirm:tenancyInput.tenantEmail})
+  assert.equal((await h.db.prepare('SELECT count(*) AS n FROM tt_resident_document_shares WHERE tenancy_id=?').bind(t.id).first()).n,0,'erasure removes document sharing authority')
+  assert.equal((await h.request(account.current.documents[0].url,{as:resident})).status,401)
+  const later=await(await h.request('/api/backup')).text(),fenced=await installation({now:'2045-01-01T12:00:00.000Z'})
+  try{await fenced.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'synthetic-terrace-210.rer'),journal:new File([later],'synthetic-terrace-211.rer')},{status:409});assert.equal((await fenced.state()).tenancies.length,0,'an older account archive cannot resurrect an erased resident')}finally{await fenced.close()}
+
  }})
  const h=await installation({demo:true,stripeKey:'synthetic-terrace-1',stripeRequest:()=>{throw Error('Demo escaped to Stripe')}})
  try{const s=await h.state();await h.command('payment.card',{tenancyId:s.tenancies[0].id},{status:403});assert.equal((await h.request('/api/stripe/events',{method:'POST',as:'',body:{id:'evt_syntheticterrace1'}})).status,503)}finally{await h.close()}

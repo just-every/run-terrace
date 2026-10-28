@@ -23,7 +23,7 @@
       "browser": false,
       "hosted": false,
       "commands": [
-        "node --test --test-concurrency=1 tests/terrace.test.mjs"
+        "env TERRACE_ASYNC_SQL=1 node --test --test-concurrency=1 tests/terrace.test.mjs"
       ]
     },
     {
@@ -49,7 +49,8 @@
         "node tests/renewals-browser.mjs",
         "node tests/portal-threads-browser.mjs",
         "node tests/applications-browser.mjs",
-        "node tests/migration-browser.mjs"
+        "node tests/migration-browser.mjs",
+        "node tests/resident-account-browser.mjs"
       ]
     }
   ],

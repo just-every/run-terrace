@@ -97,6 +97,23 @@ export async function journey({assets=false,inspect}={}){
   await applicantPost(h,b.cookie,{action:'submit',version:3,consent:'SUBMIT MY ANSWERS',disclosureHash:db.disclosureHash})
   da=await ownData(h,a.cookie);db=await ownData(h,b.cookie)
   assert.equal(da.applicant.state,'submitted');assert.equal(db.applicant.state,'submitted')
+  const frozenDisclosures=structuredClone(da.disclosures),frozenHash=da.disclosureHash
+  assert.equal(frozenDisclosures.length,1)
+  assert.equal(frozenDisclosures[0].code,'CA')
+  assert.equal(frozenDisclosures[0].text,syntheticPack('CA').fields.leaseDisclosures.value.text)
+  const replacement=syntheticPack('CA',2)
+  replacement.fields.leaseDisclosures.value.text='Synthetic replacement disclosure for later applications; no legal review claimed'
+  const published=await h.command('rules.pack',replacement)
+  await h.command('rules.activate',{packId:published.id,consent:'REVIEWED'})
+  for(const applicant of [a,b]){
+   const current=await ownData(h,applicant.cookie)
+   assert.deepEqual(current.disclosures,frozenDisclosures,'later pack publication cannot change the disclosures this adult accepted')
+   assert.equal(current.disclosureHash,frozenHash)
+   assert.equal(current.applicant.answers.disclosureConsent.hash,frozenHash,'submitted consent retains the original disclosed terms')
+   const page=await(await h.request('/apply',{as:applicant.cookie})).text()
+   assert.ok(page.includes(frozenDisclosures[0].text),'the applicant can still read the original disclosure')
+   assert.ok(!page.includes(replacement.fields.leaseDisclosures.value.text),'replacement terms are not substituted into an existing application')
+  }
   await applicantPost(h,a.cookie,{action:'save',version:5,...completeAnswers,income:'Silently overwritten'},409)
   await h.command('application.save',{applicationId:app.id,adultId:app.adults[0].id,income:'staff overwrite'},{status:404})
   assert.equal((await ownData(h,a.cookie)).applicant.answers.income,completeAnswers.income)
