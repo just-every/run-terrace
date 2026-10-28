@@ -172,8 +172,64 @@
       "sha256": "5e9dfdc7f70c7d486fdf21e4cefcccdfb609ca51989af1a5c1818c66f8640c4e",
       "executable": false
     },
+    "docs/contract/DONE-AUDIT.md": {
+      "sha256": "d4c43685c6999bbc6230a7b7a5c4c64c73c0c5e973d8173316258c567adbc78b",
+      "executable": false
+    },
     "docs/contract/ID-MAP.json": {
       "sha256": "759af54e7b1b2fff21ad1a1db1a55576e924538b108997fd7bafd5b14e271034",
+      "executable": false
+    },
+    "docs/contract/scope.md": {
+      "sha256": "2dfa6a79caebd536b935096cc9a6da5f5173bf3960bce73d2d40fe9b2b9fc383",
+      "executable": false
+    },
+    "docs/contract/terms/accounting.md": {
+      "sha256": "96bf23927bc804d28b5de14a1965f6266f3f8e03804047ccb19c056af5be2b88",
+      "executable": false
+    },
+    "docs/contract/terms/boundaries.md": {
+      "sha256": "99cff54d51f387d8b44f824a4cdf47891ef42ec6f1eda55d0149635a61bd30f6",
+      "executable": false
+    },
+    "docs/contract/terms/integrations.md": {
+      "sha256": "4bebe7efaddde24b63dc821865a7f04432d558c0e17b424e959a4224a8858e90",
+      "executable": false
+    },
+    "docs/contract/terms/leasing.md": {
+      "sha256": "234c3924cd1050671bf7ecb283313b2056390c41caef9c3d6997589a8f1f00d9",
+      "executable": false
+    },
+    "docs/contract/terms/maintenance.md": {
+      "sha256": "9087a9d819fe4ba6a28aebf6cf5ee81044499a0dbecf604ea616fbe66b35db51",
+      "executable": false
+    },
+    "docs/contract/terms/migration.md": {
+      "sha256": "6714c93f6463a6739ebe700063ee165b9547c2a8fb683d48fecebdca05888961",
+      "executable": false
+    },
+    "docs/contract/terms/open-source.md": {
+      "sha256": "dc75d86aaae9c01f90710d0e5aeb477ae845b07504b5c371819635e82e71bb2e",
+      "executable": false
+    },
+    "docs/contract/terms/portals.md": {
+      "sha256": "0b0dee8501032b20b205feed7c31e0cc7b27941edfb01bac000ff2449e0f9bb9",
+      "executable": false
+    },
+    "docs/contract/terms/portfolio.md": {
+      "sha256": "f9d2ecc4e4d64c1df90dd40a7d77ea56e972583ebb0bd3fbd4d968713b9e1cea",
+      "executable": false
+    },
+    "docs/contract/terms/rent.md": {
+      "sha256": "c26d5a1f23d91cff697a268b0ca3dc04590043655bacbea5a494eec1321f4eaf",
+      "executable": false
+    },
+    "docs/contract/terms/reports.md": {
+      "sha256": "a24608c859bbaa6a36c18303c0ad5ee26f845d857f4bda7cc5f648705c1aea7d",
+      "executable": false
+    },
+    "docs/contract/terms/security.md": {
+      "sha256": "0f3b936e32a2e327c71e4d7abb8a0259fd4818faa1425b495d85a54d3c8366a1",
       "executable": false
     },
     "docs/financial-reports.md": {
@@ -966,6 +1022,10 @@
     },
     "rer-setup.json": {
       "sha256": "efd1af362d833452487242fce7cc063c3a246e75a5d909fb2f4d451115afb75b",
+      "executable": false
+    },
+    "RULINGS.md": {
+      "sha256": "cdcf734aa9f3de74166b622bd2daea9a91f12ed98058dc1d1c5afe7f18f09751",
       "executable": false
     },
     "RUN-LOCALLY.md": {
