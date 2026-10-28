@@ -24,10 +24,11 @@ export function documentExportCell(table: string, row: Row, column: string, valu
 }
 
 /** Unexpected exceptions are never reflected or logged with their messages, stack or attached report. */
-export function publicFailure(error: unknown) {
+export function publicFailure(error: unknown, pendingCredentialCommand = false) {
  if (error instanceof Fault) return { status: error.status, code: error.code, message: redactSensitive(error.message), ...((error as Fault & { report?: Row }).report ? { report: (error as Fault & { report: Row }).report } : {}) }
  if (error instanceof AuthError) return { status: error.status, code: error.code, message: 'The account operation was refused. Confirm your current access and try again.' }
  if (error instanceof PortabilityError) return { status: error.status, code: error.code, message: 'The archive operation was refused. Review its configuration and custody requirements.' }
  if (error instanceof Error && error.message.includes('UNIQUE constraint')) return { status: 409, code: 'duplicate', message: 'That reference already exists. Use the existing record or a distinct reference.' }
- return { status: 500, code: 'operation_failed', message: 'The operation could not complete. Try again or contact the installation owner.' }
+ // Claimed credential attempts keep their refusal status and pending key; no error details escape.
+ return { status: pendingCredentialCommand ? 400 : 500, code: 'operation_failed', message: 'The operation could not complete. Try again or contact the installation owner.' }
 }

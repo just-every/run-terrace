@@ -13,6 +13,11 @@ const bytes = (b64: string) => Uint8Array.from(atob(b64), ch => ch.charCodeAt(0)
 
 export const RECONNECT = [
  'Restricted documents: readable metadata is redacted; private original files and the complete owner backup retain their exact bytes. Download authorization belongs to the current sign-in and must be requested again after restore.',
+ 'Stripe diagnostics: set the Stripe test secret privately, review the authorized account and scope, and reconcile existing references. Restored counters and setup metadata are evidence only; no collection is replayed.',
+ 'Resend mail diagnostics: reconnect the key and verified sender privately; review sending permission. No restored message is sent.',
+ 'SendGrid mail diagnostics: reconnect the key and verified sender privately; review Mail Send permission. No restored message is sent.',
+ 'Cloudflare mail diagnostics: reconnect the key, account and verified sender privately; review mail permission. No restored message is sent.',
+ 'RER mail diagnostics: reconnect the approved relay privately; origin validation remains Base-held. No restored message is sent.',
  'Applications: answers, originals, revisions and provider outcomes are retained. Applicant sign-in links, sessions and active Checkout destinations are installation-local. Restore never permits another collection; invite each adult again explicitly.',
  'Repair messages: archived content, delivery events and opt-outs are evidence only. Set Twilio credentials, record consent again and prepare new messages; restored messages never authorize sends.',
  'Resident document delivery: frozen documents and delivery evidence are retained, but restored deliveries never authorize a send or a recipient. Invite the resident again and prepare a new reviewed document.',

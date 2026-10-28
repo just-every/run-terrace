@@ -98,7 +98,9 @@ export async function journey({assets=false,inspect}={}){
   const interrupted=await h.command('agent.enqueue',{...spec,credentialId:replacement.id,arguments:{...args,title:'synthetic-terrace-35 interrupted workload'}})
   const db=h.db
   await db.prepare("CREATE TRIGGER synthetic_agent_failure BEFORE INSERT ON tt_maintenance_jobs WHEN NEW.title='synthetic-terrace-35 interrupted workload' BEGIN SELECT RAISE(ABORT,'synthetic agent domain failure'); END").run()
-  await execute(replacement,interrupted,400)
+  const failed=await execute(replacement,interrupted,400)
+  assert.equal(failed.error,'operation_failed')
+  assert.ok(!JSON.stringify(failed).includes('synthetic agent domain failure'),'the stopped attempt conceals storage details')
   await db.prepare('DROP TRIGGER synthetic_agent_failure').run()
   assert.equal((await workload(interrupted.id)).state,'running')
   await control('agent.cancel',interrupted.id)

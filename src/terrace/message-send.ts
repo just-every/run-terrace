@@ -1,5 +1,5 @@
 import type {Bindings} from '../auth.server'
-import {operatorMail} from '../mail.server.mjs'
+import {integrationMail} from './integration-mail'
 import {audit,commit,escape,guard,insist,one,sha256,sql,tenancyGuard,type Context,type Row} from './core'
 import {liveRecipient,message,messageAccess,messageEvent,messageInstallation,messageTerms} from './message-context'
 import {event as emergencyEvent} from './emergencies'
@@ -21,7 +21,7 @@ export async function sendMessage(c:Context,env:Bindings,p:Row){
   await commit(c,[tenancyGuard(c,t),guard(c,"EXISTS(SELECT 1 FROM tt_messages WHERE id=? AND version=? AND state='approved')",m.id,m.version),sql(c,"UPDATE tt_messages SET state='suppressed',version=version+1 WHERE id=?",m.id),messageEvent(c,m.id,'suppressed','Consent changed, STOP applies, or outside 8 a.m. to 8 p.m. in the recorded recipient timezone. No send scheduled.')],'message.send',m.id)
   return{outcome:'suppressed',notice:'Message suppressed. Review consent and quiet hours; no send is scheduled.'}
  }
- const config=twilioConfig(env),mail=operatorMail(env)
+ const config=twilioConfig(env),mail=integrationMail(env,'message_mail',c.now)
  insist(m.channel==='email'?!!mail:!!config,'provider_unconfigured','Configure the installation provider before sending.',409)
  if(m.channel!=='email'&&env.TWILIO_MODE==='test')insist(r.phone==='+15005550006'&&config!.from==='+15005550006','test_boundary','Test mode only sends to the approved magic number.',409)
  // Persist a claim before the provider request. A lost outcome can never authorize a second attempt.
