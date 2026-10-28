@@ -348,3 +348,16 @@ Reconnect information is provider-specific, and restoring or reading diagnostics
 initiates no send, collection, provider validation or retry. Other transport paths,
 real authorized setup validation, complete provider coverage and measured billing
 remain outstanding under OPS-004.
+
+
+## Professional referral evidence
+
+BOUND-002: `GET /api/professional-referrals` and the Professional referrals section of `/app?tab=rules` serve the signed-in owner and current portfolio managers in their portfolios. API credentials are refused. Optional `propertyId` outside that scope returns 404. The current slice records external handoffs for held rule previews linked to an existing tenancy in the same property. It grants no professional, provider or execution authority.
+
+`referral.create` takes `decisionId`, the preview's `sourceRevision`, `tenancyId`, a named `professional`, external `reference`, current in-scope owner or manager `responsibleId` and `dueOn`. Previews saved before source tracking need a new preview. The revision binds the exact dated pack identities and activation states plus the jurisdiction revision; publishing or activating a relevant pack or changing the jurisdiction makes earlier responses historical.
+
+`referral.response` takes `referralId`, exact referred `sourceRevision`, current response count as `version`, `outcome` (received, rejected or needs_information), `reference` and a `file` original. It appends immutable evidence. A late response may be retained against its original source but is visibly inapplicable after a source change. The file uses the existing content check, size bound and erased-original hash fence. It is a restricted referral original with lease retention, never a shared resident lease.
+
+`referral.review` takes `referralId`, `responseId`, `nextAction`, review `reference` and `consent: RECORD ONLY`. It records a next action only while that exact source is current. Neither a response nor a review releases a source hold, closes the substantive case, activates rules, executes financial or legal actions, or sends a message. Unanswered and rejected referrals remain open. Changes require a fresh source preview and referral, not editing old evidence.
+
+Response downloads use the existing `/api/document?id=VERSION` door with live referral rights and tenancy scope, private no-store headers and the original hash. Search, version history and generic revision doors enforce the same restriction; originals cannot be replaced. Referral records and original files follow SAFE-004 lease retention and legal holds, owner readable export and SAFE-005 backup and restore. Restored evidence grants no account, credential, recipient or substantive action authority. Eligible tenancy erasure removes referrals and originals and fences both file replay and restoration of older archives when a later journal is supplied.

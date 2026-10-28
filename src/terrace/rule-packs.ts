@@ -1,5 +1,6 @@
 import {all,allow,cents,commit,date,guard,id,insist,one,reachesPortfolio,sql,text,type Context,type Row} from './core'
 import {journalProperty} from './journal'
+import {ruleSource} from './rule-sources'
 import {STATES,OVERLAYS,RULE_FIELDS,ACTION_FIELDS} from './rule-registry'
 import {localDate,nextDay} from './zones'
 import {jurisdictionCommand} from './rule-jurisdictions'
@@ -110,7 +111,7 @@ export async function ruleCommand(c:Context,command:string,p:Row):Promise<Row|un
  }
  for(const [amount,cent]of [['deposit','depositCents'],['rent','rentCents'],['unpaid','unpaidCents'],['currentRent','currentRentCents'],['proposedRent','proposedRentCents']])if(p[amount]!==undefined&&p[amount]!=='')p[cent]=String(p[amount])==='0'?0:cents(p[amount])
  for(const k of ['units','occupancyMonths','reviewedCpiBp'])if(p[k]!==undefined&&p[k]!=='')p[k]=Number(p[k])
- const result=await rulePreview(c,p),key=id()
- await commit(c,[sql(c,'INSERT INTO tt_rule_decisions(id,property_id,action,on_day,input,result,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?,?)',key,result.propertyId,result.action,result.on,JSON.stringify(p),JSON.stringify(result),c.actor.id,c.now)],command,key)
- return{id:key,...result,notice:result.state==='held'?'Held: '+result.gaps.join('; '):result.notice}
+ const result=await rulePreview(c,p),key=id(),source=await ruleSource(c,result.propertyId,result.on)
+ await commit(c,[sql(c,'INSERT INTO tt_rule_decisions(id,property_id,action,on_day,input,result,recorded_by,recorded_at) VALUES(?,?,?,?,?,?,?,?)',key,result.propertyId,result.action,result.on,JSON.stringify(p),JSON.stringify(result),c.actor.id,c.now),sql(c,'INSERT INTO tt_rule_decision_sources(decision_id,revision,snapshot) VALUES(?,?,?)',key,source.revision,source.snapshot)],command,key)
+ return{id:key,...result,sourceRevision:source.revision,notice:result.state==='held'?'Held: '+result.gaps.join('; '):result.notice}
 }

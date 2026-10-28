@@ -6,6 +6,7 @@ import { retireTenancy } from './imports'
 import { billErasureStatements } from './bills-retention'
 import { leaseErasureStatements } from './lease-versions'
 import { portable } from './data'
+import { referralErasure } from './professional-referrals'
 import { documentErasureStatements } from './documents'
 import { portalErasureStatements } from './portal'
 import { migrationErasure } from './migration'
@@ -24,6 +25,7 @@ export async function eraseTenancy(c:Context,p:Row){
  sql(c,'INSERT OR IGNORE INTO tt_erased_document_files(sha256) SELECT e.sha256 FROM tt_thread_entries e JOIN tt_threads r ON r.id=e.thread_id WHERE r.tenancy_id=? AND e.sha256 IS NOT NULL',t.id),
  ...['tt_resident_document_shares','tt_threads','tt_messages','tt_message_contacts','tt_action_requests','tt_move_checklists','tt_emergencies','tt_schedules','tt_maintenance_jobs','tt_inspections','tt_assets','tt_household_members','tt_renewal_events','tt_renewals','tt_workflow_events','tt_workflow_runs','tt_lease_history','tt_recovery_authorizations'].map(table=>sql(c,`DELETE FROM ${table} WHERE tenancy_id=?`,t.id)),
  ...await leaseErasureStatements(c,t.id),
+ referralErasure(c,t.id),
  ...documentErasureStatements(c,t.id,['lease','screening','communications']),
  ...await portalErasureStatements(c,t.id),
  sql(c,'UPDATE tt_privacy_requests SET completed_at=? WHERE id=?',c.now,request.id),sql(c,'UPDATE tt_tenancies SET custody_retired_at=?,import_revision=NULL WHERE id=?',c.now,t.id)]
