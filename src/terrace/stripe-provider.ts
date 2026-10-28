@@ -1,15 +1,22 @@
 import { Fault, type Row } from './core'
+import type {Bindings} from '../auth.server'
+import {beginExchange,httpHealth,type Health} from './integration-health'
 
-type StripeEnv = { STRIPE_SECRET_KEY?: string; RER_DEMO?: string }
+type StripeEnv = Bindings
 const unavailable = () => new Fault('stripe_unavailable', 'Stripe could not confirm the request. Its outcome may be uncertain; check this payment before trying again.', 503)
 
 /** PAY-003: server-only, test-mode transport. Never retry an uncertain write. */
 export async function stripe(env: StripeEnv, path: string, params?: URLSearchParams, idempotencyKey?: string): Promise<Row> {
   if (env.RER_DEMO) throw new Fault('stripe_unavailable', 'Card collection is unavailable in the demo.', 503)
   const key = env.STRIPE_SECRET_KEY?.trim()
-  if (!key || /^(sk|rk)_live_/i.test(key)) throw new Fault('stripe_unavailable', 'Card collection requires a configured Stripe test secret key.', 503)
+  if (!key || /^(sk|rk)_live_/i.test(key)) {
+    const finish=await beginExchange(env,'stripe',params===undefined?'stripe_read':'stripe_write',new Date().toISOString(),false);await finish('missing_configuration')
+    throw new Fault('stripe_unavailable', 'Card collection requires a configured Stripe test secret key.', 503)
+  }
   if (!/^\/?[a-zA-Z0-9_]+(?:\/[a-zA-Z0-9_]+)*$/.test(path)) throw unavailable()
 
+  const finish=await beginExchange(env,'stripe',params===undefined?'stripe_read':'stripe_write',new Date().toISOString(),true)
+  let health:Health='transient_failure'
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), 15_000)
   try {
@@ -24,21 +31,20 @@ export async function stripe(env: StripeEnv, path: string, params?: URLSearchPar
       body: params === undefined ? undefined : params.toString(),
       signal: controller.signal, redirect: 'manual',
     })
+    health=httpHealth(response.status)
     let result: unknown
     try { result = await response.json() } catch { result = undefined }
     if (response.status >= 400 && response.status < 500) {
-      const code = (result as Row | undefined)?.error?.code
-      const safeCode = typeof code === 'string' && /^[a-z][a-z0-9_]{0,63}$/.test(code) && code !== key && !/^(sk|rk|pk)_/.test(code) ? ` (${code})` : ''
-      throw new Fault('stripe_rejected', `Stripe rejected the request${safeCode}. Review the payment before trying again.`, 409)
+      throw new Fault('stripe_rejected', 'Stripe rejected the request. Review the payment before trying again.', 409)
     }
-    if (!response.ok || !result || typeof result !== 'object' || Array.isArray(result)) throw unavailable()
+    if (!response.ok || !result || typeof result !== 'object' || Array.isArray(result)) {if(response.ok)health='semantic_error';throw unavailable()}
     const row = result as Row
-    if ('livemode' in row && row.livemode !== false) throw unavailable()
+    if ('error' in row || 'livemode' in row && row.livemode !== false) {health='semantic_error';throw unavailable()}
     return row
   } catch (error) {
     if (error instanceof Fault) throw error
     throw unavailable()
-  } finally { clearTimeout(timeout) }
+  } finally { clearTimeout(timeout);await finish(health) }
 }
 
 /** Hosted card entry: no resident identity or card details leave Terrace here. */

@@ -9,7 +9,7 @@ export const button=(label:string)=>`<button type="submit">${e(label)}</button>`
 export const form=(command:string,body:string,tenancyId='',tab='tenancy',extra='')=>`<form method="post" action="/app/command" ${extra}>${hidden('command',command)}${hidden('tenancyId',tenancyId)}${hidden('tab',tab)}${body}</form>`
 export const avatar=(name:string)=>`<span class="avatar t${tint(name)}" aria-hidden="true">${e(initials(name))}</span>`
 export const pill=(label:string,tone='')=>`<span class="pill${tone?' '+tone:''}">${e(label)}</span>`
-const styles=['shell','controls','content','home','pages','scenarios'].map(n=>`<link rel="stylesheet" href="/app/${n}.css">`).join('')
+const styles=['shell','controls','content','home','pages','scenarios','integrations'].map(n=>`<link rel="stylesheet" href="/app/${n}.css">`).join('')
 type Head={eyebrow?:string,actions?:string,back?:string}
 export async function page(c:Context,title:string,body:string,notice='',status=200,current='tenancy',head:Head={}) {
  const links=[['tenancy','Tenancies'],['properties','Properties'],['ledger','Rent & arrears'],['work','Inspections & maintenance'],['import','Move in'],...(readsDocuments(c)?[['documents','Documents']]:[]),['settings','Data & access']]

@@ -9,6 +9,7 @@ import { portable } from './data'
 import { documentErasureStatements } from './documents'
 import { portalErasureStatements } from './portal'
 import { migrationErasure } from './migration'
+import { printErasureGuard } from './office-print-retention'
 export async function eraseTenancy(c:Context,p:Row){
  const t=await tenancy(c,p.tenancyId)
  insist(p.confirm===t.tenant_email,'confirmation','Type the exact tenant email to confirm permanent tenancy erasure.')
@@ -20,6 +21,7 @@ export async function eraseTenancy(c:Context,p:Row){
  const service=await portable(c),checkpoint=await service.redactionStatements(),alias='resident-'+t.id
  const native=[...await migrationErasure(c,t.id,!review.personalRetained),guard(c,"EXISTS(SELECT 1 FROM oa_operators WHERE id=? AND status='active' AND role='owner' AND version=?)",c.actor.id,c.actor.version??1),guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)',t.id,t.version),
  guard(c,"NOT EXISTS(SELECT 1 FROM tt_legal_holds WHERE tenancy_id=? AND released_at IS NULL AND class IN ('all','lease'))",t.id),
+ printErasureGuard(c,t.id),
  sql(c,'INSERT INTO tt_erasures(subject,erased_at) VALUES(?,?) ON CONFLICT DO NOTHING',await sha256(new TextEncoder().encode(t.tenant_email)),c.now),
  sql(c,'INSERT OR IGNORE INTO tt_erased_document_files(sha256) SELECT e.sha256 FROM tt_thread_entries e JOIN tt_threads r ON r.id=e.thread_id WHERE r.tenancy_id=? AND e.sha256 IS NOT NULL',t.id),
  sql(c,'INSERT OR IGNORE INTO tt_erased_document_files(sha256) SELECT s.photo_sha256 FROM tt_thread_service s JOIN tt_threads r ON r.id=s.thread_id WHERE r.tenancy_id=? AND s.photo_sha256 IS NOT NULL',t.id),
