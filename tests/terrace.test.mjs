@@ -1,3 +1,4 @@
+import {journey as applicationJourney} from './applications.mjs'
 import {journey as messageJourney} from './messages.mjs'
 import {journey as cardJourney} from './card-payments.mjs'
 import {journey as actionRequestJourney} from './action-requests.mjs'
@@ -917,3 +918,5 @@ test('PORTAL-007: scoped request actions, expiry, replacement, validated origina
 
 import {journey as sharedThreadJourney} from './portal-threads.mjs'
 test('PORTAL-006: private notes, scoped conversations, exact notices and per-recipient building service evidence survive restore',sharedThreadJourney)
+
+test('LEASE-007: two private adult applications, durable drafts, originals, disclosed submission, requested revisions and verified household fee outcomes',applicationJourney)

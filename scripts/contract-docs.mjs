@@ -1,27 +1,50 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises'
-// Incremental generation preserves the legacy acceptance journeys while their clauses move to canonical generation.
-const mode=process.argv[2],ids=process.argv.slice(3)
-if(!['write','check'].includes(mode))throw Error('Use write or check, followed by the clause ids to regenerate.')
-if(!ids.length)ids.push('MOVE-001')
-const originalContract=await readFile('CONTRACT.md','utf8'),original=await readFile('ACCEPTANCE.md','utf8')
-const statusRows=originalContract.split('\n').filter(l=>/^\| `[A-Z]+-\d+` \|/.test(l)).map(l=>l.split('|').slice(1,-1).map(s=>s.trim()))
-const counts=rows=>['done','partial','missing'].map(state=>rows.filter(r=>r[3]===state).length).concat(rows.length)
-const contract=originalContract.replace(/^\| (Published|Target and push further|All) \|.*$/gm,(_,label)=>'| '+label+' | '+counts(statusRows.filter(r=>label==='All'||(label==='Published'?r[2]==='published':r[2]!=='published'))).join(' | ')+' |')
-let acceptance=original
-const claims=[]
+import {parseContract} from '../src/base/seed-contract.mjs'
+
+// Preserve the legacy acceptance document while migrating one clause projection at a time.
+const ids=['LEASE-007','MOVE-001','MOVE-010'],mode=process.argv[2]
+if(!['write','check'].includes(mode))throw Error('Use contract-docs.mjs write or check')
+let source=await readFile('CONTRACT.md','utf8')
+const original=source
+const statusRows=source.split('\n').filter(line=>/^\| `[A-Z]+-\d+` \|/.test(line)).map(line=>line.split('|').slice(1,-1).map(cell=>cell.trim()))
+source=source.replace(/^\| (Published|Target and push further|All) \|.*$/gm,(_,label)=>{
+ const rows=statusRows.filter(row=>label==='All'||(label==='Published'?row[2]==='published':row[2]!=='published'))
+ return '| '+label+' | '+['done','partial','missing'].map(state=>rows.filter(row=>row[3]===state).length).concat(rows.length).join(' | ')+' |'
+})
+const contract=parseContract(source),states=new Map(contract.clauses.map(c=>[c.id,c.status]))
+source=source.split('\n').map(line=>{
+ if(!/^\| \d+ \|/.test(line)||!ids.some(id=>line.includes('`'+id+'`')))return line
+ const cells=line.split('|'),claimIds=[...cells[3].matchAll(/`([^`]+)`/g)].map(m=>m[1]),values=claimIds.map(id=>states.get(id))
+ if(values.some(v=>!v))throw Error('Claim maps an unknown clause')
+ cells[4]=' '+(values.every(v=>v==='done')?'done':values.every(v=>v==='missing')?'missing':'partial')+' '
+ return cells.join('|')
+}).join('\n')
+const claimRows=source.split('\n').filter(l=>/^\| (?:[1-9]|[1-4][0-9]|50) \|/.test(l))
+const tally=status=>claimRows.filter(l=>l.split('|')[4].trim()===status).length
+source=source.replace(/Claims 1–50: \d+ done, \d+ partial, \d+ missing\./,`Claims 1–50: ${tally('done')} done, ${tally('partial')} partial, ${tally('missing')} missing.`)
+source=source.replace(/raw clause statuses agree id for id in both documents: \d+ done, \d+ partial, \d+ missing \(143 clauses\)\./,`raw clause statuses agree id for id in both documents: ${contract.counts.done} done, ${contract.counts.partial} partial, ${contract.counts.missing} missing (${contract.counts.total} clauses).`)
+if(mode==='write')await writeFile('CONTRACT.md',source)
+else if(source!==original)throw Error('Stale homepage claim statuses in CONTRACT.md')
+let acceptance=await readFile('ACCEPTANCE.md','utf8')
 for(const id of ids){
- const status=contract.split('\n').find(l=>l.startsWith('| `'+id+'` |'))?.split('|').slice(1,-1).map(s=>s.trim())
- const clause=contract.split('\n').find(l=>l.startsWith('- **'+id+' — '))
- if(!status||!clause||!clause.includes('**Acceptance evidence:**'))throw Error('Canonical clause or status not found: '+id)
- const [,title,,state,evidence,gap]=status
- const proof=clause.split('**Acceptance evidence:**')[1].trim()
- const lines=acceptance.split('\n'),position=lines.findIndex(l=>new RegExp('^\\d+\\. \\*\\*'+id+' — ').test(l))
- if(position<0)throw Error('Legacy acceptance position not found: '+id)
- const number=lines[position].match(/^\d+/)[0]
- lines[position]=`${number}. **${id} — ${title}.** **Status: ${state}.** ${proof} **Current evidence:** ${evidence||'No implementation evidence yet.'}${gap?' **Remaining:** '+gap:''}`
+ const clause=contract.clauses.find(c=>c.id===id)
+ if(!clause)throw Error('Missing contract clause '+id)
+ const sentence=clause.text.split('**Acceptance evidence:**')[1]?.trim()
+ if(!sentence)throw Error('Missing acceptance evidence for '+id)
+ const lines=acceptance.split('\n'),index=lines.findIndex(line=>line.includes('**'+id+' —'))
+ if(index<0)throw Error('Missing legacy acceptance entry '+id)
+ const prefix=lines[index].match(/^\d+\./)?.[0]
+ if(!prefix)throw Error('Missing acceptance numbering for '+id)
+ lines[index]=`${prefix} **${id} — ${clause.title}.** **Status: ${clause.status}.** ${sentence} **Current evidence:** ${source.split('\n')[clause.row-1].split('|')[5].trim()||'No executed proof yet.'}${clause.gap?' **Remaining:** '+clause.gap:''}`
  acceptance=lines.join('\n')
- claims.push(`| \`${id}\` | ${title} | ${state} | ${evidence} | ${gap} |`)
 }
-const register='# Generated clause claims\n\nGenerated from CONTRACT.md by the seed contract-docs command. This incremental register covers '+ids.map(id=>'`'+id+'`').join(', ')+'. Other clauses and the homepage claim map remain in CONTRACT.md.\n\n| Clause | Capability | Status | Evidence | Gap |\n| --- | --- | --- | --- | --- |\n'+claims.join('\n')+'\n'
-if(mode==='write'){if(contract!==originalContract)await writeFile('CONTRACT.md',contract);await writeFile('ACCEPTANCE.md',acceptance);await mkdir('docs',{recursive:true});await writeFile('docs/CLAIMS.md',register)}
-else{let current='';try{current=await readFile('docs/CLAIMS.md','utf8')}catch{}if(contract!==originalContract||acceptance!==original||current!==register)throw Error('Contract documents are stale. Run the seed contract-docs write command.');console.log('Contract documents are current.')}
+acceptance=acceptance.replace(/raw clause statuses agree id for id in both documents: \d+ done, \d+ partial, \d+ missing \(143 clauses\)\./,`raw clause statuses agree id for id in both documents: ${contract.counts.done} done, ${contract.counts.partial} partial, ${contract.counts.missing} missing (${contract.counts.total} clauses).`)
+const claimStart=source.indexOf('## Homepage claims'),claimEnd=source.indexOf('\n## ',claimStart+1)
+if(claimStart<0)throw Error('Homepage claims source missing')
+const claims='# Terrace capability claims\n\nGenerated from CONTRACT.md. Edit its claim mapping and Status rows, then run `node scripts/contract-docs.mjs write`.\n\n'+source.slice(claimStart,claimEnd<0?undefined:claimEnd).split('\n').filter(line=>line.startsWith('|')).join('\n')+'\n'
+const outputs=[['ACCEPTANCE.md',acceptance],['docs/CLAIMS.md',claims]]
+for(const[path,bytes]of outputs){
+ if(mode==='write'){await mkdir('docs',{recursive:true});await writeFile(path,bytes)}
+ else{let current;try{current=await readFile(path,'utf8')}catch{};if(current!==bytes)throw Error('Stale contract projection: '+path)}
+}
+console.log('Contract projections '+(mode==='write'?'written':'match their source')+'; all '+contract.clauses.length+' Status rows retained.')

@@ -244,6 +244,16 @@ a deep local variant can still adopt or adapt later upstream improvements.
 
 ## Terrace
 
-Lander-Regenerate: after changing MOVE-001 in CONTRACT.md, run `node scripts/contract-docs.mjs write` and `node scripts/contract-docs.mjs check`. This incremental generator preserves the other legacy journeys and derives the migration acceptance row and its claim register from the canonical contract. Regenerate the edition source lock last with `node scripts/edition-authoring/cli.mjs lock`; check it with the same command's `check` verb.
+Lander-Regenerate: after changing LEASE-007, MOVE-001 or MOVE-010 in CONTRACT.md, run `node scripts/contract-docs.mjs write` and `node scripts/contract-docs.mjs check`. The shared incremental generator preserves legacy journeys, projects those clauses and regenerates claim metadata and counts. Regenerate the edition source lock last with `node scripts/edition-authoring/cli.mjs lock`; check it with the same command's `check` verb.
 
 Read README.md, ACCEPTANCE.md and API.md. Package-mode RER is pinned exactly. Test through public doors using `pnpm run test:terrace`; keep the suite under 200. Never add trust-money movement or send a prepared agent action without human approval. Use the Base publication scan before any public push.
+
+## Lander-Regenerate
+
+After a change to the LEASE-007 Status row or homepage claim mapping, run
+`node scripts/contract-docs.mjs write`, then `node scripts/contract-docs.mjs check`.
+This seed-local generator preserves unmigrated acceptance entries and generates
+the LEASE-007 projection and `docs/CLAIMS.md` from `CONTRACT.md`. Include the
+source and generated files in the same commit. Regenerate the edition source
+lock last with `node scripts/edition-authoring/cli.mjs lock`, and check it with
+`node scripts/edition-authoring/cli.mjs check`.

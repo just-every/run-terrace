@@ -411,7 +411,7 @@ The scope authority is the owner-approved 16 October 2026 Terrace entry in LIST.
 
 ## Homepage claims
 
-Every capability claim on the approved homepage (`src/site/landing/`, checked against br’s claims truth table of 18 October 2026, 50 claims in page order) maps to the clauses that promise exactly it, and row 51 maps the “Try the demo” link, which is navigation rather than a claim. A claim’s status is `done` when every mapped clause is done, `missing` when every one is missing and `partial` otherwise; it describes the implementation, not whether the claim may appear on the homepage. The sample names and figures in the drawings are illustrations, not claims. Claims 1–50: 7 done, 33 partial, 10 missing.
+Every capability claim on the approved homepage (`src/site/landing/`, checked against br’s claims truth table of 18 October 2026, 50 claims in page order) maps to the clauses that promise exactly it, and row 51 maps the “Try the demo” link, which is navigation rather than a claim. A claim’s status is `done` when every mapped clause is done, `missing` when every one is missing and `partial` otherwise; it describes the implementation, not whether the claim may appear on the homepage. The sample names and figures in the drawings are illustrations, not claims. Claims 1–50: 7 done, 35 partial, 8 missing.
 
 | # | Claim | Clause(s) | Status |
 | --- | --- | --- | --- |
@@ -425,13 +425,13 @@ Every capability claim on the approved homepage (`src/site/landing/`, checked ag
 | 8 | "Unit 2B · Rent paid $1,850 · Oct 1" | `TER-004` | done |
 | 9 | "Unit 3A · Leak reported · Plumber booked Tue 9am" | `PORTAL-004`, `WORK-004`, `WORK-005` | partial |
 | 10 | "Unit 1C · Lease renewed 12 mo" | `TER-003` | done |
-| 11 | "Unit 4B · Application approved" | `LEASE-007`, `LEASE-009` | missing |
+| 11 | "Unit 4B · Application approved" | `LEASE-007`, `LEASE-009` | partial |
 | 12 | "Rent comes in on its own." | `PAY-001`, `PAY-002`, `PAY-004` | partial |
 | 13 | "Residents pay by bank transfer, card or cash at a store." | `PAY-002`, `PAY-003`, `PAY-007` | partial |
 | 14 | "Autopay, partial payments and late fees follow your rules." | `PAY-004`, `PAY-005`, `PAY-006` | partial |
 | 15 | Rent roll: collected of billed, leases paid, ACH / card / cash / partial / unpaid per unit | `REPORT-001` | done |
 | 16 | "One listing goes to Zillow, Apartments.com and your own site." | `LEASE-001`, `LEASE-002`, `LEASE-003` | missing |
-| 17 | "Applications, screening and the lease all happen in Terrace." | `LEASE-007`, `LEASE-008`, `LEASE-010`, `LEASE-011` | missing |
+| 17 | "Applications, screening and the lease all happen in Terrace." | `LEASE-007`, `LEASE-008`, `LEASE-010`, `LEASE-011` | partial |
 | 18 | Applicants approved or declined by Kim Lee, TransUnion report, income rule, notice sent | `LEASE-008`, `LEASE-009` | missing |
 | 19 | Lease e-signed by resident and manager; deposit to the deposit account | `LEASE-011`, `ACCT-002`, `ACCT-003` | partial |
 | 20 | "Terrace's agent runs the repair from the report to the matched invoice, inside the owner's limit." | `AGENT-001`, `ROLE-003` | partial |
@@ -538,8 +538,8 @@ Revised 19 October 2026: LEASE-005 is done (ct ruling 19:01Z). Migration `0044_p
 | Clauses | Done | Partial | Missing | Total |
 | --- | ---: | ---: | ---: | ---: |
 | Published | 12 | 0 | 0 | 12 |
-| Target and push further | 47 | 33 | 51 | 131 |
-| All | 59 | 33 | 51 | 143 |
+| Target and push further | 47 | 35 | 49 | 131 |
+| All | 59 | 35 | 49 | 143 |
 
 | Clause | Title | Kind | Status | Evidence | Gap |
 | --- | --- | --- | --- | --- | --- |
@@ -574,7 +574,7 @@ Revised 19 October 2026: LEASE-005 is done (ct ruling 19:01Z). Migration `0044_p
 | `LEASE-004` | Extend listing reach with Zumper and RentCafe | target | missing |  | Zumper and RentCafe adapters are absent. |
 | `LEASE-005` | Work prospect records and enquiries | target | done | `migrations/core/0044_prospects.sql`; `src/terrace/prospects.ts`; `src/terrace/prospect-mail.ts`; `src/terrace/prospect-view.ts`; `tests/prospects.mjs`; `tests/terrace.test.mjs` |  |
 | `LEASE-006` | Coordinate tours and showing access | target | missing |  | Showing scheduling and named scheduler/calendar connections are absent. |
-| `LEASE-007` | Take complete online applications | target | missing |  | Online applications, application fees and applicant workspace are absent. |
+| `LEASE-007` | Take complete online applications | target | partial | `tests/applications.mjs` journey: two private adult drafts and resume, income originals, required disclosure consent, submitted answers, manager requests and immutable revisions, verified fee outcomes without card objects, scope refusal, revocation, archive recovery and erasure fences; `tests/applications-browser.mjs`: native forms and revision screens at desktop and phone widths; `tests/applications-sandbox.mjs`: held Stripe test hosted fee and canonical event proof | Conservative interim policy under the standing scope rule: owner-only roster, fee preparation, invitations, revocation, retention holds and erasure; scoped portfolio managers read and request evidence; each adult controls only their answers and one explicitly consented household fee. CT approval of applicant authority, custody, retention and fee policy remains pending; scoped leasing delegation and production provider boundaries remain owed. Activated PORT-008 disclosure text is frozen and acknowledged, but synthetic counsel fixtures do not prove legally sufficient application disclosures. |
 | `LEASE-008` | Order consented TransUnion screening | target | missing |  | Screening integration, consent and restricted reports are absent. |
 | `LEASE-009` | Review applicants and adverse actions | target | missing |  | Applicant decision, dispute and approved adverse-action workflows are absent. |
 | `LEASE-010` | Compose jurisdiction-reviewed lease templates | target | missing |  | Lease template assembly and reviewed jurisdiction packs are absent. |
@@ -660,7 +660,7 @@ Revised 19 October 2026: LEASE-005 is done (ct ruling 19:01Z). Migration `0044_p
 | `MOVE-007` | Move in from TurboTenant | target | missing |  | TurboTenant importer and supplemental pending/future-state reconciliation are absent. |
 | `MOVE-008` | Shadow run and control payment cutover | target | missing |  | Shadow financial comparison and payment-authority cutover are absent. |
 | `MOVE-009` | Undo untouched imports and protect later operations | target | partial | `src/terrace/imports.ts`; `src/terrace/imports-target.ts`; `src/terrace/imports-compensation.ts`; `src/terrace/imports-dependencies.ts`; `migrations/core/0053_import_compensation.sql`; `tests/terrace.test.mjs` | Tenancy CSV refuse-before-reverse undo and reviewed owner compensation ship for new preserve-conflicts jobs. Existing strict imports await reviewed reversal-policy conversion in Base; compensation for incumbent financial/provider migrations (MOVE-002 to MOVE-008 and MOVE-010) remains absent. |
-| `MOVE-010` | Carry vendors year-to-date tax and resident ledger history | target | missing |  | Vendor directory, year-to-date 1099/owner-income balance-forwards and resident ledger-history migration are absent. |
+| `MOVE-010` | Carry vendors year-to-date tax and resident ledger history | target | partial | `tests/migration.mjs` journey: restricted vendor directory and W-9 hold, vendor and owner year-to-date balance-forwards, five source-referenced resident history kinds, staff and resident monthly statements, opening balance and no duplicate cash. | AppFolio-format source adapter and independent incumbent summary reconciliation; complete owner and vendor tax carry-forward with post-cutover payments and one 1099 (ACCT-014 requires the unavailable Nelco filing account); eviction ledger export and deposit disposition integration (ACCT-004 awaits PORT-008 counsel content); complete 24-month statement and export proof remain owed. |
 | `MOVE-011` | Replace AppFolio, Buildium or Rent Manager end to end | target | missing |  | No incumbent switch journey exists: only the Terrace tenancy CSV move-in ships, and the incumbent importers, shadow run and the collection, accounting and portal clauses a switch relies on are absent. |
 | `SAFE-001` | Enforce authenticated least-privilege doors | target | done | `migrations/core/0032_second_factor.sql`; `src/terrace/second-factor.ts`; `src/terrace/security-view.ts`; `src/terrace/api.ts`; `src/terrace/core.ts`; `src/auth.server.ts`; `tests/terrace.test.mjs` |  |
 | `SAFE-002` | Keep attributable immutable operating history | target | done | `migrations/core/0035_history.sql`; `src/terrace/history.ts`; `src/terrace/core.ts`; `src/terrace/api.ts`; `tests/terrace.test.mjs` |  |
@@ -721,4 +721,4 @@ Status reconciliation, 26 October 2026, separate from the CT policy-only applica
 
 AGENT-005 implementation update, 27 October 2026 (sx-terrace-c-i925): the quoted CT remaining-work paragraph records the 26 October review boundary. The existing `tests/renewals.mjs` journey now directly asserts continuing read-only workload next actions through human approval, counteroffer reapproval, staff-recorded signature readiness and exact future charges; complete actor, timestamp, policy, reason and before-and-after fields for the three renewal-workload preparation transitions; household-roster invalidation; credential revocation after the attempt is claimed but before its proposal commits; and refusal to verify a manually entered charge that copies a generated reference while its amount and source differ. Source references remain structured owner inputs, not autonomous reading or refresh. Workload reads project current campaign history and the reviewed charge setup without executing anything; they do not collect legal signatures, perform accountable recovery, send, approve or post charges. Provider execution, underlying-source refresh and the full continuing stewardship acceptance remain open. This is bounded progress within the approved slice, with no new DONE claim and no LEASE-011 or OPS-003 completion.
 
-PORTAL-006 status reconciliation, 27 October 2026: raw clause statuses agree id for id in both documents: 58 done, 34 partial, 51 missing (143 clauses). The five first-release journey labels in ACCEPTANCE.md are additional done labels, not clause rows. PORTAL-006 changes from missing on the main baseline to partial on this candidate; ct’s reviewed partial classification remains binding. The historical baseline judgment above is retained; exact candidate proof and CI references belong to the fleet handoff, not to an invented current judgment.
+PORTAL-006 status reconciliation, 27 October 2026: raw clause statuses agree id for id in both documents: 59 done, 35 partial, 49 missing (143 clauses). The five first-release journey labels in ACCEPTANCE.md are additional done labels, not clause rows. PORTAL-006 changes from missing on the main baseline to partial on this candidate; ct’s reviewed partial classification remains binding. The historical baseline judgment above is retained; exact candidate proof and CI references belong to the fleet handoff, not to an invented current judgment.

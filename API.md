@@ -312,3 +312,10 @@ Originals use the existing 5 MB static content screen, which is no malware verdi
 `thread.reconcile` records reviewed evidence for a failed or uncertain physical-service attempt. It requires the current thread version and fingerprint, consent `RECORD RECONCILIATION`, outcome, an in-scope `assignedTo`, `nextAction`, `dueOn` and an independent evidence `reference`. The original result is retained; a delivered reconciliation is terminal. Every failed or uncertain first record opens a review assigned to its recorder due on that property-local day. This action sends nothing and proves no provider delivery or legal sufficiency. Reconciliation evidence follows the same archive, retention and erasure rules.
 
 Household notice rights follow PORT-004 dates in the property timezone. Occupants, emergency contacts, opted-out members, future members and former members are excluded. A matching live portal grant and separate reviewed permission or required-service authority are still necessary. Thread action history in the staff thread data and screen retains actor, timestamp, policy, source, reason, before and after revision and original fingerprint, without copying reply bodies into history.
+
+## Applicant workspace
+
+See [online applications](docs/applications.md) for the separate applicant door,
+versioned submission and missing-document flow, explicit hosted household fee,
+current staff scope and private original custody. LEASE-007 remains partial
+under its conservative interim authority policy and legal disclosure boundary.

@@ -56,6 +56,7 @@
       "/health",
       "/signin",
       "/portal",
+      "/apply",
       "/api/stripe/events",
       "/api/resident-mail/events",
       "/api/twilio/status",

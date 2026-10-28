@@ -5,8 +5,8 @@
       "browser": false,
       "hosted": false,
       "commands": [
-        "node scripts/contract-docs.mjs check",
         "pnpm run check --profile first-party",
+        "node scripts/contract-docs.mjs check",
         "node tests/site/provider-costs.mjs"
       ]
     },
@@ -48,6 +48,7 @@
         "node tests/hap-browser.mjs",
         "node tests/renewals-browser.mjs",
         "node tests/portal-threads-browser.mjs",
+        "node tests/applications-browser.mjs",
         "node tests/migration-browser.mjs"
       ]
     }
