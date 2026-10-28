@@ -7,7 +7,7 @@ export const CHUNK=262144, MEDIA_LIMIT=25*1024*1024
 const columns:Record<string,string>={inspection:'inspection_id',work:'job_id',invoice:'bill_id'}
 export function mediaTarget(r:Row) {return r.inspection_id?{kind:'inspection',recordId:r.inspection_id}:r.job_id?{kind:'work',recordId:r.job_id}:{kind:'invoice',recordId:r.bill_id}}
 export async function mediaRecord(c:Context,kind:string,value:unknown,write=false) {
- const column=columns[kind];insist(column,'media_kind','Choose inspection, work or invoice.')
+ const column=Object.hasOwn(columns,kind)?columns[kind]:undefined;insist(column,'media_kind','Choose inspection, work or invoice.')
  const key=text(value,'Record',100)
  if(kind==='invoice') {allow(c,write?'bill.attach':'bills.read');const b=await bill(c,key);return {column,row:b,guards:[billGuard(c,b)]}}
  allow(c,write?(kind==='inspection'?'inspection.photo':'maintenance.prepare'):'work.read')
