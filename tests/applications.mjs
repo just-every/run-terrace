@@ -115,6 +115,17 @@ export async function journey({assets=false,inspect}={}){
   assert.equal(adult.answers.income,'Corrected employer income: 5400 USD monthly')
   assert.equal(adult.revisions.find(r=>r.version===5).answers.income,completeAnswers.income,'earlier submitted answer remains visible')
   assert.equal(adult.revisions.at(-1).state,'submitted');assert.equal(adult.files.length,2);assert.ok(adult.requests[0].resolved_at)
+  const requestedOriginal=adult.files.find(file=>file.purpose==='requested')
+  assert.equal(adult.requests[0].file_id,requestedOriginal.id,'the manager can trace the resolved request to its original')
+  for(const [file,contents]of [[original,'Synthetic income evidence: 5200 USD monthly'],[requestedOriginal,'Synthetic second income original']]){
+   const path='/api/application-file?id='+file.id
+   const opened=await h.request(path,{as:staff.manager})
+   assert.equal(opened.status,200,'the scoped manager opens the applicant original')
+   assert.equal(await opened.text(),contents,'the requested evidence retains its original bytes')
+   assert.match(opened.headers.get('cache-control'),/private, no-store/)
+   assert.equal((await h.request(path,{as:staff.outsider})).status,404,'another portfolio cannot open applicant originals')
+   assert.equal((await h.request(path,{as:staff.leasing})).status,403,'the current owner-only policy grants leasing no applicant custody')
+  }
   const feePath='/apply/api/fee',key=randomUUID(),fee={requestKey:key,consent:'yes',consentVersion:'application-fee-1'}
   await applicantPost(h,a.cookie,{...fee,consent:''},400,feePath)
   provider.edge.uncertainNextCreate=true
