@@ -244,4 +244,6 @@ a deep local variant can still adopt or adapt later upstream improvements.
 
 ## Terrace
 
+Lander-Regenerate: after changing MOVE-001 in CONTRACT.md, run `node scripts/contract-docs.mjs write` and `node scripts/contract-docs.mjs check`. This incremental generator preserves the other legacy journeys and derives the migration acceptance row and its claim register from the canonical contract. Regenerate the edition source lock last with `node scripts/edition-authoring/cli.mjs lock`; check it with the same command's `check` verb.
+
 Read README.md, ACCEPTANCE.md and API.md. Package-mode RER is pinned exactly. Test through public doors using `pnpm run test:terrace`; keep the suite under 200. Never add trust-money movement or send a prepared agent action without human approval. Use the Base publication scan before any public push.

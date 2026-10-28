@@ -6,6 +6,7 @@ import { tenancyImportContext } from './imports-target'
 import { importReversal } from './imports-compensation'
 import { labelOutcome, unavailable } from './imports-review'
 import { officeZone } from './company'
+import { migrationCommand, migrationData } from './migration'
 export { importView } from './imports-view'
 export { IMPORT_KIT, CSV_HEADERS, LEASE_TYPE_HEADER, OPTIONAL_HEADERS, RESIDENTIAL_ONLY, tenancySource, tenancyMapping, tenancyImportId } from './imports-source'
 
@@ -31,6 +32,7 @@ async function jobContext(c: Context, jobId: string) {
  * Preview is read-only. Only import.apply accepts the owner's exact reviewed
  * fingerprint and creates/applies a durable job; it never approves a preview. */
 export async function importCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
+  if (['migration.preview','migration.apply','migration.journal'].includes(command)) { await importOwner(c); return migrationCommand(c,command,p) }
   if (!['import.preview','import.apply','import.undo','import.journal','import.compensation.preview','import.compensate'].includes(command)) return undefined
   await importOwner(c)
   try {
@@ -90,7 +92,7 @@ export async function importData(c: Context) {
   const jobs = await all(c, `SELECT id,namespace,mapping_version AS mappingVersion,fingerprint,state,CASE WHEN state='undone' AND reversal_policy='preserve-conflicts' AND EXISTS(SELECT 1 FROM ik_d1_reversal_reports r WHERE r.job_id=ik_jobs.id AND json_extract(r.record_json,'$.disposition')='retained') THEN 'compensated' ELSE state END AS outcome,checkpoint,total,error FROM ik_jobs WHERE destination=? AND principal_id=? ORDER BY rowid DESC LIMIT 30`,IMPORT_DESTINATION,'role:owner')
   const erasureJournal = await readD1ErasureJournal(tenancyImportContext(c,'terrace-tenancies-v1'))
   await importOwner(c)
-  return { kit: IMPORT_KIT, jobs, erasureJournal }
+  return { kit: IMPORT_KIT, jobs, erasureJournal, migrations: await migrationData(c) }
 }
 
 /** The caller supplies full native erasure and portability checkpoint statements.

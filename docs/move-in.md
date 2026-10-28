@@ -1,5 +1,93 @@
 # Move into Terrace
 
+## Complete portfolio manifest
+
+**Complete portfolio migration** on Move in accepts `terrace-migration-v1` JSON.
+It is a documented Terrace exchange format, not an incumbent export format or a
+claim of provider access. The owner inventories every source record kind, maps
+fields, preserves original bytes, previews exceptions and approves the exact
+fingerprint. Preview writes nothing. Apply publishes the entire manifest in one
+transaction, including the native records, approval, source mappings and retained
+account tie-out. Replaying that exact approval writes nothing. A used namespace
+cannot be repurposed for another source.
+
+The manifest has these fields:
+
+- `format`: `terrace-migration-v1`; `namespace`: stable source identifier;
+  `cutoverDate`: the first native operating day, in `YYYY-MM-DD` form.
+- `inventory`: independent source counts for every kind below, including zero.
+  Excluded records remain in the source count and retained manifest.
+- `records`: objects with `kind`, stable `ref` and a `data` object. References use
+  letters, digits, dots, underscores and hyphens. Each kind and reference occurs
+  once. Money uses integer USD cents, never floating point or currency conversion.
+- `fieldMap`: optional per-kind objects mapping a canonical field name to its
+  source column name. Original columns and original JSON are retained unchanged.
+- `artifacts`: objects with `ref`, `name`, `type` and `base64` for exact originals.
+  Documents and invoices reference them by `artifactRef`. Every original passes
+  the existing static content check; that check is not a malware verdict.
+- `trialBalance`: independent source rows with `propertyRef`, `ownerRef`, `fund`,
+  `account` and signed `balanceCents` (debit less credit). A nonzero difference
+  requires an explicit named `exception`; it prevents a complete-switch claim.
+- `resolutions`: objects with an exact exception `key`, `action` and `reason`.
+  Duplicate or commercial records can be `exclude`d, never silently loaded.
+  A missing W-9 can be acknowledged with `hold`: the vendor stays missing its
+  W-9 and existing work and payment qualification checks continue to apply.
+  Missing deposits, invalid fields, unmapped references and incorrect counts
+  require corrected source records and a new preview; reasons cannot waive them.
+
+| Record kind | Canonical data fields |
+| --- | --- |
+| `owner` | `name`, `email`, `kind` (individual or entity), `mailingAddress`, `w9` (not_requested, requested or received) |
+| `property` | `name`, `address`, residential `kind`, `timeZone`, `ownershipFrom`, `owners` with `ownerRef` and `shareBp` totaling 10,000 |
+| `household` | stable `identity`, primary `name`, `email`, optional `members` with native `role`, `name`, optional `email` and `phone` |
+| `lease` | `propertyRef`, `householdRef`, `ownerRef`, `unit`, `starts`, `ends`, `rentCents`, `cadence`, `leaseType`, `depositCents`, `historyFrom`, `historyOpeningCents` |
+| `vendor` | `name`, `email`, `phone`, comma-separated `specialties` and `serviceAreas`, `w9`, `insuranceExpires`, optional paired `licenseNumber` and `licenseExpires`, `availability`, `dba`, `tinStatus`, `eligible1099`, `box`, `paymentMethod`, `remitAddress` |
+| `document` | `leaseRef`, `title`, native `documentKind`, `artifactRef` |
+| `deposit` | `leaseRef`, `day`, `amountCents`, `reference` |
+| `charge` | `leaseRef`, `day`, unpaid `amountCents`, `description`, `reference` |
+| `bill` | `propertyRef`, `vendorRef`, `day`, unpaid `amountCents`, `description`, `invoiceNumber`, `reference`, `artifactRef` |
+| `work` | `leaseRef`, `vendorRef`, `dueDate`, `amountCents`, `description`, `trade`, `sourceState` |
+| `schedule` | `leaseRef`, `vendorRef`, future `dueDate`, `amountCents`, `description`, `trade`, `intervalMonths` |
+| `vendor_ytd` | `vendorRef`, `reportableCents`, `reference` |
+| `owner_ytd` | `propertyRef`, `ownerRef`, `incomeCents`, `expenseCents`, `reference` |
+| `history` | `leaseRef`, `day`, `type` (charge, receipt, credit, returned_payment or deposit), `amountCents`, signed `deltaCents`, `reference` |
+| `opening` | `propertyRef`, `ownerRef`, `fund` (operating or deposit), balanced `lines` with native chart `account`, positive `debit` or `credit` cents |
+
+Review at most 100 records and 1 MB of UTF-8 manifest per atomic migration.
+Every property, owner and fund has one opening bucket. Opening receivables must
+equal imported unpaid charges, payables must equal imported unpaid bills and
+deposit liabilities must equal resident deposits. The account tie-out compares
+those independently supplied opening lines with the incumbent trial. Native
+charge and deposit journal projections are deducted from the opening adjustment
+so balances are never recognized twice. Imported invoices retain their originals
+as pending native bills: they import no approval or payment authority. Their
+first native approval clears the carried opening liability exactly once.
+
+Resident history covers the previous 24 months, or the whole lease if newer.
+Its closing receivable equals the imported unpaid charges. Read-only history
+appears separately from collectible opening charges and never posts new cash.
+Vendor and owner balance-forwards retain their year and source reference; they
+do not create payments or claim a tax filing. Incumbent-specific captures and
+the complete MOVE-010 tax and disposition workflows remain separate clauses.
+
+Commands use the ordinary owner-only `POST /api/commands` door:
+
+```json
+{"command":"migration.preview","manifest":"exact JSON text"}
+{"command":"migration.apply","manifest":"same exact JSON text","fingerprint":"reviewed fingerprint"}
+{"command":"migration.journal","migrationId":"retained migration id"}
+```
+
+The journal keeps the exact original, per-kind counts, record mappings, resolved
+exceptions, approving person and timestamp, and each source and native opening
+account with its difference and named exception. The browser transports original
+text as `manifestBase64` to preserve line endings. Native imports never grant
+portal access, staff approval, consent, signatures or outbound permission.
+Erasing an affected resident withdraws shared source custody and approval replay;
+other residents' native records remain. Financial amounts follow existing
+retention and archive fences. Full-manifest undo is not offered; MOVE-009 owns
+reviewed compensation for these broader migrations.
+
 The first named kit is **Terrace tenancy CSV v1**. It is a documented Terrace
 CSV contract, not a claim that an external property platform exports this shape.
 No provider connection or external API is involved. The checked-in

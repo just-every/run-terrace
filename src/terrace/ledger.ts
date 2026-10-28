@@ -6,8 +6,9 @@ import {RESERVED} from './payments'
 // Adapted from Nectar c76a60ccffa39cc1a207b52c152bda16d6d7b1df
 // src/nectar/receivables.ts: integer cents, immutable charges and receipts,
 // with a balance guard in the same batch as every allocation or adjustment.
-import {tenancyGuard, all, cents, commit, date, guard, id, insist, allow, one, shown, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
+import {tenancyGuard, all, cents, money, commit, date, guard, id, insist, allow, one, shown, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
 import { dayStart, localDate, nextDay } from './zones'
+import { migrationEvents, migrationHistory } from './migration-history'
 export const BALANCE = `(q.amount_cents + ${RESIDENT_EFFECT} - COALESCE((SELECT SUM(amount_cents) FROM tt_net_receipts WHERE charge_id=q.id),0) - COALESCE((SELECT SUM(amount_cents) FROM tt_adjustments WHERE charge_id=q.id),0))`
 export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|undefined> {
  if(!['rent.charge','rent.receipt','rent.adjust'].includes(command)) return
@@ -39,18 +40,19 @@ export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|
 // PORT-001: amounts are in the tenancy's currency; "today" is the property-local day.
 export async function ledgerData(c:Context,tenancyId:string) {
  const t=await tenancy(c,tenancyId),today=localDate(c.now,t.time_zone)
- const charges=await all(c,`SELECT q.*,${RESERVED} AS reserved_cents,lt.source_clause,lt.lease_version_id,${BALANCE} AS balance_cents FROM tt_charges q LEFT JOIN tt_lease_terms lt ON lt.id=q.term_id WHERE q.tenancy_id=? ORDER BY due_date,created_at`,tenancyId)
+ const charges=await all(c,`SELECT q.*,EXISTS(SELECT 1 FROM tt_migration_records m WHERE m.kind='charge' AND m.target_id=q.id) AS migrated_opening,${RESERVED} AS reserved_cents,lt.source_clause,lt.lease_version_id,${BALANCE} AS balance_cents FROM tt_charges q LEFT JOIN tt_lease_terms lt ON lt.id=q.term_id WHERE q.tenancy_id=? ORDER BY due_date,created_at`,tenancyId)
  const receipts=await all(c,'SELECT r.* FROM tt_net_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=? ORDER BY received_date,created_at',tenancyId)
  const adjustments=await all(c,'SELECT a.* FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id WHERE q.tenancy_id=? ORDER BY at',tenancyId)
  const hapCharges=await all(c,`SELECT q.*,q.amount_cents+${PHA_EFFECT} AS effective_amount_cents,${HAP_RECEIVED} AS received_cents,q.amount_cents+${PHA_EFFECT}-${HAP_RECEIVED} AS balance_cents FROM tt_hap_charges q WHERE tenancy_id=? ORDER BY due_date,id`,t.id),effects=await hapEffects(c,t.id)
- return {hapCharges,hapEffects:effects,hapBalanceCents:hapCharges.reduce((n,q)=>n+q.balance_cents,0),hapCreditCents:hapCharges.reduce((n,q)=>n+Math.max(0,-q.balance_cents),0),residentCreditCents:charges.reduce((n,q)=>n+Math.max(0,-q.balance_cents),0),currency:shown(t),timeZone:t.time_zone as string,today,charges,receipts,adjustments,balanceCents:charges.reduce((s,r)=>s+r.balance_cents,0),arrearsCents:charges.filter(q=>q.due_date<today).reduce((s,r)=>s+Math.max(0,r.balance_cents),0)}
+ return {migrationHistory:await migrationHistory(c,t.id),hapCharges,hapEffects:effects,hapBalanceCents:hapCharges.reduce((n,q)=>n+q.balance_cents,0),hapCreditCents:hapCharges.reduce((n,q)=>n+Math.max(0,-q.balance_cents),0),residentCreditCents:charges.reduce((n,q)=>n+Math.max(0,-q.balance_cents),0),currency:shown(t),timeZone:t.time_zone as string,today,charges,receipts,adjustments,balanceCents:charges.reduce((s,r)=>s+r.balance_cents,0),arrearsCents:charges.filter(q=>q.due_date<today).reduce((s,r)=>s+Math.max(0,r.balance_cents),0)}
 }
 // Every amount is period-based, with no pagination cap in a statement.
 export async function statement(c:Context,tenancyId:string,from:string,to:string) {
  allow(c,'reports.read')
  const t=await tenancy(c,tenancyId); from=date(from,'Period start');to=date(to,'Period end');insist(to>=from,'period','Period end must follow its start.')
  const ledger=await ledgerData(c,t.id)
- const events=[...ledger.charges.map(x=>({date:x.due_date,kind:'Charge',reference:x.reference,chargeCents:x.amount_cents,receiptCents:0,adjustmentCents:0})),...ledger.receipts.map(x=>({date:x.received_date,kind:'Recorded external receipt',reference:x.reference,chargeCents:0,receiptCents:x.amount_cents,adjustmentCents:0})),...ledger.adjustments.map(x=>({date:x.posting_day??localDate(x.at,t.time_zone),kind:'Charge reduction',reference:x.reason,chargeCents:0,receiptCents:0,adjustmentCents:x.amount_cents}))].sort((a,b)=>a.date.localeCompare(b.date))
+ const events=[...ledger.charges.filter(x=>!x.migrated_opening).map(x=>({date:x.due_date,kind:'Charge',reference:x.reference,chargeCents:x.amount_cents,receiptCents:0,adjustmentCents:0})),...ledger.receipts.map(x=>({date:x.received_date,kind:'Recorded external receipt',reference:x.reference,chargeCents:0,receiptCents:x.amount_cents,adjustmentCents:0})),...ledger.adjustments.map(x=>({date:x.posting_day??localDate(x.at,t.time_zone),kind:'Charge reduction',reference:x.reason,chargeCents:0,receiptCents:0,adjustmentCents:x.amount_cents}))].sort((a,b)=>a.date.localeCompare(b.date))
+ events.push(...migrationEvents(ledger).map(x=>({date:x.date,kind:x.kind+(x.kind==='Migrated deposit'?' '+money(x.amountCents,'USD'):''),reference:x.reference,chargeCents:Math.max(0,x.receivableDeltaCents),receiptCents:Math.max(0,-x.receivableDeltaCents),adjustmentCents:0})))
  events.push(...ledger.hapEffects.filter(x=>x.resident_delta!==0).map(x=>({date:x.posting_day,kind:'PHA-notice resident entitlement correction',reference:x.reference,chargeCents:x.resident_delta,receiptCents:0,adjustmentCents:0})));events.sort((a,b)=>a.date.localeCompare(b.date))
  const delta=(x:typeof events[number])=>x.chargeCents-x.receiptCents-x.adjustmentCents
  const opening=events.filter(x=>x.date<from).reduce((s,x)=>s+delta(x),0),period=events.filter(x=>x.date>=from&&x.date<=to),closing=opening+period.reduce((s,x)=>s+delta(x),0)

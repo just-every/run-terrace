@@ -36,6 +36,7 @@ import {journey as credentialJourney} from './credentials.mjs'
 import {journey as customReportJourney} from './custom-reports.mjs'
 import {journey as workflowJourney,scheduledJourney} from './workflows.mjs'
 import {installation,tenancyInput} from './api/harness.mjs'
+import {journey as migrationJourney} from './migration.mjs'
 let h,member,admin,t,inspection,job,imported,compensated,archiveBefore,journalAfter
 /** RFC 6238 code for a base32 key at now plus offset steps, as an authenticator app shows it. */
 const totp=(key,offset=0)=>{let bits=0,v=0;const bytes=[];for(const ch of key){v=(v<<5)|'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'.indexOf(ch);bits+=5;if(bits>=8){bytes.push((v>>>(bits-8))&255);bits-=8}}const msg=Buffer.alloc(8);msg.writeBigUInt64BE(BigInt(Math.floor(Date.now()/30000)+offset));const h=createHmac('sha1',Buffer.from(bytes)).update(msg).digest(),o=h[19]&15;return String((h.readUInt32BE(o)&0x7fffffff)%1000000).padStart(6,'0')}
@@ -469,6 +470,7 @@ test('concurrent maintenance approvals never commit more than the owner’s year
  } finally { await r.close() }
 })
 test('MOVE-009: reviewed move-in, refuse-before-reverse undo, owner compensation preserves later work and recovery',async()=>{
+ await migrationJourney()
  const csv=await readFile('fixtures/terrace-tenancies.csv','utf8'),preview=await h.command('import.preview',{csv,namespace:'archive-a'})
  assert.equal((await h.state()).tenancies.length,1)
  await h.command('import.apply',{csv,namespace:'archive-a',fingerprint:'0'.repeat(64)},{status:409})

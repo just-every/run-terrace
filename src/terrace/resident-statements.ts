@@ -1,6 +1,7 @@
 import {statementRecipient} from './resident-recipient'
 import {all,escape as e,insist,money,tenancy,text,type Context,type Row} from './core'
 import {ledgerData} from './ledger'
+import {migrationEvents} from './migration-history'
 import {externalFundsAsOf} from './payments'
 import {localDate} from './zones'
 import {shell} from './portal-view'
@@ -8,7 +9,8 @@ import {csv} from './exports'
 async function events(c:Context,grant:Row){
  insist(grant.access==='resident','not_found','Not found.',404);await statementRecipient(c,grant.id)
  const t=await tenancy(c,grant.tenancy_id),ledger=await ledgerData(c,t.id)
- const rows:Row[]=[...ledger.charges.map(q=>({id:'charge:'+q.id,date:q.due_date,kind:'Lease charge',description:q.description,chargeId:q.id,amountCents:q.amount_cents,receivableDeltaCents:q.amount_cents})),...ledger.receipts.map(r=>({id:'receipt:'+r.id,date:r.received_date,kind:r.reversal_of?'Recorded external refund or reversal':'Recorded external payment',description:ledger.charges.find(q=>q.id===r.charge_id)?.description??'Lease charge',chargeId:r.charge_id,amountCents:r.amount_cents,receivableDeltaCents:-r.amount_cents})),...ledger.adjustments.map(a=>({id:'adjustment:'+a.id,date:a.posting_day??localDate(a.at,t.time_zone),kind:'Charge reduction',description:ledger.charges.find(q=>q.id===a.charge_id)?.description??'Lease charge',chargeId:a.charge_id,amountCents:a.amount_cents,receivableDeltaCents:-a.amount_cents}))]
+ const rows:Row[]=[...ledger.charges.filter(q=>!q.migrated_opening).map(q=>({id:'charge:'+q.id,date:q.due_date,kind:'Lease charge',description:q.description,chargeId:q.id,amountCents:q.amount_cents,receivableDeltaCents:q.amount_cents})),...ledger.receipts.map(r=>({id:'receipt:'+r.id,date:r.received_date,kind:r.reversal_of?'Recorded external refund or reversal':'Recorded external payment',description:ledger.charges.find(q=>q.id===r.charge_id)?.description??'Lease charge',chargeId:r.charge_id,amountCents:r.amount_cents,receivableDeltaCents:-r.amount_cents})),...ledger.adjustments.map(a=>({id:'adjustment:'+a.id,date:a.posting_day??localDate(a.at,t.time_zone),kind:'Charge reduction',description:ledger.charges.find(q=>q.id===a.charge_id)?.description??'Lease charge',chargeId:a.charge_id,amountCents:a.amount_cents,receivableDeltaCents:-a.amount_cents}))]
+ rows.push(...migrationEvents(ledger))
  rows.push(...ledger.hapEffects.filter(x=>x.resident_delta!==0).map(x=>({id:'hap-correction:'+x.id,date:x.posting_day,kind:'PHA-notice resident entitlement correction',description:'Resident portion for '+x.effective_from+' through '+x.effective_to,chargeId:x.resident_charge_id,amountCents:x.resident_delta,receivableDeltaCents:x.resident_delta})))
  rows.sort((a,b)=>a.date.localeCompare(b.date)||a.id.localeCompare(b.id))
  return{t,ledger,rows}
@@ -22,6 +24,7 @@ export async function residentMonthlyStatement(c:Context,grant:Row,value:unknown
 export async function residentDeliveryList(c:Context,grant:Row){return all(c,'SELECT id,kind,month,state,next_action FROM tt_resident_deliveries WHERE grant_id=? AND identity_id=? AND tenancy_id=? ORDER BY prepared_at,id',grant.id,grant.identity_id,grant.tenancy_id)}
 export async function residentTransaction(c:Context,grant:Row,value:unknown){
  const {t,ledger,rows}=await events(c,grant),r=rows.find(r=>r.id===value);insist(r,'not_found','Transaction not found.',404)
+ if(r.historical)return {tenancyId:t.id,currency:ledger.currency,transaction:r,charge:{dueDate:r.date,description:r.description,amountCents:r.amountCents,currentBalanceCents:null},notice:'Read-only migrated source history. It does not post new cash; the native opening charge carries the collectible balance.'}
  const q=ledger.charges.find(q=>q.id===r.chargeId)!
  return{tenancyId:t.id,currency:ledger.currency,transaction:r,charge:{dueDate:q.due_date,description:q.description,amountCents:q.amount_cents,currentBalanceCents:q.balance_cents},notice:'A recorded lease transaction. Provider references, other household contacts and staff notes are not shared.'}
 }
@@ -35,5 +38,5 @@ export function residentMonthlyPage(person:Row,d:Row){
 }
 export function residentTransactionPage(person:Row,d:Row){
  const r=d.transaction,m=(n:number)=>money(n,d.currency)
- return shell('Recorded transaction',`<p><a href="/portal/lease?tenancy=${e(d.tenancyId)}">Back to your lease account</a></p><section><h2>${e(r.kind)}</h2><dl style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)"><dt>Date</dt><dd>${e(r.date)}</dd><dt>Charge</dt><dd>${e(r.description)}</dd><dt>Amount</dt><dd>${m(r.amountCents)}</dd><dt>Receivable change</dt><dd>${m(r.receivableDeltaCents)}</dd><dt>Charge due</dt><dd>${e(d.charge.dueDate)}</dd><dt>Original charge</dt><dd>${m(d.charge.amountCents)}</dd><dt>Charge current unpaid balance</dt><dd>${m(d.charge.currentBalanceCents)}</dd></dl><p>${e(d.notice)}</p></section>`,person)
+ return shell('Recorded transaction',`<p><a href="/portal/lease?tenancy=${e(d.tenancyId)}">Back to your lease account</a></p><section><h2>${e(r.kind)}</h2><dl style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)"><dt>Date</dt><dd>${e(r.date)}</dd><dt>Charge</dt><dd>${e(r.description)}</dd><dt>Amount</dt><dd>${m(r.amountCents)}</dd><dt>Receivable change</dt><dd>${m(r.receivableDeltaCents)}</dd><dt>Charge due</dt><dd>${e(d.charge.dueDate)}</dd><dt>Original charge</dt><dd>${m(d.charge.amountCents)}</dd><dt>Charge current unpaid balance</dt><dd>${d.charge.currentBalanceCents===null?'Historical source, no new posting':m(d.charge.currentBalanceCents)}</dd></dl><p>${e(d.notice)}</p></section>`,person)
 }
