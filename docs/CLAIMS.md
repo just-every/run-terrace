@@ -33,7 +33,7 @@ Generated from CONTRACT.md. Edit its claim mapping and Status rows, then run `no
 | 27 | Arrival text "Reply Y to confirm" | `PORTAL-005`, `WORK-005` | partial |
 | 28 | Owner email "3A kitchen sink fixed · $385.00 · 2 photos", on the October statement | `PORTAL-010`, `PORTAL-002`, `ACCT-012` | partial |
 | 29 | Vendor work order: upload photos, submit invoice | `PORTAL-003` | missing |
-| 30 | "Residents pay and report from their phone. Owners see their books. Vendors get the job, the photos and the invoice form." | `PORTAL-001`, `PORTAL-002`, `PORTAL-003` | missing |
+| 30 | "Residents pay and report from their phone. Owners see their books. Vendors get the job, the photos and the invoice form." | `PORTAL-001`, `PORTAL-002`, `PORTAL-003` | partial |
 | 31 | "The agent weighs each case in cash and vacant days" (plan vs pay-or-quit, $2,318 lost) | `AGENT-009`, `AGENT-004`, `REPORT-007` | partial |
 | 32 | "drafts the plan or the notice, and you press Send" | `TER-005`, `AGENT-004`, `PAY-011`, `PORTAL-005` | partial |
 | 33 | Payment plan sent, agreed and first $925 received | `PAY-011` | partial |

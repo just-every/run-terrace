@@ -1,3 +1,5 @@
+import {residentDocuments} from './resident-account'
+import {externalFundsAsOf} from './payments'
 import {ownerPayerBalances} from './hap-portal'
 import {vendorAppointmentProposals} from './portal-vendor-proposals'
 import {vendorAppointments,vendorEstimates,vendorResponses} from './portal-vendor'
@@ -13,15 +15,21 @@ export async function residentData(c: Context, grant: Row) {
  const t = await one(c, 'SELECT t.id,t.address,t.start_date,t.end_date,t.ended_on,u.identifier AS unit,p.name AS property FROM tt_tenancies t LEFT JOIN tt_units u ON u.id=t.unit_id LEFT JOIN tt_properties p ON p.id=u.property_id WHERE t.id=? AND t.erased_at IS NULL', grant.tenancy_id)
  if (!t) return null
  const l = await ledgerData(c, t.id), delegate = grant.access === 'delegate'
+ const deposits=delegate?[]:await all(c,"SELECT j.id,j.day,l.debit_cents,l.credit_cents FROM tt_journal j JOIN tt_journal_lines l ON l.id=j.id WHERE j.tenancy_id=? AND j.fund='deposit' AND l.account='deposit_liability' ORDER BY j.day,j.id",t.id)
+ const funds=delegate?null:await externalFundsAsOf(c,t.id,l.today)
  return {
   access: grant.access, tenancy: delegate ? { id: t.id, address: t.address } : { id: t.id, address: t.address, unit: t.unit ?? null, property: t.property ?? null, startDate: t.start_date, endDate: t.end_date, endedOn: t.ended_on ?? null },
   currency: l.currency, balanceCents: l.balanceCents, arrearsCents: l.arrearsCents,
   charges: l.charges.map(q => ({ id: q.id, dueDate: q.due_date, description: q.description, amountCents: q.amount_cents, balanceCents: q.balance_cents })),
-  boundary: 'Recorded rent only. Payments are made outside Terrace.',
+  boundary: delegate?'Shared charges and balance only.':'Recorded payments are not proof of bank settlement. Hosted card payments require a verified provider event.',
   ...(delegate ? {} : {
    housingAuthority:l.hapCharges.length?{balanceCents:l.hapBalanceCents,creditCents:l.hapCreditCents,charges:l.hapCharges.map(q=>({id:q.id,dueDate:q.due_date,payer:q.payer,amountCents:q.effective_amount_cents,balanceCents:q.balance_cents}))}:null,
    payerCorrections:l.hapEffects.map(x=>({id:x.id,kind:x.kind,residentDeltaCents:x.resident_delta,phaDeltaCents:x.pha_delta,postingDay:x.posting_day,effectiveFrom:x.effective_from,effectiveTo:x.effective_to})),
-   receipts: l.receipts.map(r => ({ date: r.received_date, amountCents: r.amount_cents })),
+   pending:funds!.pending, pendingCents:funds!.pendingCents, creditCents:funds!.creditCents,
+   deposits:deposits.map(r=>({id:r.id,date:r.day,amountCents:r.credit_cents-r.debit_cents})),depositCents:deposits.reduce((n,r)=>n+r.credit_cents-r.debit_cents,0),
+   documents:await residentDocuments(c,grant),
+   obligations:l.charges.map(q=>({chargeId:q.id,dueDate:q.due_date,description:q.description,amountCents:q.amount_cents,balanceCents:q.balance_cents})),
+   receipts: l.receipts.map(r => ({ id:r.id,date: r.received_date, amountCents: r.amount_cents,url:'/portal/receipt?tenancyId='+encodeURIComponent(t.id)+'&id='+encodeURIComponent(r.id) })),
    adjustments: l.adjustments.map(a => ({ date: a.at.slice(0, 10), amountCents: a.amount_cents })),
    delegates: (await all(c, "SELECT g.id,i.display_name FROM tt_portal_grants g JOIN tt_portal_identities i ON i.id=g.identity_id WHERE g.tenancy_id=? AND g.access='delegate' AND g.revoked_at IS NULL ORDER BY g.granted_at,g.id", t.id)).map(r => ({ grantId: r.id as string, name: r.display_name as string })),
   }),

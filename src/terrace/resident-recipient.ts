@@ -3,7 +3,7 @@ import {localDate} from './zones'
 
 // PORT-004: delivery and document rights follow current property-local
 // household membership. Email additionally requires the email preference.
-function scope(emailOnly:boolean){return `g.access='resident' AND g.revoked_at IS NULL AND i.kind='resident' AND i.status='active' AND t.erased_at IS NULL AND t.custody_retired_at IS NULL AND ((i.email=t.tenant_email AND t.start_date<=? AND (t.ended_on IS NULL OR t.ended_on>=?)) OR EXISTS(SELECT 1 FROM tt_household_members h WHERE h.tenancy_id=t.id AND h.email=i.email AND h.role IN ('co_tenant','guarantor','authorized_contact') ${emailOnly?"AND h.contact_by='email'":''} AND h.joined<=? AND (h.left_on IS NULL OR h.left_on>=?)))`}
+function scope(emailOnly:boolean){return `g.access='resident' AND g.revoked_at IS NULL AND i.kind='resident' AND i.status='active' AND t.erased_at IS NULL AND t.custody_retired_at IS NULL AND ((i.email=t.tenant_email ${emailOnly?"AND NOT EXISTS(SELECT 1 FROM tt_message_contacts mc WHERE mc.tenancy_id=t.id AND mc.kind='resident' AND mc.subject_id=t.id AND mc.email=i.email AND mc.email_consent=0)":''} AND t.start_date<=? AND (t.ended_on IS NULL OR t.ended_on>=?)) OR EXISTS(SELECT 1 FROM tt_household_members h WHERE h.tenancy_id=t.id AND h.email=i.email AND h.role IN ('co_tenant','guarantor','authorized_contact') ${emailOnly?"AND h.contact_by='email'":''} AND h.joined<=? AND (h.left_on IS NULL OR h.left_on>=?)))`}
 const join='tt_portal_grants g JOIN tt_portal_identities i ON i.id=g.identity_id JOIN tt_tenancies t ON t.id=g.tenancy_id'
 export async function statementRecipient(c:Context,key:string,emailOnly=false):Promise<Row>{
  const g=await one(c,`SELECT g.*,i.email,t.time_zone FROM ${join} WHERE g.id=?`,key)
