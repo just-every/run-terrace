@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "cc52e65be45be460da3ae2bcd71fb347bec3cbde9f5498edf2fc9c0a51d4de5d",
+      "sha256": "8e8590f9c4f64655f18e2f34692f5d7533a0d5abc981d2359b0923cd3ddae6a5",
       "executable": false
     },
     "AGENTS.md": {
@@ -109,7 +109,7 @@
       "executable": false
     },
     "API.md": {
-      "sha256": "25d869457232828a4b9e5a5f89a8a99b84027dc8107c1e8402ad6035ae4a0f3d",
+      "sha256": "e08a9df82e3c11efc5d905d0cceaf574081e967128af3a961ea55ad8b0bea8f4",
       "executable": false
     },
     "base-copies.json": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "cb8eddb39abaef1a11ff8465eedf131228569b3442f2224cc67bbb607def480d",
+      "sha256": "577da6c54c743aee7a2de142ff840f9a986d484bc4cc86f4ce3494b3e7064ef6",
       "executable": false
     },
     "DEMO.md": {
@@ -185,7 +185,7 @@
       "executable": false
     },
     "docs/index.md": {
-      "sha256": "a89c2b2d9adf1363c3984d3a03427c62920a6b22ad862e53c5befa36183c38cc",
+      "sha256": "286bd23c38a0294ad055dcf693b5bba13b8869e0c66f8f7283936d9f21373023",
       "executable": false
     },
     "docs/inspections-and-maintenance.md": {
@@ -646,6 +646,10 @@
     },
     "migrations/core/0105_migration_opening_register.sql": {
       "sha256": "d4b62a5f559b1f981c558c279cd3ef47be152b0a9b70c9675a9f860480f846db",
+      "executable": false
+    },
+    "migrations/core/0106_arrears_cases.sql": {
+      "sha256": "9849f604058ca390c56b332e478d55e59dacaf7aac8b6e1b6a8e568efa11841b",
       "executable": false
     },
     "ONBOARDING.md": {
@@ -3421,7 +3425,7 @@
       "executable": false
     },
     "src/terrace/api.ts": {
-      "sha256": "4129f97122710b3d225429dc42fa8870ce94f279d35b76b3725cf29a051d2786",
+      "sha256": "c3623633df1f644c8f337ff76a2086c2897622233a83487647266cd20e334374",
       "executable": false
     },
     "src/terrace/application-access.ts": {
@@ -3462,6 +3466,26 @@
     },
     "src/terrace/archive-policy.mjs": {
       "sha256": "0e7d4a335e931f1eac86f4eb60f4397b96fc07ab1eb012e85ae6612d84bf7d4d",
+      "executable": false
+    },
+    "src/terrace/arrears-forecast.ts": {
+      "sha256": "00053f3fd5d2a1cd034213dd3df27cd605e54d3fd85d65084822955c3cf57b28",
+      "executable": false
+    },
+    "src/terrace/arrears-mail.ts": {
+      "sha256": "ec5296ba2d2d4f7a9d0008857fffb19011d31f91943d8cddd4cf5f8bf5b6c648",
+      "executable": false
+    },
+    "src/terrace/arrears-state.ts": {
+      "sha256": "a82b1ea68e20aac469a6e39655d29927423f10659b0bbad6067cb631ba544f14",
+      "executable": false
+    },
+    "src/terrace/arrears-view.ts": {
+      "sha256": "05155ace6ef0aef63c57e9bdd33783af6a47b23a38a3dcc797efe45163d184ca",
+      "executable": false
+    },
+    "src/terrace/arrears.ts": {
+      "sha256": "17df5b1aaa8c32f1d340a60b3a2490dfe43e255d265e9ac7ca9e6325f11ae6e0",
       "executable": false
     },
     "src/terrace/asset-view.ts": {
@@ -3553,7 +3577,7 @@
       "executable": false
     },
     "src/terrace/credentials.ts": {
-      "sha256": "3b60ac1663d311eb9e5353d93fa038da4b455b5a4c2b1eb7e48d296e61352f63",
+      "sha256": "fa64940d32f05e636875840a215bd23ff1ae5cf060cf08d9ca789d755e140167",
       "executable": false
     },
     "src/terrace/custom-access.ts": {
@@ -3661,7 +3685,7 @@
       "executable": false
     },
     "src/terrace/erasure.ts": {
-      "sha256": "4390aad42026720970f5f67f7cffe98d2d736c860d4f633cfc327007de953f06",
+      "sha256": "5caec7e0870b388428651b21edbba8113ec39774ed56c541be9b6db2e169ee4f",
       "executable": false
     },
     "src/terrace/exports.ts": {
@@ -4400,6 +4424,14 @@
       "sha256": "4f158fc2a547ae0038eb13173611d8e2e1f116ba64a9e79fdbf52f9b549421e9",
       "executable": false
     },
+    "tests/arrears-browser.mjs": {
+      "sha256": "8e67e42b105f878689c5252325cb46b111bf5ebcc5c46d569d9e32239701efb2",
+      "executable": false
+    },
+    "tests/arrears.mjs": {
+      "sha256": "5fd41fe0cd356aeaae21c78172b472984993e10109896e5cc016d132ce571395",
+      "executable": false
+    },
     "tests/bills.mjs": {
       "sha256": "3982173b6f541f4bf5259a518ea640e01f0f83981440c7dbe879303b8304f4f7",
       "executable": false
@@ -4429,7 +4461,7 @@
       "executable": false
     },
     "tests/credentials.mjs": {
-      "sha256": "bcaae2c45577b4831c045f97c08422acad75452608098e04e4b30ef1947f7495",
+      "sha256": "a10426d00326d95fb8b0bb350f05be077f3d593fb18a35d3b3787e420c84c009",
       "executable": false
     },
     "tests/custom-browser.mjs": {

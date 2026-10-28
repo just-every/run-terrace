@@ -9,7 +9,7 @@ import { requestedRole, roleLabel } from './roles'
 
 export const CREDENTIAL_COMMANDS = ['credential.mint', 'credential.rotate', 'credential.revoke']
 /** The only commands a prepare credential may run, each still limited by its role's capability row. */
-export const PREPARE_COMMANDS = ['maintenance.prepare', 'maintenance.revise', 'quote.add', 'renewal.prepare', 'arrears.prepare', 'correction.prepare', 'charges.preview', 'agent.execute']
+export const PREPARE_COMMANDS = ['maintenance.prepare', 'maintenance.revise', 'quote.add', 'renewal.prepare', 'arrears.prepare', 'arrears.compare', 'arrears.draft', 'correction.prepare', 'charges.preview', 'agent.execute']
 const APPROVAL = /\.(approve|reject|review|owner|exception|sent)$|^period\.|^completion\.close$/
 const enc = new TextEncoder()
 const hash = (token: string) => sha256(enc.encode('terrace-api-credential:' + token))

@@ -64,3 +64,12 @@ CREATE TRIGGER tt_arrears_reversal_changed AFTER INSERT ON tt_receipt_reversals 
 CREATE TRIGGER tt_arrears_hap_changed AFTER INSERT ON tt_hap_effects BEGIN
  UPDATE tt_arrears_cases SET version=version+1 WHERE tenancy_id=NEW.tenancy_id;
  UPDATE tt_arrears_actions SET state='stopped',version=version+1 WHERE tenancy_id=NEW.tenancy_id AND state IN ('draft','approved'); END;
+
+CREATE TRIGGER tt_arrears_mail_custody_fence BEFORE INSERT ON rer_mail_event_receipts
+WHEN NEW.event_namespace='terrace-arrears' AND NOT EXISTS(
+ SELECT 1 FROM tt_arrears_actions a JOIN tt_tenancies t ON t.id=a.tenancy_id
+ WHERE t.erased_at IS NULL AND t.custody_retired_at IS NULL AND a.provider=NEW.provider
+ AND json_extract(a.snapshot,'$.recipient')=json_extract(NEW.event_json,'$.recipients[0]')
+ AND a.provider_id=json_extract(NEW.event_json,'$.providerMessageId')
+)
+BEGIN SELECT RAISE(ABORT,'arrears_delivery_erased'); END;

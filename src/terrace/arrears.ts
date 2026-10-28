@@ -2,7 +2,7 @@ import {all,allow,commit,date,guard,id,insist,one,sha256,sql,tenancy,tenancyGuar
 import {localDate} from './zones'
 import {independence} from './dual-control'
 import {scan,LIMIT} from './document-scan'
-import {actionCurrent,addDays,collectionCase,installationKey,native,noticeRules} from './arrears-state'
+import {actionCurrent,addDays,collectionCase,installationKey,native,noticeRules,noticeExpiry} from './arrears-state'
 import {compareArrears} from './arrears-forecast'
 export const ARREARS_COMMANDS=['arrears.contact','arrears.reply','arrears.plan','arrears.plan-approve','arrears.draft','arrears.approve','arrears.send','arrears.service','arrears.outcome','arrears.compare']
 export const event=(c:Context,t:string,kind:string,detail:Row,reference:string,on:string)=>sql(c,'INSERT INTO tt_arrears_events(id,tenancy_id,kind,detail,reference,on_day,actor,at) VALUES(?,?,?,?,?,?,?,?)',id(),t,kind,JSON.stringify(detail),reference,on,c.actor.id,c.now)
@@ -11,6 +11,7 @@ export async function arrearsCommand(c:Context,name:string,p:Row):Promise<Row|un
  if(!ARREARS_COMMANDS.includes(name))return
  allow(c,name)
  if(!['arrears.compare','arrears.draft'].includes(name))native(c)
+ if(['arrears.compare','arrears.draft'].includes(name))allow(c,'reports.read')
  if(name==='arrears.compare')return compareArrears(c,p)
  const s=await collectionCase(c,p.tenancyId),t=s.tenancy,on=s.asOf
  insist(!t.custody_retired_at,'retired','This tenancy is retired from operational use.',409)
@@ -32,7 +33,7 @@ export async function arrearsCommand(c:Context,name:string,p:Row):Promise<Row|un
   insist(Array.isArray(values)&&values.length&&values.length<=24,'plan','Supply one promise or up to 24 installments.')
   const installments=values.map((v:Row)=>({on:date(v.on),cents:Number(v.cents)}))
   insist(installments.every((v:Row,i:number)=>v.on>=on&&Number.isSafeInteger(v.cents)&&v.cents>0&&(!i||v.on>installments[i-1].on))&&installments.reduce((n:number,v:Row)=>n+v.cents,0)===s.balance.overdueCents,'plan','Dated installments must increase in date and cover the exact overdue balance in cents.')
-  writes=[sql(c,'INSERT INTO tt_arrears_plans(id,tenancy_id,installments,baseline,reference,created_by,created_at) VALUES(?,?,?,?,?,?,?)',key,t.id,JSON.stringify(installments),JSON.stringify({receiptIds:s.balance.receiptRows.map(r=>r.id),balanceCents:s.balance.overdueCents,caseVersion:s.config?.version??0}),ref(),c.actor.id,c.now),event(c,t.id,'plan_prepared',{planId:key,installments},ref(),on)]
+  writes=[sql(c,'INSERT INTO tt_arrears_plans(id,tenancy_id,installments,baseline,reference,created_by,created_at) VALUES(?,?,?,?,?,?,?)',key,t.id,JSON.stringify(installments),JSON.stringify({receiptIds:s.balance.receiptRows.map(r=>r.id),chargeIds:s.balance.charges.filter(q=>q.ageDays>0&&q.outstandingCents>0).map(q=>q.chargeId),balanceCents:s.balance.overdueCents,caseVersion:s.config?.version??0}),ref(),c.actor.id,c.now),event(c,t.id,'plan_prepared',{planId:key,installments},ref(),on)]
  }else if(name==='arrears.plan-approve'){
   const plan=await one(c,'SELECT * FROM tt_arrears_plans WHERE id=? AND tenancy_id=?',text(p.planId,'Plan',100),t.id)
   insist(plan&&!plan.approved_at,'plan','Choose an undecided plan.',409)
@@ -46,6 +47,7 @@ export async function arrearsCommand(c:Context,name:string,p:Row):Promise<Row|un
   if(kind==='plan')insist(s.plan&&s.plan.state==='active','plan','Approve an active payment plan before drafting its delivery.',409)
   if(kind==='reminder')insist(s.plan?.state!=='active','collection_held','An active payment plan pauses ordinary reminders.',409)
   const due=date(p.dueOn);insist(due>=on,'due','A draft sequence step cannot be backdated.')
+  if(kind.includes('notice'))insist(on>=t.start_date&&on<=(t.ended_on??t.end_date),'notice_term','Review former-resident authority with counsel; this notice door requires a current tenancy.',409)
   const rules=kind.includes('notice')?await noticeRules(c,t,kind,on):null
   let forecast:Row|null=null
   if(p.forecastId){forecast=await one(c,'SELECT * FROM tt_arrears_forecasts WHERE id=? AND tenancy_id=?',p.forecastId,t.id);insist(forecast,'not_found','Forecast not found.',404);const x=JSON.parse(forecast.comparison);insist(!x.paused.length,'collection_held','The forecast was paused. Recalculate after human review.',409);insist(x.rentAtRiskCents===s.balance.overdueCents,'collection_changed','Recalculate after a balance change.',409);if(x.recommended!==kind)text(p.overrideReason,'Reason for human choice',1000)}
@@ -67,13 +69,14 @@ export async function arrearsCommand(c:Context,name:string,p:Row):Promise<Row|un
    const current=await actionCurrent(c,a);base.push(current.fence)
    insist(p.consent==='RECORD SERVICE','confirmation','Confirm the exact notice and sourced service evidence.')
    const served=text(p.servedAt,'Service instant',35);insist(/(?:Z|[+-]\d\d:\d\d)$/.test(served)&&Number.isFinite(Date.parse(served))&&Date.parse(served)<=Date.parse(c.now),'service_date','Use an actual service instant with a timezone, no later than now.')
-   const day=localDate(served,t.time_zone);insist(day>=localDate(a.approved_at,t.time_zone),'service_date','Service must follow approval.')
+   const day=localDate(served,t.time_zone);insist(Date.parse(served)>=Date.parse(a.approved_at),'service_date','Service must follow approval.')
    const method=text(p.method,'Service method',100),rules=JSON.parse(a.snapshot).rules as Row[]
    insist(rules.every(r=>r.methods.includes(method)),'service_method','Every applicable reviewed pack must permit the service method.',409)
    const photo=p.photo;insist(photo instanceof File&&photo.size>0&&photo.size<=LIMIT,'photo','Upload the original service photo (up to 5 MB).')
    const bytes=new Uint8Array(await photo.arrayBuffer()),checked=await scan(bytes,photo.type);insist(checked.ok&&['image/jpeg','image/png'].includes(photo.type),'photo','Use a valid JPEG or PNG service photo.')
-   const expires=rules.map(r=>addDays(day,r.days+(method.includes('mail')?r.mailingExtensionDays:0))).sort().at(-1)!
-   writes=[sql(c,'INSERT INTO tt_arrears_service(action_id,served_at,method,server,reference,photo,media_type,sha256,expires_on,actor,at) VALUES(?,?,?,?,?,?,?,?,?,?,?)',a.id,served,method,text(p.server,'Person who served',200),ref(),bytes,photo.type,await sha256(bytes),expires,c.actor.id,c.now),sql(c,"UPDATE tt_arrears_actions SET state='served',version=version+1 WHERE id=?",a.id),event(c,t.id,'served',{actionId:a.id,expiresOn:expires,method,servedAt:served},ref(),day)]
+   const fingerprint=await sha256(bytes);insist(!await one(c,'SELECT 1 FROM tt_erased_document_files WHERE sha256=?',fingerprint),'erased_artifact','This service original was erased.',409)
+   const expires=rules.map(r=>noticeExpiry(day,r,method)).sort().at(-1)!
+   writes=[sql(c,'INSERT INTO tt_arrears_service(action_id,served_at,method,server,reference,photo,media_type,sha256,expires_on,actor,at) VALUES(?,?,?,?,?,?,?,?,?,?,?)',a.id,served,method,text(p.server,'Person who served',200),ref(),bytes,photo.type,fingerprint,expires,c.actor.id,c.now),sql(c,"UPDATE tt_arrears_actions SET state='served',version=version+1 WHERE id=?",a.id),event(c,t.id,'served',{actionId:a.id,expiresOn:expires,method,servedAt:served},ref(),day)]
   }else{
    const current=await actionCurrent(c,a);base.push(current.fence)
    if(name==='arrears.approve'){

@@ -20,7 +20,7 @@ export async function collectionCase(c:Context,value:unknown,asOf?:string){
  const events=await all(c,'SELECT * FROM tt_arrears_events WHERE tenancy_id=? AND on_day<=? ORDER BY at,rowid',t.id,day)
  const approved=plans.filter(p=>p.approved_at&&localDate(p.approved_at,t.time_zone)<=day).at(-1)
  const latest=approved?{...approved,installments:JSON.parse(approved.installments),baseline:JSON.parse(approved.baseline)}:null
- const paidSince=(base:Row,on:string)=>balance.receiptRows.filter(r=>!base.receiptIds.includes(r.id)&&r.received_date<=on).reduce((n,r)=>n+r.amount_cents,0)
+ const paidSince=(base:Row,on:string)=>balance.receiptRows.filter(r=>!base.receiptIds.includes(r.id)&&(!base.chargeIds||base.chargeIds.includes(r.charge_id))&&r.received_date<=on).reduce((n,r)=>n+r.amount_cents,0)
  let plan:Row|null=null
  if(latest){const due=latest.installments.filter((p:Row)=>p.on<day).reduce((n:number,p:Row)=>n+p.cents,0),paid=paidSince(latest.baseline,day),total=latest.installments.reduce((n:number,p:Row)=>n+p.cents,0)
   plan={...latest,paidCents:paid,totalCents:total,state:paid>=total?'met':paid<due?'broken':'active'}
@@ -34,6 +34,15 @@ export async function collectionCase(c:Context,value:unknown,asOf?:string){
  const nextAction=reasons.length?reasons.join('; '):plan?.state==='broken'?'Broken promise: human review of plan or notice':plan?.state==='active'?'Monitor agreed installments; no automatic contact':actions.some(a=>a.kind.includes('notice')&&a.state==='served')?'Review served notice expiry and refer to authorized counsel':'Review and approve the next collection action'
  return{tenancy:t,asOf:day,config,balance,plan,plans:plans.map(p=>({...p,installments:JSON.parse(p.installments)})),actions,events:events.map((e):Row=>({...e,detail:JSON.parse(e.detail)})),reasons,nextAction,collectionOutcome:balance.balanceCents===0?'Recorded receivable cleared; bank settlement not established':plan?.state==='met'?'Plan met by recorded receipts; remaining charges stay open':'Open',paidSince}
 }
+export function noticeExpiry(day:string,rule:Row,method:string){
+ const advance=(from:string,count:number,basis:string)=>{
+  let value=from,left=count
+  while(left>0){value=addDays(value,1);if(basis==='calendar'||(![0,6].includes(new Date(value+'T00:00:00Z').getUTCDay())&&!rule.excludedDates.includes(value)))left--}
+  return value
+ }
+ const period=advance(day,rule.days,rule.dayBasis)
+ return method.includes('mail')?advance(period,rule.mailingExtensionDays,rule.mailingExtensionBasis):period
+}
 export async function noticeRules(c:Context,t:Row,kind:string,on:string){
  const unit=await one(c,'SELECT property_id FROM tt_units WHERE id=?',t.unit_id)
  insist(unit,'rule_gap','A property and reviewed rule pack are required for a notice.',409)
@@ -43,6 +52,7 @@ export async function noticeRules(c:Context,t:Row,kind:string,on:string){
  const rules=preview.packs.map((p:Row)=>{
   const value=p.fields[field].value
   insist(Number.isInteger(value.days)&&value.days>=0&&value.days<=366&&Array.isArray(value.methods)&&value.methods.length&&Number.isInteger(value.mailingExtensionDays)&&value.mailingExtensionDays>=0,'rule_gap','The reviewed pack must explicitly provide notice days, methods and mailing extension.',409)
+  insist(['calendar','business'].includes(value.dayBasis)&&['calendar','business'].includes(value.mailingExtensionBasis)&&Array.isArray(value.excludedDates)&&value.excludedDates.every((d:unknown)=>date(d)),'rule_gap','The pack must explicitly state the counting basis and excluded dates for notice and mailing periods.',409)
   return{packId:p.id,code:p.code,version:p.version,citation:p.fields[field].citation,...value}
  })
  return rules
@@ -59,5 +69,5 @@ export async function collectionData(c:Context,value:unknown){
  allow(c,'reports.read');const s=await collectionCase(c,value)
  const forecasts=await all(c,'SELECT * FROM tt_arrears_forecasts WHERE tenancy_id=? ORDER BY at,rowid',s.tenancy.id)
  const actions=await Promise.all(s.actions.map(async (a):Promise<Row>=>({...a,service:await one(c,'SELECT action_id,served_at,method,server,reference,sha256,expires_on FROM tt_arrears_service WHERE action_id=?',a.id)})))
- return{...s,paidSince:undefined,actions,forecasts:forecasts.map(f=>({...f,assumptions:JSON.parse(f.assumptions),comparison:JSON.parse(f.comparison),actual:{cashCents:s.paidSince(JSON.parse(f.baseline),s.asOf),vacancy:s.events.filter(e=>e.kind==='outcome'&&e.detail.forecastId===f.id).at(-1)?.detail??null}}))}
+ return{...s,paidSince:undefined,actions,forecasts:forecasts.map(f=>({...f,assumptions:JSON.parse(f.assumptions),comparison:JSON.parse(f.comparison),actual:{chosenActions:actions.filter(a=>a.forecast_id===f.id&&(a.claimed_at||a.service)).map(a=>({id:a.id,kind:a.kind,approvedBy:a.approved_by,approvedAt:a.approved_at,claimedAt:a.claimed_at})),cashCents:s.paidSince(JSON.parse(f.baseline),s.asOf),vacancy:s.events.filter(e=>e.kind==='outcome'&&e.detail.forecastId===f.id).at(-1)?.detail??null}}))}
 }

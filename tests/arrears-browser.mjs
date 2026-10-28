@@ -6,7 +6,7 @@ import {journey} from './arrears.mjs'
 const out=resolve(process.env.ARREARS_SCREENSHOTS??'.rer/arrears-screens');await mkdir(out,{recursive:true})
 const browser=await chromium.launch({headless:true,...(process.env.RER_CHROMIUM_PATH?{executablePath:process.env.RER_CHROMIUM_PATH}:{}),args:['--no-sandbox','--use-mock-keychain','--password-store=basic']})
 try{
- await journey({assets:true,inspect:async({h,cases,goodDraft})=>{
+ await journey({assets:true,inspect:async({h,cases,goodDraft,staff})=>{
   const context=await browser.newContext({viewport:{width:1440,height:900}})
   try{
    await context.addCookies(h.cookie.split('; ').map(pair=>{const at=pair.indexOf('=');return{name:pair.slice(0,at),value:pair.slice(at+1),url:h.origin}}))
@@ -19,7 +19,7 @@ try{
     await page.setViewportSize({width:1440,height:900})
    }
    await page.goto(url(cases[0].t));await page.getByRole('heading',{name:'Collection case · Synthetic household 0',exact:true}).waitFor()
-   assert.ok((await page.getByRole('table',{name:'Collection option comparison'}).innerText()).includes('pay or quit notice'))
+   assert.ok((await page.getByRole('table',{name:'Collection option comparison'}).first().innerText()).includes('pay or quit notice'))
    assert.ok((await page.content()).includes('Actual recorded cash since forecast: $500.00'))
    const draftDetails=page.locator('details').filter({has:page.getByText('Prepare the next collection sequence step',{exact:true})})
    await draftDetails.locator('summary').click()
@@ -28,16 +28,18 @@ try{
    await draftDetails.getByLabel('Exact message',{exact:true}).fill('Synthetic native plan review: the first installment has been received.')
    await draftDetails.getByRole('button',{name:'Prepare collection action',exact:true}).click()
    await page.getByText('Synthetic native plan review: the first installment has been received.',{exact:true}).waitFor()
+   await context.clearCookies();await context.addCookies(staff[0].split('; ').map(pair=>{const at=pair.indexOf('=');return{name:pair.slice(0,at),value:pair.slice(at+1),url:h.origin}}));await page.reload()
    const action=page.locator('article').filter({has:page.getByText('Synthetic native plan review: the first installment has been received.',{exact:true})})
    await action.getByLabel('Evidence reference',{exact:true}).fill('synthetic-terrace-270 native human review')
    await action.getByRole('button',{name:'Approve exact collection action',exact:true}).click()
    await action.getByRole('button',{name:'Send exact collection action',exact:true}).waitFor()
    await action.getByRole('button',{name:'Send exact collection action',exact:true}).click()
    assert.ok((await action.innerText()).includes('accepted'))
+   await context.clearCookies();await context.addCookies(h.cookie.split('; ').map(pair=>{const at=pair.indexOf('=');return{name:pair.slice(0,at),value:pair.slice(at+1),url:h.origin}}));await page.reload()
    await capture('collection-plan-and-forecast')
    await page.goto(url(cases[1].t));await page.getByRole('heading',{name:'Collection case · Synthetic household 1',exact:true}).waitFor()
    assert.ok((await page.content()).includes('Expiry: <strong>2026-10-26</strong>'))
-   assert.ok((await page.content()).includes('Broken promise'))
+   assert.ok((await page.content()).includes('Payment plan: <strong>broken</strong>'))
    await capture('collection-notice-and-hold')
    await page.goto(url(cases[2].t));await page.getByRole('heading',{name:'Collection case · Synthetic household 2',exact:true}).waitFor()
    assert.ok((await page.content()).includes('No overdue balance; stop collection messages'))

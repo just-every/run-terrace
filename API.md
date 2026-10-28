@@ -319,3 +319,24 @@ See [online applications](docs/applications.md) for the separate applicant door,
 versioned submission and missing-document flow, explicit hosted household fee,
 current staff scope and private original custody. LEASE-007 remains partial
 under its conservative interim authority policy and legal disclosure boundary.
+
+
+## Collection cases and forecasts
+
+`GET /api/arrears?tenancyId=ID` returns the scoped collection case, plan progress,
+source history, exact actions, physical service metadata and forecasts against
+recorded actuals. `GET /api/arrears-photo?tenancyId=ID&actionId=ID` returns the
+protected original service photo. Both require current report authority.
+
+The command door accepts `arrears.contact` (owner-only consent, weekly allowance
+and holds), `arrears.reply`, `arrears.plan`, `arrears.plan-approve`, `arrears.compare`,
+`arrears.draft`, `arrears.approve`, `arrears.send`, `arrears.service` and
+`arrears.outcome`. Existing portfolio managers retain native scoped operations;
+exact plan and action approvals inherit independent-person review. Configuring
+consent or a hold remains owner-only. Prepare credentials may compare and draft
+within existing report authority; they never approve, send or record service.
+Installments are `{on, cents}` records. Forecasts require explicit dated vacancy,
+make-ready, leasing, waiting and notice-recovery assumptions and the property's
+reviewed notice pack. Native forms use the same commands with exact-cent money
+normalization. [Collection case instructions](docs/collections.md) describe
+sequence stops, delivery boundaries, service counting and custody.

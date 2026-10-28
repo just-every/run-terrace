@@ -87,11 +87,11 @@ export async function journey({assets=false,inspect}={}) {
   assert.ok(!JSON.stringify(trail).includes(agent.token)&&!JSON.stringify(trail).includes(accountant.token))
 
   // A real database failure after the proposal commits must never make the key runnable again.
-  const db=await h.mf.getD1Database('DB'), interrupted={...job,title:'synthetic-terrace-35 interrupted proposal'}, interruptedKey='synthetic-terrace-35'
-  await db.exec("CREATE TRIGGER synthetic_response_failure BEFORE UPDATE OF state ON tt_api_idempotency WHEN NEW.state='done' BEGIN SELECT RAISE(ABORT,'synthetic response persistence failure'); END")
+  const db=h.db, interrupted={...job,title:'synthetic-terrace-35 interrupted proposal'}, interruptedKey='synthetic-terrace-35'
+  await db.prepare("CREATE TRIGGER synthetic_response_failure BEFORE UPDATE OF state ON tt_api_idempotency WHEN NEW.state='done' BEGIN SELECT RAISE(ABORT,'synthetic response persistence failure'); END").run()
   const failed=await post(agent,interrupted,400,interruptedKey)
   assert.equal(failed.error,'operation_failed')
-  await db.exec('DROP TRIGGER synthetic_response_failure')
+  await db.prepare('DROP TRIGGER synthetic_response_failure').run()
   const committed=(await get(agent,'/api/v1/work')).data.filter(j=>j.title===interrupted.title)
   assert.equal(committed.length,1,'the proposal committed before response persistence failed')
   assert.equal((await post(agent,interrupted,409,interruptedKey)).error,'idempotency_in_progress')
