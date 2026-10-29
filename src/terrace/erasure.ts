@@ -1,3 +1,4 @@
+import {shadowErasure} from './shadow-run-retention'
 import {hapRemittanceErasureStatements} from './hap-remittances'
 /** SAFE-004 erasure is one transaction with custody retirement and the archive non-resurrection fence. */
 import { all, audit, guard, insist, one, sha256, sql, tenancy, type Context, type Row } from './core'
@@ -36,7 +37,7 @@ export async function eraseTenancy(c:Context,p:Row){
  ...await portalErasureStatements(c,t.id),
  sql(c,'UPDATE tt_privacy_requests SET completed_at=? WHERE id=?',c.now,request.id),sql(c,'UPDATE tt_tenancies SET custody_retired_at=?,import_revision=NULL WHERE id=?',c.now,t.id)]
  if(!review.personalRetained){
-  native.push(guard(c,"NOT EXISTS(SELECT 1 FROM tt_legal_holds WHERE tenancy_id=? AND released_at IS NULL AND class IN ('all','accounting'))",t.id),sql(c,'INSERT INTO tt_erasure_work(tenancy_id) VALUES(?)',t.id), sql(c,"DELETE FROM rer_mail_event_receipts WHERE json_extract(event_json,'$.deliveryId') IN (SELECT id FROM tt_resident_deliveries WHERE tenancy_id=?) OR json_extract(event_json,'$.providerMessageId') IN (SELECT provider_id FROM tt_resident_deliveries WHERE tenancy_id=?)",t.id,t.id),
+  native.push(...await shadowErasure(c,t.id),guard(c,"NOT EXISTS(SELECT 1 FROM tt_legal_holds WHERE tenancy_id=? AND released_at IS NULL AND class IN ('all','accounting'))",t.id),sql(c,'INSERT INTO tt_erasure_work(tenancy_id) VALUES(?)',t.id), sql(c,"DELETE FROM rer_mail_event_receipts WHERE json_extract(event_json,'$.deliveryId') IN (SELECT id FROM tt_resident_deliveries WHERE tenancy_id=?) OR json_extract(event_json,'$.providerMessageId') IN (SELECT provider_id FROM tt_resident_deliveries WHERE tenancy_id=?)",t.id,t.id),
  sql(c,"DELETE FROM rer_mail_event_states WHERE EXISTS(SELECT 1 FROM tt_resident_deliveries d WHERE d.tenancy_id=? AND (provider_message_id=d.provider_id OR substr(provider_message_id,1,length(d.provider_id)+1)=d.provider_id||'.') AND recipient=d.recipient)",t.id),
  sql(c,'DELETE FROM tt_resident_deliveries WHERE tenancy_id=?',t.id),
 ...documentErasureStatements(c,t.id,['accounting']),...hapRemittanceErasureStatements(c,t.id),sql(c,'DELETE FROM tt_hap_changes WHERE tenancy_id=? AND approved_at IS NULL',t.id),sql(c,"UPDATE tt_hap_changes SET payer='Retained housing authority',reference=id,reason='Retained accounting record',notice_version_id=NULL WHERE tenancy_id=?",t.id),...await billErasureStatements(c,t.id),

@@ -276,3 +276,42 @@ The migration incorporates Base default-seed migrations
 new Terrace migration, preserving existing Terrace migration history. The
 native deletion integration uses Base erasure's `toD1Sql` conversion. No generic
 substitute, external provider mock, silent fallback or external call is used.
+
+## Documentary shadow rent
+
+The owner opens **Move in → Open shadow rent comparison** to compare one
+property-local period with an incumbent source statement. Upload the exact
+original bytes, identify their source, and explicitly transcribe each source
+row and its native lease identifier. Source values are owner-entered evidence,
+not an authenticated extraction. Label test originals **Explicitly synthetic**;
+they establish no authentic incumbent qualification.
+
+Each JSON row has `sourceRef`, `tenancyId`, `currency`, `openingCents`,
+`chargesCents`, `receiptsCents`, `reductionsCents` and `closingCents`.
+All amounts are integer cents, with no rounding or currency conversion.
+Use a separate row for each household. An empty lease identifier, missing
+source row, duplicate reference, duplicate lease mapping or currency mismatch
+stays held. The native side uses the same recorded events and local date
+boundaries as the lease statement, including read-only migrated history.
+
+Every difference needs a responsible owner, due date and next action before an
+exact documentary review can be recorded. A review with differences remains
+held. A match means each lease reconciled separately; offsetting differences
+never cancel. Use **Revise comparison** to capture a corrected source or changed
+native events. Each capture retains its original hash, mappings and native
+snapshot. Previous reviews remain historical evidence and never approve the
+replacement. Changing follow-up actions also requires a fresh comparison review.
+
+Only the signed-in installation owner can read originals, capture comparisons
+or record reviews. Staff and API credentials cannot use these doors. Originals,
+mappings and reviews follow accounting retention and shared legal holds.
+Eligible erasure withdraws shared source bytes and prevents re-upload of the
+same erased original. Keep a new backup after erasure: its later journal fences
+older backups. Readable exports include original files and their hashes.
+Restored reviews are documentary evidence only; capture a new comparison using
+current statements before reviewing again.
+
+This slice authorizes no cutover date, collecting system, payment, mandate,
+schedule change or payout. Authentic incumbent qualification, fees, full owner
+statements, bank matching, future schedules, mandate reauthorization, stopping
+old collections and duplicate-execution prevention remain outstanding.
