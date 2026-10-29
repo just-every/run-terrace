@@ -101,11 +101,11 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "97cb4018c79fe1c91a7c8f4558bd2f4840b2d82a1215b378b7caae05c89aedea",
+      "sha256": "11da2e77b9ca912ff37bbd6bc665ace5786cf641b6aada922ed6ed3ff8f4d207",
       "executable": false
     },
     "AGENTS.md": {
-      "sha256": "ba88edf47b1227a38223095722a24e24708cd460a3f8a1d005c11b713f1f1b3e",
+      "sha256": "198de899d5face10cb03d2986ec930e1869aa49e8ff732950679c4df92b47e25",
       "executable": false
     },
     "API.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "d57dbd4cc14f5e8a5edf916eb1aec2384cc5d692df9d4fb38eba8ccc0b21d87c",
+      "sha256": "1bd3c126555382a4e29c6ecd4493013d03242062415d48804a786c6b53b3c76d",
       "executable": false
     },
     "DEMO.md": {
@@ -194,6 +194,10 @@
     },
     "docs/move-in.md": {
       "sha256": "b08fc496a803ecc24a494ef01f5fb222c4e0946e2ce2dbde10fe35bffdc15057",
+      "executable": false
+    },
+    "docs/office-print.md": {
+      "sha256": "e53ec363a8b0272d85bffa9a6ec18b09deee2741c6a4183ba9c5364a22a54181",
       "executable": false
     },
     "docs/payment-policies.md": {
@@ -656,12 +660,20 @@
       "sha256": "72d111f8d972aa7fe8db48fbcaf1fe34aeff854e4c43b96dff4e027f5f844105",
       "executable": false
     },
+    "migrations/core/0107_office_print_service.sql": {
+      "sha256": "01d4eea904e4a73054d1d80dcfcfaa1a2c1b3f30694fb6395167f44460e51559",
+      "executable": false
+    },
     "migrations/core/0108_integration_outcomes.sql": {
       "sha256": "f44e05d7725134353c2ab904f64731529f2a198e356af8f64e1979c2568b5ac6",
       "executable": false
     },
     "migrations/core/0109_professional_referrals.sql": {
       "sha256": "6a9745d25bdabb5376acf8276842d68959ee4f6c1581de3ed9bd1932e60a3c1e",
+      "executable": false
+    },
+    "migrations/core/0110_print_recipient_custody.sql": {
+      "sha256": "87a0c5ae438786997d77f994a1708faaa30c853d373c7d2a8e21ef07d8f5f497",
       "executable": false
     },
     "ONBOARDING.md": {
@@ -1005,7 +1017,7 @@
       "executable": false
     },
     "scripts/contract-docs.mjs": {
-      "sha256": "e1127524f7f61c5c81bb39a04d550139d888d6eac718b0081cb70aed11b0858b",
+      "sha256": "2cfd004b1df759ffcb342de8a6bbb76d8a7bdca7dffe390aece0274ad6304a6c",
       "executable": false
     },
     "scripts/delivery/base/artifact.mjs": {
@@ -3441,7 +3453,7 @@
       "executable": false
     },
     "src/terrace/api.ts": {
-      "sha256": "8406d6c7d3d2141e36498754faaaaa845412608bf3004fe7d63eb38cf26ca9d1",
+      "sha256": "368f52d7d83c1c797d242cdbd947f59ff37f42df6dd24ca7802f8141024869b7",
       "executable": false
     },
     "src/terrace/application-access.ts": {
@@ -3693,7 +3705,7 @@
       "executable": false
     },
     "src/terrace/erasure.ts": {
-      "sha256": "7fb99fbf1a03ba10a15fae03e340e6b094c0e83eb1556b76376b67cb93313848",
+      "sha256": "65ac0889f10ceb271e4219ed08dff0bc5f2ca37cd6789af44e3c392e1f95a1a1",
       "executable": false
     },
     "src/terrace/exports.ts": {
@@ -3960,6 +3972,18 @@
       "sha256": "046360405762f1a1f358796ebf7941c77445e4bbbcfd31c4b41d928196d9b1ba",
       "executable": false
     },
+    "src/terrace/notice-service.ts": {
+      "sha256": "adbfb52943587d943876186645deb392cadcc3c0328c99d943622993d0721153",
+      "executable": false
+    },
+    "src/terrace/office-print-view.ts": {
+      "sha256": "c8469d9579ed64649d44d6dd5fc0d7b1a5af7880480f1e134f7e957972af83eb",
+      "executable": false
+    },
+    "src/terrace/office-print.ts": {
+      "sha256": "a61973b34326cc88ac3fe4b2a49d54d7340c3083625fe09e53d0cb59fbe6ff2c",
+      "executable": false
+    },
     "src/terrace/owner-invoices.ts": {
       "sha256": "5463874630f2cde7809e8a2d42144951b4f4a962a23e58aaa83289d737e06426",
       "executable": false
@@ -4021,11 +4045,11 @@
       "executable": false
     },
     "src/terrace/portal-thread-view.ts": {
-      "sha256": "659f8105c2d031d2993082bb6668c96aa1cc10cfb9178f89cf5a5d0bc870426b",
+      "sha256": "0d68f675fa7028159c39b9bcc35e59ddec6e085c77cc45741e8b0a9b9122e7e5",
       "executable": false
     },
     "src/terrace/portal-threads.ts": {
-      "sha256": "e816a888f29b84b4dafb7c7551f4744c9b34fac0ed68f94c28af8b68dbfdc3a1",
+      "sha256": "c265f5a47e6ebdd8d8a5b5d6e296bdceaf20e74f19d08c8ead3568b8eab05f86",
       "executable": false
     },
     "src/terrace/portal-vendor-invoices.ts": {
@@ -4089,7 +4113,7 @@
       "executable": false
     },
     "src/terrace/readable-export.ts": {
-      "sha256": "e2da33e414d436663006102a14565e6c595b915371a30db21fd748b8ec1a4e0c",
+      "sha256": "a3c94931dc1ce7cd999fa6de915472652cc518d827f3774e58a172a03fa4a8cd",
       "executable": false
     },
     "src/terrace/reconcile-commands.ts": {
@@ -4177,7 +4201,7 @@
       "executable": false
     },
     "src/terrace/resident-pdf.ts": {
-      "sha256": "a5b4476241c99a15981971c78e65cd3fcf54ff557bed8863558d8a7b4ae55775",
+      "sha256": "18a2f730dd6a486b817c3c682f7ff16a498e7fd722b5358c01c19b7fa967ef6c",
       "executable": false
     },
     "src/terrace/resident-recipient.ts": {
@@ -4197,7 +4221,7 @@
       "executable": false
     },
     "src/terrace/retention.ts": {
-      "sha256": "22271bc2bcb9aadcac9581e0bdb3a3585fcd4a1734c331eefeb9a94112587426",
+      "sha256": "79c2e5a666d80b6e7ec4048e14aa345d818bb853c377144a606e86813301e245",
       "executable": false
     },
     "src/terrace/roles.ts": {
@@ -4737,11 +4761,11 @@
       "executable": false
     },
     "tests/portal-threads-browser.mjs": {
-      "sha256": "946799200c1cdb17ba33e70fb07ba7aea409435757d060ae5cfda724c113878d",
+      "sha256": "6573688814c876e87f966bad837d89f65f8679792f07f11fefac109cfede917b",
       "executable": false
     },
     "tests/portal-threads.mjs": {
-      "sha256": "8acb16e0a33d97ae9d04b9cbf9bca46e4efdc45d07f16132f6811294a94b56d8",
+      "sha256": "892c90a71ac99a732254c1c8ef580b77e8b43d83a365a7050468730dfe18f932",
       "executable": false
     },
     "tests/portal.mjs": {
