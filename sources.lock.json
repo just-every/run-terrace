@@ -749,7 +749,7 @@
       "executable": false
     },
     "public/app/pages.css": {
-      "sha256": "134742e39a55224285d1f4efd07a56b7f47619d30f6928be24d1f7ee1a49f023",
+      "sha256": "e4beb6f3dd7ef7ad3381d36c38bdc97769eaa7c2b3db7e3f303e54d64e1e06b3",
       "executable": false
     },
     "public/app/record-media.js": {
@@ -4245,7 +4245,7 @@
       "executable": false
     },
     "src/terrace/history.ts": {
-      "sha256": "e8581fe0eaab05fd7aeba8e4c6d938935a8be1f200e0ad2505fe477dbe5cc0f9",
+      "sha256": "836d7c7e0c6f1d2facbbe0b1e1a3f6c1f013e3007dcfe21e35aa9b04fbafb915",
       "executable": false
     },
     "src/terrace/home-view.ts": {
@@ -4553,7 +4553,7 @@
       "executable": false
     },
     "src/terrace/quote-view.ts": {
-      "sha256": "b44f0e6b6ae7f40b49d62d4ac458af91a581b793d3bed747653f638bed15fec0",
+      "sha256": "69ccc9dd20bc05b4e60c396dd6b95c3419623eb821d343560f5c80ae55708b34",
       "executable": false
     },
     "src/terrace/quotes.ts": {

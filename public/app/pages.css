@@ -95,3 +95,12 @@
 
 .shadow-rent{font-size:14px}.shadow-rent code{font-size:13px}.shadow-rent details{margin:16px 0}.shadow-rent form{margin:16px 0}.shadow-rent .shadow-amounts{min-width:40rem}.shadow-rent .shadow-amounts th,.shadow-rent .shadow-amounts td{white-space:nowrap;font-size:13px}.shadow-rent li{margin:14px 0}.shadow-rent textarea{font-size:13px}.shadow-rent .table-scroll{max-width:100%;overflow-x:auto}
 .shadow-rent label,.shadow-rent summary,.shadow-rent input,.shadow-rent select{font-size:13px}
+
+/* Keep quote columns whole and agent attribution readable on a phone. */
+.work-quotes{min-width:620px;overflow-wrap:normal}
+@media(max-width:650px){
+ .history-table,.history-table tbody{display:block}.history-table thead{display:none}
+ .history-table tr{display:grid;grid-template-columns:minmax(0,1fr);padding:16px 0;border-bottom:1px solid var(--rule)}
+ .history-table td{display:block;border:0;padding:6px 0;overflow-wrap:anywhere}
+ .history-table td::before{content:attr(data-label);display:block;font-weight:600;color:var(--muted);margin-bottom:4px}
+}
