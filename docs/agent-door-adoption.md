@@ -74,6 +74,8 @@ The journey covers every declared tool/class pair under autonomous and held
 policies, sensitive blocking, unset policy, Pause, replay, audit and consent
 revocation. The native journey additionally checks the scoped local read,
 missing/hidden equivalence and credential revocation through production HTTP.
+Door arguments, decisions, pending approvals and replay outcomes are retained. The native resident erasure/export flow does not yet map or atomically redact those new stores; no agent custody or erasure tool is exposed, and native custody completion is not claimed. Base supplies no generic client-scoped erasure adapter. This remains a named integration gap, including its retention-versus-erasure decision.
+
 No optional family is credited by its omission. Shared and specialist clauses
 remain PARTIAL where their broader acceptance is unproved.
 
