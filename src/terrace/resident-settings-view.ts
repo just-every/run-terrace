@@ -1,0 +1,6 @@
+import {escape as e,type Row} from './core'
+import {shell} from './portal-view'
+
+export function residentSettings(person:Row,tenancyId:string,d:Row,saved=false){
+ return shell('Contact Settings',`<p><a href="/portal/lease?tenancy=${e(tenancyId)}">Back to your lease account</a></p>${saved?'<p role="status">Your contact preference was saved. No message was sent.</p>':''}<section><h2>Your contact preference</h2><p>Choose whether staff may send optional account email to your verified address: ${e(d.email)}. This does not change legally required notices, your sign-in address or anyone else’s preferences.</p><form method="post" action="/portal/settings"><input type="hidden" name="tenancyId" value="${e(tenancyId)}"><input type="hidden" name="version" value="${e(d.version)}"><label for="resident-contact">Optional contact</label><select id="resident-contact" name="contactBy" required><option value="email" ${d.by==='email'?'selected':''}>Email</option><option value="none" ${d.by!=='email'?'selected':''}>No optional email</option></select><button type="submit">Save contact preference</button></form></section><section><h2>Payment methods</h2><p>Payment details and authentication stay on the payment provider’s hosted page. Terrace does not accept bank account details in this portal.</p></section>`,person)
+}

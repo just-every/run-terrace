@@ -1,0 +1,8 @@
+/* Integration diagnostics use the existing Settings cards and field controls. */
+.settings-layout>#integration-diagnostics{grid-column:1 / -1}
+.integration-providers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.integration-provider{margin:0}
+.integration-provider dl{grid-template-columns:minmax(0,1fr);gap:4px}
+.integration-provider dt{font-weight:600}
+.integration-provider dd{margin-bottom:10px}
+@media(max-width:860px){.integration-providers{grid-template-columns:minmax(0,1fr)}}

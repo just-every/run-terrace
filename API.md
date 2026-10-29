@@ -99,6 +99,9 @@ OPS-003: workflow commands. `workflow.template` (owner or every-portfolio manage
 | `completion.record` | jobId, completedDate, summary, reference, callback (warranty/billable, return visits); optional WORK-007 attachment: fieldEvidence=yes, jobVersion, approvalId, laborMinutes (whole minutes), materials (or explicit none), accessOutcome (granted/not_needed/no_access), completedTasks (every approved task, one per line), beforePhotoId, afterPhotoId (distinct originals from this tenancy) | Owner, portfolio manager, maintenance coordinator, member, after handoff; the vendor's report recorded by staff (WORK-008) |
 | `completion.check` | jobId, outcome (confirmed/unresolved/no_response), note, satisfaction?, safetyConcern? | Owner, portfolio manager, maintenance coordinator, member; the resident's answer recorded by staff, resident not contacted by Terrace |
 | `completion.close` | jobId, reason | Owner, portfolio manager; closes without the resident's confirmation |
+| `shadow.capture` | Multipart: propertyId, from, to, source file, reference, synthetic=yes for synthetic originals, rows as the documented JSON array; replacesId for the latest capture of an existing period | Signed-in owner only; no API credentials |
+| `shadow.action` | runId, issueKey, responsibleId (current owner), dueOn, nextAction | Signed-in owner only; documentary held follow-up |
+| `shadow.review` | runId, exact fingerprint, reference, consent=RECORD ONLY; every difference needs an accountable next action | Signed-in owner only; no cutover or collection authority |
 | `migration.preview`, `migration.apply`, `migration.journal` | Exact complete manifest, reviewed fingerprint or retained migration id; see [migration format](docs/move-in.md) | Owner |
 | `import.preview`, `import.apply`, `import.journal`, `import.undo` | See [move-in contract](docs/move-in.md) | Owner |
 | `tenancy.erase` | tenancyId, confirm (exact tenant email) | Owner |
@@ -202,6 +205,8 @@ ACCT-002: `GET /api/trust` returns scoped designated accounts, authorizations, p
 All except preparation need fresh email-link confirmation. Balances, dated reserves and live approver authority are checked again at recording. See [trust accounts](docs/trust-accounts.md) for exact semantics and the pending ct authorization ruling.
 
 PORT-007: `GET /api/documents` (and `/app?tab=documents`) searches stored tenancy documents (leases, applications, notices, screening reports, tax documents) plus PORT-005 signed originals and inspection photographs. Filters: `q` (words matched against title, type, file name, source, address, unit, property and indexed file content), `tenancyId`, `unitId`, `kind`, and `history=1` for earlier versions; results carry `url`, `sha256`, `version`, `current` and a content `snippet`. `GET /api/document?id=VERSION_ID` downloads one stored original (recorded in history as `read:document`); `GET /api/document-versions?id=DOCUMENT_ID` lists every version with its upload check and who opened each. A document outside the reader’s portfolios, or a restricted kind the reader’s role cannot read, answers 404: screening reports need `document.screening` (owner, portfolio managers), applications `document.application` (also leasing) and tax documents `document.tax` (also accountants, who read and download only). A role with no document right answers 403 and a signed-out caller 401. Commands `document.upload` (`tenancyId`, `kind` lease, application, screening, notice or tax, `title`, `source`, `file`) and `document.revise` (`documentId`, `version` as read, `source`, `file`) take a multipart `file` or, for JSON, `{name,type,base64}`. Types: PDF, JPEG, PNG, plain text, CSV and .eml, at most 5 MB; video, inspection media, work documents and invoices belong to their own records (PORT-009). A refused file answers 422 `document_refused` with the reason and stores nothing; a pass means only that the static content-type and active-content screen found nothing, never a malware verdict (PORT-010). API credentials never reach restricted documents.
+
+SAFE-003: restricted originals use `GET /api/document-access?id=VERSION_ID`, which checks the current role and portfolio and redirects to a session-bound download URL valid for five minutes. Add `format=json` to receive `{url,expiresAt}`. Both the redirect and the final original are private and no-store. The final download rechecks current access; an old direct document URL without authorization returns 403, and another sign-in cannot reuse the issued URL. A copied URL cannot outlive erasure or restore into another installation. Search and version metadata redact identifiers and credentials, restricted content snippets and source text are withheld, and unexpected exceptions return a generic error. Readable export metadata is redacted while its private original files and the complete owner backup preserve exact bytes. This bounded protection establishes no malware verdict or complete encryption and provider-secret assurance.
 
 ROLE-002: staff invite portal people with `portal.invite` (`kind` resident, owner or vendor; `tenancyId`, `ownerId` or `vendorId`; `email`, `displayName`, `source`; residents may take `access: delegate`) and end access with `portal.revoke` (`grantId` for one record or `identityId` for the person; `reason`). Both need the fresh email-link proof; owner and vendor grants need every-portfolio scope. The person opens the emailed one-time link (it expires within 7 days) at `/portal/accept`, which sets a 12-hour `/portal`-scoped cookie. A revocation, a new ownership share set and a changed vendor on a job or bill end the open sessions of the people they touch; they sign in again. `/portal/signin` asks for a new link and never says whether an address has access. Pages and JSON: `/portal`, `/portal/lease?tenancy=ID`, `/portal/api/resident?tenancyId=ID`, `/portal/statement?tenancyId=ID` (CSV), `/portal/owner`, `/portal/api/owner`, `/portal/owner-statement?from=&to=&format=html|json|csv`, `/portal/work`, `/portal/api/vendor`, `/portal/invoice-file?id=ID`, `/portal/api/me`. A resident revokes a delegated contact on their lease with `POST /portal/delegate/revoke` (`grantId`, same origin); `/portal/api/resident` lists the lease’s delegated contacts to the resident only. Anything not shared with the signed-in person is 404; no `/portal` cookie reaches `/app` or `/api`.
 
@@ -319,3 +324,61 @@ See [online applications](docs/applications.md) for the separate applicant door,
 versioned submission and missing-document flow, explicit hosted household fee,
 current staff scope and private original custody. LEASE-007 remains partial
 under its conservative interim authority policy and legal disclosure boundary.
+
+Resident account: `/portal` lists each granted lease. `/portal/api/resident?tenancyId=ID` projects charges, pending funds, deposit entries and exact shared lease originals without guarantor or screening records. The owner explicitly shares a reviewed original in Settings using `portal.document.share`; revisions need a new review, and sharing authority is not restored with an archive. `/portal/lease-document` checks the live resident grant and exact original on every download. `/portal/receipt?tenancyId=ID&id=ID` downloads a PDF for a recorded receipt, with CSV and JSON formats available. Browser returns never create a receipt.
+
+Contact Settings under `/portal/settings?tenancyId=ID` changes only the verified person’s optional email preference through `/portal/api/preferences`, with version checks, same-origin confirmation and attributable history. It changes no destination, other person’s preference, legal notice obligation or sign-in address and sends nothing. `portal.bank.update` requires fresh staff email-link proof and always refuses: resident bank methods remain on the provider’s hosted page and Terrace stores no resident bank details.
+
+## Integration diagnostics
+
+The signed-in installation owner can read `GET /api/integrations` and save
+non-secret setup metadata through `integration.save` at `POST /api/commands`.
+Saving also requires fresh email-link confirmation. Other operators receive 403;
+API credentials cannot manage diagnostics. The native controls are under Settings
+on the Data & access page.
+
+The command takes `provider` (Stripe or an existing supported mail provider),
+`scope` (`unknown`, `hosted_test_payments` for Stripe, or `transactional_mail`),
+`entitlement` (`unknown`, `owner_reported_available` or
+`owner_reported_unavailable`), and optional whole USD `centsPerThousand` with
+`costAsOf`. These are owner-reported metadata and dated estimates, never verified
+permissions, entitlements or measured provider billing. Keys stay in private
+installation configuration. Saving makes no provider request.
+
+Diagnostics observe Stripe requests and the existing work-dispatch and resident
+repair-message mail boundaries. Fixed outcome classifications, counts and dates
+are durable and portable; provider response bodies and errors are omitted.
+Restored observations are historical evidence with no current successful exchange.
+Reconnect information is provider-specific, and restoring or reading diagnostics
+initiates no send, collection, provider validation or retry. Other transport paths,
+real authorized setup validation, complete provider coverage and measured billing
+remain outstanding under OPS-004.
+
+
+## Professional referral evidence
+
+BOUND-002: `GET /api/professional-referrals` and the Professional referrals section of `/app?tab=rules` serve the signed-in owner and current portfolio managers in their portfolios. API credentials are refused. Optional `propertyId` outside that scope returns 404. The current slice records external handoffs for held rule previews linked to an existing tenancy in the same property. It grants no professional, provider or execution authority.
+
+`referral.create` takes `decisionId`, the preview's `sourceRevision`, `tenancyId`, a named `professional`, external `reference`, current in-scope owner or manager `responsibleId` and `dueOn`. Previews saved before source tracking need a new preview. The revision binds the exact dated pack identities and activation states plus the jurisdiction revision; publishing or activating a relevant pack or changing the jurisdiction makes earlier responses historical.
+
+`referral.response` takes `referralId`, exact referred `sourceRevision`, current response count as `version`, `outcome` (received, rejected or needs_information), `reference` and a `file` original. It appends immutable evidence. A late response may be retained against its original source but is visibly inapplicable after a source change. The file uses the existing content check, size bound and erased-original hash fence. It is a restricted referral original with lease retention, never a shared resident lease.
+
+`referral.review` takes `referralId`, `responseId`, `nextAction`, review `reference` and `consent: RECORD ONLY`. It records a next action only while that exact source is current. Neither a response nor a review releases a source hold, closes the substantive case, activates rules, executes financial or legal actions, or sends a message. Unanswered and rejected referrals remain open. Changes require a fresh source preview and referral, not editing old evidence.
+
+Response downloads first use `/api/document-access?id=VERSION` to authorize the existing `/api/document?id=VERSION` door with live referral rights and tenancy scope, private no-store headers and the original hash. Search, version history and generic revision doors enforce the same restriction; originals cannot be replaced. Referral records and original files follow SAFE-004 lease retention and legal holds, owner readable export and SAFE-005 backup and restore. Restored evidence grants no account, credential, recipient or substantive action authority. Eligible tenancy erasure removes referrals and originals and fences both file replay and restoration of older archives when a later journal is supplied.
+
+
+## Restricted-original authorization and metadata
+
+SAFE-003: `GET /api/document-access?id=VERSION` checks the current role and portfolio, then redirects to an authorized original. Add `format=json` to obtain `url` and `expiresAt` instead. Restricted originals (applications, screening, tax and professional responses) use a five-minute HMAC authorization bound to the exact version, original hash, current person, session and role revision. `/api/document` refuses a restricted original without that authorization. An old URL, another session, expired authorization, revoked role or changed portfolio cannot bypass current access checks. Unrestricted originals retain their ordinary authenticated download. Restore re-creates neither session nor authorization.
+
+Restricted document titles, filenames, source references and content snippets redact formatted identity numbers, long payment numbers and labelled credential values. The native search field also redacts those values on display. The readable export redacts restricted document metadata and omits indexed original text from its CSV metadata; the separate original file remains byte-for-byte intact with its checksum. The private backup keeps full custody for restore. These bounded rules do not claim universal data classification or a malware verdict. Unexpected errors expose a generic message; recognised input errors retain their useful explanation with the same redaction, and audit source strings redact those credential and identifier patterns.
+
+## Documentary shadow rent reads
+
+`GET /api/shadow-runs` returns retained source hashes, explicit mappings, each
+lease comparison, open differences, follow-up history and exact reviews.
+`GET /api/shadow-original?id=ID` downloads the exact original bytes with private
+no-store headers and `X-Source-Sha256`. Both require the current signed-in owner.
+A replaced source, changed native statement or restored installation cannot use
+a prior review as current evidence. See [documentary shadow rent](docs/move-in.md).

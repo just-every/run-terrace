@@ -2,7 +2,8 @@ import assert from 'node:assert/strict'
 import {installation} from './api/harness.mjs'
 import {migrationFixture,recount} from './migration-fixture.mjs'
 export async function journey({inspect,assets=false}={}){
- const h=await installation({assets,now:'2026-10-28T12:00:00.000Z'})
+ // Keep real Worker responses and D1 calls asynchronous across archive restores.
+ const h=await installation({assets,bufferedTransport:true,asyncDatabase:true,now:'2026-10-28T12:00:00.000Z'})
  try{
   const m=recount(migrationFixture()),preview=source=>h.command('migration.preview',{manifest:JSON.stringify(source)}),apply=(source,review)=>h.command('migration.apply',{manifest:JSON.stringify(source),fingerprint:review.migrationPreview.fingerprint})
   const productCounts=async()=>{const names=(await h.db.prepare("SELECT name FROM sqlite_schema WHERE type='table' ORDER BY name").all()).results.map(r=>r.name).filter(n=>/^(tt|ik)_[a-z0-9_]+$/.test(n));const batches=[];for(let i=0;i<names.length;i+=5)batches.push(h.db.prepare(names.slice(i,i+5).map(n=>"SELECT '"+n+"' AS name,count(*) AS n FROM "+n).join(' UNION ALL ')));return (await h.db.batch(batches)).flatMap(r=>r.results)}
@@ -57,6 +58,16 @@ export async function journey({inspect,assets=false}={}){
   const rows=await h.db.prepare('SELECT * FROM tt_migration_records WHERE migration_id=?').bind(migrationId).all()
   assert.equal(rows.results.length,report.sourceCount)
   const native=await(await h.request('/api/journal')).json()
+  const deposits=native.entries.filter(e=>e.source_kind==='deposit')
+  const target=(kind,ref)=>report.records.find(r=>r.kind===kind&&r.ref===ref).targetId
+  for(const [deposit,lease,property,owner,amount]of [[11,7,3,1,50000],[12,8,4,2,20000]]){
+   const ref='synthetic-terrace-'+deposit,entry=deposits.find(e=>e.source_id===target('deposit',ref))
+   assert.ok(entry,'native deposit retains its source link: '+ref)
+   assert.deepEqual([entry.tenancy_id,entry.property_id,entry.owner_key,entry.fund,entry.reference],[target('lease','synthetic-terrace-'+lease),target('property','synthetic-terrace-'+property),target('owner','synthetic-terrace-'+owner),'deposit',ref],'native deposit belongs to the reviewed resident, property and beneficiary')
+   assert.deepEqual(entry.lines.map(l=>[l.account,l.debit,l.credit]).sort(),[['cash',amount,0],['deposit_liability',0,amount]],'individual native deposit cash and liability: '+amount+' cents')
+  }
+  assert.equal(deposits.length,2,'both resident deposits have native source entries, not just an opening adjustment')
+  assert.equal(native.entries.filter(e=>e.fund==='deposit').flatMap(e=>e.lines).filter(l=>l.account==='deposit_liability').reduce((n,l)=>n+l.credit-l.debit,0),70000,'combined opening liability agrees separately with the individual native deposits')
   for(const expected of report.tieOut){const property=report.records.find(r=>r.kind==='property'&&r.ref===expected.propertyRef).targetId,owner=report.records.find(r=>r.kind==='owner'&&r.ref===expected.ownerRef).targetId
    const actual=native.entries.filter(e=>e.property_id===property&&e.owner_key===owner&&e.fund===expected.fund).flatMap(e=>e.lines).filter(l=>l.account===expected.account).reduce((n,l)=>n+l.debit-l.credit,0)
    assert.equal(actual,expected.terraceCents,'native opening '+expected.propertyRef+' '+expected.fund+' '+expected.account)
@@ -73,6 +84,12 @@ export async function journey({inspect,assets=false}={}){
   assert.deepEqual(journal.migration.balanceForwards.filter(x=>x.kind==='vendor_ytd').map(x=>x.reportable_cents),[120000])
   assert.deepEqual(journal.migration.balanceForwards.filter(x=>x.kind==='owner_ytd').map(x=>[x.income_cents,x.expense_cents]),[[1000000,120000],[1000000,120000]])
   assert.equal(journal.migration.vendorDetails[0].dba,'Synthetic trade');assert.equal(journal.migration.vendorDetails[0].tin_status,'missing');assert.equal(journal.migration.vendorDetails[0].eligible_1099,1);assert.equal(journal.migration.vendorDetails[0].payment_method,'check')
+  const nativeDeposit=ref=>{const record=report.records.find(r=>r.kind==='deposit'&&r.ref===ref);assert.ok(record,'review retains the deposit link');const entry=native.entries.find(j=>j.id===record.targetId&&j.source_kind==='deposit');assert.ok(entry,'native deposit journal exists for '+ref);return entry}
+  const firstDeposit=nativeDeposit('synthetic-terrace-11'),secondDeposit=nativeDeposit('synthetic-terrace-12')
+  assert.equal(firstDeposit.tenancy_id,leases[0].targetId,'first deposit links to its native lease')
+  assert.equal(firstDeposit.lines.find(l=>l.account==='deposit_liability').credit,50000,'first native deposit is 50000 cents independently of the opening aggregate')
+  assert.equal(secondDeposit.tenancy_id,leases[1].targetId,'second deposit links to its native lease')
+  assert.equal(secondDeposit.lines.find(l=>l.account==='deposit_liability').credit,20000,'second native deposit is 20000 cents independently of the opening aggregate')
   assert.equal(native.trialBalance.find(a=>a.code==='lease_income').creditCents-native.trialBalance.find(a=>a.code==='lease_income').debitCents,0,'historical unpaid charges do not re-post income')
   const first=await h.state(leases[0].targetId),second=await h.state(leases[1].targetId)
   assert.equal(first.household.members.find(m=>m.role==='occupant').name,'Synthetic occupant 5')
@@ -125,7 +142,7 @@ export async function journey({inspect,assets=false}={}){
   assert.equal((await tokenCall()).status,403)
   await h.command('credential.revoke',{credentialId:credential.id,version:1})
   assert.equal((await tokenCall()).status,401,'revoked credential cannot reach retained migration custody')
-  const oldArchive=await(await h.request('/api/backup')).text(),restored=await installation({now:'2026-10-28T12:00:00.000Z'})
+  const oldArchive=await(await h.request('/api/backup')).text(),restored=await installation({bufferedTransport:true,asyncDatabase:true,now:'2026-10-28T12:00:00.000Z'})
   try{
    await restored.formCommand('data.restore',{confirm:'RESTORE',backup:new File([oldArchive],'synthetic-terrace-40.rer')})
    assert.deepEqual((await restored.command('migration.journal',{migrationId})).migration.report,report)
@@ -158,7 +175,7 @@ export async function journey({inspect,assets=false}={}){
   assert.ok(unrelatedSource,'unrelated original source facts remain')
   assert.equal(JSON.parse(unrelatedSource).sourceNote,'Synthetic unrelated source note')
   assert.equal((await h.db.prepare("SELECT record FROM tt_migration_records WHERE kind='household' AND ref='synthetic-terrace-30'").first()).record,null,'excluded duplicates carry no erased-person copy')
-  const laterArchive=await(await h.request('/api/backup')).text(),fresh=await installation({now:'2045-01-01T12:00:00.000Z'})
+  const laterArchive=await(await h.request('/api/backup')).text(),fresh=await installation({bufferedTransport:true,asyncDatabase:true,now:'2045-01-01T12:00:00.000Z'})
   assert.ok(laterArchive.includes('Synthetic unrelated source note'),'backup preserves unrelated original source fields')
   assert.ok(!laterArchive.includes('Synthetic subject source note'),'backup withdraws erased-person source fields')
   try{

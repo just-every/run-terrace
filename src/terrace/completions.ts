@@ -41,7 +41,7 @@ export async function completionCommand(c: Context, command: string, p: Row): Pr
  if (command === 'completion.check') {
   allow(c, command)
   const j = await sentJob(c, p.jobId), outcome = String(p.outcome ?? '')
-  insist(outcome in LABELS, 'invalid_input', 'The resident’s answer is confirmed, unresolved or no_response.')
+  insist(Object.hasOwn(LABELS, outcome), 'invalid_input', 'The resident’s answer is confirmed, unresolved or no_response.')
   const last = await one(c, 'SELECT * FROM tt_completion_attempts WHERE job_id=? ORDER BY attempt DESC LIMIT 1', j.id)
   insist(last, 'job_state', 'Record the vendor’s completion report first.', 409)
   // Awaiting a check: any answer. Resolved or closed: only a report that the issue recurred reopens it.

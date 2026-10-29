@@ -86,3 +86,12 @@
 
 .migration-review table{min-width:480px;overflow-wrap:normal}.migration-review .migration-account-table{min-width:1080px}.migration-account-table td:last-child{min-width:220px;max-width:300px}
 [data-view="ledger"] .ledger-layout .scroll table{min-width:640px;overflow-wrap:normal}
+
+.terrace-portal th{font-size:13px}
+@media(max-width:650px){.resident-charges,.resident-charges tbody{display:block}.resident-charges thead{display:none}.resident-charges tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px;border:1px solid var(--rule);border-radius:10px;margin-top:12px}.resident-charges td{display:block;padding:0;border:0;min-width:0;overflow-wrap:anywhere}.resident-charges td::before{content:attr(data-label);display:block;font-size:13px;color:var(--muted);margin-bottom:4px}}
+
+#professional-referrals code{overflow-wrap:anywhere;font-size:13px}#professional-referrals .card{margin-top:16px}
+:is([data-view="rules"],[data-view="documents"]) :is(.eyebrow,.avatar,.pill,th){font-size:13px}
+
+.shadow-rent{font-size:14px}.shadow-rent code{font-size:13px}.shadow-rent details{margin:16px 0}.shadow-rent form{margin:16px 0}.shadow-rent .shadow-amounts{min-width:40rem}.shadow-rent .shadow-amounts th,.shadow-rent .shadow-amounts td{white-space:nowrap;font-size:13px}.shadow-rent li{margin:14px 0}.shadow-rent textarea{font-size:13px}.shadow-rent .table-scroll{max-width:100%;overflow-x:auto}
+.shadow-rent label,.shadow-rent summary,.shadow-rent input,.shadow-rent select{font-size:13px}

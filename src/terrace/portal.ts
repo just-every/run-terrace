@@ -5,10 +5,10 @@ import { linkRequest, staffRequests } from './portal-requests'
 // records, so they need every-portfolio scope, as the owner and vendor directories do. Nothing here moves money or reads a record.
 import type { Bindings } from '../auth.server'
 import { operatorMail } from '../mail.server.mjs'
-import { all, audit, commit, email, everywhere, escape, id, insist, one, sql, tenancy, text, type Context, type Row } from './core'
+import { all, audit, commit, email, everywhere, escape, guard, id, insist, one, sql, tenancy, text, type Context, type Row } from './core'
 import { hash, linkExpiry, secret } from './portal-session'
 
-export const PORTAL_COMMANDS = ['portal.invite', 'portal.revoke', 'portal.request.link']
+export const PORTAL_COMMANDS = ['portal.invite', 'portal.revoke', 'portal.request.link', 'portal.bank.update', 'portal.document.share']
 const SUBJECT: Record<string, { access: string[]; column: string }> = { resident: { access: ['resident', 'delegate'], column: 'tenancy_id' }, owner: { access: ['owner'], column: 'owner_id' }, vendor: { access: ['vendor'], column: 'vendor_id' } }
 
 async function subject(c: Context, kind: string, p: Row) {
@@ -23,9 +23,19 @@ async function reach(c: Context, grant: Row) { if (grant.tenancy_id) await tenan
 
 export async function portalCommand(c: Context, command: string, p: Row): Promise<Row | undefined> {
  if (!PORTAL_COMMANDS.includes(command)) return
+ if(command==='portal.document.share'){
+  insist(c.actor.role==='owner'&&!c.actor.credential,'forbidden','Only the signed-in owner can share a lease original.',403)
+  const t=await tenancy(c,p.tenancyId),source=String(p.documentSource),key=text(p.versionId,'Original version',100)
+  const doc=source==='document'?await one(c,"SELECT v.sha256 FROM tt_documents d JOIN tt_document_versions v ON v.document_id=d.id AND v.version=d.version WHERE d.tenancy_id=? AND d.kind='lease' AND COALESCE(d.restriction,'')='' AND v.id=?",t.id,key):source==='signed'?await one(c,'SELECT s.sha256 FROM tt_lease_versions v JOIN tt_lease_sources s ON s.lease_version_id=v.id WHERE v.tenancy_id=? AND v.approved_at IS NOT NULL AND v.id=?',t.id,key):null
+  insist(doc,'not_found','Shareable lease original not found.',404)
+  insist(p.consent==='SHARE','consent_required','Confirm this exact original is safe for the resident household.')
+  await commit(c,[guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=? AND erased_at IS NULL)',t.id,t.version),sql(c,'INSERT INTO tt_resident_document_shares(tenancy_id,source,version_id,sha256,shared_by,shared_at) VALUES(?,?,?,?,?,?) ON CONFLICT(source,version_id) DO NOTHING',t.id,source,key,doc.sha256,c.actor.id,c.now)],command,key)
+  return {tenancyId:t.id,notice:'Exact lease original shared with authorized residents. No message sent.'}
+ }
+ if(command==='portal.bank.update'){await tenancy(c,p.tenancyId);insist(false,'hosted_bank_method','Bank methods are managed by the payment provider. Terrace does not accept resident bank details.',403)}
  if (command === 'portal.request.link') return linkRequest(c,p)
  if (command === 'portal.invite') {
-  const kind = String(p.kind), spec = SUBJECT[kind]
+  const kind = String(p.kind), spec = Object.hasOwn(SUBJECT, kind) ? SUBJECT[kind] : undefined
   insist(spec, 'portal_kind', 'Choose resident, owner or vendor.')
   const access = String(p.access ?? spec.access[0])
   insist(spec.access.includes(access), 'portal_access', 'Choose resident or delegated contact access.')
@@ -66,7 +76,7 @@ export async function portalData(c: Context) {
  const grants = await all(c, 'SELECT g.id,g.identity_id,g.access,g.tenancy_id,g.owner_id,g.vendor_id,g.source,g.granted_at,g.revoked_at,t.address,t.unit_id,o.legal_name AS owner_name,v.name AS vendor_name FROM tt_portal_grants g LEFT JOIN tt_tenancies t ON t.id=g.tenancy_id LEFT JOIN tt_owners o ON o.id=g.owner_id LEFT JOIN tt_vendors v ON v.id=g.vendor_id ORDER BY g.granted_at')
  const wide = c.actor.role === 'owner' || !!c.actor.staff?.all, reachable = (g: Row) => g.tenancy_id ? (wide || c.actor.staff?.units.has(g.unit_id)) : wide
  const seen = grants.filter(reachable)
- return { requests: await staffRequests(c), people: people.filter(p => seen.some(g => g.identity_id === p.id)).map(p => ({ ...p, grants: seen.filter(g => g.identity_id === p.id).map(g => ({ id: g.id, access: g.access, record: g.address ?? g.owner_name ?? g.vendor_name, source: g.source, grantedAt: g.granted_at, revokedAt: g.revoked_at })) })),
+ return { shareable: c.actor.role==='owner'?await all(c,"SELECT d.tenancy_id,v.id,d.title,v.name,'document' AS source FROM tt_documents d JOIN tt_document_versions v ON v.document_id=d.id AND v.version=d.version WHERE d.kind='lease' AND COALESCE(d.restriction,'')='' UNION ALL SELECT v.tenancy_id,v.id,'Signed lease effective '||v.effective,s.name,'signed' FROM tt_lease_versions v JOIN tt_lease_sources s ON s.lease_version_id=v.id WHERE v.approved_at IS NOT NULL"):[],requests: await staffRequests(c), people: people.filter(p => seen.some(g => g.identity_id === p.id)).map(p => ({ ...p, grants: seen.filter(g => g.identity_id === p.id).map(g => ({ id: g.id, access: g.access, record: g.address ?? g.owner_name ?? g.vendor_name, source: g.source, grantedAt: g.granted_at, revokedAt: g.revoked_at })) })),
   owners: wide ? await all(c, 'SELECT id,legal_name AS name FROM tt_owners ORDER BY legal_name') : [], vendors: wide ? await all(c, 'SELECT id,name FROM tt_vendors ORDER BY name') : [] }
 }
 

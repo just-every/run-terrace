@@ -1,3 +1,4 @@
+import {journey as integrationHealthJourney} from './integration-health.mjs'
 import {journey as applicationJourney} from './applications.mjs'
 import {journey as messageJourney} from './messages.mjs'
 import {journey as cardJourney} from './card-payments.mjs'
@@ -13,7 +14,7 @@ import {journey as journalJourney} from './journal.mjs'
 import {journey as householdJourney} from './households.mjs'
 import {journey as moveChecklistJourney} from './move-checklists.mjs'
 import {journey as roommateJourney} from './roommates.mjs'
-import {journey as documentJourney} from './documents.mjs'
+import {journey as documentJourney,securityJourney as documentSecurityJourney} from './documents.mjs'
 import {journey as portalJourney} from './portal.mjs'
 import {journey as fieldEvidenceJourney} from './field-evidence.mjs'
 import {journey as moveOutJourney} from './move-out.mjs'
@@ -44,12 +45,34 @@ const totp=(key,offset=0)=>{let bits=0,v=0;const bytes=[];for(const ch of key){v
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jz1sAAAAASUVORK5CYII=','base64')
 before(async()=>{h=await installation();member=await h.invite('member','preparer@example.test');admin=await h.invite('admin','manager@example.test')})
 after(async()=>{await h?.close()})
+test('OPS-004: owner-only metadata, redacted provider diagnostics, durable counts and inert restore',integrationHealthJourney)
 test('PORTAL-005: approved repair communication, signed replies, arrival confirmation and opt-out survive restore',messageJourney)
-test('PAY-003: hosted card consent, policy admission, provider-only receipts, declines, expiry and replay',cardJourney)
+test('PAY-003 and SAFE-006: hosted consent, provider receipts and durable interrupted-payment recovery',cardJourney)
 test('PORT-006: sourced handover checklist revisions and linked make-ready tasks preserve separate leases',async()=>{await moveOutJourney();await moveChecklistJourney();await roommateJourney()})
 test('WORK-006: approved email dispatch, technician progress, parts hold, missed visit and reassignment; WORK-007 staff-recorded field evidence bound to approved scope',async()=>{await dispatchJourney({inspect:async c=>{if(c.phase==='replacement-complete')await fieldEvidenceJourney(c)}});await failedDispatchJourney()})
 test('OPS-003: persistent workflow templates run across restarts, escalate to a person and complete only on evidence',async()=>{await workflowJourney();await scheduledJourney()})
 test('REPORT-005: typed custom fields, governed reports, frozen merges and hidden-field refusal',customReportJourney)
+test('OPS-001: inherited resource names follow the unknown-name public response for a signed-in member',async()=>{
+ // V1 reads use GET. POST to that read-only door keeps its existing method refusal;
+ // inherited command names sent to the mutation door remain unknown commands.
+ const unknown=await h.request('/api/v1/unknown-resource',{as:member}),expected=await unknown.text()
+ assert.equal(unknown.status,404)
+ assert.ok(expected===JSON.stringify({ok:false,error:'not_found',message:'Unknown resource.'}),'the unknown resource response contains only the public error')
+ for(const name of ['constructor','__proto__']){
+  const response=await h.request('/api/v1/'+name,{as:member}),body=await response.text()
+  assert.equal(response.status,404,name+' is an unknown resource')
+  assert.ok(body===(name==='constructor'?expected:'Not found'),'only the standard unknown-name response is returned')
+  const post=await h.request('/api/v1/'+name,{method:'POST',as:member,body:{}})
+  assert.equal(post.status,name==='constructor'?405:404,'the resource door retains its method/path refusal')
+  const command=await h.request('/api/commands',{method:'POST',as:member,body:{command:name}}),answer=await command.text()
+  assert.equal(command.status,404,'an inherited command name is unknown')
+  assert.ok(answer===JSON.stringify({ok:false,error:'unknown_command',message:'Unknown Terrace command.'}),'the error contains only the public unknown-command response')
+ }
+ const registered=await h.request('/api/v1/leases',{as:member})
+ assert.equal(registered.status,200,'a registered resource still works')
+ let data;try{data=await registered.json()}catch{assert.fail('the registered resource returns JSON')}
+ assert.ok(Array.isArray(data.data),'the registered resource returns its collection')
+})
 test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned portfolios, CSRF and revocation',async()=>{
  assert.equal((await h.request('/api/state',{as:''})).status,401)
  assert.equal((await h.request('/api/commands',{method:'POST',body:{command:'tenancy.create',...tenancyInput},originHeader:'https://elsewhere.test'})).status,403)
@@ -899,7 +922,7 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
 })
 
 test('ROLE-002: residents, delegated contacts, joint owners and vendors see only the record a live grant names; ownership dates, assignments and revocation apply at once; document doors refuse them',()=>portalJourney())
-test('PORT-007: versioned documents are found by unit and content, restricted records and other portfolios return 404, uploads are checked, downloads recorded, backup and readable export keep the originals',()=>documentJourney())
+test('PORT-007: versioned documents are found by unit and content, restricted records and other portfolios return 404, uploads are checked, downloads recorded, backup and readable export keep the originals',async()=>{await documentJourney();await documentSecurityJourney()})
 test('ACCT-002 designated bank custody preserves beneficiary funds through approved transfers',async()=>{await trustJourney()})
 
 
@@ -920,3 +943,9 @@ import {journey as sharedThreadJourney} from './portal-threads.mjs'
 test('PORTAL-006: private notes, scoped conversations, exact notices and per-recipient building service evidence survive restore',sharedThreadJourney)
 
 test('LEASE-007: two private adult applications, durable drafts, originals, disclosed submission, requested revisions and verified household fee outcomes',applicationJourney)
+
+import {journey as referralJourney} from './professional-referrals.mjs'
+test('BOUND-002: scoped professional referrals retain held sources, documentary responses and fenced originals',referralJourney)
+
+import {journey as shadowJourney} from './shadow-run.mjs'
+test('MOVE-008: owner documentary rent comparison holds per-lease differences, binds exact reviews and preserves private custody',shadowJourney)

@@ -1,3 +1,5 @@
+import {residentPreference,saveResidentPreference,residentOriginal,residentReceipt} from './resident-account'
+import {residentSettings} from './resident-settings-view'
 import {externalThreads,externalThreadPost,threadFile} from './portal-threads'
 import {externalThreadView} from './portal-thread-view'
 import {ownerInvoiceFile,ownerInvoices} from './owner-invoices'
@@ -34,7 +36,7 @@ const missing = (api: boolean) => api ? json({ error: 'not_found', message: 'Not
 const cookie = (env: Bindings, value: string, age: number) => `${COOKIE}=${value}; Path=/portal; HttpOnly; SameSite=Lax; Max-Age=${age}${env.AUTH_ORIGIN.startsWith('https') ? '; Secure' : ''}`
 
 export async function portalResponse(request: Request, env: Bindings): Promise<Response> {
- const url = new URL(request.url), now = new Date().toISOString(), path = url.pathname.replace(/\/$/, '') || '/portal', api = path.startsWith('/portal/api/') || ['/portal/thread-file','/portal/resident-document','/portal/report', '/portal/statement', '/portal/transaction', '/portal/owner-statement', '/portal/owner-invoice', '/portal/invoice-file'].includes(path)
+ const url = new URL(request.url), now = new Date().toISOString(), path = url.pathname.replace(/\/$/, '') || '/portal', api = path.startsWith('/portal/api/') || ['/portal/receipt','/portal/lease-document','/portal/thread-file','/portal/resident-document','/portal/report', '/portal/statement', '/portal/transaction', '/portal/owner-statement', '/portal/owner-invoice', '/portal/invoice-file'].includes(path)
  try {
   if (url.origin !== env.AUTH_ORIGIN) return html(shell('Forbidden', '<p>The request origin does not match this installation.</p>'), 403)
   if (request.method === 'POST') insist(request.headers.get('origin') === env.AUTH_ORIGIN && request.headers.get('sec-fetch-site') !== 'cross-site', 'origin', 'Same-origin confirmation is required.', 403)
@@ -63,6 +65,26 @@ export async function portalResponse(request: Request, env: Bindings): Promise<R
   if (!portal) return api ? json({ error: 'unauthorized', message: 'Sign in first.' }, 401) : new Response(null, { status: 303, headers: headers({ location: '/portal/signin' }) })
   if (path === '/portal/signout') { await env.DB.prepare('UPDATE tt_portal_sessions SET revoked_at=? WHERE hash=?').bind(now, portal.sessionHash).run(); return new Response(null, { status: 303, headers: headers({ location: '/portal/signin', 'set-cookie': cookie(env, '', 0) }) }) }
   const c = portalContext(env.DB, portal, now, env.SESSION_SECRET), mine = (key: string, value: unknown) => portal.grants.find(g => g[key] === value)
+  if(['/portal/settings','/portal/api/preferences','/portal/lease-document','/portal/receipt'].includes(path)){
+   const tenancyId=request.method==='POST'?String(form.get('tenancyId')??''):url.searchParams.get('tenancyId')
+   const g=portal.grants.find(g=>g.access==='resident'&&g.tenancy_id===tenancyId)
+   if(!g)return missing(api)
+   if(path==='/portal/lease-document'){insist(request.method==='GET','method','Use GET.',405);return await residentOriginal(c,g,url.searchParams.get('id')??'',url.searchParams.get('source')??'document')}
+   if(path==='/portal/receipt'){
+    insist(request.method==='GET','method','Use GET.',405)
+    const d=await residentReceipt(c,g,url.searchParams.get('id')??'');await recordRead(c,'portal.read:receipt',d.receipt.id)
+    const format=url.searchParams.get('format')??'pdf'
+    insist(['pdf','csv','json'].includes(format),'receipt_format','Choose PDF, CSV or JSON.')
+    if(format==='json')return json(d)
+    return new Response(format==='pdf'?residentPdf(d,true):residentMonthlyCsv(d),{headers:headers({'content-type':format==='pdf'?'application/pdf':'text/csv;charset=utf-8','content-disposition':'attachment; filename="terrace-payment-receipt.'+format+'"'})})
+   }
+   if(request.method==='POST'){
+    const result=await saveResidentPreference(c,portal,g,Object.fromEntries(form))
+    return api?json(result):new Response(null,{status:303,headers:headers({location:'/portal/settings?tenancyId='+encodeURIComponent(g.tenancy_id)+'&saved=1'})})
+   }
+   const data=await residentPreference(c,g)
+   return api?json(data):html(residentSettings(portal.identity,g.tenancy_id,data,url.searchParams.has('saved')))
+  }
   if(path==='/portal/thread-file')return await threadFile(c,url.searchParams.get('id')??'',portal)
   if(['/portal/threads','/portal/api/threads'].includes(path)){
    if(request.method==='POST'){const result=await externalThreadPost(c,portal,Object.fromEntries(form));return api?json(result):new Response(null,{status:303,headers:headers({location:'/portal/threads'})})}

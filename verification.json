@@ -23,7 +23,7 @@
       "browser": false,
       "hosted": false,
       "commands": [
-        "node --test --test-concurrency=1 tests/terrace.test.mjs"
+        "env TERRACE_ASYNC_SQL=1 node --test --test-concurrency=1 tests/terrace.test.mjs"
       ]
     },
     {
@@ -49,7 +49,20 @@
         "node tests/renewals-browser.mjs",
         "node tests/portal-threads-browser.mjs",
         "node tests/applications-browser.mjs",
-        "node tests/migration-browser.mjs"
+        "node tests/migration-browser.mjs",
+        "node tests/resident-account-browser.mjs",
+        "node tests/professional-referrals-browser.mjs",
+        "node tests/document-security-browser.mjs"
+      ]
+    },
+    {
+      "name": "integration-browser",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "node tests/integration-health-browser.mjs",
+        "node tests/card-payments-browser.mjs",
+        "node tests/shadow-run-browser.mjs"
       ]
     }
   ],
@@ -147,8 +160,7 @@
       "browser": true,
       "hosted": false,
       "commands": [
-        "node tests/payments-browser.mjs",
-        "node tests/card-payments-browser.mjs"
+        "node tests/payments-browser.mjs"
       ]
     },
     {
