@@ -3457,7 +3457,7 @@
       "executable": false
     },
     "src/terrace/api.ts": {
-      "sha256": "0f8658287b034eab413a3b52733051f2178af476ecd3eb848480ae9aa9870321",
+      "sha256": "aa29699a3c7803d147bcfb3aeb4ea6a5aff80d250c3049e17f5e702bec8a4332",
       "executable": false
     },
     "src/terrace/application-access.ts": {
@@ -3477,7 +3477,7 @@
       "executable": false
     },
     "src/terrace/application-view.ts": {
-      "sha256": "609be0519952ae76a36162b4e5da4732a6b9c51e12dd76ef85fbe6d91aa30226",
+      "sha256": "8e4e2b8e5077fc365851ec0b3ec2143ce5f6790863ec6e00a7d8499210562d32",
       "executable": false
     },
     "src/terrace/applications.ts": {
