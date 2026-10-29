@@ -105,7 +105,7 @@
       "executable": false
     },
     "agent-surface.json": {
-      "sha256": "ebc38c2b31c54089ae0deff480fafe15e98cce60eaa9f8b966ed8f1aa0d25dc4",
+      "sha256": "221e550d8f8b68dd2564db1cfd2b28cc6ed5e526072539a8ae1637f4d7816188",
       "executable": false
     },
     "AGENTS.md": {
@@ -153,7 +153,7 @@
       "executable": false
     },
     "docs/agent-door-adoption.md": {
-      "sha256": "10822a659dc1db69f2b172ad653637cb624eaaef520126d692b8757c4ad4ce6d",
+      "sha256": "5cd2113d348251016ea60e90ac4a685819b69b7ea1fd169fea0c734211ac6bb3",
       "executable": false
     },
     "docs/applications.md": {
@@ -3877,7 +3877,7 @@
       "executable": false
     },
     "src/terrace/agent-door/spec.mjs": {
-      "sha256": "6ca5462059e9f94143d7b38f76c2ae9e3c7db07abb4fc29ff26dc932246bdb67",
+      "sha256": "0f00969a6ddcc641ea411d5bbb0c82015946801a41d8dd96366998fcd43d44e9",
       "executable": false
     },
     "src/terrace/agent-door/tools.ts": {

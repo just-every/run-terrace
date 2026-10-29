@@ -87,7 +87,9 @@
         "standard"
       ],
       "clauses": [
-        "WORK-001"
+        "WORK-002",
+        "WORK-004",
+        "WORK-006"
       ],
       "inputSchema": {
         "type": "object",
@@ -169,7 +171,8 @@
         "sensitive"
       ],
       "clauses": [
-        "WORK-001",
+        "TER-008",
+        "WORK-003",
         "AGENT-001"
       ],
       "inputSchema": {
@@ -597,7 +600,7 @@
   "notTools": [
     {
       "clauses": [
-        "WORK-007"
+        "PORTAL-008"
       ],
       "reason": "device"
     },
@@ -610,21 +613,36 @@
     },
     {
       "clauses": [
-        "OPS-005"
+        "OPS-008"
       ],
       "reason": "connector"
     },
     {
       "clauses": [
+        "TER-009",
         "MOVE-001",
-        "TER-009"
+        "MOVE-002",
+        "MOVE-003",
+        "MOVE-004",
+        "MOVE-005",
+        "MOVE-006",
+        "MOVE-007",
+        "MOVE-008",
+        "MOVE-009",
+        "MOVE-010",
+        "MOVE-011"
       ],
       "reason": "import-door"
     },
     {
       "clauses": [
+        "TER-012",
+        "SAFE-007",
+        "SAFE-008",
+        "SAFE-009",
+        "BOUND-004",
         "OPEN-001",
-        "TER-010"
+        "DEMO-001"
       ],
       "reason": "installation"
     }

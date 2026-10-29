@@ -87,8 +87,8 @@ AGENT-013 are not present on main and are not invented here.
 
 This adoption uses the draft's company.get, leases.get, charges.preview,
 work.prepare, quotes.add, renewals.prepare, arrears.prepare, corrections.prepare
-and workloads.get names. It adds portfolio.get for the native scoped witness,
-work.get for a current native job revision, work.revise for maintenance.revise,
+work.get and workloads.get names. It adds portfolio.get for the native scoped witness,
+work.revise for maintenance.revise,
 and workloads.execute for exact assigned-credential execution. Native reassign
 changes a credential, not a Business sponsor; no sponsor-reassignment tool is
 claimed. Wider human-only verbs from the draft remain outside this prepare-only

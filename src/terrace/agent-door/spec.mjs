@@ -2,11 +2,11 @@
 export const capabilities = ['tools','policy','pause','audit','idempotency'];
 export const specialist = 'Residential portfolio steward';
 export const notTools = [
- { clauses:['WORK-007'],reason:'device' },
+ { clauses:['PORTAL-008'],reason:'device' },
  { clauses:['SAFE-001','ROLE-001'],reason:'screen' },
- { clauses:['OPS-005'],reason:'connector' },
- { clauses:['MOVE-001','TER-009'],reason:'import-door' },
- { clauses:['OPEN-001','TER-010'],reason:'installation' },
+ { clauses:['OPS-008'],reason:'connector' },
+ { clauses:['TER-009','MOVE-001','MOVE-002','MOVE-003','MOVE-004','MOVE-005','MOVE-006','MOVE-007','MOVE-008','MOVE-009','MOVE-010','MOVE-011'],reason:'import-door' },
+ { clauses:['TER-012','SAFE-007','SAFE-008','SAFE-009','BOUND-004','OPEN-001','DEMO-001'],reason:'installation' },
 ];
 const string = { type:'string',minLength:1 }, amount = {type:'string',pattern:'^\\d+(\\.\\d{1,2})?$'}, day = {type:'string',format:'date'};
 const schema = (properties,required=Object.keys(properties)) => ({type:'object',properties,required,additionalProperties:false});
@@ -15,10 +15,10 @@ export const specs = [
  define('company.get','company.read',true,['PORT-001']),
  define('portfolio.get','portfolio.read',true,['ROLE-001','AGENT-008']),
  define('leases.get','tenancy.read',true,['TER-002','PORT-005'],{tenancyId:string}),
- define('work.get','work.read',true,['WORK-001'],{jobId:string}),
+ define('work.get','work.read',true,['WORK-002','WORK-004','WORK-006'],{jobId:string}),
  define('workloads.get','agent.read',true,['AGENT-008'],{workloadId:string}),
  define('charges.preview','charges.preview',true,['PAY-001'],{month:{type:'string',pattern:'^\\d{4}-(0[1-9]|1[0-2])$'}}),
- define('work.prepare','maintenance.prepare',false,['WORK-001','AGENT-001'],{tenancyId:string,title:string,dueDate:day,estimate:amount,vendorId:string,trade:string,tradeName:string,tradeEmail:{type:'string',format:'email'},scope:string,checklist:string,assetId:string,costClass:{type:'string',enum:['operating','capital']}},['tenancyId','title','dueDate','estimate']),
+ define('work.prepare','maintenance.prepare',false,['TER-008','WORK-003','AGENT-001'],{tenancyId:string,title:string,dueDate:day,estimate:amount,vendorId:string,trade:string,tradeName:string,tradeEmail:{type:'string',format:'email'},scope:string,checklist:string,assetId:string,costClass:{type:'string',enum:['operating','capital']}},['tenancyId','title','dueDate','estimate']),
  define('work.revise','maintenance.revise',false,['WORK-003'],{jobId:string,version:{type:'integer',minimum:1},title:string,scope:string,checklist:string,estimate:amount,dueDate:day,costClass:{type:'string',enum:['operating','capital']}},['jobId','version']),
  define('quotes.add','quote.add',false,['WORK-003'],{jobId:string,vendorId:string,vendorName:string,vendorEmail:{type:'string',format:'email'},scope:string,availableDate:day,amount,tax:amount},['jobId','scope','availableDate','amount']),
  define('renewals.prepare','renewal.prepare',false,['TER-003','AGENT-005'],{tenancyId:string,endDate:day,rent:amount,source:string,renewalId:string,deadline:day,marketRent:amount,marketRentDate:day,marketRentSource:string,vacantDays:{type:'integer',minimum:0},makeReadyCost:amount,makeReadySource:string,leasingCost:amount,leasingSource:string},['tenancyId','endDate','rent','source']),
