@@ -7,7 +7,7 @@ import {chromium} from '@playwright/test'
 import {journey} from './move-out.mjs'
 const pictures=resolve(process.env.MOVE_OUT_SCREENSHOTS??'.rer/move-out-screens')
 await mkdir(pictures,{recursive:true})
-const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
+const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH}:{}),args:['--use-mock-keychain','--password-store=basic','--no-sandbox']})
 let context,page
 async function picture(name,section=page) {
  for (const [width,height] of [[1440,900],[390,844]]) {
@@ -17,13 +17,49 @@ async function picture(name,section=page) {
  }
 }
 try {
- await journey({assets:true,inspect:async({phase,h,a,b,rosa,sam,board,source})=>{
+ await journey({assets:true,inspect:async({phase,h,a,b,rosa,sam,board,source,follow,repair,update})=>{
   if (!context) {
    context=await browser.newContext({viewport:{width:1440,height:900}})
    await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return {name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}))
    page=await context.newPage()
   }
   await page.goto(h.origin+'/app?tab=properties')
+  if(phase.startsWith('followup-')){
+   await page.setViewportSize({width:1440,height:900})
+   const section=page.locator('#move-followup-'+follow.id)
+   assert.ok(await section.isVisible())
+   assert.ok((await section.innerText()).includes(follow.next_action))
+   if(phase==='followup-open'){
+    await section.getByText('Manage follow-up',{exact:true}).click()
+    const form=section.locator('form').filter({has:page.locator('input[value="move.followup.update"]')})
+    await form.getByLabel('Follow-up due date',{exact:true}).fill(update.dueOn)
+    await form.getByLabel('Next action',{exact:true}).fill(update.nextAction)
+    await form.getByLabel('Link same-unit repair evidence',{exact:true}).selectOption(repair.id)
+    await form.getByRole('button',{name:'Save follow-up revision',exact:true}).focus()
+    assert.equal(await form.getByRole('button',{name:'Save follow-up revision',exact:true}).evaluate(el=>el===document.activeElement),true)
+    await picture('occupied-followup-form',section)
+    await page.setViewportSize({width:1440,height:900})
+    await form.getByRole('button',{name:'Save follow-up revision',exact:true}).click()
+   }else if(phase==='followup-review'||phase==='followup-no-work'){
+    await section.getByText('Review resolution',{exact:true}).click()
+    const form=section.locator('form').filter({has:page.locator('input[value="move.followup.resolve"]')})
+    await form.getByLabel('Review outcome',{exact:true}).selectOption(phase==='followup-no-work'?'no_work':'resolved')
+    await form.getByLabel('Reviewed resolution or no-work reason',{exact:true}).fill(phase==='followup-no-work'?'Reviewed the sourced handover; no additional work is required.':'Reviewed the staff completion and resident check.')
+    await form.getByLabel('Type REVIEWED',{exact:true}).fill('REVIEWED')
+    await form.getByRole('button',{name:'Record reviewed resolution',exact:true}).click()
+   }else{
+    await section.getByText('Retained revisions (3)',{exact:true}).click()
+    assert.ok(await section.getByText('Evidence or responsibility changed.',{exact:false}).isVisible())
+    assert.ok((await section.innerText()).includes('reopened'))
+    await picture('occupied-followup-reopened',section)
+    return
+   }
+   await page.getByRole('status').filter({hasText:'Staff follow-up recorded.'}).first().waitFor()
+   const saved=page.locator('#move-followup-'+follow.id)
+   assert.ok((await saved.innerText()).includes(phase==='followup-open'?update.nextAction:phase==='followup-no-work'?'no work':'resolved'))
+   await picture(phase+'-saved',saved)
+   return true
+  }
   if (phase==='before-end') {
    const form=page.locator('form:has(input[value="tenancy.end"])').filter({has:page.locator('input[value="'+sam.id+'"]')})
    await form.locator('xpath=..').locator('summary').first().click()

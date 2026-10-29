@@ -12,7 +12,7 @@ export default {
  // PORTAL-007: request evidence is portable, but bearer action links never leave the installation.
  // ROLE-002: portal people, their grants, links and sessions stay in the installation; after a restore the owner invites each person again.
  // SAFE-001: authenticator secrets, recovery codes, passed sessions and failed attempts never leave the installation.
- excludeTables:['tt_resident_document_shares','tt_application_access','tt_application_links','tt_application_sessions','tt_application_fee_links','tt_card_checkout_links','tt_budget_clock','tt_action_links','tt_report_delivery_holds','tt_report_delivery_events','tt_report_deliveries','tt_reconcile_clock','tt_erasure_work','tt_role_actions','tt_totp','tt_recovery_codes','tt_factor_sessions','tt_factor_failures','tt_api_credentials','tt_api_credential_portfolios','tt_api_idempotency','tt_portal_identities','tt_portal_grants','tt_portal_links','tt_portal_sessions'],
+ excludeTables:['tt_move_followup_origins','tt_resident_document_shares','tt_application_access','tt_application_links','tt_application_sessions','tt_application_fee_links','tt_card_checkout_links','tt_budget_clock','tt_action_links','tt_report_delivery_holds','tt_report_delivery_events','tt_report_deliveries','tt_reconcile_clock','tt_erasure_work','tt_role_actions','tt_totp','tt_recovery_codes','tt_factor_sessions','tt_factor_failures','tt_api_credentials','tt_api_credential_portfolios','tt_api_idempotency','tt_portal_identities','tt_portal_grants','tt_portal_links','tt_portal_sessions'],
  requiredConfiguration: ['OWNER_EMAIL','SESSION_SECRET','SETUP_TOKEN','AUTH_ORIGIN','MAIL_PROVIDER','MAIL_FROM'],
  async validateStaged({db,tables}) {
   await validateShadowArchive(db,tables);

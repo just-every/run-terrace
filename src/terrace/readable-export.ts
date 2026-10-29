@@ -12,6 +12,7 @@ const EXT: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', '
 const bytes = (b64: string) => Uint8Array.from(atob(b64), ch => ch.charCodeAt(0))
 
 export const RECONNECT = [
+ 'Move-out follow-ups: source transitions, occupancy blockers, assignments and all reviewed revisions are retained as documentary evidence. Restored follow-ups are read-only and grant no entry, work, availability, provider or financial authority.',
  'Shadow rent: source originals, mappings, differences, next actions and prior reviews are documentary evidence. Restored reviews are inert; capture and review a new comparison with current native statements. No cutover, collection or schedule is authorized.',
  'Stripe diagnostics: set the Stripe test secret privately, review the authorized account and scope, and reconcile existing references. Restored counters and setup metadata are evidence only; no collection is replayed.',
  'Resend mail diagnostics: reconnect the key and verified sender privately; review sending permission. No restored message is sent.',

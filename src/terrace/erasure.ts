@@ -30,7 +30,7 @@ export async function eraseTenancy(c:Context,p:Row){
  sql(c,'INSERT OR IGNORE INTO tt_erased_document_files(sha256) SELECT b.pdf_sha256 FROM tt_print_batches b WHERE b.id IN (SELECT i.batch_id FROM tt_print_items i JOIN tt_threads r ON r.id=i.thread_id WHERE r.tenancy_id=?)',t.id),
  sql(c,'INSERT OR IGNORE INTO tt_erased_document_files(sha256) SELECT i.pdf_sha256 FROM tt_print_items i WHERE i.batch_id IN (SELECT x.batch_id FROM tt_print_items x JOIN tt_threads r ON r.id=x.thread_id WHERE r.tenancy_id=?)',t.id),
  sql(c,'DELETE FROM tt_print_batches WHERE id IN (SELECT i.batch_id FROM tt_print_items i JOIN tt_threads r ON r.id=i.thread_id WHERE r.tenancy_id=?)',t.id),
- ...['tt_resident_document_shares','tt_threads','tt_messages','tt_message_contacts','tt_action_requests','tt_move_checklists','tt_emergencies','tt_schedules','tt_maintenance_jobs','tt_inspections','tt_assets','tt_household_members','tt_renewal_events','tt_renewals','tt_workflow_events','tt_workflow_runs','tt_lease_history','tt_recovery_authorizations'].map(table=>sql(c,`DELETE FROM ${table} WHERE tenancy_id=?`,t.id)),
+ ...['tt_move_followups','tt_resident_document_shares','tt_threads','tt_messages','tt_message_contacts','tt_action_requests','tt_move_checklists','tt_emergencies','tt_schedules','tt_maintenance_jobs','tt_inspections','tt_assets','tt_household_members','tt_renewal_events','tt_renewals','tt_workflow_events','tt_workflow_runs','tt_lease_history','tt_recovery_authorizations'].map(table=>sql(c,`DELETE FROM ${table} WHERE tenancy_id=?`,t.id)),
  ...await leaseErasureStatements(c,t.id),
  referralErasure(c,t.id),
  ...documentErasureStatements(c,t.id,['lease','screening','communications']),

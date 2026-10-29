@@ -61,7 +61,7 @@ export async function propertyCommand(c: Context, command: string, p: Row): Prom
   insist(moveOut >= t.start_date && moveOut <= t.end_date, 'invalid_move_out', 'The move-out day falls within the lease.')
   const turnover = await moveOutTurnover(c, t, moveOut)
   await commit(c, [guard(c, 'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)', t.id, t.version), ...turnover.statements, sql(c, 'UPDATE tt_tenancies SET ended_on=?,end_reason=?,version=version+1 WHERE id=?', moveOut, text(p.reason, 'Reason', 300), t.id)], command, t.id)
-  return { tenancyId: t.id, turnoverId: turnover.turnoverId, turnoverOutcome: turnover.outcome, notice: `Lease ended with move-out on ${moveOut}. The lease record is kept. ${turnover.notice}` }
+  return { tenancyId: t.id, followupId: 'followupId' in turnover ? turnover.followupId : null, turnoverId: turnover.turnoverId, turnoverOutcome: turnover.outcome, notice: `Lease ended with move-out on ${moveOut}. The lease record is kept. ${turnover.notice}` }
  }
  if (command === 'tenancy.transfer') {
   allow(c, command)
@@ -80,7 +80,7 @@ export async function propertyCommand(c: Context, command: string, p: Row): Prom
    sql(c, 'INSERT INTO tt_tenancies(id,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,rent_cents,cadence,created_at,currency,time_zone,unit_id,transferred_from,currency_confirmed) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', key, unitAddress(u), t.owner_name, t.owner_email, t.tenant_name, t.tenant_email, moveIn, end, rent, t.cadence, c.now, t.currency, u.time_zone, u.id, t.id, t.currency_confirmed),
    ...carried,
   ], command, key)
-  return { id: key, tenancyId: key, turnoverId: turnover.turnoverId, turnoverOutcome: turnover.outcome, notice: `Transferred to unit ${u.identifier} from ${moveIn}. Both leases are kept.${carried.length ? ` ${carried.length / 3} household ${carried.length === 3 ? 'member' : 'members'} moved to the new lease from the move-in day.` : ''} ${turnover.notice}` }
+  return { id: key, tenancyId: key, followupId: 'followupId' in turnover ? turnover.followupId : null, turnoverId: turnover.turnoverId, turnoverOutcome: turnover.outcome, notice: `Transferred to unit ${u.identifier} from ${moveIn}. Both leases are kept.${carried.length ? ` ${carried.length / 3} household ${carried.length === 3 ? 'member' : 'members'} moved to the new lease from the move-in day.` : ''} ${turnover.notice}` }
  }
 }
 

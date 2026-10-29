@@ -64,6 +64,14 @@
         "node tests/card-payments-browser.mjs",
         "node tests/shadow-run-browser.mjs"
       ]
+    },
+    {
+      "name": "move-out",
+      "browser": true,
+      "hosted": false,
+      "commands": [
+        "env TERRACE_ASYNC_SQL=1 node tests/move-out-browser.mjs"
+      ]
     }
   ],
   "nightly": [
@@ -91,14 +99,6 @@
       "commands": [
         "node tests/dispatch-browser.mjs",
         "node tests/work-budgets-browser.mjs"
-      ]
-    },
-    {
-      "name": "move-out",
-      "browser": true,
-      "hosted": false,
-      "commands": [
-        "node tests/move-out-browser.mjs"
       ]
     },
     {
