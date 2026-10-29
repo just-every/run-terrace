@@ -3857,7 +3857,7 @@
       "executable": false
     },
     "src/terrace/agent-door/context.ts": {
-      "sha256": "82c17914978df47aecd0ae98dc469891d56a27886cae319579b760c127666d2f",
+      "sha256": "32d743d7a54868ad42eb90d0d8994dd6df3d852a7b8307f1dac6df48fb5728d8",
       "executable": false
     },
     "src/terrace/agent-door/docs.ts": {
@@ -3869,7 +3869,7 @@
       "executable": false
     },
     "src/terrace/agent-door/reads.ts": {
-      "sha256": "95a4244f1b6103d14a4216ff42910da9dfc7ac70a4d52a7eddccad110a87844b",
+      "sha256": "d6976a1a593f9e295bc0c6177b2092edf9620fbbcfb50c1a9077bdf7343828d1",
       "executable": false
     },
     "src/terrace/agent-door/spec.d.mts": {
@@ -3885,7 +3885,7 @@
       "executable": false
     },
     "src/terrace/agent-workloads.ts": {
-      "sha256": "0861d58f701b41272b311a67512d8684fbbedb85e62a524d78c403e9e36aac5e",
+      "sha256": "839221158bcdce68214a4d31b6fcdc96a3583ede2008087ef4dfd9ae595ec7b4",
       "executable": false
     },
     "src/terrace/api-v1.ts": {
@@ -4021,7 +4021,7 @@
       "executable": false
     },
     "src/terrace/core.ts": {
-      "sha256": "8315e7dc2281502af53faf0a831e9e8de938d4c1836ff942692104aa19f1fcf3",
+      "sha256": "91d00d98da1f0fee4d638dd121914afe02dd90999352816252b0e37714ecd24f",
       "executable": false
     },
     "src/terrace/credentials-view.ts": {
@@ -4853,11 +4853,11 @@
       "executable": false
     },
     "src/terrace/work-view.ts": {
-      "sha256": "32c3e824672f40919ae578b3b67ac8df1ce4765c78d0cd320e07e8dbe037b399",
+      "sha256": "344dc77cc6d18eab8aede70d24d2f9e7b90ed6d5ade68ba09ceb8eb21157e002",
       "executable": false
     },
     "src/terrace/work.ts": {
-      "sha256": "74cc44e4852311fb94b9ca436bf02883b7a072b9d302c9a74f6cec60785ee2cd",
+      "sha256": "0257d3a30d777479ee2e4f6dd1fb433171231ce0063a121e9269a4961c44c7fd",
       "executable": false
     },
     "src/terrace/workflow-mail.ts": {

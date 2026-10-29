@@ -17,7 +17,7 @@ export async function nativeContext(env: Bindings, who: Pick<Principal, 'person'
   c.actor = await credentialRecordActor(env.DB, k, now)
  } else await loadStaff(c)
  c.zone = await officeZone(c)
- if (invocation) c.agentDoor = { agentId: invocation.agent.id, agentName: invocation.agent.name, sponsorId: person.id, label: invocation.actor.label, operationId: invocation.operationId, consent: invocation.consent ?? null, clientId: invocation.clientId ?? null, approvers: invocation.approvers }
+ if (invocation) c.agentDoor = { agentId: invocation.agent.id, agentName: invocation.agent.name, sponsorId: person.id, sponsorVersion: person.version ?? 1, label: invocation.actor.label, operationId: invocation.operationId, consent: invocation.consent ?? null, clientId: invocation.clientId ?? null, approvers: invocation.approvers }
  return c
 }
 export async function admitted(env: Bindings, ctx: ToolContext, action: string, args: Row = {}) {

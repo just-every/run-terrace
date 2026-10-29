@@ -29,7 +29,7 @@ export async function read(c: Context, action: string, args: Row): Promise<Row> 
  if (action === 'work.read') {
   const j = await nativeJob(c,args)
   const data = await workData(c,j.tenancy_id)
-  return redactErrorReport({job:j,quotes:data.quotes.filter((q: Row)=>q.job_id===j.id)}) as Row
+  return redactErrorReport({job:data.jobs.find((job: Row)=>job.id===j.id),quotes:data.quotes.filter((q: Row)=>q.job_id===j.id)}) as Row
  }
  if (action === 'agent.read') {
   const row = await nativeWorkload(c,args)
