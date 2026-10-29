@@ -1,3 +1,4 @@
+import {paymentRecovery} from './payment-recovery'
 import {BALANCE} from './ledger'
 import {RESERVED} from './payment-admission'
 import type {Bindings} from '../auth.server'
@@ -6,13 +7,14 @@ import type {Portal} from './portal-session'
 import {cardRows,startCard,verifiedCardEvent} from './card-payments'
 import {cardStart,cardHistory} from './card-view'
 import {shell} from './portal-view'
-export const CARD_COMMANDS=['payment.card','payment.card.reconcile']
+export const CARD_COMMANDS=['payment.card','payment.card.reconcile','payment.card.lookup','payment.card.review']
 export async function staffCard(c:Context,env:Bindings,name:string,p:Row){
  if(!CARD_COMMANDS.includes(name))return
  allow(c,name);insist(!c.actor.credential,'forbidden','API credentials cannot collect card payments.',403)
  const t=await tenancy(c,p.tenancyId)
+ if(name==='payment.card.lookup'||name==='payment.card.review')return paymentRecovery(c,env,name,p)
  if(name==='payment.card')return startCard(c,env,p,[authority(c,name)])
- const result=await verifiedCardEvent(env,p.eventId,c.now,t.id)
+ const result=await verifiedCardEvent(env,p.eventId,c.now,t.id,undefined,[authority(c,name)])
  await recordRead(c,'card.reconcile',result.paymentId)
  return{...result,notice:'Stripe event verified. The stored provider outcome is shown below.'}
 }

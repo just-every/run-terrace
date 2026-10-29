@@ -244,7 +244,7 @@ a deep local variant can still adopt or adapt later upstream improvements.
 
 ## Terrace
 
-Lander-Regenerate: after changing LEASE-007, MOVE-001, MOVE-010, PORTAL-001, PORTAL-009, OPS-004, BOUND-002 or SAFE-003 in CONTRACT.md, run `node scripts/contract-docs.mjs write` and `node scripts/contract-docs.mjs check`. The shared incremental generator preserves legacy journeys, projects those clauses and regenerates claim metadata and counts. Regenerate the edition source lock last with `node scripts/edition-authoring/cli.mjs lock`; check it with the same command's `check` verb.
+Lander-Regenerate: after changing LEASE-007, MOVE-001, MOVE-010, PORTAL-001, PORTAL-009, OPS-004, BOUND-002, SAFE-003 or SAFE-006 in CONTRACT.md, run `node scripts/contract-docs.mjs write` and `node scripts/contract-docs.mjs check`. The shared incremental generator preserves legacy journeys, projects those clauses and regenerates claim metadata and counts. Regenerate the edition source lock last with `node scripts/edition-authoring/cli.mjs lock`; check it with the same command's `check` verb.
 
 Read README.md, ACCEPTANCE.md and API.md. Package-mode RER is pinned exactly. Test through public doors using `pnpm run test:terrace`; keep the suite under 200. Never add trust-money movement or send a prepared agent action without human approval. Use the Base publication scan before any public push.
 
