@@ -4433,7 +4433,7 @@
       "executable": false
     },
     "test-budget.json": {
-      "sha256": "ead06759819eec2ec802899bda75a2eeda23521efb908c0c9ff03f9737aebff9",
+      "sha256": "c2493dd5c593112be2f518ad19dd9cc562f2ee3efd706ccbc1f3d70fe40c594a",
       "executable": false
     },
     "tests/action-requests-browser.mjs": {
@@ -4769,7 +4769,7 @@
       "executable": false
     },
     "tests/portal-threads.mjs": {
-      "sha256": "19ddd704bd9063d21681b64d7ff454ca6dbbffa15a30d827ffeaf3fcb4f52c98",
+      "sha256": "2a73bdcdbb4e36893c85c9abf6ff7d4d914003072a436aaf90cd34b8be517bc1",
       "executable": false
     },
     "tests/portal.mjs": {
