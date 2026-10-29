@@ -4777,7 +4777,7 @@
       "executable": false
     },
     "tests/portal-threads.mjs": {
-      "sha256": "3aa6d77e3772e8bcf702e8afaf7a51c92d4477a70d47e9678b537cb6865777af",
+      "sha256": "2b0a90415a73bf988c907833f55e8080a0353089f96fff4d17b13e997094a31b",
       "executable": false
     },
     "tests/portal.mjs": {

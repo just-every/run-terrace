@@ -308,7 +308,7 @@ export async function journey({assets=false,inspect,inspectRetained}={}){
   assert.equal((await data(kept.threadId)).service,null)
   for(const [as,status]of [[staff.south,404],[staff.member,403]])assert.equal((await r.request('/api/thread-print?id='+office.printBatchId+'&item='+kept.id,{as})).status,status)
   await inspectRetained?.({r,kept,office})
-  const survivorArchive=await(await r.request('/api/backup')).text(),survivorRestore=await installation({now:'2038-10-28T16:00:00.000Z'})
+  const survivorArchive=await(await r.request('/api/backup')).text(),survivorRestore=await installation({now:'2038-10-28T16:00:00.000Z',bufferedTransport:true})
   try{
    await survivorRestore.formCommand('data.restore',{confirm:'RESTORE',backup:new File([survivorArchive],'retained.rer')})
    const restoredPrint=(await(await survivorRestore.request('/api/threads?id='+kept.threadId)).json()).threads[0].prints[0]
