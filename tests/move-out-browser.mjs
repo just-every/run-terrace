@@ -1,7 +1,7 @@
 import {journey as checklistJourney} from './move-checklists.mjs'
 // PORT-006: use the ordinary end/transfer forms and inspect their linked tasks at desktop and phone widths.
 import assert from 'node:assert/strict'
-import {mkdir} from 'node:fs/promises'
+import {mkdir,readFile} from 'node:fs/promises'
 import {join,resolve} from 'node:path'
 import {chromium} from '@playwright/test'
 import {journey} from './move-out.mjs'
@@ -106,7 +106,21 @@ try {
   }
  }})
  await context.close();context=null
- await checklistJourney({assets:true,inspect:async({phase,h,lease,payload})=>{
+ await checklistJourney({assets:true,inspect:async({phase,h,lease,payload,csv})=>{
+  if(phase==='rent-review'){
+   await context?.close()
+   context=await browser.newContext({viewport:{width:1440,height:900}})
+   await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return {name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}))
+   page=await context.newPage()
+   await page.goto(h.origin+'/app?tab=ledger&tenancy='+lease.id)
+   const link=page.getByRole('link',{name:'Download move-out rent review',exact:true})
+   assert.ok(await link.isVisible())
+   await picture('move-out-rent-review-download')
+   await page.setViewportSize({width:1440,height:900})
+   const [download]=await Promise.all([page.waitForEvent('download'),link.click()])
+   assert.equal(await readFile(await download.path(),'utf8'),csv)
+   return
+  }
   if(!context){
    context=await browser.newContext({viewport:{width:1440,height:900}})
    await context.addCookies(h.cookie.split('; ').map(pair=>{const i=pair.indexOf('=');return {name:pair.slice(0,i),value:pair.slice(i+1),url:h.origin}}))

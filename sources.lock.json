@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "b488591e86bfc9198c45507bb045b8af752496b3db50ff05b1d2414eb5c28031",
+      "sha256": "2436baa7f80763dddcb9b2e80bb438012e8bc84a2897da64f9c9595d1773d363",
       "executable": false
     },
     "AGENTS.md": {
@@ -109,7 +109,7 @@
       "executable": false
     },
     "API.md": {
-      "sha256": "83a2846e74ad64864aa80c1456d880560fe18b71c04f75dff0f7587fe974b284",
+      "sha256": "bda4b32e011814979111298ccf301d86618cfdfeadd53cb0bb2f9ef1680fe453",
       "executable": false
     },
     "base-copies.json": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "c2becb8751c3253c08641499ebbaabd5ec9d5fbb06ca29ef01e4daeb6fd414f2",
+      "sha256": "5f6a00fbb20d6d51bb1cc96af5bda2b0401d23351babe623f2128e972823bc73",
       "executable": false
     },
     "DEMO.md": {
@@ -3465,7 +3465,7 @@
       "executable": false
     },
     "src/terrace/api.ts": {
-      "sha256": "2791323c8c3fab8ea66ef27185f32cf0c89d737731666666cfb9711fa3cb9259",
+      "sha256": "d5121794c6f7c6d5395680230a55dc5ccfceae7698da7b8ff0e6b49e7d184734",
       "executable": false
     },
     "src/terrace/application-access.ts": {
@@ -3929,7 +3929,7 @@
       "executable": false
     },
     "src/terrace/ledger-view.ts": {
-      "sha256": "36439448915d7693fe98cb8ed9bfc8eef35d68154eba7d3c7ddebcdb8de21e72",
+      "sha256": "b7af428abb4c7fd430006240d310ca78fd86388cce3e71be79ecd0c712215811",
       "executable": false
     },
     "src/terrace/ledger.ts": {
@@ -3998,6 +3998,10 @@
     },
     "src/terrace/move-followups.ts": {
       "sha256": "9f0ab26891a8206c2718acdcc0456b979bdb4333bc52343b7ce2a70839a138b5",
+      "executable": false
+    },
+    "src/terrace/move-rent-review.ts": {
+      "sha256": "0b5037ef46ee3d02cec5208452d3185c4b6cf2e534bbf25809cb04a1a241f688",
       "executable": false
     },
     "src/terrace/notice-service.ts": {
@@ -4481,7 +4485,7 @@
       "executable": false
     },
     "test-budget.json": {
-      "sha256": "725de847e58c413df5a1b3ce7cd15680ffc0dd46999bad451c589f06ef16b342",
+      "sha256": "2db15822ed037e1deff6e03da4c176402c6d4795ddd35adf2fd8d9172bb649c3",
       "executable": false
     },
     "tests/action-requests-browser.mjs": {
@@ -4769,11 +4773,11 @@
       "executable": false
     },
     "tests/move-checklists.mjs": {
-      "sha256": "7fa2351af5c5d9356f4f5ad799b3700df1105407a40bdfd1a99f2563e0d8a325",
+      "sha256": "42527ef025b16bb90213ede2cccf8307549f5094a43997990267022b3bc9c721",
       "executable": false
     },
     "tests/move-out-browser.mjs": {
-      "sha256": "08cc06b518181ac9f129906ed6c55a15840681815756598953639ba23f98dc91",
+      "sha256": "0bb105368ac6ab5c58d5d91fddc545b1fc2dcca2fbbd5f997b44c602ac03b9fe",
       "executable": false
     },
     "tests/move-out.mjs": {
