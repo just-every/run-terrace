@@ -8,6 +8,8 @@ import {createCheckout,stripe} from './stripe-provider'
 export async function cardRows(c:Context,tenancyId:string){
  return all(c,`SELECT c.payment_id,c.request_key,c.initiated_by,c.state,c.checkout_id,c.intent_id,c.charge_id,c.payer_fee_cents,c.provider_fee_cents,c.provider_net_cents,c.last_event_id,r.outcome AS recovery_outcome,r.session_id AS recovery_session,r.event_id AS recovery_event,r.assigned_to,r.next_action,r.updated_at AS recovery_updated,o.display_name AS recovery_assignee,l.payment_id AS originating,p.amount_cents,p.recorded_at,p.state AS funds_state FROM tt_card_payments c JOIN tt_payments p ON p.id=c.payment_id LEFT JOIN tt_payment_recovery r ON r.payment_id=c.payment_id LEFT JOIN oa_operators o ON o.id=r.assigned_to LEFT JOIN tt_card_checkout_links l ON l.payment_id=c.payment_id WHERE p.tenancy_id=? ORDER BY p.recorded_at,c.payment_id`,tenancyId)
 }
+/** Provider reads must bind the same hosted operation, including recovery before local acknowledgment. */
+export const matchesCardSession=(session:Row,payment:Row,knownSession?:string|null)=>typeof session.id==='string'&&/^cs_test_[A-Za-z0-9]+$/.test(session.id)&&session.livemode===false&&session.mode==='payment'&&session.metadata?.terrace_payment_id===payment.payment_id&&session.amount_total===payment.amount_cents&&session.currency==='usd'&&(!payment.checkout_id||session.id===payment.checkout_id)&&(!knownSession||session.id===knownSession)
 /** No browser or staff outcome can post these funds: only verified provider events below. */
 export async function startCard(c:Context,env:Bindings,p:Row,proof:D1PreparedStatement[]){
  insist(env.RER_DEMO!=='1','demo_payment','Card collection is disabled in the demo.',403)
@@ -47,24 +49,27 @@ export async function verifiedCardEvent(env:Bindings,eventId:unknown,now:string,
  insist(await one(c,'SELECT 1 FROM tt_card_checkout_links WHERE payment_id=?',payment.payment_id),'restore_hold','This payment requires reconciliation in its originating installation.',409)
  const recovery=await one(c,'SELECT session_id FROM tt_payment_recovery WHERE payment_id=?',payment.payment_id)
  const replay=await one(c,'SELECT id FROM tt_card_events WHERE id=?',ev.id)
- if(replay)return{paymentId:payment.payment_id,replayed:true,state:payment.state,tenancyId:payment.tenancy_id}
+ if(replay){if(proof.length)await db.batch(proof);return{paymentId:payment.payment_id,replayed:true,state:payment.state,tenancyId:payment.tenancy_id}}
  const failed=ev.type==='payment_intent.payment_failed',expired=ev.type==='checkout.session.expired'
  let intent:Row|undefined,charge:Row|undefined
  if(failed){
-  const session=await stripe(env,'/checkout/sessions/'+(payment.checkout_id??recovery?.session_id))
-  insist(session.payment_intent===object.id,'provider_event','The failed attempt does not match this hosted session.',409)
+  const sessionId=payment.checkout_id??recovery?.session_id
+  insist(sessionId,'provider_event','The failed attempt has no confirmed hosted session.',409)
+  const session=await stripe(env,'/checkout/sessions/'+sessionId)
+  insist(matchesCardSession(session,payment,sessionId)&&session.payment_intent===object.id&&object.livemode===false&&object.currency==='usd'&&object.amount===payment.amount_cents,'provider_event','The failed attempt does not match this hosted session.',409)
  }else{
-  insist((!payment.checkout_id||object.id===payment.checkout_id)&&(!recovery?.session_id||object.id===recovery.session_id)&&object.currency==='usd'&&object.amount_total===payment.amount_cents,'provider_event','The hosted amount or session does not match.',409)
+  insist(matchesCardSession(object,payment,recovery?.session_id)&&(expired?object.status==='expired'&&object.payment_status==='unpaid':object.status==='complete'&&object.payment_status==='paid'),'provider_event','The hosted mode, amount, session or outcome does not match.',409)
   if(!expired){
-   insist(object.payment_status==='paid','provider_event','The hosted payment is not paid.',409)
+   insist(typeof object.payment_intent==='string','provider_event','The hosted payment has no provider payment.',409)
    intent=await stripe(env,'payment_intents/'+object.payment_intent)
-   insist(intent.status==='succeeded'&&intent.currency==='usd'&&intent.amount_received===payment.amount_cents&&intent.metadata?.terrace_payment_id===payment.payment_id,'provider_event','The provider payment does not match the reserved amount.',409)
+   insist(intent.id===object.payment_intent&&intent.livemode===false&&intent.status==='succeeded'&&intent.currency==='usd'&&intent.amount===payment.amount_cents&&intent.amount_received===payment.amount_cents&&intent.metadata?.terrace_payment_id===payment.payment_id&&typeof intent.latest_charge==='string','provider_event','The provider payment does not match the reserved amount.',409)
    charge=await stripe(env,'charges/'+intent.latest_charge)
    if(typeof charge.balance_transaction==='string')charge.balance_transaction=await stripe(env,'balance_transactions/'+charge.balance_transaction)
-   insist(charge.paid&&charge.captured&&!charge.refunded&&charge.amount===payment.amount_cents&&charge.payment_intent===intent.id,'provider_event','The provider charge is not a matching completed payment.',409)
+   insist(charge.id===intent.latest_charge&&charge.livemode===false&&charge.paid===true&&charge.captured===true&&charge.refunded===false&&charge.currency==='usd'&&charge.amount===payment.amount_cents&&charge.amount_captured===payment.amount_cents&&charge.amount_refunded===0&&charge.payment_intent===intent.id,'provider_event','The provider charge is not a matching completed payment.',409)
   }
  }
- const writes:D1PreparedStatement[]=[...proof,guard(c,'EXISTS(SELECT 1 FROM tt_card_checkout_links WHERE payment_id=?)',payment.payment_id),guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND erased_at IS NULL)',payment.tenancy_id),sql(c,'INSERT INTO tt_card_events VALUES(?,?,?,?,?,?)',ev.id,payment.payment_id,ev.type,object.id,ev.created,now)]
+ insist(!['paid','expired'].includes(payment.state)||payment.state===(expired?'expired':failed?payment.state:'paid'),'provider_conflict','This payment already has a different terminal outcome.',409)
+ const writes:D1PreparedStatement[]=[...proof,guard(c,'EXISTS(SELECT 1 FROM tt_card_checkout_links WHERE payment_id=?)',payment.payment_id),guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND erased_at IS NULL)',payment.tenancy_id),guard(c,'EXISTS(SELECT 1 FROM tt_card_payments WHERE payment_id=? AND state=?)',payment.payment_id,payment.state),sql(c,'INSERT INTO tt_card_events VALUES(?,?,?,?,?,?)',ev.id,payment.payment_id,ev.type,object.id,ev.created,now)]
  if(!failed&&payment.funds_state==='pending'){
   const state=expired?'failed':'settled',t=await tenancy(c,payment.tenancy_id),day=localDate(new Date(ev.created*1000).toISOString(),t.time_zone)
   writes.push(guard(c,"EXISTS(SELECT 1 FROM tt_payments WHERE id=? AND state='pending')",payment.payment_id),sql(c,'UPDATE tt_payments SET state=?,version=version+1 WHERE id=?',state,payment.payment_id))
@@ -73,6 +78,6 @@ export async function verifiedCardEvent(env:Bindings,eventId:unknown,now:string,
  }
  // A decline stays retryable in the same hosted session. Capacity is released only when Stripe expires the session.
  writes.push(sql(c,"UPDATE tt_payment_recovery SET outcome=CASE WHEN outcome='resolved' THEN outcome ELSE ? END,session_id=COALESCE(session_id,?),event_id=CASE WHEN outcome='resolved' THEN event_id ELSE ? END,next_action=CASE WHEN outcome='resolved' THEN next_action ELSE ? END,updated_at=? WHERE payment_id=?",!failed?'resolved':'awaiting_event',failed?payment.checkout_id:object.id,ev.id,!failed?'complete':'obtain_event',now,payment.payment_id),audit(c,'card.event',payment.payment_id,ev.type))
- try{await db.batch(writes)}catch(e){if(String(e).includes('UNIQUE constraint')&&await one(c,'SELECT id FROM tt_card_events WHERE id=?',ev.id))return{paymentId:payment.payment_id,replayed:true,tenancyId:payment.tenancy_id};throw e}
+ try{await db.batch(writes)}catch(e){if(/UNIQUE constraint|CHECK constraint/.test(String(e))&&await one(c,'SELECT id FROM tt_card_events WHERE id=?',ev.id)){if(proof.length)await db.batch(proof);return{paymentId:payment.payment_id,replayed:true,tenancyId:payment.tenancy_id}}throw e}
  return{paymentId:payment.payment_id,replayed:false,state:expired?'expired':failed?'declined':'paid',tenancyId:payment.tenancy_id}
 }
