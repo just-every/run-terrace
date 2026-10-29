@@ -4933,7 +4933,7 @@
       "executable": false
     },
     "tests/terrace.test.mjs": {
-      "sha256": "f56bd96cdb2db473dd34700887cb643ec5b7ae40771e4f96c152d0e7acefe06c",
+      "sha256": "121f8fcce0071f7896765fad578cf800c8ca90120859873ceaf3c7f8ebbd075c",
       "executable": false
     },
     "tests/trust-browser.mjs": {
