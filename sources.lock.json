@@ -709,7 +709,7 @@
       "executable": false
     },
     "public/app/controls.css": {
-      "sha256": "290301408e19c2061c0deb155a08507d49f0de60fdb06a2015d0542b961d856f",
+      "sha256": "e9790e1515f6d623e59c223a5b3362781d6d1ccf2d6544d40b686fb137ae4401",
       "executable": false
     },
     "public/app/field-capture.js": {
@@ -737,7 +737,7 @@
       "executable": false
     },
     "public/app/shell.css": {
-      "sha256": "28b064aa0d2621225bb3198ef43adabd9e547e493e2df5742d3012837fd0fc7b",
+      "sha256": "e8bd35f9c8f6fb97fc472594c12e6156bdd8dd008dbc9cf1755c77b442be74a0",
       "executable": false
     },
     "public/apple-touch-icon.png": {
@@ -1021,7 +1021,7 @@
       "executable": false
     },
     "scripts/contract-docs.mjs": {
-      "sha256": "b245995c3f8ea444a038a06ba9b51928180ae64ecea38ddeb56b9427127348df",
+      "sha256": "7c159dfcccb19ebbb4e8e6470d3336535e288aee06ef6fb86b858d300e86cb03",
       "executable": false
     },
     "scripts/delivery/base/artifact.mjs": {
@@ -3557,7 +3557,7 @@
       "executable": false
     },
     "src/terrace/card-view.ts": {
-      "sha256": "4271a3ee0005b2ab9463be2b9ebd80291b6953d7c24ef5a2ce530b29acc74c04",
+      "sha256": "f0c428a485a61f20f061975d930a12578a3a7383ab7dd0c40f89309cd1276534",
       "executable": false
     },
     "src/terrace/charge-concessions.ts": {
@@ -4049,7 +4049,7 @@
       "executable": false
     },
     "src/terrace/portal-request-view.ts": {
-      "sha256": "95dab03361fb5ae1c6b674f7cb8c577a7002916da1537be3893713867ec6c20d",
+      "sha256": "8abcfd3beeebe66b328a73d219158b32de055dceb9cb24d4a3cbfa367e03b887",
       "executable": false
     },
     "src/terrace/portal-requests.ts": {
@@ -4085,7 +4085,7 @@
       "executable": false
     },
     "src/terrace/portal-view.ts": {
-      "sha256": "acf7204a763e3f757fb90f40ffde90f5744d426b9db6932ba0e13fd673b88303",
+      "sha256": "f77f993fdc76cc5588cbdcc335ae7f502003adb287f6191f9eb87988ab11ff05",
       "executable": false
     },
     "src/terrace/portal.ts": {
@@ -4397,7 +4397,7 @@
       "executable": false
     },
     "src/terrace/view.ts": {
-      "sha256": "9bca1aee5c1dbc4d79544c20b55abf48d0c20461ec9fbc687737cfcbee1015e4",
+      "sha256": "1d2a2e6c84a560e2207f4894dc3b69bf904158cafc78e5d33caea04052e56cbe",
       "executable": false
     },
     "src/terrace/work-budgets.ts": {
@@ -4421,7 +4421,7 @@
       "executable": false
     },
     "src/terrace/work-view.ts": {
-      "sha256": "32c3e824672f40919ae578b3b67ac8df1ce4765c78d0cd320e07e8dbe037b399",
+      "sha256": "fa82dcb5a5e959cf0715899f8d5ed8d050d049df3e10fad4852b0cf3f9f0613b",
       "executable": false
     },
     "src/terrace/work.ts": {
@@ -4461,7 +4461,7 @@
       "executable": false
     },
     "test-budget.json": {
-      "sha256": "467a166e4a070c61f113990f477fbea3188550fbe47978d7a1acb5b2d5476d23",
+      "sha256": "aa8b5df585754c24ef9d4287db8f5d5114a3fefc9cebbcb148067ed2be632378",
       "executable": false
     },
     "tests/action-requests-browser.mjs": {
@@ -4541,7 +4541,7 @@
       "executable": false
     },
     "tests/card-payments-browser.mjs": {
-      "sha256": "65cde21ad0635efe3ad0438a8e2762f98ab636bfd4c132a7f94d594533dd60f9",
+      "sha256": "bac4e71c00fd45cfd19d9af30b7407623791b6a3550c08a1241c0951e5256dfb",
       "executable": false
     },
     "tests/card-payments-live.mjs": {
@@ -4785,7 +4785,7 @@
       "executable": false
     },
     "tests/portal-requests-browser.mjs": {
-      "sha256": "b7ceed40228393ba41063819f69fb98c8d63807b7b5e9437bb9b220cbc0f938e",
+      "sha256": "3ebb0e616179af6e9a2f0cc3a11da52e53b2ec7c7d77bf9a70e62f54d1ee2afa",
       "executable": false
     },
     "tests/portal-requests.mjs": {
@@ -4969,7 +4969,7 @@
       "executable": false
     },
     "verification.json": {
-      "sha256": "d477e546501a92fb3d915ecfdffdc819d999e92aaed10aaaf83c794e30c13aa4",
+      "sha256": "fadb52316ae57e212a4791efc2ce7ed730bb0809e63687149c8b5a70ffd8e944",
       "executable": false
     },
     "VERIFY-WORKFLOW.md": {
