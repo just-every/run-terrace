@@ -17,6 +17,12 @@ export async function beforeStep({ step, args, ...context }) {
 
 export async function afterStep({ step, args, result, ...context }) {
  const { get, send } = nativeHttp(context);
+ const state = async path => {
+  const value = await get(path);
+  // These fields render the current time; every persisted native field remains in the comparison.
+  if (value.work) { delete value.work.appointmentNow; delete value.work.today; }
+  return value;
+ };
  if (context.phase === 'held' && step.id === 'prepare-sensitive') {
   const pending = await context.tool(step.tool,{...args,idempotency_key:randomUUID()});
   const handle = pending.result?._meta?.['com.runeditrun/approval'];
@@ -40,10 +46,10 @@ export async function afterStep({ step, args, result, ...context }) {
   assert.deepEqual(workload.events.map(event => event.kind), ['queued', 'attempt', 'prepared']);
   assert.ok(workload.outcomeEvidence?.subjectId);
  } else if (step.id === 'revise') {
-  const before = await get(`/api/state?tenancy=${encodeURIComponent(result.tenancyId)}`);
+  const before = await state(`/api/state?tenancy=${encodeURIComponent(result.tenancyId)}`);
   const stale = await context.tool(step.tool, { ...args, idempotency_key: randomUUID() });
   assert.equal(stale.result?._meta?.['com.runeditrun/error']?.code, 'revision_conflict');
-  assert.deepEqual(await get(`/api/state?tenancy=${encodeURIComponent(result.tenancyId)}`), before);
+  assert.deepEqual(await state(`/api/state?tenancy=${encodeURIComponent(result.tenancyId)}`), before);
  } else if (step.tool === 'terrace.work.prepare') {
   const state = await get(`/api/state?tenancy=${encodeURIComponent(args.tenancyId)}`);
   const job = state.work.jobs.find(item => item.id === (result.job?.id ?? result.id));
@@ -51,10 +57,10 @@ export async function afterStep({ step, args, result, ...context }) {
   assert.equal(job.state, 'pending');
   assert.equal(job.approval_id, null);
   if (step.id === 'prepare') {
-   const before = await get(`/api/state?tenancy=${encodeURIComponent(args.tenancyId)}`);
+   const before = await state(`/api/state?tenancy=${encodeURIComponent(args.tenancyId)}`);
    const conflict = await context.tool(step.tool, { ...args, title: 'Changed effect using the original key' });
    assert.equal(conflict.result?._meta?.['com.runeditrun/error']?.code, 'idempotency_conflict');
-   assert.deepEqual(await get(`/api/state?tenancy=${encodeURIComponent(args.tenancyId)}`), before);
+   assert.deepEqual(await state(`/api/state?tenancy=${encodeURIComponent(args.tenancyId)}`), before);
   }
  }
 }

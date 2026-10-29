@@ -3869,7 +3869,7 @@
       "executable": false
     },
     "src/terrace/agent-door/reads.ts": {
-      "sha256": "d6976a1a593f9e295bc0c6177b2092edf9620fbbcfb50c1a9077bdf7343828d1",
+      "sha256": "28ac9027dff0a006d5ddf3bc3d4934b370fcce41dd8bec53f6fb24f168e27840",
       "executable": false
     },
     "src/terrace/agent-door/spec.d.mts": {
@@ -4909,7 +4909,7 @@
       "executable": false
     },
     "tests/agent-door/native-journey.mjs": {
-      "sha256": "7ecd0ade915240ee3439838ffc80483a5c73d365b34357eb386c1491df3fd926",
+      "sha256": "f67ab19027e948a3d3a46fc71a726f0916739c3b4ee28d32b99d056ab8160466",
       "executable": false
     },
     "tests/agent-door/phase-fixtures.mjs": {

@@ -18,6 +18,11 @@ export async function nativeWorkload(c: Context, args: Row) {
  await tenancy(c,row.tenancy_id)
  return row
 }
+/** Rendering clocks are context, not retained native effects. */
+async function retainedWork(c: Context, tenancyId: string) {
+ const { appointmentNow: _now, today: _today, ...records } = await workData(c,tenancyId)
+ return records
+}
 /** Native services retain role/portfolio filtering; the witness excludes auth and audit stores. */
 export async function read(c: Context, action: string, args: Row): Promise<Row> {
  if (action === 'company.read') return redactErrorReport(await companyData(c)) as Row
@@ -39,7 +44,7 @@ export async function read(c: Context, action: string, args: Row): Promise<Row> 
  const tenancies = await tenancyData(c)
  const records = await Promise.all(tenancies.map(async t => ({
   tenancy:t,proposals:await proposals(c,t.id),
-  ...(can(c,'work.read') ? {work:await workData(c,t.id)} : {}),
+  ...(can(c,'work.read') ? {work:await retainedWork(c,t.id)} : {}),
   ...(can(c,'correction.prepare') ? {corrections:await all(c,'SELECT id,kind,payload,reason,state FROM tt_close_corrections WHERE tenancy_id=? ORDER BY id',t.id)} : {}),
  })))
  const workloads = c.actor.role === 'owner' || c.actor.credential ? await agentWorkloads(c) : {workloads:[]}
