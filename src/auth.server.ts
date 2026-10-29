@@ -8,12 +8,14 @@ import { themeFrame } from './base/theme-frame'
 import { createOperatorAuth, createAuthHandler, createSignInHandler, defaultRolePolicy, devNotFound, type AuthConfig } from './modules/operator-auth/index.mjs'
 import { operatorMail } from './mail.server.mjs'
 import branding from './branding.json'
+import { businessSettings } from './terrace/agent-door/business.server'
 import { owesSecondFactor } from './terrace/second-factor'
 
 // The edition's declared theme (public/rer-theme.css), as Base frames link it.
 const theme = { href: '/rer-theme.css', productName: branding.name, accentColor: branding.primaryColor }
 
 export interface Bindings {
+ RER_BUSINESS_TRUST?: string
  TWILIO_ACCOUNT_SID?: string
  TWILIO_AUTH_TOKEN?: string
  TWILIO_FROM_NUMBER?: string
@@ -56,8 +58,12 @@ export const runtimeBindings = (env: Bindings): Bindings => env.RER_DEV_ORIGIN &
 export const authConfig = (env: Bindings): AuthConfig => ({ dependencies: true, origin: env.AUTH_ORIGIN, local: env.AUTH_LOCAL === 'true', OWNER_EMAIL: env.OWNER_EMAIL, SESSION_SECRET: env.SESSION_SECRET, SETUP_TOKEN: env.SETUP_TOKEN, MAIL_FROM: env.MAIL_FROM, branding: { productName: branding.name, accentColor: branding.primaryColor, signInPath: '/signin', theme: theme.href } })
 // ROLE-001: only the owner invites, deactivates, reactivates or changes the role of an operator; anyone may list and revoke their own sessions.
 const ownerControlsAccess: typeof defaultRolePolicy = input => (input.actor?.role === 'owner' || ((input.action === 'sessions:list' || input.action === 'sessions:revoke') && input.target?.id === input.actor?.id)) && defaultRolePolicy(input)
-export function operatorAuth(env: Bindings) {
+export function nativeOperatorAuth(env: Bindings) {
  return createOperatorAuth({ db: env.DB, config: authConfig(env), mailSender: operatorMail(env), clientIp: request => request.headers.get('CF-Connecting-IP') ?? '', rolePolicy: ownerControlsAccess })
+}
+
+export function operatorAuth(env: Bindings) {
+ return createOperatorAuth({ db: env.DB, config: authConfig(env), mailSender: operatorMail(env), clientIp: request => request.headers.get('CF-Connecting-IP') ?? '', rolePolicy: ownerControlsAccess, businessSettings: businessSettings(env) })
 }
 
 const SECOND_FACTOR_DOORS = new Set(['/auth/operators', '/auth/sessions', '/auth/session/revoke', '/auth/invite', '/auth/invite/cancel', '/auth/operator/status', '/auth/operator/role', '/auth/domain-rules', '/auth/settings/identity', '/auth/providers', '/auth/providers/unlink', '/auth/providers/relink', '/auth/email', '/auth/display-name', '/auth/dependencies/relink', '/auth/dependencies/unlink'])

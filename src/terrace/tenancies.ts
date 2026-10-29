@@ -66,4 +66,4 @@ export async function tenancyCommand(c: Context, command: string, p: Row): Promi
  }
 }
 export const tenancyData = (c:Context) => all(c,'SELECT * FROM tt_tenancies WHERE erased_at IS NULL ORDER BY address,tenant_name').then(rows=>rows.filter(t=>reaches(c,t.unit_id)))
-export const proposals = (c:Context,tenancyId:string) => all(c,"SELECT p.*,COALESCE(a.display_name,p.prepared_by) AS prepared_name,COALESCE(b.display_name,p.approved_by) AS approved_name FROM tt_proposals p LEFT JOIN oa_operators a ON a.id=p.prepared_by LEFT JOIN oa_operators b ON b.id=p.approved_by WHERE p.tenancy_id=? AND p.kind IN ('renewal','arrears') ORDER BY p.prepared_at DESC",tenancyId)
+export const proposals = (c:Context,tenancyId:string) => all(c,"SELECT p.*,COALESCE((SELECT h.agent_label FROM tt_audit h WHERE h.subject=p.id AND h.agent_label IS NOT NULL ORDER BY h.at LIMIT 1),a.display_name,p.prepared_by) AS prepared_name,COALESCE(b.display_name,p.approved_by) AS approved_name FROM tt_proposals p LEFT JOIN oa_operators a ON a.id=p.prepared_by LEFT JOIN oa_operators b ON b.id=p.approved_by WHERE p.tenancy_id=? AND p.kind IN ('renewal','arrears') ORDER BY p.prepared_at DESC",tenancyId)

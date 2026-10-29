@@ -6,7 +6,7 @@ const ids=['LEASE-007','MOVE-001','MOVE-010','PORTAL-001','OPS-004','BOUND-002',
 if(!['write','check'].includes(mode))throw Error('Use contract-docs.mjs write or check')
 let source=await readFile('CONTRACT.md','utf8')
 const original=source
-const statusRows=source.split('\n').filter(line=>/^\| `[A-Z]+-\d+` \|/.test(line)).map(line=>line.split('|').slice(1,-1).map(cell=>cell.trim()))
+const statusRows=source.split('\n').filter(line=>/^\| `[A-Z][A-Z0-9-]*-\d+` \|/.test(line)).map(line=>line.split('|').slice(1,-1).map(cell=>cell.trim()))
 source=source.replace(/^\| (Published|Target and push further|All) \|.*$/gm,(_,label)=>{
  const rows=statusRows.filter(row=>label==='All'||(label==='Published'?row[2]==='published':row[2]!=='published'))
  return '| '+label+' | '+['done','partial','missing'].map(state=>rows.filter(row=>row[3]===state).length).concat(rows.length).join(' | ')+' |'

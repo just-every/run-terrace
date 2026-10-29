@@ -21,6 +21,13 @@ export async function credentialActor(db: D1Database, header: string, now: strin
  const c = { db, now } as Context
  const k = token ? await one(c, 'SELECT * FROM tt_api_credentials WHERE token_hash=? AND revoked_at IS NULL', await hash(token)) : null
  if (!k) throw new Fault('unauthorized', 'Send a current API credential as Authorization: Bearer.', 401)
+ return credentialRecordActor(db, k, now)
+}
+
+/** Re-read a native client by durable ID at door admission and again at execution. */
+export async function credentialRecordActor(db: D1Database, k: Row, now: string): Promise<Actor> {
+ insist(!k.revoked_at, 'unauthorized', 'This credential was revoked.', 401)
+ const c = { db, now } as Context
  const [actions, portfolios, units] = await Promise.all([
   all(c, 'SELECT action FROM tt_role_actions WHERE role=?', k.role),
   all(c, 'SELECT portfolio_id FROM tt_api_credential_portfolios WHERE credential_id=?', k.id),

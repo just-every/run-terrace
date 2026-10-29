@@ -1,3 +1,5 @@
+import { terraceAgentDoor } from './terrace/agent-door/index.server'
+import { businessSettings } from './terrace/agent-door/business.server'
 import { workflowScheduled } from './terrace/workflow-scheduler'
 import { withDemo } from './modules/demo/index.mjs'
 import { seedDemo } from './demo'
@@ -28,6 +30,11 @@ function noTransform(response: Response): Response {
 const worker = {
   scheduled: workflowScheduled,
   async fetch(request, env, execution) {
+    const native = runtimeBindings(env)
+    const settings = await businessSettings(native).handle(request)
+    if (settings) return rejectedResponse(request, settings)
+    const door = await terraceAgentDoor(native).handle(request)
+    if (door) return rejectedResponse(request, door)
     const asset = await staticAssetResponse(request, env)
     if (asset) return asset
     const auth = await authResponse(request, env)
