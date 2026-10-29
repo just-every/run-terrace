@@ -4901,7 +4901,7 @@
       "executable": false
     },
     "tests/terrace.test.mjs": {
-      "sha256": "722b8727b53ab8247399cf8684ffc865b49fcd0a3756985cfbefdebbbc77da9a",
+      "sha256": "a1194c21959e4d34eec27e5bff781f11550fe5ec7fa2e611cecc29ec4ad7b009",
       "executable": false
     },
     "tests/trust-browser.mjs": {
