@@ -3869,7 +3869,7 @@
       "executable": false
     },
     "src/terrace/agent-door/reads.ts": {
-      "sha256": "92caf295d2010482ffa01143c00d3ba276bda3ea0956b163ecb508a2e4916d00",
+      "sha256": "95a4244f1b6103d14a4216ff42910da9dfc7ac70a4d52a7eddccad110a87844b",
       "executable": false
     },
     "src/terrace/agent-door/spec.d.mts": {

@@ -21,7 +21,7 @@ export async function nativeWorkload(c: Context, args: Row) {
 /** Native services retain role/portfolio filtering; the witness excludes auth and audit stores. */
 export async function read(c: Context, action: string, args: Row): Promise<Row> {
  if (action === 'company.read') return redactErrorReport(await companyData(c)) as Row
- if (action === 'charges.preview') return await preview(c,args.month)
+ if (action === 'charges.preview') return redactErrorReport(await preview(c,args.month)) as Row
  if (action === 'tenancy.read') {
   const t = await tenancy(c,args.tenancyId)
   return redactErrorReport({tenancy:t,proposals:await proposals(c,t.id)}) as Row
