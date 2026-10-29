@@ -16,7 +16,7 @@ function mapped(value:unknown){
   insist(r&&typeof r==='object','shadow_rows','Each source row must be an object.')
   const out:Row={sourceRef:text(r.sourceRef,'Original source row reference',200),tenancyId:r.tenancyId?text(r.tenancyId,'Mapped lease',100):null,currency:text(r.currency,'Source currency',20)}
   insist(/^[A-Z]{3}$/.test(out.currency),'shadow_currency','Use the source row currency code; currencies are never converted.')
-  for(const k of SHADOW_FIELDS){insist(Number.isSafeInteger(r[k])&&Math.abs(r[k])<=100_000_000&&(['openingCents','closingCents'].includes(k)||r[k]>=0),'shadow_cents','Source values must be exact integer cents. Charges, receipts and reductions cannot be negative.');out[k]=r[k]}
+  for(const k of SHADOW_FIELDS){insist(Number.isSafeInteger(r[k])&&Math.abs(r[k])<=100_000_000,'shadow_cents','Source values must be signed exact integer cents.');out[k]=r[k]}
   return out
  })
 }
@@ -25,7 +25,7 @@ async function native(c:Context,propertyId:string,from:string,to:string){
  for(const t of await all(c,'SELECT t.* FROM tt_tenancies t JOIN tt_units u ON u.id=t.unit_id WHERE u.property_id=? AND t.erased_at IS NULL AND t.custody_retired_at IS NULL ORDER BY t.id',p.id)){
   subjects.push(t)
   const s=await statement(c,t.id,from,to)
-  if(t.start_date>to||((t.ended_on??t.end_date)<from&&!s.openingCents&&!s.events.length))continue
+  if((t.start_date>to||(t.ended_on??t.end_date)<from)&&!s.openingCents&&!s.events.length)continue
   const ledger=await ledgerData(c,t.id)
   const financialRevision=await digest(canonicalJson({charges:ledger.charges,receipts:ledger.receipts,adjustments:ledger.adjustments,hapCharges:ledger.hapCharges,hapEffects:ledger.hapEffects,migrationHistory:ledger.migrationHistory}))
   leases.push({financialRevision,tenancyId:t.id,household:t.tenant_name,address:t.address,currency:s.currency,timeZone:s.timeZone,startsAt:s.startsAt,endsBefore:s.endsBefore,openingCents:s.openingCents,chargesCents:s.events.reduce((n,e)=>n+e.chargeCents,0),receiptsCents:s.events.reduce((n,e)=>n+e.receiptCents,0),reductionsCents:s.events.reduce((n,e)=>n+e.adjustmentCents,0),closingCents:s.closingCents,events:s.events})
@@ -90,7 +90,7 @@ export async function shadowCommand(c:Context,command:string,p:Row):Promise<Row|
   insist(file instanceof File&&file.size>0&&file.size<=5*1024*1024,'shadow_file','Choose the source-statement original, up to 5 MB.')
   const bytes=new Uint8Array(await file.arrayBuffer()),hash=await sha256(bytes),reference=text(p.reference,'Source statement reference',500)
   insist(!await one(c,'SELECT 1 FROM tt_erased_document_files WHERE sha256=?',hash),'erased_original','This original was erased and cannot be recaptured.',409)
-  const existing=await one(c,'SELECT id FROM tt_shadow_runs WHERE property_id=? AND from_day=? AND to_day=? LIMIT 1',propertyId,from,to)
+  const existing=await one(c,'SELECT r.id FROM tt_shadow_runs r WHERE r.property_id=? AND r.from_day=? AND r.to_day=? AND NOT EXISTS(SELECT 1 FROM tt_shadow_subjects s JOIN tt_tenancies t ON t.id=s.tenancy_id WHERE s.run_id=r.id AND (t.erased_at IS NOT NULL OR t.custody_retired_at IS NOT NULL)) LIMIT 1',propertyId,from,to)
   insist(!existing||p.replacesId,'shadow_revision','Select the latest comparison to revise this property and period; previous reviews remain retained.',409)
   const previous=p.replacesId?await run(c,p.replacesId):null
   if(previous)insist(previous.property_id===propertyId&&previous.from_day===from&&previous.to_day===to,'shadow_period','A source revision must retain the exact property and period.',409)
