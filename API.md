@@ -99,6 +99,9 @@ OPS-003: workflow commands. `workflow.template` (owner or every-portfolio manage
 | `completion.record` | jobId, completedDate, summary, reference, callback (warranty/billable, return visits); optional WORK-007 attachment: fieldEvidence=yes, jobVersion, approvalId, laborMinutes (whole minutes), materials (or explicit none), accessOutcome (granted/not_needed/no_access), completedTasks (every approved task, one per line), beforePhotoId, afterPhotoId (distinct originals from this tenancy) | Owner, portfolio manager, maintenance coordinator, member, after handoff; the vendor's report recorded by staff (WORK-008) |
 | `completion.check` | jobId, outcome (confirmed/unresolved/no_response), note, satisfaction?, safetyConcern? | Owner, portfolio manager, maintenance coordinator, member; the resident's answer recorded by staff, resident not contacted by Terrace |
 | `completion.close` | jobId, reason | Owner, portfolio manager; closes without the resident's confirmation |
+| `shadow.capture` | Multipart: propertyId, from, to, source file, reference, synthetic=yes for synthetic originals, rows as the documented JSON array; replacesId for the latest capture of an existing period | Signed-in owner only; no API credentials |
+| `shadow.action` | runId, issueKey, responsibleId (current owner), dueOn, nextAction | Signed-in owner only; documentary held follow-up |
+| `shadow.review` | runId, exact fingerprint, reference, consent=RECORD ONLY; every difference needs an accountable next action | Signed-in owner only; no cutover or collection authority |
 | `migration.preview`, `migration.apply`, `migration.journal` | Exact complete manifest, reviewed fingerprint or retained migration id; see [migration format](docs/move-in.md) | Owner |
 | `import.preview`, `import.apply`, `import.journal`, `import.undo` | See [move-in contract](docs/move-in.md) | Owner |
 | `tenancy.erase` | tenancyId, confirm (exact tenant email) | Owner |
@@ -370,3 +373,12 @@ Response downloads first use `/api/document-access?id=VERSION` to authorize the 
 SAFE-003: `GET /api/document-access?id=VERSION` checks the current role and portfolio, then redirects to an authorized original. Add `format=json` to obtain `url` and `expiresAt` instead. Restricted originals (applications, screening, tax and professional responses) use a five-minute HMAC authorization bound to the exact version, original hash, current person, session and role revision. `/api/document` refuses a restricted original without that authorization. An old URL, another session, expired authorization, revoked role or changed portfolio cannot bypass current access checks. Unrestricted originals retain their ordinary authenticated download. Restore re-creates neither session nor authorization.
 
 Restricted document titles, filenames, source references and content snippets redact formatted identity numbers, long payment numbers and labelled credential values. The native search field also redacts those values on display. The readable export redacts restricted document metadata and omits indexed original text from its CSV metadata; the separate original file remains byte-for-byte intact with its checksum. The private backup keeps full custody for restore. These bounded rules do not claim universal data classification or a malware verdict. Unexpected errors expose a generic message; recognised input errors retain their useful explanation with the same redaction, and audit source strings redact those credential and identifier patterns.
+
+## Documentary shadow rent reads
+
+`GET /api/shadow-runs` returns retained source hashes, explicit mappings, each
+lease comparison, open differences, follow-up history and exact reviews.
+`GET /api/shadow-original?id=ID` downloads the exact original bytes with private
+no-store headers and `X-Source-Sha256`. Both require the current signed-in owner.
+A replaced source, changed native statement or restored installation cannot use
+a prior review as current evidence. See [documentary shadow rent](docs/move-in.md).
