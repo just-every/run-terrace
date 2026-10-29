@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "b9e9780c21664f8fe6f79d23959a6e74c324250a30543ee2ea59c96a712d4c64",
+      "sha256": "5634cc99ddb04b6981991d09a00702a39244e3236de85a1be8cc98a0d9af17c9",
       "executable": false
     },
     "AGENTS.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "d3fc14c8d3d2666e3b14bd0fc173ce505e883fe62beb6937b27208af2fad2cc7",
+      "sha256": "8a06ba7112f44933347c973bc265d553d42aa3c1bbff535f56ea5ea3ac7850f2",
       "executable": false
     },
     "DEMO.md": {
@@ -161,7 +161,7 @@
       "executable": false
     },
     "docs/card-payments.md": {
-      "sha256": "3ce6c86e3591f37240a14a816e179de5e5f540f2b229381d745795c48ea63cfa",
+      "sha256": "a52e18eb698f75798cd6a1cdd16ecea218dae31cc9a26ed9b6e4756ea59e212f",
       "executable": false
     },
     "docs/CLAIMS.md": {
@@ -989,7 +989,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "b4fbc393c22e2a7191930c8853ad65314ede1362741f8e5554dc912026837c00",
+      "sha256": "debb55787d5c1e6ad657f346baabdd02acc2524d30ff17b2df10df255b6aa658",
       "executable": false
     },
     "rer-project.json": {
@@ -4501,7 +4501,7 @@
       "executable": false
     },
     "tests/card-payments.mjs": {
-      "sha256": "a28cccaa6584a02f0d855d9a6159d97090ac4db8adb06b1a6780d5d35cec7018",
+      "sha256": "f7280819ec38af210790956da3957dd9b7801e1c53751f30a2baef06b382eecb",
       "executable": false
     },
     "tests/credentials-browser.mjs": {

@@ -14,7 +14,10 @@ export async function cardFixture({assets=false,live=false,bufferedTransport=liv
    return response
   }
   if(provider)return provider(request)
-  if(request.method==='GET')await edge.beforeRead?.(request)
+  if(request.method==='GET'){
+   await edge.beforeRead?.(request)
+   if(edge.delayNextRead){edge.delayNextRead=false;await new Promise(resolve=>setTimeout(resolve,16000))}
+  }
   const body=new URLSearchParams(await request.text()),key=request.headers.get('idempotency-key')
   if(url.pathname==='/v1/checkout/sessions'&&request.method==='POST'){
    if(sessions.has(key))return Response.json(sessions.get(key))
@@ -125,6 +128,13 @@ async function recoveryJourney({h,t,pay,calls,sessions,events,intents,charges,ed
  const beforeDenied=calls.length
  await h.command('payment.card.lookup',{...args,sessionId:session.id},{as:manager,status:404})
  assert.equal(calls.length,beforeDenied,'out-of-scope lookup never reaches Stripe')
+ edge.delayNextRead=true
+ assert.equal((await h.command('payment.card.lookup',{...args,sessionId:session.id})).outcome,'unknown','a timed-out provider lookup cannot accept its delayed valid session')
+ assert.equal((await caseRow()).session_id,null,'lookup timeout retains the unconfirmed original session')
+ assert.equal((await caseRow()).next_action,'inspect_provider')
+ assert.equal((await h.state(t.id)).ledger.payments.pendingCents,pending,'lookup timeout cannot release the reservation')
+ await h.restart()
+ assert.equal((await caseRow()).outcome,'unknown','lookup timeout remains visible after Worker restart')
  const unknown=await h.command('payment.card.lookup',{...args,sessionId:'cs_test_syntheticterraceunknown'})
  assert.equal(unknown.outcome,'unknown');assert.equal((await caseRow()).outcome,'unknown')
  assert.equal((await h.state(t.id)).ledger.payments.pendingCents,pending)
