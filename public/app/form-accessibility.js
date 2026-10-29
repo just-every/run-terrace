@@ -1,3 +1,12 @@
+// Keep the whole focused link visible inside the scrolling phone navigation.
+for (const navigation of document.querySelectorAll('.app-nav')) {
+  navigation.addEventListener('focusin', event => {
+    if (event.target instanceof HTMLAnchorElement) {
+      event.target.scrollIntoView({block: 'nearest', inline: 'nearest'})
+    }
+  })
+}
+
 // Progressive validation for Terrace-owned forms; the server remains authoritative.
 for (const [index, form] of [...document.querySelectorAll('form[data-accessible-form]')].entries()) {
   const summary = document.createElement('div')

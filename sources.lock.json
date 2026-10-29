@@ -101,11 +101,11 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "ad42c5c283fb2b1784d919a246f4ead512bc5e5408a679bc7f42f028293e66fa",
+      "sha256": "92945fa1ba6110c4c362d89c2754fbaac582202fb8d85f1571df88577bad2067",
       "executable": false
     },
     "AGENTS.md": {
-      "sha256": "8c6a947a0429f67767381a5eed51ccb0d00dcdc2c6675d0e6d46031d2bf6291d",
+      "sha256": "280477c49d6b05d74bd07d0a5c234912064a68849c6586a6e29635c717fde7cc",
       "executable": false
     },
     "API.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "fb691a173557da6c8e9e12f68cf034cd018b8a838d6a4699519357d6737d1399",
+      "sha256": "d0ba916ad8870be2ec569a107998c46762a59e5846ed714d929ac365ebdbd204",
       "executable": false
     },
     "DEMO.md": {
@@ -714,6 +714,10 @@
     },
     "public/app/field-capture.js": {
       "sha256": "37356c4fd36d2bf34682a2db1b89ca90fdba397e85d24d8df56f74061006c9cd",
+      "executable": false
+    },
+    "public/app/form-accessibility.js": {
+      "sha256": "7b030b0a2d949464a3fc1333785d00ac2715857d8692df4986976b960c7466a1",
       "executable": false
     },
     "public/app/home.css": {
@@ -4461,7 +4465,11 @@
       "executable": false
     },
     "test-budget.json": {
-      "sha256": "aa8b5df585754c24ef9d4287db8f5d5114a3fefc9cebbcb148067ed2be632378",
+      "sha256": "1eacff5bef2afd8bdd88d9dcc1f91c3ba020bde28b2a32ec641ad94b2495afdf",
+      "executable": false
+    },
+    "tests/accessibility-browser.mjs": {
+      "sha256": "45ba2e2eeffd5593f77d347f1923467387568f17119582c3fa0486828c74f40a",
       "executable": false
     },
     "tests/action-requests-browser.mjs": {
@@ -4541,7 +4549,7 @@
       "executable": false
     },
     "tests/card-payments-browser.mjs": {
-      "sha256": "bac4e71c00fd45cfd19d9af30b7407623791b6a3550c08a1241c0951e5256dfb",
+      "sha256": "f32cbd329506d7a75053362fe1bf90a7e680e940dbd9323ba2c1c1bf06776d4d",
       "executable": false
     },
     "tests/card-payments-live.mjs": {
