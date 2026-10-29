@@ -15,12 +15,11 @@ export default async function prepare(context) {
   await setup.body?.cancel();
  }
  await stepUp(context);
- const label = `Synthetic Terrace steward ${phase} ${randomUUID()}`;
+ const label = `Synthetic Terrace steward ${phase} ${randomUUID()}`.slice(0,80);
  const portfolio = await command('portfolio.add', { name: label });
  const credential = await command('credential.mint', { label, role: 'portfolio_manager', scope: 'prepare', portfolioIds: [portfolio.id] });
  const local = { token: credential.token, clientId: credential.id, agent: { id: credential.id, name: label, specialist } };
  if (!local.token || !local.clientId) throw new Error('Native credential lifecycle omitted its identity');
- if (phase === 'initial') { current = { values: {}, local }; return { values: {}, clients: { local } }; }
 
  const today = new Date(), startDate = `${today.getUTCFullYear() - 1}-01-01`, endDate = `${today.getUTCFullYear() + 1}-12-31`;
  const dueOn = day(new Date(today.getTime() + 7 * 86_400_000));

@@ -1183,8 +1183,8 @@
   ],
   "verification": {
     "fixtures": {
-      "module": "tests/agent-door/fixtures.mjs"
+      "module": "tests/agent-door/phase-fixtures.mjs"
     },
-    "journey": "tests/agent-door/journey.mjs"
+    "journey": "tests/agent-door/native-journey.mjs"
   }
 }
