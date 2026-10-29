@@ -14,6 +14,7 @@ export async function serviceStatement(c:Context,r:Row,t:Row,p:Row){
  const tracking=p.tracking?text(p.tracking,'Certified tracking number',200):null
  const method=text(p.method,'Staff-recorded service method',200)
  if(/certified/i.test(method))insist(tracking,'tracking_required','Office certified mail requires its tracking number.')
+ if(p.printBatchId)await validatePrint(c,p.printBatchId,r.id)
  const photo=p.photo
  insist(photo instanceof File&&photo.size>0&&photo.size<=LIMIT,'photo_required','Attach the original service photograph, up to 5 MB.')
  insist(['image/png','image/jpeg'].includes(photo.type),'photo_type','Service evidence must be a PNG or JPEG photograph.')
@@ -21,7 +22,6 @@ export async function serviceStatement(c:Context,r:Row,t:Row,p:Row){
  insist(checked.ok,'file_refused',checked.ok?'':checked.reason,422)
  const hash=await sha256(bytes)
  insist(!await one(c,'SELECT 1 FROM tt_erased_document_files WHERE sha256=?',hash),'erased_artifact','This original was erased.',409)
- if(p.printBatchId)await validatePrint(c,p.printBatchId,r.id)
  return sql(c,'INSERT INTO tt_thread_service(thread_id,outcome,method,reference,served_at,actor,recorded_at,fingerprint,server_name,server_reference,occurred_at,tracking,photo_name,photo_type,photo_sha256,photo_bytes,print_batch_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',r.id,p.outcome,method,text(p.reference,'Named service evidence',1000),day,c.actor.id,c.now,r.fingerprint,server,identity,occurred,tracking,text(photo.name,'Photo filename',200),photo.type,hash,bytes,p.printBatchId||null)
 }
 export async function servicePhoto(c:Context,threadId:string){
