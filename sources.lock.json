@@ -1005,7 +1005,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "224ee8a905415ecefdb90c93b88692e661168a9feb06f2ee4ff9a4d3b4f655c3",
+      "sha256": "957559b40fd656a112858decbf7b055d0e9b19b6f1170764a2312ffbb50f23be",
       "executable": false
     },
     "rer-project.json": {
@@ -4797,11 +4797,11 @@
       "executable": false
     },
     "tests/portal-threads-browser.mjs": {
-      "sha256": "6573688814c876e87f966bad837d89f65f8679792f07f11fefac109cfede917b",
+      "sha256": "0031a4cb57d380a4da1f24d3529327143d4b7ce87a4df26d21cc7447652a6247",
       "executable": false
     },
     "tests/portal-threads.mjs": {
-      "sha256": "c5ae1f66d79199d95ce3bdc3fccd9ac5c626e82f5b5c1ecce1e0e908ccf030bd",
+      "sha256": "3aa6d77e3772e8bcf702e8afaf7a51c92d4477a70d47e9678b537cb6865777af",
       "executable": false
     },
     "tests/portal.mjs": {
