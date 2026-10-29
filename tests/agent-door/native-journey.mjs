@@ -65,7 +65,7 @@ export default async function nativeJourney(context) {
  const { values, local } = prepared;
  const answer = await context.tool('terrace.leases.get', { tenancyId: values.tenancy.id }, { client: 'local' });
  assert.equal(answer.status, 200);
- assert.equal(answer.result?.isError, undefined);
+ assert.equal(answer.result?.isError, false);
  assert.equal(answer.result?.structuredContent?.tenancy?.id, values.tenancy.id);
 
  const { send, command } = nativeHttp(context);
