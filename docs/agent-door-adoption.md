@@ -62,7 +62,7 @@ it does not turn that draft into a native financial, legal or outbound approval.
 
 ## Verification and sequencing
 
-Run normal `rer verify` using the pinned CLI. It builds and runs the ordinary
+Run normal `rer verify` using the pinned CLI after building the application. It runs the ordinary
 production Worker/schema and then the shared conformance harness. The contained
 phase fixture completes first-run setup, steps up through the real emailed link,
 mints scoped credentials and enqueues native workloads. It never writes SQL or
@@ -76,6 +76,8 @@ revocation. The native journey additionally checks the scoped local read,
 missing/hidden equivalence and credential revocation through production HTTP.
 Door arguments, decisions, pending approvals and replay outcomes are retained. The native resident erasure/export flow does not yet map or atomically redact those new stores; no agent custody or erasure tool is exposed, and native custody completion is not claimed. Base supplies no generic client-scoped erasure adapter. This remains a named integration gap, including its retention-versus-erasure decision.
 
+The executed source-shard command is `pnpm run typecheck && pnpm run build && SEED_VERIFY_SHARD=source pnpm run verify`; the normal CLI completed with 1675/1675 BASE-AGENT points, including the native journey. The full existing suite remains the CI wall. The native page walkthrough renders pending, rejected, paused and unavailable states at 1440 and 390. Unknown-subject, inactive-native-person and allow-list exclusion are enforced by the copied people adapter; separate signed-token fixtures for those three cases are not claimed here.
+
 No optional family is credited by its omission. Shared and specialist clauses
 remain PARTIAL where their broader acceptance is unproved.
 
@@ -88,7 +90,7 @@ The existing AGENT-001 through AGENT-009 remain unchanged. AGENT-010 through
 AGENT-013 are not present on main and are not invented here.
 
 This adoption uses the draft's company.get, leases.get, charges.preview,
-work.prepare, quotes.add, renewals.prepare, arrears.prepare, corrections.prepare
+work.prepare, quotes.add, renewals.prepare, arrears.prepare, corrections.prepare,
 work.get and workloads.get names. It adds portfolio.get for the native scoped witness,
 work.revise for maintenance.revise,
 and workloads.execute for exact assigned-credential execution. Native reassign
