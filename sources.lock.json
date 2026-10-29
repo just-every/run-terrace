@@ -1001,7 +1001,7 @@
       "executable": false
     },
     "README.md": {
-      "sha256": "ad76dd11847d37c285aaee031028a08fbb938960a8ee3d2eb6f3515deca17342",
+      "sha256": "7c53fa6454c050b23e3527480826f70e04fa8dc5a9c5adfd2187fbbd137681bf",
       "executable": false
     },
     "release-history/0.1.0.json": {
@@ -5357,7 +5357,7 @@
       "executable": false
     },
     "tests/site/provider-costs.mjs": {
-      "sha256": "9003d43ef04c6c89d6fe7db58eb50dc81556c0fc24d79e9a8c788169f4511dd6",
+      "sha256": "976f8edadbd44f1045b30f32a9ddc0edd9e484015d728900a70313a8e8ccdb9e",
       "executable": false
     },
     "tests/statements-browser.mjs": {
