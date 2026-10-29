@@ -4909,11 +4909,15 @@
       "executable": false
     },
     "tests/agent-door/native-journey.mjs": {
-      "sha256": "a83cdbc194502d1715208b68bbaed0024e8b410cc6f70fa5c02595c2de5216da",
+      "sha256": "ddd229cdae4fb7c92f6e39b929a72d894b824ef8546184abd7cad012ee126dcf",
       "executable": false
     },
     "tests/agent-door/phase-fixtures.mjs": {
       "sha256": "dc9fcfc40943c8c8d1d585e95980aced1f9a0abb7cbe8dc00ecd019f267145e8",
+      "executable": false
+    },
+    "tests/agent-door/screens.mjs": {
+      "sha256": "ecbd8729f3b210c7a2e17e5c2c328aafcf68138619564e6e244de1edd5ed3009",
       "executable": false
     },
     "tests/agent-workloads-browser.mjs": {

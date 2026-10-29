@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
+import { screens } from './screens.mjs';
 import { nativeHttp, stepUp } from './native-http.mjs';
 import { currentFixture } from './phase-fixtures.mjs';
 
@@ -15,7 +16,22 @@ export async function beforeStep({ step, args, ...context }) {
 }
 
 export async function afterStep({ step, args, result, ...context }) {
- const { get } = nativeHttp(context);
+ const { get, send } = nativeHttp(context);
+ if (context.phase === 'held' && step.id === 'prepare-sensitive') {
+  const pending = await context.tool(step.tool,{...args,idempotency_key:randomUUID()});
+  const handle = pending.result?._meta?.['com.runeditrun/approval'];
+  assert.ok(handle?.id, 'A protected draft must wait for its real person');
+  await screens(context,'agents-pending','/agents');
+  await screens(context,'approval-pending',`/agents/approvals/${encodeURIComponent(handle.id)}`);
+  const {approval} = await get(`/agents/api/approvals/${encodeURIComponent(handle.id)}`);
+  const rejected = await send(`/agents/api/approvals/${encodeURIComponent(handle.id)}/reject`,{method:'POST',body:JSON.stringify({revision:approval.revision,summary_sha256:approval.summary_sha256})});
+  assert.equal(rejected.status,200);await rejected.body?.cancel();
+  await screens(context,'approval-final',`/agents/approvals/${encodeURIComponent(handle.id)}`);
+  await screens(context,'work-prepared',`/app?tab=work&tenancy=${encodeURIComponent(args.tenancyId)}`);
+  await screens(context,'history','/app?tab=history');
+  await screens(context,'agent-docs','/docs/agents');
+  await screens(context,'approval-error','/agents/approvals/synthetic-missing');
+ }
  if (step.tool === 'terrace.workloads.execute') {
   const { workloads } = await get('/api/agent-workloads');
   const workload = workloads.find(item => item.id === args.workloadId);
@@ -58,6 +74,7 @@ export default async function nativeJourney(context) {
   assert.equal(response.status, 200); await response.body?.cancel();
  };
  await pause(true);
+ await screens(context,'agents-paused','/agents');
  const paused = await context.tool('terrace.company.get', {});
  assert.equal(paused.result?._meta?.['com.runeditrun/error']?.code, 'agents_paused');
  await pause(false);
