@@ -14,12 +14,13 @@ export async function cardFixture({assets=false,live=false,bufferedTransport=liv
    return response
   }
   if(provider)return provider(request)
+  if(request.method==='GET')await edge.beforeRead?.(request)
   const body=new URLSearchParams(await request.text()),key=request.headers.get('idempotency-key')
   if(url.pathname==='/v1/checkout/sessions'&&request.method==='POST'){
    if(sessions.has(key))return Response.json(sessions.get(key))
    assert.equal(body.get('allowed_payment_method_types[0]'),'card');assert.equal(body.get('line_items[0][price_data][currency]'),'usd')
    assert.equal(body.has('customer_email'),false,'no resident contact is disclosed')
-   const session={id:'cs_test_'+randomUUID().replaceAll('-',''),url:'https://checkout.stripe.com/c/pay/synthetic-terrace-1',livemode:false,mode:'payment',currency:'usd',amount_total:Number(body.get('line_items[0][price_data][unit_amount]')),metadata:{terrace_payment_id:body.get('metadata[terrace_payment_id]')},payment_status:'unpaid'}
+   const session={id:'cs_test_'+randomUUID().replaceAll('-',''),url:'https://checkout.stripe.com/c/pay/synthetic-terrace-1',livemode:false,mode:'payment',status:'open',currency:'usd',amount_total:Number(body.get('line_items[0][price_data][unit_amount]')),metadata:{terrace_payment_id:body.get('metadata[terrace_payment_id]')},payment_status:'unpaid'}
    sessions.set(key,session);if(edge.failNextCreate){edge.failNextCreate=false;return Response.json({error:{code:'synthetic_terrace_uncertain'}},{status:503})}return Response.json(session)
   }
   for(const [path,rows]of [['events',events],['payment_intents',intents],['charges',charges]])if(url.pathname.startsWith('/v1/'+path+'/')){const row=rows.get(url.pathname.split('/').at(-1));return row?Response.json(row):Response.json({error:{code:'resource_missing'}},{status:404})}
@@ -61,13 +62,13 @@ export async function journey({assets=false,bufferedTransport=false,inspect,acco
   await h.command('payment.settle',{paymentId:p.id,version:p.version,on:day,reference:'synthetic-terrace-83'},{status:409})
   const portalPending=await(await h.request('/portal/api/resident?tenancyId='+t.id,{as:resident})).json();assert.equal(portalPending.pendingCents,10000);assert.equal(portalPending.balanceCents,100000,'pending funds do not reduce the resident balance')
   const session=[...sessions.values()][0],intent='pi_syntheticterrace1',charge='ch_syntheticterrace1'
-  session.payment_intent=intent;intents.set(intent,{id:intent,livemode:false,status:'succeeded',currency:'usd',amount_received:10000,latest_charge:charge,metadata:session.metadata});charges.set(charge,{id:charge,livemode:false,paid:true,captured:true,refunded:false,amount:10000,payment_intent:intent,balance_transaction:{fee:320,net:9680}})
+  session.payment_intent=intent;intents.set(intent,{id:intent,livemode:false,status:'succeeded',currency:'usd',amount:10000,amount_received:10000,latest_charge:charge,metadata:session.metadata});charges.set(charge,{id:charge,livemode:false,paid:true,captured:true,refunded:false,currency:'usd',amount:10000,amount_captured:10000,amount_refunded:0,payment_intent:intent,balance_transaction:{fee:320,net:9680}})
   const notify=async ev=>{events.set(ev.id,ev);return h.request('/api/stripe/events',{method:'POST',as:'',body:{id:ev.id,data:{object:{amount_total:1}}}})}
   const make=(kind,obj,n)=>({id:'evt_syntheticterrace'+n,livemode:false,type:kind,created:Date.parse('2026-10-26T12:00:00Z')/1000,data:{object:structuredClone(obj)}})
   assert.equal((await h.request('/api/stripe/events',{method:'POST',as:'',body:{id:'evt_unknownterrace'}})).status,409,'invented events cannot post')
-  assert.equal((await notify(make('payment_intent.payment_failed',{id:intent,metadata:session.metadata},1))).status,200)
+  assert.equal((await notify(make('payment_intent.payment_failed',{id:intent,livemode:false,currency:'usd',amount:10000,metadata:session.metadata},1))).status,200)
   assert.equal((await h.state(t.id)).ledger.receipts.length,0,'decline posts nothing and can retry in the same hosted session')
-  session.payment_status='paid';const success=make('checkout.session.completed',session,2)
+  session.payment_status='paid';session.status='complete';const success=make('checkout.session.completed',session,2)
   const results=await Promise.all([notify(success),notify(success)]);for(const r of results)assert.equal(r.status,200,await r.clone().text())
   let ledger=(await h.state(t.id)).ledger;assert.equal(ledger.receipts.length,1);assert.equal(ledger.receipts[0].amount_cents,10000);assert.equal(ledger.balanceCents,90000);assert.equal(ledger.payments.pendingCents,0)
   await h.restart();assert.equal((await notify(success)).status,200);assert.equal((await h.state(t.id)).ledger.receipts.length,1)
@@ -79,7 +80,7 @@ export async function journey({assets=false,bufferedTransport=false,inspect,acco
   await h.command('payment.card',uncertainPay,{status:503});assert.equal((await h.state(t.id)).ledger.payments.pendingCents,5000,'an uncertain creation holds the original reservation')
   await inspect?.({phase:'uncertain',h,t,resident,pay:uncertainPay})
   const expiredStart=await h.command('payment.card',uncertainPay),second=[...sessions.values()].find(s=>s.metadata.terrace_payment_id===expiredStart.paymentId)
-  const expired=make('checkout.session.expired',second,3);assert.equal((await notify(expired)).status,200);ledger=(await h.state(t.id)).ledger;assert.equal(ledger.payments.pendingCents,0);assert.equal(ledger.receipts.length,1)
+  second.status='expired';const expired=make('checkout.session.expired',second,3);assert.equal((await notify(expired)).status,200);ledger=(await h.state(t.id)).ledger;assert.equal(ledger.payments.pendingCents,0);assert.equal(ledger.receipts.length,1)
   const recovered=await recoveryJourney({h,t,pay,calls,sessions,events,intents,charges,edge,inspect})
   const archive=await(await h.request('/api/backup')).text();assert.equal(archive.includes('checkout_url'),false,'hosted links stay in their installation')
   const fresh=await installation();try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'cards.rer')});assert.equal((await fresh.state(t.id)).ledger.receipts.length,2);assert.equal((await fresh.request('/portal/api/resident?tenancyId='+t.id,{as:resident})).status,401);assert.equal((await fresh.db.prepare('SELECT COUNT(*) AS n FROM tt_resident_document_shares').first()).n,0,'restoring originals does not restore sharing authority')}finally{await fresh.close()}
@@ -143,9 +144,9 @@ async function recoveryJourney({h,t,pay,calls,sessions,events,intents,charges,ed
  assert.equal(calls.filter(p=>p==='/v1/checkout/sessions').length,writes,'all recovery requests are reads; no new Checkout')
  await inspect?.({phase:'recovery-awaiting',h,t,paymentId,sessionId:session.id})
  const intent='pi_syntheticterracerecovery',charge='ch_syntheticterracerecovery'
- session.payment_intent=intent;session.payment_status='paid'
- intents.set(intent,{id:intent,livemode:false,status:'succeeded',currency:'usd',amount_received:6000,latest_charge:charge,metadata})
- charges.set(charge,{id:charge,livemode:false,paid:true,captured:true,refunded:false,amount:6000,payment_intent:intent,balance_transaction:{fee:200,net:5800}})
+ session.payment_intent=intent;session.payment_status='paid';session.status='complete'
+ intents.set(intent,{id:intent,livemode:false,status:'succeeded',currency:'usd',amount:6000,amount_received:6000,latest_charge:charge,metadata})
+ charges.set(charge,{id:charge,livemode:false,paid:true,captured:true,refunded:false,currency:'usd',amount:6000,amount_captured:6000,amount_refunded:0,payment_intent:intent,balance_transaction:{fee:200,net:5800}})
  const event={id:'evt_syntheticterracerecovery',livemode:false,type:'checkout.session.completed',created:Date.parse('2026-10-26T12:00:00Z')/1000,data:{object:structuredClone(session)}}
  events.set(event.id,event)
  const wrongEvent=[...events.values()].find(e=>e.type==='checkout.session.completed')
@@ -154,11 +155,36 @@ async function recoveryJourney({h,t,pay,calls,sessions,events,intents,charges,ed
  const wrongAmount={...structuredClone(event),id:'evt_syntheticterracewrongamount'};wrongAmount.data.object.amount_total=1;events.set(wrongAmount.id,wrongAmount)
  assert.equal((await h.command('payment.card.lookup',{...args,eventId:wrongAmount.id})).outcome,'conflicting')
  assert.equal((await h.state(t.id)).ledger.receipts.length,1);assert.equal((await h.state(t.id)).ledger.payments.pendingCents,pending)
+ // Canonical retrieval is necessary but every returned object must still bind the exact original operation.
+ for(const [label,change]of [
+  ['hosted mode',()=>{event.data.object.mode='subscription';return()=>{event.data.object.mode='payment'}}],
+  ['nested live mode',()=>{event.data.object.livemode=true;return()=>{event.data.object.livemode=false}}],
+  ['intent identity',()=>{intents.get(intent).id='pi_syntheticterraceother';charges.get(charge).payment_intent='pi_syntheticterraceother';return()=>{intents.get(intent).id=intent;charges.get(charge).payment_intent=intent}}],
+  ['charge identity',()=>{charges.get(charge).id='ch_syntheticterraceother';return()=>{charges.get(charge).id=charge}}],
+  ['partial refund',()=>{charges.get(charge).amount_refunded=1;return()=>{charges.get(charge).amount_refunded=0}}],
+  ['charge currency',()=>{charges.get(charge).currency='aud';return()=>{charges.get(charge).currency='usd'}}],
+  ['paid expiry',()=>{event.type='checkout.session.expired';return()=>{event.type='checkout.session.completed'}}],
+ ]){
+  const restore=change()
+  try{
+   assert.equal((await h.command('payment.card.lookup',{...args,eventId:event.id})).outcome,'conflicting',label+' cannot reconcile a different provider outcome')
+   assert.equal((await h.state(t.id)).ledger.receipts.length,1,label+' posts no money')
+   assert.equal((await h.state(t.id)).ledger.payments.pendingCents,pending,label+' cannot release an uncertain reservation')
+   assert.equal((await h.db.prepare('SELECT COUNT(*) AS n FROM tt_card_events WHERE id=?').bind(event.id).first()).n,0,label+' is not accepted as a verified event')
+  }finally{restore()}
+ }
  const removeEventFailure=await h.cardDatabaseFailure('event')
  await h.command('payment.card.lookup',{...args,eventId:event.id},{status:400})
  assert.equal((await h.state(t.id)).ledger.receipts.length,1,'failed canonical acknowledgment rolls back all ledger effects')
  assert.equal((await h.state(t.id)).ledger.payments.pendingCents,pending)
  await h.restart();await removeEventFailure()
+ const removeSettlementFailure=await h.cardDatabaseFailure('settlement')
+ await h.command('payment.card.lookup',{...args,eventId:event.id},{status:400})
+ assert.equal((await h.state(t.id)).ledger.receipts.length,1,'failure after ledger writes rolls back the receipt')
+ assert.equal((await h.state(t.id)).ledger.payments.pendingCents,pending,'failure after ledger writes restores the reservation')
+ assert.equal((await caseRow()).outcome,'conflicting','failed final acknowledgment cannot claim resolution')
+ assert.equal((await h.db.prepare('SELECT COUNT(*) AS n FROM tt_card_events WHERE id=?').bind(event.id).first()).n,0,'failed final acknowledgment rolls back the canonical event')
+ await h.restart();await removeSettlementFailure()
  // A restored pending case retains its worklist evidence but no execution authority, even with a configured provider.
  const archive=await(await h.request('/api/backup')).text(),restoredCalls=[]
  const fresh=await installation({stripeKey:'synthetic-terrace-1',stripeRequest:r=>{restoredCalls.push(r.url);return Response.json(event)}})
@@ -178,6 +204,24 @@ async function recoveryJourney({h,t,pay,calls,sessions,events,intents,charges,ed
  const ledger=(await h.state(t.id)).ledger
  assert.equal(ledger.receipts.length,2);assert.equal(ledger.receipts.filter(r=>r.amount_cents===6000).length,1);assert.equal(ledger.payments.pendingCents,0)
  await h.restart();await h.command('payment.card.lookup',{...args,eventId:event.id});assert.equal((await h.state(t.id)).ledger.receipts.length,2,'canonical recovery applies once after restart and replay')
+ const contradictory={...structuredClone(event),id:'evt_syntheticterracecontradiction',type:'checkout.session.expired'}
+ contradictory.data.object.status='expired';contradictory.data.object.payment_status='unpaid';events.set(contradictory.id,contradictory)
+ assert.equal((await h.command('payment.card.lookup',{...args,eventId:contradictory.id})).outcome,'conflicting','an opposite terminal outcome cannot replace the reconciled payment')
+ assert.equal((await caseRow()).event_id,event.id,'the original canonical resolution is retained')
+ assert.equal((await h.db.prepare('SELECT COUNT(*) AS n FROM tt_card_events WHERE id=?').bind(contradictory.id).first()).n,0,'contradictory evidence is not recorded as a verified outcome')
+ assert.equal((await h.state(t.id)).ledger.receipts.length,2,'a contradictory expiry cannot undo collected money')
+ // Authority is rechecked even when a previously accepted canonical event is replayed.
+ await h.command('operator.role',{operatorId:member.id,role:'portfolio_manager',allPortfolios:true})
+ const currentManager=await h.signIn(memberEmail)
+ const reads=(await(await h.request('/api/history?action=payment.card.lookup')).json()).rows.length
+ edge.beforeRead=async request=>{
+  if(new URL(request.url).pathname!=='/v1/events/'+event.id)return
+  edge.beforeRead=null
+  await h.command('operator.role',{operatorId:member.id,role:'member'})
+ }
+ await h.command('payment.card.lookup',{...args,eventId:event.id},{as:currentManager,status:400})
+ assert.equal((await(await h.request('/api/history?action=payment.card.lookup')).json()).rows.length,reads,'revoked in-flight replay creates no successful staff reconciliation audit')
+ assert.equal((await h.state(t.id)).ledger.receipts.length,2,'revoked replay changes no money')
  assert.equal(calls.filter(p=>p==='/v1/checkout/sessions').length,writes)
  await inspect?.({phase:'recovery-resolved',h,t,paymentId,sessionId:session.id})
  return {paymentId,eventId:event.id}

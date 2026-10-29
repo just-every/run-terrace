@@ -1,7 +1,7 @@
 import type {Bindings} from '../auth.server'
 import {allow,authority,audit,commit,Fault,guard,insist,one,sql,tenancy,tenancyGuard,type Context,type Row} from './core'
 import {stripe} from './stripe-provider'
-import {verifiedCardEvent} from './card-payments'
+import {matchesCardSession,verifiedCardEvent} from './card-payments'
 
 /** Cases are evidence. Only the nonportable Checkout link row grants originating-installation admission. */
 export async function recoveryPayment(c:Context,p:Row){
@@ -29,7 +29,7 @@ export async function paymentRecovery(c:Context,env:Bindings,name:string,p:Row){
    return {...result,notice:'Canonical event verified. Recovery evidence and ledger outcome saved.'}
   }
   const session=await stripe(env,'checkout/sessions/'+p.sessionId)
-  insist(session.id===p.sessionId&&session.livemode===false&&session.mode==='payment'&&session.metadata?.terrace_payment_id===row.payment_id&&session.amount_total===row.amount_cents&&session.currency==='usd'&&(!row.checkout_id||row.checkout_id===session.id)&&(!row.session_id||row.session_id===session.id),'provider_conflict','Provider evidence conflicts with this original payment.',409)
+  insist(session.id===p.sessionId&&matchesCardSession(session,row,row.session_id),'provider_conflict','Provider evidence conflicts with this original payment.',409)
   sessionId=session.id;outcome='awaiting_event'
  }catch(error){
   if(!(error instanceof Fault))throw error
