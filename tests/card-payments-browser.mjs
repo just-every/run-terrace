@@ -30,7 +30,7 @@ try{await journey({assets:true,bufferedTransport:process.argv.includes('--buffer
    if(phase==='recovery-restored')assert.equal(await item.getByRole('button').count(),0)
    await proof(phase)
   }else if(phase==='review'){
-   await page.goto(h.origin+'/portal/card?tenancy='+t.id);await landmarks(page)
+   await page.goto(h.origin+'/portal/lease?tenancy='+t.id);await keyboardTo(page,page.getByRole('link',{name:'Pay by card',exact:true}));await page.keyboard.press('Enter');await page.waitForURL(/\/portal\/card\?/);await landmarks(page)
    const form=page.getByRole('form',{name:'Prepare card payment',exact:true}),amount=form.getByRole('spinbutton',{name:'Payment amount USD',exact:true}),before=(await h.state(t.id)).ledger.payments.pendingCents
    await invalidForm(page,form,amount,'Payment amount USD');assert.equal((await h.state(t.id)).ledger.payments.pendingCents,before,'invalid preparation reserves no money')
    await page.keyboard.type(pay.amount);await page.keyboard.press('Tab');const consent=form.getByRole('checkbox');await keyboardTo(page,consent);await page.keyboard.press('Space');await visibleFocus(consent)
