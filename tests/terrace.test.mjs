@@ -561,7 +561,8 @@ test('MOVE-009: reviewed move-in, refuse-before-reverse undo, owner compensation
  const moves=(await(await h.request('/api/history?action=import.')).json()).rows;assert.ok(moves.some(x=>x.action==='import.apply'&&x.subject===third.job.id)&&moves.some(x=>x.action==='import.undo'&&x.subject===second.job.id))
 })
 test('complete backup restores into a fresh owner installation, preserving photos and import undo',async()=>{
- archiveBefore=await(await h.request('/api/backup')).text();const fresh=await installation()
+ // Buffer the refused archive before checking the restored session through the real Worker.
+ archiveBefore=await(await h.request('/api/backup')).text();const fresh=await installation({bufferedTransport:true})
  try{
   await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archiveBefore],'backup.rer')})
   const original=await h.state(t.id),restored=await fresh.state(t.id);assert.deepEqual(restored.tenancies,original.tenancies);assert.deepEqual(restored.ledger,original.ledger);assert.deepEqual(restored.work.photos,original.work.photos)
@@ -942,7 +943,7 @@ test('PORTAL-007: scoped request actions, expiry, replacement, validated origina
 import {journey as sharedThreadJourney} from './portal-threads.mjs'
 test('PORTAL-006: private notes, scoped conversations, exact notices and per-recipient building service evidence survive restore',sharedThreadJourney)
 
-test('LEASE-007: two private adult applications, durable drafts, originals, disclosed submission, requested revisions and verified household fee outcomes',applicationJourney)
+test('LEASE-007: two private adult applications, durable drafts, originals, disclosed submission, requested revisions and verified household fee outcomes with read-only disclosed income review',applicationJourney)
 
 import {journey as referralJourney} from './professional-referrals.mjs'
 test('BOUND-002: scoped professional referrals retain held sources, documentary responses and fenced originals',referralJourney)

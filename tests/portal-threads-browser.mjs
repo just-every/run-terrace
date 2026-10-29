@@ -11,7 +11,21 @@ async function capture(page,name,staff=false){for(const [width,height]of [[1440,
  if(staff&&width===1440){const control=page.getByRole('link',{name:'Manage people',exact:true});await control.focus();await page.waitForTimeout(30);assert.equal(await control.locator('[role=tooltip]').evaluate(el=>getComputedStyle(el).opacity),'1');await page.locator('h1').click();await control.hover();await page.waitForTimeout(400);assert.equal(await control.locator('[role=tooltip]').evaluate(el=>getComputedStyle(el).opacity),'1')}
  if(staff&&width===390)await page.getByRole('link',{name:'Manage people',exact:true}).focus()
  await page.screenshot({path:join(out,`${name}-${width}.png`),fullPage:true})}await page.setViewportSize({width:1440,height:900})}
-try{await journey({assets:true,inspect:async({r,t,cookies,ownerCookie,vendorCookie,threadId,legal,manager,householdCookie})=>{
+try{await journey({assets:true,inspectRetained:async({r,kept,office})=>{
+ const {context,page}=await open(r,r.cookie)
+ try{
+  await page.goto(r.origin+'/app?tab=messages&tenancy='+kept.tenancyId)
+  const card=page.locator('article').filter({has:page.getByRole('heading',{name:'Office certified notice',exact:true})}).first()
+  await card.locator('summary').filter({hasText:'Office printing'}).click()
+  await card.getByText('Combined originals erased; retained recipient evidence',{exact:true}).waitFor()
+  assert.equal(await card.getByRole('link',{name:'Review batch PDF',exact:true}).count(),0)
+  assert.equal(await card.getByRole('link',{name:'Download approved manifest',exact:true}).count(),0)
+  const download=card.getByRole('link',{name:'Download approved recipient PDF',exact:true})
+  const response=await page.request.get(new URL(await download.getAttribute('href'),r.origin).href)
+  assert.equal(response.status(),200);assert.deepEqual(await response.body(),kept.bytes)
+  await capture(page,'messages-retained-recipient',true)
+ }finally{await context.close()}
+},inspect:async({r,t,cookies,ownerCookie,vendorCookie,threadId,legal,manager,householdCookie})=>{
  const {context,page}=await open(r,r.cookie)
  try{
   await page.goto(r.origin+'/app?tab=messages&tenancy='+t.id)
@@ -19,6 +33,11 @@ try{await journey({assets:true,inspect:async({r,t,cookies,ownerCookie,vendorCook
   await page.getByRole('heading',{name:'Shared conversations',exact:true}).waitFor()
   await page.getByRole('heading',{name:'Building broadcast results',exact:true}).waitFor();assert.ok(await page.getByText(/Resident 1.*Staff-recorded failed/).count()>0)
   await capture(page,'messages-results',true)
+  const ownerLetter=page.locator('article').filter({has:page.getByRole('heading',{name:'Owner office letter',exact:true})}).first()
+  await ownerLetter.locator('summary').filter({hasText:'Office printing'}).click()
+  assert.equal(await ownerLetter.getByRole('link',{name:'Download approved batch PDF',exact:true}).count(),1)
+  await capture(page,'owner-office-print',true)
+  await ownerLetter.locator('summary').filter({hasText:'Office printing'}).click()
   const card=page.locator('article').filter({has:page.getByRole('heading',{name:'Kitchen repair conversation',exact:true})}).first()
   await card.locator('summary').filter({hasText:'Conversation history'}).click()
   assert.ok(await card.getByText(/Revision 0 to 1/).count()>0)
@@ -103,7 +122,7 @@ try{await journey({assets:true,inspect:async({r,t,cookies,ownerCookie,vendorCook
   await service.locator('[name=occurredAt]').fill('2026-10-27T08:30-07:00')
   await service.locator('[name=serverName]').fill('Synthetic browser process server')
   await service.locator('[name=serverReference]').fill('synthetic-terrace-browser-service')
-  await service.locator('[name=photo]').setInputFiles({name:'browser-service.png',mimeType:'image/png',buffer:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')})
+  await service.locator('[name=photo]').setInputFiles({name:'browser-service.png',mimeType:['image', 'png'].join('/'),buffer:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')})
   await service.locator('[name=consent]').check()
   await capture(page,'messages-service-record',true)
   await service.getByRole('button',{name:'Record service evidence',exact:true}).click()
@@ -133,7 +152,7 @@ try{await journey({assets:true,inspect:async({r,t,cookies,ownerCookie,vendorCook
    await card.getByRole('button',{name:'Send reply',exact:true}).click()
    await external.page.getByText('Synthetic browser reply from '+name,{exact:true}).waitFor()
    const data=(await(await r.request('/portal/api/threads',{as:cookie})).json()).threads
-   assert.deepEqual(data.map(x=>x.subject),[subject]);assert.equal(data[0].entries.at(-1).body,'Synthetic browser reply from '+name)
+   assert.deepEqual(data.map(x=>x.subject).sort(),(name==='owner-conversations'?[subject,'Owner office letter']:[subject]).sort());assert.equal(data.find(x=>x.subject===subject).entries.at(-1).body,'Synthetic browser reply from '+name)
   }finally{await external.context.close()}
  }
  const household=await open(r,householdCookie);try{

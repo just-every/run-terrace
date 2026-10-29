@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
 const servicePng=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')
 import {installation,tenancyInput} from './api/harness.mjs'
-export async function journey({assets=false,inspect}={}){
+export async function journey({assets=false,inspect,inspectRetained}={}){
  const r=await installation({assets,now:'2026-10-27T16:00:00.000Z'})
  try{
   await r.stepUp()
@@ -11,13 +11,13 @@ export async function journey({assets=false,inspect}={}){
   for(let i=0;i<3;i++){
    const p=i===1?properties[0]:await r.command('property.add',{portfolioId:i===2?south.id:north.id,name:i===2?'Cedar House':'Alder House',address:'Synthetic property '+i+', Oakland, CA',kind:'duplex',timeZone:'America/Los_Angeles'});properties.push(p)
    const u=await r.command('unit.add',{propertyId:p.id,identifier:String(i+1),bedrooms:'2',bathrooms:'1'})
-   const t=await r.command('tenancy.create',{...tenancyInput,address:'Synthetic home '+i+', Oakland, CA',unitId:u.id,tenantEmail:`resident${i}@example.test`});tenants.push(t)
+   const t=await r.command('tenancy.create',{...tenancyInput,...(i===1?{endDate:'2040-12-31'}:{}),address:'Synthetic home '+i+', Oakland, CA',unitId:u.id,tenantEmail:`resident${i}@example.test`});tenants.push(t)
    grants.push(await r.command('portal.invite',{kind:'resident',tenancyId:t.id,email:`resident${i}@example.test`,displayName:'Resident '+i,source:'Synthetic explicit portal consent'}));cookies.push(await r.portalSignIn(`resident${i}@example.test`))
   }
   const staff={};for(const [key,role,p] of [['manager','portfolio_manager',north.id],['south','portfolio_manager',south.id],['member','member',north.id]]){await r.command('operator.invite',{displayName:key,email:key+'@example.test',role,portfolioIds:[p]});staff[key]=await r.accept(key+'@example.test')}
   const t=tenants[0],create=(extra={},opts={})=>r.command('thread.create',{tenancyId:t.id,grantId:grants[0].grantId,kind:'conversation',subject:'Kitchen repair conversation',body:'Please confirm the kitchen repair details.',deadline:'2026-11-01',consentReference:'Synthetic explicit channel permission for named recipients',...extra},opts)
   const data=async(id,as=r.cookie)=>{const res=await r.request('/api/threads?id='+id,{as});assert.equal(res.status,200,await res.clone().text());return(await res.json()).threads[0]}
-  const mutate=async(command,id,extra={},opts={})=>{const d=await data(id);return (command==='service'?r.formCommand:r.command)('thread.'+command,{...(command==='service'?{serverName:'Synthetic process server',serverReference:'synthetic-terrace-service-1',occurredAt:'2026-10-27T08:30-07:00',photo:new File([servicePng],'service.png',{type:'image/png'})}:{}),threadId:id,version:d.version,fingerprint:d.fingerprint,...extra},opts)}
+  const mutate=async(command,id,extra={},opts={})=>{const d=await data(id);return (command==='service'?r.formCommand:r.command)('thread.'+command,{...(command==='service'?{serverName:'Synthetic process server',serverReference:'synthetic-terrace-service-1',occurredAt:'2026-10-27T08:30-07:00',photo:new File([servicePng],'service.png',{type:['image', 'png'].join('/')})}:{}),threadId:id,version:d.version,fingerprint:d.fingerprint,...extra},opts)}
   const shared=async(cookie,id)=>{const res=await r.request('/portal/api/threads'+(id?'?id='+id:''),{as:cookie});assert.equal(res.status,200,await res.clone().text());return(await res.json()).threads}
   await create({}, {as:staff.member,status:403});
   const oldProof=Date.now()-20*60000;await r.db.prepare("UPDATE oa_sessions SET created_at=? WHERE operator_id IN (SELECT id FROM oa_operators WHERE email='manager@example.test')").bind(oldProof).run();
@@ -112,7 +112,7 @@ export async function journey({assets=false,inspect}={}){
    if(expected===404)await create({kind:'legal',grantId:coTenant.grant.grantId},{status:404})
   }
   await r.db.prepare('UPDATE tt_household_members SET joined=?,left_on=NULL WHERE id=?').bind('2025-01-01',coTenant.member.id).run()
-  const office=await officePrintJourney({r,t,create,data,mutate,staff,manager,grants,servicePng})
+  const office=await officePrintJourney({r,t,create,data,mutate,staff,manager,grants,ownerGrant,servicePng})
   const legal=await r.formCommand('thread.create',{tenancyId:t.id,grantId:grants[0].grantId,kind:'legal',subject:'Exact reviewed informational notice',body:'Synthetic counsel-reviewed notice terms',deadline:'2026-11-01',consentReference:'Synthetic explicit permission for this original',file:new File(['Synthetic exact legal original'],'notice.txt',{type:'text/plain'})})
   await mutate('service',legal.id,{outcome:'delivered',fingerprint:(await data(legal.id)).fingerprint},{status:409})
   await mutate('approve',legal.id,{consent:'APPROVE EXACT MESSAGE',reference:'Synthetic counsel service authorization'})
@@ -217,7 +217,18 @@ export async function journey({assets=false,inspect}={}){
    await future.command('tenancy.erase',{tenancyId:t.id,requestId:request.id,fingerprint:reviewed.review.fingerprint,confirm:'resident0@example.test'})
    assert.equal((await future.request('/api/thread-file?id='+publicEntry.id)).status,404)
    assert.equal((await future.request('/api/thread-print?id='+office.printBatchId)).status,404)
-   assert.equal((await future.db.prepare('SELECT COUNT(*) AS n FROM tt_print_batches WHERE id=?').bind(office.printBatchId).first()).n,0)
+   const retainedThread=office.noticeIds.find(id=>id!==office.threadId&&office.recipientPdfs.some(item=>item.threadId===id&&item.tenancyId!==t.id))
+   const retained=(await(await future.request('/api/threads?id='+retainedThread)).json()).threads[0]
+   assert.equal(retained.prints.length,1,'erasing one tenancy preserves another tenancy frozen print and approval')
+   assert.equal(retained.prints[0].approved,true)
+   const retiredBatch=await future.db.prepare('SELECT manifest,length(pdf_bytes) AS size FROM tt_print_batches WHERE id=?').bind(office.printBatchId).first()
+   assert.equal(retiredBatch.manifest,'','combined manifest containing erased recipients is removed')
+   assert.equal(retiredBatch.size,0,'combined PDF containing erased recipients is removed')
+   const retainedExport=Buffer.from(await(await future.request('/api/readable-export')).arrayBuffer())
+   const preserved=office.recipientPdfs.find(item=>item.threadId===retainedThread)
+   assert.deepEqual(zipEntries(retainedExport).get('files/tt_print_items/'+preserved.id+'.pdf'),preserved.bytes)
+   assert.ok(!zipEntries(retainedExport).has('files/tt_print_items/'+office.recipientPdfs.find(item=>item.tenancyId===t.id).id+'.pdf'))
+   assert.equal((await future.db.prepare('SELECT COUNT(*) AS n FROM tt_erased_document_files WHERE sha256=?').bind(preserved.sha256).first()).n,0,'another tenancy original is never fenced as erased')
    assert.equal((await future.db.prepare('SELECT COUNT(*) AS n FROM tt_erased_document_files WHERE sha256=?').bind(office.pdfSha256).first()).n,1)
    assert.equal((await(await future.request('/api/threads')).json()).threads.some(x=>x.tenancy_id===t.id),false)
    assert.equal((await future.db.prepare('SELECT COUNT(*) AS n FROM tt_erased_document_files WHERE sha256=?').bind(publicEntry.sha256).first()).n,1)
@@ -239,9 +250,10 @@ export async function journey({assets=false,inspect}={}){
   const replacementOwner=await r.command('owner.add',{kind:'individual',legalName:'Synthetic successor owner',email:'successor@example.test',mailingAddress:'Synthetic successor address'})
   await r.command('ownership.set',{propertyId:properties[0].id,effectiveFrom:'2026-10-28',reason:'Synthetic dated transfer',shares:[{ownerId:replacementOwner.id,percent:'100'}]})
   const currentOwnerCookie=await signInPortal('rowan@example.test')
-  assert.deepEqual((await shared(currentOwnerCookie)).map(x=>x.subject),['Owner repair update'],'prior owner retains current-day authority before transfer')
+  assert.deepEqual((await shared(currentOwnerCookie)).map(x=>x.subject).sort(),['Owner repair update','Owner office letter'].sort(),'prior owner retains current-day authority before transfer')
   await r.db.prepare('UPDATE tt_tenancies SET time_zone=? WHERE id=?').bind(['Pacific','Kiritimati'].join('/'),t.id).run()
   assert.deepEqual(await shared(currentOwnerCookie),[],'property-local transfer day revokes former owner even while UTC is prior day')
+  assert.equal((await r.request('/api/thread-print?id='+office.ownerPrint.printBatchId)).status,404,'changed ownership refuses the former owner letter print')
   await create({grantId:ownerGrant.grantId},{status:404})
   await r.db.prepare('UPDATE tt_tenancies SET time_zone=? WHERE id=?').bind('America/Los_Angeles',t.id).run()
   const currentJob=await r.db.prepare('SELECT version FROM tt_maintenance_jobs WHERE id=?').bind(job.id).first()
@@ -267,10 +279,49 @@ export async function journey({assets=false,inspect}={}){
   await r.stepUp()
   await r.command('portal.revoke',{grantId:grants[0].grantId,reason:'Synthetic withdrawal'})
   assert.equal((await r.request('/portal/api/threads',{as:cookies[0]})).status,401)
+  const kept=office.recipientPdfs.find(item=>item.tenancyId!==t.id)
+  const exactApproval=(await data(kept.threadId)).prints.find(b=>b.id===office.printBatchId).approval
+  await r.setTime('2038-10-28T16:00:00.000Z');await r.stepUp()
+  const sharedHold=await r.command('privacy.hold',{tenancyId:kept.tenancyId,class:'communications',reason:'Synthetic other tenancy legal hold'})
+  const heldRequest=await r.command('privacy.request',{tenancyId:kept.tenancyId,kind:'erase',source:'Synthetic held resident request'})
+  const heldReview=await r.command('privacy.review',{tenancyId:kept.tenancyId,requestId:heldRequest.id})
+  assert.equal(heldReview.review.eligible,false)
+  await r.command('tenancy.erase',{tenancyId:kept.tenancyId,requestId:heldRequest.id,fingerprint:heldReview.review.fingerprint,confirm:['resident1','example.test'].join('@')},{status:409})
+  const eraseRequest=await r.command('privacy.request',{tenancyId:t.id,kind:'erase',source:'Synthetic independent erasure request'})
+  const eraseReview=await r.command('privacy.review',{tenancyId:t.id,requestId:eraseRequest.id})
+  assert.equal(eraseReview.review.eligible,false,'main shared-batch hold policy remains binding')
+  await r.command('tenancy.erase',{tenancyId:t.id,requestId:eraseRequest.id,fingerprint:eraseReview.review.fingerprint,confirm:['resident0','example.test'].join('@')},{status:409})
+  await r.command('privacy.release',{tenancyId:kept.tenancyId,holdId:sharedHold.id,reason:'Synthetic authorized shared hold release'})
+  const releasedReview=await r.command('privacy.review',{tenancyId:t.id,requestId:eraseRequest.id})
+  assert.equal(releasedReview.review.eligible,true)
+  await r.command('tenancy.erase',{tenancyId:t.id,requestId:eraseRequest.id,fingerprint:releasedReview.review.fingerprint,confirm:['resident0','example.test'].join('@')})
+  const keptBatch=(await data(kept.threadId)).prints.find(b=>b.id===office.printBatchId)
+  assert.ok(keptBatch,'shared batch approval survives another tenancy erasure')
+  assert.deepEqual(keptBatch.approval,exactApproval)
+  const retainedDownload=await r.request('/api/thread-print?id='+office.printBatchId+'&item='+kept.id)
+  assert.equal(retainedDownload.status,200);assert.deepEqual(Buffer.from(await retainedDownload.arrayBuffer()),kept.bytes)
+  for(const query of ['', '&manifest=1','&review=1'])assert.equal((await r.request('/api/thread-print?id='+office.printBatchId+query)).status,409,'retired aggregate never exposes erased recipients')
+  const removed=office.recipientPdfs.find(item=>item.tenancyId===t.id)
+  assert.equal((await r.request('/api/thread-print?id='+office.printBatchId+'&item='+removed.id)).status,404)
+  await r.command('thread.print.approve',{printBatchId:office.printBatchId,manifestSha256:office.manifestSha256,pdfSha256:office.pdfSha256,consent:'APPROVE EXACT PRINT',reference:'Synthetic retired aggregate cannot regain approval'},{status:409})
+  assert.equal((await mutate('service',kept.threadId,{outcome:'delivered',method:'Staff recorded hand delivery',reference:'Synthetic retired batch service refusal',servedAt:'2038-10-28',occurredAt:'2038-10-28T08:30-07:00',printBatchId:office.printBatchId,consent:'RECORD EVIDENCE'},{status:409})).error,'print_retired')
+  assert.equal((await data(kept.threadId)).service,null)
+  for(const [as,status]of [[staff.south,404],[staff.member,403]])assert.equal((await r.request('/api/thread-print?id='+office.printBatchId+'&item='+kept.id,{as})).status,status)
+  await inspectRetained?.({r,kept,office})
+  const survivorArchive=await(await r.request('/api/backup')).text(),survivorRestore=await installation({now:'2038-10-28T16:00:00.000Z',bufferedTransport:true})
+  try{
+   await survivorRestore.formCommand('data.restore',{confirm:'RESTORE',backup:new File([survivorArchive],'retained.rer')})
+   const restoredPrint=(await(await survivorRestore.request('/api/threads?id='+kept.threadId)).json()).threads[0].prints[0]
+   assert.deepEqual(restoredPrint.approval,exactApproval);assert.ok(restoredPrint.inert)
+   const exported=zipEntries(Buffer.from(await(await survivorRestore.request('/api/readable-export')).arrayBuffer()))
+   assert.deepEqual(exported.get('files/tt_print_items/'+kept.id+'.pdf'),kept.bytes)
+   assert.ok(!exported.has('files/tt_print_items/'+removed.id+'.pdf'))
+   assert.equal((await survivorRestore.request('/api/thread-print?id='+office.printBatchId+'&item='+kept.id)).status,404)
+  }finally{await survivorRestore.close()}
  }finally{await r.close()}
 }
 
-async function officePrintJourney({r,t,create,data,mutate,staff,manager,grants,servicePng}){
+async function officePrintJourney({r,t,create,data,mutate,staff,manager,grants,ownerGrant,servicePng}){
  const before=r.messages.length
  const notice=await create({kind:'broadcast',subject:'Office certified notice',body:'Synthetic exact office letter body.'})
  await mutate('print.prepare',notice.id,{reference:'Synthetic print preparation'},{status:409})
@@ -306,7 +357,7 @@ async function officePrintJourney({r,t,create,data,mutate,staff,manager,grants,s
   assert.ok(pdf.includes(Buffer.from('Office certified notice').toString('hex')),'PDF contains selectable subject text')
   assert.ok(pdf.includes(Buffer.from(item.recipient).toString('hex')),'PDF names its recipient')
   assert.ok(pdf.includes(Buffer.from(item.address).toString('hex')),'PDF names its mailing address')
-  pdfs.push(item.pdf_sha256);recipientPdfs.push({id:item.id,bytes:pdf,sha256:item.pdf_sha256})
+  pdfs.push(item.pdf_sha256);recipientPdfs.push({id:item.id,threadId:item.thread_id,tenancyId:(await data(item.thread_id)).tenancy_id,bytes:pdf,sha256:item.pdf_sha256})
   assert.equal((await data(item.thread_id)).service,null,'printing is distinct from service')
  }
  assert.equal(new Set(pdfs).size,5,'each recipient has distinct frozen bytes')
@@ -317,7 +368,7 @@ async function officePrintJourney({r,t,create,data,mutate,staff,manager,grants,s
  }
  await mutate('service',notice.id,{outcome:'returned',method:'office_certified',reference:'Synthetic returned office mail',tracking:'',servedAt:'2026-10-27',consent:'RECORD EVIDENCE'},{status:400})
  await mutate('service',notice.id,{outcome:'returned',method:'office_certified',reference:'Synthetic returned office mail',tracking:'synthetic-terrace-tracking-1',servedAt:'2026-10-27',serverName:'',consent:'RECORD EVIDENCE'},{status:400})
- await mutate('service',notice.id,{outcome:'returned',method:'office_certified',reference:'Synthetic returned office mail',tracking:'synthetic-terrace-tracking-1',servedAt:'2026-10-27',photo:new File(['invalid photo'],'fake.png',{type:'image/png'}),consent:'RECORD EVIDENCE'},{status:422})
+ await mutate('service',notice.id,{outcome:'returned',method:'office_certified',reference:'Synthetic returned office mail',tracking:'synthetic-terrace-tracking-1',servedAt:'2026-10-27',photo:new File(['invalid photo'],'fake.png',{type:['image', 'png'].join('/')}),consent:'RECORD EVIDENCE'},{status:422})
  await mutate('service',notice.id,{outcome:'returned',method:'office_certified',reference:'Synthetic returned office mail',tracking:'synthetic-terrace-tracking-1',servedAt:'2026-10-27',printBatchId:batch.id,consent:'RECORD EVIDENCE'})
  const served=await data(notice.id)
  assert.equal(served.service.outcome,'returned');assert.equal(served.service.server_name,'Synthetic process server');assert.equal(served.service.server_reference,'synthetic-terrace-service-1')
@@ -338,17 +389,36 @@ async function officePrintJourney({r,t,create,data,mutate,staff,manager,grants,s
  await r.db.prepare('UPDATE tt_portal_grants SET revoked_at=? WHERE id=?').bind('2026-10-27T16:00:00.000Z',grants[0].grantId).run()
  assert.equal((await r.request('/api/thread-print?id='+revoking.printBatchId+'&review=1')).status,404)
  await r.db.prepare('UPDATE tt_portal_grants SET revoked_at=NULL WHERE id=?').bind(grants[0].grantId).run()
- return {...prepared,threadId:notice.id,noticeIds:notice.ids,pdfBytes:bytes,recipientPdfs,photoSha256:served.service.photo_sha256}
+ const ownerLetter=await create({kind:'legal',grantId:ownerGrant.grantId,subject:'Owner office letter',body:'Synthetic reviewed owner repair and cost update.'})
+ await mutate('approve',ownerLetter.id,{consent:'APPROVE EXACT MESSAGE',reference:'Synthetic owner audience and exact content review'})
+ const ownerPrint=await mutate('print.prepare',ownerLetter.id,{reference:'Synthetic owner letter print preparation'})
+ const ownerReview=await r.request('/api/thread-print?id='+ownerPrint.printBatchId+'&review=1'),ownerBytes=Buffer.from(await ownerReview.arrayBuffer())
+ assert.equal(ownerReview.status,200)
+ const residentAddress=(await r.state(t.id)).tenancies.find(row=>row.id===t.id).address
+ assert.ok(ownerBytes.includes(Buffer.from('Synthetic owner address').toString('hex')),'owner letter uses the owner mailing address')
+ assert.ok(!ownerBytes.includes(Buffer.from(residentAddress).toString('hex')),'resident address cannot replace the owner mailing address')
+ assert.equal(createHash('sha256').update(ownerBytes).digest('hex'),ownerPrint.pdfSha256)
+ await r.command('thread.print.approve',{printBatchId:ownerPrint.printBatchId,manifestSha256:ownerPrint.manifestSha256,pdfSha256:ownerPrint.pdfSha256,consent:'APPROVE EXACT PRINT',reference:'Synthetic exact owner letter PDF review'})
+ const ownerDownload=await r.request('/api/thread-print?id='+ownerPrint.printBatchId)
+ assert.equal(ownerDownload.status,200);assert.deepEqual(Buffer.from(await ownerDownload.arrayBuffer()),ownerBytes)
+ assert.equal((await data(ownerLetter.id)).service,null,'approved owner printing records no service')
+ return {...prepared,threadId:notice.id,noticeIds:notice.ids,pdfBytes:bytes,recipientPdfs,photoSha256:served.service.photo_sha256,ownerPrint:{...ownerPrint,bytes:ownerBytes}}
 }
 
-function assertOfficeExport(value,office,photo){
+function zipEntries(value){
  const zip=Buffer.from(value),entries=new Map()
  for(let offset=0;zip.readUInt32LE(offset)===0x04034b50;){
   const size=zip.readUInt32LE(offset+18),length=zip.readUInt16LE(offset+26),extra=zip.readUInt16LE(offset+28),start=offset+30+length+extra
   entries.set(zip.subarray(offset+30,offset+30+length).toString(),zip.subarray(start,start+size));offset=start+size
  }
+ return entries
+}
+
+function assertOfficeExport(value,office,photo){
+ const entries=zipEntries(value)
  const inventory=JSON.parse(entries.get('manifest.json')).files
  assert.deepEqual(entries.get(`files/tt_print_batches/${office.printBatchId}.pdf`),office.pdfBytes,'readable export preserves the exact combined PDF')
+ assert.deepEqual(entries.get(`files/tt_print_batches/${office.ownerPrint.printBatchId}.pdf`),office.ownerPrint.bytes,'readable export preserves the exact owner letter PDF')
  for(const item of office.recipientPdfs)assert.deepEqual(entries.get(`files/tt_print_items/${item.id}.pdf`),item.bytes,'readable export preserves each recipient PDF')
  const photograph=inventory.find(f=>f.table==='tt_thread_service'&&f.column==='photo_bytes'&&f.sha256===office.photoSha256)
  assert.ok(photograph);assert.ok(photograph.path.endsWith('.png'));assert.deepEqual(entries.get(photograph.path),photo,'readable export preserves the service photograph')

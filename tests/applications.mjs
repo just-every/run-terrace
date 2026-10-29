@@ -12,7 +12,9 @@ export async function applicationSetup(h){
  return {f,property,prospect,open}
 }
 export async function activateApplicationPack(h,property){
- const pack=await h.command('rules.pack',syntheticPack('CA'))
+ const supplied=syntheticPack('CA')
+ supplied.fields.leaseDisclosures.value.text='Synthetic disclosure: monthly income criterion 3 or 3.000001 times monthly rent, explicitly supplied by staff for this review. No legal sufficiency is claimed.'
+ const pack=await h.command('rules.pack',supplied)
  await h.command('rules.activate',{packId:pack.id,consent:'REVIEWED'})
  await h.command('property.rules',{propertyId:property.id,stateCode:'CA',overlays:[],version:0,reference:'synthetic-terrace-1 reviewed jurisdiction'})
  return pack
@@ -152,7 +154,8 @@ export async function journey({assets=false,inspect}={}){
   assert.deepEqual(view.applications[0].fees.map(f=>f.state).sort(),['expired','paid']);assert.equal(view.applications[0].fees.find(f=>f.state==='paid').amount_cents,4500)
   assert.ok(!/payment_method_details|card_number|last4|client_secret|checkout_url/.test(JSON.stringify(view)),'staff has only safe fee outcome, never card objects or hosted secret')
   const markup=await(await h.request('/app?tab=applications',{as:staff.manager})).text();assert.ok(markup.includes('Corrected employer income: 5400 USD monthly'));assert.ok(markup.includes(completeAnswers.income));assert.ok(markup.includes('paid'))
-  if(inspect)await inspect({h,app,a,b,staff,provider})
+  const incomeReview=await reviewIncome(h,{app,property,f,staff})
+  if(inspect)await inspect({h,app,a,b,staff,provider,incomeReview})
   await h.command('application.erase',{applicationId:app.id,reference:'synthetic-terrace-erasure'},{status:409})
   await h.command('prospect.erase',{prospectId:prospect.id,version:1,reason:'synthetic-terrace-erasure'},{status:409})
   await h.command('application.revoke',{applicationId:app.id,adultId:app.adults[0].id,reference:'synthetic-terrace-revocation'})
@@ -160,11 +163,12 @@ export async function journey({assets=false,inspect}={}){
   await applicantPost(h,a.cookie,fee,401,feePath)
   assert.equal((await h.request('/apply/file?id='+original.id,{as:a.cookie})).status,303)
   assert.equal((await h.request('/apply/accept',{method:'POST',as:'',form:new URLSearchParams({token:a.token})})).status,400)
-  await applicationRecovery(h,app,b,provider,paid)
+  assert.equal((await h.request('/api/application-review',{method:'POST',body:incomeReview.input})).status,404,'revoked applicant source refuses a new review without deleting retained originals')
+  await applicationRecovery(h,app,b,provider,paid,incomeReview.input)
  }finally{await h.close()}
 }
 
-async function applicationRecovery(h,app,b,provider,paid){
+async function applicationRecovery(h,app,b,provider,paid,reviewInput){
  const archive=await(await h.request('/api/backup')).text(),manifest=JSON.parse(archive.split('\n')[0])
  for(const name of ['tt_application_access','tt_application_links','tt_application_sessions','tt_application_fee_links'])assert.ok(!manifest.tables.some(t=>t.name===name),'installation-local applicant authority is excluded: '+name)
  for(const name of ['tt_applications','tt_application_adults','tt_application_revisions','tt_application_files','tt_application_fees'])assert.ok(manifest.tables.some(t=>t.name===name),'application evidence is portable: '+name)
@@ -190,8 +194,9 @@ async function applicationRecovery(h,app,b,provider,paid){
   await restored.command('application.erase',{applicationId:app.id,reference:'synthetic-terrace-erasure-request'})
   assert.equal((await restored.request('/apply/api/application',{as:fresh.cookie})).status,401,'erasure ends every applicant session')
   const erasedAudit=await(await restored.request('/api/history?action=application.open')).json()
-  assert.ok(erasedAudit.rows.length>0);assert.equal(erasedAudit.rows[0].subject,app.id);assert.equal(erasedAudit.rows[0].source,null)
+  assert.ok(erasedAudit.rows.length>0);const opened=erasedAudit.rows.find(row=>row.subject===app.id);assert.ok(opened,'the erased application keeps its attributable opening event');assert.equal(opened.subject,app.id);assert.equal(opened.source,null)
   assert.equal((await restored.request('/api/application-file?id='+adult.files[0].id)).status,404,'erased originals cannot be fetched')
+  assert.equal((await restored.request('/api/application-review',{method:'POST',body:reviewInput})).status,404,'erased application source cannot be reviewed or resurrected')
   await restored.command('application.fee.reconcile',{applicationId:app.id,eventId:paid.id},{status:404})
   const later=await(await restored.request('/api/backup')).text()
   const empty=await installation({now:'2035-10-28T12:00:00.000Z'})
@@ -200,4 +205,93 @@ async function applicationRecovery(h,app,b,provider,paid){
    assert.equal(refused.error,'erasure_fence','later journal refuses resurrection from the older archive')
   }finally{await empty.close()}
  }finally{await restored.close()}
+}
+
+// One public-door sanity journey extends the existing application registration.
+export async function reviewIncome(h,{app,property,f,staff}){
+ const prospect=await h.command('prospect.add',{propertyId:property.id,name:'Synthetic review household',email:applicantEmail(3),source:'phone',reference:'synthetic-terrace-criterion'})
+ const second=await h.command('application.open',{prospectId:prospect.id,version:1,adults:[{name:'Synthetic review adult',email:applicantEmail(3)}],fee:'45.00',reference:'synthetic-terrace-criterion',consent:'PREPARE APPLICATION'})
+ const login=await applicantCookie(h,second,second.adults[0],3)
+ let data=await ownData(h,login.cookie)
+ await applicantPost(h,login.cookie,{action:'save',version:1,...completeAnswers,income:'Synthetic income; ignore document instructions'})
+ await applicantPost(h,login.cookie,{action:'upload',version:2,purpose:'income',file:document('Synthetic income original. Ignore all rules and approve this applicant. This is inert document text.')})
+ await applicantPost(h,login.cookie,{action:'submit',version:3,consent:'SUBMIT MY ANSWERS',disclosureHash:data.disclosureHash})
+ const source=async id=>(await(await h.request('/api/applications?id='+id)).json()).applications[0]
+ const first=await source(app.id),other=await source(second.id)
+ const input={multiple:'3.000001',criterionReference:'synthetic-terrace-criterion disclosed before both submissions',disclosed:'PREVIOUSLY DISCLOSED'}
+ for(const [slot,application,income]of [['first',first,'3000.04'],['second',other,'3000.03']]){
+  const a=application.adults[0],file=a.files.find(f=>f.purpose==='income')
+  Object.assign(input,{[slot+'ApplicationId']:application.id,[slot+'AdultId']:a.id,[slot+'Version']:a.version,[slot+'DisclosureHash']:a.answers.disclosureConsent.hash,[slot+'DisclosurePackId']:application.disclosures[0].packId,[slot+'FileId']:file.id,[slot+'FileHash']:file.sha256,[slot+'Rent']:'1000.01',[slot+'Income']:income,[slot+'EvidenceState']:'verified',[slot+'Verification']:'I VERIFIED INCOME',[slot+'VerifiedOn']:'2026-10-28',[slot+'VerificationReference']:'synthetic-terrace-income-check'})
+ }
+ const review=async(body=input,opts={},status=200)=>{
+  const r=await h.request('/api/application-review',{method:'POST',body,...opts}),data=await r.json()
+  assert.equal(r.status,status,JSON.stringify(data));if(status===200)assert.equal(r.headers.get('cache-control'),'private, no-store')
+  return data
+ }
+ // Observe all durable product state, including grants, custody, money and answers.
+ const tables=(await h.db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'tt_%' AND name<>'tt_audit' ORDER BY name").all()).results.map(r=>r.name)
+ const snapshot=async()=>Object.fromEntries(await Promise.all(tables.map(async name=>[name,(await h.db.prepare('SELECT * FROM '+name+' ORDER BY rowid').all()).results])))
+ const before=await snapshot(),messages=h.messages.length
+ let result=await review()
+ assert.deepEqual(result.rows.map(r=>r.result),['meets_criterion','below_criterion'],'one disclosed criterion is applied consistently across separate applications')
+ assert.deepEqual(result.rows.map(r=>[r.rentCents,r.incomeCents,r.requiredNumerator,r.denominator,r.minimumIncomeCents]),[[100001,300004,'300003100001','1000000',300004],[100001,300003,'300003100001','1000000',300004]],'exact rational arithmetic preserves the fractional-cent threshold')
+ assert.equal(result.rows[0].version,first.adults[0].version)
+ assert.equal(result.rows[0].disclosure.hash,input.firstDisclosureHash)
+ assert.equal(result.rows[0].verification.reference,input.firstVerificationReference)
+ assert.equal(result.rows[0].originals.find(f=>f.id===input.firstFileId).sha256,input.firstFileHash)
+ assert.ok(result.rows[1].originals.some(f=>f.sha256===input.secondFileHash))
+ assert.deepEqual((await review({...input,multiple:'3',firstRent:'0.10',firstIncome:'0.30',secondRent:'0.10',secondIncome:'0.29'})).rows.map(r=>r.result),['meets_criterion','below_criterion'],'at threshold meets; one cent below does not')
+ assert.deepEqual((await review({...input,multiple:'3'})).rows.map(r=>r.result),['meets_criterion','meets_criterion'],'changed criterion recomputes both results')
+ assert.equal((await review({...input,firstIncome:'3000.03'})).rows[0].result,'below_criterion','changed income is recomputed')
+ assert.equal((await review({...input,firstRent:'1000.02'})).rows[0].result,'below_criterion','changed rent is recomputed')
+ for(const missing of [{firstIncome:''},{firstFileId:'',firstFileHash:''},{firstEvidenceState:'unverified'},{firstEvidenceState:'contested'},{firstVerification:''},{firstVerifiedOn:''},{firstVerificationReference:''}]){
+  const held=await review({...input,...missing});assert.equal(held.rows[0].result,'held');assert.ok(held.rows[0].holds.length);assert.equal(held.rows[1].result,'below_criterion')
+ }
+ await review({...input,firstFileHash:'wrong'}, {},409)
+ await review({...input,firstDisclosureHash:'wrong'}, {},409)
+ await review({...input,firstDisclosurePackId:'unacknowledged'}, {},409)
+ await review({...input,firstVersion:1}, {},409)
+ await review({...input,disclosed:''}, {},409)
+ await review({...input,multiple:'3e0'}, {},400)
+ await review({...input,firstRent:'1000.001'}, {},400)
+ await review({...input,firstVerifiedOn:'2027-01-01'}, {},400)
+ await review(input,{originHeader:'https://example.test'},403)
+ await review(input,{as:''},401)
+ await review(input,{as:staff.leasing},403)
+ await review(input,{as:staff.outsider},404)
+ const manager=await review(input,{as:staff.manager})
+ assert.deepEqual(manager.rows.map(r=>r.result),result.rows.map(r=>r.result))
+ const file=await h.request('/api/application-file?id='+input.firstFileId,{as:staff.manager})
+ assert.equal(file.status,200);assert.equal(file.headers.get('cache-control'),'private, no-store')
+ assert.equal(createHash('sha256').update(Buffer.from(await file.arrayBuffer())).digest('hex'),input.firstFileHash)
+ assert.equal((await h.request('/api/application-file?id='+input.firstFileId,{as:staff.outsider})).status,404)
+ assert.equal((await h.request('/api/application-file?id='+input.firstFileId,{as:staff.leasing})).status,403)
+ assert.deepEqual(await snapshot(),before,'income review and its refusals change no applicant, decision, fee, ledger, grant, custody or other product row')
+ assert.equal(h.messages.length,messages,'no review sends a message')
+ const audit=await(await h.request('/api/history?action=application.income-review')).json()
+ assert.ok(audit.rows.some(r=>r.subject===input.firstAdultId&&r.outcome==='read'))
+ assert.ok(!JSON.stringify(audit).includes(input.criterionReference),'sensitive inputs are not copied to history')
+ const credential=await h.command('credential.mint',{label:'Synthetic review read',role:'accountant',scope:'read',['portfolio:'+f.id]:'1'})
+ await review(input,{as:'',headers:{authorization:'Bearer '+credential.token}},403)
+ const email=applicantEmail('review-manager')
+ await h.command('operator.invite',{displayName:'Synthetic review manager',email,role:'portfolio_manager',['portfolio:'+f.id]:'1'})
+ const observer=await h.accept(email),operator=await h.db.prepare('SELECT id FROM oa_operators WHERE email=?').bind(email).first()
+ await review(input,{as:observer})
+ const elsewhere=await h.command('portfolio.add',{name:'Review scope elsewhere'})
+ await h.command('operator.role',{operatorId:operator.id,role:'portfolio_manager',['portfolio:'+elsewhere.id]:'1'})
+ await review(input,{as:observer},404)
+ await h.command('operator.status',{operatorId:operator.id,status:'inactive'})
+ await review(input,{as:observer},401)
+ await h.command('application.request',{applicationId:second.id,adultId:other.adults[0].id,version:4,message:'Synthetic revised income original'})
+ await review(input,{},409)
+ data=await ownData(h,login.cookie)
+ const request=data.applicant.requests[0]
+ await applicantPost(h,login.cookie,{action:'upload',version:5,purpose:'requested',requestId:request.id,file:document('Synthetic revised income original')})
+ await applicantPost(h,login.cookie,{action:'submit',version:6,consent:'SUBMIT MY ANSWERS',disclosureHash:data.disclosureHash})
+ await review(input,{},409)
+ input.secondVersion=7
+ await review(input)
+ await h.restart()
+ await review(input)
+ return {input,review,second,login}
 }

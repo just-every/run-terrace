@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
 import {installation,tenancyInput} from './api/harness.mjs'
+import {leaseFields} from './leases.mjs'
 const mailbox=n=>'synthetic-terrace-'+n+'@'+'example.test'
 const sha=b=>createHash('sha256').update(b).digest('hex')
 export async function journey({assets=false,inspect}={}){
+ await repairJourney()
  const h=await installation({assets,bufferedTransport:true,asyncDatabase:true,now:'2026-10-20T12:00:00.000Z'})
  try{
   const get=async(path='/api/shadow-runs')=>{const r=await h.request(path);assert.equal(r.status,200,await r.clone().text());return r.json()}
@@ -150,5 +152,81 @@ export async function journey({assets=false,inspect}={}){
   try{await target.formCommand('data.restore',{confirm:'RESTORE',backup:new File([backup],'old.rer'),journal:new File([later],'later.rer')},{status:409})}finally{await target.close()}
   await capture(rows.slice(1),original,undefined,{status:409})
   assert.equal((await h.request('/api/shadow-original?id='+first.id)).status,404)
+ }finally{await h.close()}
+}
+
+/** Ordinary rent activity remains comparable before move-in and after personal custody retires. */
+export async function repairJourney({only}={}){
+ const h=await installation({bufferedTransport:true,asyncDatabase:true,now:'2026-10-26T12:00:00.000Z'})
+ try{
+  const portfolio=await h.command('portfolio.add',{name:'Synthetic comparison corrections'})
+  const place=async(n,startDate='2026-07-01')=>{
+   const p=await h.command('property.add',{portfolioId:portfolio.id,name:'Synthetic correction property '+n,address:n+' Synthetic Terrace Road',kind:'duplex',timeZone:'America/Los_Angeles'})
+   const u=await h.command('unit.add',{propertyId:p.id,identifier:'A',bedrooms:1,bathrooms:1})
+   const t=await h.command('tenancy.create',{...tenancyInput,unitId:u.id,tenantName:'Synthetic correction resident '+n,tenantEmail:mailbox(n),startDate,endDate:'2027-06-30',cadence:'monthly',rent:'1000.01'})
+   return{p,t}
+  }
+  const get=async()=>{const response=await h.request('/api/shadow-runs');assert.equal(response.status,200);return response.json()}
+  const capture=(p,rows,reference,replacesId,opts={})=>h.formCommand('shadow.capture',{propertyId:p.id,from:'2026-10-01',to:'2026-10-31',reference,synthetic:'yes',rows:JSON.stringify(rows),file:new File(['Explicitly synthetic original. '+reference],reference+'.txt'),...(replacesId?{replacesId}:{})},opts)
+  const row=(t,values={})=>({sourceRef:'synthetic-terrace-'+t.id,tenancyId:t.id,currency:'USD',openingCents:0,chargesCents:0,receiptsCents:0,reductionsCents:0,closingCents:0,...values})
+  if(!only||only==='advance'){
+   const {p,t}=await place(40,'2026-11-01')
+   const initial=await capture(p,[{...row(t),tenancyId:null}],'synthetic-terrace-41')
+   const charge=await h.command('rent.charge',{tenancyId:t.id,dueDate:'2026-10-01',amount:'500.00',description:'Advance rent',reference:'synthetic-terrace-42'})
+   await h.command('rent.receipt',{chargeId:charge.id,amount:'100.00',receivedDate:'2026-10-02',method:'cash',reference:'synthetic-terrace-43'})
+   const old=(await get()).runs.find(r=>r.id===initial.id)
+   assert.equal(old.current,false,'October activity on a November lease invalidates the prior comparison')
+   const omitted=await capture(p,[{...row(t),tenancyId:null}],'synthetic-terrace-44',initial.id)
+   assert.ok((await get()).runs.find(r=>r.id===omitted.id).issues.some(i=>i.key==='lease:'+t.id),'advance rent cannot disappear from missing mappings')
+   const exact=await capture(p,[row(t,{chargesCents:50000,receiptsCents:10000,closingCents:40000})],'synthetic-terrace-45',omitted.id)
+   const current=(await get()).runs.find(r=>r.id===exact.id)
+   assert.equal(current.matched,true,'advance rent and receipts compare in the activity period')
+   assert.equal(current.lines[0].native.chargesCents,50000);assert.equal(current.lines[0].native.receiptsCents,10000)
+  }
+  if(!only||only==='correction'){
+   const {p,t}=await place(46),manager=await h.invite('admin',mailbox(47))
+   const owner=await h.command('owner.add',{kind:'individual',legalName:'Synthetic correction owner',email:mailbox(48),mailingAddress:'46 Synthetic Terrace Road'})
+   await h.command('ownership.set',{propertyId:p.id,effectiveFrom:'2026-01-01',reason:'synthetic-terrace-49',shares:[{ownerId:owner.id,percent:'100'}]})
+   const signed=leaseFields(t.id,'2026-07-01','1000.01','0','0','synthetic-terrace-50')
+   signed.terms=signed.terms.filter(x=>x.kind==='rent')
+   Object.assign(signed.obligations.find(x=>x.kind==='hap'),{details:'Synthetic HAP notice',housingAuthority:'Synthetic Housing Authority',reference:'synthetic-terrace-51',tenantPortion:'300.01',hapPortion:'700.00'})
+   const v=await h.command('lease.prepare',signed),preview=await h.command('lease.preview',{leaseId:v.leaseId,month:'2026-07'})
+   await h.command('lease.approve',{leaseId:v.leaseId,month:'2026-07',fingerprint:preview.fingerprint},{as:manager})
+   for(const month of ['2026-07','2026-08','2026-09']){const run=await h.command('charges.preview',{month});await h.command('charges.post',{month,fingerprint:run.fingerprint})}
+   const notice=await h.command('document.upload',{tenancyId:t.id,kind:'hap',title:'Synthetic correction notice',source:'synthetic-terrace-52',file:{name:'synthetic-terrace-52.txt',type:'text/plain',base64:Buffer.from('Explicitly synthetic PHA correction notice').toString('base64')}})
+   const change=await h.command('hap.change.prepare',{tenancyId:t.id,kind:'split',effectiveFrom:'2026-07-01',effectiveTo:'2026-09-30',residentPortion:'200.01',phaPortion:'800.00',payer:'Synthetic Housing Authority',noticeVersionId:notice.versionId,reason:'Synthetic approved resident reduction',reference:'synthetic-terrace-53'})
+   const correction=await h.command('hap.change.preview',{changeId:change.changeId})
+   await h.command('hap.change.approve',{changeId:change.changeId,fingerprint:correction.fingerprint},{as:manager})
+   const values=[row(t,{openingCents:90003,chargesCents:-30000,closingCents:60003})],money=(await h.state(t.id)).ledger
+   const exact=await capture(p,values,'synthetic-terrace-54'),r=(await get()).runs.find(r=>r.id===exact.id)
+   assert.equal(r.matched,true,'approved negative resident corrections match exact signed charges')
+   assert.equal(r.lines[0].native.chargesCents,-30000);assert.equal(r.lines[0].differences.chargesCents,0)
+   await h.command('shadow.review',{runId:r.id,fingerprint:r.fingerprint,consent:'RECORD ONLY',reference:'synthetic-terrace-55'})
+   const invalid=structuredClone(values);invalid[0].chargesCents=-30000.5
+   await capture(p,invalid,'synthetic-terrace-56',r.id,{status:400})
+   assert.deepEqual((await h.state(t.id)).ledger,money,'comparison and invalid cents change no financial evidence')
+  }
+  if(!only||only==='retirement'){
+   const {p,t}=await place(57),unit=await h.command('unit.add',{propertyId:p.id,identifier:'B',bedrooms:1,bathrooms:1})
+   const peer=await h.command('tenancy.create',{...tenancyInput,unitId:unit.id,tenantEmail:mailbox(58),startDate:'2026-07-01',endDate:'2027-06-30'})
+   const old=await capture(p,[row(t),row(peer)],'synthetic-terrace-59')
+   await h.setTime('2045-01-01T12:00:00.000Z')
+   await h.command('privacy.hold',{tenancyId:peer.id,class:'accounting',reason:'synthetic-terrace-66 shared statement custody'})
+   const request=await h.command('privacy.request',{tenancyId:t.id,kind:'erase',source:'synthetic-terrace-60'}),review=await h.command('privacy.review',{tenancyId:t.id,requestId:request.id})
+   await h.command('tenancy.erase',{tenancyId:t.id,requestId:request.id,fingerprint:review.review.fingerprint,confirm:mailbox(57)})
+   assert.equal((await h.request('/api/shadow-original?id='+old.id)).status,404)
+   assert.equal((await get()).runs.some(r=>r.id===old.id),false)
+   await capture(p,[row(peer)],'synthetic-terrace-61',old.id,{status:404})
+   const retained=await h.db.prepare('SELECT * FROM tt_shadow_runs WHERE id=?').bind(old.id).first()
+   assert.ok(retained,'accounting evidence remains retained after personal custody retires')
+   const fresh=await capture(p,[row(peer)],'synthetic-terrace-62'),r=(await get()).runs.find(r=>r.id===fresh.id)
+   assert.equal(r.matched,true);assert.notEqual(r.seriesId,old.id,'a new visible series grants no access to hidden evidence')
+   await h.command('shadow.review',{runId:r.id,fingerprint:r.fingerprint,consent:'RECORD ONLY',reference:'synthetic-terrace-63'})
+   const next=await capture(p,[row(peer)],'synthetic-terrace-64',r.id)
+   assert.equal((await get()).runs.find(r=>r.id===next.id).revision,2,'new comparisons remain repeatable')
+   assert.deepEqual(await h.db.prepare('SELECT * FROM tt_shadow_runs WHERE id=?').bind(old.id).first(),retained,'hidden evidence is neither modified nor resurrected')
+   assert.equal((await h.request('/api/shadow-original?id='+old.id)).status,404)
+   await capture(p,[row(peer)],'synthetic-terrace-65',undefined,{status:409})
+  }
  }finally{await h.close()}
 }

@@ -1,3 +1,5 @@
+import { applicationReview, applicationReviewChoices } from './application-review'
+import { incomeReviewView } from './application-view'
 import {SHADOW_COMMANDS,shadowCommand,shadowData,shadowOriginal} from './shadow-run'
 import {shadowView} from './shadow-run-view'
 import {integrationData,saveIntegration} from './integration-health'
@@ -178,7 +180,7 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
  else if(tab==='leasing-report'){allow(c,'reports.read');title='Leasing performance';const data=await propertyData(c),day=today(c.now,c.zone!),q={...Object.fromEntries(url.searchParams),from:url.searchParams.get('from')||day.slice(0,8)+'01',to:url.searchParams.get('to')||day};body=leasingSection(data.portfolios.flatMap((f:Row)=>f.properties),q,url.searchParams.has('from')?await leasingReport(c,q):undefined)}
  else if(tab==='renewals'){allow(c,'renewal.prepare');title='Renewals';const data=await propertyData(c);body=renewalsView(await renewalData(c),data.portfolios.flatMap((f:Row)=>f.properties),a=>can(c,a))}
  else if(tab==='workflows'){allow(c,'workflow.read');title='Workflows';const names=await operatorNames(c),data=await propertyData(c);body=workflowView(await workflowData(c),data.portfolios.flatMap((f:Row)=>f.properties),a=>can(c,a),id=>names[id]??id)}
- else if(tab==='applications'){title='Applications';const data=await applicationData(c);for(const a of data.applications)a.fees=await applicationFeeData(c.db,a.id);body=staffApplications(data,a=>can(c,a))}
+ else if(tab==='applications'){title='Applications';const data=await applicationData(c);for(const a of data.applications)a.fees=await applicationFeeData(c.db,a.id);body=incomeReviewView(await applicationReviewChoices(c),result.incomeReview,Object.fromEntries(url.searchParams))+staffApplications(data,a=>can(c,a))}
  else if(tab==='prospects'){title='Prospects';const names=await operatorNames(c);body=prospectView(await prospectData(c),a=>can(c,a),id=>names[id]??id)}
  else if(tab==='bills'){title='Vendor bills';body=billSection(await billData(c),a=>can(c,a));await recordRead(c,'bills.read','bills')}
  else if(tab==='history'){title='History';const q=Object.fromEntries(url.searchParams);body=historyView(c,await history(c,q),q)}
@@ -219,7 +221,7 @@ async function command(c:Context,name:string,p:Row) {
  throw new Fault('unknown_command','Unknown Terrace command.',404)
 }
 export async function terraceResponse(request:Request,env:Bindings):Promise<Response|null> {
- const url=new URL(request.url),isApi=url.pathname.startsWith('/api/'),isPage=url.pathname==='/app'||url.pathname==='/app/command'
+ const url=new URL(request.url),isApi=url.pathname.startsWith('/api/'),isPage=url.pathname==='/app'||url.pathname==='/app/command'||url.pathname==='/app/application-review'
  // ROLE-002: portal people have their own door, cookie and pages; nothing below serves them.
  if(['/api/twilio/inbound','/api/twilio/status'].includes(url.pathname))return twilioResponse(request,env)
  if(url.pathname==='/api/resident-mail/events')return residentDeliveryWebhook(request,env)
@@ -229,7 +231,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
  if(url.pathname==='/portal'||url.pathname.startsWith('/portal/'))return portalResponse(request,env)
  if(!isApi&&!isPage)return null
  // Unknown API paths retain a genuine 404 without leaking installation data.
- if(isApi&&!['/api/shadow-runs','/api/shadow-original','/api/integrations','/api/professional-referrals','/api/applications','/api/application-file','/api/threads','/api/thread-file','/api/thread-print','/api/thread-service-photo','/api/hap-remittances','/api/hap-reconciliation','/api/messages','/api/resident-document','/api/resident-deliveries','/api/vendor-bank','/api/repair-media','/api/requests','/api/report-delivery','/api/report-schedules','/api/report-generation','/api/financial-reports','/api/agent-workloads','/api/reconcile','/api/reconcile-original','/api/record-media','/api/record-media/file','/api/record-media/upload','/api/trust','/api/rules','/api/journal','/api/custom-reports','/api/custom-report','/api/custom-document','/api/delinquency','/api/leasing-report','/api/cash-scenario','/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment','/api/emergencies','/api/prospects','/api/workflows','/api/documents','/api/document-access','/api/document','/api/document-versions'].includes(url.pathname)&&!V1_PATH.test(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
+ if(isApi&&!['/api/application-review','/api/shadow-runs','/api/shadow-original','/api/integrations','/api/professional-referrals','/api/applications','/api/application-file','/api/threads','/api/thread-file','/api/thread-print','/api/thread-service-photo','/api/hap-remittances','/api/hap-reconciliation','/api/messages','/api/resident-document','/api/resident-deliveries','/api/vendor-bank','/api/repair-media','/api/requests','/api/report-delivery','/api/report-schedules','/api/report-generation','/api/financial-reports','/api/agent-workloads','/api/reconcile','/api/reconcile-original','/api/record-media','/api/record-media/file','/api/record-media/upload','/api/trust','/api/rules','/api/journal','/api/custom-reports','/api/custom-report','/api/custom-document','/api/delinquency','/api/leasing-report','/api/cash-scenario','/api/lease-source','/api/state','/api/commands','/api/statement','/api/backup','/api/rent-roll','/api/collections','/api/owner-statement','/api/maintenance-report','/api/readable-export','/api/history','/api/period-close','/api/resident-access','/api/bills','/api/bill-attachment','/api/emergencies','/api/prospects','/api/workflows','/api/documents','/api/document-access','/api/document','/api/document-versions'].includes(url.pathname)&&!V1_PATH.test(url.pathname)&&!/^\/api\/(inspections\/photos\/[^/]+|maintenance\/[^/]+\/packet)$/.test(url.pathname))return new Response('Not found',{status:404})
  let c:Context|undefined,p:Row={},idem:string|undefined
  try {
   insist(url.origin===env.AUTH_ORIGIN,'origin','The request origin does not match this installation.',403)
@@ -246,6 +248,18 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
    const factor=await factorState(c);c.gated=factor.needed&&!factor.satisfied
   }
   const credential=!!c.actor.credential
+  if(['/api/application-review','/app/application-review'].includes(url.pathname)) {
+   insist(request.method==='POST','method','Use POST to recompute a review.',405)
+   insist(!c.gated,'second_factor_required','Pass your second factor first.',403)
+   insist(request.headers.get('origin')===env.AUTH_ORIGIN&&request.headers.get('sec-fetch-site')!=='cross-site','origin','Same-origin confirmation is required.',403)
+   insist(Number(request.headers.get('content-length')??0)<=32768,'body_limit','Review input is too large.',413)
+   const input=request.headers.get('content-type')?.includes('application/json')?await request.json():Object.fromEntries(await request.formData())
+   p={...(input as Row),tab:'applications'}
+   const review=await applicationReview(c,p)
+   if(isApi)return new Response(JSON.stringify(review),{headers:{'content-type':'application/json','cache-control':'private, no-store','referrer-policy':'no-referrer','x-content-type-options':'nosniff'}})
+   const dest=new URL('/app?tab=applications',url)
+   return await render(c,dest,'Recomputed from the selected submitted sources.',{incomeReview:review})
+  }
   if(request.method==='POST') {
    insist(url.pathname==='/api/commands'||(!credential&&url.pathname==='/app/command'),'method','Use the command endpoint.',405)
    // A bearer token is no ambient credential, so a credential call needs no same-origin proof; it needs JSON and an Idempotency-Key.

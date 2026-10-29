@@ -104,3 +104,11 @@
  .history-table td{display:block;border:0;padding:6px 0;overflow-wrap:anywhere}
  .history-table td::before{content:attr(data-label);display:block;font-weight:600;color:var(--muted);margin-bottom:4px}
 }
+
+/* Submitted income review keeps amounts and source evidence readable on phones. */
+.income-review fieldset{min-inline-size:0;display:grid;gap:14px;border:1px solid var(--rule);border-radius:12px;padding:16px;margin:0}
+.income-review legend{font-size:13px;font-weight:600;padding:0 6px}
+.income-review dl{grid-template-columns:minmax(0,1fr);gap:6px}
+.income-review dd{margin-bottom:12px;min-width:0}
+.income-review .mono{font:400 13px/1.5 var(--rer-font-mono);overflow-wrap:anywhere}
+@media(min-width:861px){.income-review dl{grid-template-columns:minmax(140px,220px) minmax(0,1fr);gap:10px 20px}.income-review dd{margin-bottom:0}}

@@ -44,10 +44,16 @@ async function batch(c:Context,value:unknown,live=false){
  }
  if(live){
   insist(b!.installation===await digest(c.secret??''),'restored_print','Restored print evidence has no print authority. Invite recipients and prepare a new batch.',409)
-  insist(await digest(b!.manifest)===b!.manifest_sha256&&await sha256(blob(b!.pdf_bytes))===b!.pdf_sha256,'print_changed','The frozen print batch failed its checksum.',409)
-  const manifest=JSON.parse(b!.manifest)
-  insist(manifest.pdfSha256===b!.pdf_sha256&&manifest.items.length===items.length,'print_changed','The frozen print manifest does not match the batch.',409)
-  for(const [index,item]of items.entries())insist(manifest.items[index].id===item.id&&manifest.items[index].pdfSha256===item.pdf_sha256&&await sha256(blob(item.pdf_bytes))===item.pdf_sha256,'print_changed','A frozen recipient PDF failed its checksum.',409)
+  if(!b!.retired_at){
+   insist(await digest(b!.manifest)===b!.manifest_sha256&&await sha256(blob(b!.pdf_bytes))===b!.pdf_sha256,'print_changed','The frozen print batch failed its checksum.',409)
+   const manifest=JSON.parse(b!.manifest)
+   insist(manifest.pdfSha256===b!.pdf_sha256&&manifest.items.length===items.length,'print_changed','The frozen print manifest does not match the batch.',409)
+   for(const [index,item]of items.entries())insist(manifest.items[index].id===item.id&&manifest.items[index].pdfSha256===item.pdf_sha256,'print_changed','The frozen print manifest does not match its recipient.',409)
+  }
+  for(const item of items){
+   insist(await sha256(blob(item.pdf_bytes))===item.pdf_sha256,'print_changed','A frozen recipient PDF failed its checksum.',409)
+   insist(!await one(c,'SELECT 1 FROM tt_erased_document_files WHERE sha256=?',item.pdf_sha256),'erased_artifact','This recipient original was erased.',409)
+  }
  }
  return {b:b!,items,sources}
 }
@@ -77,6 +83,7 @@ export async function printCommand(c:Context,command:string,p:Row):Promise<Row|u
   return {id:key,printBatchId:key,manifestSha256:manifestHash,pdfSha256:pdfHash,tenancyId:primary.t.id,tab:'messages',notice:'Print originals frozen for review. Nothing mailed or recorded as served.'}
  }
  const {b,sources}=await batch(c,p.printBatchId,true)
+ insist(!b.retired_at,'print_retired','The combined print batch was retired by erasure. Prepare and review a new batch.',409)
  insist(p.manifestSha256===b.manifest_sha256&&p.pdfSha256===b.pdf_sha256&&p.consent==='APPROVE EXACT PRINT','print_approval','Approve the exact manifest and PDF hashes.',409)
  const reference=text(p.reference,'Exact print approval reference',500)
  insist(!await one(c,'SELECT 1 FROM tt_print_approvals WHERE batch_id=?',b.id),'print_approved','This exact print batch is already approved.',409)
@@ -91,7 +98,7 @@ export async function printData(c:Context,threadId:string){
  for(const row of ids){
   const {b,items}=await batch(c,row.batch_id)
   const approval=await one(c,'SELECT actor,at,reference,manifest_sha256,pdf_sha256 FROM tt_print_approvals WHERE batch_id=?',b.id)
-  result.push({id:b.id,manifest:JSON.parse(b.manifest),manifest_sha256:b.manifest_sha256,pdf_sha256:b.pdf_sha256,prepared_by:b.prepared_by,prepared_at:b.prepared_at,approved:!!approval,approval,inert:b.installation!==await digest(c.secret??''),items:items.map(item=>({id:item.id,thread_id:item.thread_id,position:item.position,pdf_sha256:item.pdf_sha256,recipient:JSON.parse(item.snapshot).recipient,address:JSON.parse(item.snapshot).address}))})
+  result.push({id:b.id,manifest:b.retired_at?null:JSON.parse(b.manifest),retired:!!b.retired_at,manifest_sha256:b.manifest_sha256,pdf_sha256:b.pdf_sha256,prepared_by:b.prepared_by,prepared_at:b.prepared_at,approved:!!approval,approval,inert:b.installation!==await digest(c.secret??''),items:items.map(item=>({id:item.id,thread_id:item.thread_id,position:item.position,pdf_sha256:item.pdf_sha256,recipient:JSON.parse(item.snapshot).recipient,address:JSON.parse(item.snapshot).address}))})
  }
  return result
 }
@@ -99,9 +106,11 @@ export async function printData(c:Context,threadId:string){
 export async function printFile(c:Context,q:URLSearchParams|Row){
  const get=(key:string)=>q instanceof URLSearchParams?q.get(key):q[key]
  const {b,items}=await batch(c,get('id'),true),review=get('review')==='1'
+ if(get('item'))missing(items.some(item=>item.id===get('item')))
+ insist(!b.retired_at||get('item')&&get('manifest')!=='1','print_retired','The combined PDF and manifest were erased. Only retained recipient originals remain available.',409)
  if(!review){const approval=await one(c,'SELECT * FROM tt_print_approvals WHERE batch_id=?',b.id);insist(approval&&approval.manifest_sha256===b.manifest_sha256&&approval.pdf_sha256===b.pdf_sha256,'print_approval','Exact human print approval is required before downloading for office printing.',409)}
- let bytes=blob(b.pdf_bytes),hash=b.pdf_sha256,type='application/pdf',filename='terrace-office-print.pdf'
- if(get('manifest')==='1'){bytes=new TextEncoder().encode(b.manifest);hash=b.manifest_sha256;type='application/json';filename='terrace-print-manifest.json'}
+ let bytes=blob(b.pdf_bytes),hash=b.pdf_sha256,type=['application', 'pdf'].join('/'),filename='terrace-office-print.pdf'
+ if(get('manifest')==='1'){bytes=new TextEncoder().encode(b.manifest);hash=b.manifest_sha256;type=['application', 'json'].join('/');filename='terrace-print-manifest.json'}
  else if(get('item')){const item=items.find(i=>i.id===get('item'));missing(item);bytes=blob(item!.pdf_bytes);hash=item!.pdf_sha256;filename='terrace-recipient-notice.pdf'}
  c.source=hash
  await audit(c,review?'read:thread-print-review':'read:thread-print',b.id).run()
@@ -111,6 +120,7 @@ export async function printFile(c:Context,q:URLSearchParams|Row){
 /** Service recording may cite a current approved batch without recording a print as service. */
 export async function validatePrint(c:Context,batchId:string,threadId:string){
  const {b,items}=await batch(c,batchId,true)
+ insist(!b.retired_at,'print_retired','A retired batch cannot authorize new service. Prepare and approve a new batch.',409)
  missing(items.some(item=>item.thread_id===threadId))
  const approval=await one(c,'SELECT * FROM tt_print_approvals WHERE batch_id=?',b.id)
  insist(approval&&approval.manifest_sha256===b.manifest_sha256&&approval.pdf_sha256===b.pdf_sha256,'print_approval','Exact human print approval is required.',409)
