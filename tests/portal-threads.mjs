@@ -112,7 +112,7 @@ export async function journey({assets=false,inspect,inspectRetained}={}){
    if(expected===404)await create({kind:'legal',grantId:coTenant.grant.grantId},{status:404})
   }
   await r.db.prepare('UPDATE tt_household_members SET joined=?,left_on=NULL WHERE id=?').bind('2025-01-01',coTenant.member.id).run()
-  const office=await officePrintJourney({r,t,create,data,mutate,staff,manager,grants,servicePng})
+  const office=await officePrintJourney({r,t,create,data,mutate,staff,manager,grants,ownerGrant,servicePng})
   const legal=await r.formCommand('thread.create',{tenancyId:t.id,grantId:grants[0].grantId,kind:'legal',subject:'Exact reviewed informational notice',body:'Synthetic counsel-reviewed notice terms',deadline:'2026-11-01',consentReference:'Synthetic explicit permission for this original',file:new File(['Synthetic exact legal original'],'notice.txt',{type:'text/plain'})})
   await mutate('service',legal.id,{outcome:'delivered',fingerprint:(await data(legal.id)).fingerprint},{status:409})
   await mutate('approve',legal.id,{consent:'APPROVE EXACT MESSAGE',reference:'Synthetic counsel service authorization'})
@@ -250,9 +250,10 @@ export async function journey({assets=false,inspect,inspectRetained}={}){
   const replacementOwner=await r.command('owner.add',{kind:'individual',legalName:'Synthetic successor owner',email:'successor@example.test',mailingAddress:'Synthetic successor address'})
   await r.command('ownership.set',{propertyId:properties[0].id,effectiveFrom:'2026-10-28',reason:'Synthetic dated transfer',shares:[{ownerId:replacementOwner.id,percent:'100'}]})
   const currentOwnerCookie=await signInPortal('rowan@example.test')
-  assert.deepEqual((await shared(currentOwnerCookie)).map(x=>x.subject),['Owner repair update'],'prior owner retains current-day authority before transfer')
+  assert.deepEqual((await shared(currentOwnerCookie)).map(x=>x.subject).sort(),['Owner repair update','Owner office letter'].sort(),'prior owner retains current-day authority before transfer')
   await r.db.prepare('UPDATE tt_tenancies SET time_zone=? WHERE id=?').bind(['Pacific','Kiritimati'].join('/'),t.id).run()
   assert.deepEqual(await shared(currentOwnerCookie),[],'property-local transfer day revokes former owner even while UTC is prior day')
+  assert.equal((await r.request('/api/thread-print?id='+office.ownerPrint.printBatchId)).status,404,'changed ownership refuses the former owner letter print')
   await create({grantId:ownerGrant.grantId},{status:404})
   await r.db.prepare('UPDATE tt_tenancies SET time_zone=? WHERE id=?').bind('America/Los_Angeles',t.id).run()
   const currentJob=await r.db.prepare('SELECT version FROM tt_maintenance_jobs WHERE id=?').bind(job.id).first()
@@ -320,7 +321,7 @@ export async function journey({assets=false,inspect,inspectRetained}={}){
  }finally{await r.close()}
 }
 
-async function officePrintJourney({r,t,create,data,mutate,staff,manager,grants,servicePng}){
+async function officePrintJourney({r,t,create,data,mutate,staff,manager,grants,ownerGrant,servicePng}){
  const before=r.messages.length
  const notice=await create({kind:'broadcast',subject:'Office certified notice',body:'Synthetic exact office letter body.'})
  await mutate('print.prepare',notice.id,{reference:'Synthetic print preparation'},{status:409})
@@ -388,7 +389,20 @@ async function officePrintJourney({r,t,create,data,mutate,staff,manager,grants,s
  await r.db.prepare('UPDATE tt_portal_grants SET revoked_at=? WHERE id=?').bind('2026-10-27T16:00:00.000Z',grants[0].grantId).run()
  assert.equal((await r.request('/api/thread-print?id='+revoking.printBatchId+'&review=1')).status,404)
  await r.db.prepare('UPDATE tt_portal_grants SET revoked_at=NULL WHERE id=?').bind(grants[0].grantId).run()
- return {...prepared,threadId:notice.id,noticeIds:notice.ids,pdfBytes:bytes,recipientPdfs,photoSha256:served.service.photo_sha256}
+ const ownerLetter=await create({kind:'legal',grantId:ownerGrant.grantId,subject:'Owner office letter',body:'Synthetic reviewed owner repair and cost update.'})
+ await mutate('approve',ownerLetter.id,{consent:'APPROVE EXACT MESSAGE',reference:'Synthetic owner audience and exact content review'})
+ const ownerPrint=await mutate('print.prepare',ownerLetter.id,{reference:'Synthetic owner letter print preparation'})
+ const ownerReview=await r.request('/api/thread-print?id='+ownerPrint.printBatchId+'&review=1'),ownerBytes=Buffer.from(await ownerReview.arrayBuffer())
+ assert.equal(ownerReview.status,200)
+ const residentAddress=(await r.state(t.id)).tenancies.find(row=>row.id===t.id).address
+ assert.ok(ownerBytes.includes(Buffer.from('Synthetic owner address').toString('hex')),'owner letter uses the owner mailing address')
+ assert.ok(!ownerBytes.includes(Buffer.from(residentAddress).toString('hex')),'resident address cannot replace the owner mailing address')
+ assert.equal(createHash('sha256').update(ownerBytes).digest('hex'),ownerPrint.pdfSha256)
+ await r.command('thread.print.approve',{printBatchId:ownerPrint.printBatchId,manifestSha256:ownerPrint.manifestSha256,pdfSha256:ownerPrint.pdfSha256,consent:'APPROVE EXACT PRINT',reference:'Synthetic exact owner letter PDF review'})
+ const ownerDownload=await r.request('/api/thread-print?id='+ownerPrint.printBatchId)
+ assert.equal(ownerDownload.status,200);assert.deepEqual(Buffer.from(await ownerDownload.arrayBuffer()),ownerBytes)
+ assert.equal((await data(ownerLetter.id)).service,null,'approved owner printing records no service')
+ return {...prepared,threadId:notice.id,noticeIds:notice.ids,pdfBytes:bytes,recipientPdfs,photoSha256:served.service.photo_sha256,ownerPrint:{...ownerPrint,bytes:ownerBytes}}
 }
 
 function zipEntries(value){
@@ -404,6 +418,7 @@ function assertOfficeExport(value,office,photo){
  const entries=zipEntries(value)
  const inventory=JSON.parse(entries.get('manifest.json')).files
  assert.deepEqual(entries.get(`files/tt_print_batches/${office.printBatchId}.pdf`),office.pdfBytes,'readable export preserves the exact combined PDF')
+ assert.deepEqual(entries.get(`files/tt_print_batches/${office.ownerPrint.printBatchId}.pdf`),office.ownerPrint.bytes,'readable export preserves the exact owner letter PDF')
  for(const item of office.recipientPdfs)assert.deepEqual(entries.get(`files/tt_print_items/${item.id}.pdf`),item.bytes,'readable export preserves each recipient PDF')
  const photograph=inventory.find(f=>f.table==='tt_thread_service'&&f.column==='photo_bytes'&&f.sha256===office.photoSha256)
  assert.ok(photograph);assert.ok(photograph.path.endsWith('.png'));assert.deepEqual(entries.get(photograph.path),photo,'readable export preserves the service photograph')
