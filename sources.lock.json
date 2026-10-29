@@ -4317,7 +4317,7 @@
       "executable": false
     },
     "src/terrace/shadow-run.ts": {
-      "sha256": "ba8fbc9a5cb08f21be48cffc07d4a48603f75832598954957e0984832843a51b",
+      "sha256": "45c86fe7a89d759a4cb9de7552719f2608828860929bef090f67169b0e3f1cc3",
       "executable": false
     },
     "src/terrace/sibling-view.ts": {
@@ -4897,7 +4897,7 @@
       "executable": false
     },
     "tests/shadow-run.mjs": {
-      "sha256": "7648ba722f888db26f483f9248024f19056d7a1ad0dce261f82ac2f10d2777f2",
+      "sha256": "a125b539eb25396266c4acc87f1fcdbb87cb869e086068ca0caf72d4d59bcff3",
       "executable": false
     },
     "tests/siblings.mjs": {
