@@ -1,7 +1,7 @@
 {
   "version": "0.1.4",
-  "date": "2026-10-26",
-  "publicReleaseNotes": "Private resident statements and receipts gain reviewed email links, accessible PDF and CSV downloads, authenticated delivery outcomes and failed-email follow-up. The documented delivery authority and custody default remains pending approval.",
+  "date": "2026-10-29",
+  "publicReleaseNotes": "Private resident statements and receipts gain reviewed email links, accessible PDF and CSV downloads, authenticated delivery outcomes and failed-email follow-up. The documented delivery authority and custody default remains pending approval. Office printing freezes recipient letters and exact hash approvals separately from staff-recorded service, including certified tracking, photographs and accountable returned-mail follow-up. Statutory qualification and Lob delivery remain unproved.",
   "contractChanges": {
     "PORTAL-007": "Partial retained: adopt the ct-approved replacement default, riders and per-receiver qualification map dated 25 October 2026; outstanding assertions remain explicit.",
     "WORK-014": "Done: pinned-clock household and property-local ownership boundary matrix through chargeback proposal and approval, including UTC disagreement and authority changes before approval. Existing accounting, retention and recovery proof remains applicable.",
