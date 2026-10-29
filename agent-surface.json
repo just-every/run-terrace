@@ -706,7 +706,10 @@
       "id": "preview",
       "tool": "terrace.charges.preview",
       "args": {
-        "month": "2020-06"
+        "month": {
+          "$fixture": "month",
+          "pointer": ""
+        }
       },
       "expect": [
         {
@@ -729,7 +732,10 @@
         "trade": "plumbing",
         "tradeName": "Fixture Plumber",
         "tradeEmail": "plumber@example.test",
-        "dueDate": "2030-01-15",
+        "dueDate": {
+          "$fixture": "dueOn",
+          "pointer": ""
+        },
         "estimate": "180.00"
       },
       "expect": [
@@ -806,7 +812,10 @@
         "vendorName": "Fixture Plumber",
         "vendorEmail": "plumber@example.test",
         "scope": "Replace washer",
-        "availableDate": "2030-01-15",
+        "availableDate": {
+          "$fixture": "dueOn",
+          "pointer": ""
+        },
         "amount": "180.00"
       },
       "expect": [
@@ -830,7 +839,10 @@
           "$fixture": "tenancy",
           "pointer": "/id"
         },
-        "endDate": "2031-12-31",
+        "endDate": {
+          "$fixture": "renewal",
+          "pointer": "/endDate"
+        },
         "rent": "1550.00",
         "source": "Recorded owner proposal; no approval or execution"
       },
@@ -856,7 +868,10 @@
           "pointer": "/id"
         },
         "message": "Please contact the office to discuss your balance.",
-        "followUpDate": "2030-01-15"
+        "followUpDate": {
+          "$fixture": "dueOn",
+          "pointer": ""
+        }
       },
       "expect": [
         {
@@ -881,7 +896,10 @@
         },
         "kind": "charge",
         "reason": "Original invoice was omitted",
-        "dueDate": "2020-06-01",
+        "dueDate": {
+          "$fixture": "correction",
+          "pointer": "/dueDate"
+        },
         "amount": "25.00",
         "description": "Corrected service charge draft",
         "reference": "fixture-close-correction"
@@ -977,7 +995,10 @@
         "trade": "plumbing",
         "tradeName": "Fixture Plumber",
         "tradeEmail": "plumber@example.test",
-        "dueDate": "2030-01-15",
+        "dueDate": {
+          "$fixture": "dueOn",
+          "pointer": ""
+        },
         "estimate": "180.00"
       },
       "expect": [
@@ -1059,7 +1080,10 @@
         "vendorName": "Fixture Plumber",
         "vendorEmail": "plumber@example.test",
         "scope": "Synthetic resident SSN 123-45-6789",
-        "availableDate": "2030-01-15",
+        "availableDate": {
+          "$fixture": "dueOn",
+          "pointer": ""
+        },
         "amount": "180.00"
       },
       "expect": [
@@ -1086,7 +1110,10 @@
           "$fixture": "tenancy",
           "pointer": "/id"
         },
-        "endDate": "2031-12-31",
+        "endDate": {
+          "$fixture": "renewal",
+          "pointer": "/endDate"
+        },
         "rent": "1550.00",
         "source": "Synthetic resident SSN 123-45-6789"
       },
@@ -1115,7 +1142,10 @@
           "pointer": "/id"
         },
         "message": "Synthetic resident SSN 123-45-6789",
-        "followUpDate": "2030-01-15"
+        "followUpDate": {
+          "$fixture": "dueOn",
+          "pointer": ""
+        }
       },
       "expect": [
         {
@@ -1143,7 +1173,10 @@
         },
         "kind": "charge",
         "reason": "Synthetic resident SSN 123-45-6789",
-        "dueDate": "2020-06-01",
+        "dueDate": {
+          "$fixture": "correction",
+          "pointer": "/dueDate"
+        },
         "amount": "25.00",
         "description": "Correction draft",
         "reference": "fixture-sensitive-correction"
