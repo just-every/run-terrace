@@ -8,7 +8,7 @@ import { backup } from './data'
 import { csv, zip } from './exports'
 import { documentExportCell } from './document-redaction'
 
-const EXT: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', ['application', 'pdf'].join('/'): 'pdf', 'video/mp4': 'mp4', 'video/quicktime': 'mov', 'video/webm': 'webm', 'text/plain': 'txt', 'text/csv': 'csv', 'message/rfc822': 'eml' }
+const EXT: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', 'application/pdf': 'pdf', 'video/mp4': 'mp4', 'video/quicktime': 'mov', 'video/webm': 'webm', 'text/plain': 'txt', 'text/csv': 'csv', 'message/rfc822': 'eml' }
 const bytes = (b64: string) => Uint8Array.from(atob(b64), ch => ch.charCodeAt(0))
 
 export const RECONNECT = [

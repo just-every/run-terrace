@@ -33,6 +33,11 @@ try{await journey({assets:true,inspectRetained:async({r,kept,office})=>{
   await page.getByRole('heading',{name:'Shared conversations',exact:true}).waitFor()
   await page.getByRole('heading',{name:'Building broadcast results',exact:true}).waitFor();assert.ok(await page.getByText(/Resident 1.*Staff-recorded failed/).count()>0)
   await capture(page,'messages-results',true)
+  const ownerLetter=page.locator('article').filter({has:page.getByRole('heading',{name:'Owner office letter',exact:true})}).first()
+  await ownerLetter.locator('summary').filter({hasText:'Office printing'}).click()
+  assert.equal(await ownerLetter.getByRole('link',{name:'Download approved batch PDF',exact:true}).count(),1)
+  await capture(page,'owner-office-print',true)
+  await ownerLetter.locator('summary').filter({hasText:'Office printing'}).click()
   const card=page.locator('article').filter({has:page.getByRole('heading',{name:'Kitchen repair conversation',exact:true})}).first()
   await card.locator('summary').filter({hasText:'Conversation history'}).click()
   assert.ok(await card.getByText(/Revision 0 to 1/).count()>0)
@@ -147,7 +152,7 @@ try{await journey({assets:true,inspectRetained:async({r,kept,office})=>{
    await card.getByRole('button',{name:'Send reply',exact:true}).click()
    await external.page.getByText('Synthetic browser reply from '+name,{exact:true}).waitFor()
    const data=(await(await r.request('/portal/api/threads',{as:cookie})).json()).threads
-   assert.deepEqual(data.map(x=>x.subject),[subject]);assert.equal(data[0].entries.at(-1).body,'Synthetic browser reply from '+name)
+   assert.deepEqual(data.map(x=>x.subject).sort(),(name==='owner-conversations'?[subject,'Owner office letter']:[subject]).sort());assert.equal(data.find(x=>x.subject===subject).entries.at(-1).body,'Synthetic browser reply from '+name)
   }finally{await external.context.close()}
  }
  const household=await open(r,householdCookie);try{

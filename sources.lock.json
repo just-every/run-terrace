@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "11da2e77b9ca912ff37bbd6bc665ace5786cf641b6aada922ed6ed3ff8f4d207",
+      "sha256": "00654cf1505dbb7e508d4fe7f5f6560c3c462bcce225e7ac4d6e86ec25878bd0",
       "executable": false
     },
     "AGENTS.md": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "1bd3c126555382a4e29c6ecd4493013d03242062415d48804a786c6b53b3c76d",
+      "sha256": "b1dce1f440c6ae73b9975b09360db950749c66b68bba0c5e0f6df228005d17d6",
       "executable": false
     },
     "DEMO.md": {
@@ -997,7 +997,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "0bfbb001ddfdb907a033f5a30b926f73f73d2b17300249bf8bb99b221dfb0e97",
+      "sha256": "ef0d65382b2d757f1aa3757cfd653dd0c3c80acac158624bb0a2eba381d9e1f8",
       "executable": false
     },
     "rer-project.json": {
@@ -4045,7 +4045,7 @@
       "executable": false
     },
     "src/terrace/portal-thread-view.ts": {
-      "sha256": "0d68f675fa7028159c39b9bcc35e59ddec6e085c77cc45741e8b0a9b9122e7e5",
+      "sha256": "79f3e77893c5b9e98e2a1adffd75a1c0c646da3057f5b3afb77cd9e1421625fc",
       "executable": false
     },
     "src/terrace/portal-threads.ts": {
@@ -4113,7 +4113,7 @@
       "executable": false
     },
     "src/terrace/readable-export.ts": {
-      "sha256": "a3c94931dc1ce7cd999fa6de915472652cc518d827f3774e58a172a03fa4a8cd",
+      "sha256": "56089ff32743c8bf8a9e5eca922e0052cb74274ac1ed82a0f0af8b50433fc350",
       "executable": false
     },
     "src/terrace/reconcile-commands.ts": {
@@ -4761,11 +4761,11 @@
       "executable": false
     },
     "tests/portal-threads-browser.mjs": {
-      "sha256": "6573688814c876e87f966bad837d89f65f8679792f07f11fefac109cfede917b",
+      "sha256": "0031a4cb57d380a4da1f24d3529327143d4b7ce87a4df26d21cc7447652a6247",
       "executable": false
     },
     "tests/portal-threads.mjs": {
-      "sha256": "892c90a71ac99a732254c1c8ef580b77e8b43d83a365a7050468730dfe18f932",
+      "sha256": "d01dbbd98aef66d235fdc41bbcfd4179620c222d49f6a1920bf9d9ee4de3f14b",
       "executable": false
     },
     "tests/portal.mjs": {
