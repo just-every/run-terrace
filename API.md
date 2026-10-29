@@ -382,3 +382,40 @@ lease comparison, open differences, follow-up history and exact reviews.
 no-store headers and `X-Source-Sha256`. Both require the current signed-in owner.
 A replaced source, changed native statement or restored installation cannot use
 a prior review as current evidence. See [documentary shadow rent](docs/move-in.md).
+
+## Submitted income criterion review
+
+`POST /api/application-review` computes a read-only comparison; the equivalent
+native form posts to `/app/application-review`. Both require the current native
+owner or an in-scope portfolio-manager session, satisfied second factor when
+required and matching Origin. API credentials are refused. The result is private
+and no-store. Another portfolio's application returns 404; prohibited roles
+return 403. No review input is placed in a URL or persisted applicant record.
+
+Supply shared `multiple` (a positive decimal with at most six fractional digits),
+`criterionReference` and `disclosed: "PREVIOUSLY DISCLOSED"`, confirming that this
+exact multiple was disclosed to both applicants before submission. Each of the
+prefixes `first` and `second` takes `ApplicationId`, `AdultId`, `Version`,
+`DisclosureHash`, `DisclosurePackId`, `FileId`, `FileHash`, `Rent`, `Income`,
+`EvidenceState`, `Verification`, `VerifiedOn` and `VerificationReference`.
+For example, `firstRent` and `secondRent` are explicitly supplied monthly USD
+amounts with at most two decimal places. Evidence states are `missing`,
+`unverified`, `contested` and `verified`. Verified evidence needs the assertion
+`I VERIFIED INCOME`, a nonfuture date and an external staff verification reference.
+Read the current revision, acknowledged disclosure and original hashes from
+`/api/applications`; the native source picker supplies these pins automatically.
+
+Responses show the shared criterion and two rows with submitted revision,
+disclosure text and provenance, original hashes, exact-cent inputs, verification,
+exact rational threshold, `minimumIncomeCents` and `result`: `held`,
+`meets_criterion` or `below_criterion`. Held evidence does not yield a positive or
+negative criterion result. Changed inputs must be posted again. Stale revisions,
+changed or inaccessible originals and changed disclosure fingerprints return 409;
+an unavailable applicant returns 404. A successful read records only
+`application.income-review` with outcome `read` and the opaque applicant id.
+
+The calculation parses neither applicant prose nor original document instructions.
+It creates no applicant decision, report, dispute resolution, send, fee, ledger
+entry, grant or custody policy. All LEASE-009 provider, counsel, legal, authority,
+decision, referral, notice-delivery and export-history gaps remain; see
+[applications](docs/applications.md).

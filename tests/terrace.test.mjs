@@ -942,7 +942,7 @@ test('PORTAL-007: scoped request actions, expiry, replacement, validated origina
 import {journey as sharedThreadJourney} from './portal-threads.mjs'
 test('PORTAL-006: private notes, scoped conversations, exact notices and per-recipient building service evidence survive restore',sharedThreadJourney)
 
-test('LEASE-007: two private adult applications, durable drafts, originals, disclosed submission, requested revisions and verified household fee outcomes',applicationJourney)
+test('LEASE-007: two private adult applications, durable drafts, originals, disclosed submission, requested revisions and verified household fee outcomes with read-only disclosed income review',applicationJourney)
 
 import {journey as referralJourney} from './professional-referrals.mjs'
 test('BOUND-002: scoped professional referrals retain held sources, documentary responses and fenced originals',referralJourney)

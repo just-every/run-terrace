@@ -254,7 +254,8 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
    insist(request.headers.get('origin')===env.AUTH_ORIGIN&&request.headers.get('sec-fetch-site')!=='cross-site','origin','Same-origin confirmation is required.',403)
    insist(Number(request.headers.get('content-length')??0)<=32768,'body_limit','Review input is too large.',413)
    const input=request.headers.get('content-type')?.includes('application/json')?await request.json():Object.fromEntries(await request.formData())
-   const review=await applicationReview(c,input as Row)
+   p={...(input as Row),tab:'applications'}
+   const review=await applicationReview(c,p)
    if(isApi)return new Response(JSON.stringify(review),{headers:{'content-type':'application/json','cache-control':'private, no-store','referrer-policy':'no-referrer','x-content-type-options':'nosniff'}})
    const dest=new URL('/app?tab=applications',url)
    return await render(c,dest,'Recomputed from the selected submitted sources.',{incomeReview:review})

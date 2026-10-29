@@ -21,7 +21,7 @@ Generated from CONTRACT.md. Edit its claim mapping and Status rows, then run `no
 | 15 | Rent roll: collected of billed, leases paid, ACH / card / cash / partial / unpaid per unit | `REPORT-001` | done |
 | 16 | "One listing goes to Zillow, Apartments.com and your own site." | `LEASE-001`, `LEASE-002`, `LEASE-003` | missing |
 | 17 | "Applications, screening and the lease all happen in Terrace." | `LEASE-007`, `LEASE-008`, `LEASE-010`, `LEASE-011` | partial |
-| 18 | Applicants approved or declined by Kim Lee, TransUnion report, income rule, notice sent | `LEASE-008`, `LEASE-009` | missing |
+| 18 | Applicants approved or declined by Kim Lee, TransUnion report, income rule, notice sent | `LEASE-008`, `LEASE-009` | partial |
 | 19 | Lease e-signed by resident and manager; deposit to the deposit account | `LEASE-011`, `ACCT-002`, `ACCT-003` | partial |
 | 20 | "Terrace's agent runs the repair from the report to the matched invoice, inside the owner's limit." | `AGENT-001`, `ROLE-003` | partial |
 | 21 | Report and triage: "Plumbing, urgent. Asked Jordan to close the valve." | `PORTAL-004`, `WORK-001` | partial |

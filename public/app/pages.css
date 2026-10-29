@@ -95,3 +95,11 @@
 
 .shadow-rent{font-size:14px}.shadow-rent code{font-size:13px}.shadow-rent details{margin:16px 0}.shadow-rent form{margin:16px 0}.shadow-rent .shadow-amounts{min-width:40rem}.shadow-rent .shadow-amounts th,.shadow-rent .shadow-amounts td{white-space:nowrap;font-size:13px}.shadow-rent li{margin:14px 0}.shadow-rent textarea{font-size:13px}.shadow-rent .table-scroll{max-width:100%;overflow-x:auto}
 .shadow-rent label,.shadow-rent summary,.shadow-rent input,.shadow-rent select{font-size:13px}
+
+/* Submitted income review keeps amounts and source evidence readable on phones. */
+.income-review fieldset{min-inline-size:0;display:grid;gap:14px;border:1px solid var(--rule);border-radius:12px;padding:16px;margin:0}
+.income-review legend{font-size:13px;font-weight:600;padding:0 6px}
+.income-review dl{grid-template-columns:minmax(0,1fr);gap:6px}
+.income-review dd{margin-bottom:12px;min-width:0}
+.income-review .mono{font:400 13px/1.5 var(--rer-font-mono);overflow-wrap:anywhere}
+@media(min-width:861px){.income-review dl{grid-template-columns:minmax(140px,220px) minmax(0,1fr);gap:10px 20px}.income-review dd{margin-bottom:0}}

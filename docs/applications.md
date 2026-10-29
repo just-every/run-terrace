@@ -73,3 +73,50 @@ forms use `/apply`; the same application and fee actions return JSON under
 `/apply/api/application` and `/apply/api/fee`. The session chooses the adult;
 submitted adult ids grant no access. Mutations require a matching Origin and
 current version; all staff mutations also require a fresh native sign-in.
+
+## Read-only income criterion review
+
+From **Applications → Income criterion review**, the owner or an already
+in-scope portfolio manager selects two submitted applicants and their disclosure
+and income-original sources. Supply one monthly-income multiple for both, its
+previously disclosed reference, monthly rent and staff-entered monthly income in
+USD. Confirm that this exact multiple was disclosed to both applicants before
+submission. Terrace shows each acknowledged disclosure's text, citation, version
+and fingerprint; this staff assertion does not establish legal sufficiency.
+
+For each applicant, select the evidence state and enter the staff verification
+assertion `I VERIFIED INCOME`, its date and external reference. Verification is
+an attributable staff assertion, not document extraction or provider validation.
+Missing income or originals, missing verification and unverified or contested
+evidence produce **Held**. Contested evidence needs authorized human review;
+this calculation neither records a dispute case nor resolves one.
+
+The same criterion uses integer cents and an exact decimal multiple with up to
+six fractional digits. The calculation shows its exact rational threshold and
+the minimum whole cents that meet it. A value at the threshold meets the income
+criterion; a value below it does not. This result never approves or declines an
+applicant. There is no protected-trait input, ranking, document instruction
+execution, screening report, notice, fee or financial action.
+
+Changing rent, income, criterion or verification requires **Recompute income
+review**. Each result displays only the inputs it computed. No review or extra
+applicant record is saved. Submitted answers stay locked. Reload after a source
+revision changes; stale versions, changed fingerprints and unavailable sources
+are refused. The source door rechecks current staff role and portfolio access
+on every request. Applicant revocation also makes that applicant unavailable
+for this review, without deleting retained original evidence. Original downloads
+keep the existing authenticated, private, no-store custody rules.
+
+Only attributable sensitive-read history is retained, without the supplied
+criterion, income or verification reference. Review input is sent in a request
+body rather than a URL. Restore carries no cached review or execution authority;
+source references must be selected and recomputed in the destination. Existing
+application retention, legal holds, erasure and later-journal fences are unchanged.
+
+LEASE-009 remains partial. CT approval of applicant authority, custody, retention
+and fee policy, scoped leasing delegation and production provider boundaries
+remain owed. Counsel engagement, legally sufficient disclosures and approved
+adverse-action contents, authorized TransUnion screening and report provenance,
+human decisions, accommodation and contested-report referrals, correct dispute
+and provider contacts, approved notice delivery and screening-file export history
+remain outside this calculation.
