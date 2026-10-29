@@ -22,11 +22,16 @@ export async function screens(context, name, path) {
   for (const width of [1440,390]) {
    await page.setViewportSize({ width, height: 960 });
    await page.goto(new URL(path,context.origin).href, { waitUntil: 'networkidle' });
-   assert.ok(await page.locator('h1').count(), 'Native screen must render its heading');
+   await page.screenshot({ path: join(directory,`${name}-${width}.png`), fullPage: true });
+   const headings = await page.locator('h1').count();
+   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
+   console.log(`Agent UI measurements: ${name} width=${width} headings=${headings} overflow=${overflow}`);
+   assert.ok(headings, 'Native screen must render its heading');
    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Native screen overflows horizontally');
    const undersized = await page.locator('button,select,textarea').evaluateAll(elements => elements.filter(element => {
     const rect = element.getBoundingClientRect(); return rect.width > 0 && rect.height > 0 && (rect.width < 44 || rect.height < 44);
    }).length);
+   console.log(`Agent UI controls: ${name} width=${width} undersized=${undersized}`);
    assert.equal(undersized,0,'Native action controls must remain usable');
    await page.screenshot({ path: join(directory,`${name}-${width}.png`), fullPage: true });
   }

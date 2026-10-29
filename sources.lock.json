@@ -4917,7 +4917,7 @@
       "executable": false
     },
     "tests/agent-door/screens.mjs": {
-      "sha256": "ecbd8729f3b210c7a2e17e5c2c328aafcf68138619564e6e244de1edd5ed3009",
+      "sha256": "0481f2c22fe103291155a40df5467a4da2b126ceba2853545af788a244dc85e7",
       "executable": false
     },
     "tests/agent-workloads-browser.mjs": {
