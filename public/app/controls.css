@@ -44,3 +44,9 @@ input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px soli
 .validation-summary{border:1px solid var(--red-ink);border-radius:10px;padding:16px;color:var(--red-ink)}
 .validation-summary h2{font-size:16px;margin-bottom:8px}.validation-summary ul{margin:0;padding-left:20px}
 [hidden]{display:none!important}
+
+/* Keep status badges and supporting labels readable on the everyday work surfaces. */
+body[data-view=work] :is(.pill,.avatar,th,code,.photo-list>li,.photo-list summary),
+body[data-view=ledger] :is(.pill,.avatar,th,code,.definition-strip dt),
+body[data-view=ledger] .ledger-table td,body[data-view=ledger] .ledger-table td::before,
+.terrace-portal :is(th,code,.pill){font-size:13px}
