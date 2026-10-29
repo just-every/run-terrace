@@ -1,3 +1,4 @@
+import { agentDocs } from './terrace/agent-door/docs'
 import { terraceAgentDoor } from './terrace/agent-door/index.server'
 import { businessSettings } from './terrace/agent-door/business.server'
 import { workflowScheduled } from './terrace/workflow-scheduler'
@@ -30,6 +31,8 @@ function noTransform(response: Response): Response {
 const worker = {
   scheduled: workflowScheduled,
   async fetch(request, env, execution) {
+    const docs = agentDocs(request)
+    if (docs) return docs
     const native = runtimeBindings(env)
     const settings = await businessSettings(native).handle(request)
     if (settings) return rejectedResponse(request, settings)

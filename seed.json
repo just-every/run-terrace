@@ -60,7 +60,14 @@
       "/api/stripe/events",
       "/api/resident-mail/events",
       "/api/twilio/status",
-      "/api/twilio/inbound"
+      "/api/twilio/inbound",
+      "/mcp",
+      "/.well-known/oauth-protected-resource",
+      "/.well-known/oauth-protected-resource/mcp",
+      "/api/rer/agent-policy",
+      "/api/rer/business-settings",
+      "/agents",
+      "/docs/agents"
     ],
     "notes": "Native owner sessions guard /app; unknown paths return real 404s; the development outbox is local-only."
   },

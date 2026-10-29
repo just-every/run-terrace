@@ -382,3 +382,7 @@ lease comparison, open differences, follow-up history and exact reviews.
 no-store headers and `X-Source-Sha256`. Both require the current signed-in owner.
 A replaced source, changed native statement or restored installation cannot use
 a prior review as current evidence. See [documentary shadow rent](docs/move-in.md).
+
+## Company agent door
+
+The shared `/mcp` door and `/agents` person controls use signed company policy. See [the supported jobs, native authority and limits](docs/agent-door-adoption.md) and `agent-surface.json`. The declared subset has tools, policy, pause, audit and idempotency; resources, prompts, events and subscriptions are typed-refused. Native API credentials retain their narrower read/prepare grants and assigned-workload checks.

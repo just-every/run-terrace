@@ -1,40 +1,98 @@
-# Agent door integration boundary
+# Terrace company agents
 
-Terrace's shared agent and Business runtime source is pinned in `base-copies.json`.
-It is not yet mounted in the production Worker. The native operations API remains
-the supported agent entry point; see [the API guide](../API.md). This source copy
-does not claim MCP discovery, company-policy enforcement, agent approvals or a
-completed residential portfolio steward.
+Terrace serves one shared agent door at `/mcp`, its canonical metadata at
+`/.well-known/oauth-protected-resource/mcp`, and native person controls at
+`/agents`. MCP supports 2026-07-28 and 2025-11-25. The runtime is copied from
+Base `114ef7a61f080da053af783c5fbe06f625d692cc`; the CLI is released rer 0.2.88.
+`agent-surface.json` records the exact declared registry and disposable journey.
 
-The authoritative people are `oa_operators`, with Terrace responsibility and
-portfolio grants in `tt_staff_roles`, `tt_role_actions` and
-`tt_role_portfolios`. A future Business binding must resolve signed owner and
-team IDs to those durable native IDs, re-read current admission on each effect,
-and preserve the native role and portfolio guards. An email match is not a
-binding. Local credential authority remains separate and narrower than its
-issuing person's authority.
+The declared capabilities are tools, policy, pause, audit and idempotency.
+Resources, prompts, events and subscriptions are undeclared and typed-refused.
+There are no public resource templates, resource links or built-in events tool.
+Their contract clauses stay PARTIAL. Multi-sponsor, mail edges and resource
+refresh are unscoped by this Base release and remain unproved.
 
-Native prepare credentials can prepare maintenance, revisions, quotes, renewals,
-arrears and close corrections, preview charges and execute their assigned
-structured workload. They cannot approve, post money, send, change access or
-satisfy a person's fresh sign-in proof. `agent.execute` additionally requires the
-exact current credential assigned to the workload. The owner configures,
-pauses, cancels and reassigns workloads; ownership alone does not authorize
-execution as the assigned credential. Revocation and rotation fence the native
-write, including execution after a queued claim. Preparation has no model or
-provider cost and supplies no payment, signature, resident confirmation or
-external delivery evidence.
+## Supported work
 
-Complete conformance must exercise both signed Business sponsorship and these
-local credential boundaries against the real production schema. In particular,
-a local-only workload execution needs a journey credential supplied privately
-by the native fixture lifecycle. It must not be inferred from a Business token,
-returned as tool or resource content, replaced by a synthetic person, or admitted
-through a test-only production route. An owner initializer and an outbound
-provider edge do not by themselves select the credential for a journey call.
+The Residential portfolio steward can inspect company references, a scoped
+portfolio witness, tenancy proposals, a maintenance job, its own assigned
+workload and recurring-charge previews. It can prepare maintenance, revise
+prepared work, add comparison quotes, prepare renewals, arrears follow-ups and
+close corrections, and execute the exact native workload assigned to its live
+credential. Every preparation remains pending the existing native human action.
+It never approves, sends, posts money, changes access, creates provider accounts
+or supplies a person's fresh sign-in proof. Monetary estimates remain estimates.
+No paid model or provider is called and spend is `{none:true}`; no cost is
+registered. Native bank, legal-signature and continuing-stewardship limits remain.
 
-Until that execution and conformance integration is complete, keep the runtime
-unmounted and retain the existing people, session, Origin, CSRF, fresh-proof,
-prepare-scope and workload-assignment checks. No contract status is advanced by
-copying the runtime. The draft Agent surface remains a target mapping, with its
-unsupported provider and complete-workflow capabilities still open.
+All preparations carry standard. Protected identity/payment numbers or named
+health/accommodation content in the exact prepared fields add sensitive. For a
+workload, the server classifies its persisted structured payload. Extra arguments
+and imported instructions cannot choose classes, approvals, recipients or native
+commands. Native outputs redact protected numeric and credential-like metadata;
+returned text remains untrusted. No Undo is offered for these append-only drafts.
+
+## Native people and authority
+
+The people source is `oa_operators`, with current roles and portfolio grants in
+`tt_staff_roles`, `tt_role_actions` and `tt_role_portfolios`. Signed Business
+`owner_id` binds to the installation's original native owner. Signed team IDs
+bind through `bs_team.operator_id`; email is never a token-to-person lookup.
+Business owner is policy owner, Business admin is editor, and Business member
+has no policy-edit role. A native promotion cannot grant a Business role.
+Unknown, inactive and natively inadmissible people are refused. Approval execution
+re-reads native people and grants; consent and agent revocation close the next call.
+The native owner lifecycle remains the declared setup-token POST to
+`/auth/bootstrap`, independently of the signed `/auth/owner-claim` handler.
+
+A local `ttk_` credential retains its original read/prepare scope, native role,
+portfolio grants, credential ID and version. Its sponsor is its durable native
+`created_by` person, re-read on admission. Workload execution requires the exact
+assigned credential, never an owner's Business token substituted for it.
+The native transaction checks the same live credential, role and workload
+versions again. A recognizable failed Business token cannot become a local one.
+The ordinary API, device, import, connector and installation credentials keep
+their existing purposes; these are not parallel MCP or policy dispatchers.
+
+Native history stores the agent, sponsor, client, operation, originating consent
+and named approvers alongside its original authorization actor. It displays
+`<agent> for <person>`. A prepared proposal's display attribution comes from the
+same native history. A company approval authorizes the prepared tool action;
+it does not turn that draft into a native financial, legal or outbound approval.
+
+## Verification and sequencing
+
+Run normal `rer verify` using the pinned CLI. It builds and runs the ordinary
+production Worker/schema and then the shared conformance harness. The contained
+phase fixture completes first-run setup, steps up through the real emailed link,
+mints scoped credentials and enqueues native workloads. It never writes SQL or
+adds an application test route. Only the verifier's built-in mail provider edge
+is needed for native authentication. No declared tool reaches an outbound
+provider, so no extra network module is declared.
+
+The journey covers every declared tool/class pair under autonomous and held
+policies, sensitive blocking, unset policy, Pause, replay, audit and consent
+revocation. The native journey additionally checks the scoped local read,
+missing/hidden equivalence and credential revocation through production HTTP.
+No optional family is credited by its omission. Shared and specialist clauses
+remain PARTIAL where their broader acceptance is unproved.
+
+## Delta for the draft surface
+
+The input is ct's draft at `9495fa56e39bc930e3e0e56668bfedf340d88ee2`,
+`docs/contract/AGENT-SURFACE.md`; that branch is not merged. Its SURFACE-001
+through SURFACE-013 remain draft IDs, not judged clauses in this contract.
+The existing AGENT-001 through AGENT-009 remain unchanged. AGENT-010 through
+AGENT-013 are not present on main and are not invented here.
+
+This adoption uses the draft's company.get, leases.get, charges.preview,
+work.prepare, quotes.add, renewals.prepare, arrears.prepare, corrections.prepare
+and workloads.get names. It adds portfolio.get for the native scoped witness,
+work.get for a current native job revision, work.revise for maintenance.revise,
+and workloads.execute for exact assigned-credential execution. Native reassign
+changes a credential, not a Business sponsor; no sponsor-reassignment tool is
+claimed. Wider human-only verbs from the draft remain outside this prepare-only
+agent registry; their native screens and services are retained. Complete reads,
+resources and the stranger-agent seeded week remain gaps. No tool is registered
+for a target-only job. Devices/screens, connectors, imports and installation
+remain explicit clause-backed notTools in the descriptor.

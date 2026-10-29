@@ -113,11 +113,11 @@
       "executable": false
     },
     "API.md": {
-      "sha256": "92ba84f1df81f4d724ad0f9fc0b6579659d9d257b877bf45a1244b6b91b1bb9a",
+      "sha256": "403e1abd905f5fe4479d486faf84d7f180ac278c948dc51421e4be81c34d474c",
       "executable": false
     },
     "base-copies.json": {
-      "sha256": "2702fc7d2c4ebbd73eca9b247cf1d13b4da4015cf7e7a6d560af78b03329eab8",
+      "sha256": "fcbb8a135f28b28209040be36c279bda34c697e1850fe3f7724f7214e8e0eac1",
       "executable": false
     },
     "CHANGELOG.md": {
@@ -153,7 +153,7 @@
       "executable": false
     },
     "docs/agent-door-adoption.md": {
-      "sha256": "3f33e88815484b7a1327406bb0ffe2b0929028f7e77de4bf71b6379fd705dbab",
+      "sha256": "10822a659dc1db69f2b172ad653637cb624eaaef520126d692b8757c4ad4ce6d",
       "executable": false
     },
     "docs/applications.md": {
@@ -1001,7 +1001,7 @@
       "executable": false
     },
     "README.md": {
-      "sha256": "5deb39ad10a6dd48162b30e730b584fbd54c8e3d88d7dc562b14ccd8af406c19",
+      "sha256": "ad76dd11847d37c285aaee031028a08fbb938960a8ee3d2eb6f3515deca17342",
       "executable": false
     },
     "release-history/0.1.0.json": {
@@ -1257,7 +1257,7 @@
       "executable": false
     },
     "seed.json": {
-      "sha256": "34866c53e833a9bc2bc1e7cd6af0e734838e4463dce809d1080a5346b73d4b00",
+      "sha256": "91ffa84f12487dbab1086bf0367554a17336100b273a3516724f24676ef35fc7",
       "executable": false
     },
     "SOURCE.md": {
@@ -4209,7 +4209,7 @@
       "executable": false
     },
     "src/server.ts": {
-      "sha256": "9261b1bb243e86aba78af5254ced27a19cb939f82e1c1fd511e5a5a001920712",
+      "sha256": "035ebe43d48c80395ce0121c06a08a935c42d6771c7dac5bdf123752a91453ed",
       "executable": false
     },
     "src/site/docs.ts": {
@@ -4306,6 +4306,10 @@
     },
     "src/terrace/agent-door/context.ts": {
       "sha256": "82c17914978df47aecd0ae98dc469891d56a27886cae319579b760c127666d2f",
+      "executable": false
+    },
+    "src/terrace/agent-door/docs.ts": {
+      "sha256": "c74ee19937c9baa58bc039fbbe3a2de867de8c905bb7ebc0751ddd53a2b60bc1",
       "executable": false
     },
     "src/terrace/agent-door/index.server.ts": {
