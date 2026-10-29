@@ -4909,7 +4909,7 @@
       "executable": false
     },
     "tests/agent-door/native-journey.mjs": {
-      "sha256": "f67ab19027e948a3d3a46fc71a726f0916739c3b4ee28d32b99d056ab8160466",
+      "sha256": "0e12883e93348f9c62ae01bb308fc58739b93f7800bf163c306b4562a0d6a15a",
       "executable": false
     },
     "tests/agent-door/phase-fixtures.mjs": {
