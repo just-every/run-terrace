@@ -53,12 +53,23 @@ export async function journey({assets=false,inspect}={}){
   assert.deepEqual(Object.values(d.lines[0].differences),[null,null,null,null,null],'different currencies never net or reconcile')
   assert.equal((await run(first.id)).sourceCurrent,false);assert.equal((await run(first.id)).review.result,'held','prior evidence is retained')
   await h.command('shadow.review',review,{status:409})
-  const correctedBytes=Buffer.from('Explicitly synthetic CORRECTED original. synthetic-terrace-17\n')
+  let correctedBytes=Buffer.from('Explicitly synthetic CORRECTED original. synthetic-terrace-17\n')
   const corrected=await capture(rows,correctedBytes,duplicate.id);r=await run(corrected.id)
   assert.equal(r.matched,true);assert.equal(r.review,null,'corrected source needs its own exact review')
   await h.command('shadow.review',{...review,runId:r.id},{status:409})
   await h.command('shadow.review',{...review,runId:r.id,fingerprint:r.fingerprint})
   assert.equal((await run(r.id)).status,'reviewed_match')
+  const priorExact=r,priorBytes=correctedBytes
+  correctedBytes=Buffer.from('Explicitly synthetic REISSUED original. synthetic-terrace-29\n')
+  const reissued=await capture(rows,correctedBytes,priorExact.id);r=await run(reissued.id)
+  assert.equal(r.matched,true);assert.equal(r.review,null)
+  assert.notEqual(r.sourceSha256,sha(priorBytes));assert.notEqual(r.fingerprint,priorExact.fingerprint,'different source bytes alone change the exact review')
+  assert.equal((await run(priorExact.id)).sourceCurrent,false)
+  assert.equal((await run(priorExact.id)).review.result,'matched','prior exact review remains historical evidence')
+  await h.command('shadow.review',{...review,runId:r.id,fingerprint:priorExact.fingerprint},{status:409})
+  await h.command('shadow.review',{...review,runId:r.id,fingerprint:r.fingerprint})
+  assert.deepEqual(Buffer.from(await(await h.request('/api/shadow-original?id='+priorExact.id)).arrayBuffer()),priorBytes,'the prior source original remains exact')
+  assert.deepEqual(Buffer.from(await(await h.request('/api/shadow-original?id='+first.id)).arrayBuffer()),original,'the first held source original remains exact')
   assert.deepEqual(await financial(),before,'documentary recording changes no money, schedule or provider state');assert.equal(h.messages.length,mailBefore,'no outbound sends')
   await h.restart();assert.equal((await run(r.id)).status,'reviewed_match','review survives an actual Worker restart')
   // Existing sign-ins and credentials cannot acquire the owner documentary door.
@@ -73,6 +84,8 @@ export async function journey({assets=false,inspect}={}){
   await h.command('shadow.review',{runId:r.id},{as:'',headers,status:403})
   await h.command('credential.revoke',{credentialId:credential.id})
   assert.equal((await h.request('/api/shadow-runs',{as:'',headers})).status,401)
+  assert.deepEqual(await financial(),before,'refused staff and credential operations change no money, schedule or provider state')
+  assert.equal((await get()).runs.length,4,'refused operations create no comparison evidence')
   if(inspect)await inspect({h,property,leases,rows,correctedBytes,runId:r.id,owner})
   const captures=(await h.db.prepare('SELECT COUNT(*) AS n FROM tt_shadow_runs').first()).n
   // A native event invalidates the exact prior review even if source bytes stay unchanged.

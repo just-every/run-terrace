@@ -75,6 +75,8 @@ export async function shadowData(c:Context){
 export async function shadowCommand(c:Context,command:string,p:Row):Promise<Row|undefined>{
  if(!SHADOW_COMMANDS.includes(command))return
  owner(c)
+ // Source references and free text remain in retained comparison custody, never in shared audit text.
+ c.source=null
  if(command==='shadow.capture'){
   const propertyId=text(p.propertyId,'Property',100),from=date(p.from,'Period start'),to=date(p.to,'Period end')
   insist(to>=from,'period','Period end must follow its start.')
