@@ -37,3 +37,6 @@ details[open]>summary{margin-bottom:12px}
 [data-field-capture]{grid-template-columns:minmax(0,1fr)}[data-field-capture]>*{min-width:0}[data-conflict]{min-width:0;max-width:100%}[data-field-capture] button{max-width:100%;white-space:normal}
 
 .reconcile-source{overflow-wrap:anywhere}
+
+/* Agent-prepared work and its native history keep full-size action targets. */
+:is([data-view="work"],[data-view="history"]) :is(button,.button,select,details>summary){min-height:44px;min-width:44px}
