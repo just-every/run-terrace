@@ -4913,7 +4913,7 @@
       "executable": false
     },
     "tests/agent-door/phase-fixtures.mjs": {
-      "sha256": "dc9fcfc40943c8c8d1d585e95980aced1f9a0abb7cbe8dc00ecd019f267145e8",
+      "sha256": "f311ea1e1723f92b4f696df8da55811331c0bfdccc92406c770fadac5ba48d44",
       "executable": false
     },
     "tests/agent-door/screens.mjs": {

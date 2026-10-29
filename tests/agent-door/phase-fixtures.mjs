@@ -14,7 +14,8 @@ export default async function prepare(context) {
   if (setup.status !== 303) { await setup.body?.cancel(); throw new Error('Native first-run confirmation failed'); }
   await setup.body?.cancel();
  }
- await stepUp(context);
+ // The same owner session keeps its native ten-minute proof across policy rounds.
+ if (phase === 'initial') await stepUp(context);
  const label = `Synthetic Terrace steward ${phase} ${randomUUID()}`.slice(0,80);
  const portfolio = await command('portfolio.add', { name: label });
  const credential = await command('credential.mint', { label, role: 'portfolio_manager', scope: 'prepare', portfolioIds: [portfolio.id] });
