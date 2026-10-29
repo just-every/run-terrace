@@ -35,3 +35,10 @@ export function terraceAgentDoor(env: Bindings) {
   },
  })
 }
+
+// Match the shared door before constructing its native auth adapters. Health,
+// assets and unrelated routes do not require an initialized installation.
+export function isAgentDoorPath(path: string): boolean {
+ return ['/mcp','/.well-known/oauth-protected-resource','/.well-known/oauth-protected-resource/mcp','/api/rer/agent-policy','/agents'].includes(path)
+  || path.startsWith('/agents/api/') || /^\/agents\/approvals\/[^/]+$/.test(path)
+}

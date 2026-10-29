@@ -22,7 +22,7 @@ source=source.split('\n').map(line=>{
 const claimRows=source.split('\n').filter(l=>/^\| (?:[1-9]|[1-4][0-9]|50) \|/.test(l))
 const tally=status=>claimRows.filter(l=>l.split('|')[4].trim()===status).length
 source=source.replace(/Claims 1–50: \d+ done, \d+ partial, \d+ missing\./,`Claims 1–50: ${tally('done')} done, ${tally('partial')} partial, ${tally('missing')} missing.`)
-source=source.replace(/raw clause statuses agree id for id in both documents: \d+ done, \d+ partial, \d+ missing \(143 clauses\)\./,`raw clause statuses agree id for id in both documents: ${contract.counts.done} done, ${contract.counts.partial} partial, ${contract.counts.missing} missing (${contract.counts.total} clauses).`)
+source=source.replace(/raw clause statuses agree id for id in both documents: \d+ done, \d+ partial, \d+ missing \(\d+ clauses\)\./,`raw clause statuses agree id for id in both documents: ${contract.counts.done} done, ${contract.counts.partial} partial, ${contract.counts.missing} missing (${contract.counts.total} clauses).`)
 if(mode==='write')await writeFile('CONTRACT.md',source)
 else if(source!==original)throw Error('Stale homepage claim statuses in CONTRACT.md')
 let acceptance=await readFile('ACCEPTANCE.md','utf8')
@@ -38,7 +38,21 @@ for(const id of ids){
  lines[index]=`${prefix} **${id} — ${clause.title}.** **Status: ${clause.status}.** ${sentence} **Current evidence:** ${source.split('\n')[clause.row-1].split('|')[5].trim()||'No executed proof yet.'}${clause.gap?' **Remaining:** '+clause.gap:''}`
  acceptance=lines.join('\n')
 }
-acceptance=acceptance.replace(/raw clause statuses agree id for id in both documents: \d+ done, \d+ partial, \d+ missing \(143 clauses\)\./,`raw clause statuses agree id for id in both documents: ${contract.counts.done} done, ${contract.counts.partial} partial, ${contract.counts.missing} missing (${contract.counts.total} clauses).`)
+// Shared agent duties are an additive projection; legacy native journeys stay intact.
+const agentClauses=contract.clauses.filter(clause=>clause.id.startsWith('BASE-AGENT-'))
+if(agentClauses.length){
+ const heading='### Agent surface (Base-delivered)'
+ const section=heading+'\n\n'+agentClauses.map((clause,index)=>{
+  const row=source.split('\n')[clause.row-1].split('|')
+  const evidence=row[5].trim()||'No executed proof yet.'
+  const acceptanceText=clause.text.split('**Acceptance.**')[1]?.trim()
+  if(!acceptanceText)throw Error('Missing shared acceptance for '+clause.id)
+  return `${index+1}. **${clause.id} — ${clause.title}.** **Status: ${clause.status}.**\n\n${acceptanceText}\n\n**Current evidence:** ${evidence}${clause.gap?' **Remaining:** '+clause.gap:''}`
+ }).join('\n\n')+'\n'
+ const start=acceptance.indexOf(heading),end=start<0?-1:acceptance.indexOf('\n### ',start+heading.length)
+ acceptance=start<0?acceptance.trimEnd()+'\n\n'+section:acceptance.slice(0,start)+section+(end<0?'':acceptance.slice(end))
+}
+acceptance=acceptance.replace(/raw clause statuses agree id for id in both documents: \d+ done, \d+ partial, \d+ missing \(\d+ clauses\)\./,`raw clause statuses agree id for id in both documents: ${contract.counts.done} done, ${contract.counts.partial} partial, ${contract.counts.missing} missing (${contract.counts.total} clauses).`)
 const claimStart=source.indexOf('## Homepage claims'),claimEnd=source.indexOf('\n## ',claimStart+1)
 if(claimStart<0)throw Error('Homepage claims source missing')
 const claims='# Terrace capability claims\n\nGenerated from CONTRACT.md. Edit its claim mapping and Status rows, then run `node scripts/contract-docs.mjs write`.\n\n'+source.slice(claimStart,claimEnd<0?undefined:claimEnd).split('\n').filter(line=>line.startsWith('|')).join('\n')+'\n'

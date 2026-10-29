@@ -8,7 +8,7 @@ const root = new URL('../..', import.meta.url).pathname
 // The public command enters the real deployment hook with no credentials.
 // Real deployment must disclose providers before missing credentials refuse it.
 // Rer 0.2.88 deliberately bypasses custom deploy hooks for a dry run.
-const env = Object.fromEntries(['PATH','HOME','USER','TMPDIR','RER_LOCAL_OPERATION'].filter(k=>process.env[k]).map(k=>[k,process.env[k]]))
+const env = Object.fromEntries(['PATH','HOME','USER','TMPDIR','RER_LOCAL_OPERATION','RER_JOB_MEMBERSHIP','RER_JOB_POLICY'].filter(k=>process.env[k]).map(k=>[k,process.env[k]]))
 const deploy = spawnSync(join(root,'node_modules/.bin/rer'), ['deploy'], {cwd:root,env,encoding:'utf8'})
 if (deploy.error) throw deploy.error
 assert.notEqual(deploy.status,0,'Credential-free deployment must refuse before provisioning')

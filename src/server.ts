@@ -1,5 +1,5 @@
 import { agentDocs } from './terrace/agent-door/docs'
-import { terraceAgentDoor } from './terrace/agent-door/index.server'
+import { isAgentDoorPath, terraceAgentDoor } from './terrace/agent-door/index.server'
 import { businessSettings } from './terrace/agent-door/business.server'
 import { workflowScheduled } from './terrace/workflow-scheduler'
 import { withDemo } from './modules/demo/index.mjs'
@@ -33,11 +33,15 @@ const worker = {
   async fetch(request, env, execution) {
     const docs = agentDocs(request)
     if (docs) return docs
-    const native = runtimeBindings(env)
-    const settings = await businessSettings(native).handle(request)
-    if (settings) return rejectedResponse(request, settings)
-    const door = await terraceAgentDoor(native).handle(request)
-    if (door) return rejectedResponse(request, door)
+    const path = new URL(request.url).pathname
+    if (['/api/rer/business-settings','/rer-business-logo','/rer-business.css'].includes(path)) {
+      const settings = await businessSettings(runtimeBindings(env)).handle(request)
+      if (settings) return rejectedResponse(request, settings)
+    }
+    if (isAgentDoorPath(path)) {
+      const door = await terraceAgentDoor(runtimeBindings(env)).handle(request)
+      if (door) return rejectedResponse(request, door)
+    }
     const asset = await staticAssetResponse(request, env)
     if (asset) return asset
     const auth = await authResponse(request, env)
