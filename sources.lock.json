@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "321935fba8963afb2e637b7d962f3f952ad94b8dabeee49b6e8a491eefac9be9",
+      "sha256": "c737096c7cc344d3f3b2311d0494241d7ab06d74b736f4cb16d42722e8fea7ed",
       "executable": false
     },
     "AGENTS.md": {
@@ -109,7 +109,7 @@
       "executable": false
     },
     "API.md": {
-      "sha256": "22b7f9ab17d4fdae754df86772e0bdd2f20aebad7bd0fe23c8b946c76b066147",
+      "sha256": "83a2846e74ad64864aa80c1456d880560fe18b71c04f75dff0f7587fe974b284",
       "executable": false
     },
     "base-copies.json": {
@@ -129,7 +129,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "64916320a800e425318ae3bf4facdf3fb2cee7d9a6177c7af40e25880544aaae",
+      "sha256": "7eb0bb622f30a51d4775199e4b1bce89d1e4c080e875392eb240fe760be202b8",
       "executable": false
     },
     "DEMO.md": {
@@ -3717,7 +3717,7 @@
       "executable": false
     },
     "src/terrace/erasure.ts": {
-      "sha256": "bf1a8967ecbfe45c96f0384652346877f1a003879ce70d92cc49584397129196",
+      "sha256": "9d50ab6c228a8c5f0dc22bc7abbcc2002e202c7ca662dc34e0660e48dedb4913",
       "executable": false
     },
     "src/terrace/exports.ts": {
@@ -3984,12 +3984,16 @@
       "sha256": "046360405762f1a1f358796ebf7941c77445e4bbbcfd31c4b41d928196d9b1ba",
       "executable": false
     },
+    "src/terrace/move-followup-custody.ts": {
+      "sha256": "408abc137596677ee1d33e7e9e2dfa2a3ef4dd0579c7ff8c3332790ac595fd5d",
+      "executable": false
+    },
     "src/terrace/move-followup-view.ts": {
-      "sha256": "e1ffe4731613597be569e5f506062f175c95748fb3ed6dd30805e21a37f08264",
+      "sha256": "0971e7c5bc190b65eb5f7386c035e5edd42d430351675191796f29c1d4069474",
       "executable": false
     },
     "src/terrace/move-followups.ts": {
-      "sha256": "d218c216dcd417081999c53975e66413e935e531558f4bf9de0a9a3cd8728364",
+      "sha256": "9f0ab26891a8206c2718acdcc0456b979bdb4333bc52343b7ce2a70839a138b5",
       "executable": false
     },
     "src/terrace/notice-service.ts": {
@@ -4249,7 +4253,7 @@
       "executable": false
     },
     "src/terrace/retention.ts": {
-      "sha256": "43d5c347b0464428deee993e2ec4c072b9828f566f988d41f387d71169e76a34",
+      "sha256": "fada83c1738552d091707e88ef458b0460e4f2e399081a693725b3b3e5d86c9f",
       "executable": false
     },
     "src/terrace/roles.ts": {
@@ -4473,7 +4477,7 @@
       "executable": false
     },
     "test-budget.json": {
-      "sha256": "467a166e4a070c61f113990f477fbea3188550fbe47978d7a1acb5b2d5476d23",
+      "sha256": "725de847e58c413df5a1b3ce7cd15680ffc0dd46999bad451c589f06ef16b342",
       "executable": false
     },
     "tests/action-requests-browser.mjs": {
@@ -4769,7 +4773,7 @@
       "executable": false
     },
     "tests/move-out.mjs": {
-      "sha256": "fc98b960cb4630de41cd6feea30b3f45833ba69a6df059b4095ff00250fcfbe4",
+      "sha256": "e232943676d9598a33fa54d6279c7b63c5adcc75b3e87a43cd0417e608f79792",
       "executable": false
     },
     "tests/open-installation.mjs": {

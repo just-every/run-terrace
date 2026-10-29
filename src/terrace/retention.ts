@@ -1,3 +1,4 @@
+import {moveFollowupSharedHolds} from './move-followup-custody'
 import {shadowRetentionDay,shadowSharedHolds} from './shadow-run-retention'
 import {hapRemittanceRetentionDay,hapRemittanceSharedHolds} from './hap-remittances'
 import { moveChecklistData } from './move-checklists'
@@ -15,7 +16,7 @@ export const DEFAULTS={lease:7,accounting:7,screening:2,adverseScreening:5,commu
 export function retainedThrough(day:string,years:number){const y=Number(day.slice(0,4))+years,m=day.slice(5,7),d=Math.min(Number(day.slice(8,10)),new Date(Date.UTC(y,Number(m),0)).getUTCDate());return `${y}-${m}-${String(d).padStart(2,'0')}`}
 export async function retentionReview(c:Context,t:Row){
  const today=localDate(c.now,t.time_zone),holds=[...await all(c,'SELECT * FROM tt_legal_holds WHERE tenancy_id=? AND released_at IS NULL ORDER BY placed_at',t.id),...await migrationSharedHolds(c,t.id)]
- holds.push(...await printSharedHolds(c,t.id),...await shadowSharedHolds(c,t.id))
+ holds.push(...await moveFollowupSharedHolds(c,t.id),...await printSharedHolds(c,t.id),...await shadowSharedHolds(c,t.id))
  const accounting=await one<Row>(c,`SELECT MAX(day) AS day FROM (SELECT due_date AS day FROM tt_charges WHERE tenancy_id=? UNION ALL SELECT r.received_date FROM tt_net_receipts r JOIN tt_charges q ON q.id=r.charge_id WHERE q.tenancy_id=? UNION ALL SELECT MAX(received_date) FROM tt_payments WHERE tenancy_id=? UNION ALL SELECT day FROM tt_journal WHERE tenancy_id=? UNION ALL SELECT substr(a.at,1,10) FROM tt_adjustments a JOIN tt_charges q ON q.id=a.charge_id WHERE q.tenancy_id=?)`,t.id,t.id,t.id,t.id,t.id)
  const assignmentDays=(await all(c,'SELECT assigned_at FROM tt_delinquency_assignment_events WHERE tenancy_id=?',t.id)).map(a=>localDate(a.assigned_at,t.time_zone))
  const docDays=Object.fromEntries((await all(c,`SELECT retention_class AS class,MAX(created_at) AS day FROM (SELECT d.retention_class,v.uploaded_at AS created_at FROM tt_documents d JOIN tt_document_versions v ON v.document_id=d.id WHERE d.tenancy_id=? UNION ALL SELECT 'communications',e.at FROM tt_action_requests r JOIN tt_action_events e ON e.request_id=r.id WHERE r.tenancy_id=? UNION ALL SELECT 'communications',prepared_at FROM tt_resident_deliveries WHERE tenancy_id=? UNION ALL SELECT 'accounting',prepared_at FROM tt_resident_deliveries WHERE tenancy_id=?) GROUP BY retention_class`,t.id,t.id,t.id,t.id)).map(r=>[r.class,localDate(r.day,t.time_zone)]))

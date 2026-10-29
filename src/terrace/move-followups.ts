@@ -54,7 +54,7 @@ export async function moveFollowupData(c:Context,value?:unknown){
    const eligible=await one(c,PERSON_SQL,o.id,unitId)
    if(eligible)people.push({id:eligible.id,name:eligible.display_name,unitId})
   }
-  if(can(c,'work.read'))for(const j of await all(c,'SELECT j.id,j.scope,j.state,j.resolution,t.unit_id FROM tt_maintenance_jobs j JOIN tt_tenancies t ON t.id=j.tenancy_id WHERE t.unit_id=? AND t.erased_at IS NULL AND t.custody_retired_at IS NULL ORDER BY j.id',unitId))repairs.push(j)
+  if(can(c,'work.read'))for(const j of await all(c,'SELECT j.id,j.title,j.scope,j.state,j.resolution,t.unit_id FROM tt_maintenance_jobs j JOIN tt_tenancies t ON t.id=j.tenancy_id WHERE t.unit_id=? AND t.erased_at IS NULL AND t.custody_retired_at IS NULL ORDER BY j.id',unitId))repairs.push(j)
  }
  return {cases,people,repairs,notice:NOTICE}
 }
