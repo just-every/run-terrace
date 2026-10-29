@@ -98,5 +98,64 @@ export async function journey({assets=false,inspect}={}) {
    assert.equal((await restored.request('/api/state?tenancy='+expired.id)).status,404)
    assert.deepEqual((await restored.state(lease.id)).moveChecklists,await read(lease.id),'PORT-006 erasure preserves other leases’ operational evidence')
   }finally{await restored.close()}
+  await reconcileRent()
+ }finally{await h.close()}
+}
+
+// Rent is reviewed separately from operational handover evidence and deposit disposition.
+async function reconcileRent(){
+ const h=await installation({now:'2027-01-02T12:00:00Z'})
+ try{
+  const f=await h.command('portfolio.add',{name:'Proration homes'}),p=await h.command('property.add',{portfolioId:f.id,name:'Willow Court',address:tenancyInput.address,kind:'duplex',timeZone:'America/Los_Angeles'})
+  const unit=async identifier=>h.command('unit.add',{propertyId:p.id,identifier,bedrooms:2,bathrooms:1})
+  const a=await unit('A'),b=await unit('B')
+  const source=await h.command('tenancy.create',{...tenancyInput,unitId:a.id,startDate:'2026-10-15',endDate:'2027-10-14',rent:'2400.00',cadence:'monthly'})
+  const ledger=async id=>(await h.state(id)).ledger
+  const rent=async(id,starts)=>h.command('term.add',{tenancyId:id,kind:'rent',description:'Recorded monthly rent',amount:'2400.00',starts,ends:'2027-10-14'})
+  const run=async month=>{
+   const preview=await h.command('charges.preview',{month})
+   await h.command('charges.post',{month,fingerprint:preview.fingerprint})
+   return preview
+  }
+  await rent(source.id,'2026-10-15')
+  await run('2026-10');await run('2026-11')
+  let old=await ledger(source.id)
+  assert.deepEqual(old.charges.map(q=>[q.due_date,q.amount_cents]),[['2026-10-15',131613],['2026-11-01',240000]],'A mid-month move-in rounds 17 calendar days once; rent posted before transfer retains its original amount')
+  const november=old.charges.find(q=>q.due_date==='2026-11-01')
+  const moved=await h.command('tenancy.transfer',{tenancyId:source.id,unitId:b.id,moveIn:'2026-11-16'})
+  await rent(moved.id,'2026-11-16')
+  const transfer=await run('2026-11')
+  assert.deepEqual(transfer.lines.map(l=>[l.tenancyId,l.coveredDays,l.amountCents,l.posted]).sort(),[[source.id,15,120000,true],[moved.id,15,120000,false]].sort(),'The transfer preview splits November at the inclusive move-out day and identifies the already-posted source charge')
+  old=await ledger(source.id)
+  assert.equal(old.charges.find(q=>q.id===november.id).amount_cents,240000,'A lease transition never silently rewrites an issued charge')
+  const sourceCorrection={chargeId:november.id,amount:'1200.00',reason:'Reviewed transfer proration: source possession ended November 15; retain the original charge.'}
+  const member=await h.invite('member',tenancyInput.ownerEmail)
+  await h.command('rent.adjust',sourceCorrection,{as:member,status:403})
+  assert.equal((await ledger(source.id)).adjustments.length,0,'An unauthorized correction changes no balance')
+  await h.command('rent.adjust',sourceCorrection)
+  await run('2026-12')
+  const december=(await ledger(moved.id)).charges.find(q=>q.due_date==='2026-12-01')
+  assert.equal(december.amount_cents,240000)
+  await h.command('tenancy.end',{tenancyId:moved.id,moveOut:'2026-12-01',reason:'Possession returned after one December day'})
+  const departure=await run('2026-12')
+  assert.deepEqual(departure.lines.map(l=>[l.tenancyId,l.coveredDays,l.amountCents,l.posted]),[[moved.id,1,7742,true]],'Early move-out previews one of 31 days without duplicating or silently reducing the posted charge')
+  await h.command('rent.adjust',{chargeId:december.id,amount:'2322.58',reason:'Reviewed early move-out: one December day is 77.42; retain the posted original.'})
+  await h.command('rent.adjust',{...sourceCorrection,amount:'1200.01'},{status:409})
+  await h.command('rent.adjust',{chargeId:december.id,amount:'77.43',reason:'Would reduce more than the remaining rent'},{status:409})
+  const receipt=async(q,amount,reference)=>h.command('rent.receipt',{chargeId:q.id,amount,receivedDate:'2026-12-31',method:'other',reference})
+  old=await ledger(source.id)
+  await receipt(old.charges.find(q=>q.due_date==='2026-10-15'),'1316.13','synthetic-terrace-rent-1')
+  await receipt(november,'600.00','synthetic-terrace-rent-2')
+  await receipt((await ledger(moved.id)).charges.find(q=>q.due_date==='2026-11-16'),'1200.00','synthetic-terrace-rent-3')
+  const expected=await Promise.all([ledger(source.id),ledger(moved.id)])
+  assert.deepEqual(expected.map(l=>l.balanceCents),[60000,7742],'Unpaid source rent stays with its original lease; the destination keeps its own corrected balance')
+  assert.deepEqual(expected.map(l=>l.adjustments.map(a=>a.amount_cents)),[[120000],[232258]],'Both reviewed corrections remain separately inspectable')
+  for(const [id,balance]of [[source.id,'600.00'],[moved.id,'77.42']]){
+   const response=await h.request('/api/statement?tenancyId='+id+'&from=2026-10-01&to=2027-01-02')
+   assert.equal(response.status,200)
+   assert.ok((await response.text()).includes('"Closing receivable USD","'+balance+'"'),'Downloaded statements reconcile each lease independently')
+  }
+  await h.restart()
+  assert.deepEqual(await Promise.all([ledger(source.id),ledger(moved.id)]),expected,'Restart preserves original charges, explicit corrections, receipts and separate balances')
  }finally{await h.close()}
 }
