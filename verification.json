@@ -61,7 +61,8 @@
       "hosted": false,
       "commands": [
         "node tests/integration-health-browser.mjs",
-        "node tests/card-payments-browser.mjs"
+        "node tests/card-payments-browser.mjs",
+        "node tests/shadow-run-browser.mjs"
       ]
     }
   ],

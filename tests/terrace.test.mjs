@@ -946,3 +946,6 @@ test('LEASE-007: two private adult applications, durable drafts, originals, disc
 
 import {journey as referralJourney} from './professional-referrals.mjs'
 test('BOUND-002: scoped professional referrals retain held sources, documentary responses and fenced originals',referralJourney)
+
+import {journey as shadowJourney} from './shadow-run.mjs'
+test('MOVE-008: owner documentary rent comparison holds per-lease differences, binds exact reviews and preserves private custody',shadowJourney)
