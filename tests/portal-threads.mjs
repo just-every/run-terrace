@@ -325,6 +325,14 @@ async function officePrintJourney({r,t,create,data,mutate,staff,manager,grants,o
  const manifestResponse=await wire('&manifest=1'),manifestBytes=Buffer.from(await manifestResponse.arrayBuffer())
  assert.equal(createHash('sha256').update(manifestBytes).digest('hex'),batch.manifest_sha256)
  const manifest=JSON.parse(manifestBytes);assert.equal(manifest.items.length,5);assert.equal(manifest.pdfSha256,batch.pdf_sha256)
+ const approved=(await data(notice.id)).prints.find(b=>b.id===batch.id).approval
+ await r.db.prepare('UPDATE tt_thread_entries SET body=? WHERE id=?').bind('Changed approved letter after exact print approval',body.id).run()
+ for(const query of ['', '&manifest=1', '&item='+batch.items[0].id, '&review=1'])assert.equal((await wire(query)).status,409,'changed approved content refuses every frozen print download')
+ await mutate('service',notice.id,{outcome:'delivered',method:'posted',reference:'Synthetic changed print must not authorize service',printBatchId:batch.id,consent:'RECORD EVIDENCE'},{status:409})
+ assert.equal((await data(notice.id)).service,null,'changed print cannot become service evidence')
+ assert.deepEqual((await data(notice.id)).prints.find(b=>b.id===batch.id).approval,approved,'a refused stale print preserves its historical approval')
+ await r.db.prepare('UPDATE tt_thread_entries SET body=? WHERE id=?').bind(body.body,body.id).run()
+ assert.deepEqual(Buffer.from(await(await wire('')).arrayBuffer()),bytes,'unchanged approved source still returns the frozen original')
  const pdfs=[],recipientPdfs=[]
  for(const item of batch.items){
   const original=await wire('&item='+item.id),pdf=Buffer.from(await original.arrayBuffer())
@@ -342,6 +350,19 @@ async function officePrintJourney({r,t,create,data,mutate,staff,manager,grants,o
   assert.equal((await r.request('/api/thread-print?id='+batch.id,{as})).status,as===staff.south?404:403)
   await r.command('thread.print.approve',approval,{as,status:as===staff.south?404:403})
  }
+ const beforeService=await data(notice.id)
+ for(const [fields,error]of [
+  [{occurredAt:'2026-10-28T08:30-07:00'},'future_service'],
+  [{occurredAt:'2026-10-27T08:30-08:00'},'invalid_time'],
+  [{servedAt:'2026-10-26'},'service_date']
+ ]){
+  const refused=await mutate('service',notice.id,{outcome:'delivered',method:'posted',reference:'Synthetic invalid dated service',printBatchId:batch.id,consent:'RECORD EVIDENCE',...fields},{status:400})
+  assert.equal(refused.error,error)
+  const unchanged=await data(notice.id)
+  assert.equal(unchanged.service,null);assert.equal(unchanged.version,beforeService.version)
+  assert.deepEqual(unchanged.reconciliations,beforeService.reconciliations)
+  assert.deepEqual(unchanged.events,beforeService.events,'invalid service time writes no service history')
+ }
  await mutate('service',notice.id,{outcome:'returned',method:'office_certified',reference:'Synthetic returned office mail',tracking:'',servedAt:'2026-10-27',consent:'RECORD EVIDENCE'},{status:400})
  await mutate('service',notice.id,{outcome:'returned',method:'office_certified',reference:'Synthetic returned office mail',tracking:'synthetic-terrace-tracking-1',servedAt:'2026-10-27',serverName:'',consent:'RECORD EVIDENCE'},{status:400})
  await mutate('service',notice.id,{outcome:'returned',method:'office_certified',reference:'Synthetic returned office mail',tracking:'synthetic-terrace-tracking-1',servedAt:'2026-10-27',photo:new File(['invalid photo'],'fake.png',{type:['image', 'png'].join('/')}),consent:'RECORD EVIDENCE'},{status:422})
@@ -357,6 +378,8 @@ async function officePrintJourney({r,t,create,data,mutate,staff,manager,grants,o
  await mutate('service',notice.id,{outcome:'delivered'},{status:409})
  await mutate('reconcile',notice.id,{outcome:'uncertain',assignedTo:manager,nextAction:'Obtain a new address and independent returned-mail evidence.',dueOn:'2026-10-28',reference:'Synthetic returned-mail review',consent:'RECORD RECONCILIATION'})
  assert.equal((await data(notice.id)).service.outcome,'returned')
+ assert.deepEqual((await data(notice.id)).service,served.service,'retry and reconciliation preserve the complete original attempt')
+ assert.deepEqual(Buffer.from(await(await r.request('/api/thread-service-photo?id='+notice.id)).arrayBuffer()),servicePng,'retry and reconciliation preserve the original photograph bytes')
  const history=(await(await r.request('/api/history?action=thread.print.&tenancyId='+t.id)).json()).rows
  assert.ok(history.some(x=>x.action==='thread.print.prepare'&&x.source===batch.manifest_sha256));assert.ok(history.some(x=>x.action==='thread.print.approve'&&x.source===batch.manifest_sha256))
  const revoke=await create({kind:'legal',subject:'Revoked office print',body:'Synthetic revoked recipient content'})
