@@ -197,7 +197,7 @@
       "executable": false
     },
     "docs/office-print.md": {
-      "sha256": "f5469aafe965d2c2155de0d4910288eeaf6b1b050f99fa2269a0a4dd8aa85933",
+      "sha256": "53c2810c47122af810ab8f2ac8e96dbb402a5126ed92227fdc7ad1ab95090ffd",
       "executable": false
     },
     "docs/payment-policies.md": {
@@ -3705,7 +3705,7 @@
       "executable": false
     },
     "src/terrace/erasure.ts": {
-      "sha256": "a43ff4218ce78c907ba7a59e5bb490c600502a54572979e2afc3cfa915840ab4",
+      "sha256": "83e4317ba4e88739abc08ce05eaa9605c9e3998c01d064d58109d52ef3cd4096",
       "executable": false
     },
     "src/terrace/exports.ts": {
@@ -3976,6 +3976,10 @@
       "sha256": "77a8ca00e49833edf59433ee783618a72036f167da2c45fbb4b5747d7eaf1e87",
       "executable": false
     },
+    "src/terrace/office-print-retention.ts": {
+      "sha256": "8a66879ef0a411bd3a4a27e573181bbc1998ad4930d799538d3c3c77c94e0b7d",
+      "executable": false
+    },
     "src/terrace/office-print-view.ts": {
       "sha256": "91437a5f6ee18a6329cd24b0a975ce5654e479ebece2982723ae5c96fd40b632",
       "executable": false
@@ -4225,7 +4229,7 @@
       "executable": false
     },
     "src/terrace/retention.ts": {
-      "sha256": "79c2e5a666d80b6e7ec4048e14aa345d818bb853c377144a606e86813301e245",
+      "sha256": "ada7fca18cf195528b14178c141c644fe7f2378ec70074600a388167d3a47765",
       "executable": false
     },
     "src/terrace/roles.ts": {
@@ -4769,7 +4773,7 @@
       "executable": false
     },
     "tests/portal-threads.mjs": {
-      "sha256": "2a73bdcdbb4e36893c85c9abf6ff7d4d914003072a436aaf90cd34b8be517bc1",
+      "sha256": "d9817829b4f7dc3b514514f6145d1c46fd615190cccd70ccfb83f0ee5c66e5bf",
       "executable": false
     },
     "tests/portal.mjs": {
