@@ -1,6 +1,6 @@
 import {all,commit,date,guard,id,insist,one,recordRead,sha256,sql,tenancy,tenancyGuard,text,type Context,type Row} from './core'
 import {canonicalJson} from '../modules/import-kit/src/d1/index.ts'
-import {statement} from './ledger'
+import {ledgerData,statement} from './ledger'
 import {journalProperty} from './journal'
 import {noCredential} from './credentials'
 
@@ -26,7 +26,9 @@ async function native(c:Context,propertyId:string,from:string,to:string){
   subjects.push(t)
   const s=await statement(c,t.id,from,to)
   if(t.start_date>to||((t.ended_on??t.end_date)<from&&!s.openingCents&&!s.events.length))continue
-  leases.push({tenancyId:t.id,household:t.tenant_name,address:t.address,currency:s.currency,timeZone:s.timeZone,startsAt:s.startsAt,endsBefore:s.endsBefore,openingCents:s.openingCents,chargesCents:s.events.reduce((n,e)=>n+e.chargeCents,0),receiptsCents:s.events.reduce((n,e)=>n+e.receiptCents,0),reductionsCents:s.events.reduce((n,e)=>n+e.adjustmentCents,0),closingCents:s.closingCents,events:s.events})
+  const ledger=await ledgerData(c,t.id)
+  const financialRevision=await digest(canonicalJson({charges:ledger.charges,receipts:ledger.receipts,adjustments:ledger.adjustments,hapCharges:ledger.hapCharges,hapEffects:ledger.hapEffects,migrationHistory:ledger.migrationHistory}))
+  leases.push({financialRevision,tenancyId:t.id,household:t.tenant_name,address:t.address,currency:s.currency,timeZone:s.timeZone,startsAt:s.startsAt,endsBefore:s.endsBefore,openingCents:s.openingCents,chargesCents:s.events.reduce((n,e)=>n+e.chargeCents,0),receiptsCents:s.events.reduce((n,e)=>n+e.receiptCents,0),reductionsCents:s.events.reduce((n,e)=>n+e.adjustmentCents,0),closingCents:s.closingCents,events:s.events})
  }
  return{snapshot:{propertyId:p.id,property:p.name,timeZone:p.time_zone,from,to,leases},subjects}
 }
