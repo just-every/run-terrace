@@ -1,4 +1,4 @@
-import { createPortability, readArchive, type Manifest, type Part, type Closing, type LaterJournal } from '../modules/portability/index.mjs'
+import { createPortability, readArchive, type Manifest, type Part, type Closing, type LaterJournal } from '@runeditrun/rer/modules/portability'
 import policy from './archive-policy.mjs'
 import { Fault, insist, allow, type Context, type Row } from './core'
 import { eraseTenancy } from './erasure'
