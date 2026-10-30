@@ -4985,7 +4985,7 @@
       "executable": false
     },
     "tests/applications.mjs": {
-      "sha256": "54aea11b821bcad1c6648c13f416131bae6747fbef049683d982cf9a1c053557",
+      "sha256": "7c0d6d216fb5b941274ae468945ba2e350bdbe4ed0e7b7eb31f3fa72a20f4755",
       "executable": false
     },
     "tests/appointments.mjs": {
