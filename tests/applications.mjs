@@ -41,6 +41,9 @@ const document=(text='Synthetic income evidence: 5200 USD monthly')=>new File([t
 export async function journey({assets=false,inspect}={}){
  const provider=applicationFeeProvider(),h=await installation({assets,now:'2026-10-28T12:00:00.000Z',stripeKey:'synthetic-terrace-1',stripeRequest:provider.stripeRequest})
  try{
+  assert.equal((await h.request('/app?tab=settings')).status,200)
+  const emptyReads=await(await h.request('/api/history?action=application.read')).json()
+  assert.deepEqual(emptyReads.rows,[],'opening Settings without applications leaves the installation eligible for restore')
   const setup=await applicationSetup(h),{f,property,prospect,open}=setup
   await h.command('application.open',open,{status:409})
   await activateApplicationPack(h,property)
@@ -114,6 +117,8 @@ export async function journey({assets=false,inspect}={}){
   await applicantPost(h,a.cookie,{action:'save',version:7,...completeAnswers,income:'Corrected employer income: 5400 USD monthly'})
   await applicantPost(h,a.cookie,{action:'submit',version:8,consent:'SUBMIT MY ANSWERS',disclosureHash:da.disclosureHash})
   let view=await(await h.request('/api/applications?id='+app.id,{as:staff.manager})).json(),adult=view.applications[0].adults[0]
+  const applicationReads=await(await h.request('/api/history?action=application.read')).json()
+  assert.ok(applicationReads.rows.some(r=>r.subject===app.id&&r.outcome==='read'),'reading an existing application still records its access')
   assert.equal(adult.answers.income,'Corrected employer income: 5400 USD monthly')
   assert.equal(adult.revisions.find(r=>r.version===5).answers.income,completeAnswers.income,'earlier submitted answer remains visible')
   assert.equal(adult.revisions.at(-1).state,'submitted');assert.equal(adult.files.length,2);assert.ok(adult.requests[0].resolved_at)
