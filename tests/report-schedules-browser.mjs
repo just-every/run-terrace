@@ -13,6 +13,10 @@ try{await journey({assets:true,inspect:async({h,base,native,person})=>{
   const person=page.getByRole('link',{name:'Manage people',exact:true}),tip=page.getByRole('tooltip',{name:'Manage people',exact:true});await person.hover();await page.waitForTimeout(350);await tip.waitFor({state:'visible'});await page.screenshot({path:join(out,'schedules-hover-'+width+'.png'),fullPage:true});await page.mouse.move(0,0);await person.focus();await tip.waitFor({state:'visible'});await page.screenshot({path:join(out,'schedules-focus-'+width+'.png')})
  }
  const form=page.locator('form:has(input[name=command][value="report.schedule"])')
+ // Keep this save-flow fixture outside the HTTP journey's Cron window. After
+ // day 28, the form's current-month default would generate a third receipt.
+ const firstMonth=new Date(base.starts+'-01T00:00:00Z');firstMonth.setUTCMonth(firstMonth.getUTCMonth()+1)
+ await form.getByLabel('First generation month',{exact:true}).fill(firstMonth.toISOString().slice(0,7))
  await form.getByLabel('Schedule name',{exact:true}).fill('Native rent roll generation');await form.getByLabel('Report',{exact:true}).selectOption('rent_roll');await form.getByLabel('IANA time zone',{exact:true}).fill(base.zone);await form.getByLabel('Local day of month',{exact:true}).fill('28');await form.getByLabel('Schedule source',{exact:true}).fill('synthetic-terrace-5 native review');await form.getByLabel('Type GENERATE ONLY to consent',{exact:true}).fill('GENERATE ONLY');await form.getByRole('button',{name:'Save generation schedule',exact:true}).click();await page.getByText('Monthly report generation scheduled. No recipient or outbound delivery has been authorized.',{exact:true}).waitFor()
  for(const [width,height]of [[1440,900],[390,844]]){await page.setViewportSize({width,height});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:join(out,'schedule-saved-'+width+'.png'),fullPage:true})}
  const card=page.locator('article').filter({has:page.getByRole('heading',{name:person.email,exact:true})})
