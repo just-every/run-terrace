@@ -5309,7 +5309,7 @@
       "executable": false
     },
     "tests/report-schedules-browser.mjs": {
-      "sha256": "2fa42daf50a41cbd80126f214d78d0dc6f0f13108219e5b43f7f4933e35a7669",
+      "sha256": "d56dd117aae1d5aaf4eea3487c25a5a858c0a02c7c70c74e5fb1632ac19dc66b",
       "executable": false
     },
     "tests/report-schedules.mjs": {
