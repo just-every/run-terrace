@@ -2,7 +2,7 @@
 // columns and secret exclusions the .rer backup and restore use), every stored file (inspection photographs) as its
 // original bytes with its SHA-256, a manifest, and a README naming what must be reconnected after a restore. It is
 // built from the backup archive itself, so whatever a restore brings back, this copy shows.
-import { readArchive, type Manifest, type Part, type Closing } from '../modules/portability/index.mjs'
+import { readArchive, type Manifest, type Part, type Closing } from '@runeditrun/rer/modules/portability'
 import { allow, sha256, type Context } from './core'
 import { backup } from './data'
 import { csv, zip } from './exports'

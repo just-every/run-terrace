@@ -3945,7 +3945,7 @@
       "executable": false
     },
     "src/terrace/archive-policy.d.mts": {
-      "sha256": "216b2b3d386c7e12e4693bfba1b5d976885e5f4ecd9bb975bf3f6003098025e0",
+      "sha256": "41de68f79229ed985fa3ffc4a63bb9e3852875fbf60d9d45e70f8eaf74088473",
       "executable": false
     },
     "src/terrace/archive-policy.mjs": {
@@ -3953,7 +3953,7 @@
       "executable": false
     },
     "src/terrace/archive-validation.mjs": {
-      "sha256": "02eb5c835c362b075477ba9d100037f806b0c2bcb988c61f1b2570e2dfcc0d3d",
+      "sha256": "b998d4c6dd0860bc72c398c88c466d76cb4989d353e1adb7a3910b6acc5251ec",
       "executable": false
     },
     "src/terrace/asset-view.ts": {
@@ -4085,7 +4085,7 @@
       "executable": false
     },
     "src/terrace/data.ts": {
-      "sha256": "38e4cc6265c8838f74616288556152f5a15835ec040022c13ad162ccd57bf0d5",
+      "sha256": "ea807051195b7d426860840915284b49bb82320f8beefa73520ef0b7837ea9ea",
       "executable": false
     },
     "src/terrace/delinquency-math.ts": {
@@ -4577,7 +4577,7 @@
       "executable": false
     },
     "src/terrace/readable-export.ts": {
-      "sha256": "b40337fc8bc6b64581c521a570b891f22495de7898b5eb8af348eb9feee85275",
+      "sha256": "0065aa73ca27a80fcd94dd9bb4d92a70339f1590890e324dcefb51170fe858c9",
       "executable": false
     },
     "src/terrace/reconcile-commands.ts": {
