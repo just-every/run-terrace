@@ -107,6 +107,8 @@ export async function applicationData(c: Context, applicationId?: string | null)
   app.adults=await all(c,'SELECT * FROM tt_application_adults WHERE application_id=? ORDER BY rowid',app.id)
   for(const a of app.adults) Object.assign(a,await applicantData(c,a))
  }
- await recordRead(c,'application.read',applicationId??'applications')
+ // Opening Settings on an empty installation reads no application evidence.
+ // Do not create product history that would make its restore target nonempty.
+ if(apps.length) await recordRead(c,'application.read',applicationId??'applications')
  return {applications:apps}
 }
