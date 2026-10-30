@@ -3929,7 +3929,7 @@
       "executable": false
     },
     "src/terrace/applications.ts": {
-      "sha256": "77ff80abe4e1726e0cd2af96699b67c09f8c24242d70a65ed4c279220e2cc63f",
+      "sha256": "ff92c16368b54257f4cec8e946b7d48e8fd448c3462129e9e26d20160a62f4ee",
       "executable": false
     },
     "src/terrace/appointments-view.ts": {
