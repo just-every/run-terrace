@@ -5225,7 +5225,7 @@
       "executable": false
     },
     "tests/owned-installation.mjs": {
-      "sha256": "8d9ff71f36120dc4ffdf9f902ece6f564c041f064f13887c5ca68b7454217ff9",
+      "sha256": "382c67dc82ec0a05b5565d36d73fa861c6a72d51dd73c93b5e820b548df046df",
       "executable": false
     },
     "tests/owned-process.mjs": {

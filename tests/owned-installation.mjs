@@ -72,7 +72,12 @@ try {
  const restore=page.locator('form:has(input[name="command"][value="data.restore"])')
  await restore.locator('input[name="backup"]').setInputFiles(archive)
  await restore.getByLabel('Type RESTORE',{exact:true}).fill('RESTORE')
- await restore.getByRole('button',{name:'Restore archive'}).click();await page.waitForURL(u=>u.searchParams.has('notice'))
+ const [restoreResponse]=await Promise.all([
+  page.waitForResponse(response=>new URL(response.url()).pathname==='/app/command'&&response.request().method()==='POST'),
+  restore.getByRole('button',{name:'Restore archive'}).click(),
+ ])
+ assert.equal(restoreResponse.status(),303,'the CLI archive restores through the browser with a success redirect')
+ await page.waitForURL(u=>u.searchParams.has('notice'))
  assert.deepEqual((await(await page.request.get(active.origin+'/api/state')).json()).tenancies,expected)
  assert.notEqual((await(await page.request.get(active.origin+'/auth/session')).json()).operator.id,firstOwner,'restore keeps the separate installation owner')
  await picture(page,'restored-installation')
