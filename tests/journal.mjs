@@ -23,7 +23,7 @@ export async function journey({assets=false,inspect}={}){
   ])
  }})
  try{const j=await(await old.request('/api/journal')).json();assert.equal(j.entries.length,6);assert.equal(j.debitCents,221000);assert.equal(j.creditCents,221000);const expenses=j.trialBalance.find(a=>a.code==='expense');assert.equal(expenses.debitCents-expenses.creditCents,40000);assert.equal(j.entries.filter(e=>e.source_kind==='bill_reversal').length,1);assert.equal(j.entries.find(e=>e.source_kind==='reduction').day,'2025-02-28');assert.equal((await old.state('synthetic-terrace-1')).ledger.balanceCents,79000);assert.equal((await old.command('journal.post',{propertyId:'synthetic-terrace-prop',ownerId:'synthetic-terrace-owner',day:'2025-02-10',fund:'operating',kind:'opening',reference:'Backdated opening',lines:[{account:'receivable',debit:100,credit:0},{account:'opening_equity',debit:0,credit:100}]},{status:409})).error,'period_closed')}finally{await old.close()}
- const h=await installation({assets})
+ const h=await installation({assets,now:'2026-10-26T12:00:00.000Z'})
  try{
   const make=async name=>{
    const f=await h.command('portfolio.add',{name}),p=await h.command('property.add',{portfolioId:f.id,name:name+' House',address:'1 '+name+' Lane, Oakland, CA',kind:'duplex',timeZone:'America/Los_Angeles'}),u=await h.command('unit.add',{propertyId:p.id,identifier:'A',bedrooms:'2',bathrooms:'1'}),o=await h.command('owner.add',{kind:'individual',legalName:name+' Owner',email:name.toLowerCase()+'@example.test',mailingAddress:'1 '+name+' Lane'})
@@ -31,7 +31,7 @@ export async function journey({assets=false,inspect}={}){
    const t=await h.command('tenancy.create',{...tenancyInput,unitId:u.id,tenantName:name+' Resident',tenantEmail:name.toLowerCase()+'-resident@example.test'})
    return{f,p,u,o,t}
   }
-  const a=await make('Alder'),b=await make('Birch'),day=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Los_Angeles'}).format(new Date())
+  const a=await make('Alder'),b=await make('Birch'),day=(await h.state(a.t.id)).ledger.today
   const vendor=await h.command('vendor.add',{name:'Clear Plumbing',email:'plumbing@example.test',phone:'510-555-0101',specialties:'plumbing',serviceAreas:'Oakland',w9:'received',insuranceExpires:'2036-12-31',rate:'100.00',standing:'approved'})
   const get=async q=>{const r=await h.request('/api/journal'+(q?'?'+new URLSearchParams(q):''));assert.equal(r.status,200);return r.json()}
   const pair=(account,n,creditAccount)=>[{account,debit:n,credit:0},{account:creditAccount,debit:0,credit:n}]
