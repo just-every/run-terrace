@@ -1,8 +1,9 @@
 // REPORT-003: read-only performance from recorded inventory, lease intervals, external receipts,
-// staff-recorded prospect stages, approved renewal history and LEASE-012 campaign events. No delivery, signature or bank settlement is inferred.
+// actual own-site listing events, staff-recorded prospect stages, approved renewal history and LEASE-012 campaign events. No delivery, signature or bank settlement is inferred.
 import { all, allow, can, date, insist, reaches, reachesPortfolio, text, type Context, type Row } from './core'
 import { localDate } from './zones'
 import { turnoverData } from './turnovers'
+import { refreshListings } from './listings'
 import { dayDistance, economicMetrics, funnelMetrics, marketPotential, occupancyMetrics, percent, renewalMetrics } from './leasing-metrics'
 
 export async function leasingReport(c: Context, q: Row) {
@@ -11,7 +12,8 @@ export async function leasingReport(c: Context, q: Row) {
  insist(to >= from && dayDistance(from, to) < 732, 'invalid_window', 'Choose an inclusive window of 1 to 732 days, with To on or after From.')
  const propertyId = q.propertyId ? text(q.propertyId, 'Property', 100) : null
  const unitId = q.unitId ? text(q.unitId, 'Unit', 100) : null
- const [propertyRows, unitRows, leaseRows, historyRows, proposalRows, prospectRows, events, receipts, boards, campaignRows] = await Promise.all([
+ await refreshListings(c)
+ const [propertyRows, unitRows, leaseRows, historyRows, proposalRows, prospectRows, events, receipts, boards, campaignRows, listingRows, listingEvents] = await Promise.all([
   all(c, 'SELECT id,portfolio_id,name,time_zone FROM tt_properties ORDER BY name,id'),
   all(c, 'SELECT id,property_id,identifier,rentable,market_rent_cents,created_at,version,available_on FROM tt_units ORDER BY identifier,id'),
   all(c, 'SELECT id,unit_id,start_date,end_date,ended_on,created_at,currency,currency_confirmed FROM tt_tenancies WHERE unit_id IS NOT NULL ORDER BY start_date,id'),
@@ -27,6 +29,8 @@ export async function leasingReport(c: Context, q: Row) {
    ORDER BY r.received_date,r.id`, from, to),
   turnoverData(c),
   all(c, 'SELECT e.id,e.kind,e.happened_on,e.detail,e.reference,e.label,e.recorded_at,r.tenancy_id,r.lease_end FROM tt_renewal_events e JOIN tt_renewals r ON r.id=e.renewal_id ORDER BY e.renewal_id,e.sequence'),
+  all(c, 'SELECT l.id,l.unit_id,l.version,p.revision_id,p.published_at,r.snapshot FROM tt_listings l LEFT JOIN tt_listing_publications p ON p.listing_id=l.id LEFT JOIN tt_listing_revisions r ON r.id=p.revision_id'),
+  all(c, 'SELECT e.*,l.unit_id,r.snapshot FROM tt_listing_events e JOIN tt_listings l ON l.id=e.listing_id JOIN tt_listing_revisions r ON r.id=e.revision_id ORDER BY e.at,e.rowid'),
  ])
  const visibleProperties = propertyRows.filter(p => reachesPortfolio(c, p.portfolio_id))
  insist(!propertyId || visibleProperties.some(p => p.id === propertyId), 'not_found', 'Property not found.', 404)
@@ -83,12 +87,27 @@ export async function leasingReport(c: Context, q: Row) {
     readyByWindowEnd: publishedByEnd && b.available_on <= to, taskIds: b.tasks.map((t: Row) => t.id), listingFreshness: 'unknown' }
   })
   sources.push(...turnovers.map(t => ({ kind: 'turnover', unitId: u.id, ...t })))
-  gaps.push({ code: 'listing_freshness_unknown', unitId: u.id, message: 'LEASE-001 listing publication and freshness are not recorded; ready does not mean listed or fresh.' })
+  const listingRecord = listingRows.find(l => l.unit_id === u.id)
+  const ownEvents = listingEvents.filter(l => l.unit_id === u.id)
+  const listing = {
+   channel: 'own_site', listingId: listingRecord?.id ?? null, revisionId: listingRecord?.revision_id ?? null,
+   state: listingRecord?.revision_id ? 'published' : ['withdrawn', 'unavailable'].includes(ownEvents.at(-1)?.kind) ? ownEvents.at(-1)!.kind : listingRecord ? 'unpublished' : 'not_recorded',
+   publishedAt: listingRecord?.published_at ?? null, checkedAt: c.now,
+   freshness: listingRecord?.revision_id ? 'current' : 'unknown',
+   advertised: listingRecord?.snapshot ? JSON.parse(listingRecord.snapshot) : null,
+   events: ownEvents.filter(e => { const day = localDate(e.at, u.time_zone); return day >= from && day <= to }).map(e => ({
+    eventId: e.id, listingId: e.listing_id, revisionId: e.revision_id, kind: e.kind, date: localDate(e.at, u.time_zone), recordedAt: e.at,
+    rentCents: JSON.parse(e.snapshot).rentCents, feesCents: JSON.parse(e.snapshot).feesCents, depositCents: JSON.parse(e.snapshot).depositCents, currency: 'USD',
+   })),
+  }
+  sources.push(...listing.events.map(e => ({ ...e, channel: 'own_site', unitId: u.id, propertyId: u.property_id, eventKind: e.kind, kind: 'listing_' + e.kind })))
+  if (!listingRecord?.revision_id) gaps.push({ code: 'listing_freshness_unknown', unitId: u.id, message: listingRecord ? 'Own-site listing is unpublished; retained publication events grant no current publication authority.' : 'Own-site listing is not recorded; ready does not mean listed or fresh.' })
+  gaps.push({ code: 'partner_listing_unconfigured', unitId: u.id, message: 'Zillow and Apartments.com are unconfigured; partner publication and freshness are unknown.' })
   const economic = eligible ? economicMetrics(potential, rentReceiptsCents) : { potentialRentCents: null, potentialRentExact: null, rentReceiptsCents: null, economicVacancyCents: null, economicVacancyPercent: null }
   return { unitId: u.id, propertyId: u.property_id, property: propertyMap.get(u.property_id)!.name, timeZone: u.time_zone, identifier: u.identifier,
    rentable, ...counted, marketRentCents: u.market_rent_cents, marketRentAsOf: c.now, ...economic, economicIncluded: eligible,
    economicCoverage: excludedReceipts.some(r => r.reason !== 'non_rent_charge') ? 'partial' : eligible ? 'recorded_rent_receipts_only' : 'excluded',
-   receipts: paid, excludedReceipts, turnovers, listingFreshness: 'unknown' }
+   receipts: paid, excludedReceipts, turnovers, listing, listingFreshness: listing.freshness, partnerListings: [{ channel: 'zillow', state: 'unconfigured', freshness: 'unknown' }, { channel: 'apartments_com', state: 'unconfigured', freshness: 'unknown' }] }
  })
  const eligibleUnits = units.filter(u => u.rentable), rentableDays = eligibleUnits.reduce((n, u) => n + u.rentableDays, 0)
  const occupiedDays = eligibleUnits.reduce((n, u) => n + u.occupiedDays, 0)
@@ -127,7 +146,7 @@ export async function leasingReport(c: Context, q: Row) {
    leadConversion: 'Leased / leads × 100 in first-source cohorts created within the inclusive window. Merged and held duplicate rows are excluded; reviewed separate leads remain distinct. Only stage events with effective and recorded local dates on or before To count. Stages are staff-recorded, not independently verified; skipped stages are never fabricated.',
    dropoff: 'Showing drop-off counts leads with a shown event but no applied event; application drop-off counts leads with an applied event but no leased event. Percentages divide by shown and applied leads respectively; no inferred intermediate events.',
    retention: 'Accepted approved recorded renewals / original lease-term expiries in the window × 100. Prior ends come from tt_lease_history and current/ended tenancies. Approval must be recorded locally on or before To and linked to the original term history. Pending, rejected and nonrenewed are separate. LEASE-012 campaign offers count as accepted only once their staff-recorded signed renewal activated by To; scheduling, mail-provider results, staff-recorded replies and outcomes are dated sources. A provider acceptance is never delivery, and a signature is staff-recorded, never electronic-signature evidence.',
-   turnover: 'availableOn is the published actual availability record; forecastReadyDate is the current task plan as of the report instant. Ready-by-window-end also requires publication and availability by To. Listing publication and freshness are unknown (LEASE-001).',
+   turnover: 'availableOn is the published actual availability record; forecastReadyDate is the current task plan as of the report instant. Ready-by-window-end also requires publication and availability by To. Own-site publication, change and withdrawal are actual dated listing events; current own-site freshness is checked at the report instant, separately from historical window events. Unpublished listings have unknown freshness. Zillow and Apartments.com remain unconfigured with unknown freshness.',
   }, gaps,
  }
 }

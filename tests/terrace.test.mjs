@@ -950,3 +950,6 @@ test('BOUND-002: scoped professional referrals retain held sources, documentary 
 
 import {journey as shadowJourney} from './shadow-run.mjs'
 test('MOVE-008: owner documentary rent comparison holds per-lease differences, binds exact reviews and preserves private custody',shadowJourney)
+
+import {journey as listingsJourney} from './listings.mjs'
+test('LEASE-001: exact owner-approved own-site vacancies, private visitor enquiries, live occupancy and unpublished restore',listingsJourney)

@@ -57,6 +57,7 @@
       "/signin",
       "/portal",
       "/apply",
+      "/vacancies",
       "/api/stripe/events",
       "/api/resident-mail/events",
       "/api/twilio/status",

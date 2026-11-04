@@ -12,6 +12,7 @@ const EXT: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', '
 const bytes = (b64: string) => Uint8Array.from(atob(b64), ch => ch.charCodeAt(0))
 
 export const RECONNECT = [
+ 'Own-site vacancies: frozen listing revisions, publication history and visitor attribution are retained as evidence. Restored listings are unpublished and previews authorize nothing; review current availability and explicitly preview and publish again. Partner channels remain unconfigured. Visitor submissions are unverified, and no application invitation or response is sent.',
  'Shadow rent: source originals, mappings, differences, next actions and prior reviews are documentary evidence. Restored reviews are inert; capture and review a new comparison with current native statements. No cutover, collection or schedule is authorized.',
  'Stripe diagnostics: set the Stripe test secret privately, review the authorized account and scope, and reconcile existing references. Restored counters and setup metadata are evidence only; no collection is replayed.',
  'Resend mail diagnostics: reconnect the key and verified sender privately; review sending permission. No restored message is sent.',

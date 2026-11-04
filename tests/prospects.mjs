@@ -68,7 +68,13 @@ export async function journey() {
  assert.ok(!/routing|bank|\bein\b/i.test(JSON.stringify(await list('leasing'))));await h.command('account.add',{},{...as('leasing'),status:403})
  // SAFE-004: the owner erases a prospect on request; history keeps an opaque alias.
  await h.command('prospect.erase',{prospectId:p3.id,version:2,reason:'Erasure request email 2026-10-22'},{...as('leasing'),status:403})
+ const beforeErasure=await(await h.request('/api/backup')).text()
  await h.command('prospect.erase',{prospectId:p3.id,version:2,reason:'Erasure request email 2026-10-22'})
  assert.equal(await get(p3.id),undefined);const rows=(await(await h.request('/api/history?action=prospect.erase')).json()).rows;assert.equal(rows[0].subject,'prospect-'+p3.id);assert.ok(!JSON.stringify(rows).includes('Lee Park'))
+ const later=await(await h.request('/api/backup')).text(),empty=await installation()
+ try{
+  const refusal=await empty.formCommand('data.restore',{confirm:'RESTORE',backup:new File([beforeErasure],'older-prospects.rer'),journal:new File([later],'later-prospects.rer')},{status:409})
+  assert.equal(refusal.error,'erasure_fence','a later erasure checkpoint prevents old prospect contact restoration')
+ }finally{await empty.close()}
  } finally {await h.close()}
 }

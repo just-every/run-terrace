@@ -64,7 +64,8 @@
         "node tests/card-payments-browser.mjs",
         "node tests/shadow-run-browser.mjs",
         "node tests/portal-requests-browser.mjs",
-        "node tests/accessibility-browser.mjs"
+        "node tests/accessibility-browser.mjs",
+        "node tests/listings-browser.mjs"
       ]
     }
   ],

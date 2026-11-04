@@ -1,4 +1,5 @@
 import { workflowSendClaim } from './workflow-mail'
+import { portable } from './data'
 // LEASE-005. Prospect records on a property, recorded by the owner, portfolio managers and leasing staff in that
 // portfolio. A lead whose email or phone matches an open prospect in the same portfolio is held as a possible
 // duplicate until a person merges it or keeps it separate; nothing merges by itself. First-contact source is fixed;
@@ -62,9 +63,10 @@ export async function prospectCommand(c: Context, command: string, p: Row): Prom
   // SAFE-004 communications retention: the owner erases a prospect on request; history keeps an opaque alias.
   insist(c.actor.role === 'owner', 'forbidden', 'Only the installation owner can do this.', 403)
   text(p.reason, 'Erasure request reference', 500)
-  insist(!await one(c,'SELECT 1 FROM tt_applications WHERE prospect_id=?',r.id),'application_retained','Review and erase the retained application before erasing its prospect.',409)
+  insist(!await one(c,'SELECT 1 FROM tt_applications WHERE prospect_id IN (SELECT id FROM tt_prospects WHERE id=? OR merged_into=?)',r.id,r.id),'application_retained','Review and erase the retained application before erasing its prospect.',409)
+  const checkpoint = await (await portable(c)).redactionStatements()
   c.source = 'prospect-' + r.id
-  await commit(c, [versionGuard(c, r), sql(c, 'UPDATE tt_prospects SET duplicate_of=NULL WHERE duplicate_of IN (SELECT id FROM tt_prospects WHERE id=? OR merged_into=?)', r.id, r.id), sql(c, "DELETE FROM tt_workflow_events WHERE run_id IN (SELECT id FROM tt_workflow_runs WHERE subject_kind='prospect' AND subject_id IN (SELECT id FROM tt_prospects WHERE id=? OR merged_into=?))", r.id, r.id), sql(c, "DELETE FROM tt_workflow_runs WHERE subject_kind='prospect' AND subject_id IN (SELECT id FROM tt_prospects WHERE id=? OR merged_into=?)", r.id, r.id), sql(c, 'DELETE FROM tt_prospects WHERE merged_into=?', r.id), sql(c, 'DELETE FROM tt_prospects WHERE id=?', r.id)], command, 'prospect-' + r.id)
+  await commit(c, [versionGuard(c, r), guard(c, 'NOT EXISTS(SELECT 1 FROM tt_applications WHERE prospect_id IN (SELECT id FROM tt_prospects WHERE id=? OR merged_into=?))', r.id, r.id), ...checkpoint, sql(c, 'UPDATE tt_listing_enquiries SET prospect_id=NULL,payload_hash=NULL,erased_at=? WHERE prospect_id IN (SELECT id FROM tt_prospects WHERE id=? OR merged_into=?)', c.now, r.id, r.id), sql(c, 'UPDATE tt_prospects SET duplicate_of=NULL WHERE duplicate_of IN (SELECT id FROM tt_prospects WHERE id=? OR merged_into=?)', r.id, r.id), sql(c, "DELETE FROM tt_workflow_events WHERE run_id IN (SELECT id FROM tt_workflow_runs WHERE subject_kind='prospect' AND subject_id IN (SELECT id FROM tt_prospects WHERE id=? OR merged_into=?))", r.id, r.id), sql(c, "DELETE FROM tt_workflow_runs WHERE subject_kind='prospect' AND subject_id IN (SELECT id FROM tt_prospects WHERE id=? OR merged_into=?)", r.id, r.id), sql(c, 'DELETE FROM tt_prospects WHERE merged_into=?', r.id), sql(c, 'DELETE FROM tt_prospects WHERE id=?', r.id)], command, 'prospect-' + r.id)
   return { id: r.id, tab: 'prospects', notice: 'Prospect erased. History keeps only an opaque alias.' }
  }
  if (command === 'prospect.review') {

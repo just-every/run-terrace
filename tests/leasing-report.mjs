@@ -15,6 +15,21 @@ export async function journey({inspect,assets=false}={}) {
   const q={from:today,to:today,propertyId:p.id},url=query=>'/api/leasing-report?'+new URLSearchParams(query)
   const read=async(query=q,opts={})=>{const r=await h.request(url(query),opts);assert.equal(r.status,200,await r.clone().text());assert.equal(r.headers.get('cache-control'),'no-store');return r.json()}
   const before=await read();assert.deepEqual([before.summary.rentableDays,before.summary.occupiedDays,before.summary.vacantDays],[3,0,3])
+  const advertised={title:'Synthetic owner-approved home',description:'Text-only vacancy reviewed by the owner.',rent:'3100.15',fees:'25.01',deposit:'1200.02',availableOn:today}
+  const publish=async saved=>{const preview=await h.command('listing.preview',{listingId:saved.id,version:saved.version});return h.command('listing.publish',{listingId:saved.id,version:preview.version,revisionId:preview.revisionId,fingerprint:preview.fingerprint,confirm:'PUBLISH'})}
+  let listingA=await publish(await h.command('listing.save',{...advertised,unitId:a.id}))
+  let listingB=await publish(await h.command('listing.save',{...advertised,unitId:b.id,title:'Synthetic second vacant home'}))
+  const listed=await read(),firstPublished=listed.units.find(x=>x.unitId===a.id)
+  assert.equal(firstPublished.listingFreshness,'current');assert.equal(firstPublished.listing.state,'published')
+  assert.equal(firstPublished.listing.advertised.rentCents,310015);assert.equal(firstPublished.listing.advertised.feesCents,2501);assert.equal(firstPublished.listing.advertised.depositCents,120002)
+  assert.ok(listed.sources.some(x=>x.kind==='listing_published'&&x.revisionId===listingA.revisionId&&x.rentCents===310015),'actual own-site publication is a dated revision source')
+  assert.ok(firstPublished.partnerListings.every(x=>x.state==='unconfigured'&&x.freshness==='unknown'),'own-site publication establishes no partner connection')
+  listingA=await publish(await h.command('listing.save',{...advertised,unitId:a.id,listingId:listingA.id,version:listingA.version,rent:'3101.16',fees:'26.02',deposit:'1201.03'}))
+  await h.command('listing.withdraw',{listingId:listingB.id,version:listingB.version})
+  const revised=await read()
+  assert.ok(revised.sources.some(x=>x.kind==='listing_changed'&&x.revisionId===listingA.revisionId&&x.rentCents===310116&&x.feesCents===2602&&x.depositCents===120103),'exact approved price changes retain their own dated source')
+  assert.ok(revised.sources.some(x=>x.kind==='listing_withdrawn'&&x.unitId===b.id),'owner withdrawal is an actual event')
+  assert.equal(revised.units.find(x=>x.unitId===b.id).listing.state,'withdrawn')
   const lead=async(name,source)=>h.command('prospect.add',{propertyId:p.id,name,email:name.toLowerCase()+'@example.test',source,reference:`${source} enquiry for Linden A on ${today}`,consent_email:'granted'})
   const dana=await lead('Dana','own_site'),lee=await lead('Lee','phone'),sam=await lead('Sam','own_site')
   let version=1
@@ -44,6 +59,9 @@ export async function journey({inspect,assets=false}={}) {
   const decisions=[]
   for(const [label,decision] of [['D','pending'],['E','rejected']]){const u=await unit(label),lease=await h.command('tenancy.create',{...tenancyInput,unitId:u.id,tenantEmail:label+'@example.test',startDate:today,endDate:today,rent:'1500',cadence:'monthly'}),proposal=await h.command('renewal.prepare',{tenancyId:lease.id,endDate:shift(365),rent:'1550',source:'Reviewed renewal '+label});if(decision==='rejected')await h.command('proposal.reject',{proposalId:proposal.id});decisions.push({lease,proposal,decision})}
   const after=await read(),ua=after.units.find(x=>x.unitId===a.id),ub=after.units.find(x=>x.unitId===b.id)
+  assert.equal(ua.listing.state,'unavailable');assert.equal(ua.listingFreshness,'unknown')
+  assert.ok(after.sources.some(x=>x.kind==='listing_unavailable'&&x.unitId===a.id),'native lease creation records own-site suppression')
+  assert.equal((await h.request('/vacancies/api/'+listingA.id,{as:''})).status,404,'the no-longer-available unit is absent through the public listing door')
   assert.deepEqual([after.summary.rentableDays,after.summary.occupiedDays,after.summary.vacantDays],[5,3,2])
   assert.equal(ua.daily.find(x=>x.date===today).tenancyIds[0],t.id);assert.equal(ua.vacantDays,0);assert.equal(ub.vacancySpells[0].daysInWindow,1)
   const daysInMonth=new Date(Number(today.slice(0,4)),Number(today.slice(5,7)),0).getDate()
