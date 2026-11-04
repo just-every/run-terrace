@@ -133,7 +133,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "ff4af78e0fab815a4cb08c3f73a99ed5ac04a658505c8a030a535c494f78a81a",
+      "sha256": "e983eec548cdc82675c39f2c2e831f0799a36f8e7d812e47b49f46d5b9424ac7",
       "executable": false
     },
     "DEMO.md": {
@@ -178,6 +178,14 @@
     },
     "docs/communications.md": {
       "sha256": "c97ee552802dae37492783fd0774a3dcdd20df4767d6c336a79d97b5ac6688f0",
+      "executable": false
+    },
+    "docs/contract/MOVE-012-rubric.md": {
+      "sha256": "68ad28d8598bfeb5bd3f48aeb6c9c99538e3542de6aa19116130fecaee8217a8",
+      "executable": false
+    },
+    "docs/contract/MOVE-013-rubric.md": {
+      "sha256": "cb567736e2c5598b85b7db2cf999cb557622615e3103eb8326431f0babb09d1d",
       "executable": false
     },
     "docs/financial-reports.md": {
@@ -1042,6 +1050,10 @@
     },
     "rer-setup.json": {
       "sha256": "d3ce2016c57eeb2c4649049bcfe224557496532721ddb8ba6d03eb9c6fe1cac9",
+      "executable": false
+    },
+    "RULINGS.md": {
+      "sha256": "00553148cf5ed5e4a49510bac99ed5c6eabb89f2acc21b2ebcae3a2851e19768",
       "executable": false
     },
     "RUN-LOCALLY.md": {
