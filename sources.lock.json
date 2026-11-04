@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "84a215b707232bdff9a4744ed05e53f4dbb7d8cecaea2e1bfcaf5aeb8ce1885b",
+      "sha256": "023d5019d6f4a5516b32077d814351383e512e8c97aac273129137f19607fb62",
       "executable": false
     },
     "agent-surface.json": {
@@ -133,7 +133,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "4fce75d7c6e256c64a5b7d71a90ea24e1a2cc18f9529ed5bee1815400f3abf48",
+      "sha256": "7f22f3a774fe68b92c7d63d86deb5358f8fe4540a408fe4d311da3633d4c4083",
       "executable": false
     },
     "DEMO.md": {
@@ -178,6 +178,14 @@
     },
     "docs/communications.md": {
       "sha256": "c97ee552802dae37492783fd0774a3dcdd20df4767d6c336a79d97b5ac6688f0",
+      "executable": false
+    },
+    "docs/contract/MOVE-012-rubric.md": {
+      "sha256": "68ad28d8598bfeb5bd3f48aeb6c9c99538e3542de6aa19116130fecaee8217a8",
+      "executable": false
+    },
+    "docs/contract/MOVE-013-rubric.md": {
+      "sha256": "cb567736e2c5598b85b7db2cf999cb557622615e3103eb8326431f0babb09d1d",
       "executable": false
     },
     "docs/financial-reports.md": {
@@ -1046,6 +1054,10 @@
     },
     "rer-setup.json": {
       "sha256": "d3ce2016c57eeb2c4649049bcfe224557496532721ddb8ba6d03eb9c6fe1cac9",
+      "executable": false
+    },
+    "RULINGS.md": {
+      "sha256": "00553148cf5ed5e4a49510bac99ed5c6eabb89f2acc21b2ebcae3a2851e19768",
       "executable": false
     },
     "RUN-LOCALLY.md": {
