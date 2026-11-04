@@ -1,8 +1,14 @@
 /* Integration diagnostics use the existing Settings cards and field controls. */
-.settings-layout>#integration-diagnostics{grid-column:1 / -1}
+.settings-layout>:is(#integration-diagnostics,#setup-readiness){grid-column:1 / -1}
 .integration-providers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .integration-provider{margin:0}
 .integration-provider dl{grid-template-columns:minmax(0,1fr);gap:4px}
 .integration-provider dt{font-weight:600}
 .integration-provider dd{margin-bottom:10px}
 @media(max-width:860px){.integration-providers{grid-template-columns:minmax(0,1fr)}}
+
+#setup-readiness{overflow-wrap:anywhere}
+#setup-readiness :is(p,li,dt,dd,summary,a){font-size:14px}
+.readiness-limits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.readiness-limits>div{min-width:0}.readiness-limits dt{font-weight:600}.readiness-limits dd{margin:4px 0 0}
+@media(max-width:860px){.readiness-limits{grid-template-columns:minmax(0,1fr)}}

@@ -2,6 +2,7 @@ import { createPortability, readArchive, type Manifest, type Part, type Closing,
 import policy from './archive-policy.mjs'
 import { Fault, insist, allow, type Context, type Row } from './core'
 import { eraseTenancy } from './erasure'
+export const ARCHIVE_LIMIT = 20 * 1024 * 1024
 export const portable = (c:Context) => createPortability({db:c.db,policy})
 export async function backup(c:Context) {
  allow(c,'data.restore')
@@ -10,7 +11,7 @@ export async function backup(c:Context) {
  catch(e) {await service.exports.abort(job);throw e}
 }
 async function archive(file:unknown) {
- insist(file instanceof File && file.size>0 && file.size<=20*1024*1024,'archive_file','Choose a Terrace .rer archive up to 20 MB. Use rer import for larger archives.')
+ insist(file instanceof File && file.size>0 && file.size<=ARCHIVE_LIMIT,'archive_file','Choose a Terrace .rer archive up to 20 MB. Use rer import for larger archives.')
  const records=[]; for await (const line of readArchive(file.stream())) records.push(line)
  return records
 }
