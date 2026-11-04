@@ -5,7 +5,7 @@ import { disc, eyebrow, picture } from './parts'
 // Floor is the column (1–5), letter the row (A–D).
 const tags: Record<string, [string, string, string, string]> = {
  '3A': ['All dry', 'Sink fixed Oct 6', 'green', 'check'],
- '5A': ['On a plan', '$925 paid Oct 9', 'amber', 'dollar'],
+ '5A': ['Follow-up', '$925 paid Oct 9', 'amber', 'dollar'],
  '2B': ['Paid', '$1,850 · Oct 1', 'green', 'dollar'],
  '4B': ['Leased', 'Moves in Nov 1', 'violet', 'list'],
  '1C': ['Renewed', '12 mo · $1,940', 'violet', 'list'],

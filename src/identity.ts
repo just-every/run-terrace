@@ -7,7 +7,7 @@ export const identity: EditionIdentity = {
   product: branding.name,
   deployment: branding.name,
   purpose: '{deployment} keeps leases, rent, repairs and owner statements in one place.',
-  tagline: 'Rent in. Repairs done. Owners paid.',
+  tagline: 'Rent in. Repairs done. Owners informed.',
   signInPath: '/signin',
   // The run site `rer deploy --site` publishes (deploy-site.json).
   runSite: 'https://run-terrace.com',

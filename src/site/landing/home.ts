@@ -16,8 +16,8 @@ import { repaired } from './repaired'
 
 export function homeHtml() {
  return siteDocument({
-  title: 'Terrace · Rent in. Repairs done. Owners paid.',
-  description: 'Free, open source property management for US residential portfolios: leasing, rent collection, trust accounting, owner and resident portals and maintenance in one reconciled ledger.',
+  title: 'Terrace · Rent in. Repairs done. Owners informed.',
+  description: 'Free, open source property management for US residential portfolios: leases, rent records, trust ledgers, owner and resident portals and maintenance in one reconciled ledger.',
   styles: ['/site/landing.css', '/site/landing-art.css'],
   preload: '<link rel="preload" as="image" type="image/avif" imagesrcset="/site/hero-768.avif 768w, /site/hero-1152.avif 1152w, /site/hero-1536.avif 1536w" imagesizes="100vw" media="(min-width: 1240px)">',
   narrow,
