@@ -625,12 +625,8 @@
               "section": "Upload compliance documents"
             }
           ],
-          "replacements": [
-            {
-              "clause": "WORK-004",
-              "acceptance": "Select a plumber by area and insurance status, expire their coverage and attempt reassignment; verify qualification hold and a documented human exception rather than silent dispatch."
-            }
-          ]
+          "replacements": [],
+          "gap": "Vendor qualification metadata in WORK-004 does not prove compliance-document retention. Upload, retained original bytes, authorized retrieval and document history remain unsupported replacement functions."
         },
         {
           "id": "repair-invoice",
@@ -2082,12 +2078,8 @@
               "section": "Metered Utilities"
             }
           ],
-          "replacements": [
-            {
-              "clause": "ACCT-016",
-              "acceptance": "Allocate one water invoice by a reviewed occupancy formula, post parking and taxable ancillary charges and verify source-linked tenant allocations equal the approved recoverable total."
-            }
-          ]
+          "replacements": [],
+          "gap": "Occupancy-based invoice allocation in ACCT-016 does not prove consumption metering. Dated meter readings, consumption-based charges and tenant and unit consumption history remain unsupported replacement functions."
         },
         {
           "id": "resident-portal",
@@ -2410,6 +2402,35 @@
               "acceptance": "Collect a deposit in installments, accrue reviewed interest and transfer ownership; inspect bank, beneficiary and tenant balances and receipts without recognizing rent revenue."
             }
           ]
+        },
+        {
+          "id": "scheduled-reports",
+          "name": "Deliver scheduled report batches",
+          "citations": [
+            {
+              "source": "reporting",
+              "section": "Reports Delivered on a Set Schedule; History Tracking"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "REPORT-006",
+              "acceptance": "Schedule an owner report across a timezone boundary, revoke an owner before delivery and bounce another recipient; verify scope recheck, one authorized delivery and a failed-delivery task."
+            }
+          ],
+          "gap": "Scheduled report batches remain a gap. REPORT-006 covers bounded owner-report preparation and explicitly approved delivery, not the complete scheduled operating-report batch or unattended delivery."
+        },
+        {
+          "id": "automatic-extraction",
+          "name": "Automatically extract receipt and invoice data",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Smart Receipts; Smart Bills"
+            }
+          ],
+          "replacements": [],
+          "gap": "Automatic receipt and invoice extraction, categorization and payable creation remain unsupported. ACCT-007 retains originals with manual data entry; that is not matching extraction acceptance."
         }
       ]
     }

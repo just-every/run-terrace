@@ -4,6 +4,7 @@ import {spawnSync} from 'node:child_process'
 import {tmpdir} from 'node:os'
 import {dirname, join} from 'node:path'
 import {parseContract} from '../../src/base/seed-contract.mjs'
+import {renderSwitchChecklists} from '../../scripts/switch-checklists.mjs'
 
 const root = new URL('../..',import.meta.url).pathname
 const manifestPath = 'docs/switch-checklists.json', outputPath = 'docs/switch-checklists.md'
@@ -26,14 +27,21 @@ export function assertSwitchChecklists() {
    else assert.equal(result.status,0,output)
   }
   run('write');run('check')
-  assert.equal(readFileSync(join(directory,outputPath),'utf8'),read(outputPath),'committed public checklist matches current contract and citations')
-  const html = read('dist/site/docs/switch-checklists.html'), projected = read(outputPath)
+  const projected=renderSwitchChecklists(manifest,source)
+  assert.equal(readFileSync(join(directory,outputPath),'utf8'),projected,'public checklist projection matches current contract and citations')
+  const html = read('dist/site/docs/switch-checklists.html')
   assert.match(read('dist/site/docs.html'),/href="\/docs\/switch-checklists"/,'the public docs index links the built checklist')
   for (const incumbent of manifest.incumbents) {
+   const incumbentHtml=html.split('<h2 ').slice(1).find(section=>section.split('</h2>')[0].includes('>'+incumbent.name+'<'))
    const checklist=projected.split('## '+incumbent.name+'\n\n')[1].split('\n## ')[0]
    for (const fn of incumbent.functions) {
     const functionText=checklist.split('### '+fn.name+'\n\n')[1]?.split('\n### ')[0]
     assert.ok(functionText,'each researched function stays in its incumbent checklist')
+    const functionHtml=incumbentHtml?.split('<h3 ').slice(1).find(section=>section.split('</h3>')[0].includes('>'+fn.name.replaceAll('&','&amp;')+'<'))?.split('<h3 ')[0]
+    assert.ok(functionHtml,'each researched function has a built public result: '+fn.name)
+    const state=functionText.match(/^\*\*(Covered|Partial|Missing|Unsupported)\*\*/)?.[1]
+    assert.ok(state && functionHtml.includes('<strong>'+state+'</strong>'),'built coverage reflects current replacement evidence: '+fn.name)
+    if(fn.gap)assert.ok(functionHtml.replaceAll('&#47;','/').includes(fn.gap.replaceAll('&','&amp;')),'built function retains its named gap: '+fn.name)
     assert.ok(html.includes(fn.name.replaceAll('&','&amp;')),'the built checklist retains each researched function: '+fn.name)
     for (const ref of fn.citations) {
      const citation=incumbent.sources.find(c=>c.id===ref.source)
@@ -63,7 +71,7 @@ export function assertSwitchChecklists() {
   delete unsupported.gap
   save(unmapped);run('write',/Missing explicit unmapped function gap/)
   save(manifest);run('write')
-  write(outputPath,read(outputPath)+'Stale output\n');run('check',/Stale contract projection: docs\/switch-checklists\.md/)
+  write(outputPath,projected+'Stale output\n');run('check',/Stale contract projection: docs\/switch-checklists\.md/)
 
   // Real contract mutations through write and check: coverage is recomputed, never copied from JSON.
   const clauses=parseContract(source).clauses, ledger=clauses.find(c=>c.id==='ACCT-001')

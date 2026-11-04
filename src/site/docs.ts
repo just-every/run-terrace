@@ -2,6 +2,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join, normalize } from 'node:path/posix'
 import { Marked } from 'marked'
+import { renderSwitchChecklists } from '../../scripts/switch-checklists.mjs'
 import { siteDocument } from './document'
 import { siteFooter, siteHeader } from './shell'
 
@@ -93,7 +94,7 @@ function document(guide: Guide, repository: string, html: string, headings: Head
     description: guide.description,
     styles: ['/site/docs.css'],
     script: COPY,
-    body: `${siteHeader('docs')}<div class="wrap docs-layout${guide.path === '/docs' ? ' is-index' : ''}"><aside>${navigation(guide)}</aside><main id="main" tabindex="-1"><p class="eyebrow">Terrace documentation</p><article class="prose">${article}</article>${pager(guide)}<footer class="doc-footer"><a href="${escape(sourceUrl(repository, guide.file))}">Read this guide in the source</a><p>Free and open source, MIT licensed.</p></footer></main></div>${siteFooter()}`,
+    body: `${siteHeader('docs')}<div class="wrap docs-layout${guide.path === '/docs' ? ' is-index' : ''}"><aside>${navigation(guide)}</aside><main id="main" tabindex="-1"><p class="eyebrow">Terrace documentation</p><article class="prose">${article}</article>${pager(guide)}<footer class="doc-footer"><a href="${escape(sourceUrl(repository, guide.path === '/docs/switch-checklists' ? 'docs/switch-checklists.json' : guide.file))}">Read this guide in the source</a><p>Free and open source, MIT licensed.</p></footer></main></div>${siteFooter()}`,
   })
 }
 
@@ -103,7 +104,10 @@ export function docsPages(repository: string): { path: string; html: string }[] 
   if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash) throw new Error('Docs need a public HTTPS repository URL.')
   repository = repository.replace(/\/$/, '').replace(/\.git$/, '')
   return guides.map(guide => {
-    const source = readFileSync(join(process.cwd(), guide.file), 'utf8')
+    // Build coverage from its acceptance sources even when stored projections await regeneration.
+    const source = guide.path === '/docs/switch-checklists'
+      ? renderSwitchChecklists(JSON.parse(readFileSync('docs/switch-checklists.json', 'utf8')), readFileSync('CONTRACT.md', 'utf8'))
+      : readFileSync(join(process.cwd(), guide.file), 'utf8')
     const { html, headings } = renderMarkdown(source, guide.file, repository)
     return { path: guide.path, html: document(guide, repository, html, headings) }
   })

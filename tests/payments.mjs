@@ -4,7 +4,7 @@ import assert from 'node:assert/strict'
 import {installation,tenancyInput} from './api/harness.mjs'
 import {syntheticPack} from './rule-packs.mjs'
 export async function journey({assets=false,inspect}={}){
- const h=await installation({assets})
+ const h=await installation({assets,now:'2026-10-26T12:00:00.000Z'})
  try{
   const f=await h.command('portfolio.add',{name:'Payment portfolio'}),property=await h.command('property.add',{portfolioId:f.id,name:'Payment property',address:'1 Synthetic Terrace Road',kind:'duplex',timeZone:'America/Chicago'}),u=await h.command('unit.add',{propertyId:property.id,identifier:'A',bedrooms:'2',bathrooms:'1'}),t=await h.command('tenancy.create',{...tenancyInput,unitId:u.id,rent:'1000.00',cadence:'monthly'})
   const day=(await h.state(t.id)).ledger.today

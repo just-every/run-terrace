@@ -58,7 +58,7 @@ const claimStart=source.indexOf('## Homepage claims'),claimEnd=source.indexOf('\
 if(claimStart<0)throw Error('Homepage claims source missing')
 const claims='# Terrace capability claims\n\nGenerated from CONTRACT.md. Edit its claim mapping and Status rows, then run `node scripts/contract-docs.mjs write`.\n\n'+source.slice(claimStart,claimEnd<0?undefined:claimEnd).split('\n').filter(line=>line.startsWith('|')).join('\n')+'\n'
 const checklist=renderSwitchChecklists(JSON.parse(await readFile('docs/switch-checklists.json','utf8')),source)
-const outputs=[['docs/switch-checklists.md',checklist],['ACCEPTANCE.md',acceptance],['docs/CLAIMS.md',claims]]
+const outputs=[['ACCEPTANCE.md',acceptance],['docs/CLAIMS.md',claims],['docs/switch-checklists.md',checklist]]
 for(const[path,bytes]of outputs){
  if(mode==='write'){await mkdir('docs',{recursive:true});await writeFile(path,bytes)}
  else{let current;try{current=await readFile(path,'utf8')}catch{};if(current!==bytes)throw Error('Stale contract projection: '+path)}
