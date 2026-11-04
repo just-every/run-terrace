@@ -1058,11 +1058,11 @@ Official documentation: [Buildium maintenance request management](https://www.bu
   - Evidence: `migrations/core/0021_schedules.sql`; `src/terrace/schedules.ts`; `src/terrace/schedule-view.ts`; `src/terrace/job-writes.ts`; `tests/terrace.test.mjs`
   - Gap: None in the contract row.
 
-### Export records and reconcile migration
+### Export source records for a reviewed migration
 
 **Missing** — gap remains.
 
-Official documentation: [Buildium features](https://www.buildium.com/features/) — Onboarding handles migration; reviewed 2026-11-04.
+Official documentation: [Buildium export data documentation](https://help.buildium.com/hc/s/article/Export-data-from-Buildium-1557494404392) — Export data from Buildium; category exports and supplemental reports are specified in MOVE-003; reviewed 2026-11-04.
 
 - [MOVE-003](../CONTRACT.md) — **MISSING**: Move in from Buildium. Matching acceptance: “Import real redacted Buildium files plus an authorized Open API capture, detect omitted ledger financials, reconcile beneficiary&#47;deposit totals and migrate active work and files before permitting cutover.”
   - Evidence: None recorded.
@@ -1076,7 +1076,7 @@ Official documentation: [Buildium features](https://www.buildium.com/features/) 
   - Evidence: `tests/migration.mjs` journey: restricted vendor directory and W-9 hold, vendor and owner year-to-date balance-forwards, five source-referenced resident history kinds, staff and resident monthly statements, opening balance and no duplicate cash.
   - Gap: AppFolio-format source adapter and independent incumbent summary reconciliation; complete owner and vendor tax carry-forward with post-cutover payments and one 1099 (ACCT-014 requires the unavailable Nelco filing account); eviction ledger export and deposit disposition integration (ACCT-004 awaits PORT-008 counsel content); complete 24-month statement and export proof remain owed.
 
-**Uncovered:** MOVE-003: MISSING. Buildium file&#47;API importer and completeness reconciliation are absent. MOVE-001: PARTIAL. CT 28 October 2026 A16 and R1 demotion retained. Separate native deposit link and individual-amount assertions now pass, independently of the 70000 cent opening aggregate, and the deposit-write mutation is rejected; fresh judgment of these changed rows remains pending. MOVE-010: PARTIAL. AppFolio-format source adapter and independent incumbent summary reconciliation; complete owner and vendor tax carry-forward with post-cutover payments and one 1099 (ACCT-014 requires the unavailable Nelco filing account); eviction ledger export and deposit disposition integration (ACCT-004 awaits PORT-008 counsel content); complete 24-month statement and export proof remain owed.
+**Uncovered:** MOVE-003: MISSING. Buildium file&#47;API importer and completeness reconciliation are absent. MOVE-001: PARTIAL. CT 28 October 2026 A16 and R1 demotion retained. Separate native deposit link and individual-amount assertions now pass, independently of the 70000 cent opening aggregate, and the deposit-write mutation is rejected; fresh judgment of these changed rows remains pending. MOVE-010: PARTIAL. AppFolio-format source adapter and independent incumbent summary reconciliation; complete owner and vendor tax carry-forward with post-cutover payments and one 1099 (ACCT-014 requires the unavailable Nelco filing account); eviction ledger export and deposit disposition integration (ACCT-004 awaits PORT-008 counsel content); complete 24-month statement and export proof remain owed. Source exports establish no completed Terrace importer or payment cutover. Account-specific access and report completeness remain unverified.
 
 ### Qualify scheduled-payment cutover
 
@@ -1604,11 +1604,11 @@ Official documentation: [Rent Manager reporting](https://www.rentmanager.com/rep
   - Evidence: `migrations/core/0048_custom_reports.sql`; `src/terrace/custom-commands.ts`; `src/terrace/custom-reports.ts`; `src/terrace/custom-documents.ts`; `src/terrace/custom-view.ts`; `tests/custom-reports.mjs`; `tests/custom-browser.mjs`; `tests/terrace.test.mjs`
   - Gap: None in the contract row.
 
-### Export and reconcile source reports
+### Export source records for a reviewed migration
 
 **Missing** — gap remains.
 
-Official documentation: [Rent Manager reporting](https://www.rentmanager.com/reporting/) — Report export formats; reviewed 2026-11-04.
+Official documentation: [Rent Manager January release notes](https://www.rentmanager.com/release-notes-jan/) — New Excel Export Capabilities; reviewed 2026-11-04.
 
 - [MOVE-004](../CONTRACT.md) — **MISSING**: Move in from Rent Manager. Matching acceptance: “Import real redacted Excel reports and entitled API data, map units/owners/leases/work orders, reconcile deposits and receivable&#47;payable openings and identify missing original documents before approval.”
   - Evidence: None recorded.
@@ -1622,7 +1622,7 @@ Official documentation: [Rent Manager reporting](https://www.rentmanager.com/rep
   - Evidence: `tests/migration.mjs` journey: restricted vendor directory and W-9 hold, vendor and owner year-to-date balance-forwards, five source-referenced resident history kinds, staff and resident monthly statements, opening balance and no duplicate cash.
   - Gap: AppFolio-format source adapter and independent incumbent summary reconciliation; complete owner and vendor tax carry-forward with post-cutover payments and one 1099 (ACCT-014 requires the unavailable Nelco filing account); eviction ledger export and deposit disposition integration (ACCT-004 awaits PORT-008 counsel content); complete 24-month statement and export proof remain owed.
 
-**Uncovered:** MOVE-004: MISSING. Rent Manager reports&#47;API importer is absent. MOVE-001: PARTIAL. CT 28 October 2026 A16 and R1 demotion retained. Separate native deposit link and individual-amount assertions now pass, independently of the 70000 cent opening aggregate, and the deposit-write mutation is rejected; fresh judgment of these changed rows remains pending. MOVE-010: PARTIAL. AppFolio-format source adapter and independent incumbent summary reconciliation; complete owner and vendor tax carry-forward with post-cutover payments and one 1099 (ACCT-014 requires the unavailable Nelco filing account); eviction ledger export and deposit disposition integration (ACCT-004 awaits PORT-008 counsel content); complete 24-month statement and export proof remain owed.
+**Uncovered:** MOVE-004: MISSING. Rent Manager reports&#47;API importer is absent. MOVE-001: PARTIAL. CT 28 October 2026 A16 and R1 demotion retained. Separate native deposit link and individual-amount assertions now pass, independently of the 70000 cent opening aggregate, and the deposit-write mutation is rejected; fresh judgment of these changed rows remains pending. MOVE-010: PARTIAL. AppFolio-format source adapter and independent incumbent summary reconciliation; complete owner and vendor tax carry-forward with post-cutover payments and one 1099 (ACCT-014 requires the unavailable Nelco filing account); eviction ledger export and deposit disposition integration (ACCT-004 awaits PORT-008 counsel content); complete 24-month statement and export proof remain owed. Source exports establish no completed Terrace importer or payment cutover. Account-specific access and report completeness remain unverified.
 
 ### Qualify recurring collection cutover
 

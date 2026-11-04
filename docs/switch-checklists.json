@@ -906,6 +906,12 @@
           "title": "Buildium features",
           "url": "https://www.buildium.com/features/",
           "reviewed": "2026-11-04"
+        },
+        {
+          "id": "exports",
+          "title": "Buildium export data documentation",
+          "url": "https://help.buildium.com/hc/s/article/Export-data-from-Buildium-1557494404392",
+          "reviewed": "2026-11-04"
         }
       ],
       "functions": [
@@ -1528,11 +1534,11 @@
         },
         {
           "id": "migration",
-          "name": "Export records and reconcile migration",
+          "name": "Export source records for a reviewed migration",
           "citations": [
             {
-              "source": "features",
-              "section": "Onboarding handles migration"
+              "source": "exports",
+              "section": "Export data from Buildium; category exports and supplemental reports are specified in MOVE-003"
             }
           ],
           "replacements": [
@@ -1548,7 +1554,8 @@
               "clause": "MOVE-010",
               "acceptance": "Import an AppFolio vendor directory and year-to-date 1099 totals with a 30 June cutover, pay the same vendor in Terrace and produce one 1099 whose total equals pre-cutover plus post-cutover payments; show a migrated resident’s pre-cutover ledger lines in the resident ledger, on the eviction ledger export and on the deposit disposition statement, with the opening balance equal to the history’s closing balance."
             }
-          ]
+          ],
+          "gap": "Source exports establish no completed Terrace importer or payment cutover. Account-specific access and report completeness remain unverified."
         },
         {
           "id": "cutover",
@@ -1630,6 +1637,12 @@
           "id": "owner",
           "title": "Rent Manager Owner Web Access",
           "url": "https://www.rentmanager.com/webinars/owner-web-access/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "exports",
+          "title": "Rent Manager January release notes",
+          "url": "https://www.rentmanager.com/release-notes-jan/",
           "reviewed": "2026-11-04"
         }
       ],
@@ -2307,11 +2320,11 @@
         },
         {
           "id": "migration",
-          "name": "Export and reconcile source reports",
+          "name": "Export source records for a reviewed migration",
           "citations": [
             {
-              "source": "reporting",
-              "section": "Report export formats"
+              "source": "exports",
+              "section": "New Excel Export Capabilities"
             }
           ],
           "replacements": [
@@ -2327,7 +2340,8 @@
               "clause": "MOVE-010",
               "acceptance": "Import an AppFolio vendor directory and year-to-date 1099 totals with a 30 June cutover, pay the same vendor in Terrace and produce one 1099 whose total equals pre-cutover plus post-cutover payments; show a migrated resident’s pre-cutover ledger lines in the resident ledger, on the eviction ledger export and on the deposit disposition statement, with the opening balance equal to the history’s closing balance."
             }
-          ]
+          ],
+          "gap": "Source exports establish no completed Terrace importer or payment cutover. Account-specific access and report completeness remain unverified."
         },
         {
           "id": "cutover",
