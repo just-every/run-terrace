@@ -9,6 +9,7 @@ import { all, audit, can, commit, guard, id, insist, one, reaches, recordRead, s
 import {originalAuthorization,requireOriginalAuthorization} from './document-authorization'
 import {redactSensitive} from './sensitive-metadata'
 import { LIMIT, scan } from './document-scan'
+export { LIMIT as DOCUMENT_LIMIT } from './document-scan'
 import { documentMetadata, withheld } from './document-redaction'
 
 export const DOCUMENT_COMMANDS = ['document.upload', 'document.revise']

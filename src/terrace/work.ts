@@ -18,7 +18,7 @@ import { checklist, dispatchData } from './dispatch'
 // at 3f87ba0fdba9955f2b7d018d10afafcd50afa919; proposal preparation and
 // approval snapshots from glove/src/glove/commands/dispatch.ts
 // at 778474d80bf5f440b42fb8f3364a191908d0e4b9. JPEG/PNG signatures are checked here.
-const PHOTO_LIMIT = 1_500_000
+export const PHOTO_LIMIT = 1_500_000
 const validVersion = (v: unknown) => {
   insist(typeof v === 'number' || (typeof v === 'string' && /^\d+$/.test(v)), 'invalid_version', 'A current record version is required.')
   const n = Number(v)
