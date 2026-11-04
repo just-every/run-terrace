@@ -135,7 +135,7 @@
           "replacements": [
             {
               "clause": "LEASE-006",
-              "acceptance": "Book competing tours, reschedule through the prospect link, cancel one and process a no-show; verify each connected scheduler/calendar and the permitted access window agree."
+              "acceptance": "Book competing tours, reschedule through the prospect link, cancel one and process a no-show; verify each connected scheduler\u002fcalendar and the permitted access window agree."
             }
           ]
         },
@@ -204,7 +204,7 @@
           "replacements": [
             {
               "clause": "LEASE-011",
-              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy."
+              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF\u002fcertificate to the activated tenancy."
             }
           ]
         },
@@ -446,7 +446,7 @@
           "replacements": [
             {
               "clause": "ACCT-011",
-              "acceptance": "Close a reconciled month, attempt a backdated posting, approve a period reopening and adjustment, then compare old/new statements with the reopening reason and unchanged original entries."
+              "acceptance": "Close a reconciled month, attempt a backdated posting, approve a period reopening and adjustment, then compare old\u002fnew statements with the reopening reason and unchanged original entries."
             }
           ],
           "gap": "Autonomous closing and budget predictions remain unsupported; the mapped acceptance covers a human-reviewed period close."
@@ -463,11 +463,11 @@
           "replacements": [
             {
               "clause": "ACCT-012",
-              "acceptance": "Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books/bank and download the source invoice from the owner portal."
+              "acceptance": "Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books\u002fbank and download the source invoice from the owner portal."
             },
             {
               "clause": "PORTAL-002",
-              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied."
+              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement\u002finvoice; access another owner’s report and screening file is denied."
             }
           ]
         },
@@ -483,7 +483,7 @@
           "replacements": [
             {
               "clause": "ACCT-014",
-              "acceptance": "Prepare owner/vendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings."
+              "acceptance": "Prepare owner\u002fvendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings."
             }
           ]
         },
@@ -515,7 +515,7 @@
           "replacements": [
             {
               "clause": "PORTAL-002",
-              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied."
+              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement\u002finvoice; access another owner’s report and screening file is denied."
             }
           ]
         },
@@ -531,7 +531,7 @@
           "replacements": [
             {
               "clause": "PORTAL-002",
-              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied."
+              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement\u002finvoice; access another owner’s report and screening file is denied."
             }
           ],
           "gap": "Actual owner contribution collection and settlement are not established."
@@ -680,7 +680,7 @@
           "replacements": [
             {
               "clause": "WORK-013",
-              "acceptance": "Move out a resident, delay a repair dependent on inspection, revise the ready date and show cleaning/listing effects; complete checks and publish the true available date."
+              "acceptance": "Move out a resident, delay a repair dependent on inspection, revise the ready date and show cleaning\u002flisting effects; complete checks and publish the true available date."
             }
           ]
         },
@@ -700,7 +700,7 @@
             },
             {
               "clause": "PORTAL-002",
-              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied."
+              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement\u002finvoice; access another owner’s report and screening file is denied."
             }
           ]
         },
@@ -1049,7 +1049,7 @@
           "replacements": [
             {
               "clause": "LEASE-011",
-              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy."
+              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF\u002fcertificate to the activated tenancy."
             }
           ]
         },
@@ -1273,7 +1273,7 @@
           "replacements": [
             {
               "clause": "ACCT-009",
-              "acceptance": "Post rent and a lease renewal under a dated fee schedule, calculate fees/reserve, replay the run and inspect the owner statement with the exact agreement references."
+              "acceptance": "Post rent and a lease renewal under a dated fee schedule, calculate fees\u002freserve, replay the run and inspect the owner statement with the exact agreement references."
             }
           ]
         },
@@ -1321,7 +1321,7 @@
           "replacements": [
             {
               "clause": "ACCT-014",
-              "acceptance": "Prepare owner/vendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings."
+              "acceptance": "Prepare owner\u002fvendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings."
             }
           ]
         },
@@ -1353,7 +1353,7 @@
           "replacements": [
             {
               "clause": "PORTAL-002",
-              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied."
+              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement\u002finvoice; access another owner’s report and screening file is denied."
             }
           ]
         },
@@ -1369,7 +1369,7 @@
           "replacements": [
             {
               "clause": "ACCT-012",
-              "acceptance": "Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books/bank and download the source invoice from the owner portal."
+              "acceptance": "Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books\u002fbank and download the source invoice from the owner portal."
             }
           ]
         },
@@ -1385,7 +1385,7 @@
           "replacements": [
             {
               "clause": "PORTAL-002",
-              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied."
+              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement\u002finvoice; access another owner’s report and screening file is denied."
             }
           ],
           "gap": "Actual owner contribution collection, bank settlement and complete owner request outcomes remain unqualified."
@@ -1418,7 +1418,7 @@
           "replacements": [
             {
               "clause": "PORTAL-006",
-              "acceptance": "Assign a resident conversation, add a private note, broadcast a water shutoff to one building and inspect delivered/failed recipients; verify the resident cannot see the note or another building’s messages."
+              "acceptance": "Assign a resident conversation, add a private note, broadcast a water shutoff to one building and inspect delivered\u002ffailed recipients; verify the resident cannot see the note or another building’s messages."
             },
             {
               "clause": "PORTAL-007",
@@ -1502,7 +1502,7 @@
           "replacements": [
             {
               "clause": "WORK-012",
-              "acceptance": "Bring a HappyCo inspection into the correct unit, replay it and update one finding, then create approved repair work with original media/provenance and a visible unmapped-unit exception."
+              "acceptance": "Bring a HappyCo inspection into the correct unit, replay it and update one finding, then create approved repair work with original media\u002fprovenance and a visible unmapped-unit exception."
             }
           ]
         },
@@ -1518,7 +1518,7 @@
           "replacements": [
             {
               "clause": "WORK-013",
-              "acceptance": "Move out a resident, delay a repair dependent on inspection, revise the ready date and show cleaning/listing effects; complete checks and publish the true available date."
+              "acceptance": "Move out a resident, delay a repair dependent on inspection, revise the ready date and show cleaning\u002flisting effects; complete checks and publish the true available date."
             },
             {
               "clause": "WORK-010",
@@ -1538,7 +1538,7 @@
           "replacements": [
             {
               "clause": "MOVE-003",
-              "acceptance": "Import real redacted Buildium files plus an authorized Open API capture, detect omitted ledger financials, reconcile beneficiary/deposit totals and migrate active work and files before permitting cutover."
+              "acceptance": "Import real redacted Buildium files plus an authorized Open API capture, detect omitted ledger financials, reconcile beneficiary\u002fdeposit totals and migrate active work and files before permitting cutover."
             },
             {
               "clause": "MOVE-001",
@@ -1755,7 +1755,7 @@
           "replacements": [
             {
               "clause": "LEASE-011",
-              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy."
+              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF\u002fcertificate to the activated tenancy."
             }
           ]
         },
@@ -1775,7 +1775,7 @@
             },
             {
               "clause": "LEASE-011",
-              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy."
+              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF\u002fcertificate to the activated tenancy."
             }
           ]
         },
@@ -2040,7 +2040,7 @@
           "replacements": [
             {
               "clause": "ACCT-014",
-              "acceptance": "Prepare owner/vendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings."
+              "acceptance": "Prepare owner\u002fvendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings."
             }
           ]
         },
@@ -2100,7 +2100,7 @@
             },
             {
               "clause": "LEASE-011",
-              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy."
+              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF\u002fcertificate to the activated tenancy."
             }
           ]
         },
@@ -2116,7 +2116,7 @@
           "replacements": [
             {
               "clause": "PORTAL-002",
-              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied."
+              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement\u002finvoice; access another owner’s report and screening file is denied."
             }
           ]
         },
@@ -2132,7 +2132,7 @@
           "replacements": [
             {
               "clause": "ACCT-012",
-              "acceptance": "Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books/bank and download the source invoice from the owner portal."
+              "acceptance": "Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books\u002fbank and download the source invoice from the owner portal."
             }
           ]
         },
@@ -2269,7 +2269,7 @@
           "replacements": [
             {
               "clause": "REPORT-001",
-              "acceptance": "Run an as-of rent roll before and after a scheduled renewal and move-in, reconcile occupied/vacant unit counts and effective rents and download the same filtered data."
+              "acceptance": "Run an as-of rent roll before and after a scheduled renewal and move-in, reconcile occupied\u002fvacant unit counts and effective rents and download the same filtered data."
             }
           ]
         },
@@ -2301,7 +2301,7 @@
           "replacements": [
             {
               "clause": "REPORT-005",
-              "acceptance": "Add a unit inspection field, use it in a saved report and document template, hide a sensitive owner field from leasing staff and verify their export/merge cannot reveal it."
+              "acceptance": "Add a unit inspection field, use it in a saved report and document template, hide a sensitive owner field from leasing staff and verify their export\u002fmerge cannot reveal it."
             }
           ]
         },
@@ -2317,7 +2317,7 @@
           "replacements": [
             {
               "clause": "MOVE-004",
-              "acceptance": "Import real redacted Excel reports and entitled API data, map units/owners/leases/work orders, reconcile deposits and receivable/payable openings and identify missing original documents before approval."
+              "acceptance": "Import real redacted Excel reports and entitled API data, map units/owners/leases/work orders, reconcile deposits and receivable\u002fpayable openings and identify missing original documents before approval."
             },
             {
               "clause": "MOVE-001",

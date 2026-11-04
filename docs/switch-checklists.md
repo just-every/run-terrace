@@ -76,11 +76,11 @@ Official documentation: [AppFolio marketing and leasing](https://www.appfolio.co
 
 Official documentation: [AppFolio marketing and leasing](https://www.appfolio.com/property-manager/marketing-leasing) — Leasing Performer tour scheduling; reviewed 2026-11-04.
 
-- [LEASE-006](../CONTRACT.md) — **MISSING**: Coordinate tours and showing access. Matching acceptance: “Book competing tours, reschedule through the prospect link, cancel one and process a no-show; verify each connected scheduler/calendar and the permitted access window agree.”
+- [LEASE-006](../CONTRACT.md) — **MISSING**: Coordinate tours and showing access. Matching acceptance: “Book competing tours, reschedule through the prospect link, cancel one and process a no-show; verify each connected scheduler&#47;calendar and the permitted access window agree.”
   - Evidence: None recorded.
-  - Gap: Showing scheduling and named scheduler/calendar connections are absent.
+  - Gap: Showing scheduling and named scheduler&#47;calendar connections are absent.
 
-**Uncovered:** LEASE-006: MISSING. Showing scheduling and named scheduler/calendar connections are absent.
+**Uncovered:** LEASE-006: MISSING. Showing scheduling and named scheduler&#47;calendar connections are absent.
 
 ### Take online applications
 
@@ -128,11 +128,11 @@ Official documentation: [AppFolio marketing and leasing](https://www.appfolio.co
 
 Official documentation: [AppFolio online portal help](https://www.appfolio.com/help/online-portal) — Electronic lease and electronic signature; reviewed 2026-11-04.
 
-- [LEASE-011](../CONTRACT.md) — **MISSING**: Collect legally evidenced electronic signatures. Matching acceptance: “Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy.”
+- [LEASE-011](../CONTRACT.md) — **MISSING**: Collect legally evidenced electronic signatures. Matching acceptance: “Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF&#47;certificate to the activated tenancy.”
   - Evidence: None recorded.
-  - Gap: E-signature provider/sibling integration and execution lifecycle are absent.
+  - Gap: E-signature provider&#47;sibling integration and execution lifecycle are absent.
 
-**Uncovered:** LEASE-011: MISSING. E-signature provider/sibling integration and execution lifecycle are absent.
+**Uncovered:** LEASE-011: MISSING. E-signature provider&#47;sibling integration and execution lifecycle are absent.
 
 ### Review and record renewal campaigns
 
@@ -202,9 +202,9 @@ Official documentation: [AppFolio online portal help](https://www.appfolio.com/h
 
 - [PAY-007](../CONTRACT.md) — **PARTIAL**: Offer cash-at-retail and offline payment options. Matching acceptance: “Generate a cash code, receive and replay its retail transaction, clear a check and return another; reconcile resident balances to settlement batches without treating a printed code as collected rent.”
   - Evidence: `src/terrace/ledger.ts`
-  - Gap: Manual external receipts exist; retail network, check deposits and clearance/return states are absent.
+  - Gap: Manual external receipts exist; retail network, check deposits and clearance&#47;return states are absent.
 
-**Uncovered:** PAY-007: PARTIAL. Manual external receipts exist; retail network, check deposits and clearance/return states are absent.
+**Uncovered:** PAY-007: PARTIAL. Manual external receipts exist; retail network, check deposits and clearance&#47;return states are absent.
 
 ### View resident payment history and receipts
 
@@ -237,7 +237,7 @@ Official documentation: [AppFolio accounting and reporting](https://www.appfolio
 Official documentation: [AppFolio accounting and reporting](https://www.appfolio.com/property-manager/accounting-reporting) — Portfolio Accounting; reviewed 2026-11-04.
 
 - [ACCT-001](../CONTRACT.md) — **DONE**: Maintain a balanced property ledger. Matching acceptance: “Post rent, deposit, vendor expense and owner contribution across two properties, attempt an unbalanced entry and inspect the trial balance and each subledger back to source.”
-  - Evidence: `tests/journal.mjs` (journey, in `tests/terrace.test.mjs` ACCT-001/ACCT-011): rent, deposits, expenses and contributions across two properties; unbalanced and cross-owner/fund refusals; chart/opening entries; trial and owner/property/resident/vendor/deposit subledgers back to sources; duplicate receipt reversal with unchanged originals; live role/scope, migration, restart and archive restore; `tests/journal-browser.mjs`: native posting and filtered subledger at 1440/390; `migrations/core/0056_journal.sql`; `src/terrace/journal.ts`
+  - Evidence: `tests/journal.mjs` (journey, in `tests/terrace.test.mjs` ACCT-001&#47;ACCT-011): rent, deposits, expenses and contributions across two properties; unbalanced and cross-owner&#47;fund refusals; chart&#47;opening entries; trial and owner/property/resident/vendor/deposit subledgers back to sources; duplicate receipt reversal with unchanged originals; live role&#47;scope, migration, restart and archive restore; `tests/journal-browser.mjs`: native posting and filtered subledger at 1440/390; `migrations/core/0056_journal.sql`; `src/terrace/journal.ts`
   - Gap: None in the contract row.
 
 ### Connect bank feeds
@@ -248,9 +248,9 @@ Official documentation: [AppFolio accounting and reporting](https://www.appfolio
 
 - [ACCT-005](../CONTRACT.md) — **MISSING**: Connect Plaid bank feeds. Matching acceptance: “Connect two bank accounts through the provider boundary, import duplicate and pending-to-posted lines, expire consent and reconnect; verify no duplicate bank transaction and a visible freshness gap.”
   - Evidence: None recorded.
-  - Gap: Plaid bank feeds and consent/freshness management are absent.
+  - Gap: Plaid bank feeds and consent&#47;freshness management are absent.
 
-**Uncovered:** ACCT-005: MISSING. Plaid bank feeds and consent/freshness management are absent.
+**Uncovered:** ACCT-005: MISSING. Plaid bank feeds and consent&#47;freshness management are absent.
 
 ### Match and reconcile bank transactions
 
@@ -296,9 +296,9 @@ Official documentation: [AppFolio accounting and reporting](https://www.appfolio
 
 - [ACCT-010](../CONTRACT.md) — **MISSING**: Disburse owner funds by ACH or check. Matching acceptance: “Prepare a joint-owner distribution with a pending ACH receipt and unpaid repair, approve cleared funds only, execute it in the trust account’s ACCT-018 NACHA file and import an R01 return for one share from the bank’s return file; show corrected cash and one replacement requiring new approval.”
   - Evidence: None recorded.
-  - Gap: Owner distributions, ACH/check execution and return accounting are absent.
+  - Gap: Owner distributions, ACH&#47;check execution and return accounting are absent.
 
-**Uncovered:** ACCT-010: MISSING. Owner distributions, ACH/check execution and return accounting are absent.
+**Uncovered:** ACCT-010: MISSING. Owner distributions, ACH&#47;check execution and return accounting are absent.
 
 ### Close the accounting period
 
@@ -306,7 +306,7 @@ Official documentation: [AppFolio accounting and reporting](https://www.appfolio
 
 Official documentation: [AppFolio accounting and reporting](https://www.appfolio.com/property-manager/accounting-reporting) — Accounting Performer closing the books; reviewed 2026-11-04.
 
-- [ACCT-011](../CONTRACT.md) — **DONE**: Close periods without rewriting history. Matching acceptance: “Close a reconciled month, attempt a backdated posting, approve a period reopening and adjustment, then compare old/new statements with the reopening reason and unchanged original entries.”
+- [ACCT-011](../CONTRACT.md) — **DONE**: Close periods without rewriting history. Matching acceptance: “Close a reconciled month, attempt a backdated posting, approve a period reopening and adjustment, then compare old&#47;new statements with the reopening reason and unchanged original entries.”
   - Evidence: `migrations/core/0036_periods.sql`; `src/terrace/periods.ts`; `src/terrace/periods-view.ts`; `src/terrace/core.ts`; `src/terrace/api.ts`; `tests/terrace.test.mjs`
   - Gap: None in the contract row.
 
@@ -318,11 +318,11 @@ Official documentation: [AppFolio accounting and reporting](https://www.appfolio
 
 Official documentation: [AppFolio owner portal help](https://www.appfolio.com/help/owner) — Statements and published packets; reviewed 2026-11-04.
 
-- [ACCT-012](../CONTRACT.md) — **PARTIAL**: Publish complete owner statements. Matching acceptance: “Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books/bank and download the source invoice from the owner portal.”
+- [ACCT-012](../CONTRACT.md) — **PARTIAL**: Publish complete owner statements. Matching acceptance: “Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books&#47;bank and download the source invoice from the owner portal.”
   - Evidence: `tests/statements.mjs` — "journey": staff cash draft opening and closing cash, expenses, reserves, separate deposits, liabilities and dated ownership. `tests/statements.mjs` — "journey", invoked by the ACCT-012 registration in `tests/terrace.test.mjs`: exact seller and buyer invoice originals on either side of a transfer, expense cents and CSV isolation, absent and other-owner files refused, staff cookies excluded, screening refusal, shared originals held, changed approval withdrawal, cross-property revision history, restart, immediate revocation, audit and native restore with fresh authorization. `tests/statements-browser.mjs`: native owner statement expense, fee and reserve sections and invoice downloads at 1440 and 390.
   - Gap: Complete paid-bill and distribution sources, corrected immutable publication, scheduled delivery, receipt and invoice bundles, bank tie-out and REPORT-007 actuals remain unproved. Joint-owner originals are held. Adopted conservative original-disclosure default pending ct: a live owner grant reads only an exact currently approved invoice attachment when every historical allocation belongs wholly to that owner on its invoice date; shared-beneficiary originals stay with staff for review. No new payment, send, bank-change or approval authority.
 
-- [PORTAL-002](../CONTRACT.md) — **PARTIAL**: Give owners their financial and property portal. Matching acceptance: “Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied.”
+- [PORTAL-002](../CONTRACT.md) — **PARTIAL**: Give owners their financial and property portal. Matching acceptance: “Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement&#47;invoice; access another owner’s report and screening file is denied.”
   - Evidence: `tests/statements.mjs` — "journey", invoked by the ACCT-012 registration in `tests/terrace.test.mjs`: exact seller and buyer invoice originals on either side of a transfer, expense cents and CSV isolation, absent and other-owner files refused, staff cookies excluded, screening refusal, shared originals held, changed approval withdrawal, cross-property revision history, restart, immediate revocation, audit and native restore with fresh authorization. `tests/statements-browser.mjs`: native owner statement expense, fee and reserve sections and invoice downloads at 1440 and 390.
   - Gap: Occupancy and rent detail, complete distribution status and documents, owner contributions, communication, over-limit repair decisions with PORTAL-007 riders, joint-owner original disclosure and staff bank-change fresh-proof assertions remain unproved. Adopted conservative original-disclosure default pending ct: a live owner grant reads only an exact currently approved invoice attachment when every historical allocation belongs wholly to that owner on its invoice date; shared-beneficiary originals stay with staff for review. No new payment, send, bank-change or approval authority.
 
@@ -334,7 +334,7 @@ Official documentation: [AppFolio owner portal help](https://www.appfolio.com/he
 
 Official documentation: [AppFolio owner portal help](https://www.appfolio.com/help/owner) — Shared reports, documents and 1099s; reviewed 2026-11-04.
 
-- [ACCT-014](../CONTRACT.md) — **MISSING**: Prepare and file owner and vendor 1099s. Matching acceptance: “Prepare owner/vendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings.”
+- [ACCT-014](../CONTRACT.md) — **MISSING**: Prepare and file owner and vendor 1099s. Matching acceptance: “Prepare owner&#47;vendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings.”
   - Evidence: None recorded.
   - Gap: W-9, reportable payment calculation, Nelco filing and correction workflows are absent.
 
@@ -356,7 +356,7 @@ Official documentation: [AppFolio online portal help](https://www.appfolio.com/h
 
 Official documentation: [AppFolio owner portal help](https://www.appfolio.com/help/owner) — Reports and published packets; reviewed 2026-11-04.
 
-- [PORTAL-002](../CONTRACT.md) — **PARTIAL**: Give owners their financial and property portal. Matching acceptance: “Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied.”
+- [PORTAL-002](../CONTRACT.md) — **PARTIAL**: Give owners their financial and property portal. Matching acceptance: “Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement&#47;invoice; access another owner’s report and screening file is denied.”
   - Evidence: `tests/statements.mjs` — "journey", invoked by the ACCT-012 registration in `tests/terrace.test.mjs`: exact seller and buyer invoice originals on either side of a transfer, expense cents and CSV isolation, absent and other-owner files refused, staff cookies excluded, screening refusal, shared originals held, changed approval withdrawal, cross-property revision history, restart, immediate revocation, audit and native restore with fresh authorization. `tests/statements-browser.mjs`: native owner statement expense, fee and reserve sections and invoice downloads at 1440 and 390.
   - Gap: Occupancy and rent detail, complete distribution status and documents, owner contributions, communication, over-limit repair decisions with PORTAL-007 riders, joint-owner original disclosure and staff bank-change fresh-proof assertions remain unproved. Adopted conservative original-disclosure default pending ct: a live owner grant reads only an exact currently approved invoice attachment when every historical allocation belongs wholly to that owner on its invoice date; shared-beneficiary originals stay with staff for review. No new payment, send, bank-change or approval authority.
 
@@ -368,7 +368,7 @@ Official documentation: [AppFolio owner portal help](https://www.appfolio.com/he
 
 Official documentation: [AppFolio owner portal help](https://www.appfolio.com/help/owner) — Make a contribution; reviewed 2026-11-04.
 
-- [PORTAL-002](../CONTRACT.md) — **PARTIAL**: Give owners their financial and property portal. Matching acceptance: “Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied.”
+- [PORTAL-002](../CONTRACT.md) — **PARTIAL**: Give owners their financial and property portal. Matching acceptance: “Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement&#47;invoice; access another owner’s report and screening file is denied.”
   - Evidence: `tests/statements.mjs` — "journey", invoked by the ACCT-012 registration in `tests/terrace.test.mjs`: exact seller and buyer invoice originals on either side of a transfer, expense cents and CSV isolation, absent and other-owner files refused, staff cookies excluded, screening refusal, shared originals held, changed approval withdrawal, cross-property revision history, restart, immediate revocation, audit and native restore with fresh authorization. `tests/statements-browser.mjs`: native owner statement expense, fee and reserve sections and invoice downloads at 1440 and 390.
   - Gap: Occupancy and rent detail, complete distribution status and documents, owner contributions, communication, over-limit repair decisions with PORTAL-007 riders, joint-owner original disclosure and staff bank-change fresh-proof assertions remain unproved. Adopted conservative original-disclosure default pending ct: a live owner grant reads only an exact currently approved invoice attachment when every historical allocation belongs wholly to that owner on its invoice date; shared-beneficiary originals stay with staff for review. No new payment, send, bank-change or approval authority.
 
@@ -461,10 +461,10 @@ Official documentation: [AppFolio vendor portal help](https://www.appfolio.com/h
 Official documentation: [AppFolio maintenance](https://www.appfolio.com/property-manager/maintenance) — Inspections; reviewed 2026-11-04.
 
 - [WORK-011](../CONTRACT.md) — **PARTIAL**: Complete mobile move-in and move-out inspections. Matching acceptance: “Inspect on a phone offline, sync photos, compare move-out damage to the entry record and reject an unsupported deduction while retaining the resident’s disputed finding.”
-  - Evidence: `tests/field-capture.test.mjs` — ‘WORK-011: structured entry/exit findings preserve disputes and refuse unsupported deductions’ (`tests/mobile-inspections.mjs`); `tests/mobile-inspections-browser.mjs` — phone-offline originals, persisted device drafts, manual changed-checklist reconciliation and retained comparison/dispute at 1440/390; `src/terrace/field-evidence-inspections.ts`; `migrations/core/0071_mobile_inspections.sql`
-  - Gap: Structured room/asset checklists, original media, readings, sourced acknowledgement/disputes, completed inspections, entry/exit comparison and evidence-gated human work/deduction proposals ship. Adopted conservative default pending ct: new capture/configuration/acknowledgement/proposal doors are owner or portfolio-manager only; offline originals stay on the device only by explicit consent until explicit sync or deletion; acknowledgements are staff-sourced, never resident authentication or signatures; human decisions execute no work or deposit charge.
+  - Evidence: `tests/field-capture.test.mjs` — ‘WORK-011: structured entry&#47;exit findings preserve disputes and refuse unsupported deductions’ (`tests/mobile-inspections.mjs`); `tests/mobile-inspections-browser.mjs` — phone-offline originals, persisted device drafts, manual changed-checklist reconciliation and retained comparison&#47;dispute at 1440/390; `src/terrace/field-evidence-inspections.ts`; `migrations/core/0071_mobile_inspections.sql`
+  - Gap: Structured room&#47;asset checklists, original media, readings, sourced acknowledgement&#47;disputes, completed inspections, entry&#47;exit comparison and evidence-gated human work&#47;deduction proposals ship. Adopted conservative default pending ct: new capture/configuration/acknowledgement/proposal doors are owner or portfolio-manager only; offline originals stay on the device only by explicit consent until explicit sync or deletion; acknowledgements are staff-sourced, never resident authentication or signatures; human decisions execute no work or deposit charge.
 
-**Uncovered:** WORK-011: PARTIAL. Structured room/asset checklists, original media, readings, sourced acknowledgement/disputes, completed inspections, entry/exit comparison and evidence-gated human work/deduction proposals ship. Adopted conservative default pending ct: new capture/configuration/acknowledgement/proposal doors are owner or portfolio-manager only; offline originals stay on the device only by explicit consent until explicit sync or deletion; acknowledgements are staff-sourced, never resident authentication or signatures; human decisions execute no work or deposit charge.
+**Uncovered:** WORK-011: PARTIAL. Structured room&#47;asset checklists, original media, readings, sourced acknowledgement&#47;disputes, completed inspections, entry&#47;exit comparison and evidence-gated human work&#47;deduction proposals ship. Adopted conservative default pending ct: new capture/configuration/acknowledgement/proposal doors are owner or portfolio-manager only; offline originals stay on the device only by explicit consent until explicit sync or deletion; acknowledgements are staff-sourced, never resident authentication or signatures; human decisions execute no work or deposit charge.
 
 ### Manage unit turns
 
@@ -472,7 +472,7 @@ Official documentation: [AppFolio maintenance](https://www.appfolio.com/property
 
 Official documentation: [AppFolio maintenance](https://www.appfolio.com/property-manager/maintenance) — Unit Turn Board; reviewed 2026-11-04.
 
-- [WORK-013](../CONTRACT.md) — **DONE**: Run make-ready and turnover boards. Matching acceptance: “Move out a resident, delay a repair dependent on inspection, revise the ready date and show cleaning/listing effects; complete checks and publish the true available date.”
+- [WORK-013](../CONTRACT.md) — **DONE**: Run make-ready and turnover boards. Matching acceptance: “Move out a resident, delay a repair dependent on inspection, revise the ready date and show cleaning&#47;listing effects; complete checks and publish the true available date.”
   - Evidence: `migrations/core/0024_turnovers.sql`; `src/terrace/turnovers.ts`; `src/terrace/turnover-view.ts`; `tests/terrace.test.mjs`
   - Gap: None in the contract row.
 
@@ -486,7 +486,7 @@ Official documentation: [AppFolio owner portal help](https://www.appfolio.com/he
   - Evidence: `tests/financial-reports.mjs` via `tests/terrace.test.mjs` “ACCT-013: cash and accrual statements reconcile unpaid rent and bills, settlement timing and immutable scoped source drills”: earned unpaid rent, approved unpaid invoice, cash and accrual income and balance-sheet comparison, original-source drills, settlement and reversal timing, trial balance, aging, cash flow, property and owner and entity scope, unchanged ledger, restart and archive restore; `tests/financial-reports-browser.mjs`: native basis and source drill at 1440 and 390, hover and keyboard tooltips; `src/terrace/financial-reports.ts`; `docs/financial-reports.md`
   - Gap: None. Exact inclusive dates, basis timing, oldest-first aging and explicit unassigned entity semantics are documented; no bank verification or tax certification.
 
-- [PORTAL-002](../CONTRACT.md) — **PARTIAL**: Give owners their financial and property portal. Matching acceptance: “Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied.”
+- [PORTAL-002](../CONTRACT.md) — **PARTIAL**: Give owners their financial and property portal. Matching acceptance: “Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement&#47;invoice; access another owner’s report and screening file is denied.”
   - Evidence: `tests/statements.mjs` — "journey", invoked by the ACCT-012 registration in `tests/terrace.test.mjs`: exact seller and buyer invoice originals on either side of a transfer, expense cents and CSV isolation, absent and other-owner files refused, staff cookies excluded, screening refusal, shared originals held, changed approval withdrawal, cross-property revision history, restart, immediate revocation, audit and native restore with fresh authorization. `tests/statements-browser.mjs`: native owner statement expense, fee and reserve sections and invoice downloads at 1440 and 390.
   - Gap: Occupancy and rent detail, complete distribution status and documents, owner contributions, communication, over-limit repair decisions with PORTAL-007 riders, joint-owner original disclosure and staff bank-change fresh-proof assertions remain unproved. Adopted conservative original-disclosure default pending ct: a live owner grant reads only an exact currently approved invoice attachment when every historical allocation belongs wholly to that owner on its invoice date; shared-beneficiary originals stay with staff for review. No new payment, send, bank-change or approval authority.
 
@@ -551,7 +551,7 @@ Replacement: intentionally unmapped. Status: unsupported. Evidence: none. Gap: U
 Official documentation: [AppFolio accounting and reporting](https://www.appfolio.com/property-manager/accounting-reporting) — Automated Late Fees and Late Fee Waivers; reviewed 2026-11-04.
 
 - [PAY-006](../CONTRACT.md) — **PARTIAL**: Calculate late fees and grace periods. Matching acceptance: “Run a late-fee schedule across a weekend, record a timely pending payment that settles later and waive one fee; inspect charge basis, policy version and auditable waiver.”
-  - Evidence: `tests/payer-accounting.test.mjs` — PAY-006: reviewed state caps, weekend and holiday grace, timely pending settlement and reasoned waivers retain original calculations (`tests/late-fees.mjs`): weekend/holiday schedule and delayed settlement, basis/version/citation, waiver, state cap comparison, reversal hold, no compounding, restart/restore. `tests/late-fees-browser.mjs`: native review/post/waiver, 1440/390 and keyboard tooltip.
+  - Evidence: `tests/payer-accounting.test.mjs` — PAY-006: reviewed state caps, weekend and holiday grace, timely pending settlement and reasoned waivers retain original calculations (`tests/late-fees.mjs`): weekend&#47;holiday schedule and delayed settlement, basis/version/citation, waiver, state cap comparison, reversal hold, no compounding, restart/restore. `tests/late-fees-browser.mjs`: native review/post/waiver, 1440/390 and keyboard tooltip.
   - Gap: Adopted default pending ct: owner-only fee configuration, manual reviewed schedule posting and waivers; no automatic collections, notices or paid-fee reversal. All stated acceptance examples use synthetic owner-reviewed pack fixtures, not Terrace counsel review. Other fee bases are visibly held; PORT-008 reviewed authored contents remain open. DONE awaits ct approval of the authority and execution default.
 
 **Uncovered:** PAY-006: PARTIAL. Adopted default pending ct: owner-only fee configuration, manual reviewed schedule posting and waivers; no automatic collections, notices or paid-fee reversal. All stated acceptance examples use synthetic owner-reviewed pack fixtures, not Terrace counsel review. Other fee bases are visibly held; PORT-008 reviewed authored contents remain open. DONE awaits ct approval of the authority and execution default.
@@ -710,11 +710,11 @@ Official documentation: [Buildium online leasing](https://www.buildium.com/featu
 
 Official documentation: [Buildium online leasing](https://www.buildium.com/features/online-leasing/) — Signer order, reminders and status updates; reviewed 2026-11-04.
 
-- [LEASE-011](../CONTRACT.md) — **MISSING**: Collect legally evidenced electronic signatures. Matching acceptance: “Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy.”
+- [LEASE-011](../CONTRACT.md) — **MISSING**: Collect legally evidenced electronic signatures. Matching acceptance: “Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF&#47;certificate to the activated tenancy.”
   - Evidence: None recorded.
-  - Gap: E-signature provider/sibling integration and execution lifecycle are absent.
+  - Gap: E-signature provider&#47;sibling integration and execution lifecycle are absent.
 
-**Uncovered:** LEASE-011: MISSING. E-signature provider/sibling integration and execution lifecycle are absent.
+**Uncovered:** LEASE-011: MISSING. E-signature provider&#47;sibling integration and execution lifecycle are absent.
 
 ### Collect rent by ACH or e-check
 
@@ -771,7 +771,7 @@ Official documentation: [Buildium resident site help center](https://www.buildiu
 Official documentation: [Buildium property management accounting](https://www.buildium.com/features/property-management-accounting/) — Automatic late fee assessment; reviewed 2026-11-04.
 
 - [PAY-006](../CONTRACT.md) — **PARTIAL**: Calculate late fees and grace periods. Matching acceptance: “Run a late-fee schedule across a weekend, record a timely pending payment that settles later and waive one fee; inspect charge basis, policy version and auditable waiver.”
-  - Evidence: `tests/payer-accounting.test.mjs` — PAY-006: reviewed state caps, weekend and holiday grace, timely pending settlement and reasoned waivers retain original calculations (`tests/late-fees.mjs`): weekend/holiday schedule and delayed settlement, basis/version/citation, waiver, state cap comparison, reversal hold, no compounding, restart/restore. `tests/late-fees-browser.mjs`: native review/post/waiver, 1440/390 and keyboard tooltip.
+  - Evidence: `tests/payer-accounting.test.mjs` — PAY-006: reviewed state caps, weekend and holiday grace, timely pending settlement and reasoned waivers retain original calculations (`tests/late-fees.mjs`): weekend&#47;holiday schedule and delayed settlement, basis/version/citation, waiver, state cap comparison, reversal hold, no compounding, restart/restore. `tests/late-fees-browser.mjs`: native review/post/waiver, 1440/390 and keyboard tooltip.
   - Gap: Adopted default pending ct: owner-only fee configuration, manual reviewed schedule posting and waivers; no automatic collections, notices or paid-fee reversal. All stated acceptance examples use synthetic owner-reviewed pack fixtures, not Terrace counsel review. Other fee bases are visibly held; PORT-008 reviewed authored contents remain open. DONE awaits ct approval of the authority and execution default.
 
 **Uncovered:** PAY-006: PARTIAL. Adopted default pending ct: owner-only fee configuration, manual reviewed schedule posting and waivers; no automatic collections, notices or paid-fee reversal. All stated acceptance examples use synthetic owner-reviewed pack fixtures, not Terrace counsel review. Other fee bases are visibly held; PORT-008 reviewed authored contents remain open. DONE awaits ct approval of the authority and execution default.
@@ -784,9 +784,9 @@ Official documentation: [Buildium online rent payments](https://www.buildium.com
 
 - [PAY-007](../CONTRACT.md) — **PARTIAL**: Offer cash-at-retail and offline payment options. Matching acceptance: “Generate a cash code, receive and replay its retail transaction, clear a check and return another; reconcile resident balances to settlement batches without treating a printed code as collected rent.”
   - Evidence: `src/terrace/ledger.ts`
-  - Gap: Manual external receipts exist; retail network, check deposits and clearance/return states are absent.
+  - Gap: Manual external receipts exist; retail network, check deposits and clearance&#47;return states are absent.
 
-**Uncovered:** PAY-007: PARTIAL. Manual external receipts exist; retail network, check deposits and clearance/return states are absent.
+**Uncovered:** PAY-007: PARTIAL. Manual external receipts exist; retail network, check deposits and clearance&#47;return states are absent.
 
 ### Read resident balance and payment history
 
@@ -807,7 +807,7 @@ Official documentation: [Buildium resident site help center](https://www.buildiu
 Official documentation: [Buildium property management accounting](https://www.buildium.com/features/property-management-accounting/) — Ledger and customizable chart of accounts; reviewed 2026-11-04.
 
 - [ACCT-001](../CONTRACT.md) — **DONE**: Maintain a balanced property ledger. Matching acceptance: “Post rent, deposit, vendor expense and owner contribution across two properties, attempt an unbalanced entry and inspect the trial balance and each subledger back to source.”
-  - Evidence: `tests/journal.mjs` (journey, in `tests/terrace.test.mjs` ACCT-001/ACCT-011): rent, deposits, expenses and contributions across two properties; unbalanced and cross-owner/fund refusals; chart/opening entries; trial and owner/property/resident/vendor/deposit subledgers back to sources; duplicate receipt reversal with unchanged originals; live role/scope, migration, restart and archive restore; `tests/journal-browser.mjs`: native posting and filtered subledger at 1440/390; `migrations/core/0056_journal.sql`; `src/terrace/journal.ts`
+  - Evidence: `tests/journal.mjs` (journey, in `tests/terrace.test.mjs` ACCT-001&#47;ACCT-011): rent, deposits, expenses and contributions across two properties; unbalanced and cross-owner&#47;fund refusals; chart&#47;opening entries; trial and owner/property/resident/vendor/deposit subledgers back to sources; duplicate receipt reversal with unchanged originals; live role&#47;scope, migration, restart and archive restore; `tests/journal-browser.mjs`: native posting and filtered subledger at 1440/390; `migrations/core/0056_journal.sql`; `src/terrace/journal.ts`
   - Gap: None in the contract row.
 
 ### Keep trust accounting and beneficiary balances
@@ -817,10 +817,10 @@ Official documentation: [Buildium property management accounting](https://www.bu
 Official documentation: [Buildium property management accounting](https://www.buildium.com/features/property-management-accounting/) — Trust accounting reports; reviewed 2026-11-04.
 
 - [ACCT-002](../CONTRACT.md) — **PARTIAL**: Separate operating trust and deposit accounts. Matching acceptance: “Receive rent and deposits into distinct accounts, attempt an owner payout from deposit funds and an inter-owner transfer, and verify blocked execution and separately reconciled beneficiary balances.”
-  - Evidence: `tests/trust.mjs` (journey, via `tests/terrace.test.mjs` “ACCT-002 designated bank custody preserves beneficiary funds through approved transfers”): rent/deposit receipt separation, deposit-funded payout and inter-owner refusal with retained exceptions, per-bank beneficiary balances reconciled to journal, approval/reserve/scope/recovery; `tests/trust-browser.mjs`: native bank configuration, transfer review/approval/external reference and balances at 1440/390; `migrations/core/0059_trust_accounts.sql`; `src/terrace/trust.ts`; `docs/trust-accounts.md`
-  - Gap: Ct approval pending for the adopted conservative trust-authorization default: owner-only configuration/assignment, scoped preparation/recording, ROLE-003 human approval, fresh email-link proof and same-beneficiary/property/designated-purpose transfers with a dated source-bank reserve floor. No bank money movement or statement verification is claimed.
+  - Evidence: `tests/trust.mjs` (journey, via `tests/terrace.test.mjs` “ACCT-002 designated bank custody preserves beneficiary funds through approved transfers”): rent&#47;deposit receipt separation, deposit-funded payout and inter-owner refusal with retained exceptions, per-bank beneficiary balances reconciled to journal, approval/reserve/scope/recovery; `tests/trust-browser.mjs`: native bank configuration, transfer review/approval/external reference and balances at 1440/390; `migrations/core/0059_trust_accounts.sql`; `src/terrace/trust.ts`; `docs/trust-accounts.md`
+  - Gap: Ct approval pending for the adopted conservative trust-authorization default: owner-only configuration&#47;assignment, scoped preparation&#47;recording, ROLE-003 human approval, fresh email-link proof and same-beneficiary/property/designated-purpose transfers with a dated source-bank reserve floor. No bank money movement or statement verification is claimed.
 
-**Uncovered:** ACCT-002: PARTIAL. Ct approval pending for the adopted conservative trust-authorization default: owner-only configuration/assignment, scoped preparation/recording, ROLE-003 human approval, fresh email-link proof and same-beneficiary/property/designated-purpose transfers with a dated source-bank reserve floor. No bank money movement or statement verification is claimed.
+**Uncovered:** ACCT-002: PARTIAL. Ct approval pending for the adopted conservative trust-authorization default: owner-only configuration&#47;assignment, scoped preparation&#47;recording, ROLE-003 human approval, fresh email-link proof and same-beneficiary/property/designated-purpose transfers with a dated source-bank reserve floor. No bank money movement or statement verification is claimed.
 
 ### Record and reconcile deposits
 
@@ -874,7 +874,7 @@ Official documentation: [Buildium online rent payments](https://www.buildium.com
 
 Official documentation: [Buildium property management accounting](https://www.buildium.com/features/property-management-accounting/) — Built-in company, owner and vendor calculators; reviewed 2026-11-04.
 
-- [ACCT-009](../CONTRACT.md) — **DONE**: Calculate management fees and owner reserves. Matching acceptance: “Post rent and a lease renewal under a dated fee schedule, calculate fees/reserve, replay the run and inspect the owner statement with the exact agreement references.”
+- [ACCT-009](../CONTRACT.md) — **DONE**: Calculate management fees and owner reserves. Matching acceptance: “Post rent and a lease renewal under a dated fee schedule, calculate fees&#47;reserve, replay the run and inspect the owner statement with the exact agreement references.”
   - Evidence: `migrations/core/0037_fees.sql`; `src/terrace/fees.ts`; `src/terrace/owners.ts`; `src/terrace/owner-view.ts`; `src/terrace/api.ts`; `tests/terrace.test.mjs`
   - Gap: None in the contract row.
 
@@ -886,9 +886,9 @@ Official documentation: [Buildium property management accounting](https://www.bu
 
 - [ACCT-010](../CONTRACT.md) — **MISSING**: Disburse owner funds by ACH or check. Matching acceptance: “Prepare a joint-owner distribution with a pending ACH receipt and unpaid repair, approve cleared funds only, execute it in the trust account’s ACCT-018 NACHA file and import an R01 return for one share from the bank’s return file; show corrected cash and one replacement requiring new approval.”
   - Evidence: None recorded.
-  - Gap: Owner distributions, ACH/check execution and return accounting are absent.
+  - Gap: Owner distributions, ACH&#47;check execution and return accounting are absent.
 
-**Uncovered:** ACCT-010: MISSING. Owner distributions, ACH/check execution and return accounting are absent.
+**Uncovered:** ACCT-010: MISSING. Owner distributions, ACH&#47;check execution and return accounting are absent.
 
 ### Review financial statements
 
@@ -908,7 +908,7 @@ Official documentation: [Buildium property management accounting](https://www.bu
 
 Official documentation: [Buildium 1099 e-Filing](https://www.buildium.com/features/1099-efiling/) — 1099-MISC and 1099-NEC filing; reviewed 2026-11-04.
 
-- [ACCT-014](../CONTRACT.md) — **MISSING**: Prepare and file owner and vendor 1099s. Matching acceptance: “Prepare owner/vendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings.”
+- [ACCT-014](../CONTRACT.md) — **MISSING**: Prepare and file owner and vendor 1099s. Matching acceptance: “Prepare owner&#47;vendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings.”
   - Evidence: None recorded.
   - Gap: W-9, reportable payment calculation, Nelco filing and correction workflows are absent.
 
@@ -930,7 +930,7 @@ Official documentation: [Buildium resident site help center](https://www.buildiu
 
 Official documentation: [Buildium property owner portal](https://www.buildium.com/features/property-owner-portal/) — Financial reports and secure documents; reviewed 2026-11-04.
 
-- [PORTAL-002](../CONTRACT.md) — **PARTIAL**: Give owners their financial and property portal. Matching acceptance: “Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied.”
+- [PORTAL-002](../CONTRACT.md) — **PARTIAL**: Give owners their financial and property portal. Matching acceptance: “Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement&#47;invoice; access another owner’s report and screening file is denied.”
   - Evidence: `tests/statements.mjs` — "journey", invoked by the ACCT-012 registration in `tests/terrace.test.mjs`: exact seller and buyer invoice originals on either side of a transfer, expense cents and CSV isolation, absent and other-owner files refused, staff cookies excluded, screening refusal, shared originals held, changed approval withdrawal, cross-property revision history, restart, immediate revocation, audit and native restore with fresh authorization. `tests/statements-browser.mjs`: native owner statement expense, fee and reserve sections and invoice downloads at 1440 and 390.
   - Gap: Occupancy and rent detail, complete distribution status and documents, owner contributions, communication, over-limit repair decisions with PORTAL-007 riders, joint-owner original disclosure and staff bank-change fresh-proof assertions remain unproved. Adopted conservative original-disclosure default pending ct: a live owner grant reads only an exact currently approved invoice attachment when every historical allocation belongs wholly to that owner on its invoice date; shared-beneficiary originals stay with staff for review. No new payment, send, bank-change or approval authority.
 
@@ -942,7 +942,7 @@ Official documentation: [Buildium property owner portal](https://www.buildium.co
 
 Official documentation: [Buildium property owner portal](https://www.buildium.com/features/property-owner-portal/) — Statements, contributions and draws; reviewed 2026-11-04.
 
-- [ACCT-012](../CONTRACT.md) — **PARTIAL**: Publish complete owner statements. Matching acceptance: “Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books/bank and download the source invoice from the owner portal.”
+- [ACCT-012](../CONTRACT.md) — **PARTIAL**: Publish complete owner statements. Matching acceptance: “Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books&#47;bank and download the source invoice from the owner portal.”
   - Evidence: `tests/statements.mjs` — "journey": staff cash draft opening and closing cash, expenses, reserves, separate deposits, liabilities and dated ownership. `tests/statements.mjs` — "journey", invoked by the ACCT-012 registration in `tests/terrace.test.mjs`: exact seller and buyer invoice originals on either side of a transfer, expense cents and CSV isolation, absent and other-owner files refused, staff cookies excluded, screening refusal, shared originals held, changed approval withdrawal, cross-property revision history, restart, immediate revocation, audit and native restore with fresh authorization. `tests/statements-browser.mjs`: native owner statement expense, fee and reserve sections and invoice downloads at 1440 and 390.
   - Gap: Complete paid-bill and distribution sources, corrected immutable publication, scheduled delivery, receipt and invoice bundles, bank tie-out and REPORT-007 actuals remain unproved. Joint-owner originals are held. Adopted conservative original-disclosure default pending ct: a live owner grant reads only an exact currently approved invoice attachment when every historical allocation belongs wholly to that owner on its invoice date; shared-beneficiary originals stay with staff for review. No new payment, send, bank-change or approval authority.
 
@@ -954,7 +954,7 @@ Official documentation: [Buildium property owner portal](https://www.buildium.co
 
 Official documentation: [Buildium property owner portal](https://www.buildium.com/features/property-owner-portal/) — Contribution requests and online funds; reviewed 2026-11-04.
 
-- [PORTAL-002](../CONTRACT.md) — **PARTIAL**: Give owners their financial and property portal. Matching acceptance: “Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied.”
+- [PORTAL-002](../CONTRACT.md) — **PARTIAL**: Give owners their financial and property portal. Matching acceptance: “Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement&#47;invoice; access another owner’s report and screening file is denied.”
   - Evidence: `tests/statements.mjs` — "journey", invoked by the ACCT-012 registration in `tests/terrace.test.mjs`: exact seller and buyer invoice originals on either side of a transfer, expense cents and CSV isolation, absent and other-owner files refused, staff cookies excluded, screening refusal, shared originals held, changed approval withdrawal, cross-property revision history, restart, immediate revocation, audit and native restore with fresh authorization. `tests/statements-browser.mjs`: native owner statement expense, fee and reserve sections and invoice downloads at 1440 and 390.
   - Gap: Occupancy and rent detail, complete distribution status and documents, owner contributions, communication, over-limit repair decisions with PORTAL-007 riders, joint-owner original disclosure and staff bank-change fresh-proof assertions remain unproved. Adopted conservative original-disclosure default pending ct: a live owner grant reads only an exact currently approved invoice attachment when every historical allocation belongs wholly to that owner on its invoice date; shared-beneficiary originals stay with staff for review. No new payment, send, bank-change or approval authority.
 
@@ -976,7 +976,7 @@ Official documentation: [Buildium resident site help center](https://www.buildiu
 
 Official documentation: [Buildium resident site help center](https://www.buildium.com/resident-site-help-center/resident-site-help-center/) — General inquiry and request messages; reviewed 2026-11-04.
 
-- [PORTAL-006](../CONTRACT.md) — **PARTIAL**: Keep shared threads and notices accountable. Matching acceptance: “Assign a resident conversation, add a private note, broadcast a water shutoff to one building and inspect delivered/failed recipients; verify the resident cannot see the note or another building’s messages.”
+- [PORTAL-006](../CONTRACT.md) — **PARTIAL**: Keep shared threads and notices accountable. Matching acceptance: “Assign a resident conversation, add a private note, broadcast a water shutoff to one building and inspect delivered&#47;failed recipients; verify the resident cannot see the note or another building’s messages.”
   - Evidence: `tests/terrace.test.mjs` — "PORTAL-006: private notes, scoped conversations, exact notices and per-recipient building service evidence survive restore" (`tests/portal-threads.mjs`, journey): assignment and deadline; private-note search and attachment denial; one-building announcement recipients with staff-recorded delivered and failed evidence; staff 404 and 403; resident, owner and assigned vendor replies; stale proof, exact approval and immutable legal terms; unread state, side-effect-free opens, stale reply refusal; original bytes and hashes in readable export and native restore; communication retention, legal holds, eligible erasure and later-journal restore refusal. `tests/portal-threads-browser.mjs`: native Messages and resident, owner and vendor conversation screens at 1440 and 390; assignment, exact legal approval, service recording, accountable reconciliation, owner and vendor reply and mark-read forms; private-note absence, building isolation and existing avatar tooltip focus and delayed hover; runs in push Verify. `tests/portal-threads.mjs`, journey: missing permission refusal, fixed local-date boundaries including UTC disagreement, changed resident identity, former ownership, reopened work approval and ended-tenancy refusal; attributable reconciliation and inert restored recovery evidence; dated household notice recipients, explicit exclusion sets, original-membership fences and complete fields on the current mutation history.
   - Gap: PORTAL-009.
 
@@ -1015,10 +1015,10 @@ Official documentation: [Buildium maintenance request management](https://www.bu
 Official documentation: [Buildium maintenance request management](https://www.buildium.com/features/property-management-maintenance-software/) — Time tracking; reviewed 2026-11-04.
 
 - [WORK-007](../CONTRACT.md) — **PARTIAL**: Capture field labor materials and completion evidence. Matching acceptance: “Lose connectivity during work, capture time and photos, reconnect with a conflicting scope change and reconcile the conflict before submitting complete evidence for review.”
-  - Evidence: `tests/field-capture.test.mjs` — ‘WORK-007: direct technician originals, approved scope reconciliation and once-only review submission’ (`tests/technician-capture.mjs`); `tests/technician-capture-browser.mjs` — direct offline time/photos and video, persisted originals, changed-scope reconciliation and review submission at 1440/390; `tests/field-evidence.mjs` / `tests/field-evidence-browser.mjs` — retained staff-sourced report; `src/terrace/field-evidence.ts`; `src/terrace/completions.ts`; `migrations/core/0072_field_scope.sql`
-  - Gap: Direct authenticated operator capture now includes labor, materials, notes, access, current approved tasks and before/after original photos and video, with once-only submission, offline drafts and manual scope reconciliation. Adopted conservative default pending ct: direct capture and field-scope changes are owner/portfolio-manager only; explicit private-device consent, no credentials in drafts, explicit sync/deletion; no new vendor authentication or grants. Existing sourced staff evidence remains available. Resident resolution stays a separate check.
+  - Evidence: `tests/field-capture.test.mjs` — ‘WORK-007: direct technician originals, approved scope reconciliation and once-only review submission’ (`tests/technician-capture.mjs`); `tests/technician-capture-browser.mjs` — direct offline time&#47;photos and video, persisted originals, changed-scope reconciliation and review submission at 1440/390; `tests/field-evidence.mjs` / `tests/field-evidence-browser.mjs` — retained staff-sourced report; `src/terrace/field-evidence.ts`; `src/terrace/completions.ts`; `migrations/core/0072_field_scope.sql`
+  - Gap: Direct authenticated operator capture now includes labor, materials, notes, access, current approved tasks and before&#47;after original photos and video, with once-only submission, offline drafts and manual scope reconciliation. Adopted conservative default pending ct: direct capture and field-scope changes are owner&#47;portfolio-manager only; explicit private-device consent, no credentials in drafts, explicit sync&#47;deletion; no new vendor authentication or grants. Existing sourced staff evidence remains available. Resident resolution stays a separate check.
 
-**Uncovered:** WORK-007: PARTIAL. Direct authenticated operator capture now includes labor, materials, notes, access, current approved tasks and before/after original photos and video, with once-only submission, offline drafts and manual scope reconciliation. Adopted conservative default pending ct: direct capture and field-scope changes are owner/portfolio-manager only; explicit private-device consent, no credentials in drafts, explicit sync/deletion; no new vendor authentication or grants. Existing sourced staff evidence remains available. Resident resolution stays a separate check.
+**Uncovered:** WORK-007: PARTIAL. Direct authenticated operator capture now includes labor, materials, notes, access, current approved tasks and before&#47;after original photos and video, with once-only submission, offline drafts and manual scope reconciliation. Adopted conservative default pending ct: direct capture and field-scope changes are owner&#47;portfolio-manager only; explicit private-device consent, no credentials in drafts, explicit sync&#47;deletion; no new vendor authentication or grants. Existing sourced staff evidence remains available. Resident resolution stays a separate check.
 
 ### Close a repair through its invoice
 
@@ -1038,7 +1038,7 @@ Official documentation: [Buildium maintenance request management](https://www.bu
 
 Official documentation: [Buildium maintenance request management](https://www.buildium.com/features/property-management-maintenance-software/) — Property inspections powered by HappyCo; reviewed 2026-11-04.
 
-- [WORK-012](../CONTRACT.md) — **MISSING**: Integrate HappyCo inspection evidence. Matching acceptance: “Bring a HappyCo inspection into the correct unit, replay it and update one finding, then create approved repair work with original media/provenance and a visible unmapped-unit exception.”
+- [WORK-012](../CONTRACT.md) — **MISSING**: Integrate HappyCo inspection evidence. Matching acceptance: “Bring a HappyCo inspection into the correct unit, replay it and update one finding, then create approved repair work with original media&#47;provenance and a visible unmapped-unit exception.”
   - Evidence: None recorded.
   - Gap: HappyCo adapter and provider inspection reconciliation are absent.
 
@@ -1050,7 +1050,7 @@ Official documentation: [Buildium maintenance request management](https://www.bu
 
 Official documentation: [Buildium maintenance request management](https://www.buildium.com/features/property-management-maintenance-software/) — Projects and project templates; reviewed 2026-11-04.
 
-- [WORK-013](../CONTRACT.md) — **DONE**: Run make-ready and turnover boards. Matching acceptance: “Move out a resident, delay a repair dependent on inspection, revise the ready date and show cleaning/listing effects; complete checks and publish the true available date.”
+- [WORK-013](../CONTRACT.md) — **DONE**: Run make-ready and turnover boards. Matching acceptance: “Move out a resident, delay a repair dependent on inspection, revise the ready date and show cleaning&#47;listing effects; complete checks and publish the true available date.”
   - Evidence: `migrations/core/0024_turnovers.sql`; `src/terrace/turnovers.ts`; `src/terrace/turnover-view.ts`; `tests/terrace.test.mjs`
   - Gap: None in the contract row.
 
@@ -1064,9 +1064,9 @@ Official documentation: [Buildium maintenance request management](https://www.bu
 
 Official documentation: [Buildium features](https://www.buildium.com/features/) — Onboarding handles migration; reviewed 2026-11-04.
 
-- [MOVE-003](../CONTRACT.md) — **MISSING**: Move in from Buildium. Matching acceptance: “Import real redacted Buildium files plus an authorized Open API capture, detect omitted ledger financials, reconcile beneficiary/deposit totals and migrate active work and files before permitting cutover.”
+- [MOVE-003](../CONTRACT.md) — **MISSING**: Move in from Buildium. Matching acceptance: “Import real redacted Buildium files plus an authorized Open API capture, detect omitted ledger financials, reconcile beneficiary&#47;deposit totals and migrate active work and files before permitting cutover.”
   - Evidence: None recorded.
-  - Gap: Buildium file/API importer and completeness reconciliation are absent.
+  - Gap: Buildium file&#47;API importer and completeness reconciliation are absent.
 
 - [MOVE-001](../CONTRACT.md) — **PARTIAL**: Reconcile complete migration before cutover. Matching acceptance: “Load a multi-property source with a missing deposit, duplicate household, vendor without a W-9 and a commercial lease held as an exception (BOUND-004), preview without writes, reconcile counts and balances, resolve exceptions and approve the exact migration manifest.”
   - Evidence: `tests/migration.mjs` — journey, called by the MOVE-009 registration in `tests/terrace.test.mjs`: multi-property source and vacant units; field mapping and every native record kind; missing deposit, duplicate household, missing W-9 and commercial holds; zero-write preview; source counts and excluded dispositions; resolved exceptions and exact manifest approval; eleven source and native opening accounts with zero difference or retained named exception; document originals, vendor and owner balance-forwards, five resident history kinds, native bill approval without duplicate balances, attribution, owner-only and revoked-credential refusal, restart, archive restore, shared-source legal holds, unrelated source preservation and erasure non-resurrection. `tests/migration-browser.mjs`: native preview, retained manifest and resident history, called on push Verify, with proof at 1440 and 390 and focus and hover tooltips. Native deposit links and separate 50000 and 20000 cent liabilities are asserted by the same migration journey; dropping native deposit writes fails its native journal assertion.
@@ -1076,7 +1076,7 @@ Official documentation: [Buildium features](https://www.buildium.com/features/) 
   - Evidence: `tests/migration.mjs` journey: restricted vendor directory and W-9 hold, vendor and owner year-to-date balance-forwards, five source-referenced resident history kinds, staff and resident monthly statements, opening balance and no duplicate cash.
   - Gap: AppFolio-format source adapter and independent incumbent summary reconciliation; complete owner and vendor tax carry-forward with post-cutover payments and one 1099 (ACCT-014 requires the unavailable Nelco filing account); eviction ledger export and deposit disposition integration (ACCT-004 awaits PORT-008 counsel content); complete 24-month statement and export proof remain owed.
 
-**Uncovered:** MOVE-003: MISSING. Buildium file/API importer and completeness reconciliation are absent. MOVE-001: PARTIAL. CT 28 October 2026 A16 and R1 demotion retained. Separate native deposit link and individual-amount assertions now pass, independently of the 70000 cent opening aggregate, and the deposit-write mutation is rejected; fresh judgment of these changed rows remains pending. MOVE-010: PARTIAL. AppFolio-format source adapter and independent incumbent summary reconciliation; complete owner and vendor tax carry-forward with post-cutover payments and one 1099 (ACCT-014 requires the unavailable Nelco filing account); eviction ledger export and deposit disposition integration (ACCT-004 awaits PORT-008 counsel content); complete 24-month statement and export proof remain owed.
+**Uncovered:** MOVE-003: MISSING. Buildium file&#47;API importer and completeness reconciliation are absent. MOVE-001: PARTIAL. CT 28 October 2026 A16 and R1 demotion retained. Separate native deposit link and individual-amount assertions now pass, independently of the 70000 cent opening aggregate, and the deposit-write mutation is rejected; fresh judgment of these changed rows remains pending. MOVE-010: PARTIAL. AppFolio-format source adapter and independent incumbent summary reconciliation; complete owner and vendor tax carry-forward with post-cutover payments and one 1099 (ACCT-014 requires the unavailable Nelco filing account); eviction ledger export and deposit disposition integration (ACCT-004 awaits PORT-008 counsel content); complete 24-month statement and export proof remain owed.
 
 ### Qualify scheduled-payment cutover
 
@@ -1202,11 +1202,11 @@ Official documentation: [Rent Manager marketing and leasing](https://www.rentman
 
 Official documentation: [Rent Manager marketing and leasing](https://www.rentmanager.com/marketing-leasing/) — Signable Docs and online leasing; reviewed 2026-11-04.
 
-- [LEASE-011](../CONTRACT.md) — **MISSING**: Collect legally evidenced electronic signatures. Matching acceptance: “Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy.”
+- [LEASE-011](../CONTRACT.md) — **MISSING**: Collect legally evidenced electronic signatures. Matching acceptance: “Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF&#47;certificate to the activated tenancy.”
   - Evidence: None recorded.
-  - Gap: E-signature provider/sibling integration and execution lifecycle are absent.
+  - Gap: E-signature provider&#47;sibling integration and execution lifecycle are absent.
 
-**Uncovered:** LEASE-011: MISSING. E-signature provider/sibling integration and execution lifecycle are absent.
+**Uncovered:** LEASE-011: MISSING. E-signature provider&#47;sibling integration and execution lifecycle are absent.
 
 ### Renew leases online
 
@@ -1218,11 +1218,11 @@ Official documentation: [Rent Manager marketing and leasing](https://www.rentman
   - Evidence: `migrations/core/0046_renewals.sql`; `src/terrace/renewals.ts`; `src/terrace/renewal-mail.ts`; `src/terrace/renewal-view.ts`; `src/terrace/lease-versions.ts`; `src/terrace/leasing-metrics.ts`; `src/terrace/scenarios.ts`; `tests/renewals.mjs`; `tests/terrace.test.mjs`
   - Gap: None in the contract row.
 
-- [LEASE-011](../CONTRACT.md) — **MISSING**: Collect legally evidenced electronic signatures. Matching acceptance: “Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy.”
+- [LEASE-011](../CONTRACT.md) — **MISSING**: Collect legally evidenced electronic signatures. Matching acceptance: “Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF&#47;certificate to the activated tenancy.”
   - Evidence: None recorded.
-  - Gap: E-signature provider/sibling integration and execution lifecycle are absent.
+  - Gap: E-signature provider&#47;sibling integration and execution lifecycle are absent.
 
-**Uncovered:** LEASE-011: MISSING. E-signature provider/sibling integration and execution lifecycle are absent.
+**Uncovered:** LEASE-011: MISSING. E-signature provider&#47;sibling integration and execution lifecycle are absent.
 
 ### Post recurring rent and other charges
 
@@ -1277,7 +1277,7 @@ Official documentation: [Rent Manager accounting](https://www.rentmanager.com/ac
 Official documentation: [Rent Manager accounting](https://www.rentmanager.com/accounting/) — Charge Types; reviewed 2026-11-04.
 
 - [PAY-006](../CONTRACT.md) — **PARTIAL**: Calculate late fees and grace periods. Matching acceptance: “Run a late-fee schedule across a weekend, record a timely pending payment that settles later and waive one fee; inspect charge basis, policy version and auditable waiver.”
-  - Evidence: `tests/payer-accounting.test.mjs` — PAY-006: reviewed state caps, weekend and holiday grace, timely pending settlement and reasoned waivers retain original calculations (`tests/late-fees.mjs`): weekend/holiday schedule and delayed settlement, basis/version/citation, waiver, state cap comparison, reversal hold, no compounding, restart/restore. `tests/late-fees-browser.mjs`: native review/post/waiver, 1440/390 and keyboard tooltip.
+  - Evidence: `tests/payer-accounting.test.mjs` — PAY-006: reviewed state caps, weekend and holiday grace, timely pending settlement and reasoned waivers retain original calculations (`tests/late-fees.mjs`): weekend&#47;holiday schedule and delayed settlement, basis/version/citation, waiver, state cap comparison, reversal hold, no compounding, restart/restore. `tests/late-fees-browser.mjs`: native review/post/waiver, 1440/390 and keyboard tooltip.
   - Gap: Adopted default pending ct: owner-only fee configuration, manual reviewed schedule posting and waivers; no automatic collections, notices or paid-fee reversal. All stated acceptance examples use synthetic owner-reviewed pack fixtures, not Terrace counsel review. Other fee bases are visibly held; PORT-008 reviewed authored contents remain open. DONE awaits ct approval of the authority and execution default.
 
 **Uncovered:** PAY-006: PARTIAL. Adopted default pending ct: owner-only fee configuration, manual reviewed schedule posting and waivers; no automatic collections, notices or paid-fee reversal. All stated acceptance examples use synthetic owner-reviewed pack fixtures, not Terrace counsel review. Other fee bases are visibly held; PORT-008 reviewed authored contents remain open. DONE awaits ct approval of the authority and execution default.
@@ -1290,9 +1290,9 @@ Official documentation: [Rent Manager payments](https://www.rentmanager.com/paym
 
 - [PAY-007](../CONTRACT.md) — **PARTIAL**: Offer cash-at-retail and offline payment options. Matching acceptance: “Generate a cash code, receive and replay its retail transaction, clear a check and return another; reconcile resident balances to settlement batches without treating a printed code as collected rent.”
   - Evidence: `src/terrace/ledger.ts`
-  - Gap: Manual external receipts exist; retail network, check deposits and clearance/return states are absent.
+  - Gap: Manual external receipts exist; retail network, check deposits and clearance&#47;return states are absent.
 
-**Uncovered:** PAY-007: PARTIAL. Manual external receipts exist; retail network, check deposits and clearance/return states are absent.
+**Uncovered:** PAY-007: PARTIAL. Manual external receipts exist; retail network, check deposits and clearance&#47;return states are absent.
 
 ### Process checks and record offline receipts
 
@@ -1302,9 +1302,9 @@ Official documentation: [Rent Manager payments](https://www.rentmanager.com/paym
 
 - [PAY-007](../CONTRACT.md) — **PARTIAL**: Offer cash-at-retail and offline payment options. Matching acceptance: “Generate a cash code, receive and replay its retail transaction, clear a check and return another; reconcile resident balances to settlement batches without treating a printed code as collected rent.”
   - Evidence: `src/terrace/ledger.ts`
-  - Gap: Manual external receipts exist; retail network, check deposits and clearance/return states are absent.
+  - Gap: Manual external receipts exist; retail network, check deposits and clearance&#47;return states are absent.
 
-**Uncovered:** PAY-007: PARTIAL. Manual external receipts exist; retail network, check deposits and clearance/return states are absent. Check scanning and outsourced lockbox processing are not replaced by recording an external receipt.
+**Uncovered:** PAY-007: PARTIAL. Manual external receipts exist; retail network, check deposits and clearance&#47;return states are absent. Check scanning and outsourced lockbox processing are not replaced by recording an external receipt.
 
 ### Send delinquency notices and follow up
 
@@ -1329,7 +1329,7 @@ Official documentation: [Rent Manager accounting](https://www.rentmanager.com/ac
 Official documentation: [Rent Manager accounting](https://www.rentmanager.com/accounting/) — Complete Double-Entry Accounting System; reviewed 2026-11-04.
 
 - [ACCT-001](../CONTRACT.md) — **DONE**: Maintain a balanced property ledger. Matching acceptance: “Post rent, deposit, vendor expense and owner contribution across two properties, attempt an unbalanced entry and inspect the trial balance and each subledger back to source.”
-  - Evidence: `tests/journal.mjs` (journey, in `tests/terrace.test.mjs` ACCT-001/ACCT-011): rent, deposits, expenses and contributions across two properties; unbalanced and cross-owner/fund refusals; chart/opening entries; trial and owner/property/resident/vendor/deposit subledgers back to sources; duplicate receipt reversal with unchanged originals; live role/scope, migration, restart and archive restore; `tests/journal-browser.mjs`: native posting and filtered subledger at 1440/390; `migrations/core/0056_journal.sql`; `src/terrace/journal.ts`
+  - Evidence: `tests/journal.mjs` (journey, in `tests/terrace.test.mjs` ACCT-001&#47;ACCT-011): rent, deposits, expenses and contributions across two properties; unbalanced and cross-owner&#47;fund refusals; chart&#47;opening entries; trial and owner/property/resident/vendor/deposit subledgers back to sources; duplicate receipt reversal with unchanged originals; live role&#47;scope, migration, restart and archive restore; `tests/journal-browser.mjs`: native posting and filtered subledger at 1440/390; `migrations/core/0056_journal.sql`; `src/terrace/journal.ts`
   - Gap: None in the contract row.
 
 ### Allocate receipts to property bank accounts
@@ -1339,10 +1339,10 @@ Official documentation: [Rent Manager accounting](https://www.rentmanager.com/ac
 Official documentation: [Rent Manager accounting](https://www.rentmanager.com/accounting/) — Bank Deposits; reviewed 2026-11-04.
 
 - [ACCT-002](../CONTRACT.md) — **PARTIAL**: Separate operating trust and deposit accounts. Matching acceptance: “Receive rent and deposits into distinct accounts, attempt an owner payout from deposit funds and an inter-owner transfer, and verify blocked execution and separately reconciled beneficiary balances.”
-  - Evidence: `tests/trust.mjs` (journey, via `tests/terrace.test.mjs` “ACCT-002 designated bank custody preserves beneficiary funds through approved transfers”): rent/deposit receipt separation, deposit-funded payout and inter-owner refusal with retained exceptions, per-bank beneficiary balances reconciled to journal, approval/reserve/scope/recovery; `tests/trust-browser.mjs`: native bank configuration, transfer review/approval/external reference and balances at 1440/390; `migrations/core/0059_trust_accounts.sql`; `src/terrace/trust.ts`; `docs/trust-accounts.md`
-  - Gap: Ct approval pending for the adopted conservative trust-authorization default: owner-only configuration/assignment, scoped preparation/recording, ROLE-003 human approval, fresh email-link proof and same-beneficiary/property/designated-purpose transfers with a dated source-bank reserve floor. No bank money movement or statement verification is claimed.
+  - Evidence: `tests/trust.mjs` (journey, via `tests/terrace.test.mjs` “ACCT-002 designated bank custody preserves beneficiary funds through approved transfers”): rent&#47;deposit receipt separation, deposit-funded payout and inter-owner refusal with retained exceptions, per-bank beneficiary balances reconciled to journal, approval/reserve/scope/recovery; `tests/trust-browser.mjs`: native bank configuration, transfer review/approval/external reference and balances at 1440/390; `migrations/core/0059_trust_accounts.sql`; `src/terrace/trust.ts`; `docs/trust-accounts.md`
+  - Gap: Ct approval pending for the adopted conservative trust-authorization default: owner-only configuration&#47;assignment, scoped preparation&#47;recording, ROLE-003 human approval, fresh email-link proof and same-beneficiary/property/designated-purpose transfers with a dated source-bank reserve floor. No bank money movement or statement verification is claimed.
 
-**Uncovered:** ACCT-002: PARTIAL. Ct approval pending for the adopted conservative trust-authorization default: owner-only configuration/assignment, scoped preparation/recording, ROLE-003 human approval, fresh email-link proof and same-beneficiary/property/designated-purpose transfers with a dated source-bank reserve floor. No bank money movement or statement verification is claimed.
+**Uncovered:** ACCT-002: PARTIAL. Ct approval pending for the adopted conservative trust-authorization default: owner-only configuration&#47;assignment, scoped preparation&#47;recording, ROLE-003 human approval, fresh email-link proof and same-beneficiary/property/designated-purpose transfers with a dated source-bank reserve floor. No bank money movement or statement verification is claimed.
 
 ### Record and approve bills
 
@@ -1374,9 +1374,9 @@ Official documentation: [Rent Manager accounting](https://www.rentmanager.com/ac
 
 - [ACCT-010](../CONTRACT.md) — **MISSING**: Disburse owner funds by ACH or check. Matching acceptance: “Prepare a joint-owner distribution with a pending ACH receipt and unpaid repair, approve cleared funds only, execute it in the trust account’s ACCT-018 NACHA file and import an R01 return for one share from the bank’s return file; show corrected cash and one replacement requiring new approval.”
   - Evidence: None recorded.
-  - Gap: Owner distributions, ACH/check execution and return accounting are absent.
+  - Gap: Owner distributions, ACH&#47;check execution and return accounting are absent.
 
-**Uncovered:** ACCT-010: MISSING. Owner distributions, ACH/check execution and return accounting are absent.
+**Uncovered:** ACCT-010: MISSING. Owner distributions, ACH&#47;check execution and return accounting are absent.
 
 ### Connect and reconcile bank transactions
 
@@ -1386,13 +1386,13 @@ Official documentation: [Rent Manager accounting](https://www.rentmanager.com/ac
 
 - [ACCT-005](../CONTRACT.md) — **MISSING**: Connect Plaid bank feeds. Matching acceptance: “Connect two bank accounts through the provider boundary, import duplicate and pending-to-posted lines, expire consent and reconnect; verify no duplicate bank transaction and a visible freshness gap.”
   - Evidence: None recorded.
-  - Gap: Plaid bank feeds and consent/freshness management are absent.
+  - Gap: Plaid bank feeds and consent&#47;freshness management are absent.
 
 - [ACCT-006](../CONTRACT.md) — **DONE**: Match statements and perform three-way reconciliation. Matching acceptance: “Reconcile a month with batched rent, fee, outstanding check, a cleared owner ACH batch and missing deposit; resolve one exception and show the remaining difference prevents a balanced three-way sign-off.”
   - Evidence: `tests/reconcile.mjs` journey: reviewed CSV, OFX, QFX and PDF lines, exact settlement and ACH matching, check numbers, outstanding items, unresolved differences and balanced sign-off, stale books, close refusal, scope and restore; `tests/reconcile-browser.mjs`: native matching and sign-off at desktop and phone widths; `docs/bank-reconciliation.md`
   - Gap: None for current recorded sources. ACCT-017 and ACCT-018 inherit check-register and transmitted-file source matching before their doors ship.
 
-**Uncovered:** ACCT-005: MISSING. Plaid bank feeds and consent/freshness management are absent. ACCT-006: None for current recorded sources. ACCT-017 and ACCT-018 inherit check-register and transmitted-file source matching before their doors ship.
+**Uncovered:** ACCT-005: MISSING. Plaid bank feeds and consent&#47;freshness management are absent. ACCT-006: None for current recorded sources. ACCT-017 and ACCT-018 inherit check-register and transmitted-file source matching before their doors ship.
 
 ### Produce cash and accrual financial reports
 
@@ -1412,7 +1412,7 @@ Official documentation: [Rent Manager accounting](https://www.rentmanager.com/ac
 
 Official documentation: [Rent Manager accounting](https://www.rentmanager.com/accounting/) — Tax Tools; reviewed 2026-11-04.
 
-- [ACCT-014](../CONTRACT.md) — **MISSING**: Prepare and file owner and vendor 1099s. Matching acceptance: “Prepare owner/vendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings.”
+- [ACCT-014](../CONTRACT.md) — **MISSING**: Prepare and file owner and vendor 1099s. Matching acceptance: “Prepare owner&#47;vendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings.”
   - Evidence: None recorded.
   - Gap: W-9, reportable payment calculation, Nelco filing and correction workflows are absent.
 
@@ -1426,9 +1426,9 @@ Official documentation: [Rent Manager accounting](https://www.rentmanager.com/ac
 
 - [ACCT-017](../CONTRACT.md) — **MISSING**: Print mail and register trust checks. Matching acceptance: “Print a deposit-refund check from the deposit bank account and a vendor check batch from the operating trust account, void and reissue one check with new approval, refuse a duplicate check number and export positive-pay for the batch; clear one check against the bank feed and leave one outstanding past its stale date with a follow-up.”
   - Evidence: None recorded.
-  - Gap: MICR check printing, Lob check mailing, check-number register, void/reissue, stale checks and positive pay are absent.
+  - Gap: MICR check printing, Lob check mailing, check-number register, void&#47;reissue, stale checks and positive pay are absent.
 
-**Uncovered:** ACCT-017: MISSING. MICR check printing, Lob check mailing, check-number register, void/reissue, stale checks and positive pay are absent.
+**Uncovered:** ACCT-017: MISSING. MICR check printing, Lob check mailing, check-number register, void&#47;reissue, stale checks and positive pay are absent.
 
 ### Meter and bill utility consumption
 
@@ -1458,11 +1458,11 @@ Official documentation: [Rent Manager marketing and leasing](https://www.rentman
   - Evidence: `tests/terrace.test.mjs` — "PAY-003: hosted card consent, policy admission, provider-only receipts, declines, expiry and replay" (`tests/card-payments.mjs`): scoped collection and versioned consent, inherited admission and atomic reservations, fee disclosure, canonical provider events and charge references, decline, expiry, concurrent replay and restart, credential-free restore and demo no-egress; passed at ea40fc1266b84123ea94242354838db93eca6c74 in heavy job 20261026T053952942981Z-heavy-slot-1f69fefb. `tests/card-payments-browser.mjs` — "journey", with --buffered-http: native review, pending and receipt states, staff reconciliation and uncertain-request resumption at 1440 and 390 through actual buffered Worker responses; only Stripe is faked at the network edge. Passed at c3d97576086bf0ca54d74f813846464509445986 in heavy job 20261026T054310729464Z-heavy-slot-7abac798; captures inspected. Provider-only sandbox capture on 26 October 2026: session cs_test_a1aCgX0MIKGGPYAZsRqaGqaK5zUkKkKIFQ87bwQ6m5YzF8t324KUuHTuni, intent pi_3UUfhRDg8BoejKxo4HBAlIoy, event evt_1UUfhSDg8BoejKxoEpx7eoxW, $10.00 USD paid in test mode. The public pre-event ledger contained no receipt. Two admitted live journeys stalled reading the resident return in Chromium although public HTTP returned the pending page. The corrected buffered transport passed the native network-edge journey; its held-key retry was cancelled after nineteen minutes with eight local jobs still ahead and made no provider request.
   - Gap: End-to-end live Stripe ledger receipt, decline, required authentication and provider-event replay remain unproved. Deposit collection and liability require ACCT-003 and PORT-008 counsel-reviewed rules; actual provider settlement into the ACCT-002 mapped banks and authorized production configuration remain unproved. The implementation remains test-only. CT approval of card authority, consent and zero payer fee remains open; PAY-005 stays CT-held and is inherited unchanged.
 
-- [LEASE-011](../CONTRACT.md) — **MISSING**: Collect legally evidenced electronic signatures. Matching acceptance: “Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy.”
+- [LEASE-011](../CONTRACT.md) — **MISSING**: Collect legally evidenced electronic signatures. Matching acceptance: “Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF&#47;certificate to the activated tenancy.”
   - Evidence: None recorded.
-  - Gap: E-signature provider/sibling integration and execution lifecycle are absent.
+  - Gap: E-signature provider&#47;sibling integration and execution lifecycle are absent.
 
-**Uncovered:** PAY-002: MISSING. ACH collection and processor reconciliation are absent. PAY-003: PARTIAL. End-to-end live Stripe ledger receipt, decline, required authentication and provider-event replay remain unproved. Deposit collection and liability require ACCT-003 and PORT-008 counsel-reviewed rules; actual provider settlement into the ACCT-002 mapped banks and authorized production configuration remain unproved. The implementation remains test-only. CT approval of card authority, consent and zero payer fee remains open; PAY-005 stays CT-held and is inherited unchanged. LEASE-011: MISSING. E-signature provider/sibling integration and execution lifecycle are absent.
+**Uncovered:** PAY-002: MISSING. ACH collection and processor reconciliation are absent. PAY-003: PARTIAL. End-to-end live Stripe ledger receipt, decline, required authentication and provider-event replay remain unproved. Deposit collection and liability require ACCT-003 and PORT-008 counsel-reviewed rules; actual provider settlement into the ACCT-002 mapped banks and authorized production configuration remain unproved. The implementation remains test-only. CT approval of card authority, consent and zero payer fee remains open; PAY-005 stays CT-held and is inherited unchanged. LEASE-011: MISSING. E-signature provider&#47;sibling integration and execution lifecycle are absent.
 
 ### Owner account and property access
 
@@ -1470,7 +1470,7 @@ Official documentation: [Rent Manager marketing and leasing](https://www.rentman
 
 Official documentation: [Rent Manager Owner Web Access](https://www.rentmanager.com/webinars/owner-web-access/) — Owner Web Access content and user accounts; reviewed 2026-11-04.
 
-- [PORTAL-002](../CONTRACT.md) — **PARTIAL**: Give owners their financial and property portal. Matching acceptance: “Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied.”
+- [PORTAL-002](../CONTRACT.md) — **PARTIAL**: Give owners their financial and property portal. Matching acceptance: “Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement&#47;invoice; access another owner’s report and screening file is denied.”
   - Evidence: `tests/statements.mjs` — "journey", invoked by the ACCT-012 registration in `tests/terrace.test.mjs`: exact seller and buyer invoice originals on either side of a transfer, expense cents and CSV isolation, absent and other-owner files refused, staff cookies excluded, screening refusal, shared originals held, changed approval withdrawal, cross-property revision history, restart, immediate revocation, audit and native restore with fresh authorization. `tests/statements-browser.mjs`: native owner statement expense, fee and reserve sections and invoice downloads at 1440 and 390.
   - Gap: Occupancy and rent detail, complete distribution status and documents, owner contributions, communication, over-limit repair decisions with PORTAL-007 riders, joint-owner original disclosure and staff bank-change fresh-proof assertions remain unproved. Adopted conservative original-disclosure default pending ct: a live owner grant reads only an exact currently approved invoice attachment when every historical allocation belongs wholly to that owner on its invoice date; shared-beneficiary originals stay with staff for review. No new payment, send, bank-change or approval authority.
 
@@ -1482,7 +1482,7 @@ Official documentation: [Rent Manager Owner Web Access](https://www.rentmanager.
 
 Official documentation: [Rent Manager Owner Web Access](https://www.rentmanager.com/webinars/owner-web-access/) — Property and investment-related information; reviewed 2026-11-04.
 
-- [ACCT-012](../CONTRACT.md) — **PARTIAL**: Publish complete owner statements. Matching acceptance: “Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books/bank and download the source invoice from the owner portal.”
+- [ACCT-012](../CONTRACT.md) — **PARTIAL**: Publish complete owner statements. Matching acceptance: “Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books&#47;bank and download the source invoice from the owner portal.”
   - Evidence: `tests/statements.mjs` — "journey": staff cash draft opening and closing cash, expenses, reserves, separate deposits, liabilities and dated ownership. `tests/statements.mjs` — "journey", invoked by the ACCT-012 registration in `tests/terrace.test.mjs`: exact seller and buyer invoice originals on either side of a transfer, expense cents and CSV isolation, absent and other-owner files refused, staff cookies excluded, screening refusal, shared originals held, changed approval withdrawal, cross-property revision history, restart, immediate revocation, audit and native restore with fresh authorization. `tests/statements-browser.mjs`: native owner statement expense, fee and reserve sections and invoice downloads at 1440 and 390.
   - Gap: Complete paid-bill and distribution sources, corrected immutable publication, scheduled delivery, receipt and invoice bundles, bank tie-out and REPORT-007 actuals remain unproved. Joint-owner originals are held. Adopted conservative original-disclosure default pending ct: a live owner grant reads only an exact currently approved invoice attachment when every historical allocation belongs wholly to that owner on its invoice date; shared-beneficiary originals stay with staff for review. No new payment, send, bank-change or approval authority.
 
@@ -1547,10 +1547,10 @@ Official documentation: [Rent Manager maintenance](https://www.rentmanager.com/m
 Official documentation: [Rent Manager maintenance](https://www.rentmanager.com/maintenance/) — rmAppSuite Pro inspections; reviewed 2026-11-04.
 
 - [WORK-011](../CONTRACT.md) — **PARTIAL**: Complete mobile move-in and move-out inspections. Matching acceptance: “Inspect on a phone offline, sync photos, compare move-out damage to the entry record and reject an unsupported deduction while retaining the resident’s disputed finding.”
-  - Evidence: `tests/field-capture.test.mjs` — ‘WORK-011: structured entry/exit findings preserve disputes and refuse unsupported deductions’ (`tests/mobile-inspections.mjs`); `tests/mobile-inspections-browser.mjs` — phone-offline originals, persisted device drafts, manual changed-checklist reconciliation and retained comparison/dispute at 1440/390; `src/terrace/field-evidence-inspections.ts`; `migrations/core/0071_mobile_inspections.sql`
-  - Gap: Structured room/asset checklists, original media, readings, sourced acknowledgement/disputes, completed inspections, entry/exit comparison and evidence-gated human work/deduction proposals ship. Adopted conservative default pending ct: new capture/configuration/acknowledgement/proposal doors are owner or portfolio-manager only; offline originals stay on the device only by explicit consent until explicit sync or deletion; acknowledgements are staff-sourced, never resident authentication or signatures; human decisions execute no work or deposit charge.
+  - Evidence: `tests/field-capture.test.mjs` — ‘WORK-011: structured entry&#47;exit findings preserve disputes and refuse unsupported deductions’ (`tests/mobile-inspections.mjs`); `tests/mobile-inspections-browser.mjs` — phone-offline originals, persisted device drafts, manual changed-checklist reconciliation and retained comparison&#47;dispute at 1440/390; `src/terrace/field-evidence-inspections.ts`; `migrations/core/0071_mobile_inspections.sql`
+  - Gap: Structured room&#47;asset checklists, original media, readings, sourced acknowledgement&#47;disputes, completed inspections, entry&#47;exit comparison and evidence-gated human work&#47;deduction proposals ship. Adopted conservative default pending ct: new capture/configuration/acknowledgement/proposal doors are owner or portfolio-manager only; offline originals stay on the device only by explicit consent until explicit sync or deletion; acknowledgements are staff-sourced, never resident authentication or signatures; human decisions execute no work or deposit charge.
 
-**Uncovered:** WORK-011: PARTIAL. Structured room/asset checklists, original media, readings, sourced acknowledgement/disputes, completed inspections, entry/exit comparison and evidence-gated human work/deduction proposals ship. Adopted conservative default pending ct: new capture/configuration/acknowledgement/proposal doors are owner or portfolio-manager only; offline originals stay on the device only by explicit consent until explicit sync or deletion; acknowledgements are staff-sourced, never resident authentication or signatures; human decisions execute no work or deposit charge.
+**Uncovered:** WORK-011: PARTIAL. Structured room&#47;asset checklists, original media, readings, sourced acknowledgement&#47;disputes, completed inspections, entry&#47;exit comparison and evidence-gated human work&#47;deduction proposals ship. Adopted conservative default pending ct: new capture/configuration/acknowledgement/proposal doors are owner or portfolio-manager only; offline originals stay on the device only by explicit consent until explicit sync or deletion; acknowledgements are staff-sourced, never resident authentication or signatures; human decisions execute no work or deposit charge.
 
 ### Schedule recurring maintenance
 
@@ -1580,7 +1580,7 @@ Official documentation: [Rent Manager accounting](https://www.rentmanager.com/ac
 
 Official documentation: [Rent Manager reporting](https://www.rentmanager.com/reporting/) — Built-In Reports; reviewed 2026-11-04.
 
-- [REPORT-001](../CONTRACT.md) — **DONE**: Explain the complete rent roll. Matching acceptance: “Run an as-of rent roll before and after a scheduled renewal and move-in, reconcile occupied/vacant unit counts and effective rents and download the same filtered data.”
+- [REPORT-001](../CONTRACT.md) — **DONE**: Explain the complete rent roll. Matching acceptance: “Run an as-of rent roll before and after a scheduled renewal and move-in, reconcile occupied&#47;vacant unit counts and effective rents and download the same filtered data.”
   - Evidence: `migrations/core/0026_rent_roll.sql`; `src/terrace/rent-roll.ts`; `src/terrace/rent-roll-view.ts`; `src/terrace/exports.ts`; `tests/terrace.test.mjs`
   - Gap: None in the contract row.
 
@@ -1600,7 +1600,7 @@ Official documentation: [Rent Manager accounting](https://www.rentmanager.com/ac
 
 Official documentation: [Rent Manager reporting](https://www.rentmanager.com/reporting/) — Report Writer and Custom Reports; reviewed 2026-11-04.
 
-- [REPORT-005](../CONTRACT.md) — **DONE**: Build governed custom reports and fields. Matching acceptance: “Add a unit inspection field, use it in a saved report and document template, hide a sensitive owner field from leasing staff and verify their export/merge cannot reveal it.”
+- [REPORT-005](../CONTRACT.md) — **DONE**: Build governed custom reports and fields. Matching acceptance: “Add a unit inspection field, use it in a saved report and document template, hide a sensitive owner field from leasing staff and verify their export&#47;merge cannot reveal it.”
   - Evidence: `migrations/core/0048_custom_reports.sql`; `src/terrace/custom-commands.ts`; `src/terrace/custom-reports.ts`; `src/terrace/custom-documents.ts`; `src/terrace/custom-view.ts`; `tests/custom-reports.mjs`; `tests/custom-browser.mjs`; `tests/terrace.test.mjs`
   - Gap: None in the contract row.
 
@@ -1610,9 +1610,9 @@ Official documentation: [Rent Manager reporting](https://www.rentmanager.com/rep
 
 Official documentation: [Rent Manager reporting](https://www.rentmanager.com/reporting/) — Report export formats; reviewed 2026-11-04.
 
-- [MOVE-004](../CONTRACT.md) — **MISSING**: Move in from Rent Manager. Matching acceptance: “Import real redacted Excel reports and entitled API data, map units/owners/leases/work orders, reconcile deposits and receivable/payable openings and identify missing original documents before approval.”
+- [MOVE-004](../CONTRACT.md) — **MISSING**: Move in from Rent Manager. Matching acceptance: “Import real redacted Excel reports and entitled API data, map units/owners/leases/work orders, reconcile deposits and receivable&#47;payable openings and identify missing original documents before approval.”
   - Evidence: None recorded.
-  - Gap: Rent Manager reports/API importer is absent.
+  - Gap: Rent Manager reports&#47;API importer is absent.
 
 - [MOVE-001](../CONTRACT.md) — **PARTIAL**: Reconcile complete migration before cutover. Matching acceptance: “Load a multi-property source with a missing deposit, duplicate household, vendor without a W-9 and a commercial lease held as an exception (BOUND-004), preview without writes, reconcile counts and balances, resolve exceptions and approve the exact migration manifest.”
   - Evidence: `tests/migration.mjs` — journey, called by the MOVE-009 registration in `tests/terrace.test.mjs`: multi-property source and vacant units; field mapping and every native record kind; missing deposit, duplicate household, missing W-9 and commercial holds; zero-write preview; source counts and excluded dispositions; resolved exceptions and exact manifest approval; eleven source and native opening accounts with zero difference or retained named exception; document originals, vendor and owner balance-forwards, five resident history kinds, native bill approval without duplicate balances, attribution, owner-only and revoked-credential refusal, restart, archive restore, shared-source legal holds, unrelated source preservation and erasure non-resurrection. `tests/migration-browser.mjs`: native preview, retained manifest and resident history, called on push Verify, with proof at 1440 and 390 and focus and hover tooltips. Native deposit links and separate 50000 and 20000 cent liabilities are asserted by the same migration journey; dropping native deposit writes fails its native journal assertion.
@@ -1622,7 +1622,7 @@ Official documentation: [Rent Manager reporting](https://www.rentmanager.com/rep
   - Evidence: `tests/migration.mjs` journey: restricted vendor directory and W-9 hold, vendor and owner year-to-date balance-forwards, five source-referenced resident history kinds, staff and resident monthly statements, opening balance and no duplicate cash.
   - Gap: AppFolio-format source adapter and independent incumbent summary reconciliation; complete owner and vendor tax carry-forward with post-cutover payments and one 1099 (ACCT-014 requires the unavailable Nelco filing account); eviction ledger export and deposit disposition integration (ACCT-004 awaits PORT-008 counsel content); complete 24-month statement and export proof remain owed.
 
-**Uncovered:** MOVE-004: MISSING. Rent Manager reports/API importer is absent. MOVE-001: PARTIAL. CT 28 October 2026 A16 and R1 demotion retained. Separate native deposit link and individual-amount assertions now pass, independently of the 70000 cent opening aggregate, and the deposit-write mutation is rejected; fresh judgment of these changed rows remains pending. MOVE-010: PARTIAL. AppFolio-format source adapter and independent incumbent summary reconciliation; complete owner and vendor tax carry-forward with post-cutover payments and one 1099 (ACCT-014 requires the unavailable Nelco filing account); eviction ledger export and deposit disposition integration (ACCT-004 awaits PORT-008 counsel content); complete 24-month statement and export proof remain owed.
+**Uncovered:** MOVE-004: MISSING. Rent Manager reports&#47;API importer is absent. MOVE-001: PARTIAL. CT 28 October 2026 A16 and R1 demotion retained. Separate native deposit link and individual-amount assertions now pass, independently of the 70000 cent opening aggregate, and the deposit-write mutation is rejected; fresh judgment of these changed rows remains pending. MOVE-010: PARTIAL. AppFolio-format source adapter and independent incumbent summary reconciliation; complete owner and vendor tax carry-forward with post-cutover payments and one 1099 (ACCT-014 requires the unavailable Nelco filing account); eviction ledger export and deposit disposition integration (ACCT-004 awaits PORT-008 counsel content); complete 24-month statement and export proof remain owed.
 
 ### Qualify recurring collection cutover
 

@@ -27,15 +27,18 @@ export function assertSwitchChecklists() {
   }
   run('write');run('check')
   assert.equal(readFileSync(join(directory,outputPath),'utf8'),read(outputPath),'committed public checklist matches current contract and citations')
-  const html = read('dist/site/docs/switch-checklists.html')
+  const html = read('dist/site/docs/switch-checklists.html'), projected = read(outputPath)
   assert.match(read('dist/site/docs.html'),/href="\/docs\/switch-checklists"/,'the public docs index links the built checklist')
   for (const incumbent of manifest.incumbents) {
+   const checklist=projected.split('## '+incumbent.name+'\n\n')[1].split('\n## ')[0]
    for (const fn of incumbent.functions) {
+    const functionText=checklist.split('### '+fn.name+'\n\n')[1]?.split('\n### ')[0]
+    assert.ok(functionText,'each researched function stays in its incumbent checklist')
     assert.ok(html.includes(fn.name.replaceAll('&','&amp;')),'the built checklist retains each researched function: '+fn.name)
     for (const ref of fn.citations) {
      const citation=incumbent.sources.find(c=>c.id===ref.source)
      assert.ok(html.includes(citation.url.replaceAll('&','&amp;')),'the function has a public official citation')
-     assert.ok(html.includes(citation.reviewed),'the citation retains its review date')
+     assert.ok(functionText.includes(citation.url) && functionText.includes(citation.reviewed) && functionText.includes(ref.section),'each function retains its own dated official citation')
     }
     if (!fn.replacements.length) {
      assert.ok(fn.gap && html.includes(fn.gap),'an unsupported function stays visible with its explicit gap')
@@ -55,6 +58,10 @@ export function assertSwitchChecklists() {
   const undated = structuredClone(manifest)
   undated.incumbents[0].sources[0].reviewed=''
   save(undated);run('write',/Invalid official documentation citation/)
+  const unmapped=structuredClone(manifest)
+  const unsupported=unmapped.incumbents[0].functions.find(fn=>!fn.replacements.length)
+  delete unsupported.gap
+  save(unmapped);run('write',/Missing explicit unmapped function gap/)
   save(manifest);run('write')
   write(outputPath,read(outputPath)+'Stale output\n');run('check',/Stale contract projection: docs\/switch-checklists\.md/)
 

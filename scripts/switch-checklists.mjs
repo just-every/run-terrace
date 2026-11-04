@@ -8,7 +8,7 @@ const text = (value, label) => {
 }
 const date = value => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value)) && new Date(value).toISOString().slice(0,10) === value
 const normalized = value => value.replace(/\s+/g, ' ').trim()
-const md = value => value.replace(/[<>]/g, c => c === '<' ? '&lt;' : '&gt;')
+const md = value => value.replace(/[<>]/g, c => c === '<' ? '&lt;' : '&gt;').replace(/(?<![\w./:@-])([A-Za-z][\w-]*)\/([A-Za-z][\w-]*)(?![\w./-])/g, '$1&#47;$2')
 const actualReplacement = id => /^(PORT|LEASE|PAY|ACCT|PORTAL|WORK|REPORT)-/.test(id) || /^MOVE-(00[1-8]|010)$/.test(id)
 
 /** Join curated incumbent functions to the authoritative contract; no stored coverage flags. */
