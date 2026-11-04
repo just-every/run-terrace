@@ -443,3 +443,32 @@ retention and legal holds cover provider receipts; eligible erasure removes
 them. Backup and readable export retain evidence, while a restored installation
 cannot accept archived callbacks. Synthetic signed fixtures establish no live
 sender, delivery, inbound identity or account entitlement.
+
+## Setup readiness disclosures
+
+SAFE-008: `GET /api/setup-readiness` serves only the signed-in installation
+owner, with no-store responses. Other operators and API credentials receive 403;
+missing or revoked authentication receives 401. The read-only native section is
+under `/app?tab=settings`. There is no activation or configuration command here.
+
+The response separates contract-required provider onboarding and agreements from
+implementation availability, configuration presence, historical successful
+exchanges and owner-reported entitlement. Agreements, authorized credentials,
+authority and activation remain unverified, including after archive restoration.
+No provider request, connection check, send, collection or configuration write
+runs from a readiness read.
+
+`limits` gives kind-specific byte ceilings used by native upload validation,
+including separate inspection photographs, tenancy documents, signed lease
+originals, chunked visual and document evidence, chunks and browser archive
+restore. These are upper validation bounds; content checks and D1 row limits
+can refuse smaller files. They establish no qualified storage maximum. Larger
+archives use the existing `rer import` command.
+
+`costs` retains existing dated owner assumptions in USD cents per thousand
+outbound requests, with observed counts and estimates kept separate from unknown
+measured storage billing and external fees. Official pricing links are review
+sources, not contracted quotes. `capacity` lists SAFE-009's required reference
+and dataset and each target bound; qualified is false, receipt is null and
+measured timings are null while hosted reference results are unavailable.
+Local readiness runs never become qualified reference measurements here.

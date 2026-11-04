@@ -1,10 +1,11 @@
 import { allow, guard, insist, one, recordRead, sha256, sql, tenancy, text, type Context, type Row } from './core'
 
+export const LEASE_SOURCE_LIMIT = 5 * 1024 * 1024
 /** Original signed PDFs are staff-recorded evidence, never provider signing or extraction. */
 export async function prepareLeaseSource(c: Context, value: unknown) {
  let name: string, type: string, bytes: Uint8Array
  if (value instanceof File) {
-  insist(value.size > 0 && value.size <= 5 * 1024 * 1024, 'source_limit', 'The signed PDF must be at most 5 MB.', 413)
+  insist(value.size > 0 && value.size <= LEASE_SOURCE_LIMIT, 'source_limit', 'The signed PDF must be at most 5 MB.', 413)
   name = value.name; type = value.type; bytes = new Uint8Array(await value.arrayBuffer())
  } else {
   const v = value as Row
@@ -14,7 +15,7 @@ export async function prepareLeaseSource(c: Context, value: unknown) {
   try { bytes = Uint8Array.from(atob(encoded), ch => ch.charCodeAt(0)) } catch { insist(false, 'invalid_source', 'The source must contain valid base64 PDF bytes.') }
  }
  name = text(name, 'Source name', 200)
- insist(bytes.length > 0 && bytes.length <= 5 * 1024 * 1024, 'source_limit', 'The signed PDF must be at most 5 MB.', 413)
+ insist(bytes.length > 0 && bytes.length <= LEASE_SOURCE_LIMIT, 'source_limit', 'The signed PDF must be at most 5 MB.', 413)
  insist(type === 'application/pdf' && new TextDecoder().decode(bytes.slice(0,5)) === '%PDF-', 'invalid_source', 'Upload an original application/pdf file with a PDF header.')
  const sha = await sha256(bytes)
  insist(!(await one(c, 'SELECT 1 FROM tt_erased_lease_files WHERE sha256=?', sha)), 'erased_artifact', 'This lease artifact was erased and cannot be reimported.', 409)
