@@ -133,7 +133,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "63bbabf38ff65643c961f6c2e62f78fb7586bea9bc3e3717e9ae3044ca5bf01b",
+      "sha256": "ff4af78e0fab815a4cb08c3f73a99ed5ac04a658505c8a030a535c494f78a81a",
       "executable": false
     },
     "DEMO.md": {
@@ -745,7 +745,7 @@
       "executable": false
     },
     "public/app/form-accessibility.js": {
-      "sha256": "7b030b0a2d949464a3fc1333785d00ac2715857d8692df4986976b960c7466a1",
+      "sha256": "0db6a377b4678ad459ffe62e10363b3a82363e6c73b2141cea7bf5ffee5b3a75",
       "executable": false
     },
     "public/app/home.css": {
@@ -4913,7 +4913,7 @@
       "executable": false
     },
     "tests/accessibility-browser.mjs": {
-      "sha256": "45ba2e2eeffd5593f77d347f1923467387568f17119582c3fa0486828c74f40a",
+      "sha256": "29ad7799ca9c60611660759c6a612b85458d0d34ced102a8374029fa833cbe53",
       "executable": false
     },
     "tests/action-requests-browser.mjs": {
@@ -5009,7 +5009,7 @@
       "executable": false
     },
     "tests/card-payments-browser.mjs": {
-      "sha256": "f32cbd329506d7a75053362fe1bf90a7e680e940dbd9323ba2c1c1bf06776d4d",
+      "sha256": "4ad05c2275f3e1d2c1c6d54f837021628e8a047af12a11cb54749c1815dcbf06",
       "executable": false
     },
     "tests/card-payments-live.mjs": {
@@ -5253,7 +5253,7 @@
       "executable": false
     },
     "tests/portal-requests-browser.mjs": {
-      "sha256": "3ebb0e616179af6e9a2f0cc3a11da52e53b2ec7c7d77bf9a70e62f54d1ee2afa",
+      "sha256": "e1c3e5127a90c8035fc0bd06a488b0c81e6c648f4dc2eb4fa5944bad115aa172",
       "executable": false
     },
     "tests/portal-requests.mjs": {
