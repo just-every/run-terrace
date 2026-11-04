@@ -4397,7 +4397,7 @@
       "executable": false
     },
     "src/terrace/listing-view.ts": {
-      "sha256": "55b43b1e4cb240515cd955a1e63b4f7d9a4f77bdb83eee6b2aee3f7eb3c92546",
+      "sha256": "41f08c36073598c40000c9fa300db053d00a2f39d0ef83b2f475175cf2655846",
       "executable": false
     },
     "src/terrace/listings.ts": {
@@ -5217,11 +5217,11 @@
       "executable": false
     },
     "tests/listings-browser.mjs": {
-      "sha256": "a68ff0ec2bfb6feec0265635f611a38cb9d18ec38de1459d7d877b4eee74b76e",
+      "sha256": "75d12677d1b2a0f715c171d39e1e744b2f67f10fdfb20854ef3d013663b31ebe",
       "executable": false
     },
     "tests/listings.mjs": {
-      "sha256": "0c234a36d7383a516000861b81be36219f23966b4deef39927896074b89d1147",
+      "sha256": "a9f8c4d9cbcb52217354114bf2418b239221bee1f6002d5ec4073bca4ad6b00f",
       "executable": false
     },
     "tests/messages-browser.mjs": {

@@ -9,7 +9,7 @@ export async function journey({assets=false,inspect}={}) {
   const f=await h.command('portfolio.add',{name:'Synthetic Terrace'}),
    property=await h.command('property.add',{portfolioId:f.id,name:'Synthetic Garden Flats',address:'12 Synthetic Road, Oakland, CA',kind:'duplex',timeZone:'America/Los_Angeles'}),
    units=[]
-  for(const identifier of ['A','B'])units.push(await h.command('unit.add',{propertyId:property.id,identifier,bedrooms:'2',bathrooms:'1',marketRent:'2400.01'}))
+  for(const identifier of ['A','B'])units.push(await h.command('unit.add',{propertyId:property.id,identifier,bedrooms:'2',bathrooms:'1',amenities:'Courtyard, Bicycle storage',marketRent:'2400.01'}))
   const data=async()=>(await(await h.request('/api/listings')).json())
   const current=async id=>(await data()).listings.find(x=>x.id===id)
   const publicData=async h1=>(await(await (h1??h).request('/vacancies/api',{as:''})).json()).listings
@@ -26,7 +26,8 @@ export async function journey({assets=false,inspect}={}) {
   assert.deepEqual([publicRows.find(x=>x.id===a.id).feesCents,publicRows.find(x=>x.id===a.id).depositCents],[2509,120003])
   const publicDetail=await h.request('/vacancies/'+a.id,{as:''})
   assert.equal(publicDetail.status,200);assert.match(publicDetail.headers.get('cache-control'),/no-store/)
-  assert.ok((await publicDetail.text()).includes('2,400.01'))
+  const publicHtml=await publicDetail.text()
+  for(const value of ['2,400.01','2 bedrooms','1 bathroom','Courtyard','Bicycle storage'])assert.ok(publicHtml.includes(value),'approved public unit attributes are visible')
   // Exact preview is invalidated by a new draft. The old public revision stays unchanged.
   const stale=await preview(a.id)
   await save(units[0].id,{listingId:a.id,version:(await current(a.id)).version,rent:'2475.13',title:'Updated garden home'})

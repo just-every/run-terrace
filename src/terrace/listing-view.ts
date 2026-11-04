@@ -5,7 +5,7 @@ import {hidden} from './view'
 const field=(label:string,name:string,value:unknown='',extra='')=>`<label>${e(label)}<input name="${e(name)}" value="${e(value)}" ${extra}></label>`
 const form=(command:string,body:string,fields:Row={})=>`<form method="post" action="/app/command">${hidden('command',command)}${hidden('tab','listings')}${Object.entries(fields).map(([k,v])=>hidden(k,v)).join('')}${body}</form>`
 const amounts=(x:Row)=>`<dl class="listing-amounts"><div><dt>Monthly advertised rent</dt><dd>${money(x.rentCents,'USD')}</dd></div><div><dt>Advertised fees</dt><dd>${money(x.feesCents,'USD')}</dd></div><div><dt>Advertised deposit</dt><dd>${money(x.depositCents,'USD')}</dd></div></dl>`
-export const listingContent=(x:Row)=>`<h2>${e(x.title)}</h2><p>${e(x.address??x.propertyAddress??'')}${x.identifier?' · Unit '+e(x.identifier):''}</p><p class="listing-description">${e(x.description)}</p>${amounts(x)}<p>Available from ${e(x.availableOn)}.</p>`
+export const listingContent=(x:Row)=>`<h2>${e(x.title)}</h2><p>${e(x.address??x.propertyAddress??'')}${x.identifier?' · Unit '+e(x.identifier):''}</p><p>${e(x.bedrooms)} bedrooms · ${e(x.bathrooms)} ${x.bathrooms===1?'bathroom':'bathrooms'}${x.amenities.length?' · '+x.amenities.map((v:string)=>e(v)).join(', '):''}</p><p class="listing-description">${e(x.description)}</p>${amounts(x)}<p>Available from ${e(x.availableOn)}.</p>`
 
 export function listingView(d:Row,result:Row={}) {
  const editor=(x?:Row)=>{

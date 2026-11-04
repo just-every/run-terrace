@@ -38,7 +38,7 @@ try {
    // The visitor's first enquiry is submitted through the mobile form.
    const phone=await visitor.newPage()
    await phone.goto(h.origin+'/vacancies/'+b.id)
-   assert.ok((await phone.locator('main').innerText()).includes('$2,520.17'))
+   for(const value of ['$2,520.17','2 bedrooms','Courtyard','Bicycle storage'])assert.ok((await phone.locator('main').innerText()).includes(value))
    await phone.getByLabel('Your name',{exact:true}).fill('Synthetic mobile visitor')
    await phone.getByLabel('Email',{exact:true}).fill(['synthetic-terrace-4','example.test'].join('@'))
    for(const [label,value]of [['email','granted'],['phone','refused'],['text','refused']])await phone.getByLabel('Consent to '+label+' contact',{exact:true}).selectOption(value)
