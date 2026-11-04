@@ -34,6 +34,12 @@ try{
     await page.getByRole('status').filter({hasText:'Integration metadata saved'}).waitFor()
     assert.equal((await diagnostics(h)).providers.find(p=>p.provider==='stripe').metadata.cents_per_thousand,425,'native form saves dated estimate without provider validation')
     await page.reload();assert.ok((await section.innerText()).includes('$4.25 per thousand'))
+    const costs=setup.getByText('Costs and pricing sources',{exact:true}).locator('..')
+    const datedAssumption=(await readiness(h)).costs.assumptions.find(a=>a.provider==='stripe')
+    assert.ok((await costs.innerText()).includes('$4.25 per thousand outbound requests, owner assumption dated '+datedAssumption.asOf),'the changed owner estimate and its date appear in setup, not only diagnostics')
+    assert.ok((await costs.innerText()).includes(datedAssumption.observedRequests+' observed requests'),'the estimate retains its observed request basis')
+    assert.ok((await costs.innerText()).includes('Measured provider billing remains unknown'),'editing an estimate does not establish measured billing')
+    assert.ok((await setup.innerText()).includes('Authority and activation readiness remain unverified'),'a saved cost assumption grants no activation authority')
    }else{
     assert.ok((await section.innerText()).includes('Restored evidence retained'))
     assert.ok((await section.innerText()).includes('No successful exchange in this installation'))

@@ -133,7 +133,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "ae1322ab0b5ca73a90d412018293fbd51ea18783aa4518de9c049cf201df5929",
+      "sha256": "db6e837b87224c663e61d0cbc2393f35f3836be0916f3dc72e33d9926d295cd8",
       "executable": false
     },
     "DEMO.md": {
@@ -1013,7 +1013,7 @@
       "executable": false
     },
     "README.md": {
-      "sha256": "7c53fa6454c050b23e3527480826f70e04fa8dc5a9c5adfd2187fbbd137681bf",
+      "sha256": "d97822331b80b4c58a158b12cd471f6999b2069966cb40d5d0267afbcfdca7cc",
       "executable": false
     },
     "release-history/0.1.0.json": {
@@ -5173,11 +5173,11 @@
       "executable": false
     },
     "tests/integration-health-browser.mjs": {
-      "sha256": "28955a645dbd43f20d226d798864440c1d60e0398325501f6661260e4a09bb17",
+      "sha256": "23a48845d3274d56a4dce51f6498c7d456ee89c67f0f97bdae89bad91452da69",
       "executable": false
     },
     "tests/integration-health.mjs": {
-      "sha256": "18b16b84aba40e29faebe277b96296bf2ba4f6e3f9c704d725bb3672aaf81c67",
+      "sha256": "c6a1a58fed9f0ce992073dac52849cf044347637430ce2280b0d53dc8d65f33b",
       "executable": false
     },
     "tests/journal-browser.mjs": {

@@ -135,7 +135,7 @@ export async function journey({assets=false,inspect}={}){
   const wire=JSON.stringify(ready)+readyHtml.split('<section id="setup-readiness">')[1].split('</section>')[0]
   for(const secret of [sentinel,'synthetic-terrace-9301','synthetic-terrace-9302',credential.token,tenancyInput.tenantEmail])assert.ok(!wire.includes(secret),'setup disclosures exclude secrets and private resident data')
   assert.ok(readyHtml.includes('Agreement and authority: unverified'));assert.ok(readyHtml.includes('Reference measurements are unavailable'))
-  assert.equal((await h.request('/api/setup-readiness',{method:'POST',body:{activate:true}})).status,405,'the disclosure endpoint has no activation write door')
+  for(const method of ['POST','PUT','PATCH','DELETE'])assert.equal((await h.request('/api/setup-readiness',{method,body:{activate:true}})).status,405,'the disclosure endpoint refuses '+method+' without activation or state changes')
   assert.deepEqual(await snapshot(),stateBefore,'owner setup reads change no financial, provider, policy or configuration state')
   assert.deepEqual([stripeCalls,h.messages.length],callsBefore,'setup reads make no provider requests')
   console.log('PROBE SAFE-008 authority: configured test transport, a successful exchange and owner-reported entitlement -> agreements and activation unverified; staff and credentials refused.')
