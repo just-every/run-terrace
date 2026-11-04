@@ -133,7 +133,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "fe098618867fa0ad5131e6b354a91ebdad314015d4650dea1483c1dec5aaca7e",
+      "sha256": "4c1f912a4e44008fb1b428ad7d37f59236fdbf2834ed034c758e2131dbf45d7b",
       "executable": false
     },
     "DEMO.md": {
@@ -233,11 +233,11 @@
       "executable": false
     },
     "docs/switch-checklists.json": {
-      "sha256": "3364df34ef65655d5b8c2455e6caed6e0fada335eb52d9a1f91ed4fdfc9b3ed9",
+      "sha256": "84242af3835d075e38fb3be71e32c7ee5b426f9c99c1ffd959eb0a9853daf385",
       "executable": false
     },
     "docs/switch-checklists.md": {
-      "sha256": "4c88c17c6167435ca19cb66de77f6b72ffcc4fbe596c19fb92e0d960b5976819",
+      "sha256": "df61b7e387892dadcc5b3bdc5a0eab0ab9d47662b5157f7b59312885fed964bf",
       "executable": false
     },
     "docs/tenancies.md": {
@@ -5393,7 +5393,7 @@
       "executable": false
     },
     "tests/site/switch-checklists.mjs": {
-      "sha256": "98fb12c2a8de875e6a1132dc2cdc4e841542d9321feb3a958a923e6aa9586cf7",
+      "sha256": "2163a736bed7a2a696507a085aeb3f0da878529dd28238c4360519d58623e723",
       "executable": false
     },
     "tests/statements-browser.mjs": {

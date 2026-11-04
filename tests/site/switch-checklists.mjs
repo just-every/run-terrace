@@ -43,6 +43,10 @@ export function assertSwitchChecklists() {
     if (!fn.replacements.length) {
      assert.ok(fn.gap && html.includes(fn.gap),'an unsupported function stays visible with its explicit gap')
     }
+    if (fn.gap) {
+     assert.ok(functionText.includes('**Uncovered:**') && functionText.includes(fn.gap),'every function-specific gap stays explicit')
+     assert.ok(!functionText.startsWith('**Covered**'),'a documented function gap cannot read as covered')
+    }
    }
   }
   const save = value => write(manifestPath,JSON.stringify(value,null,2)+'\n')
@@ -72,6 +76,12 @@ export function assertSwitchChecklists() {
   research.incumbents[0].functions.push(fn);save(research);run('write')
   const section=()=>readFileSync(join(directory,outputPath),'utf8').split('### Synthetic replacement proof\n\n')[1].split('\n## ')[0]
   assert.ok(section().startsWith('**Covered**'),'matching DONE replacement acceptance is covered')
+  fn.gap='Synthetic function outcome lacks replacement proof.'
+  save(research);run('write')
+  assert.ok(section().startsWith('**Partial**'),'a function-specific gap withholds coverage even when the mapped clause is DONE')
+  assert.ok(section().includes(fn.gap),'the unproved function outcome remains a named public gap')
+  delete fn.gap
+  save(research)
   const demoted=source.split('\n').map(line=>line.startsWith('| `ACCT-001` |')?line.split('|').map((cell,index)=>index===4?' partial ':index===6?' Synthetic acceptance proof withdrawn. ':cell).join('|'):line).join('\n')
   write('CONTRACT.md',demoted);run('check',/Stale/);run('write');run('check')
   assert.ok(section().startsWith('**Partial**'),'demoting a mapped replacement removes coverage')

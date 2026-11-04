@@ -10,7 +10,7 @@ Each function links its official source and shows the current contract Status, E
 
 ## AppFolio
 
-8 of 49 documented functions have covered replacement acceptance; 41 remain gaps. Full switch: unqualified.
+7 of 49 documented functions have covered replacement acceptance; 42 remain gaps. Full switch: unqualified.
 
 ### Publish vacancies on a property website
 
@@ -430,13 +430,15 @@ Official documentation: [AppFolio vendor portal help](https://www.appfolio.com/h
 
 ### Retain vendor compliance documents
 
-**Covered** — mapped replacement acceptance passed.
+**Partial** — gap remains.
 
 Official documentation: [AppFolio vendor portal help](https://www.appfolio.com/help/vendor-portal) — Upload compliance documents; reviewed 2026-11-04.
 
 - [WORK-004](../CONTRACT.md) — **DONE**: Qualify and assign vendors. Matching acceptance: “Select a plumber by area and insurance status, expire their coverage and attempt reassignment; verify qualification hold and a documented human exception rather than silent dispatch.”
   - Evidence: `migrations/core/0020_vendors.sql`; `src/terrace/vendors.ts`; `src/terrace/vendor-view.ts`; `src/terrace/work.ts`; `tests/terrace.test.mjs`
   - Gap: None in the contract row.
+
+**Uncovered:** Vendor-uploaded compliance originals, document requests and review are not proved by qualification-status checks.
 
 ### Close work through its matched invoice
 
@@ -1112,7 +1114,7 @@ Replacement: intentionally unmapped. Status: unsupported. Evidence: none. Gap: U
 
 ## Rent Manager
 
-11 of 45 documented functions have covered replacement acceptance; 34 remain gaps. Full switch: unqualified.
+10 of 45 documented functions have covered replacement acceptance; 35 remain gaps. Full switch: unqualified.
 
 ### Publish property and unit vacancies
 
@@ -1432,13 +1434,15 @@ Official documentation: [Rent Manager accounting](https://www.rentmanager.com/ac
 
 ### Meter and bill utility consumption
 
-**Covered** — mapped replacement acceptance passed.
+**Partial** — gap remains.
 
 Official documentation: [Rent Manager accounting](https://www.rentmanager.com/accounting/) — Metered Utilities; reviewed 2026-11-04.
 
 - [ACCT-016](../CONTRACT.md) — **DONE**: Account for utility recoveries and ancillary income. Matching acceptance: “Allocate one water invoice by a reviewed occupancy formula, post parking and taxable ancillary charges and verify source-linked tenant allocations equal the approved recoverable total.”
   - Evidence: `migrations/core/0038_recoveries.sql`; `src/terrace/recoveries.ts`; `src/terrace/tax.ts`; `src/terrace/recovery-view.ts`; `src/terrace/charge-run.ts`; `src/terrace/api.ts`; `tests/terrace.test.mjs`
   - Gap: None in the contract row.
+
+**Uncovered:** Meter-reading intake, consumption history and consumption-based billing are not proved by the mapped invoice-allocation acceptance.
 
 ### Resident payments, leases and requests
 

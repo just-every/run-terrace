@@ -630,7 +630,8 @@
               "clause": "WORK-004",
               "acceptance": "Select a plumber by area and insurance status, expire their coverage and attempt reassignment; verify qualification hold and a documented human exception rather than silent dispatch."
             }
-          ]
+          ],
+          "gap": "Vendor-uploaded compliance originals, document requests and review are not proved by qualification-status checks."
         },
         {
           "id": "repair-invoice",
@@ -2087,7 +2088,8 @@
               "clause": "ACCT-016",
               "acceptance": "Allocate one water invoice by a reviewed occupancy formula, post parking and taxable ancillary charges and verify source-linked tenant allocations equal the approved recoverable total."
             }
-          ]
+          ],
+          "gap": "Meter-reading intake, consumption history and consumption-based billing are not proved by the mapped invoice-allocation acceptance."
         },
         {
           "id": "resident-portal",
