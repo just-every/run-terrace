@@ -423,3 +423,13 @@ It creates no applicant decision, report, dispute resolution, send, fee, ledger
 entry, grant or custody policy. All LEASE-009 provider, counsel, legal, authority,
 decision, referral, notice-delivery and export-history gaps remain; see
 [applications](docs/applications.md).
+
+## Own-site vacancies
+
+Only the signed-in installation owner may use `GET /api/listings`, the native **Manage vacancy listings** screen, and `listing.save`, `listing.preview`, `listing.publish` or `listing.withdraw`. API credentials cannot manage publication.
+
+`listing.save` takes `unitId`, `title`, `description`, `rent`, `fees`, `deposit` and `availableOn`; a new revision also takes `listingId` and current `version`. Amounts are decimal USD strings with at most two fractional digits, never rounded; fees and deposit may be zero. `listing.preview` takes the listing and version and returns its frozen revision and fingerprint. `listing.publish` takes those exact values with `revisionId` and `confirm=PUBLISH`. Publication rechecks live owner authority, inventory and property-local occupancy atomically. `listing.withdraw` takes the listing and current version.
+
+Public `GET /vacancies` and `GET /vacancies/ID` serve current approved text pages. `GET /vacancies/api` and `GET /vacancies/api/ID` return only current marketing snapshots. Same-origin `POST /vacancies/ID/enquire` accepts a form or JSON with a UUID `requestId`, current `revisionId`, name, email or phone, and `consent_email`, `consent_phone`, `consent_text` explicitly granted or refused. A granted channel requires its contact detail. Property and source come from the listing. The generic 202 receipt reveals no contact or duplicate information. Replaying the same accepted request is idempotent; conflicting or erased requests are refused.
+
+The leasing report includes dated own-site listing events with revision prices, checked current freshness and unconfigured partner channels. Backup restore retains documentary evidence without publication or preview authority. See [Own-site vacancies](docs/listings.md) for the current boundary.

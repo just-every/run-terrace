@@ -63,7 +63,7 @@ try {
    await preview.getByRole('checkbox').check()
    await preview.getByRole('button',{name:'Publish exact listing',exact:true}).click()
    await card.getByText('Published on own site',{exact:false}).waitFor()
-   console.log('PROBE LEASE-001 mobile enquiry: 390px public form -> unverified own-site prospect and generic receipt; owner preview/publish/withdraw at 1440; both screens captured at 1440 and 390')
+   console.log('PROBE LEASE-001 mobile enquiry: 390px public form -> unverified own-site prospect and generic receipt; owner preview, publish and withdraw at 1440; both screens captured at 1440 and 390')
   }finally{await owner.close();await visitor.close()}
  }})
 }finally{await browser.close()}

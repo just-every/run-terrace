@@ -2,7 +2,7 @@ import type {Bindings} from '../auth.server'
 import {Fault,insist,type Context,type Row} from './core'
 import {publicListings,submitEnquiry} from './listings'
 import {vacanciesView,vacancyShell} from './listing-view'
-const headers={'cache-control':'no-store','x-content-type-options':'nosniff','referrer-policy':'no-referrer','content-security-policy':"default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; style-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; connect-src 'self'"}
+const headers={'cache-control':'no-store','x-content-type-options':'nosniff','referrer-policy':'strict-origin','content-security-policy':"default-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; style-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; connect-src 'self'"}
 const html=(body:string,status=200)=>new Response(body,{status,headers:{...headers,'content-type':'text/html;charset=utf-8'}})
 const json=(body:unknown,status=200)=>Response.json(body,{status,headers})
 export async function listingResponse(request:Request,env:Bindings) {

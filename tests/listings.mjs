@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import {installation,tenancyInput} from './api/harness.mjs'
+import {activateApplicationPack} from './applications.mjs'
 const now='2026-11-04T12:00:00.000Z'
 const mail=n=>['synthetic-terrace-'+n,'example.test'].join('@')
 export async function journey({assets=false,inspect}={}) {
@@ -41,7 +42,10 @@ export async function journey({assets=false,inspect}={}) {
   const messages=h.messages.length
   await enquire({...enquiry,consent_email:''},400)
   await enquire(enquiry,403,{originHeader:'https://example.test'})
-  const received=await enquire({...enquiry,propertyId:'unrelated',source:'marketplace'})
+  const simultaneous=await h.atOnce(Array.from({length:2},()=>['/vacancies/'+a.id+'/enquire',{as:'',method:'POST',body:{...enquiry,propertyId:'unrelated',source:'marketplace'}}]))
+  assert.deepEqual(simultaneous.map(r=>r.status),[202,202])
+  const received=await simultaneous[0].json()
+  assert.deepEqual(await simultaneous[1].json(),received,'concurrent retries share one receipt')
   assert.deepEqual(Object.keys(received).sort(),['accepted','notice'])
   assert.equal(received.accepted,true)
   assert.ok(!JSON.stringify(received).includes(mail(1)))
@@ -83,6 +87,14 @@ export async function journey({assets=false,inspect}={}) {
   for(const secret of [privateName,mail(3),mail(1),lead.id,'tenant_email','duplicate_of','portfolio_id'])assert.ok(!html.includes(secret)&&!wire.includes(secret),'public allowlist excludes private details')
   const report=await(await h.request('/api/leasing-report?from=2026-11-01&to=2026-11-04')).json()
   assert.match(JSON.stringify(report),/published/);assert.match(JSON.stringify(report),/unavailable/);assert.match(JSON.stringify(report),/unconfigured/)
+  // Occupancy includes the property's local end day, even when UTC is already the next day.
+  await h.setTime('2026-11-04T06:00:00.000Z')
+  await h.command('tenancy.create',{...tenancyInput,unitId:units[1].id,tenantName:'Synthetic prior resident',tenantEmail:mail(5),startDate:'2026-11-01',endDate:'2026-11-03',rent:'2400.01',cadence:'monthly'})
+  await h.command('listing.preview',{listingId:b.id,version:(await current(b.id)).version},{status:409})
+  assert.deepEqual(await publicData(),[])
+  await h.setTime(now)
+  await publish(b.id)
+  assert.deepEqual((await publicData()).map(x=>x.id),[b.id],'publication can resume only after the local occupied end day')
   // Custody keeps documentary history but never restores publication or preview authority.
   const backup=await(await h.request('/api/backup')).text()
   const dest=await installation({now});other.push(dest)
@@ -101,6 +113,14 @@ export async function journey({assets=false,inspect}={}) {
   assert.ok(!journal.includes(mail(1))|| (await prospectData()).some(x=>x.id===held.id),'separate held enquiry remains an independently retained submission')
   const erasedHeld=(await prospectData()).find(x=>x.id===held.id)
   if(erasedHeld)await h.command('prospect.erase',{prospectId:held.id,version:erasedHeld.version,reason:'synthetic-terrace-erasure-2'})
+  // Existing retained application evidence also protects the prospect's source and consent.
+  const protectedLead=await h.command('prospect.add',{propertyId:property.id,name:'Synthetic retained adult',email:mail(6),source:'phone',reference:'synthetic-terrace-retention'})
+  await h.stepUp()
+  await activateApplicationPack(h,property)
+  const application=await h.command('application.open',{prospectId:protectedLead.id,version:protectedLead.version,adults:[{name:'Synthetic retained adult',email:mail(6)}],fee:'45.00',reference:'synthetic-terrace-retention',consent:'PREPARE APPLICATION'})
+  await h.command('application.hold',{applicationId:application.id,action:'hold',reference:'synthetic-terrace-retention-hold'})
+  assert.equal((await h.command('prospect.erase',{prospectId:protectedLead.id,version:(await prospectData()).find(x=>x.id===protectedLead.id).version,reason:'synthetic-terrace-retention'},{status:409})).error,'application_retained')
+  assert.ok((await prospectData()).some(x=>x.id===protectedLead.id))
   const latest=await(await h.request('/api/backup')).text(),restored=await installation({now});other.push(restored)
   const refusal=await restored.formCommand('data.restore',{backup:new File([backup],'old.rer'),journal:new File([latest],'new.rer'),confirm:'RESTORE'},{status:409})
   assert.equal(refusal.error,'erasure_fence')
