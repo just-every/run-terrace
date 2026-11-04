@@ -136,9 +136,9 @@ export async function repairMailJourney({assets=false,inspect}={}){
  const clock='2026-10-26T18:00:00.000Z',secret=Buffer.from('synthetic-terrace-310-signed-fixture'),key=['wh','sec_'].join('')+secret.toString('base64')
  const h=await installation({assets,now:clock,asyncDatabase:true,repairMailWebhookKey:key})
  const path='/api/repair-mail/events',data=async()=>(await(await h.request('/api/messages?tenancyId='+t.id)).json()),body='The approved kitchen repair is scheduled. Please contact staff with questions.'
- let t
+ let t,eventClock=clock
  const event=(m,type,id,seconds=0,to=m.mail_recipient)=>({type,created_at:new Date(Date.parse(clock)+seconds*1000).toISOString(),data:{email_id:m.provider_id,to:[to]}})
- const signed=(payload,id,valid=true)=>{const timestamp=String(Date.parse(clock)/1000),raw=JSON.stringify(payload);return{method:'POST',as:'',body:payload,headers:{'svix-id':id,'svix-timestamp':timestamp,'svix-signature':'v1,'+(valid?createHmac('sha256',secret).update(id+'.'+timestamp+'.'+raw).digest('base64'):Buffer.alloc(32).toString('base64'))}}}
+ const signed=(payload,id,valid=true)=>{const timestamp=String(Date.parse(eventClock)/1000),raw=JSON.stringify(payload);return{method:'POST',as:'',body:payload,headers:{'svix-id':id,'svix-timestamp':timestamp,'svix-signature':'v1,'+(valid?createHmac('sha256',secret).update(id+'.'+timestamp+'.'+raw).digest('base64'):Buffer.alloc(32).toString('base64'))}}}
  const callback=(payload,id,valid=true)=>h.request(path,signed(payload,id,valid))
  const receipts=()=>h.db.prepare("SELECT event_id FROM rer_mail_event_receipts WHERE event_namespace='terrace-repair-messages'").all().then(r=>r.results)
  const sends=()=>h.messages.filter(m=>m.subject==='Terrace repair update').length
@@ -192,14 +192,14 @@ export async function repairMailJourney({assets=false,inspect}={}){
   assert.ok(readable.includes(Buffer.from('Authenticated mail evidence: failed')));assert.ok(readable.includes(Buffer.from('terrace-repair-messages')))
   const restored=await installation({now:clock,asyncDatabase:true,repairMailWebhookKey:key})
   try{await restored.formCommand('data.restore',{confirm:'RESTORE',backup:new File([backup],'mail.rer')});assert.equal((await restored.request(path,signed(delivered,'synthetic-terrace-316'))).status,400,'restored installation cannot accept archived callbacks');assert.equal((await(await restored.request('/api/messages?tenancyId='+t.id)).json()).messages.find(x=>x.id===m.id).state,'delivered');assert.equal(restored.messages.filter(x=>x.subject==='Terrace repair update').length,0)}finally{await restored.close()}
-  await h.configureMail('resend',key);await h.setTime('2040-01-01T18:00:00.000Z');await h.stepUp()
+  await h.configureMail('resend',key);eventClock='2040-01-01T18:00:00.000Z';await h.setTime(eventClock);await h.stepUp()
   const hold=await h.command('privacy.hold',{tenancyId:t.id,class:'communications',reason:'synthetic-terrace-328 retained mail investigation'}),request=await h.command('privacy.request',{tenancyId:t.id,kind:'erase',source:'synthetic-terrace-329 resident erasure request'})
   let review=await h.command('privacy.review',{tenancyId:t.id,requestId:request.id});await h.command('tenancy.erase',{tenancyId:t.id,requestId:request.id,fingerprint:review.review.fingerprint,confirm:tenancyInput.tenantEmail},{status:409});assert.ok((await receipts()).length>0)
   await h.command('privacy.release',{tenancyId:t.id,holdId:hold.id,reason:'Investigation complete'})
   await h.command('privacy.hold',{tenancyId:t.id,class:'accounting',reason:'Retain accounting identity only'})
   review=await h.command('privacy.review',{tenancyId:t.id,requestId:request.id});assert.equal(review.review.eligible,true);assert.equal(review.review.personalRetained,true)
   await h.command('tenancy.erase',{tenancyId:t.id,requestId:request.id,fingerprint:review.review.fingerprint,confirm:tenancyInput.tenantEmail})
-  assert.equal((await receipts()).length,0);assert.equal((await h.db.prepare("SELECT * FROM rer_mail_event_states WHERE event_namespace='terrace-repair-messages'").all()).results.length,0)
+  assert.equal((await callback(delivered,'synthetic-terrace-316')).status,400,'freshly signed replay cannot resurrect erased communication');assert.equal((await receipts()).length,0);assert.equal((await h.db.prepare("SELECT * FROM rer_mail_event_states WHERE event_namespace='terrace-repair-messages'").all()).results.length,0)
   assert.equal((await h.db.prepare('SELECT * FROM tt_messages WHERE tenancy_id=?').bind(t.id).all()).results.length,0)
   const erased=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer());assert.ok(!erased.includes(Buffer.from(body)));assert.ok(!erased.includes(Buffer.from(m.provider_id)))
   const journal=await(await h.request('/api/backup')).blob(),fresh=await installation({now:clock,asyncDatabase:true})

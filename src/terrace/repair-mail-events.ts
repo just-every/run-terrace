@@ -43,7 +43,7 @@ export async function repairMailWebhook(request:Request,env:Bindings){
    const scope=[m.mail_provider,env.AUTH_ORIGIN,namespace,m.provider_id,m.mail_recipient]
    statements.push(fence(c,m),sql(c,`INSERT INTO tt_message_events(id,message_id,kind,body,actor,at)
     SELECT 'mail:'||?||':'||event_id,?,json_extract(event_json,'$.status'),
-     'Authenticated mail evidence: '||json_extract(event_json,'$.status')||'; occurred '||json_extract(event_json,'$.occurredAt')||'; event '||event_id,?,?
+     'Authenticated mail evidence: '||json_extract(event_json,'$.status')||'; occurred '||strftime('%Y-%m-%dT%H:%M:%fZ',json_extract(event_json,'$.occurredAt')/1000.0,'unixepoch')||'; event '||event_id,?,?
     FROM rer_mail_event_receipts WHERE provider=? AND tenant_id=? AND event_namespace=?
      AND json_extract(event_json,'$.providerMessageId')=? AND json_extract(event_json,'$.recipients[0]')=?
      AND json_extract(event_json,'$.status') IS NOT NULL ON CONFLICT(id) DO NOTHING`,m.id,m.id,c.actor.id,now,...scope),
