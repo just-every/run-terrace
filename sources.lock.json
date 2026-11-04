@@ -109,7 +109,7 @@
       "executable": false
     },
     "AGENTS.md": {
-      "sha256": "b8864286cd4a12cd0b6b55d042e3489d6f4ddeeffb4e6b125815d6ec6aa482bd",
+      "sha256": "21cce755f852f0ed5e0caf712b1d4a26bb8bebe343cb8a68718bc8a3d1e67314",
       "executable": false
     },
     "API.md": {
@@ -149,7 +149,7 @@
       "executable": false
     },
     "deploy.json": {
-      "sha256": "cb9d54b397e62ba7b760d71d67b3117c47923a336436216a3aeab8f0142b0717",
+      "sha256": "ccada6e1aac9ca560a98e89d0808abd460270179d5ff5fa89e9765a04cb7da34",
       "executable": false
     },
     "docs/agent-door-adoption.md": {
@@ -161,7 +161,7 @@
       "executable": false
     },
     "docs/backup-and-restore.md": {
-      "sha256": "364d79d2b9df20bcb0e00f69196c62224a4166d1ded489752f45b2a72a3610ab",
+      "sha256": "e642417c3135c6d220dd9fd8c36f48730e13006e46aed03aff067deb06aad2a6",
       "executable": false
     },
     "docs/bank-reconciliation.md": {
@@ -193,7 +193,7 @@
       "executable": false
     },
     "docs/getting-started.md": {
-      "sha256": "da68699ed9576cf2b29a52a312bb612069a3dfa368546501e2121e5c27c515d5",
+      "sha256": "4bf89404f5098ea9eb14bcbbb605c7d967ca3172ee3b6842cd76877b120a47eb",
       "executable": false
     },
     "docs/hap-accounting.md": {
@@ -205,7 +205,7 @@
       "executable": false
     },
     "docs/inspections-and-maintenance.md": {
-      "sha256": "be1c97352ae38f137dd55bf59392f23ac502ecef5bc98d9ed330c3847d06428d",
+      "sha256": "419960a8d013fa2f96e122e9663da7afeba2ae1a84637a828edff42866a8e978",
       "executable": false
     },
     "docs/move-in.md": {
@@ -233,7 +233,7 @@
       "executable": false
     },
     "docs/roles-and-erasure.md": {
-      "sha256": "12fd829c1fdda2228c715dfb3e2ef6bd4de98ea27411b991866ed551614b46b1",
+      "sha256": "2de81e914a9d02ebdbad1a98de25fe4321320d605f1161b9d8b3b6af78e3fa8d",
       "executable": false
     },
     "docs/state-rule-packs.md": {
@@ -1021,7 +1021,7 @@
       "executable": false
     },
     "README.md": {
-      "sha256": "7c53fa6454c050b23e3527480826f70e04fa8dc5a9c5adfd2187fbbd137681bf",
+      "sha256": "232a2ba56d64acfac799c93b3b9611899eef400a2be4283e90cb1c687112ebab",
       "executable": false
     },
     "release-history/0.1.0.json": {
@@ -1045,7 +1045,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "80063cadee380ff0779c087ba158804490b5145ec2aaa88a3e0841a42913e750",
+      "sha256": "b6afc0b2430912f1cc4fe3bafa01b7b1ee2d1a99c08af6a987e0b8366f221617",
       "executable": false
     },
     "rer-project.json": {
@@ -1061,7 +1061,7 @@
       "executable": false
     },
     "RUN-LOCALLY.md": {
-      "sha256": "18f97599b318edcb5fa986af6213100b89fe8c1c0b7e895aaf98979480067991",
+      "sha256": "2ac7f2e90f6fc4027cedf8b3a51d3b73c9b5d4b49ab6a1413de6e02642b46ff9",
       "executable": false
     },
     "scripts/build-deployment-spec.mjs": {
@@ -3921,7 +3921,7 @@
       "executable": false
     },
     "src/terrace/api.ts": {
-      "sha256": "c962565e632a282eb9bbc048b854c6ac8ec4f11badf7b9f72ce5822d1732738f",
+      "sha256": "f759186c9f646577052d219c5dc9e06b364279568183963636fd8beb77a67364",
       "executable": false
     },
     "src/terrace/application-access.ts": {
@@ -4057,7 +4057,7 @@
       "executable": false
     },
     "src/terrace/credentials-view.ts": {
-      "sha256": "89aac992428918f49bcc60ac3153698053cb4b2af6946cb1ed3276e87e0556f4",
+      "sha256": "391011999f75d3595562adb1a74020c3245fa0e3690dd76c50dde78fe1da112f",
       "executable": false
     },
     "src/terrace/credentials.ts": {
@@ -4133,7 +4133,7 @@
       "executable": false
     },
     "src/terrace/dispatch-view.ts": {
-      "sha256": "3b32c64fb2490ad4826c315b27a88cf782aade5ed25ab9837e2e308b15c187f0",
+      "sha256": "cdda5d17b71c8d7d6343928a93d719f3391481e422e0ef01d86c7b972657d65d",
       "executable": false
     },
     "src/terrace/dispatch.ts": {
@@ -4769,7 +4769,7 @@
       "executable": false
     },
     "src/terrace/settings-view.ts": {
-      "sha256": "00a7de15a84b19d4045f62838a7d7c58de59e85df5841deb6c9830e7563c0b22",
+      "sha256": "8468867f6d7df8a919eda5e2cfd249d10610aa87b511fc4febe4ad76af716466",
       "executable": false
     },
     "src/terrace/shadow-run-archive.mjs": {
@@ -5357,7 +5357,7 @@
       "executable": false
     },
     "tests/retention.mjs": {
-      "sha256": "786bb06e4515e6a0ef7cb040c457e623d77eb0e98d96fbad11898e3f1aa7bb4b",
+      "sha256": "903ee93c47dbd5d60f58506d7e34fbc5d591dcfd02764c4d55c9f4c0b9048adb",
       "executable": false
     },
     "tests/roommates.mjs": {

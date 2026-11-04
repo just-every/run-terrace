@@ -300,7 +300,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
    if(result.checkoutUrl&&!isApi)return new Response(null,{status:303,headers:{location:result.checkoutUrl,'cache-control':'no-store','referrer-policy':'no-referrer'}})
    if(isApi){if(idem)await finishIdempotent(c,idem,JSON.stringify({ok:true,result}));return json({ok:true,result})}
    const dest=new URL('/app',url);dest.searchParams.set('tab',String(p.tab??'tenancy'));dest.searchParams.set('tenancy',String(result.tenancyId??(name==='tenancy.create'?result.id:p.tenancyId)??''))
-   if(name==='privacy.review')return await render(c,dest,result.notice,result)
+   if(name==='privacy.review')return await render(c,dest,result.notice,result,200,request,env)
    if(name==='migration.preview'||name==='migration.journal'||name==='migration.apply'||name==='import.preview'||name==='import.journal'||name==='credential.mint'||name==='credential.rotate'||name==='factor.start'||name==='factor.confirm'||name==='lease.preview'||name==='hap.change.preview'||name==='latefee.preview')return await render(c,dest,result.notice??'Review the result below.',result)
    if(name==='delinquency.assign'){dest.searchParams.set('tab','delinquency');for(const key of ['asOf','propertyId','ownerId'])if(p[key])dest.searchParams.set(key,String(p[key]))}
    if(result.tab==='shadow')dest.searchParams.set('tab','shadow')

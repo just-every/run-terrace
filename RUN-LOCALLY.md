@@ -1,6 +1,14 @@
 # Run it locally
 
-Start Terrace from nothing with one line: `npx -y @runeditrun/rer dev just-every/run-terrace` (set up only: `npx -y @runeditrun/rer setup just-every/run-terrace`; without Node: `curl -fsSL https://runeditrun.com/install.sh | sh -s -- dev just-every/run-terrace`). The commands below run inside that checkout. First-party commands fetch and verify
+Start Terrace without Node or pnpm installed:
+
+```sh
+curl -fsSL https://runeditrun.com/install.sh | sh -s -- dev just-every/run-terrace
+```
+
+Already have Node 22 or later? `npx -y @runeditrun/rer dev just-every/run-terrace` also starts it. For setup without starting, use `curl -fsSL https://runeditrun.com/install.sh | sh -s -- setup just-every/run-terrace`. The installer starts the command directly without needing `~/.local/bin` on PATH and does not edit shell startup files. In a new terminal, use `"$HOME/.local/bin/rer"` instead of `rer` if needed, or run `export PATH="$HOME/.local/bin:$PATH"` for this terminal.
+
+The commands below run inside that checkout. First-party commands fetch and verify
 the exact pnpm version declared in `package.json` when it is missing, using
 `$HOME/.rer/pnpm`; no global pnpm installation or sudo is needed.
 Package-mode seeds pin an exact `@runeditrun/rer` devDependency. The checkout's `OPERATIONS.json` argv and `package.json` aliases select the version that `rer VERB` runs.
@@ -74,8 +82,8 @@ packages from its store.
 
 After `RER_READY`, open the private `RER_OPEN` link on this computer to sign in
 as the owner. Complete first-run setup at `/setup`. Local development mail is
-silently suppressed. For a fully prepared disposable workspace use `rer demo`;
-its sample records and completed first run are isolated from `.wrangler/state`.
+silently suppressed. For a fully prepared disposable workspace, stop dev with `rer dev --stop`, then use `rer demo` in the foreground; keep that terminal open.
+Its sample records and completed first run are isolated from `.wrangler/state`.
 See [DEMO.md](DEMO.md). Treat `RER_OPEN` as a credential; never share it publicly.
 
 The saved local port is used; a first setup saves the first free port from 8787. Explicit ports are decimal

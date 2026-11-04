@@ -27,6 +27,16 @@ The new job reads **Prepared · awaiting approval**. Preparing does not approve 
 
 Downloading an `.eml` file does not send it. The final state, **Sent · external handoff recorded**, means a person recorded the external handoff. Terrace does not deliver the maintenance email or confirm receipt by the trade.
 
+## Dispatch and record technician replies
+
+Local dev and demo suppress maintenance mail. Selecting **Dispatch approved work by email** there records a suppressed attempt, leaves the work awaiting dispatch and does not unlock technician replies or escalation. Every approval permits one dispatch attempt, including a suppressed attempt. Use the downloadable packet and record the external handoff to try that local path instead.
+
+To try provider dispatch, use a deployed installation with working mail. For the declared Resend provider, configure `MAIL_PROVIDER=resend`, a verified sender in `MAIL_FROM`, and a private `MAIL_API_KEY`; follow the [deployment instructions](../README.md#deploy-to-your-cloudflare-account). This requires the account owner's provider configuration. Do not put credentials in Git.
+
+1. Prepare and approve work in that installation, then choose **Dispatch approved work by email**. Check the recorded outcome. Provider acceptance does not establish delivery or completion.
+2. After an accepted dispatch, open **Record technician progress**. Enter the **Technician state** and **Reply source and next action**, then select **Record technician reply**. Receive the reply outside Terrace and record its source; this flow does not automatically ingest inbound email. Completion also needs the approved checklist tasks.
+3. If the due date or arrival window is missed, enter **Human escalation, contact evidence and next action** and select **Record human escalation**. Technician progress does not resolve the resident issue.
+
 ## Check the retained evidence
 
 **Approval evidence** shows the reviewer, role, approval time, approved version, snapshot and snapshot fingerprint. The approved email packet remains downloadable, and the job retains the external handoff reference and recording actor and time.

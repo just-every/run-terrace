@@ -43,14 +43,22 @@ Under **Operators**, select **Deactivate operator** for the person whose access 
 
 ## Erase a tenancy
 
-Erasure permanently deletes a tenancy and its dependent rent ledger, inspections, photographs, approvals and affected import custody. Other tenancies remain. A minimal audit and hashed email suppression record are retained. Terrace will refuse to reintroduce the erased tenant email through native intake or imports.
+Only the owner records and reviews resident access or erasure requests. Terrace does not contact the resident when you record a request. Erasure removes eligible evidence and affected import custody; financial amounts, dates, currency, accounting links and close evidence remain.
 
-1. As owner, open **Data & access** and find **Erase a tenancy**.
-2. Expand the exact address and tenant you intend to erase.
-3. Type the tenant's exact saved email and select **Permanently erase tenancy**.
-4. Download a new backup immediately afterwards to retain the restore fence.
+1. As owner, open **Data & access** and find **Resident requests, retention & legal holds**.
+2. Expand the exact address and resident you intend to review. For an access request, select **Access** under **Request kind**, enter the **Resident request reference** and select **Record resident request**. **Download this resident’s access file** downloads their records for you to handle.
+3. For erasure, select **Erasure** under **Request kind**, enter the **Resident request reference** and select **Record resident request**.
+4. On that request, select **Review retained records**. Read the retention dates, legal holds and reasons for keeping records.
+5. Enter the resident's exact saved email under **Type resident email to confirm**, then select **Erase eligible records**. Terrace refuses an ineligible erasure or a review that no longer matches current records and holds.
+6. Download a new backup immediately after each erasure to retain the restore fence.
 
-This is a data deletion tool, not an assessment of your record-retention obligations. Decide what you must retain before erasing.
+Lease evidence is retained through seven years after lease end. Accounting identity is retained through seven years after its calendar fiscal year. Screening normally has a two-year period, or five years for adverse action; uploaded screening documents use the last upload date. Communications have a three-year period. The last retention day is included. The review shows the dates and reasons that apply to this tenancy.
+
+To place a hold, choose **Hold class**, enter **Legal hold reason** and select **Place legal hold**. To release an active hold, enter **Release reason** and select **Release hold**. Review the request again after a hold changes. Lease retention or a lease hold prevents lease-evidence erasure; retained screening or communications can also prevent it. An accounting period or hold can allow eligible lease evidence to be erased while accounting identity remains retained.
+
+Eligible erasure removes inspections, photographs, work approvals and other eligible tenancy evidence, withdraws affected import custody and removes resident portal access. If accounting identity remains retained, the tenancy's identity and required accounting records stay. Once that retention and any accounting holds have ended, record and review another erasure request to remove personal text and retain the financial evidence under an opaque alias. Erasure does not delete the rent ledger. Audit evidence and a hashed email suppression record remain; Terrace refuses to reintroduce the erased tenant email through native intake or imports. Other tenancies remain.
+
+Review your record-retention obligations before erasing and place any required legal holds.
 
 If a retained import CSV contains the erased tenancy alongside others, that original file is withdrawn in full. Other tenancies and their remaining import plans continue to work. See [Move in](move-in.md#authority-archive-restore-and-erasure) for the custody details.
 
@@ -58,5 +66,5 @@ When [restoring an older backup](backup-and-restore.md#keep-erasure-decisions-wi
 
 ## History
 
-**Data & access** links to **History** for the owner, portfolio managers and accountants. It lists every change, with who made it, their role and its version at the time, the tenancy, the source they gave (a lease reference, receipt reference or reason) and the outcome, plus sensitive reads (statements, rent rolls, collections, photo and packet downloads) and exports (backups, readable exports, history exports). Portfolio managers and accountants see history about tenancies in their portfolios; the owner and accountants can export it as CSV, and each export is itself recorded. History, rent charges, receipts and corrections cannot be edited or deleted; only erasing a tenancy or undoing a move-in removes that tenancy's money records.
+**Data & access** links to **History** for the owner, portfolio managers and accountants. It lists every change, with who made it, their role and its version at the time, the tenancy, the source they gave (a lease reference, receipt reference or reason) and the outcome, plus sensitive reads (statements, rent rolls, collections, photo and packet downloads) and exports (backups, readable exports, history exports). Portfolio managers and accountants see history about tenancies in their portfolios; the owner and accountants can export it as CSV, and each export is itself recorded. History, rent charges, receipts and corrections cannot be edited or deleted through ordinary record editing. Eligible erasure redacts personal text while preserving financial amounts, dates, accounting links and close evidence under an opaque alias; undoing an eligible move-in can remove its imported records.
 

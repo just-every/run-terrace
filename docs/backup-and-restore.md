@@ -16,10 +16,19 @@ rer export --output exports/terrace.rer
 
 ## Restore in the browser
 
-1. Start a separate empty installation with the same product schema and finish its owner setup.
+1. Start a separate empty installation with the same product schema and finish its owner setup. From your existing checkout, use a new directory:
+
+   ```sh
+   rer dev --stop
+   rer dev just-every/run-terrace --dir ../run-terrace-restore
+   ```
+
+   Open the new installation's private `RER_OPEN` link and finish owner setup without adding product records. The original checkout and data stay separate. If `rer` is not on PATH, use `"$HOME/.local/bin/rer"` for each command. The clone starts from the repository's current main; for an older backup, use a destination running the compatible source/schema before restoring.
+
+   For Cloudflare, use a separate checkout and RER installation with its own deployment state and distinct Worker and D1 resource identities. Follow the [deployment instructions](../README.md#deploy-to-your-cloudflare-account) with your own credentials, deploy and finish its owner setup before restoring. Do not use the managed seed deployment or reuse the source installation's resources; Cloudflare provisioning needs the account owner.
 2. Open **Data & access**, then **Restore an archive into this empty installation**.
 3. Choose the **Backup archive**. Browser uploads accept archives up to 20 MB.
-4. If restoring an archive made before an erasure, choose a later backup from the same source as **Later backup / erasure journal**.
+4. Prefer a backup made after the latest erasure. If considering an older archive, choose the later backup from the same source as **Later backup / erasure journal**. When the journal identifies erased records in that archive, the entire restore is refused: restore the newer backup instead. The journal does not remove records from an older archive and restore the rest.
 5. Type `RESTORE` and select **Restore archive**.
 6. Check the restored tenancies, rent entries, photographs and import journals.
 

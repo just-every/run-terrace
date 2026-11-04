@@ -1,6 +1,6 @@
 # Getting started
 
-Run Terrace locally, confirm the installation owner and record your first tenancy. You need Git and Node.js 22 or newer; the project command selects its pinned Node runtime.
+Run Terrace locally, confirm the installation owner and record your first tenancy. You need Git; the installer brings Node and rer brings pnpm.
 
 ## Residential rentals only
 
@@ -14,13 +14,13 @@ One line installs the RER command, clones the source into `run-terrace` and runs
 curl -fsSL https://runeditrun.com/install.sh | sh -s -- dev just-every/run-terrace
 ```
 
-Git is required; rer brings Node and pnpm. Already have Node 22 or later? `npx -y @runeditrun/rer dev just-every/run-terrace` does the same. If the installer prints a line that puts `rer` on your PATH, run that line too. To start it again later, run the same line from the same folder, or `cd run-terrace && rer dev`.
+Git is required; rer brings Node and pnpm. Already have Node 22 or later? `npx -y @runeditrun/rer dev just-every/run-terrace` does the same. The combined line starts Terrace without requiring `rer` on your PATH and does not edit shell startup files. To start it again later, run `cd run-terrace && "$HOME/.local/bin/rer" dev`, or `cd run-terrace && rer dev` if `rer` is on your PATH. To add it for this terminal, run `export PATH="$HOME/.local/bin:$PATH"`.
 
 The first launch can take several minutes. `rer dev` installs dependencies, prepares the local database and development owner, applies migrations and starts the app. It prints the local address as `RER_READY` and a private sign-in link as `RER_OPEN`.
 
 Open `RER_OPEN` on this computer. It is a credential: keep it private. On **Finish setup**, confirm the owner and finish setup to enter Terrace. Local development mail is suppressed and sends no external email.
 
-For a new installation using your real owner mailbox, run `npx -y @runeditrun/rer install just-every/run-terrace`, then `rer setup` from the checkout before its first `rer dev`, and enter the mailbox at the prompt. Preserve the owner identity in an existing installation. The repository's [operating instructions](../README.md) cover deployment and provider configuration.
+For a new installation using your real owner mailbox, run `curl -fsSL https://runeditrun.com/install.sh | sh -s -- install just-every/run-terrace`, then `"$HOME/.local/bin/rer" setup` from the checkout before its first `rer dev`, and enter the mailbox at the prompt. Preserve the owner identity in an existing installation. The repository's [operating instructions](../README.md) cover deployment and provider configuration.
 
 ## Add the first tenancy
 
