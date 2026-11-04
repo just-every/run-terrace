@@ -46,7 +46,8 @@ export function switchChecklists(input, source) {
     if (mapped.has(clause.id)) throw Error('Duplicate replacement clause: '+clause.id)
     mapped.add(clause.id)
     const acceptance = text(mapping.acceptance,'matching replacement acceptance')
-    const matches = normalized(clause.text.split('**Acceptance evidence:**')[1] ?? '').includes(normalized(acceptance))
+    const sentences = normalized(clause.text.split('**Acceptance evidence:**')[1] ?? '').split(/(?<=[.!?])\s+/)
+    const matches = sentences.includes(normalized(acceptance))
     const eligible = actualReplacement(clause.id)
     const passed = eligible && matches && clause.status === 'done' && clause.evidence.length > 0 && !clause.gap
     const evidence = lines[clause.row-1].split(/(?<!\\)\|/)[5].trim()

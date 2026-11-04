@@ -33,11 +33,24 @@ for (const [index, form] of [...document.querySelectorAll('form[data-accessible-
     ;(field.closest('label') ?? field).after(message)
     const link = document.createElement('a')
     link.href = `#${field.id}`
-    link.addEventListener('click', event => { event.preventDefault(); field.focus() })
+    link.addEventListener('click', event => {
+      event.preventDefault()
+      for (let parent = field.parentElement; parent; parent = parent.parentElement) {
+        if (parent instanceof HTMLDetailsElement) parent.open = true
+      }
+      field.focus()
+      field.scrollIntoView({block: 'nearest', inline: 'nearest'})
+    })
     const item = document.createElement('li')
     item.append(link)
     const description = field.getAttribute('aria-describedby')
+    const requiredText = field.required && (field instanceof HTMLTextAreaElement ||
+      (field instanceof HTMLInputElement && ['text', 'search', 'tel', 'url', 'email', 'password'].includes(field.type)))
+    let blankError = false
     const update = () => {
+      if (blankError) field.setCustomValidity('')
+      blankError = requiredText && Boolean(field.value) && !field.value.trim()
+      if (blankError) field.setCustomValidity('Enter a value other than spaces.')
       const invalid = !field.validity.valid
       message.hidden = !invalid
       if (invalid) {

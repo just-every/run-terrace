@@ -80,6 +80,10 @@ export function assertSwitchChecklists() {
   fn.replacements[0].acceptance='An acceptance outcome the contract does not promise.'
   save(research);run('write')
   assert.ok(section().startsWith('**Partial**'),'DONE with unmatched acceptance remains a gap')
+  fn.replacements[0].acceptance=acceptance.split(/[;,]/)[0]
+  save(research);run('write')
+  assert.ok(section().startsWith('**Partial**'),'an incomplete acceptance fragment cannot establish replacement coverage')
+  assert.ok(section().includes('mapped acceptance no longer matches CONTRACT.md.'),'the incomplete acceptance is an explicit public gap')
   for (const id of ['BOUND-004','TER-009']) {
    const context=clauses.find(c=>c.id===id)
    fn.replacements=[{clause:id,acceptance:context.text.split('**Acceptance evidence:**')[1].trim().split(/(?<=\.)\s/)[0]}]
