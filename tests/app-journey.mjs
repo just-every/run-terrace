@@ -5,6 +5,7 @@ const queued=await queuedEntrypoint(import.meta.url,'verify:app-journey');if(que
 // action, records rent and reads the ledger at 1440 and 390 pixels. Only the paid mail provider is replaced.
 import assert from 'node:assert/strict'
 import { assertRunSite } from './site/assert-run-site.mjs'
+import {assertSwitchChecklistNavigation} from './site/switch-checklists.mjs'
 import { randomBytes } from 'node:crypto'
 import { mkdtemp, readdir, readFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
@@ -18,12 +19,12 @@ assertRunSite()
 
 const { SITE_ASSETS_CONFIG, SITE_WORKER } = await import(pathToFileURL(resolve('node_modules/@runeditrun/rer/modules/deploy-kit/site.mjs')).href)
 const directory=await mkdtemp(join(tmpdir(),'terrace-app-journey-')),secret=()=>randomBytes(32).toString('base64url')
-const vars={AUTH_LOCAL:'true',AUTH_ORIGIN:'http://localhost',OWNER_EMAIL:'owner@example.test',SESSION_SECRET:secret(),SETUP_TOKEN:secret(),MAIL_PROVIDER:'resend',MAIL_API_KEY:'example-test-mail',MAIL_FROM:'auth@localhost.test'}
+const vars={AUTH_LOCAL:'true',AUTH_ORIGIN:'http://localhost',OWNER_EMAIL:'synthetic-terrace-1'+String.fromCharCode(64)+'example.test',SESSION_SECRET:secret(),SETUP_TOKEN:secret(),MAIL_PROVIDER:'resend',MAIL_API_KEY:'synthetic-terrace-5',MAIL_FROM:'synthetic-terrace-2'+String.fromCharCode(64)+'localhost.test'}
 const modules=[{type:'ESModule',path:resolve('dist/server/index.js')},...(await readdir('dist/server/assets')).filter(name=>name.endsWith('.js')).map(name=>({type:'ESModule',path:resolve('dist/server/assets',name)}))]
 const appOptions=port=>({...convertV4MiniflareOptions({host:'127.0.0.1',port,modules,compatibilityDate:'2026-09-08',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:vars,outboundService:async()=>Response.json({id:crypto.randomUUID()}),assets:{directory:resolve('dist/client'),routerConfig:{has_user_worker:true}}}),resourcePersistencePath:join(directory,'app')})
 const site=new Miniflare(convertV4MiniflareOptions({host:'127.0.0.1',port:0,modules:true,script:SITE_WORKER,compatibilityDate:'2026-09-08',assets:{directory:resolve('dist/site'),binding:'ASSETS',assetConfig:SITE_ASSETS_CONFIG,routerConfig:{has_user_worker:true}}}))
 const app=new Miniflare(appOptions(0))
-const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
+const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH?{executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH}:{}),args:['--use-mock-keychain','--password-store=basic','--no-sandbox']})
 try {
  const siteOrigin=(await site.ready).origin,origin=(await app.ready).origin
  vars.AUTH_ORIGIN=origin;await app.setOptions(appOptions(Number(new URL(origin).port)))
@@ -38,6 +39,7 @@ try {
  assert.equal(await visitor.title(),'Run Terrace')
  assert.equal((await visitor.goto(siteOrigin+'/docs')).status(),200)
  assert.equal(await visitor.title(),'Terrace docs')
+ await assertSwitchChecklistNavigation(visitor,siteOrigin)
  const missing=await visitor.goto(siteOrigin+'/no-such-page')
  assert.equal(missing.status(),404,'a missing path is a real 404')
  assert.equal(await visitor.title(),'Not found · Terrace')
@@ -57,9 +59,9 @@ try {
  const add=page.locator('#add-tenancy form')
  await add.getByLabel('Property address').fill('Unit 2B, 1840 Alder Street, Oakland, CA 94610')
  await add.getByLabel('Property owner').fill('Okafor Family Trust')
- await add.getByLabel('Owner email').fill('okafor@example.test')
+ await add.getByLabel('Owner email').fill('synthetic-terrace-3'+String.fromCharCode(64)+'example.test')
  await add.getByLabel('Tenant name').fill('Maya Chen')
- await add.getByLabel('Tenant email').fill('maya@example.test')
+ await add.getByLabel('Tenant email').fill('synthetic-terrace-4'+String.fromCharCode(64)+'example.test')
  await add.getByLabel('Lease starts').fill('2026-02-01')
  await add.getByLabel('Lease ends').fill('2027-01-31')
  await add.getByLabel('Rent (USD)').fill('1850.00')
@@ -98,7 +100,7 @@ try {
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'the phone ledger fits 390 pixels without sideways scrolling')
  await row.getByText('$1,250.00').waitFor()
 
- // The existing work, move-in and data/access forms remain on their tabs.
+ // The existing work, move-in and data and access forms remain on their tabs.
  for(const [tab,command] of [['work','inspection.create'],['import','import.preview'],['settings','data.restore']]){
   assert.equal((await page.goto(`${origin}/app?tab=${tab}&tenancy=${tenancyId}`)).status(),200,tab)
   assert.equal(await page.locator(`form input[name="command"][value="${command}"]`).count(),1,`${tab} keeps ${command}`)

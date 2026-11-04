@@ -1,0 +1,2403 @@
+{
+  "schemaVersion": 1,
+  "incumbents": [
+    {
+      "id": "appfolio",
+      "name": "AppFolio",
+      "sources": [
+        {
+          "id": "marketing",
+          "title": "AppFolio marketing and leasing",
+          "url": "https://www.appfolio.com/property-manager/marketing-leasing",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "accounting",
+          "title": "AppFolio accounting and reporting",
+          "url": "https://www.appfolio.com/property-manager/accounting-reporting",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "maintenance",
+          "title": "AppFolio maintenance",
+          "url": "https://www.appfolio.com/property-manager/maintenance",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "resident",
+          "title": "AppFolio online portal help",
+          "url": "https://www.appfolio.com/help/online-portal",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "owner",
+          "title": "AppFolio owner portal help",
+          "url": "https://www.appfolio.com/help/owner",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "vendor",
+          "title": "AppFolio vendor portal help",
+          "url": "https://www.appfolio.com/help/vendor-portal",
+          "reviewed": "2026-11-04"
+        }
+      ],
+      "functions": [
+        {
+          "id": "vacancies",
+          "name": "Publish vacancies on a property website",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Marketing and leasing capabilities"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-001",
+              "acceptance": "Publish two vacant units, submit an enquiry on mobile, lease one and confirm its vacancy is withdrawn while the other remains available with the approved price and fees."
+            }
+          ]
+        },
+        {
+          "id": "zillow",
+          "name": "Syndicate listings to Zillow",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Listing syndication"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-002",
+              "acceptance": "Publish through the provider test boundary, correct a rejected fee field, change rent and withdraw the listing; show acknowledgments and the same external listing identity without duplicates."
+            }
+          ]
+        },
+        {
+          "id": "apartments",
+          "name": "Syndicate listings to Apartments.com",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Listing syndication"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-003",
+              "acceptance": "Submit the same unit to Apartments.com, process a rejection and later success, update availability and remove it after lease execution; trace each provider result to the unit."
+            }
+          ]
+        },
+        {
+          "id": "zumper",
+          "name": "Syndicate listings to Zumper",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Listing syndication"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-004",
+              "acceptance": "Enable each adapter in its supported environment, publish and withdraw a unit, receive an enquiry and demonstrate that an unentitled account cannot appear connected or published."
+            }
+          ]
+        },
+        {
+          "id": "prospects",
+          "name": "Work prospect records and human follow-up",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Leasing CRM guest cards"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-005",
+              "acceptance": "Receive a listing enquiry and duplicate email, review the match, assign a leasing person, respond and follow that prospect through showing and application with source attribution intact."
+            }
+          ]
+        },
+        {
+          "id": "tours",
+          "name": "Schedule prospect tours",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Leasing Performer tour scheduling"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-006",
+              "acceptance": "Book competing tours, reschedule through the prospect link, cancel one and process a no-show; verify each connected scheduler/calendar and the permitted access window agree."
+            }
+          ]
+        },
+        {
+          "id": "applications",
+          "name": "Take online applications",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Full leasing workflow"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-007",
+              "acceptance": "Two co-applicants save and resume, upload income evidence and submit; manager requests one missing document and sees revisions and fee outcome without card data in Terrace."
+            }
+          ]
+        },
+        {
+          "id": "screening",
+          "name": "Obtain tenant screening and verification",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "FolioScreen Trusted Renter"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-008",
+              "acceptance": "Submit a consented application to the provider sandbox, receive a delayed report and duplicate callback, deny an unauthorized report download and show provider errors without fabricating a screening result."
+            },
+            {
+              "clause": "LEASE-009",
+              "acceptance": "Review two applications, flag a disputed report, require a manager decision and send an explicitly approved adverse-action package with the correct provider reference and recorded delivery."
+            }
+          ],
+          "gap": "FolioScreen identity, income and employment verification are not established by a TransUnion boundary or the read-only income review."
+        },
+        {
+          "id": "lease-templates",
+          "name": "Prepare lease documents",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Blue Moon lease document management"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-010",
+              "acceptance": "Generate a lease with co-signers, pet addendum and local disclosure, detect a missing required input and approve a changed term while preserving the template version and redline."
+            }
+          ]
+        },
+        {
+          "id": "esign",
+          "name": "Execute an electronic lease",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Electronic lease and electronic signature"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-011",
+              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy."
+            }
+          ]
+        },
+        {
+          "id": "renewals",
+          "name": "Review and record renewal campaigns",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Leasing Signals renewal pricing"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-012",
+              "acceptance": "Run a renewal window with accepted, declined and unanswered offers; trace approved delivery and executed future terms, and verify the unresolved household remains in the follow-up queue."
+            }
+          ],
+          "gap": "Automated incumbent pricing guidance and market-data feeds are not replaced by owner-supplied dated assumptions."
+        },
+        {
+          "id": "ach",
+          "name": "Pay rent by bank account",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Make a one-time payment: eCheck"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-002",
+              "acceptance": "Pay a resident balance through ACH sandbox authorization, restart after provider submission and reconcile pending then settled callbacks without a second debit or exposing bank credentials."
+            }
+          ]
+        },
+        {
+          "id": "card",
+          "name": "Pay rent by card",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Make a one-time payment: credit or debit card"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-003",
+              "acceptance": "Pay a partial balance with a test card requiring authentication, inspect the disclosed fee, complete payment and confirm one resident receipt and matching provider reference."
+            }
+          ]
+        },
+        {
+          "id": "autopay",
+          "name": "Manage resident autopay",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Set up, edit, skip and delete an auto payment"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-004",
+              "acceptance": "Authorize capped balance autopay, change the bill above its cap, then cancel before the next run; verify the permitted debit, held exception, notice and canceled attempt."
+            }
+          ]
+        },
+        {
+          "id": "split",
+          "name": "Apply full and partial payment rules",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Payment amount and pay-in-full restrictions"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-005",
+              "acceptance": "Two co-tenants pay concurrently while one ACH is pending; show allocation, remaining balance and permitted credit, and refuse a partial payment under a reviewed stage-specific block."
+            }
+          ]
+        },
+        {
+          "id": "retail-cash",
+          "name": "Collect electronic retail cash",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Electronic cash payment slip"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-007",
+              "acceptance": "Generate a cash code, receive and replay its retail transaction, clear a check and return another; reconcile resident balances to settlement batches without treating a printed code as collected rent."
+            }
+          ]
+        },
+        {
+          "id": "payment-history",
+          "name": "View resident payment history and receipts",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "View payment history and printed receipts"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-010",
+              "acceptance": "Generate a monthly statement, pay part of it, receive a delivered receipt, fail the statement email and inspect the resident portal’s matching balance and delivery task."
+            }
+          ]
+        },
+        {
+          "id": "payment-plans",
+          "name": "Work delinquency and payment plans",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Payment Plans and debt recovery"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-011",
+              "acceptance": "Run a sequence for three late households, receive a reply and payment plan, settle one balance and break another promise; verify stopped messages, next actions and human notice approval, and serve the approved pay-or-quit notice with recorded posting evidence and its expiry date computed from service."
+            }
+          ]
+        },
+        {
+          "id": "property-ledger",
+          "name": "Maintain property and portfolio accounting",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Portfolio Accounting"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-001",
+              "acceptance": "Post rent, deposit, vendor expense and owner contribution across two properties, attempt an unbalanced entry and inspect the trial balance and each subledger back to source."
+            }
+          ]
+        },
+        {
+          "id": "bank-feeds",
+          "name": "Connect bank feeds",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Plaid Bank Feed Integration"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-005",
+              "acceptance": "Connect two bank accounts through the provider boundary, import duplicate and pending-to-posted lines, expire consent and reconnect; verify no duplicate bank transaction and a visible freshness gap."
+            }
+          ]
+        },
+        {
+          "id": "bank-reconciliation",
+          "name": "Match and reconcile bank transactions",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Auto Bank Reconciliation"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-006",
+              "acceptance": "Reconcile a month with batched rent, fee, outstanding check, a cleared owner ACH batch and missing deposit; resolve one exception and show the remaining difference prevents a balanced three-way sign-off."
+            }
+          ]
+        },
+        {
+          "id": "bills",
+          "name": "Capture and approve vendor bills",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Accounting Performer bill coding"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-007",
+              "acceptance": "Upload the same invoice twice, split an approved landscaping bill across properties, exceed an owner’s limit and inspect the held bill, approval route and resulting payable."
+            }
+          ],
+          "gap": "Autonomous bill coding and bill capture are not proven by manual invoice intake and approval."
+        },
+        {
+          "id": "vendor-payments",
+          "name": "Pay vendors",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Online Payments"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-008",
+              "acceptance": "Approve a vendor batch, change one bank destination and hold it, execute the unchanged items in the paying account’s ACCT-018 NACHA file and import an R01 return from the bank’s return file; show one payment per bill, a remittance notice per vendor and the reopened returned payable."
+            }
+          ]
+        },
+        {
+          "id": "owner-distributions",
+          "name": "Pay owner distributions",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Portfolio Accounting distributions"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-010",
+              "acceptance": "Prepare a joint-owner distribution with a pending ACH receipt and unpaid repair, approve cleared funds only, execute it in the trust account’s ACCT-018 NACHA file and import an R01 return for one share from the bank’s return file; show corrected cash and one replacement requiring new approval."
+            }
+          ]
+        },
+        {
+          "id": "close",
+          "name": "Close the accounting period",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Accounting Performer closing the books"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-011",
+              "acceptance": "Close a reconciled month, attempt a backdated posting, approve a period reopening and adjustment, then compare old/new statements with the reopening reason and unchanged original entries."
+            }
+          ],
+          "gap": "Autonomous closing and budget predictions remain unsupported; the mapped acceptance covers a human-reviewed period close."
+        },
+        {
+          "id": "owner-statements",
+          "name": "Publish owner statements",
+          "citations": [
+            {
+              "source": "owner",
+              "section": "Statements and published packets"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-012",
+              "acceptance": "Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books/bank and download the source invoice from the owner portal."
+            },
+            {
+              "clause": "PORTAL-002",
+              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied."
+            }
+          ]
+        },
+        {
+          "id": "owner-tax",
+          "name": "Share owner 1099s",
+          "citations": [
+            {
+              "source": "owner",
+              "section": "Shared reports, documents and 1099s"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-014",
+              "acceptance": "Prepare owner/vendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings."
+            }
+          ]
+        },
+        {
+          "id": "resident-portal",
+          "name": "Resident account access and shared documents",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Online portal access, multiple units and documents"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PORTAL-001",
+              "acceptance": "Sign in as a resident with two leases, inspect an itemized balance, pay rent, download a receipt and update contact preferences; direct access to an unrelated household is denied."
+            }
+          ]
+        },
+        {
+          "id": "owner-portal",
+          "name": "Owner financial and property access",
+          "citations": [
+            {
+              "source": "owner",
+              "section": "Reports and published packets"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PORTAL-002",
+              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied."
+            }
+          ]
+        },
+        {
+          "id": "owner-contributions",
+          "name": "Owner portal contributions",
+          "citations": [
+            {
+              "source": "owner",
+              "section": "Make a contribution"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PORTAL-002",
+              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied."
+            }
+          ],
+          "gap": "Actual owner contribution collection and settlement are not established."
+        },
+        {
+          "id": "vendor-portal",
+          "name": "Assigned vendor work and invoice portal",
+          "citations": [
+            {
+              "source": "vendor",
+              "section": "Work orders, estimates and invoices"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PORTAL-003",
+              "acceptance": "Invite a plumber to one job, accept an appointment, upload evidence and an invoice and read payment state; after reassignment revoke the access details and deny every other vendor job."
+            }
+          ]
+        },
+        {
+          "id": "repair-request",
+          "name": "Submit and track resident repair requests",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Submit or check on a maintenance request"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PORTAL-004",
+              "acceptance": "Submit a leaking-tap request with photo and access restrictions, add another household report and follow the tracking link through scheduled work and resident-confirmed resolution."
+            }
+          ]
+        },
+        {
+          "id": "repair-scheduling",
+          "name": "Coordinate resident and technician availability",
+          "citations": [
+            {
+              "source": "vendor",
+              "section": "Scheduling with work orders"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-005",
+              "acceptance": "Book a repair, receive resident confirmation, cancel from the vendor portal and reschedule with a new permitted access window; notify both parties and preserve appointment history."
+            }
+          ]
+        },
+        {
+          "id": "repair-progress",
+          "name": "Dispatch and track approved work",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "Work orders and in-house maintenance"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-006",
+              "acceptance": "Dispatch an approved order, receive vendor acceptance and a parts hold, miss its appointment and reassign it; inspect notifications, state history and a still-open resident issue."
+            }
+          ]
+        },
+        {
+          "id": "repair-quotes",
+          "name": "Request and approve repair estimates",
+          "citations": [
+            {
+              "source": "vendor",
+              "section": "Estimates and invoices"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-003",
+              "acceptance": "Compare two repair quotes, request an owner decision above the spending limit, then change the approved scope and verify dispatch remains blocked until the new terms are approved."
+            }
+          ]
+        },
+        {
+          "id": "vendor-qualification",
+          "name": "Retain vendor compliance documents",
+          "citations": [
+            {
+              "source": "vendor",
+              "section": "Upload compliance documents"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-004",
+              "acceptance": "Select a plumber by area and insurance status, expire their coverage and attempt reassignment; verify qualification hold and a documented human exception rather than silent dispatch."
+            }
+          ]
+        },
+        {
+          "id": "repair-invoice",
+          "name": "Close work through its matched invoice",
+          "citations": [
+            {
+              "source": "vendor",
+              "section": "Needs Invoice, Under Review, Payment Pending and Payment Sent"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-009",
+              "acceptance": "Submit a completed repair invoice exceeding its quote, flag the unmatched line, approve a corrected invoice and trace work, payable, payment and owner statement without double entry."
+            },
+            {
+              "clause": "ACCT-008",
+              "acceptance": "Approve a vendor batch, change one bank destination and hold it, execute the unchanged items in the paying account’s ACCT-018 NACHA file and import an R01 return from the bank’s return file; show one payment per bill, a remittance notice per vendor and the reopened returned payable."
+            }
+          ]
+        },
+        {
+          "id": "inspections",
+          "name": "Inspect properties from a mobile device",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "Inspections"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-011",
+              "acceptance": "Inspect on a phone offline, sync photos, compare move-out damage to the entry record and reject an unsupported deduction while retaining the resident’s disputed finding."
+            }
+          ]
+        },
+        {
+          "id": "turnovers",
+          "name": "Manage unit turns",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "Unit Turn Board"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-013",
+              "acceptance": "Move out a resident, delay a repair dependent on inspection, revise the ready date and show cleaning/listing effects; complete checks and publish the true available date."
+            }
+          ]
+        },
+        {
+          "id": "report-exports",
+          "name": "Export owner financial reports",
+          "citations": [
+            {
+              "source": "owner",
+              "section": "Reports: Excel and CSV export"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-013",
+              "acceptance": "Record earned unpaid rent and an unpaid bill, compare cash and accrual P&L and balance sheet, and drill each difference to its original transaction."
+            },
+            {
+              "clause": "PORTAL-002",
+              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied."
+            }
+          ]
+        },
+        {
+          "id": "source-migration",
+          "name": "Capture source records and reconcile migration",
+          "citations": [
+            {
+              "source": "owner",
+              "section": "Download published statements and documents"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "MOVE-002",
+              "acceptance": "Use real redacted AppFolio exports and approved API capture where available; preview, import and compare rent roll, deposits, opening trial balance and document counts to the source, holding every unmapped record."
+            },
+            {
+              "clause": "MOVE-001",
+              "acceptance": "Load a multi-property source with a missing deposit, duplicate household, vendor without a W-9 and a commercial lease held as an exception (BOUND-004), preview without writes, reconcile counts and balances, resolve exceptions and approve the exact migration manifest."
+            },
+            {
+              "clause": "MOVE-010",
+              "acceptance": "Import an AppFolio vendor directory and year-to-date 1099 totals with a 30 June cutover, pay the same vendor in Terrace and produce one 1099 whose total equals pre-cutover plus post-cutover payments; show a migrated resident’s pre-cutover ledger lines in the resident ledger, on the eviction ledger export and on the deposit disposition statement, with the opening balance equal to the history’s closing balance."
+            }
+          ]
+        },
+        {
+          "id": "shadow-cutover",
+          "name": "Qualify shadow rent and payment cutover",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Existing scheduled auto payments"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "MOVE-008",
+              "acceptance": "Shadow a rent cycle against source statements, hold a difference, approve a corrected cutover and demonstrate a retained old autopay cannot create a second Terrace collection; show every mandate’s reauthorization state."
+            }
+          ]
+        },
+        {
+          "id": "resident-insurance",
+          "name": "Purchase resident insurance",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Sign up for renters insurance through FolioSpace"
+            }
+          ],
+          "replacements": [],
+          "gap": "Unsupported and intentionally unmapped: Terrace has no resident insurance purchase or policy placement replacement."
+        },
+        {
+          "id": "autonomous-leasing",
+          "name": "Autonomous prospect communication and follow-up",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Realm-X Leasing Performer"
+            }
+          ],
+          "replacements": [],
+          "gap": "Unsupported and intentionally unmapped: human prospect records do not replace autonomous lead response and nurturing."
+        },
+        {
+          "id": "late-fees",
+          "name": "Assess and waive late fees",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Automated Late Fees and Late Fee Waivers"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-006",
+              "acceptance": "Run a late-fee schedule across a weekend, record a timely pending payment that settles later and waive one fee; inspect charge basis, policy version and auditable waiver."
+            }
+          ]
+        },
+        {
+          "id": "holding-deposits",
+          "name": "Hold and refund applicant deposits",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Holding Deposits"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-003",
+              "acceptance": "Collect a deposit in installments, accrue reviewed interest and transfer ownership; inspect bank, beneficiary and tenant balances and receipts without recognizing rent revenue."
+            },
+            {
+              "clause": "ACCT-004",
+              "acceptance": "Prepare a move-out with damage and normal wear, approve only supported deductions, deliver the disposition and execute the approved refund; verify deadline, proof and remaining deposit liability."
+            }
+          ],
+          "gap": "Applicant holding-deposit escrow and refunds remain unqualified; a recorded liability is not settled escrow or refund execution."
+        },
+        {
+          "id": "loan-tracking",
+          "name": "Track loans",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Loan Tracking"
+            }
+          ],
+          "replacements": [],
+          "gap": "Unsupported and intentionally unmapped: Terrace has no loan tracking replacement."
+        },
+        {
+          "id": "commercial-cam",
+          "name": "Track and reconcile commercial common-area charges",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "CAM Tracking and Reconciliation"
+            }
+          ],
+          "replacements": [],
+          "gap": "Unsupported and intentionally unmapped: Terrace has no commercial common-area accounting replacement; the residential boundary grants no coverage."
+        },
+        {
+          "id": "autonomous-maintenance",
+          "name": "Autonomously triage and dispatch maintenance",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "Realm-X Maintenance Performer"
+            }
+          ],
+          "replacements": [],
+          "gap": "Unsupported and intentionally unmapped: manual work dispatch does not replace autonomous image analysis, emergency triage or vendor outsourcing."
+        }
+      ]
+    },
+    {
+      "id": "buildium",
+      "name": "Buildium",
+      "sources": [
+        {
+          "id": "marketing",
+          "title": "Buildium rental listing syndication",
+          "url": "https://www.buildium.com/features/rental-listing-syndication/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "leasing",
+          "title": "Buildium online leasing",
+          "url": "https://www.buildium.com/features/online-leasing/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "screening",
+          "title": "Buildium tenant background checks",
+          "url": "https://www.buildium.com/features/tenant-background-checks/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "payments",
+          "title": "Buildium online rent payments",
+          "url": "https://www.buildium.com/features/online-rent-payments/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "accounting",
+          "title": "Buildium property management accounting",
+          "url": "https://www.buildium.com/features/property-management-accounting/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "maintenance",
+          "title": "Buildium maintenance request management",
+          "url": "https://www.buildium.com/features/property-management-maintenance-software/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "resident",
+          "title": "Buildium resident site help center",
+          "url": "https://www.buildium.com/resident-site-help-center/resident-site-help-center/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "owner",
+          "title": "Buildium property owner portal",
+          "url": "https://www.buildium.com/features/property-owner-portal/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "tax",
+          "title": "Buildium 1099 e-Filing",
+          "url": "https://www.buildium.com/features/1099-efiling/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "features",
+          "title": "Buildium features",
+          "url": "https://www.buildium.com/features/",
+          "reviewed": "2026-11-04"
+        }
+      ],
+      "functions": [
+        {
+          "id": "vacancies",
+          "name": "Publish vacancies and property listings",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Property details, photos and vacancies"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-001",
+              "acceptance": "Publish two vacant units, submit an enquiry on mobile, lease one and confirm its vacancy is withdrawn while the other remains available with the approved price and fees."
+            }
+          ]
+        },
+        {
+          "id": "zillow",
+          "name": "Syndicate listings to Zillow",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Zillow Rental Network"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-002",
+              "acceptance": "Publish through the provider test boundary, correct a rejected fee field, change rent and withdraw the listing; show acknowledgments and the same external listing identity without duplicates."
+            }
+          ]
+        },
+        {
+          "id": "apartments",
+          "name": "Syndicate listings to Apartments.com",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Supported rental listing websites"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-003",
+              "acceptance": "Submit the same unit to Apartments.com, process a rejection and later success, update availability and remove it after lease execution; trace each provider result to the unit."
+            }
+          ]
+        },
+        {
+          "id": "zumper",
+          "name": "Syndicate listings to Zumper",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Supported rental listing websites"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-004",
+              "acceptance": "Enable each adapter in its supported environment, publish and withdraw a unit, receive an enquiry and demonstrate that an unentitled account cannot appear connected or published."
+            }
+          ]
+        },
+        {
+          "id": "other-syndication",
+          "name": "Syndicate to additional listing networks",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Apartment List, Dwellsy, RentPath and Rental Beast"
+            }
+          ],
+          "replacements": [],
+          "gap": "Unsupported and intentionally unmapped: the named additional networks have no Terrace adapters; the Zillow mapping does not cover them."
+        },
+        {
+          "id": "applications",
+          "name": "Take online applications and fees",
+          "citations": [
+            {
+              "source": "payments",
+              "section": "Online application and integrated accounting"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-007",
+              "acceptance": "Two co-applicants save and resume, upload income evidence and submit; manager requests one missing document and sees revisions and fee outcome without card data in Terrace."
+            }
+          ]
+        },
+        {
+          "id": "screening",
+          "name": "Order screening and review applicants",
+          "citations": [
+            {
+              "source": "screening",
+              "section": "TransUnion screening results and criteria"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-008",
+              "acceptance": "Submit a consented application to the provider sandbox, receive a delayed report and duplicate callback, deny an unauthorized report download and show provider errors without fabricating a screening result."
+            },
+            {
+              "clause": "LEASE-009",
+              "acceptance": "Review two applications, flag a disputed report, require a manager decision and send an explicitly approved adverse-action package with the correct provider reference and recorded delivery."
+            }
+          ]
+        },
+        {
+          "id": "templates",
+          "name": "Compose lease templates and addenda",
+          "citations": [
+            {
+              "source": "leasing",
+              "section": "Flexible document templates and autofill fields"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-010",
+              "acceptance": "Generate a lease with co-signers, pet addendum and local disclosure, detect a missing required input and approve a changed term while preserving the template version and redline."
+            }
+          ]
+        },
+        {
+          "id": "esign",
+          "name": "Execute leases with ordered signatures",
+          "citations": [
+            {
+              "source": "leasing",
+              "section": "Signer order, reminders and status updates"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-011",
+              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy."
+            }
+          ]
+        },
+        {
+          "id": "ach",
+          "name": "Collect rent by ACH or e-check",
+          "citations": [
+            {
+              "source": "payments",
+              "section": "ACH payments and e-checks"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-002",
+              "acceptance": "Pay a resident balance through ACH sandbox authorization, restart after provider submission and reconcile pending then settled callbacks without a second debit or exposing bank credentials."
+            }
+          ]
+        },
+        {
+          "id": "card",
+          "name": "Collect rent by card",
+          "citations": [
+            {
+              "source": "payments",
+              "section": "Credit and debit card payments"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-003",
+              "acceptance": "Pay a partial balance with a test card requiring authentication, inspect the disclosed fee, complete payment and confirm one resident receipt and matching provider reference."
+            }
+          ]
+        },
+        {
+          "id": "autopay",
+          "name": "Set up and cancel automatic payments",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Set up, edit and cancel autopay"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-004",
+              "acceptance": "Authorize capped balance autopay, change the bill above its cap, then cancel before the next run; verify the permitted debit, held exception, notice and canceled attempt."
+            }
+          ]
+        },
+        {
+          "id": "split",
+          "name": "Choose a payment amount",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Current balance or other amount"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-005",
+              "acceptance": "Two co-tenants pay concurrently while one ACH is pending; show allocation, remaining balance and permitted credit, and refuse a partial payment under a reviewed stage-specific block."
+            }
+          ]
+        },
+        {
+          "id": "late-fees",
+          "name": "Assess late fees under payment policy",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Automatic late fee assessment"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-006",
+              "acceptance": "Run a late-fee schedule across a weekend, record a timely pending payment that settles later and waive one fee; inspect charge basis, policy version and auditable waiver."
+            }
+          ]
+        },
+        {
+          "id": "cash",
+          "name": "Collect rent at retail cash locations",
+          "citations": [
+            {
+              "source": "payments",
+              "section": "Cash Payments"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-007",
+              "acceptance": "Generate a cash code, receive and replay its retail transaction, clear a check and return another; reconcile resident balances to settlement batches without treating a printed code as collected rent."
+            }
+          ]
+        },
+        {
+          "id": "resident-history",
+          "name": "Read resident balance and payment history",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Current balance and previous transactions"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-010",
+              "acceptance": "Generate a monthly statement, pay part of it, receive a delivered receipt, fail the statement email and inspect the resident portal’s matching balance and delivery task."
+            }
+          ]
+        },
+        {
+          "id": "ledger",
+          "name": "Maintain the financial transaction ledger",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Ledger and customizable chart of accounts"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-001",
+              "acceptance": "Post rent, deposit, vendor expense and owner contribution across two properties, attempt an unbalanced entry and inspect the trial balance and each subledger back to source."
+            }
+          ]
+        },
+        {
+          "id": "trust",
+          "name": "Keep trust accounting and beneficiary balances",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Trust accounting reports"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-002",
+              "acceptance": "Receive rent and deposits into distinct accounts, attempt an owner payout from deposit funds and an inter-owner transfer, and verify blocked execution and separately reconciled beneficiary balances."
+            }
+          ]
+        },
+        {
+          "id": "deposits",
+          "name": "Record and reconcile deposits",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Bank statements, checks and deposits"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-003",
+              "acceptance": "Collect a deposit in installments, accrue reviewed interest and transfer ownership; inspect bank, beneficiary and tenant balances and receipts without recognizing rent revenue."
+            }
+          ]
+        },
+        {
+          "id": "bank-reconciliation",
+          "name": "Reconcile bank statements",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Automatic reconciliations"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-006",
+              "acceptance": "Reconcile a month with batched rent, fee, outstanding check, a cleared owner ACH batch and missing deposit; resolve one exception and show the remaining difference prevents a balanced three-way sign-off."
+            }
+          ]
+        },
+        {
+          "id": "bills",
+          "name": "Record and approve property bills",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Record every bill and payment"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-007",
+              "acceptance": "Upload the same invoice twice, split an approved landscaping bill across properties, exceed an owner’s limit and inspect the held bill, approval route and resulting payable."
+            }
+          ]
+        },
+        {
+          "id": "vendor-payments",
+          "name": "Pay vendor bills",
+          "citations": [
+            {
+              "source": "payments",
+              "section": "Online payments for bills and fees"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-008",
+              "acceptance": "Approve a vendor batch, change one bank destination and hold it, execute the unchanged items in the paying account’s ACCT-018 NACHA file and import an R01 return from the bank’s return file; show one payment per bill, a remittance notice per vendor and the reopened returned payable."
+            }
+          ]
+        },
+        {
+          "id": "management-fees",
+          "name": "Calculate management fees",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Built-in company, owner and vendor calculators"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-009",
+              "acceptance": "Post rent and a lease renewal under a dated fee schedule, calculate fees/reserve, replay the run and inspect the owner statement with the exact agreement references."
+            }
+          ]
+        },
+        {
+          "id": "owner-payouts",
+          "name": "Distribute owner funds",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Owner payments and built-in calculators"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-010",
+              "acceptance": "Prepare a joint-owner distribution with a pending ACH receipt and unpaid repair, approve cleared funds only, execute it in the trust account’s ACCT-018 NACHA file and import an R01 return for one share from the bank’s return file; show corrected cash and one replacement requiring new approval."
+            }
+          ]
+        },
+        {
+          "id": "financial-reports",
+          "name": "Review financial statements",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Comprehensive reporting suite"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-013",
+              "acceptance": "Record earned unpaid rent and an unpaid bill, compare cash and accrual P&L and balance sheet, and drill each difference to its original transaction."
+            }
+          ]
+        },
+        {
+          "id": "tax",
+          "name": "Create and file owner and vendor 1099s",
+          "citations": [
+            {
+              "source": "tax",
+              "section": "1099-MISC and 1099-NEC filing"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-014",
+              "acceptance": "Prepare owner/vendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings."
+            }
+          ]
+        },
+        {
+          "id": "resident-portal",
+          "name": "Resident access, contacts and shared documents",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Account, lease information and documents"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PORTAL-001",
+              "acceptance": "Sign in as a resident with two leases, inspect an itemized balance, pay rent, download a receipt and update contact preferences; direct access to an unrelated household is denied."
+            }
+          ]
+        },
+        {
+          "id": "owner-portal",
+          "name": "Owner access to reports and documents",
+          "citations": [
+            {
+              "source": "owner",
+              "section": "Financial reports and secure documents"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PORTAL-002",
+              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied."
+            }
+          ]
+        },
+        {
+          "id": "owner-statements",
+          "name": "Publish complete owner statements",
+          "citations": [
+            {
+              "source": "owner",
+              "section": "Statements, contributions and draws"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-012",
+              "acceptance": "Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books/bank and download the source invoice from the owner portal."
+            }
+          ]
+        },
+        {
+          "id": "owner-contributions",
+          "name": "Collect owner contributions",
+          "citations": [
+            {
+              "source": "owner",
+              "section": "Contribution requests and online funds"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PORTAL-002",
+              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied."
+            }
+          ],
+          "gap": "Actual owner contribution collection, bank settlement and complete owner request outcomes remain unqualified."
+        },
+        {
+          "id": "requests",
+          "name": "Submit resident maintenance requests",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Create and track a maintenance request"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PORTAL-004",
+              "acceptance": "Submit a leaking-tap request with photo and access restrictions, add another household report and follow the tracking link through scheduled work and resident-confirmed resolution."
+            }
+          ]
+        },
+        {
+          "id": "inquiries",
+          "name": "Track resident questions and replies",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "General inquiry and request messages"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PORTAL-006",
+              "acceptance": "Assign a resident conversation, add a private note, broadcast a water shutoff to one building and inspect delivered/failed recipients; verify the resident cannot see the note or another building’s messages."
+            },
+            {
+              "clause": "PORTAL-007",
+              "acceptance": "Request insurance evidence and owner quote approval, expire one link and complete a replacement; show reminders stop only after validated completion and the exact signer and approver is recorded."
+            }
+          ]
+        },
+        {
+          "id": "work-progress",
+          "name": "Assign and track maintenance tasks",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "Task ownership, due dates and work orders"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-006",
+              "acceptance": "Dispatch an approved order, receive vendor acceptance and a parts hold, miss its appointment and reassign it; inspect notifications, state history and a still-open resident issue."
+            }
+          ]
+        },
+        {
+          "id": "work-calendar",
+          "name": "Coordinate maintenance calendars",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "Shared maintenance calendar"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-005",
+              "acceptance": "Book a repair, receive resident confirmation, cancel from the vendor portal and reschedule with a new permitted access window; notify both parties and preserve appointment history."
+            }
+          ]
+        },
+        {
+          "id": "time-labor",
+          "name": "Record maintenance time and labor",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "Time tracking"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-007",
+              "acceptance": "Lose connectivity during work, capture time and photos, reconnect with a conflicting scope change and reconcile the conflict before submitting complete evidence for review."
+            }
+          ]
+        },
+        {
+          "id": "work-invoice",
+          "name": "Close a repair through its invoice",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "First resident request to final invoice"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-009",
+              "acceptance": "Submit a completed repair invoice exceeding its quote, flag the unmatched line, approve a corrected invoice and trace work, payable, payment and owner statement without double entry."
+            }
+          ]
+        },
+        {
+          "id": "inspections",
+          "name": "Sync HappyCo property inspections",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "Property inspections powered by HappyCo"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-012",
+              "acceptance": "Bring a HappyCo inspection into the correct unit, replay it and update one finding, then create approved repair work with original media/provenance and a visible unmapped-unit exception."
+            }
+          ]
+        },
+        {
+          "id": "projects",
+          "name": "Manage unit turns and recurring repairs",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "Projects and project templates"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-013",
+              "acceptance": "Move out a resident, delay a repair dependent on inspection, revise the ready date and show cleaning/listing effects; complete checks and publish the true available date."
+            },
+            {
+              "clause": "WORK-010",
+              "acceptance": "Schedule annual HVAC service and quarterly safety work, replay a scheduler run, defer one occurrence and replace an asset; inspect exactly one order per due occurrence and an explicit overdue exception."
+            }
+          ]
+        },
+        {
+          "id": "migration",
+          "name": "Export records and reconcile migration",
+          "citations": [
+            {
+              "source": "features",
+              "section": "Onboarding handles migration"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "MOVE-003",
+              "acceptance": "Import real redacted Buildium files plus an authorized Open API capture, detect omitted ledger financials, reconcile beneficiary/deposit totals and migrate active work and files before permitting cutover."
+            },
+            {
+              "clause": "MOVE-001",
+              "acceptance": "Load a multi-property source with a missing deposit, duplicate household, vendor without a W-9 and a commercial lease held as an exception (BOUND-004), preview without writes, reconcile counts and balances, resolve exceptions and approve the exact migration manifest."
+            },
+            {
+              "clause": "MOVE-010",
+              "acceptance": "Import an AppFolio vendor directory and year-to-date 1099 totals with a 30 June cutover, pay the same vendor in Terrace and produce one 1099 whose total equals pre-cutover plus post-cutover payments; show a migrated resident’s pre-cutover ledger lines in the resident ledger, on the eviction ledger export and on the deposit disposition statement, with the opening balance equal to the history’s closing balance."
+            }
+          ]
+        },
+        {
+          "id": "cutover",
+          "name": "Qualify scheduled-payment cutover",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Edit or cancel automatic and scheduled payments"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "MOVE-008",
+              "acceptance": "Shadow a rent cycle against source statements, hold a difference, approve a corrected cutover and demonstrate a retained old autopay cannot create a second Terrace collection; show every mandate’s reauthorization state."
+            }
+          ]
+        },
+        {
+          "id": "hoa-violations",
+          "name": "Track community association violations",
+          "citations": [
+            {
+              "source": "resident",
+              "section": "Violations and report as resolved"
+            }
+          ],
+          "replacements": [],
+          "gap": "Unsupported and intentionally unmapped: Terrace is residential rental software and provides no association violation workflow. BOUND-004 states a boundary, not replacement coverage."
+        },
+        {
+          "id": "maintenance-agent",
+          "name": "Autonomously monitor maintenance progress",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "Lumina AI Maintenance Agent"
+            }
+          ],
+          "replacements": [],
+          "gap": "Unsupported and intentionally unmapped: manual work tracking does not replace the incumbent autonomous maintenance agent."
+        }
+      ]
+    },
+    {
+      "id": "rent-manager",
+      "name": "Rent Manager",
+      "sources": [
+        {
+          "id": "marketing",
+          "title": "Rent Manager marketing and leasing",
+          "url": "https://www.rentmanager.com/marketing-leasing/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "accounting",
+          "title": "Rent Manager accounting",
+          "url": "https://www.rentmanager.com/accounting/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "payments",
+          "title": "Rent Manager payments",
+          "url": "https://www.rentmanager.com/payments/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "maintenance",
+          "title": "Rent Manager maintenance",
+          "url": "https://www.rentmanager.com/maintenance/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "reporting",
+          "title": "Rent Manager reporting",
+          "url": "https://www.rentmanager.com/reporting/",
+          "reviewed": "2026-11-04"
+        },
+        {
+          "id": "owner",
+          "title": "Rent Manager Owner Web Access",
+          "url": "https://www.rentmanager.com/webinars/owner-web-access/",
+          "reviewed": "2026-11-04"
+        }
+      ],
+      "functions": [
+        {
+          "id": "vacancies",
+          "name": "Publish property and unit vacancies",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Website and ILS advertising"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-001",
+              "acceptance": "Publish two vacant units, submit an enquiry on mobile, lease one and confirm its vacancy is withdrawn while the other remains available with the approved price and fees."
+            }
+          ]
+        },
+        {
+          "id": "syndication",
+          "name": "Syndicate to listing services",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Industry-leading ILS sites"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-002",
+              "acceptance": "Publish through the provider test boundary, correct a rejected fee field, change rent and withdraw the listing; show acknowledgments and the same external listing identity without duplicates."
+            },
+            {
+              "clause": "LEASE-003",
+              "acceptance": "Submit the same unit to Apartments.com, process a rejection and later success, update availability and remove it after lease execution; trace each provider result to the unit."
+            },
+            {
+              "clause": "LEASE-004",
+              "acceptance": "Enable each adapter in its supported environment, publish and withdraw a unit, receive an enquiry and demonstrate that an unentitled account cannot appear connected or published."
+            }
+          ],
+          "gap": "Exact channel and account entitlements require independent qualification; a generic ILS claim establishes none."
+        },
+        {
+          "id": "prospects",
+          "name": "Track prospect guest cards",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Prospect Manager"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-005",
+              "acceptance": "Receive a listing enquiry and duplicate email, review the match, assign a leasing person, respond and follow that prospect through showing and application with source attribution intact."
+            }
+          ]
+        },
+        {
+          "id": "applications",
+          "name": "Take online rental applications",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Online applications"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-007",
+              "acceptance": "Two co-applicants save and resume, upload income evidence and submit; manager requests one missing document and sees revisions and fee outcome without card data in Terrace."
+            }
+          ]
+        },
+        {
+          "id": "screening",
+          "name": "Screen residents",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Resident Screening"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-008",
+              "acceptance": "Submit a consented application to the provider sandbox, receive a delayed report and duplicate callback, deny an unauthorized report download and show provider errors without fabricating a screening result."
+            },
+            {
+              "clause": "LEASE-009",
+              "acceptance": "Review two applications, flag a disputed report, require a manager decision and send an explicitly approved adverse-action package with the correct provider reference and recorded delivery."
+            }
+          ]
+        },
+        {
+          "id": "templates",
+          "name": "Prepare lease documents",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Signable Docs"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-010",
+              "acceptance": "Generate a lease with co-signers, pet addendum and local disclosure, detect a missing required input and approve a changed term while preserving the template version and redline."
+            }
+          ]
+        },
+        {
+          "id": "esign",
+          "name": "Execute electronic leases",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Signable Docs and online leasing"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-011",
+              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy."
+            }
+          ]
+        },
+        {
+          "id": "renewals",
+          "name": "Renew leases online",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Online Leasing and Renewals"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "LEASE-012",
+              "acceptance": "Run a renewal window with accepted, declined and unanswered offers; trace approved delivery and executed future terms, and verify the unresolved household remains in the follow-up queue."
+            },
+            {
+              "clause": "LEASE-011",
+              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy."
+            }
+          ]
+        },
+        {
+          "id": "recurring-charges",
+          "name": "Post recurring rent and other charges",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Accounts Receivable and Charge Types"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-001",
+              "acceptance": "Preview and post rent for leases with a concession and mid-month move-in, replay the run and amend future rent; verify each period posts once and posted history is preserved."
+            }
+          ]
+        },
+        {
+          "id": "ach",
+          "name": "Collect resident rent by bank transfer",
+          "citations": [
+            {
+              "source": "payments",
+              "section": "ePay"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-002",
+              "acceptance": "Pay a resident balance through ACH sandbox authorization, restart after provider submission and reconcile pending then settled callbacks without a second debit or exposing bank credentials."
+            }
+          ]
+        },
+        {
+          "id": "card",
+          "name": "Collect resident rent by card",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Zego ePay"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-003",
+              "acceptance": "Pay a partial balance with a test card requiring authentication, inspect the disclosed fee, complete payment and confirm one resident receipt and matching provider reference."
+            }
+          ]
+        },
+        {
+          "id": "recurring-payments",
+          "name": "Collect recurring online payments",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "One-time, batch and recurring payments"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-004",
+              "acceptance": "Authorize capped balance autopay, change the bill above its cap, then cancel before the next run; verify the permitted debit, held exception, notice and canceled attempt."
+            }
+          ]
+        },
+        {
+          "id": "late-fees",
+          "name": "Charge late fees",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Charge Types"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-006",
+              "acceptance": "Run a late-fee schedule across a weekend, record a timely pending payment that settles later and waive one fee; inspect charge basis, policy version and auditable waiver."
+            }
+          ]
+        },
+        {
+          "id": "retail-cash",
+          "name": "Collect CashPay retail rent",
+          "citations": [
+            {
+              "source": "payments",
+              "section": "CashPay"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-007",
+              "acceptance": "Generate a cash code, receive and replay its retail transaction, clear a check and return another; reconcile resident balances to settlement batches without treating a printed code as collected rent."
+            }
+          ]
+        },
+        {
+          "id": "cash-checks",
+          "name": "Process checks and record offline receipts",
+          "citations": [
+            {
+              "source": "payments",
+              "section": "Check scanning and Lockbox"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-007",
+              "acceptance": "Generate a cash code, receive and replay its retail transaction, clear a check and return another; reconcile resident balances to settlement batches without treating a printed code as collected rent."
+            }
+          ],
+          "gap": "Check scanning and outsourced lockbox processing are not replaced by recording an external receipt."
+        },
+        {
+          "id": "delinquency",
+          "name": "Send delinquency notices and follow up",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Accounts Receivable notice schedules"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PAY-011",
+              "acceptance": "Run a sequence for three late households, receive a reply and payment plan, settle one balance and break another promise; verify stopped messages, next actions and human notice approval, and serve the approved pay-or-quit notice with recorded posting evidence and its expiry date computed from service."
+            },
+            {
+              "clause": "PORTAL-009",
+              "acceptance": "Approve a Florida deposit-claim notice and send it certified through the Lob test boundary, or record a certified tracking number for office mail; show the 30-day deadline met against the mailing date and a late mailing flagged as missed; serve a pay-or-quit notice by posting with recorded photo and server; return one mailed letter as undeliverable and see a follow-up."
+            }
+          ]
+        },
+        {
+          "id": "ledger",
+          "name": "Maintain double-entry property accounting",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Complete Double-Entry Accounting System"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-001",
+              "acceptance": "Post rent, deposit, vendor expense and owner contribution across two properties, attempt an unbalanced entry and inspect the trial balance and each subledger back to source."
+            }
+          ]
+        },
+        {
+          "id": "bank-deposits",
+          "name": "Allocate receipts to property bank accounts",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Bank Deposits"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-002",
+              "acceptance": "Receive rent and deposits into distinct accounts, attempt an owner payout from deposit funds and an inter-owner transfer, and verify blocked execution and separately reconciled beneficiary balances."
+            }
+          ]
+        },
+        {
+          "id": "bills",
+          "name": "Record and approve bills",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Accounts Payable and Bills"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-007",
+              "acceptance": "Upload the same invoice twice, split an approved landscaping bill across properties, exceed an owner’s limit and inspect the held bill, approval route and resulting payable."
+            }
+          ]
+        },
+        {
+          "id": "vendor-payments",
+          "name": "Execute vendor payments",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "AvidPay and accounts payable"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-008",
+              "acceptance": "Approve a vendor batch, change one bank destination and hold it, execute the unchanged items in the paying account’s ACCT-018 NACHA file and import an R01 return from the bank’s return file; show one payment per bill, a remittance notice per vendor and the reopened returned payable."
+            }
+          ]
+        },
+        {
+          "id": "owner-payouts",
+          "name": "Disburse owner funds",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Owner contributions and distributions"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-010",
+              "acceptance": "Prepare a joint-owner distribution with a pending ACH receipt and unpaid repair, approve cleared funds only, execute it in the trust account’s ACCT-018 NACHA file and import an R01 return for one share from the bank’s return file; show corrected cash and one replacement requiring new approval."
+            }
+          ]
+        },
+        {
+          "id": "reconciliation",
+          "name": "Connect and reconcile bank transactions",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Electronic Reconciliations"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-005",
+              "acceptance": "Connect two bank accounts through the provider boundary, import duplicate and pending-to-posted lines, expire consent and reconnect; verify no duplicate bank transaction and a visible freshness gap."
+            },
+            {
+              "clause": "ACCT-006",
+              "acceptance": "Reconcile a month with batched rent, fee, outstanding check, a cleared owner ACH batch and missing deposit; resolve one exception and show the remaining difference prevents a balanced three-way sign-off."
+            }
+          ]
+        },
+        {
+          "id": "financial-reports",
+          "name": "Produce cash and accrual financial reports",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Balance Sheet, General Ledger and Profit and Loss"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-013",
+              "acceptance": "Record earned unpaid rent and an unpaid bill, compare cash and accrual P&L and balance sheet, and drill each difference to its original transaction."
+            }
+          ]
+        },
+        {
+          "id": "tax",
+          "name": "Prepare and file vendor and owner 1099s",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Tax Tools"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-014",
+              "acceptance": "Prepare owner/vendor forms from reconciled payments, correct an invalid TIN, approve a Nelco submission and process accepted/rejected/corrected outcomes without duplicate filings."
+            }
+          ]
+        },
+        {
+          "id": "trust-checks",
+          "name": "Print and track checks",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Check Management"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-017",
+              "acceptance": "Print a deposit-refund check from the deposit bank account and a vendor check batch from the operating trust account, void and reissue one check with new approval, refuse a duplicate check number and export positive-pay for the batch; clear one check against the bank feed and leave one outstanding past its stale date with a follow-up."
+            }
+          ]
+        },
+        {
+          "id": "utilities",
+          "name": "Meter and bill utility consumption",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Metered Utilities"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-016",
+              "acceptance": "Allocate one water invoice by a reviewed occupancy formula, post parking and taxable ancillary charges and verify source-linked tenant allocations equal the approved recoverable total."
+            }
+          ]
+        },
+        {
+          "id": "resident-portal",
+          "name": "Resident payments, leases and requests",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Prospect and Tenant Online Portal"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PORTAL-001",
+              "acceptance": "Sign in as a resident with two leases, inspect an itemized balance, pay rent, download a receipt and update contact preferences; direct access to an unrelated household is denied."
+            },
+            {
+              "clause": "PAY-002",
+              "acceptance": "Pay a resident balance through ACH sandbox authorization, restart after provider submission and reconcile pending then settled callbacks without a second debit or exposing bank credentials."
+            },
+            {
+              "clause": "PAY-003",
+              "acceptance": "Pay a partial balance with a test card requiring authentication, inspect the disclosed fee, complete payment and confirm one resident receipt and matching provider reference."
+            },
+            {
+              "clause": "LEASE-011",
+              "acceptance": "Send a multi-signer lease, process one decline and a replacement envelope, complete all signatures, replay its callback and attach exactly one executed PDF/certificate to the activated tenancy."
+            }
+          ]
+        },
+        {
+          "id": "owner-portal",
+          "name": "Owner account and property access",
+          "citations": [
+            {
+              "source": "owner",
+              "section": "Owner Web Access content and user accounts"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PORTAL-002",
+              "acceptance": "Joint owners inspect different ownership periods, approve an over-limit repair, contribute funds and download a statement/invoice; access another owner’s report and screening file is denied."
+            }
+          ]
+        },
+        {
+          "id": "owner-statements",
+          "name": "Provide owner investment statements",
+          "citations": [
+            {
+              "source": "owner",
+              "section": "Property and investment-related information"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-012",
+              "acceptance": "Publish a monthly owner statement with rent, a paid bill and distribution, reconcile its closing cash to books/bank and download the source invoice from the owner portal."
+            }
+          ]
+        },
+        {
+          "id": "requests",
+          "name": "Receive resident repair requests",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Tenant Web Access maintenance requests"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "PORTAL-004",
+              "acceptance": "Submit a leaking-tap request with photo and access restrictions, add another household report and follow the tracking link through scheduled work and resident-confirmed resolution."
+            }
+          ]
+        },
+        {
+          "id": "work-tracking",
+          "name": "Assign and track service issues",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "Service Issues and statuses"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-006",
+              "acceptance": "Dispatch an approved order, receive vendor acceptance and a parts hold, miss its appointment and reassign it; inspect notifications, state history and a still-open resident issue."
+            }
+          ]
+        },
+        {
+          "id": "appointments",
+          "name": "Schedule technicians and appointments",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "Maintenance Scheduling"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-005",
+              "acceptance": "Book a repair, receive resident confirmation, cancel from the vendor portal and reschedule with a new permitted access window; notify both parties and preserve appointment history."
+            }
+          ]
+        },
+        {
+          "id": "repair-invoices",
+          "name": "Bill completed work to owners or tenants",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "Work Orders and Integrated Billing"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-009",
+              "acceptance": "Submit a completed repair invoice exceeding its quote, flag the unmatched line, approve a corrected invoice and trace work, payable, payment and owner statement without double entry."
+            },
+            {
+              "clause": "WORK-014",
+              "acceptance": "Consume a stocked part on a repair, cross a budget limit, propose a resident chargeback and approve one allocation; reconcile stock, payable, receivable and owner cost."
+            },
+            {
+              "clause": "WORK-015",
+              "acceptance": "No matching acceptance is defined in CONTRACT.md."
+            }
+          ]
+        },
+        {
+          "id": "inspections",
+          "name": "Capture mobile inspection evidence",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "rmAppSuite Pro inspections"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-011",
+              "acceptance": "Inspect on a phone offline, sync photos, compare move-out damage to the entry record and reject an unsupported deduction while retaining the resident’s disputed finding."
+            }
+          ]
+        },
+        {
+          "id": "recurring-work",
+          "name": "Schedule recurring maintenance",
+          "citations": [
+            {
+              "source": "maintenance",
+              "section": "Memorized Service Issues"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-010",
+              "acceptance": "Schedule annual HVAC service and quarterly safety work, replay a scheduler run, defer one occurrence and replace an asset; inspect exactly one order per due occurrence and an explicit overdue exception."
+            }
+          ]
+        },
+        {
+          "id": "inventory",
+          "name": "Track purchases, inventory and budgets",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Budgeting and Purchase Orders"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "WORK-014",
+              "acceptance": "Consume a stocked part on a repair, cross a budget limit, propose a resident chargeback and approve one allocation; reconcile stock, payable, receivable and owner cost."
+            }
+          ],
+          "gap": "Purchase-order creation and vendor reply workflows are not replaced by stock and budget accounting."
+        },
+        {
+          "id": "rent-roll",
+          "name": "Read rent roll and occupancy reports",
+          "citations": [
+            {
+              "source": "reporting",
+              "section": "Built-In Reports"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "REPORT-001",
+              "acceptance": "Run an as-of rent roll before and after a scheduled renewal and move-in, reconcile occupied/vacant unit counts and effective rents and download the same filtered data."
+            }
+          ]
+        },
+        {
+          "id": "delinquency-report",
+          "name": "Read aged receivables and delinquency",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Financial Reporting"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "REPORT-002",
+              "acceptance": "Filter delinquency to one owner, include a returned ACH, an active plan and a voucher lease with unpaid HAP, reconcile aging to resident balances and show follow-up owner and next permitted action for each overdue household."
+            }
+          ]
+        },
+        {
+          "id": "custom-reports",
+          "name": "Build custom property reports",
+          "citations": [
+            {
+              "source": "reporting",
+              "section": "Report Writer and Custom Reports"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "REPORT-005",
+              "acceptance": "Add a unit inspection field, use it in a saved report and document template, hide a sensitive owner field from leasing staff and verify their export/merge cannot reveal it."
+            }
+          ]
+        },
+        {
+          "id": "migration",
+          "name": "Export and reconcile source reports",
+          "citations": [
+            {
+              "source": "reporting",
+              "section": "Report export formats"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "MOVE-004",
+              "acceptance": "Import real redacted Excel reports and entitled API data, map units/owners/leases/work orders, reconcile deposits and receivable/payable openings and identify missing original documents before approval."
+            },
+            {
+              "clause": "MOVE-001",
+              "acceptance": "Load a multi-property source with a missing deposit, duplicate household, vendor without a W-9 and a commercial lease held as an exception (BOUND-004), preview without writes, reconcile counts and balances, resolve exceptions and approve the exact migration manifest."
+            },
+            {
+              "clause": "MOVE-010",
+              "acceptance": "Import an AppFolio vendor directory and year-to-date 1099 totals with a 30 June cutover, pay the same vendor in Terrace and produce one 1099 whose total equals pre-cutover plus post-cutover payments; show a migrated resident’s pre-cutover ledger lines in the resident ledger, on the eviction ledger export and on the deposit disposition statement, with the opening balance equal to the history’s closing balance."
+            }
+          ]
+        },
+        {
+          "id": "cutover",
+          "name": "Qualify recurring collection cutover",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Recurring integrated receivables"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "MOVE-008",
+              "acceptance": "Shadow a rent cycle against source statements, hold a difference, approve a corrected cutover and demonstrate a retained old autopay cannot create a second Terrace collection; show every mandate’s reauthorization state."
+            }
+          ]
+        },
+        {
+          "id": "loans",
+          "name": "Manage owner-financed loans",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Loan Manager"
+            }
+          ],
+          "replacements": [],
+          "gap": "Unsupported and intentionally unmapped: Terrace has no owner-financed loan amortization, payoff or prequalification replacement."
+        },
+        {
+          "id": "commercial-cam",
+          "name": "Reconcile commercial common-area charges",
+          "citations": [
+            {
+              "source": "accounting",
+              "section": "Commercial Module"
+            }
+          ],
+          "replacements": [],
+          "gap": "Unsupported and intentionally unmapped: commercial leases and common-area reconciliation remain outside Terrace. A DONE residential-only boundary is not coverage."
+        },
+        {
+          "id": "birdseye",
+          "name": "Explore an aerial property map",
+          "citations": [
+            {
+              "source": "marketing",
+              "section": "Bird’s Eye View"
+            }
+          ],
+          "replacements": [],
+          "gap": "Unsupported and intentionally unmapped: Terrace has no aerial interactive property-map replacement."
+        },
+        {
+          "id": "security-deposits",
+          "name": "Report held security deposits",
+          "citations": [
+            {
+              "source": "reporting",
+              "section": "Summary Rent Roll held security deposits"
+            }
+          ],
+          "replacements": [
+            {
+              "clause": "ACCT-003",
+              "acceptance": "Collect a deposit in installments, accrue reviewed interest and transfer ownership; inspect bank, beneficiary and tenant balances and receipts without recognizing rent revenue."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,8 +1,9 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises'
 import {parseContract} from '../src/base/seed-contract.mjs'
+import {renderSwitchChecklists} from './switch-checklists.mjs'
 
 // Preserve the legacy acceptance document while migrating one clause projection at a time.
-const ids=['LEASE-009','LEASE-007','MOVE-001','MOVE-010','PORTAL-001','OPS-004','BOUND-002','SAFE-003','SAFE-006','PORTAL-009','MOVE-008','PORTAL-008'],mode=process.argv[2]
+const ids=['LEASE-009','LEASE-007','MOVE-001','MOVE-010','PORTAL-001','OPS-004','BOUND-002','SAFE-003','SAFE-006','PORTAL-009','MOVE-008','PORTAL-008','MOVE-011'],mode=process.argv[2]
 if(!['write','check'].includes(mode))throw Error('Use contract-docs.mjs write or check')
 let source=await readFile('CONTRACT.md','utf8')
 const original=source
@@ -56,7 +57,8 @@ acceptance=acceptance.replace(/raw clause statuses agree id for id in both docum
 const claimStart=source.indexOf('## Homepage claims'),claimEnd=source.indexOf('\n## ',claimStart+1)
 if(claimStart<0)throw Error('Homepage claims source missing')
 const claims='# Terrace capability claims\n\nGenerated from CONTRACT.md. Edit its claim mapping and Status rows, then run `node scripts/contract-docs.mjs write`.\n\n'+source.slice(claimStart,claimEnd<0?undefined:claimEnd).split('\n').filter(line=>line.startsWith('|')).join('\n')+'\n'
-const outputs=[['ACCEPTANCE.md',acceptance],['docs/CLAIMS.md',claims]]
+const checklist=renderSwitchChecklists(JSON.parse(await readFile('docs/switch-checklists.json','utf8')),source)
+const outputs=[['docs/switch-checklists.md',checklist],['ACCEPTANCE.md',acceptance],['docs/CLAIMS.md',claims]]
 for(const[path,bytes]of outputs){
  if(mode==='write'){await mkdir('docs',{recursive:true});await writeFile(path,bytes)}
  else{let current;try{current=await readFile(path,'utf8')}catch{};if(current!==bytes)throw Error('Stale contract projection: '+path)}

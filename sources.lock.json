@@ -133,7 +133,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "63bbabf38ff65643c961f6c2e62f78fb7586bea9bc3e3717e9ae3044ca5bf01b",
+      "sha256": "6b7170c62752aea9e7543e981fb5e300d74d564424f2c548a8d04605d6876148",
       "executable": false
     },
     "DEMO.md": {
@@ -193,7 +193,7 @@
       "executable": false
     },
     "docs/index.md": {
-      "sha256": "a89c2b2d9adf1363c3984d3a03427c62920a6b22ad862e53c5befa36183c38cc",
+      "sha256": "38506e03fb95393e6f24f1e220ed65334b50f7dee313fbc82a9efebfd66d4c19",
       "executable": false
     },
     "docs/inspections-and-maintenance.md": {
@@ -230,6 +230,14 @@
     },
     "docs/state-rule-packs.md": {
       "sha256": "f5f92bdf98ac895623a3111fac898924c3bc6e200aadeaece3635377ae02b028",
+      "executable": false
+    },
+    "docs/switch-checklists.json": {
+      "sha256": "f5f91c9bd100af3552493f57b911f9eab591bec37a8f4f3193695724ecf1440a",
+      "executable": false
+    },
+    "docs/switch-checklists.md": {
+      "sha256": "9e93e89eb9ab7c3be88c14ac734c593e0488b2d143872ef0f54ad8c1b036535e",
       "executable": false
     },
     "docs/tenancies.md": {
@@ -905,7 +913,7 @@
       "executable": false
     },
     "public/site/docs.css": {
-      "sha256": "afcec06233f41bf1a36f1e841b87a48871737578907a090c8c8f1a1537ca7fb6",
+      "sha256": "04064f49f17d75b77ba3b309b09d4e7fedf53030e6821f01f781aec350b81510",
       "executable": false
     },
     "public/site/hero-1152.avif": {
@@ -1033,7 +1041,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "642c5c220ff4e64adcdf80ccc38ceeda0a9016657bff655ff82d8a58f61eb88d",
+      "sha256": "920d501e9e4682e4167dc4f761b7034f13336995d83cd982d936ff8f2e2aa050",
       "executable": false
     },
     "rer-project.json": {
@@ -1053,7 +1061,7 @@
       "executable": false
     },
     "scripts/contract-docs.mjs": {
-      "sha256": "73446a83e3f6c1af18618d833dfba32ecbbc6a9712e826d6c3620f552b741949",
+      "sha256": "dcb5e42f8af1e0546cc911b5a62cbfb6265414e6a04612bf44cbbf25db3ff8e6",
       "executable": false
     },
     "scripts/delivery/base/artifact.mjs": {
@@ -1246,6 +1254,10 @@
     },
     "scripts/operations-config.mjs": {
       "sha256": "decbd8619e40c741708b49639d54282bd19edc4581a782b240d96a423ad47f01",
+      "executable": false
+    },
+    "scripts/switch-checklists.mjs": {
+      "sha256": "b3cf1257a539366b6559ca57231121c00125810bc33f3fb94b1151aadae859ef",
       "executable": false
     },
     "scripts/twilio-sandbox.mjs": {
@@ -3777,7 +3789,7 @@
       "executable": false
     },
     "src/site/docs.ts": {
-      "sha256": "0ccb139bf39e58a6a8cb6ebf9eaa19a8b4240cbe5d8bfbfc17077146ce7cba29",
+      "sha256": "d5b9ce85506910a1443278f215b1e87ae7cc2acc72406e4e744bfb98a88d39d3",
       "executable": false
     },
     "src/site/document.ts": {
@@ -4909,7 +4921,7 @@
       "executable": false
     },
     "test-budget.json": {
-      "sha256": "1eacff5bef2afd8bdd88d9dcc1f91c3ba020bde28b2a32ec641ad94b2495afdf",
+      "sha256": "2cb832ee7359f0669a1888544f5e6040332580a08c5be8a37316127776172f5d",
       "executable": false
     },
     "tests/accessibility-browser.mjs": {
@@ -4969,7 +4981,7 @@
       "executable": false
     },
     "tests/app-journey.mjs": {
-      "sha256": "b2b32ccc4b5e547bf1ddb6605beb09c40d6538146012ccf0e537049c7b2dbe3b",
+      "sha256": "c4dda52071892800b4c72399c9f197be78fb1be3e90d89ed1d581a7bb1f91ecb",
       "executable": false
     },
     "tests/application-fees.mjs": {
@@ -5373,11 +5385,15 @@
       "executable": false
     },
     "tests/site/assert-run-site.mjs": {
-      "sha256": "bfc02f7075c3605d62f99c05b6a9caa96f7321f6947efa46455f98af729001e7",
+      "sha256": "31290cc193fefe49efdb56b5c510e893e060747ec39e4835414980d94a02e78f",
       "executable": false
     },
     "tests/site/provider-costs.mjs": {
       "sha256": "c4a1979580160d0eaed6a00a867b9832d7ab97ab6b0678c9881b172f4047d40f",
+      "executable": false
+    },
+    "tests/site/switch-checklists.mjs": {
+      "sha256": "cf2852a8458964263eed77e9e497082521f7fdf7d123b5d398dbff1f1809f433",
       "executable": false
     },
     "tests/statements-browser.mjs": {
