@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import {readFile} from 'node:fs/promises'
-import {createHmac} from 'node:crypto'
+import {createHmac,generateKeyPairSync,sign} from 'node:crypto'
 import {installation,tenancyInput} from './api/harness.mjs'
 const twilio={accountSid:'synthetic-terrace-220',authToken:'synthetic-terrace-221',from:'+15005550006',mode:'test'}
 export async function journey({assets=false,inspect}={}){
@@ -126,5 +126,88 @@ export async function journey({assets=false,inspect}={}){
   await inspect?.({phase:'complete',h,t,r:null})
   }finally{await paging.close()}
  }finally{await h.close()}
+ await repairMailJourney({assets,inspect})
+}
+
+
+// Explicitly synthetic signatures exercise the real Worker and D1 intake only;
+// they establish no live provider delivery or recipient mailbox identity.
+export async function repairMailJourney({assets=false,inspect}={}){
+ const clock='2026-10-26T18:00:00.000Z',secret=Buffer.from('synthetic-terrace-310-signed-fixture'),key=['wh','sec_'].join('')+secret.toString('base64')
+ const h=await installation({assets,now:clock,asyncDatabase:true,repairMailWebhookKey:key})
+ const path='/api/repair-mail/events',data=async()=>(await(await h.request('/api/messages?tenancyId='+t.id)).json()),body='The approved kitchen repair is scheduled. Please contact staff with questions.'
+ let t,eventClock=clock
+ const event=(m,type,id,seconds=0,to=m.mail_recipient)=>({type,created_at:new Date(Date.parse(clock)+seconds*1000).toISOString(),data:{email_id:m.provider_id,to:[to]}})
+ const signed=(payload,id,valid=true)=>{const timestamp=String(Date.parse(eventClock)/1000),raw=JSON.stringify(payload);return{method:'POST',as:'',body:payload,headers:{'svix-id':id,'svix-timestamp':timestamp,'svix-signature':'v1,'+(valid?createHmac('sha256',secret).update(id+'.'+timestamp+'.'+raw).digest('base64'):Buffer.alloc(32).toString('base64'))}}}
+ const callback=(payload,id,valid=true)=>h.request(path,signed(payload,id,valid))
+ const receipts=()=>h.db.prepare("SELECT event_id FROM rer_mail_event_receipts WHERE event_namespace='terrace-repair-messages'").all().then(r=>r.results)
+ const sends=()=>h.messages.filter(m=>m.subject==='Terrace repair update').length
+ try{
+  const f=await h.command('portfolio.add',{name:'Mail evidence portfolio'}),p=await h.command('property.add',{portfolioId:f.id,name:'Mail evidence house',address:'3 Synthetic Terrace Road',kind:'duplex',timeZone:'America/Los_Angeles'}),u=await h.command('unit.add',{propertyId:p.id,identifier:'A',bedrooms:'1',bathrooms:'1'})
+  t=await h.command('tenancy.create',{...tenancyInput,unitId:u.id})
+  await h.stepUp()
+  const contact=await h.command('message.contact',{tenancyId:t.id,kind:'resident',subjectId:t.id,timeZone:'America/Los_Angeles',emailConsent:'granted',smsConsent:'unknown',reference:'synthetic-terrace-311 resident explicitly requested repair email'})
+  const send=async()=>{const m=await h.command('message.prepare',{contactId:contact.id,channel:'email',body}),a=await h.command('message.approve',{messageId:m.id,version:m.version,consent:'APPROVE EXACT MESSAGE'});await h.command('message.send',{messageId:a.id,version:a.version});return(await data()).messages.find(x=>x.id===m.id)}
+  const m=await send();assert.equal(m.mail_provider,'resend');assert.equal(m.mail_recipient,tenancyInput.tenantEmail);assert.equal(m.state,'accepted')
+  const unchanged=await h.state(t.id),count=sends(),accepted=event(m,'email.sent','synthetic-terrace-312')
+  assert.equal((await callback(accepted,'synthetic-terrace-312',false)).status,400)
+  assert.equal((await callback(event(m,'email.delivered',null,0,tenancyInput.ownerEmail),'synthetic-terrace-313')).status,400)
+  assert.equal((await callback({...accepted,data:{...accepted.data,email_id:m.provider_id+'.foreign'}},'synthetic-terrace-314')).status,400,'provider ID suffixes cannot match a stored ID')
+  assert.equal((await receipts()).length,0)
+  assert.equal((await callback(accepted,'synthetic-terrace-312')).status,200)
+  assert.equal((await callback(event(m,'email.delivery_delayed',null,1),'synthetic-terrace-315')).status,200);assert.equal((await data()).messages[0].state,'deferred')
+  const delivered=event(m,'email.delivered',null,2),parallel=await h.atOnce([1,2].map(()=>[path,signed(delivered,'synthetic-terrace-316')]))
+  assert.deepEqual(parallel.map(r=>r.status),[200,200]);assert.equal((await data()).events.filter(x=>x.id==='mail:'+m.id+':synthetic-terrace-316').length,1)
+  await callback(event(m,'email.delivery_delayed',null,3),'synthetic-terrace-317');assert.equal((await data()).messages[0].state,'delivered','late progress cannot regress terminal delivery')
+  await inspect?.({phase:'mail-delivered',h,t})
+  const bounced=await send(),recover=await send()
+  assert.equal((await callback(event(bounced,'email.bounced',null,4),'synthetic-terrace-318')).status,200)
+  await inspect?.({phase:'mail-bounced',h,t})
+  const conflict=await h.atOnce([[path,signed(event(bounced,'email.failed',null,5),'synthetic-terrace-319')],[path,signed(event(bounced,'email.delivered',null,6),'synthetic-terrace-319')]])
+  assert.deepEqual(conflict.map(r=>r.status).sort(),[200,400],'one conflicting identity is refused atomically')
+  const beforeConflict=await receipts();assert.equal((await callback(event(bounced,'email.sent',null,8),'synthetic-terrace-319')).status,400);assert.deepEqual(await receipts(),beforeConflict)
+  const removeFailure=await h.repairMailProjectionFailure(),failed=event(recover,'email.failed',null,7),result=await callback(failed,'synthetic-terrace-320');assert.equal(result.status,503,await result.text())
+  assert.ok((await receipts()).some(x=>x.event_id==='synthetic-terrace-320'));assert.equal((await data()).messages.find(x=>x.id===recover.id).state,'accepted')
+  await h.restart();await removeFailure();assert.equal((await callback(failed,'synthetic-terrace-320')).status,200)
+  const recovered=(await data()).messages.find(x=>x.id===recover.id);assert.equal(recovered.state,'failed');assert.equal((await data()).events.filter(x=>x.id==='mail:'+recover.id+':synthetic-terrace-320').length,1)
+  await callback(event(recover,'email.sent',null,9),'synthetic-terrace-321');assert.equal((await data()).messages.find(x=>x.id===recover.id).state,'failed')
+  assert.equal(sends(),count+2,'callbacks and recovery never send another email')
+  assert.deepEqual((await h.state(t.id)).work,unchanged.work,'delivery grants no work, appointment or acknowledgement action')
+  const member=await h.invite('member',tenancyInput.ownerEmail);assert.equal((await h.request('/api/messages?tenancyId='+t.id,{as:member})).status,403);assert.equal((await h.request('/app?tab=messages&tenancy='+t.id,{as:member})).status,403)
+  await h.stepUp();await h.command('operator.invite',{displayName:'Other portfolio manager',email:tenancyInput.tenantEmail,role:'portfolio_manager'})
+  const outsider=await h.accept(tenancyInput.tenantEmail);assert.equal((await h.request('/api/messages?tenancyId='+t.id,{as:outsider})).status,404);assert.equal((await h.request('/app?tab=messages&tenancy='+t.id,{as:outsider})).status,404)
+  // Switching the configured provider cannot relabel the original claim.
+  const ec=generateKeyPairSync('ec',{namedCurve:'prime256v1'}),publicKey=ec.publicKey.export({type:'spki',format:'der'}).toString('base64')
+  await h.configureMail('sendgrid',publicKey)
+  const sg=(message,id,extra={})=>({sg_event_id:id,sg_message_id:message.provider_id,event:'delivered',timestamp:Date.parse(clock)/1000,email:message.mail_recipient,rer_delivery_id:message.id,...extra})
+  const batch=async payload=>{const raw=JSON.stringify(payload),timestamp=String(Date.parse(clock)/1000);return h.request(path,{method:'POST',as:'',body:payload,headers:{'x-twilio-email-event-webhook-timestamp':timestamp,'x-twilio-email-event-webhook-signature':sign('sha256',Buffer.from(timestamp+raw),ec.privateKey).toString('base64')}})}
+  assert.equal((await batch([sg(m,'synthetic-terrace-322')])).status,400,'verified event from a different provider cannot use the claim')
+  await h.stepUp();const grid=await send(),beforeBatch=await receipts()
+  assert.equal((await batch([sg(grid,'synthetic-terrace-323'),sg(grid,'synthetic-terrace-324',{email:tenancyInput.ownerEmail})])).status,400);assert.deepEqual(await receipts(),beforeBatch,'mixed unauthorized batch writes no receipt')
+  const both=[sg(grid,'synthetic-terrace-325',{event:'deferred'}),sg(grid,'synthetic-terrace-326')]
+  assert.equal((await batch(both)).status,200);assert.equal((await data()).messages.find(x=>x.id===grid.id).state,'delivered')
+  const batchCount=(await receipts()).length
+  assert.equal((await batch([sg(grid,'synthetic-terrace-327'),sg(grid,'synthetic-terrace-326',{event:'bounce'})])).status,400);assert.equal((await receipts()).length,batchCount,'identity conflict rolls back the entire batch')
+  const backup=await(await h.request('/api/backup')).blob(),readable=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer())
+  assert.ok(readable.includes(Buffer.from('Authenticated mail evidence: failed')));assert.ok(readable.includes(Buffer.from('terrace-repair-messages')))
+  const restored=await installation({now:clock,asyncDatabase:true,repairMailWebhookKey:key})
+  try{await restored.formCommand('data.restore',{confirm:'RESTORE',backup:new File([backup],'mail.rer')});assert.equal((await restored.request(path,signed(delivered,'synthetic-terrace-316'))).status,400,'restored installation cannot accept archived callbacks');assert.equal((await(await restored.request('/api/messages?tenancyId='+t.id)).json()).messages.find(x=>x.id===m.id).state,'delivered');assert.equal(restored.messages.filter(x=>x.subject==='Terrace repair update').length,0)}finally{await restored.close()}
+  await h.configureMail('resend',key);eventClock='2040-01-01T18:00:00.000Z';await h.setTime(eventClock);await h.stepUp()
+  const hold=await h.command('privacy.hold',{tenancyId:t.id,class:'communications',reason:'synthetic-terrace-328 retained mail investigation'}),request=await h.command('privacy.request',{tenancyId:t.id,kind:'erase',source:'synthetic-terrace-329 resident erasure request'})
+  let review=await h.command('privacy.review',{tenancyId:t.id,requestId:request.id});await h.command('tenancy.erase',{tenancyId:t.id,requestId:request.id,fingerprint:review.review.fingerprint,confirm:tenancyInput.tenantEmail},{status:409});assert.ok((await receipts()).length>0)
+  await h.command('privacy.release',{tenancyId:t.id,holdId:hold.id,reason:'Investigation complete'})
+  await h.command('privacy.hold',{tenancyId:t.id,class:'accounting',reason:'Retain accounting identity only'})
+  review=await h.command('privacy.review',{tenancyId:t.id,requestId:request.id});assert.equal(review.review.eligible,true);assert.equal(review.review.personalRetained,true)
+  await h.command('tenancy.erase',{tenancyId:t.id,requestId:request.id,fingerprint:review.review.fingerprint,confirm:tenancyInput.tenantEmail})
+  assert.equal((await callback(delivered,'synthetic-terrace-316')).status,400,'freshly signed replay cannot resurrect erased communication');assert.equal((await receipts()).length,0);assert.equal((await h.db.prepare("SELECT * FROM rer_mail_event_states WHERE event_namespace='terrace-repair-messages'").all()).results.length,0)
+  assert.equal((await h.db.prepare('SELECT * FROM tt_messages WHERE tenancy_id=?').bind(t.id).all()).results.length,0)
+  const erased=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer());assert.ok(!erased.includes(Buffer.from(body)));assert.ok(!erased.includes(Buffer.from(m.provider_id)))
+  const journal=await(await h.request('/api/backup')).blob(),fresh=await installation({now:clock,asyncDatabase:true})
+  try{await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([backup],'before.rer'),journal:new File([journal],'after.rer')},{status:409});assert.equal((await fresh.state()).tenancies.length,0)}finally{await fresh.close()}
+ }finally{await h.close()}
+ const missing=await installation({now:clock,asyncDatabase:true})
+ try{assert.equal((await missing.request(path,{method:'POST',as:'',body:{}})).status,503)}finally{await missing.close()}
+ const demo=await installation({now:clock,asyncDatabase:true,demo:true,repairMailWebhookKey:key})
+ try{const before=demo.messages.length;assert.equal((await demo.request(path,{method:'POST',as:'',body:{}})).status,403);assert.equal(demo.messages.length,before)}finally{await demo.close()}
 }
 if(process.argv[1]===import.meta.filename)await journey()

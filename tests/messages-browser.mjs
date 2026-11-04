@@ -4,7 +4,7 @@ import {join,resolve} from 'node:path'
 import {chromium} from '@playwright/test'
 import {journey} from './messages.mjs'
 const out=resolve(process.env.MESSAGE_SCREENSHOTS??'.rer/message-screens');await mkdir(out,{recursive:true})
-const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
+const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:['--no-sandbox','--use-mock-keychain','--password-store=basic']})
 let context,page,currentOrigin
 async function capture(name){
  await page.bringToFront()
@@ -33,6 +33,14 @@ try{
    await page.getByRole('button',{name:'Prepare message',exact:true}).click();await page.getByRole('button',{name:'Approve exact message',exact:true}).waitFor();await capture('prepared')
    await page.getByRole('checkbox').check();await page.getByRole('button',{name:'Approve exact message',exact:true}).click();await page.getByRole('button',{name:'Send approved message',exact:true}).waitFor();await capture('approved')
    await page.getByRole('button',{name:'Send approved message',exact:true}).click();await page.getByRole('status').filter({hasText:'accepted by provider'}).waitFor();await capture('email-accepted')
+  }else if(phase==='mail-delivered'||phase==='mail-bounced'){
+   await page.goto(h.origin+'/app?tab=messages&tenancy='+t.id)
+   const state=phase==='mail-delivered'?'delivered':'bounced',article=page.locator('article').filter({has:page.getByRole('status').filter({hasText:new RegExp('^'+state+'$')})}).last()
+   await article.getByText('Message history',{exact:true}).click()
+   assert.ok(await article.getByRole('status').innerText()===state)
+   if(state==='bounced')await article.getByText('Delivery failed.',{exact:false}).waitFor()
+   else await article.getByText('Recipient mail server confirmed delivery.',{exact:false}).waitFor()
+   await capture(phase)
   }else if(phase==='confirmed'){
    await page.goto(h.origin+'/app?tab=work&tenancy='+t.id);await capture('arrival-confirmed')
    await page.goto(h.origin+'/app?tab=messages&tenancy='+t.id)
