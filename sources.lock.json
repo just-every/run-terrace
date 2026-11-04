@@ -5169,7 +5169,7 @@
       "executable": false
     },
     "tests/journal.mjs": {
-      "sha256": "9935e0fe4f73589c0e2b42b897b6457691da39be8ab32dc0f1224825cc61a81b",
+      "sha256": "187f6d01c86ec95c9ff2eab63053517d9bc4f9753c80de1dc46ca691bbe12f4f",
       "executable": false
     },
     "tests/late-fees-browser.mjs": {
@@ -5249,7 +5249,7 @@
       "executable": false
     },
     "tests/payments.mjs": {
-      "sha256": "04907227253026a18dfd4f44d07f6c512a3191cb2c733a0012dd695f89074045",
+      "sha256": "0030f2c83bd67b16010c46d4960def0adb68e55d60195c33e4bf0c05216c00f7",
       "executable": false
     },
     "tests/portal-requests-browser.mjs": {
