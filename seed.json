@@ -59,6 +59,7 @@
       "/apply",
       "/api/stripe/events",
       "/api/resident-mail/events",
+      "/api/repair-mail/events",
       "/api/twilio/status",
       "/api/twilio/inbound",
       "/mcp",

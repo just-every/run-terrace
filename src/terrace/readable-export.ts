@@ -21,7 +21,7 @@ export const RECONNECT = [
  'Restricted documents: readable metadata is redacted; private original files and the complete owner backup retain their exact bytes. Download authorization belongs to the current sign-in and must be requested again after restore.',
  'Office prints: frozen PDFs, manifests, approvals and service photographs are retained as evidence. Restored batches grant no printing or service authority; invite recipients again and prepare and approve a new batch.',
  'Applications: answers, originals, revisions and provider outcomes are retained. Applicant sign-in links, sessions and active Checkout destinations are installation-local. Restore never permits another collection; invite each adult again explicitly.',
- 'Repair messages: archived content, delivery events and opt-outs are evidence only. Set Twilio credentials, record consent again and prepare new messages; restored messages never authorize sends.',
+ 'Repair messages: archived content, frozen mail providers and recipients, verified delivery receipts and opt-outs are evidence only. Reconfigure mail verification and Twilio privately, record consent again and prepare new messages; restored callbacks and messages never authorize actions.',
  'Resident document delivery: frozen documents and delivery evidence are retained, but restored deliveries never authorize a send or a recipient. Invite the resident again and prepare a new reviewed document.',
  'Mail delivery: set MAIL_PROVIDER, MAIL_FROM and the provider key on the new installation; invitations and sign-in links use it.',
  'People: operator accounts and sessions are not in the archive. The new owner signs in, invites each person again and sets their role and portfolios (ROLE-001).',

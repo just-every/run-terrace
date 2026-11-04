@@ -423,3 +423,23 @@ It creates no applicant decision, report, dispute resolution, send, fee, ledger
 entry, grant or custody policy. All LEASE-009 provider, counsel, legal, authority,
 decision, referral, notice-delivery and export-history gaps remain; see
 [applications](docs/applications.md).
+
+Repair email delivery evidence uses `POST /api/repair-mail/events`. Configure
+`MAIL_PROVIDER` as Resend or SendGrid and privately supply
+`REPAIR_MAIL_WEBHOOK_KEY` for that provider's signed delivery events. Missing
+configuration refuses intake. Legacy sends without a frozen provider cannot
+acquire delivery-event authority. The send claim freezes provider and recipient;
+events must match that provider, originating installation, exact stored provider
+message ID and recipient. Signed SendGrid batches authorize every item before
+any write. Conflicting event identities roll back the whole intake transaction.
+
+Accepted, deferred, delivered, bounced and failed facts remain distinct in
+repair-message history. Terminal delivery cannot regress to progress. A failed
+delivery shows an explicit staff next action; delivery never means a person
+read the message. Redelivering the same signed event recovers a stored receipt
+whose thread projection was interrupted, without sending again. Callbacks grant
+no reply, appointment, paging or acknowledgement authority. Communication
+retention and legal holds cover provider receipts; eligible erasure removes
+them. Backup and readable export retain evidence, while a restored installation
+cannot accept archived callbacks. Synthetic signed fixtures establish no live
+sender, delivery, inbound identity or account entitlement.

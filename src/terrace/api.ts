@@ -1,3 +1,4 @@
+import {repairMailWebhook} from './repair-mail-events'
 import { applicationReview, applicationReviewChoices } from './application-review'
 import { incomeReviewView } from './application-view'
 import {SHADOW_COMMANDS,shadowCommand,shadowData,shadowOriginal} from './shadow-run'
@@ -224,6 +225,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
  const url=new URL(request.url),isApi=url.pathname.startsWith('/api/'),isPage=url.pathname==='/app'||url.pathname==='/app/command'||url.pathname==='/app/application-review'
  // ROLE-002: portal people have their own door, cookie and pages; nothing below serves them.
  if(['/api/twilio/inbound','/api/twilio/status'].includes(url.pathname))return twilioResponse(request,env)
+ if(url.pathname==='/api/repair-mail/events')return repairMailWebhook(request,env)
  if(url.pathname==='/api/resident-mail/events')return residentDeliveryWebhook(request,env)
  if(url.pathname==='/api/stripe/events')return stripeEventResponse(request,env)
  if(url.pathname==='/apply'||url.pathname.startsWith('/apply/'))return applicationResponse(request,env)

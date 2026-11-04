@@ -21,6 +21,7 @@ export interface Bindings {
  TWILIO_FROM_NUMBER?: string
  TWILIO_MODE?: 'test' | 'live'
 
+ REPAIR_MAIL_WEBHOOK_KEY?: string
  RESIDENT_MAIL_WEBHOOK_KEY?: string
  STRIPE_SECRET_KEY?: string
  RER_DEMO?: string
