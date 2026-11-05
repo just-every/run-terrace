@@ -6,6 +6,42 @@ Every inventoried workflow below remains a **Gap** until current passed replacem
 
 The [source-corpus manifest](switch-checklist-sources/manifest.json) retains separate inventories, captured-source hashes, source-to-workflow reconciliation and unaudited source areas. Source quotations are documentary claims by the incumbent; they establish no Terrace capability or provider entitlement.
 
+## Documentation access limits
+
+These dated [access observations](switch-checklist-sources/documentation-access.json) explain source access in this inventory. A public help entry, denied request or in-program manual establishes neither workflow absence nor complete documentation coverage. No incumbent account or session was used. Retained access-response text is not an additional audited workflow inventory.
+
+### AppFolio documentation access
+
+**Public help is incomplete:** The public help entry resolves to resident portal help. Manager documentation, linked pages and account-specific material are not established by this entry point.
+
+[Official entry point](https://www.appfolio.com/help) → [observed destination](https://www.appfolio.com/help/online-portal); captured 2026-11-05, HTTP 200. [Retained response text](switch-checklist-sources/access-appfolio.txt).
+
+Raw SHA-256: `31c2f14190138eb00b9f8c44fba671427ae18db91147bb20fbc1b7756661884f`. Capture SHA-256: `9ad60247d941febbe0c3f73b65f5e4765411add51d58fe092d91801ecfe42d5b`.
+
+> FolioSpace™ is the resident experience by AppFolio, giving you one place to manage your rental journey from application to renewal. You can access your FolioSpace account from any mobile device by downloading the app:
+
+Located in retained response line 10.
+
+### Buildium documentation access
+
+**Request denied:** This public support entry returned HTTP 403 to this capture request. Accessible Help Center articles elsewhere remain only partially inventoried; neither this denial nor those articles establishes full documentation coverage.
+
+[Official entry point](https://www.buildium.com/support/); captured 2026-11-05, HTTP 403. [Retained response text](switch-checklist-sources/access-buildium.txt).
+
+Raw SHA-256: `2938e9f1284180959e33ab1718d0793a72ff6e4cdb8108c34dcd14e69446de5c`. Capture SHA-256: `2938e9f1284180959e33ab1718d0793a72ff6e4cdb8108c34dcd14e69446de5c`.
+
+### Rent Manager documentation access
+
+**In-program Help remains unreviewed:** The official support page directs users to open detailed Help within the program. An authorized incumbent installation and its full Help corpus are not available in this run; public pages remain only partially inventoried.
+
+[Official entry point](https://www.rentmanager.com/support/); captured 2026-11-05, HTTP 200. [Retained response text](switch-checklist-sources/access-rent-manager.txt).
+
+Raw SHA-256: `00a6920fecba2e09112b52fde30cd1537daa4c0fa394dac315cb02ef0ae23bb8`. Capture SHA-256: `412d5869311c6b52b40db1cac7a20748316c139b688c40388038b44f7f636e79`.
+
+> Rent Manager Help provides information about every aspect of the software. Instantly access this invaluable resource from within the program by clicking the question mark (?) icon—this will open the Help topic that is specific to the portion of the program you’re working on.
+
+Located in retained response line 125.
+
 ## Corpus coverage and uncertainty
 
 Public HTTPS response captured on the stated UTC date. Capture text decodes HTML entities, drops script, style, noscript and SVG contents, collapses whitespace by block, omits addresses and expands ambiguous word slash pairs. Raw response and retained normalized text have separate SHA-256 hashes. Hashes identify captures, not present-day source currency. Browser-rendered sources explicitly retain hashes for the initial HTTP response, the loaded document and the normalized visible article text; a loading shell is never substituted for the article.
