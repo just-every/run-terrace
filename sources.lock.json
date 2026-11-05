@@ -133,7 +133,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "146d7e680cc9fe636021ddd7094e4f543d947e12d4ab7dac3ebb4c6d88b9d6a7",
+      "sha256": "5ec632ab0249404fc872c499f605a58a24dc11c780767b4b32796603bafe7dfd",
       "executable": false
     },
     "DEMO.md": {
@@ -397,7 +397,7 @@
       "executable": false
     },
     "docs/switch-checklists.md": {
-      "sha256": "1410c95bbb9cf5b48ac7951c8f8593975579a7ceafc3df661d51804df13fb5cd",
+      "sha256": "05a9085da44db60dda4a5ce57aa452a4f047abb7b9f935749da8c0c95cafef79",
       "executable": false
     },
     "docs/tenancies.md": {
@@ -1425,7 +1425,7 @@
       "executable": false
     },
     "scripts/switch-checklists.mjs": {
-      "sha256": "983c97940b651b42a35dfac6a3280109e70f957a6a829f7454208371ac754b29",
+      "sha256": "46d1e2d9d40d31efa77a99a6d0aa5da5e0774aefad5ba700d4806b004bd27007",
       "executable": false
     },
     "scripts/twilio-sandbox.mjs": {
@@ -5565,7 +5565,7 @@
       "executable": false
     },
     "tests/site/switch-checklists.mjs": {
-      "sha256": "2a1720eff8cacdf21ad5eb22880c155c63a2e8ca4c88f977d134daedce1f1483",
+      "sha256": "426bbebf79159bd3f10db0a8351e6e1d0e5f7c952f04b5ba59146ba0af2d941f",
       "executable": false
     },
     "tests/statements-browser.mjs": {
