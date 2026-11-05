@@ -1,5 +1,78 @@
-BuildiumHelpCenter
-Loading
-×Sorry to interrupt
-CSS Error
-Refresh
+Skip to Main Content
+Help Center - Home
+Home
+Search Articles
+Submit a Support Ticket
+More
+Search
+Schedule Batched Reports
+Dec 17, 2024Knowledge
+Schedule Batched Reports
+Batched reports in Buildium allow you to compile multiple reports into a single, comprehensive packet. Available to customers on Growth and Premium, by scheduling Batched Reports, you can now automate the creation and sharing of these report packets, saving time and ensuring consistency.
+Why it makes sense to schedule Batched Reports:
+Efficiency: Automate the generation and sharing of reports, reducing manual effort.
+Consistency: Ensure all reports are created and shared using the same criteria.
+Convenience: Schedule reports to be sent automatically to recipients’ portals at your desired frequency.
+How to Schedule and Share Batched Reports
+Navigate to Reports > Batched reports.
+Create a New Scheduled Template one of two ways:
+On the right side of the page, select Create > New scheduled template.
+Or in Batched reports, scroll down to the ‘Batched reports templates’ section > Add.
+Fill Out Required Fields:
+Enter the Name and Description for the template.
+Choose which users can edit the template using the toggle (all user roles with access to edit batched reports or only me and account admins)
+New! Schedule and Share:
+Ensure the toggle for ‘Schedule and share automatically’ is on in order to be able to schedule to generate batched reports and share to owner portals automatically.
+Select Report Entities:
+‘Entities’ in Buildium refer to the different types of units you manage, such as properties, associations, or companies. These entities are the core components you work with when creating and managing reports, ensuring that all relevant data is organized and accessible.
+Choose the Report Type from the dropdown menu.
+Add entities if needed by selecting + Add entities and then Save.
+Note: You can only choose 1 report type (associations, rentals, rental owners, or company). You cannot combine report types in the same template.
+Note: If your selected ‘Report type’ is “Rental owner”, when adding entities, instead of property and company names, you will have a list of rental owners (people) to choose from.
+Add Reports:
+Select the reports to include by clicking + Add reports.
+Drag to reorder the reports if needed in the Selected section and then Save.
+Note: Currently, only 14 reports support scheduling. This means you’ll see different reports when creating a scheduled template compared to a non-scheduled template.
+Set Report Filters:
+The new filters added for the 14 reports that support scheduling are available whether you’re adding to a scheduled or non-scheduled template.
+Edit and save filters for each report available based on your selected properties or company.
+Note: For custom date filters, we only recommend custom dates for unscheduled, one-time reports.
+Add Attachments (Optional):
+Upload files or add suggestions as needed.
+Note: When you add attachments to a template, those same attachments will be included every time the batch is generated. If you need to update or change the attachments, make sure to add the new ones before the batch is scheduled to run.
+Organize Reports:
+Choose how to export reports (Consolidated PDFs or Separate PDFs).
+Define the file order if report entities are included in the template.
+Recipients:
+This batch will be shared to the selected recipients’ portals and will have the same custom name each time it runs.
+If you have multiple properties and select multiple rental owners, the system will automatically send the appropriate reports to the correct recipients, so you don’t need to worry about every report going to every recipient.
++ Add recipients to choose who you want to share the batched reports with. Important: Batched reports cannot be shared with recipients without email addresses. Select the recipients > Next.
+Note: These reports can only be shared to owner portals, including Board members, Association owners, and Rental owners. Recipients will automatically receive an email notifying them that the reports are available in their portals.
+Note: If your company is the entity, staff members will need to log in and view their reports from the Batched Reports page. They cannot be selected as recipients.
+Rename the batches (optional): Here, you can change the title of the batches if you would like to by entering the new name in the textbox > Save.
+Note: If you rename the batch, this custom name will be used each time the batch is generated and shared.
+Set Scheduling Settings:
+Add a new schedule by selecting a future date and setting the recurrence rule using the dropdown menu > Save schedule.
+Save Draft or Schedule and Share:
+Save as draft if still reviewing, or select Schedule and share if ready. You will be asked to confirm the schedule settings, end date, and recipients before generating the schedule > Schedule and share.
+FAQ
+Still have questions ?
+Create a support ticket anytime, and we'll get back to you as soon as possible
+SUBMIT A SUPPORT TICKET
+Related Articles
+Batched Reports
+Number of Views
+8.86K
+Announcement: Batched reports
+Number of Views
+2.87K
+Reports available for Batched reporting
+Number of Views
+2.14K
+Share Bill Files with Owners via Batched Reports
+Number of Views
+787
+How do I view inspection reports I created with Buildium Property Inspections?
+Number of Views
+4.76K
+Schedule Batched Reports

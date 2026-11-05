@@ -2456,6 +2456,586 @@
       ],
       "gap": "Same-capability replacement acceptance is unqualified for check and electronic owner distributions. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
       "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-01",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner invitation activation remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-02",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner email confirmation remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-03",
+      "clauses": [
+        "SAFE-001",
+        "PORTAL-002"
+      ],
+      "gap": "Owner password and two-factor authentication remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-04",
+      "clauses": [],
+      "gap": "Owner remembered-device sign-in remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-05",
+      "clauses": [],
+      "gap": "Owner phone verification migration remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-06",
+      "clauses": [
+        "PORTAL-002",
+        "REPORT-004"
+      ],
+      "gap": "Owner property income dashboard remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-07",
+      "clauses": [
+        "PORTAL-002",
+        "ACCT-012"
+      ],
+      "gap": "Owner paid-bill expense dashboard remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-08",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner contribution dashboard remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-09",
+      "clauses": [
+        "PORTAL-002",
+        "ACCT-010"
+      ],
+      "gap": "Owner disbursement dashboard remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-10",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner latest published statement packet remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-11",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner occupancy dashboard remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-12",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner rent collection dashboard remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-13",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner income transaction drill-down remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-14",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner expense transaction drill-down remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-15",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner entity and property dashboard filters remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-16",
+      "clauses": [],
+      "gap": "Owner dashboard widget selection remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-17",
+      "clauses": [],
+      "gap": "Owner dashboard widget arrangement remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-18",
+      "clauses": [],
+      "gap": "Owner dashboard widget sizing remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-19",
+      "clauses": [],
+      "gap": "Owner dashboard preferences across devices remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-20",
+      "clauses": [],
+      "gap": "Owner dashboard default restoration remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-21",
+      "clauses": [
+        "PORTAL-002",
+        "REPORT-004"
+      ],
+      "gap": "Owner live report generation remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-22",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner report property and date filters remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-23",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner report text search remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-24",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner portrait and landscape report PDF remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-25",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner Excel and CSV report export remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-26",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner report data refresh remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-27",
+      "clauses": [
+        "PORTAL-002",
+        "REPORT-005"
+      ],
+      "gap": "Owner report column customization remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-28",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner active-property views across entities remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-29",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner property reserve display remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-30",
+      "clauses": [
+        "PORTAL-002",
+        "ROLE-002"
+      ],
+      "gap": "Former-owner active-property suppression remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-31",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner published packet download remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-32",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner shared original download remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-33",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner bank account change remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-34",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner bank-change staff notification remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-35",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner card and ACH contributions remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-36",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner contribution fee preview remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-37",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Separate owner contribution and fee transactions remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-38",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner contribution confirmation remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-owner-39",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Owner multi-entity statement packets remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-platform-01",
+      "clauses": [
+        "AGENT-003"
+      ],
+      "gap": "Unified maintenance intake coordination and feedback remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-platform-02",
+      "clauses": [
+        "OPS-003"
+      ],
+      "gap": "Property management workflow automation remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-platform-03",
+      "clauses": [],
+      "gap": "Custom property-management fields remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-platform-04",
+      "clauses": [],
+      "gap": "Property-management database API remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-platform-05",
+      "clauses": [
+        "ACCT-015"
+      ],
+      "gap": "Accounting budget forecasts remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-platform-01",
+      "clauses": [],
+      "gap": "Commercial rent escalations and CAM remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-platform-02",
+      "clauses": [],
+      "gap": "Student advance leasing and payments remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-platform-03",
+      "clauses": [],
+      "gap": "Mobile association violation tracking remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-platform-04",
+      "clauses": [
+        "LEASE-001",
+        "LEASE-004"
+      ],
+      "gap": "Vacancy advertising and showing coordination remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-platform-05",
+      "clauses": [
+        "LEASE-007",
+        "LEASE-009"
+      ],
+      "gap": "Customized applications and screening remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-platform-06",
+      "clauses": [
+        "LEASE-010",
+        "LEASE-011"
+      ],
+      "gap": "Lease templates and applicant signatures remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-platform-07",
+      "clauses": [
+        "ACCT-014"
+      ],
+      "gap": "Form 1099 filing and tracking remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-platform-08",
+      "clauses": [
+        "LEASE-001"
+      ],
+      "gap": "Property website and service marketing remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-platform-09",
+      "clauses": [],
+      "gap": "Property-owner lead referrals remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-platform-10",
+      "clauses": [
+        "REPORT-004"
+      ],
+      "gap": "Portfolio-wide performance reporting remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-platform-11",
+      "clauses": [],
+      "gap": "Open API data integrations remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-01",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Scheduled reports remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-02",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Scheduled report portal delivery remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-03",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Scheduled batch template creation remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-04",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Scheduled template editor permissions remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-05",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Automatic owner report generation and sharing remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-06",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Report template entity selection remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-07",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Separate association rental owner and company report types remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-08",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Scheduled batch report selection remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-09",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Batch report ordering remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-10",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Per-report entity and date filters remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-11",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Recurring report attachments and updates remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-12",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Consolidated or separate report PDFs remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-13",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Report file ordering remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-14",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Owner-specific report recipient routing remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-15",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Report recipient email eligibility remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-16",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Owner portal report availability notifications remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-17",
+      "clauses": [],
+      "gap": "Corporate accounting report staff access remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-18",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Persistent custom batch names remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-19",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Future report dates and recurrence rules remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-20",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Draft schedule review and confirmed sharing remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
+      "coverage": "gap"
     }
   ]
 }
