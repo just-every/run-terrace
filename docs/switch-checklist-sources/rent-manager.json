@@ -21,7 +21,7 @@
       "id": "rm-accounting-03",
       "label": "Scheduled collection notices",
       "source": "rm-accounting",
-      "section": "A and R Automation",
+      "section": "Accounts Receivable",
       "line": 110,
       "quote": "Create a seamless Accounts Receivable schedule. Deliver notices via email, text, phone broadcast, or Virtual Post Office based on your predetermined schedule and protocol. Alerts are personalized for various levels of delinquency."
     },
@@ -29,7 +29,7 @@
       "id": "rm-accounting-04",
       "label": "Charge types",
       "source": "rm-accounting",
-      "section": "Charge Types",
+      "section": "Accounts Receivable",
       "line": 112,
       "quote": "Create Charge Types to track the services and products that your business offers. Once established, post charges for rent, late fees, storage, parking, and more."
     },
@@ -37,7 +37,7 @@
       "id": "rm-accounting-05",
       "label": "Recorded payments",
       "source": "rm-accounting",
-      "section": "Receive Payments",
+      "section": "Accounts Receivable",
       "line": 114,
       "quote": "Receive payments for everything from one-time charges, recurring charges, late fees, etc. Record payments on your contacts’ transaction ledgers to accurately reflect your monthly income."
     },
@@ -45,7 +45,7 @@
       "id": "rm-accounting-06",
       "label": "Bank deposits",
       "source": "rm-accounting",
-      "section": "Bank Deposits",
+      "section": "Accounts Receivable",
       "line": 116,
       "quote": "Once payments are received and recorded, deposits can be made within Rent Manager. Deposit funds and easily connect them to the correct property and bank account."
     },
@@ -53,7 +53,7 @@
       "id": "rm-accounting-07",
       "label": "Payable bills",
       "source": "rm-accounting",
-      "section": "Create & Pay Bills",
+      "section": "Accounts Payable",
       "line": 122,
       "quote": "Easily create and pay one-time bills received from vendors. Entering bills into Rent Manager allows you to track the amounts, due dates, and which properties they’re associated with."
     },
@@ -61,7 +61,7 @@
       "id": "rm-accounting-08",
       "label": "Recurring payable bills",
       "source": "rm-accounting",
-      "section": "Recurring Bills",
+      "section": "Accounts Payable",
       "line": 124,
       "quote": "If you manage properties that receive bills on a regular cycle—such as trash, internet service, or sewage bills—you can save time by creating and posting them as Recurring Bills."
     },
@@ -69,7 +69,7 @@
       "id": "rm-accounting-09",
       "label": "Vendor records",
       "source": "rm-accounting",
-      "section": "Access Vendor Information",
+      "section": "Accounts Payable",
       "line": 126,
       "quote": "Tracking vendors is a crucial piece of Accounts Payable. Create vendor accounts in your database to keep contact information, preferred payment methods, transactions, and communication history on file and at-hand."
     },
@@ -77,7 +77,7 @@
       "id": "rm-accounting-10",
       "label": "Corporate card register",
       "source": "rm-accounting",
-      "section": "Credit Cards",
+      "section": "Accounts Payable",
       "line": 128,
       "quote": "The Credit Card register displays the charges, credits, and payments associated with your credit card accounts. Pay bills with credit cards and electronically reconcile in Rent Manager."
     },
@@ -85,7 +85,7 @@
       "id": "rm-accounting-11",
       "label": "Printed checks",
       "source": "rm-accounting",
-      "section": "Write & Print Checks",
+      "section": "Accounts Payable",
       "line": 130,
       "quote": "Managing your checks in Rent Manager gives you the organizational tools to track when checks were written, which properties were expensed, and the check amount. You can even print checks directly from the software."
     },
@@ -101,7 +101,7 @@
       "id": "rm-accounting-13",
       "label": "Online card and check payments",
       "source": "rm-accounting",
-      "section": "ePay",
+      "section": "Payments",
       "line": 134,
       "quote": "No more trips to the bank! Process credit card and check payments online in real time with Zego’s ePay integration."
     },
@@ -109,7 +109,7 @@
       "id": "rm-accounting-14",
       "label": "Retail cash rent",
       "source": "rm-accounting",
-      "section": "CashPay",
+      "section": "Payments",
       "line": 136,
       "quote": "CashPay gives tenants the freedom to electronically pay rent using cash at any of the 30,000 CheckFreePay locations nationwide."
     },
@@ -117,7 +117,7 @@
       "id": "rm-accounting-15",
       "label": "Check scanning and lockbox",
       "source": "rm-accounting",
-      "section": "Check Scanning & Lockbox",
+      "section": "Payments",
       "line": 138,
       "quote": "Using Rent Manager’s convenient check scanners, you can link and process multiple checks at once. Or outsource check scanning entirely with Lockbox, powered by Zego."
     },
@@ -125,7 +125,7 @@
       "id": "rm-accounting-16",
       "label": "Vendor payment automation",
       "source": "rm-accounting",
-      "section": "No Cost AvidPay",
+      "section": "Payments",
       "line": 142,
       "quote": "Pay your vendors exactly how they want to be paid at no additional cost to you. Ditch manual check writing for good and automate your payables using AvidPay."
     },
@@ -229,7 +229,7 @@
       "id": "rm-maintenance-02",
       "label": "Service issue statuses",
       "source": "rm-maintenance",
-      "section": "Service Issue Statuses",
+      "section": "Keep Track with Service Issues",
       "line": 108,
       "quote": "Thoroughly track your maintenance progress with Service Issue Statuses. Statuses describe the current condition of your project—New, Work in Progress, Resolved, etc. Sort your issue list by status as you’re filtering through which assignments need to be resolved."
     },
@@ -237,7 +237,7 @@
       "id": "rm-maintenance-03",
       "label": "Field completion and resident signoff",
       "source": "rm-maintenance",
-      "section": "Complete Service Issues in the field",
+      "section": "Keep Track with Service Issues",
       "line": 110,
       "quote": "rmAppSuite Pro users can manage and update the service issue stage on their smart device while they’re still on the job. Project progress can be updated in real time and tenants can electronically sign off on completed work."
     },
@@ -245,7 +245,7 @@
       "id": "rm-maintenance-04",
       "label": "Memorized service issues",
       "source": "rm-maintenance",
-      "section": "Memorized Service Issues",
+      "section": "Keep Track with Service Issues",
       "line": 112,
       "quote": "Avoid redundant data entry with Memorized Service Issues. If you create issues for the same maintenance tasks over and over again, memorize them to save the name, description, and other issue details, so you can populate the form in the future with just one click."
     },
@@ -253,7 +253,7 @@
       "id": "rm-maintenance-05",
       "label": "Issue assignment and notifications",
       "source": "rm-maintenance",
-      "section": "Assign Service Issues",
+      "section": "Keep Track with Service Issues",
       "line": 114,
       "quote": "Efficiently delegate maintenance tasks by assigning service issues to other Rent Manager users. Users can even create an Automated Notification to alert them when they’ve been assigned a new task."
     },
@@ -269,7 +269,7 @@
       "id": "rm-maintenance-07",
       "label": "Resident service time slots",
       "source": "rm-maintenance",
-      "section": "Our Maintenance Scheduling tool offers a simplified approach for maintenance coordinators to establish workflows that efficiently manage their technicians’ schedules and day-to-day repair and upkeep appointments. Easily group properties and technicians to manage availability and input your maintenance team’s working hours effortlessly. Plus, the Tech View in the rmAppSuite Pro mobile app allows employees to quickly review their daily schedules any time, anywhere.",
+      "section": "Maintenance Scheduling",
       "line": 117,
       "quote": "Further, residents can use Rent Manager’s Tenant Web Access (TWA) portal or the rmResident mobile app to select time slots to schedule service requests—saving you and them valuable time. And automated notifications can be sent directly from Rent Manager Express when requests are created, scheduled, confirmed, and closed—keeping everyone informed."
     },
@@ -309,7 +309,7 @@
       "id": "rm-maintenance-12",
       "label": "Video inspections",
       "source": "rm-maintenance",
-      "section": "Video Inspections",
+      "section": "Inspections",
       "line": 129,
       "quote": "Take your inspection process to the next level with video inspections. This powerful tool allows you to capture videos of your property and units on your mobile device while in the Inspection feature of the rmAppSuite Pro mobile app. Once the inspection is uploaded, you can access your videos directly in Rent Manager."
     },
@@ -317,7 +317,7 @@
       "id": "rm-maintenance-13",
       "label": "Mobile inspection synchronization",
       "source": "rm-maintenance",
-      "section": "rmAppSuite Pro Integration",
+      "section": "Inspections",
       "line": 133,
       "quote": "Inspections can be conducted from start to finish via the rmAppSuite Pro mobile app. Make notes, take photos, and schedule work orders in the field from your smart device—all of which is synced to Rent Manager."
     },
@@ -325,7 +325,7 @@
       "id": "rm-maintenance-14",
       "label": "Repairs from inspections",
       "source": "rm-maintenance",
-      "section": "Create Service Issues from Inspections",
+      "section": "Inspections",
       "line": 135,
       "quote": "After an inspection is complete and you’ve identified the areas that require maintenance, you can effortlessly create service issues for any items that require attention."
     },
@@ -341,7 +341,7 @@
       "id": "rm-maintenance-16",
       "label": "Utility expense recovery",
       "source": "rm-maintenance",
-      "section": "Expense Recovery",
+      "section": "Utility Management",
       "line": 141,
       "quote": "We handle all billing methods—including flat fee, RUBS, and sub-metering—ensuring maximum expense recovery."
     },
@@ -349,7 +349,7 @@
       "id": "rm-maintenance-17",
       "label": "Utility invoice collection",
       "source": "rm-maintenance",
-      "section": "Expense Management",
+      "section": "Utility Management",
       "line": 143,
       "quote": "Our integrated accounts payable solution streamlines utility invoice collection and payment, reducing administrative tasks."
     },
@@ -357,7 +357,7 @@
       "id": "rm-maintenance-18",
       "label": "Consolidated resident bills",
       "source": "rm-maintenance",
-      "section": "Consolidated Billing",
+      "section": "Utility Management",
       "line": 145,
       "quote": "We combine all resident charges—from rent to utilities—into one easy-to-pay electronic bill, simplifying the payment process."
     },
@@ -365,7 +365,7 @@
       "id": "rm-maintenance-19",
       "label": "Utility rate review service",
       "source": "rm-maintenance",
-      "section": "Utility Rate Review Service",
+      "section": "Utility Management",
       "line": 147,
       "quote": "Our rate review service ensures accurate, up-to-date utility rates, maximizing cost recovery and compliance."
     },
@@ -373,7 +373,7 @@
       "id": "rm-reports-01",
       "label": "User activity reporting",
       "source": "rm-reports",
-      "section": "Audit Trail",
+      "section": "Over 450 Pre-Defined Reports",
       "line": 108,
       "quote": "View a full scope of each user’s actions inside Rent Manager. Administrators can monitor everything from user login times to crucial decisions that affect database setup and financial records. This powerful report can help isolate and correct mistakes made during data entry."
     },
@@ -381,7 +381,7 @@
       "id": "rm-reports-02",
       "label": "Corporate accounting reports",
       "source": "rm-reports",
-      "section": "Financial Statements",
+      "section": "Over 450 Pre-Defined Reports",
       "line": 112,
       "quote": "These reports assist you in keeping an informed and watchful eye over your company’s finances. At its core, Rent Manager is an accounting software armed with an array of fundamental financial reports including the Balance Sheet, General Ledger, and Profit & Loss statements."
     },
@@ -389,7 +389,7 @@
       "id": "rm-reports-03",
       "label": "Budget comparison reports",
       "source": "rm-reports",
-      "section": "Budgeting",
+      "section": "Over 450 Pre-Defined Reports",
       "line": 110,
       "quote": "Rent Manager’s reporting module provides several different budget reports to analyze cash flow and company spending habits, and to compare your actual allocations against your projected budget. Reference your budget reports while you make informed financial decisions."
     },
@@ -397,7 +397,7 @@
       "id": "rm-reports-04",
       "label": "Rent roll transactions",
       "source": "rm-reports",
-      "section": "Summary Rent Roll",
+      "section": "Over 450 Pre-Defined Reports",
       "line": 116,
       "quote": "Get an immediate overview of your tenants’ transaction activity during a specified time period with the Summary Rent Roll. This report shows held security deposits and loss to lease totals, as well as a breakdown of rent and non-rent charges, payments, credits, and prior balances."
     },
@@ -405,7 +405,7 @@
       "id": "rm-reports-05",
       "label": "Owner and vendor 1099 reports",
       "source": "rm-reports",
-      "section": "Tax Forms",
+      "section": "Over 450 Pre-Defined Reports",
       "line": 120,
       "quote": "Begin and end tax season with peace of mind with Rent Manager’s convenient tax tools. Easily generate vendor and owner 1099 reports—and print them onto prepared IRS 1099 forms—directly from the software. These forms can then be mailed or e-filed to satisfy IRS requirements."
     },
@@ -413,7 +413,7 @@
       "id": "rm-reports-06",
       "label": "Vacancy reports",
       "source": "rm-reports",
-      "section": "Vacancy Report",
+      "section": "Over 450 Pre-Defined Reports",
       "line": 122,
       "quote": "Generate the Vacancy Report to quickly identify which of your units are available and vacant. This informative report shows the length of vacancy as well as the rent amount of each unit, providing you with the information you need to turn units faster."
     },
@@ -421,7 +421,7 @@
       "id": "rm-reports-07",
       "label": "Custom operational report writer",
       "source": "rm-reports",
-      "section": "Your business is unique. With the help of Report Writer, you can produce flexible, feature-rich reports that are expertly tailored to your operation. These reports include built-in, predefined functions and variables specific to Rent Manager. This module allows you to drag and drop functions directly into your reports to create professional statements that are personalized for your exact needs.",
+      "section": "Report Writer",
       "line": 125,
       "quote": "Create property, tenant, prospect, owner, vendor, and unit reports with Report Writer to reflect your business demands and control the display through a variety of different options."
     },
@@ -437,7 +437,7 @@
       "id": "rm-reports-09",
       "label": "Scheduled reports",
       "source": "rm-reports",
-      "section": "Reports Delivered on a Set Schedule",
+      "section": "Report Automation",
       "line": 133,
       "quote": "Send Report Batches based on a pre-determined schedule. You have complete control over when reports are sent, and who receives them."
     },
@@ -445,7 +445,7 @@
       "id": "rm-reports-10",
       "label": "Report batches",
       "source": "rm-reports",
-      "section": "Report Batches",
+      "section": "Report Automation",
       "line": 131,
       "quote": "The Rent Manager Report Batches feature makes running a series of reports possible with a single click. This time-saving workflow delivers the data you need effortlessly."
     },
@@ -509,7 +509,7 @@
       "id": "rm-telephone-03",
       "label": "Caller identification",
       "source": "rm-telephone",
-      "section": "Know Who’s Calling",
+      "section": "24/7 Assistance & Realtime Updates Built Into Rent Manager",
       "line": 108,
       "quote": "Call Center can use information from your Rent Manager database to determine who is calling."
     },
@@ -517,7 +517,7 @@
       "id": "rm-telephone-04",
       "label": "Native tickets from telephone calls",
       "source": "rm-telephone",
-      "section": "Integrated Maintenance Requests",
+      "section": "24/7 Assistance & Realtime Updates Built Into Rent Manager",
       "line": 112,
       "quote": "Call Center agents instantly add maintenance requests to your system to match your current workflows."
     },
@@ -525,7 +525,7 @@
       "id": "rm-telephone-05",
       "label": "Call center emergency protocols",
       "source": "rm-telephone",
-      "section": "Onboarding",
+      "section": "Full-Feature Call Center",
       "line": 118,
       "quote": "After signing up for Call Center, you’ll provide basic property details, define emergencies and dispatch protocols, and set leasing instructions; Call Center will then assign a phone number and manage calls per your instructions."
     },
@@ -533,7 +533,7 @@
       "id": "rm-telephone-06",
       "label": "Call center leasing support",
       "source": "rm-telephone",
-      "section": "Leasing",
+      "section": "Full-Feature Call Center",
       "line": 122,
       "quote": "Let the Call Center assist with your leasing process by sharing available unit information with prospective residents."
     },
@@ -541,7 +541,7 @@
       "id": "rm-telephone-07",
       "label": "Call activity reports",
       "source": "rm-telephone",
-      "section": "Reporting",
+      "section": "Full-Feature Call Center",
       "line": 120,
       "quote": "Once a quarter, you’ll receive a report detailing the number of tickets created, emergencies, complaints, and actions taken to resolve them. You can also provide feedback to the Call Center during quarterly review meetings."
     },
@@ -549,7 +549,7 @@
       "id": "rm-telephone-08",
       "label": "Telephone decision trees",
       "source": "rm-telephone",
-      "section": "Decision Trees",
+      "section": "Additional Benefits",
       "line": 134,
       "quote": "Eliminate the guesswork for Call Center reps by providing predetermined workflows for resolving issues."
     }

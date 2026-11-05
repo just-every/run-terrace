@@ -5,9 +5,9 @@
       "id": "af-accounting-01",
       "label": "Corporate accounting",
       "source": "af-accounting",
-      "section": "Accounting Performer's high-confidence budget predictions outperformed customers' own budgets – more accurate on nearly 2 of 3 line items",
-      "line": 42,
-      "quote": "Corporate Accounting"
+      "section": "Corporate Accounting",
+      "line": 43,
+      "quote": "Bring your management company's books into the same platform as your properties, so nothing lives in a separate system or spreadsheet."
     },
     {
       "id": "af-accounting-02",
@@ -37,7 +37,7 @@
       "id": "af-accounting-05",
       "label": "Mobile receipt capture",
       "source": "af-accounting",
-      "section": "Record every swipe on a card as its own transaction, not a workaround involving a fake property, a fake vendor, or a spreadsheet.",
+      "section": "Credit Card Accounting",
       "line": 58,
       "quote": "Capture receipts at the point of sale with Mobile Receipt Capture"
     },
@@ -45,7 +45,7 @@
       "id": "af-accounting-06",
       "label": "Bank feed transactions",
       "source": "af-accounting",
-      "section": "Capture receipts at the point of sale with Mobile Receipt Capture",
+      "section": "Credit Card Accounting",
       "line": 59,
       "quote": "Create transactions directly from your Bank Feed Integration"
     },
@@ -53,7 +53,7 @@
       "id": "af-accounting-07",
       "label": "Data export",
       "source": "af-accounting",
-      "section": "Extended Access to Data",
+      "section": "Credit Card Accounting",
       "line": 64,
       "quote": "Take advantage of secure export functionality to organize your data outside AppFolio."
     },
@@ -61,7 +61,7 @@
       "id": "af-accounting-08",
       "label": "Online payments",
       "source": "af-accounting",
-      "section": "Online Payments",
+      "section": "Credit Card Accounting",
       "line": 66,
       "quote": "Send and receive payments all on one online platform, with the controls and visibility you need to maximize cash flow and scale your business."
     },
@@ -69,7 +69,7 @@
       "id": "af-accounting-09",
       "label": "Automatic bank reconciliation",
       "source": "af-accounting",
-      "section": "Auto Bank Reconciliation",
+      "section": "Credit Card Accounting",
       "line": 68,
       "quote": "Securely link your bank accounts with AppFolio to automate transaction matching via our Plaid integration."
     },
@@ -77,7 +77,7 @@
       "id": "af-accounting-10",
       "label": "Late fee waivers",
       "source": "af-accounting",
-      "section": "Late Fee Waivers",
+      "section": "Credit Card Accounting",
       "line": 70,
       "quote": "Adjust and customize how you process late fees with convenient bulk and case-by-case waivers."
     },
@@ -85,7 +85,7 @@
       "id": "af-accounting-11",
       "label": "Common area maintenance accounting",
       "source": "af-accounting",
-      "section": "CAM Tracking & Reconciliation",
+      "section": "Credit Card Accounting",
       "line": 72,
       "quote": "Conveniently track, bill, and reconcile the CAM expenses and income whenever you need to."
     },
@@ -93,7 +93,7 @@
       "id": "af-accounting-12",
       "label": "Automatic late fees",
       "source": "af-accounting",
-      "section": "Automated Late Fees",
+      "section": "Credit Card Accounting",
       "line": 74,
       "quote": "Ensure that fees are assessed accurately and on time according to your lease agreements."
     },
@@ -101,7 +101,7 @@
       "id": "af-accounting-13",
       "label": "Electronic checks",
       "source": "af-accounting",
-      "section": "eCheck",
+      "section": "Credit Card Accounting",
       "line": 78,
       "quote": "Pay your owners, vendors, and residents quickly and securely via eCheck."
     },
@@ -109,7 +109,7 @@
       "id": "af-accounting-14",
       "label": "Tenant debt collection",
       "source": "af-accounting",
-      "section": "Tenant Debt Collections",
+      "section": "Credit Card Accounting",
       "line": 82,
       "quote": "Streamline your debt recovery process and reduce the burden on your team to collect past due receivables."
     },
@@ -117,7 +117,7 @@
       "id": "af-accounting-15",
       "label": "Bulk tenant charges",
       "source": "af-accounting",
-      "section": "Bulk Tenant Charges",
+      "section": "Credit Card Accounting",
       "line": 84,
       "quote": "Save time and effort by uploading bulk tenant charges rather than manually processing them."
     },
@@ -125,7 +125,7 @@
       "id": "af-accounting-16",
       "label": "Holding deposits",
       "source": "af-accounting",
-      "section": "Holding Deposits",
+      "section": "Credit Card Accounting",
       "line": 88,
       "quote": "Easily manage multiple applicants and refund deposits directly from escrow."
     },
@@ -133,7 +133,7 @@
       "id": "af-accounting-17",
       "label": "Loan tracking",
       "source": "af-accounting",
-      "section": "Loan Tracking",
+      "section": "Credit Card Accounting",
       "line": 90,
       "quote": "Monitor your loans payable in a single location and save time with automated transaction creation."
     },
@@ -141,7 +141,7 @@
       "id": "af-accounting-18",
       "label": "Reimbursable corporate expenses",
       "source": "af-accounting",
-      "section": "Reimbursable Expenses",
+      "section": "Credit Card Accounting",
       "line": 92,
       "quote": "Flag expenses as reimbursable the moment they happen, then bill properties back without the month end scramble."
     },
@@ -149,7 +149,7 @@
       "id": "af-accounting-19",
       "label": "Unified company chart of accounts",
       "source": "af-accounting",
-      "section": "Unified Chart of Accounts",
+      "section": "Credit Card Accounting",
       "line": 94,
       "quote": "Merge property and corporate accounts into one chart, so your books reflect how your business runs."
     },
@@ -165,7 +165,7 @@
       "id": "af-maintenance-02",
       "label": "Automated bill and purchase approval",
       "source": "af-maintenance",
-      "section": "Benefits:",
+      "section": "Pay Your Bills, Owners, and Vendors",
       "line": 37,
       "quote": "Automate billing and PO approvals, and approve payments from your mobile app"
     },
@@ -181,7 +181,7 @@
       "id": "af-maintenance-04",
       "label": "Vendor network dispatch",
       "source": "af-maintenance",
-      "section": "Built into the Online Resident Portal and Contact Center, the Maintenance Performer acts as your AI coordinator, responding to residents and dispatching",
+      "section": "The Realm-X Maintenance Performer & Automated Scheduling & Billing",
       "line": 48,
       "quote": "When your regular technicians aren't available, the Maintenance Performer can dispatch from the Lula Vendor Network to fully automate vendor outsourcing"
     },
@@ -189,7 +189,7 @@
       "id": "af-maintenance-05",
       "label": "Technician calendar scheduling",
       "source": "af-maintenance",
-      "section": "When your regular technicians aren't available, the Maintenance Performer can dispatch from the Lula Vendor Network to fully automate vendor outsourcing",
+      "section": "The Realm-X Maintenance Performer & Automated Scheduling & Billing",
       "line": 49,
       "quote": "Assign and schedule work orders to in-house technicians through the drag-and-drop calendar scheduler"
     },
@@ -197,7 +197,7 @@
       "id": "af-maintenance-06",
       "label": "Automatic owner invoicing",
       "source": "af-maintenance",
-      "section": "Assign and schedule work orders to in-house technicians through the drag-and-drop calendar scheduler",
+      "section": "The Realm-X Maintenance Performer & Automated Scheduling & Billing",
       "line": 50,
       "quote": "Instantly generate custom invoices for owners using pre-set rules and adjustments, with automated billing tools"
     },
@@ -272,6 +272,374 @@
       "section": "In-House Maintenance",
       "line": 79,
       "quote": "From resident submission to billing, spend less time manually entering data and enable your maintenance team to manage their entire workflow online."
+    },
+    {
+      "id": "af-vendor-01",
+      "label": "Vendor portal activation",
+      "source": "af-vendor",
+      "section": "Activate Your Vendor Portal",
+      "line": 15,
+      "quote": "The property manager will send you an email to activate your online portal. Simply follow the steps to set up your portal and start using its features including setting up payments, uploading compliance documents, navigating work orders, and more!"
+    },
+    {
+      "id": "af-vendor-02",
+      "label": "Vendor two-step authentication",
+      "source": "af-vendor",
+      "section": "Setup Two-Factor Authentication (2FA)",
+      "line": 20,
+      "quote": "You will be prompted to set up two-step verification to keep your personal and financial information secure. Signing into your portal will periodically require both a password, as well as a security code, that will be sent via your preferred method."
+    },
+    {
+      "id": "af-vendor-03",
+      "label": "Vendor team invitations",
+      "source": "af-vendor",
+      "section": "Managing User Access",
+      "line": 36,
+      "quote": "You can invite a user via email and once they accept your invitation, they will have access to any of your assigned work orders and can invite other users."
+    },
+    {
+      "id": "af-vendor-04",
+      "label": "Vendor team revocation",
+      "source": "af-vendor",
+      "section": "Managing User Access",
+      "line": 37,
+      "quote": "You can also remove user access from your account via the Delete button. Invited users will also be able to remove other invited users."
+    },
+    {
+      "id": "af-vendor-05",
+      "label": "Vendor payment preference",
+      "source": "af-vendor",
+      "section": "Select Your Payment Preference",
+      "line": 41,
+      "quote": "Once you’ve set up two-step verification, you can confirm your payment preference and enter your payment information."
+    },
+    {
+      "id": "af-vendor-06",
+      "label": "Vendor instant pay",
+      "source": "af-vendor",
+      "section": "Setting Up Instant Pay",
+      "line": 52,
+      "quote": "Please note that Instant Pay may not be available or provided by all property managers."
+    },
+    {
+      "id": "af-vendor-07",
+      "label": "Vendor payment history PDF",
+      "source": "af-vendor",
+      "section": "View Payment History",
+      "line": 69,
+      "quote": "Click View Details to download the PDF version of the payment details."
+    },
+    {
+      "id": "af-vendor-08",
+      "label": "Vendor compliance originals",
+      "source": "af-vendor",
+      "section": "How to Upload Compliance Documents",
+      "line": 82,
+      "quote": "Any time your client requests compliance documents needing attention, you will receive an email notification. The email will prompt you to upload an updated PDF version of the document in the portal."
+    },
+    {
+      "id": "af-vendor-09",
+      "label": "Accept or decline assigned work",
+      "source": "af-vendor",
+      "section": "Work Orders",
+      "line": 88,
+      "quote": "When you receive a new job in Vendor Portal, you may need to Accept or Decline the job."
+    },
+    {
+      "id": "af-vendor-10",
+      "label": "Assigned work order search",
+      "source": "af-vendor",
+      "section": "Work Orders",
+      "line": 90,
+      "quote": "Search Bar: Use the search bar to enter the work order number (e.g., #250-1) or the property address at any time. Click on any result to navigate to the job's details page."
+    },
+    {
+      "id": "af-vendor-11",
+      "label": "Requested estimate status",
+      "source": "af-vendor",
+      "section": "Work Orders",
+      "line": 99,
+      "quote": "Needs Estimate: You need to submit an estimate of this job"
+    },
+    {
+      "id": "af-vendor-12",
+      "label": "Customer estimate review",
+      "source": "af-vendor",
+      "section": "Work Orders",
+      "line": 100,
+      "quote": "Estimated: The customer needs to review your estimate"
+    },
+    {
+      "id": "af-vendor-13",
+      "label": "Competing repair estimates",
+      "source": "af-vendor",
+      "section": "Invoice, Estimates, Notes, and Work Done",
+      "line": 138,
+      "quote": "Property managers have the option to request estimates from multiple vendors for each job. If you are selected, you will receive the job details in the “Estimates” Work Order Group in the Vendor Portal."
+    },
+    {
+      "id": "af-vendor-14",
+      "label": "Vendor estimated cost submission",
+      "source": "af-vendor",
+      "section": "Invoice, Estimates, Notes, and Work Done",
+      "line": 139,
+      "quote": "You will be able to submit an estimated cost, which will be submitted back to the property manager. If you are approved, this will move to the “In Progress” Work Order Group in the Vendor Portal and you will be notified via email.Adding a Note"
+    },
+    {
+      "id": "af-vendor-15",
+      "label": "Work order PDF",
+      "source": "af-vendor",
+      "section": "How to Print Work Orders",
+      "line": 113,
+      "quote": "You can download a PDF containing the details of the work order by clicking the Download PDF button at the top of the Details Page."
+    },
+    {
+      "id": "af-vendor-16",
+      "label": "Resident availability scheduling",
+      "source": "af-vendor",
+      "section": "Scheduling With Work Orders",
+      "line": 116,
+      "quote": "Select any time and click Schedule Job to schedule the job. Your customer and the resident will be notified."
+    },
+    {
+      "id": "af-vendor-17",
+      "label": "Appointment reminders",
+      "source": "af-vendor",
+      "section": "Scheduling With Work Orders",
+      "line": 117,
+      "quote": "We will send the resident a reminder 24 hours before the scheduled time."
+    },
+    {
+      "id": "af-vendor-18",
+      "label": "Upload vendor invoice",
+      "source": "af-vendor",
+      "section": "Invoice, Estimates, Notes, and Work Done",
+      "line": 124,
+      "quote": "If you have another tool you use to create your invoice, you can upload it to Vendor Portal and your customer will receive it."
+    },
+    {
+      "id": "af-vendor-19",
+      "label": "Create itemized invoice",
+      "source": "af-vendor",
+      "section": "Invoice, Estimates, Notes, and Work Done",
+      "line": 126,
+      "quote": "You can create a new invoice from scratch by creating billable items."
+    },
+    {
+      "id": "af-vendor-20",
+      "label": "Edit vendor invoice",
+      "source": "af-vendor",
+      "section": "Invoice, Estimates, Notes, and Work Done",
+      "line": 136,
+      "quote": "You can make changes to the invoice by clicking Edit and by clicking the three dots (Kebab) icon:"
+    },
+    {
+      "id": "af-vendor-21",
+      "label": "Work notes and photos",
+      "source": "af-vendor",
+      "section": "Invoice, Estimates, Notes, and Work Done",
+      "line": 141,
+      "quote": "Notes allow you to provide messages and photos about the job to your customer. To add notes to your work order, click the Notes button at the bottom of a Work Order."
+    },
+    {
+      "id": "af-vendor-22",
+      "label": "Vendor completion submission",
+      "source": "af-vendor",
+      "section": "Invoice, Estimates, Notes, and Work Done",
+      "line": 148,
+      "quote": "After completing the job, you can tell your customer that you have finished by clicking Work Done. This will change the status to Under Review or Needs Invoice if you have not added an invoice."
+    },
+    {
+      "id": "af-resident-01",
+      "label": "Resident account activation",
+      "source": "af-resident",
+      "section": "Activate Your Account Online",
+      "line": 14,
+      "quote": "You'll receive an account activation email or text message from your property management company. Click Activate Now in the email, or tap the link in the email or text message to establish a strong password to activate your account."
+    },
+    {
+      "id": "af-resident-02",
+      "label": "Native resident mobile access",
+      "source": "af-resident",
+      "section": "Download the Mobile App",
+      "line": 19,
+      "quote": "Download the mobile app to stay logged into FolioSpace. Make payments, submit maintenance requests, and review important documents 24/7."
+    },
+    {
+      "id": "af-resident-03",
+      "label": "Resident two-factor authentication",
+      "source": "af-resident",
+      "section": "Set Up Two Factor Authentication",
+      "line": 28,
+      "quote": "Navigate to the Account Profile tab. In the 2FA section, check Enable Two Factor Authentication, and hit save."
+    },
+    {
+      "id": "af-resident-04",
+      "label": "Account password recovery",
+      "source": "af-resident",
+      "section": "Reset Your Password",
+      "line": 37,
+      "quote": "3. An email with instructions to reset your password will be sent. Emails will only be sent if there is an active existing account. If the email is not in your inbox, please be sure to check spam for @appfolio.com emails."
+    },
+    {
+      "id": "af-resident-05",
+      "label": "Current and future charges",
+      "source": "af-resident",
+      "section": "Make a One-Time Payment",
+      "line": 43,
+      "quote": "Once logged in, you will land on the Home tab where you can view your current balance owed and details of current and future charges broken down by month."
+    },
+    {
+      "id": "af-resident-06",
+      "label": "One-time resident payment",
+      "source": "af-resident",
+      "section": "Make a One-Time Payment",
+      "line": 44,
+      "quote": "Click Pay Now to make a one-time payment."
+    },
+    {
+      "id": "af-resident-07",
+      "label": "Full or partial payment policy",
+      "source": "af-resident",
+      "section": "Make a One-Time Payment",
+      "line": 46,
+      "quote": "Next, choose to make your payment in full or to edit the amount. If online payments are required to be made in full, the payment amount will not be editable, and you will have the option of paying either the Balance Due, which includes past and current bills, or the Full Balance, which includes past, current, and any upcoming bills, including unposted, recurring bills."
+    },
+    {
+      "id": "af-resident-08",
+      "label": "Payment submission confirmation",
+      "source": "af-resident",
+      "section": "Make a One-Time Payment",
+      "line": 48,
+      "quote": "Once you have verified all your payment information, click Make This Payment Now. You will receive a confirmation email once the payment is successfully submitted, although this does not mean it has cleared your bank account yet. If you do not receive a confirmation email, you did not fully complete all necessary steps to submit the payment."
+    },
+    {
+      "id": "af-resident-09",
+      "label": "Autopay creation",
+      "source": "af-resident",
+      "section": "Set Up an Auto Payment",
+      "line": 51,
+      "quote": "On the Home or Payments tab, click Set Up Autopay to create an automatically recurring payment"
+    },
+    {
+      "id": "af-resident-10",
+      "label": "Autopay cancellation",
+      "source": "af-resident",
+      "section": "How Do I Delete My Auto Payment?",
+      "line": 58,
+      "quote": "You can stop any future auto payments from processing by navigating to the Payments tab and locating the Scheduled Payments block. Select Delete on the auto payment you have created. Please note that you cannot delete payments created by your roommates."
+    },
+    {
+      "id": "af-resident-11",
+      "label": "Skip one autopay",
+      "source": "af-resident",
+      "section": "How Do I Skip My Auto Payment?",
+      "line": 61,
+      "quote": "To skip the next month's payment, navigate to the Payments tab and locate the Scheduled Payments block. Click Skip this payment under the auto payment you have created (you cannot skip payments created by your roommates). The auto payment will resume after the skipped month."
+    },
+    {
+      "id": "af-resident-12",
+      "label": "Autopay amount edit",
+      "source": "af-resident",
+      "section": "How Do I Change the Amount of My Auto Payment?",
+      "line": 63,
+      "quote": "Navigate to the Payments tab and locate the Scheduled Payments block. Click Edit under the auto payment you have created (you cannot edit payments created by your roommates). Update the amount of the payment then click Save at the bottom of the page."
+    },
+    {
+      "id": "af-resident-13",
+      "label": "Autopay bank or card change",
+      "source": "af-resident",
+      "section": "How Do I Change the Payment Information of My Auto Payment?",
+      "line": 66,
+      "quote": "Update the bank account or card information on file then click Save at the bottom of the page. If you are changing your auto payment from a credit and debit card to an eCheck (or vice versa), then you’ll need to delete your auto payment then create a new one."
+    },
+    {
+      "id": "af-resident-14",
+      "label": "Autopay maximum limit",
+      "source": "af-resident",
+      "section": "How Do I Change My Auto Payment Maximum Limit?",
+      "line": 68,
+      "quote": "If you have an existing pay-in-full auto payment, you will be required to set a maximum limit in order to prevent payments of an unexpected amount. If you would like to change this amount, navigate to the Payments tab and locate the Scheduled Payments block. Click edit under the auto payment you have created. Update the maximum amount and then click Save at the bottom of the page. Updating the maximum limit can be done at any time."
+    },
+    {
+      "id": "af-resident-15",
+      "label": "Resident account ledger",
+      "source": "af-resident",
+      "section": "View Payment History",
+      "line": 74,
+      "quote": "Click the Payments tab, then click View full account ledger to see a detailed account of all charges and payments posted to your account. Please contact your property manager if you have any questions about the transactions displayed."
+    },
+    {
+      "id": "af-resident-16",
+      "label": "Delete saved payment method",
+      "source": "af-resident",
+      "section": "Can I Delete My Saved Bank Account or Card?",
+      "line": 76,
+      "quote": "Yes, you can delete a saved bank account or card. Click the Account Profile tab and locate the Saved Payment Methods block. Under the saved payment method details, click the red Delete, then click Yes, Delete to confirm."
+    },
+    {
+      "id": "af-resident-17",
+      "label": "Retail cash payslip",
+      "source": "af-resident",
+      "section": "Where Can I Find My Electronic Cash Payment Slip?",
+      "line": 96,
+      "quote": "You can find the electronic cash payment slip by navigating to the Payments tab, then clicking Download Payslip from the Electronic Cash Payments block. Alternatively, you may find your payslip as an attachment in your Shared Document tab."
+    },
+    {
+      "id": "af-resident-18",
+      "label": "Electronic lease signatures",
+      "source": "af-resident",
+      "section": "How Do I Sign My Lease Electronically?",
+      "line": 117,
+      "quote": "Your electronic lease will appear as soon as you enter your move-in checklist in FolioSpace. Read through the document carefully and select the first initial line you see. You will be prompted to enter your full name and initials to create your electronic signature. As you read through your lease, click every initial and signature line that you see to provide your electronic signature until you have reached the end of the document."
+    },
+    {
+      "id": "af-resident-19",
+      "label": "Electronic renewal signatures",
+      "source": "af-resident",
+      "section": "How Do I Renew My Lease Electronically?",
+      "line": 119,
+      "quote": "If you received an email that you have a lease renewal offer in FolioSpace, you can review the lease details on the Home tab. Review the offer(s) in the banner, then click View to begin signing the renewal offer of your choice."
+    },
+    {
+      "id": "af-resident-20",
+      "label": "Change electronic signature",
+      "source": "af-resident",
+      "section": "How Do I Update My Electronic Signature for Signing Documents?",
+      "line": 123,
+      "quote": "Navigate to the Account Profile tab, then click Edit Electronic Signature in the Signature block. Enter your legal full name and initials, then click Save."
+    },
+    {
+      "id": "af-resident-21",
+      "label": "Move-in utility setup",
+      "source": "af-resident",
+      "section": "How Do I Set Up My Utilities in FolioSpace?",
+      "line": 125,
+      "quote": "When you first activate your FolioSpace account, you will be welcomed to a move-in checklist that guides you through your key move-in tasks. If your property manager has selected utilities that you are responsible for, you will see them listed in the Set Up Utilities step. You may also choose to upload a document or manually enter details to confirm."
+    },
+    {
+      "id": "af-resident-22",
+      "label": "Utility concierge referral",
+      "source": "af-resident",
+      "section": "How Do I Get Help With Utilities?",
+      "line": 127,
+      "quote": "Your property manager may offer a free Move-In Concierge to help with utilities and home services set up. The Concierge service is offered by AppFolio and staffed by professionals who can help connect you with your required gas, water, and electric providers. They can also help you find and sign up for internet, TV, and home security packages in your area."
+    },
+    {
+      "id": "af-resident-23",
+      "label": "Resident contact updates",
+      "source": "af-resident",
+      "section": "Update Your Contact Information",
+      "line": 136,
+      "quote": "Navigate to the Account Profile tab and locate the Contact Information block. Here you can update the email address you use to log into your account, the phone number, mailing address, and vehicle information your property manager has on file for you."
+    },
+    {
+      "id": "af-resident-24",
+      "label": "Resident account deletion",
+      "source": "af-resident",
+      "section": "I No Longer Rent With This Property Manager. How Do I Delete My Account?",
+      "line": 138,
+      "quote": "Please contact your property manager and ask them to delete the login information associated with your account."
     }
   ]
 }

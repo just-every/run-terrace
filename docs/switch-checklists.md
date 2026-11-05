@@ -14,7 +14,7 @@ Public HTTPS response captured on the stated UTC date. Capture text decodes HTML
 
 **Incomplete inventory:** Complete official-source inventory remains unqualified: selected public pages are only partially audited; help hubs, account-only documentation, nested source areas and linked material may contain omitted workflows.
 
-34 inventoried workflows from 2 partially audited pages. [Discovery register](switch-checklist-sources/appfolio-discovery.txt): 620 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
+80 inventoried workflows from 4 partially audited pages; 1 unaudited captures. [Discovery register](switch-checklist-sources/appfolio-discovery.txt): 620 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
 
 Discovery raw SHA-256: `fb6caeb03cac37cae19ab8e5ae1dca27374d82af0de5fb299e3048f081740190`. Retained register SHA-256: `f377f2fc41e5df91d8f8d6ad4dd7e5538ed5a34e5b0a23f18560ad9a0cb77703`.
 
@@ -24,17 +24,19 @@ Discovery raw SHA-256: `fb6caeb03cac37cae19ab8e5ae1dca27374d82af0de5fb299e3048f0
 
 **Incomplete inventory:** Complete official-source inventory remains unqualified: selected public pages are only partially audited; help hubs, account-only documentation, nested source areas and linked material may contain omitted workflows.
 
-22 inventoried workflows from 4 partially audited pages. [Discovery register](switch-checklist-sources/buildium-discovery.txt): 171 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
+22 inventoried workflows from 4 partially audited pages; 2 unaudited captures. [Discovery register](switch-checklist-sources/buildium-discovery.txt): 171 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
 
 Discovery raw SHA-256: `fd9c781afb1796c103da3fb7bfd4c3d94d67972bd76e3256e499ba00fe4c0d5b`. Retained register SHA-256: `9e822554e4881605f8b1dfafe1bdcd13c3197a622312b637b5f1b1eb692d983c`.
 
 **Unaudited area — Technician GPS and scheduled reports:** Not established by the selected public sources; retained as unaudited source areas, never inferred absent.
 
+**Unaudited area — Scheduled reports — official help contents inaccessible:** The Schedule Batched Reports official help URL returned HTTP 200 with a loading shell and CSS Error, not article text. Scheduled generation and delivery remain a named unqualified gap; no source contents or completeness are inferred. [Official source area](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports)
+
 ### Rent Manager source coverage
 
 **Incomplete inventory:** Complete official-source inventory remains unqualified: selected public pages are only partially audited; help hubs, account-only documentation, nested source areas and linked material may contain omitted workflows.
 
-69 inventoried workflows from 5 partially audited pages. [Discovery register](switch-checklist-sources/rent-manager-discovery.txt): 76 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
+69 inventoried workflows from 5 partially audited pages; 0 unaudited captures. [Discovery register](switch-checklist-sources/rent-manager-discovery.txt): 76 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
 
 Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b3cc3c941`. Retained register SHA-256: `6aaaa762d45b866d37e91a17909998655d1d125629529f67d155c9d8c8476d5c`.
 
@@ -42,7 +44,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 ## AppFolio checklist
 
-**Partial official-source inventory. 34 workflows; additional source areas remain unaudited.**
+**Partial official-source inventory. 80 workflows; additional source areas remain unaudited.**
 
 #### Corporate accounting · af-accounting-01
 
@@ -50,9 +52,9 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Accounting Performer's high-confidence budget predictions outperformed customers' own budgets – more accurate on nearly 2 of 3 line items”, [capture](switch-checklist-sources/af-accounting.txt) line 42.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Corporate Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 43.
 
-> Corporate Accounting
+> Bring your management company's books into the same platform as your properties, so nothing lives in a separate system or spreadsheet.
 
 #### Automated bill coding and close · af-accounting-02
 
@@ -90,7 +92,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [ACCT-007](#clause-acct-007) (done)
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Record every swipe on a card as its own transaction, not a workaround involving a fake property, a fake vendor, or a spreadsheet.”, [capture](switch-checklist-sources/af-accounting.txt) line 58.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 58.
 
 > Capture receipts at the point of sale with Mobile Receipt Capture
 
@@ -100,7 +102,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [ACCT-005](#clause-acct-005) (missing)
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Capture receipts at the point of sale with Mobile Receipt Capture”, [capture](switch-checklist-sources/af-accounting.txt) line 59.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 59.
 
 > Create transactions directly from your Bank Feed Integration
 
@@ -110,7 +112,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [SAFE-005](#clause-safe-005) (done)
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Extended Access to Data”, [capture](switch-checklist-sources/af-accounting.txt) line 64.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 64.
 
 > Take advantage of secure export functionality to organize your data outside AppFolio.
 
@@ -120,7 +122,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [PAY-002](#clause-pay-002) (missing); [PAY-003](#clause-pay-003) (partial); [ACCT-008](#clause-acct-008) (missing); [ACCT-010](#clause-acct-010) (missing)
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Online Payments”, [capture](switch-checklist-sources/af-accounting.txt) line 66.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 66.
 
 > Send and receive payments all on one online platform, with the controls and visibility you need to maximize cash flow and scale your business.
 
@@ -130,7 +132,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [ACCT-006](#clause-acct-006) (done)
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Auto Bank Reconciliation”, [capture](switch-checklist-sources/af-accounting.txt) line 68.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 68.
 
 > Securely link your bank accounts with AppFolio to automate transaction matching via our Plaid integration.
 
@@ -140,7 +142,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [PAY-006](#clause-pay-006) (partial)
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Late Fee Waivers”, [capture](switch-checklist-sources/af-accounting.txt) line 70.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 70.
 
 > Adjust and customize how you process late fees with convenient bulk and case-by-case waivers.
 
@@ -150,7 +152,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “CAM Tracking & Reconciliation”, [capture](switch-checklist-sources/af-accounting.txt) line 72.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 72.
 
 > Conveniently track, bill, and reconcile the CAM expenses and income whenever you need to.
 
@@ -160,7 +162,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [PAY-006](#clause-pay-006) (partial)
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Automated Late Fees”, [capture](switch-checklist-sources/af-accounting.txt) line 74.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 74.
 
 > Ensure that fees are assessed accurately and on time according to your lease agreements.
 
@@ -170,7 +172,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [ACCT-017](#clause-acct-017) (missing)
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “eCheck”, [capture](switch-checklist-sources/af-accounting.txt) line 78.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 78.
 
 > Pay your owners, vendors, and residents quickly and securely via eCheck.
 
@@ -180,7 +182,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [PAY-011](#clause-pay-011) (partial)
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Tenant Debt Collections”, [capture](switch-checklist-sources/af-accounting.txt) line 82.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 82.
 
 > Streamline your debt recovery process and reduce the burden on your team to collect past due receivables.
 
@@ -190,7 +192,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [PAY-001](#clause-pay-001) (done)
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Bulk Tenant Charges”, [capture](switch-checklist-sources/af-accounting.txt) line 84.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 84.
 
 > Save time and effort by uploading bulk tenant charges rather than manually processing them.
 
@@ -200,7 +202,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [ACCT-003](#clause-acct-003) (missing)
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Holding Deposits”, [capture](switch-checklist-sources/af-accounting.txt) line 88.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 88.
 
 > Easily manage multiple applicants and refund deposits directly from escrow.
 
@@ -210,7 +212,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Loan Tracking”, [capture](switch-checklist-sources/af-accounting.txt) line 90.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 90.
 
 > Monitor your loans payable in a single location and save time with automated transaction creation.
 
@@ -220,7 +222,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Reimbursable Expenses”, [capture](switch-checklist-sources/af-accounting.txt) line 92.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 92.
 
 > Flag expenses as reimbursable the moment they happen, then bill properties back without the month end scramble.
 
@@ -230,7 +232,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Unified Chart of Accounts”, [capture](switch-checklist-sources/af-accounting.txt) line 94.
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Credit Card Accounting”, [capture](switch-checklist-sources/af-accounting.txt) line 94.
 
 > Merge property and corporate accounts into one chart, so your books reflect how your business runs.
 
@@ -250,7 +252,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-003](#clause-work-003) (done); [ACCT-007](#clause-acct-007) (done)
 
-**Official source:** [af-maintenance](https://www.appfolio.com/property-manager/maintenance), captured 2026-11-05; section “Benefits:”, [capture](switch-checklist-sources/af-maintenance.txt) line 37.
+**Official source:** [af-maintenance](https://www.appfolio.com/property-manager/maintenance), captured 2026-11-05; section “Pay Your Bills, Owners, and Vendors”, [capture](switch-checklist-sources/af-maintenance.txt) line 37.
 
 > Automate billing and PO approvals, and approve payments from your mobile app
 
@@ -270,7 +272,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [af-maintenance](https://www.appfolio.com/property-manager/maintenance), captured 2026-11-05; section “Built into the Online Resident Portal and Contact Center, the Maintenance Performer acts as your AI coordinator, responding to residents and dispatching”, [capture](switch-checklist-sources/af-maintenance.txt) line 48.
+**Official source:** [af-maintenance](https://www.appfolio.com/property-manager/maintenance), captured 2026-11-05; section “The Realm-X Maintenance Performer & Automated Scheduling & Billing”, [capture](switch-checklist-sources/af-maintenance.txt) line 48.
 
 > When your regular technicians aren't available, the Maintenance Performer can dispatch from the Lula Vendor Network to fully automate vendor outsourcing
 
@@ -280,7 +282,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-005](#clause-work-005) (partial)
 
-**Official source:** [af-maintenance](https://www.appfolio.com/property-manager/maintenance), captured 2026-11-05; section “When your regular technicians aren't available, the Maintenance Performer can dispatch from the Lula Vendor Network to fully automate vendor outsourcing”, [capture](switch-checklist-sources/af-maintenance.txt) line 49.
+**Official source:** [af-maintenance](https://www.appfolio.com/property-manager/maintenance), captured 2026-11-05; section “The Realm-X Maintenance Performer & Automated Scheduling & Billing”, [capture](switch-checklist-sources/af-maintenance.txt) line 49.
 
 > Assign and schedule work orders to in-house technicians through the drag-and-drop calendar scheduler
 
@@ -290,7 +292,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-014](#clause-work-014) (done)
 
-**Official source:** [af-maintenance](https://www.appfolio.com/property-manager/maintenance), captured 2026-11-05; section “Assign and schedule work orders to in-house technicians through the drag-and-drop calendar scheduler”, [capture](switch-checklist-sources/af-maintenance.txt) line 50.
+**Official source:** [af-maintenance](https://www.appfolio.com/property-manager/maintenance), captured 2026-11-05; section “The Realm-X Maintenance Performer & Automated Scheduling & Billing”, [capture](switch-checklist-sources/af-maintenance.txt) line 50.
 
 > Instantly generate custom invoices for owners using pre-set rules and adjustments, with automated billing tools
 
@@ -384,6 +386,466 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 > From resident submission to billing, spend less time manually entering data and enable your maintenance team to manage their entire workflow online.
 
+#### Vendor portal activation · af-vendor-01
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-003](#clause-portal-003) (partial)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Activate Your Vendor Portal”, [capture](switch-checklist-sources/af-vendor.txt) line 15.
+
+> The property manager will send you an email to activate your online portal. Simply follow the steps to set up your portal and start using its features including setting up payments, uploading compliance documents, navigating work orders, and more!
+
+#### Vendor two-step authentication · af-vendor-02
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [SAFE-001](#clause-safe-001) (done); [PORTAL-003](#clause-portal-003) (partial)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Setup Two-Factor Authentication (2FA)”, [capture](switch-checklist-sources/af-vendor.txt) line 20.
+
+> You will be prompted to set up two-step verification to keep your personal and financial information secure. Signing into your portal will periodically require both a password, as well as a security code, that will be sent via your preferred method.
+
+#### Vendor team invitations · af-vendor-03
+
+**Gap:** Vendor-team delegated account invitations remain unsupported.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Managing User Access”, [capture](switch-checklist-sources/af-vendor.txt) line 36.
+
+> You can invite a user via email and once they accept your invitation, they will have access to any of your assigned work orders and can invite other users.
+
+#### Vendor team revocation · af-vendor-04
+
+**Gap:** Vendor-managed team revocation remains unsupported.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Managing User Access”, [capture](switch-checklist-sources/af-vendor.txt) line 37.
+
+> You can also remove user access from your account via the Delete button. Invited users will also be able to remove other invited users.
+
+#### Vendor payment preference · af-vendor-05
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-003](#clause-portal-003) (partial)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Select Your Payment Preference”, [capture](switch-checklist-sources/af-vendor.txt) line 41.
+
+> Once you’ve set up two-step verification, you can confirm your payment preference and enter your payment information.
+
+#### Vendor instant pay · af-vendor-06
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [ACCT-008](#clause-acct-008) (missing)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Setting Up Instant Pay”, [capture](switch-checklist-sources/af-vendor.txt) line 52.
+
+> Please note that Instant Pay may not be available or provided by all property managers.
+
+#### Vendor payment history PDF · af-vendor-07
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-003](#clause-portal-003) (partial)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “View Payment History”, [capture](switch-checklist-sources/af-vendor.txt) line 69.
+
+> Click View Details to download the PDF version of the payment details.
+
+#### Vendor compliance originals · af-vendor-08
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-003](#clause-portal-003) (partial)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “How to Upload Compliance Documents”, [capture](switch-checklist-sources/af-vendor.txt) line 82.
+
+> Any time your client requests compliance documents needing attention, you will receive an email notification. The email will prompt you to upload an updated PDF version of the document in the portal.
+
+#### Accept or decline assigned work · af-vendor-09
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-003](#clause-portal-003) (partial)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Work Orders”, [capture](switch-checklist-sources/af-vendor.txt) line 88.
+
+> When you receive a new job in Vendor Portal, you may need to Accept or Decline the job.
+
+#### Assigned work order search · af-vendor-10
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-003](#clause-portal-003) (partial)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Work Orders”, [capture](switch-checklist-sources/af-vendor.txt) line 90.
+
+> Search Bar: Use the search bar to enter the work order number (e.g., #250-1) or the property address at any time. Click on any result to navigate to the job's details page.
+
+#### Requested estimate status · af-vendor-11
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-003](#clause-portal-003) (partial); [WORK-003](#clause-work-003) (done)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Work Orders”, [capture](switch-checklist-sources/af-vendor.txt) line 99.
+
+> Needs Estimate: You need to submit an estimate of this job
+
+#### Customer estimate review · af-vendor-12
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [WORK-003](#clause-work-003) (done)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Work Orders”, [capture](switch-checklist-sources/af-vendor.txt) line 100.
+
+> Estimated: The customer needs to review your estimate
+
+#### Competing repair estimates · af-vendor-13
+
+**Gap:** Several vendors must submit their own estimates before work approval. WORK-003 staff-recorded quotes and the Terrace estimate door restricted to already-approved assigned work do not replace this capability.
+
+**Related replacements:** [WORK-003](#clause-work-003) (done); [PORTAL-003](#clause-portal-003) (partial)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Invoice, Estimates, Notes, and Work Done”, [capture](switch-checklist-sources/af-vendor.txt) line 138.
+
+> Property managers have the option to request estimates from multiple vendors for each job. If you are selected, you will receive the job details in the “Estimates” Work Order Group in the Vendor Portal.
+
+#### Vendor estimated cost submission · af-vendor-14
+
+**Gap:** The vendor must be able to submit before approval; the current assigned approved-work prerequisite does not qualify.
+
+**Related replacements:** [PORTAL-003](#clause-portal-003) (partial); [WORK-003](#clause-work-003) (done)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Invoice, Estimates, Notes, and Work Done”, [capture](switch-checklist-sources/af-vendor.txt) line 139.
+
+> You will be able to submit an estimated cost, which will be submitted back to the property manager. If you are approved, this will move to the “In Progress” Work Order Group in the Vendor Portal and you will be notified via email.Adding a Note
+
+#### Work order PDF · af-vendor-15
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-003](#clause-portal-003) (partial)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “How to Print Work Orders”, [capture](switch-checklist-sources/af-vendor.txt) line 113.
+
+> You can download a PDF containing the details of the work order by clicking the Download PDF button at the top of the Details Page.
+
+#### Resident availability scheduling · af-vendor-16
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [WORK-005](#clause-work-005) (partial); [PORTAL-003](#clause-portal-003) (partial)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Scheduling With Work Orders”, [capture](switch-checklist-sources/af-vendor.txt) line 116.
+
+> Select any time and click Schedule Job to schedule the job. Your customer and the resident will be notified.
+
+#### Appointment reminders · af-vendor-17
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [WORK-005](#clause-work-005) (partial)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Scheduling With Work Orders”, [capture](switch-checklist-sources/af-vendor.txt) line 117.
+
+> We will send the resident a reminder 24 hours before the scheduled time.
+
+#### Upload vendor invoice · af-vendor-18
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-003](#clause-portal-003) (partial); [ACCT-007](#clause-acct-007) (done)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Invoice, Estimates, Notes, and Work Done”, [capture](switch-checklist-sources/af-vendor.txt) line 124.
+
+> If you have another tool you use to create your invoice, you can upload it to Vendor Portal and your customer will receive it.
+
+#### Create itemized invoice · af-vendor-19
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-003](#clause-portal-003) (partial); [ACCT-007](#clause-acct-007) (done)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Invoice, Estimates, Notes, and Work Done”, [capture](switch-checklist-sources/af-vendor.txt) line 126.
+
+> You can create a new invoice from scratch by creating billable items.
+
+#### Edit vendor invoice · af-vendor-20
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-003](#clause-portal-003) (partial)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Invoice, Estimates, Notes, and Work Done”, [capture](switch-checklist-sources/af-vendor.txt) line 136.
+
+> You can make changes to the invoice by clicking Edit and by clicking the three dots (Kebab) icon:
+
+#### Work notes and photos · af-vendor-21
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-003](#clause-portal-003) (partial); [WORK-007](#clause-work-007) (partial)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Invoice, Estimates, Notes, and Work Done”, [capture](switch-checklist-sources/af-vendor.txt) line 141.
+
+> Notes allow you to provide messages and photos about the job to your customer. To add notes to your work order, click the Notes button at the bottom of a Work Order.
+
+#### Vendor completion submission · af-vendor-22
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-003](#clause-portal-003) (partial); [WORK-008](#clause-work-008) (done)
+
+**Official source:** [af-vendor](https://www.appfolio.com/help/vendor-portal), captured 2026-11-05; section “Invoice, Estimates, Notes, and Work Done”, [capture](switch-checklist-sources/af-vendor.txt) line 148.
+
+> After completing the job, you can tell your customer that you have finished by clicking Work Done. This will change the status to Under Review or Needs Invoice if you have not added an invoice.
+
+#### Resident account activation · af-resident-01
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-001](#clause-portal-001) (done)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “Activate Your Account Online”, [capture](switch-checklist-sources/af-resident.txt) line 14.
+
+> You'll receive an account activation email or text message from your property management company. Click Activate Now in the email, or tap the link in the email or text message to establish a strong password to activate your account.
+
+#### Native resident mobile access · af-resident-02
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-008](#clause-portal-008) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “Download the Mobile App”, [capture](switch-checklist-sources/af-resident.txt) line 19.
+
+> Download the mobile app to stay logged into FolioSpace. Make payments, submit maintenance requests, and review important documents 24/7.
+
+#### Resident two-factor authentication · af-resident-03
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [SAFE-001](#clause-safe-001) (done); [PORTAL-001](#clause-portal-001) (done)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “Set Up Two Factor Authentication”, [capture](switch-checklist-sources/af-resident.txt) line 28.
+
+> Navigate to the Account Profile tab. In the 2FA section, check Enable Two Factor Authentication, and hit save.
+
+#### Account password recovery · af-resident-04
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [SAFE-001](#clause-safe-001) (done)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “Reset Your Password”, [capture](switch-checklist-sources/af-resident.txt) line 37.
+
+> 3. An email with instructions to reset your password will be sent. Emails will only be sent if there is an active existing account. If the email is not in your inbox, please be sure to check spam for @appfolio.com emails.
+
+#### Current and future charges · af-resident-05
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-001](#clause-portal-001) (done); [PAY-010](#clause-pay-010) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “Make a One-Time Payment”, [capture](switch-checklist-sources/af-resident.txt) line 43.
+
+> Once logged in, you will land on the Home tab where you can view your current balance owed and details of current and future charges broken down by month.
+
+#### One-time resident payment · af-resident-06
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PAY-002](#clause-pay-002) (missing); [PAY-003](#clause-pay-003) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “Make a One-Time Payment”, [capture](switch-checklist-sources/af-resident.txt) line 44.
+
+> Click Pay Now to make a one-time payment.
+
+#### Full or partial payment policy · af-resident-07
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PAY-005](#clause-pay-005) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “Make a One-Time Payment”, [capture](switch-checklist-sources/af-resident.txt) line 46.
+
+> Next, choose to make your payment in full or to edit the amount. If online payments are required to be made in full, the payment amount will not be editable, and you will have the option of paying either the Balance Due, which includes past and current bills, or the Full Balance, which includes past, current, and any upcoming bills, including unposted, recurring bills.
+
+#### Payment submission confirmation · af-resident-08
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PAY-010](#clause-pay-010) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “Make a One-Time Payment”, [capture](switch-checklist-sources/af-resident.txt) line 48.
+
+> Once you have verified all your payment information, click Make This Payment Now. You will receive a confirmation email once the payment is successfully submitted, although this does not mean it has cleared your bank account yet. If you do not receive a confirmation email, you did not fully complete all necessary steps to submit the payment.
+
+#### Autopay creation · af-resident-09
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PAY-004](#clause-pay-004) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “Set Up an Auto Payment”, [capture](switch-checklist-sources/af-resident.txt) line 51.
+
+> On the Home or Payments tab, click Set Up Autopay to create an automatically recurring payment
+
+#### Autopay cancellation · af-resident-10
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PAY-004](#clause-pay-004) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “How Do I Delete My Auto Payment?”, [capture](switch-checklist-sources/af-resident.txt) line 58.
+
+> You can stop any future auto payments from processing by navigating to the Payments tab and locating the Scheduled Payments block. Select Delete on the auto payment you have created. Please note that you cannot delete payments created by your roommates.
+
+#### Skip one autopay · af-resident-11
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PAY-004](#clause-pay-004) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “How Do I Skip My Auto Payment?”, [capture](switch-checklist-sources/af-resident.txt) line 61.
+
+> To skip the next month's payment, navigate to the Payments tab and locate the Scheduled Payments block. Click Skip this payment under the auto payment you have created (you cannot skip payments created by your roommates). The auto payment will resume after the skipped month.
+
+#### Autopay amount edit · af-resident-12
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PAY-004](#clause-pay-004) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “How Do I Change the Amount of My Auto Payment?”, [capture](switch-checklist-sources/af-resident.txt) line 63.
+
+> Navigate to the Payments tab and locate the Scheduled Payments block. Click Edit under the auto payment you have created (you cannot edit payments created by your roommates). Update the amount of the payment then click Save at the bottom of the page.
+
+#### Autopay bank or card change · af-resident-13
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PAY-004](#clause-pay-004) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “How Do I Change the Payment Information of My Auto Payment?”, [capture](switch-checklist-sources/af-resident.txt) line 66.
+
+> Update the bank account or card information on file then click Save at the bottom of the page. If you are changing your auto payment from a credit and debit card to an eCheck (or vice versa), then you’ll need to delete your auto payment then create a new one.
+
+#### Autopay maximum limit · af-resident-14
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PAY-004](#clause-pay-004) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “How Do I Change My Auto Payment Maximum Limit?”, [capture](switch-checklist-sources/af-resident.txt) line 68.
+
+> If you have an existing pay-in-full auto payment, you will be required to set a maximum limit in order to prevent payments of an unexpected amount. If you would like to change this amount, navigate to the Payments tab and locate the Scheduled Payments block. Click edit under the auto payment you have created. Update the maximum amount and then click Save at the bottom of the page. Updating the maximum limit can be done at any time.
+
+#### Resident account ledger · af-resident-15
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-001](#clause-portal-001) (done); [PAY-010](#clause-pay-010) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “View Payment History”, [capture](switch-checklist-sources/af-resident.txt) line 74.
+
+> Click the Payments tab, then click View full account ledger to see a detailed account of all charges and payments posted to your account. Please contact your property manager if you have any questions about the transactions displayed.
+
+#### Delete saved payment method · af-resident-16
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PAY-004](#clause-pay-004) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “Can I Delete My Saved Bank Account or Card?”, [capture](switch-checklist-sources/af-resident.txt) line 76.
+
+> Yes, you can delete a saved bank account or card. Click the Account Profile tab and locate the Saved Payment Methods block. Under the saved payment method details, click the red Delete, then click Yes, Delete to confirm.
+
+#### Retail cash payslip · af-resident-17
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PAY-007](#clause-pay-007) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “Where Can I Find My Electronic Cash Payment Slip?”, [capture](switch-checklist-sources/af-resident.txt) line 96.
+
+> You can find the electronic cash payment slip by navigating to the Payments tab, then clicking Download Payslip from the Electronic Cash Payments block. Alternatively, you may find your payslip as an attachment in your Shared Document tab.
+
+#### Electronic lease signatures · af-resident-18
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [LEASE-011](#clause-lease-011) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “How Do I Sign My Lease Electronically?”, [capture](switch-checklist-sources/af-resident.txt) line 117.
+
+> Your electronic lease will appear as soon as you enter your move-in checklist in FolioSpace. Read through the document carefully and select the first initial line you see. You will be prompted to enter your full name and initials to create your electronic signature. As you read through your lease, click every initial and signature line that you see to provide your electronic signature until you have reached the end of the document.
+
+#### Electronic renewal signatures · af-resident-19
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [LEASE-011](#clause-lease-011) (missing); [LEASE-012](#clause-lease-012) (done)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “How Do I Renew My Lease Electronically?”, [capture](switch-checklist-sources/af-resident.txt) line 119.
+
+> If you received an email that you have a lease renewal offer in FolioSpace, you can review the lease details on the Home tab. Review the offer(s) in the banner, then click View to begin signing the renewal offer of your choice.
+
+#### Change electronic signature · af-resident-20
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [LEASE-011](#clause-lease-011) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “How Do I Update My Electronic Signature for Signing Documents?”, [capture](switch-checklist-sources/af-resident.txt) line 123.
+
+> Navigate to the Account Profile tab, then click Edit Electronic Signature in the Signature block. Enter your legal full name and initials, then click Save.
+
+#### Move-in utility setup · af-resident-21
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORT-006](#clause-port-006) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “How Do I Set Up My Utilities in FolioSpace?”, [capture](switch-checklist-sources/af-resident.txt) line 125.
+
+> When you first activate your FolioSpace account, you will be welcomed to a move-in checklist that guides you through your key move-in tasks. If your property manager has selected utilities that you are responsible for, you will see them listed in the Set Up Utilities step. You may also choose to upload a document or manually enter details to confirm.
+
+#### Utility concierge referral · af-resident-22
+
+**Gap:** Utility concierge workflows remain inventoried; a referral does not establish replacement.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “How Do I Get Help With Utilities?”, [capture](switch-checklist-sources/af-resident.txt) line 127.
+
+> Your property manager may offer a free Move-In Concierge to help with utilities and home services set up. The Concierge service is offered by AppFolio and staffed by professionals who can help connect you with your required gas, water, and electric providers. They can also help you find and sign up for internet, TV, and home security packages in your area.
+
+#### Resident contact updates · af-resident-23
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [PORTAL-001](#clause-portal-001) (done)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “Update Your Contact Information”, [capture](switch-checklist-sources/af-resident.txt) line 136.
+
+> Navigate to the Account Profile tab and locate the Contact Information block. Here you can update the email address you use to log into your account, the phone number, mailing address, and vehicle information your property manager has on file for you.
+
+#### Resident account deletion · af-resident-24
+
+**Gap:** Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.
+
+**Related replacements:** [SAFE-004](#clause-safe-004) (done)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “I No Longer Rent With This Property Manager. How Do I Delete My Account?”, [capture](switch-checklist-sources/af-resident.txt) line 138.
+
+> Please contact your property manager and ask them to delete the login information associated with your account.
+
 ## Buildium checklist
 
 **Partial official-source inventory. 22 workflows; additional source areas remain unaudited.**
@@ -444,7 +906,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [bu-company](https://www.buildium.com/features/company-financials/), captured 2026-11-05; section “Close”, [capture](switch-checklist-sources/bu-company.txt) line 72.
+**Official source:** [bu-company](https://www.buildium.com/features/company-financials/), captured 2026-11-05; section “Track the books for your business with the same accuracy and efficiency as your managed properties.”, [capture](switch-checklist-sources/bu-company.txt) line 72.
 
 > Track the books for your business with the same accuracy and efficiency as your managed properties.
 
@@ -484,7 +946,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [PORTAL-005](#clause-portal-005) (partial)
 
-**Official source:** [bu-telephone](https://www.buildium.com/maintenance-contact-center/), captured 2026-11-05; section “Rely on highly-trained support”, [capture](switch-checklist-sources/bu-telephone.txt) line 78.
+**Official source:** [bu-telephone](https://www.buildium.com/maintenance-contact-center/), captured 2026-11-05; section “Continue to deliver an incredible resident experience”, [capture](switch-checklist-sources/bu-telephone.txt) line 78.
 
 > Every service call and email is answered by professional call center agents. Residents won’t even have to wait for a call back when they need your help after hours.
 
@@ -494,7 +956,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-001](#clause-work-001) (partial)
 
-**Official source:** [bu-telephone](https://www.buildium.com/maintenance-contact-center/), captured 2026-11-05; section “Answers all inbound service calls”, [capture](switch-checklist-sources/bu-telephone.txt) line 88.
+**Official source:** [bu-telephone](https://www.buildium.com/maintenance-contact-center/), captured 2026-11-05; section “Maintenance Contact Center Plans”, [capture](switch-checklist-sources/bu-telephone.txt) line 88.
 
 > Gathers information and determines if emergency or not
 
@@ -514,7 +976,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [PORTAL-007](#clause-portal-007) (partial)
 
-**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Centralize all your work and give your team visibility into what needs attention, who owns it, and what’s been completed.”, [capture](switch-checklist-sources/bu-maintenance.txt) line 88.
+**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Keep every task moving forward”, [capture](switch-checklist-sources/bu-maintenance.txt) line 88.
 
 > Capture and manage resident requests submitted through Resident Center
 
@@ -524,7 +986,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-002](#clause-work-002) (done)
 
-**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Capture and manage resident requests submitted through Resident Center”, [capture](switch-checklist-sources/bu-maintenance.txt) line 89.
+**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Keep every task moving forward”, [capture](switch-checklist-sources/bu-maintenance.txt) line 89.
 
 > Create property maintenance tasks for staff with clear ownership and due dates
 
@@ -534,7 +996,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-010](#clause-work-010) (done)
 
-**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Create property maintenance tasks for staff with clear ownership and due dates”, [capture](switch-checklist-sources/bu-maintenance.txt) line 90.
+**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Keep every task moving forward”, [capture](switch-checklist-sources/bu-maintenance.txt) line 90.
 
 > Schedule recurring work like lawn care or seasonal inspections
 
@@ -544,7 +1006,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [SAFE-002](#clause-safe-002) (done); [WORK-006](#clause-work-006) (done)
 
-**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Schedule recurring work like lawn care or seasonal inspections”, [capture](switch-checklist-sources/bu-maintenance.txt) line 91.
+**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Keep every task moving forward”, [capture](switch-checklist-sources/bu-maintenance.txt) line 91.
 
 > Maintain time-stamped updates for accountability and record-keeping
 
@@ -554,7 +1016,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-004](#clause-work-004) (done)
 
-**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Track the progress of work being performed and expected costs with work orders, keeping maintenance activity connected to your accounting.”, [capture](switch-checklist-sources/bu-maintenance.txt) line 94.
+**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Bring order to your maintenance work”, [capture](switch-checklist-sources/bu-maintenance.txt) line 94.
 
 > Assign work orders to your staff or vendors
 
@@ -564,7 +1026,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-003](#clause-work-003) (done)
 
-**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Assign work orders to your staff or vendors”, [capture](switch-checklist-sources/bu-maintenance.txt) line 95.
+**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Bring order to your maintenance work”, [capture](switch-checklist-sources/bu-maintenance.txt) line 95.
 
 > Enter quotes or estimates for the work before it’s performed
 
@@ -574,7 +1036,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [ACCT-007](#clause-acct-007) (done); [WORK-009](#clause-work-009) (missing)
 
-**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Enter quotes or estimates for the work before it’s performed”, [capture](switch-checklist-sources/bu-maintenance.txt) line 96.
+**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Bring order to your maintenance work”, [capture](switch-checklist-sources/bu-maintenance.txt) line 96.
 
 > Generate a bill directly from a work order
 
@@ -584,7 +1046,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-013](#clause-work-013) (done)
 
-**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Keep your maintenance work organized by grouping related tasks into projects to track progress and budgets at a glance.”, [capture](switch-checklist-sources/bu-maintenance.txt) line 99.
+**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Standardize your repeatable tasks”, [capture](switch-checklist-sources/bu-maintenance.txt) line 99.
 
 > Use project templates for standard workflows like unit turns or recurring repairs.
 
@@ -604,7 +1066,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-011](#clause-work-011) (partial)
 
-**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Perform inspections on-site and sync results directly into Buildium, powered by HappyCo.”, [capture](switch-checklist-sources/bu-maintenance.txt) line 112.
+**Official source:** [bu-maintenance](https://www.buildium.com/features/maintenance-request-management/), captured 2026-11-05; section “Complete inspections—right from the field”, [capture](switch-checklist-sources/bu-maintenance.txt) line 112.
 
 > Capture photos, notes, and reports in the HappyCo app
 
@@ -638,7 +1100,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [PAY-011](#clause-pay-011) (partial); [PORTAL-009](#clause-portal-009) (partial)
 
-**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “A and R Automation”, [capture](switch-checklist-sources/rm-accounting.txt) line 110.
+**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Accounts Receivable”, [capture](switch-checklist-sources/rm-accounting.txt) line 110.
 
 > Create a seamless Accounts Receivable schedule. Deliver notices via email, text, phone broadcast, or Virtual Post Office based on your predetermined schedule and protocol. Alerts are personalized for various levels of delinquency.
 
@@ -648,7 +1110,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [PAY-001](#clause-pay-001) (done)
 
-**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Charge Types”, [capture](switch-checklist-sources/rm-accounting.txt) line 112.
+**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Accounts Receivable”, [capture](switch-checklist-sources/rm-accounting.txt) line 112.
 
 > Create Charge Types to track the services and products that your business offers. Once established, post charges for rent, late fees, storage, parking, and more.
 
@@ -658,7 +1120,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [PAY-001](#clause-pay-001) (done)
 
-**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Receive Payments”, [capture](switch-checklist-sources/rm-accounting.txt) line 114.
+**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Accounts Receivable”, [capture](switch-checklist-sources/rm-accounting.txt) line 114.
 
 > Receive payments for everything from one-time charges, recurring charges, late fees, etc. Record payments on your contacts’ transaction ledgers to accurately reflect your monthly income.
 
@@ -668,7 +1130,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [ACCT-006](#clause-acct-006) (done)
 
-**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Bank Deposits”, [capture](switch-checklist-sources/rm-accounting.txt) line 116.
+**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Accounts Receivable”, [capture](switch-checklist-sources/rm-accounting.txt) line 116.
 
 > Once payments are received and recorded, deposits can be made within Rent Manager. Deposit funds and easily connect them to the correct property and bank account.
 
@@ -678,7 +1140,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [ACCT-007](#clause-acct-007) (done); [ACCT-008](#clause-acct-008) (missing)
 
-**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Create & Pay Bills”, [capture](switch-checklist-sources/rm-accounting.txt) line 122.
+**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Accounts Payable”, [capture](switch-checklist-sources/rm-accounting.txt) line 122.
 
 > Easily create and pay one-time bills received from vendors. Entering bills into Rent Manager allows you to track the amounts, due dates, and which properties they’re associated with.
 
@@ -688,7 +1150,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Recurring Bills”, [capture](switch-checklist-sources/rm-accounting.txt) line 124.
+**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Accounts Payable”, [capture](switch-checklist-sources/rm-accounting.txt) line 124.
 
 > If you manage properties that receive bills on a regular cycle—such as trash, internet service, or sewage bills—you can save time by creating and posting them as Recurring Bills.
 
@@ -698,7 +1160,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-004](#clause-work-004) (done); [MOVE-010](#clause-move-010) (partial)
 
-**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Access Vendor Information”, [capture](switch-checklist-sources/rm-accounting.txt) line 126.
+**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Accounts Payable”, [capture](switch-checklist-sources/rm-accounting.txt) line 126.
 
 > Tracking vendors is a crucial piece of Accounts Payable. Create vendor accounts in your database to keep contact information, preferred payment methods, transactions, and communication history on file and at-hand.
 
@@ -708,7 +1170,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Credit Cards”, [capture](switch-checklist-sources/rm-accounting.txt) line 128.
+**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Accounts Payable”, [capture](switch-checklist-sources/rm-accounting.txt) line 128.
 
 > The Credit Card register displays the charges, credits, and payments associated with your credit card accounts. Pay bills with credit cards and electronically reconcile in Rent Manager.
 
@@ -718,7 +1180,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [ACCT-017](#clause-acct-017) (missing)
 
-**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Write & Print Checks”, [capture](switch-checklist-sources/rm-accounting.txt) line 130.
+**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Accounts Payable”, [capture](switch-checklist-sources/rm-accounting.txt) line 130.
 
 > Managing your checks in Rent Manager gives you the organizational tools to track when checks were written, which properties were expensed, and the check amount. You can even print checks directly from the software.
 
@@ -738,7 +1200,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [PAY-002](#clause-pay-002) (missing); [PAY-003](#clause-pay-003) (partial)
 
-**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “ePay”, [capture](switch-checklist-sources/rm-accounting.txt) line 134.
+**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Payments”, [capture](switch-checklist-sources/rm-accounting.txt) line 134.
 
 > No more trips to the bank! Process credit card and check payments online in real time with Zego’s ePay integration.
 
@@ -748,7 +1210,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [PAY-007](#clause-pay-007) (partial)
 
-**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “CashPay”, [capture](switch-checklist-sources/rm-accounting.txt) line 136.
+**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Payments”, [capture](switch-checklist-sources/rm-accounting.txt) line 136.
 
 > CashPay gives tenants the freedom to electronically pay rent using cash at any of the 30,000 CheckFreePay locations nationwide.
 
@@ -758,7 +1220,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Check Scanning & Lockbox”, [capture](switch-checklist-sources/rm-accounting.txt) line 138.
+**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Payments”, [capture](switch-checklist-sources/rm-accounting.txt) line 138.
 
 > Using Rent Manager’s convenient check scanners, you can link and process multiple checks at once. Or outsource check scanning entirely with Lockbox, powered by Zego.
 
@@ -768,7 +1230,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [ACCT-008](#clause-acct-008) (missing)
 
-**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “No Cost AvidPay”, [capture](switch-checklist-sources/rm-accounting.txt) line 142.
+**Official source:** [rm-accounting](https://www.rentmanager.com/accounting/), captured 2026-11-05; section “Payments”, [capture](switch-checklist-sources/rm-accounting.txt) line 142.
 
 > Pay your vendors exactly how they want to be paid at no additional cost to you. Ditch manual check writing for good and automate your payables using AvidPay.
 
@@ -898,7 +1360,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-006](#clause-work-006) (done)
 
-**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Service Issue Statuses”, [capture](switch-checklist-sources/rm-maintenance.txt) line 108.
+**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Keep Track with Service Issues”, [capture](switch-checklist-sources/rm-maintenance.txt) line 108.
 
 > Thoroughly track your maintenance progress with Service Issue Statuses. Statuses describe the current condition of your project—New, Work in Progress, Resolved, etc. Sort your issue list by status as you’re filtering through which assignments need to be resolved.
 
@@ -908,7 +1370,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-007](#clause-work-007) (partial); [WORK-008](#clause-work-008) (done)
 
-**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Complete Service Issues in the field”, [capture](switch-checklist-sources/rm-maintenance.txt) line 110.
+**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Keep Track with Service Issues”, [capture](switch-checklist-sources/rm-maintenance.txt) line 110.
 
 > rmAppSuite Pro users can manage and update the service issue stage on their smart device while they’re still on the job. Project progress can be updated in real time and tenants can electronically sign off on completed work.
 
@@ -918,7 +1380,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Memorized Service Issues”, [capture](switch-checklist-sources/rm-maintenance.txt) line 112.
+**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Keep Track with Service Issues”, [capture](switch-checklist-sources/rm-maintenance.txt) line 112.
 
 > Avoid redundant data entry with Memorized Service Issues. If you create issues for the same maintenance tasks over and over again, memorize them to save the name, description, and other issue details, so you can populate the form in the future with just one click.
 
@@ -928,7 +1390,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-004](#clause-work-004) (done); [PORTAL-005](#clause-portal-005) (partial)
 
-**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Assign Service Issues”, [capture](switch-checklist-sources/rm-maintenance.txt) line 114.
+**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Keep Track with Service Issues”, [capture](switch-checklist-sources/rm-maintenance.txt) line 114.
 
 > Efficiently delegate maintenance tasks by assigning service issues to other Rent Manager users. Users can even create an Automated Notification to alert them when they’ve been assigned a new task.
 
@@ -948,7 +1410,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-005](#clause-work-005) (partial); [PORTAL-007](#clause-portal-007) (partial)
 
-**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Our Maintenance Scheduling tool offers a simplified approach for maintenance coordinators to establish workflows that efficiently manage their technicians’ schedules and day-to-day repair and upkeep appointments. Easily group properties and technicians to manage availability and input your maintenance team’s working hours effortlessly. Plus, the Tech View in the rmAppSuite Pro mobile app allows employees to quickly review their daily schedules any time, anywhere.”, [capture](switch-checklist-sources/rm-maintenance.txt) line 117.
+**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Maintenance Scheduling”, [capture](switch-checklist-sources/rm-maintenance.txt) line 117.
 
 > Further, residents can use Rent Manager’s Tenant Web Access (TWA) portal or the rmResident mobile app to select time slots to schedule service requests—saving you and them valuable time. And automated notifications can be sent directly from Rent Manager Express when requests are created, scheduled, confirmed, and closed—keeping everyone informed.
 
@@ -998,7 +1460,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-011](#clause-work-011) (partial)
 
-**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Video Inspections”, [capture](switch-checklist-sources/rm-maintenance.txt) line 129.
+**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Inspections”, [capture](switch-checklist-sources/rm-maintenance.txt) line 129.
 
 > Take your inspection process to the next level with video inspections. This powerful tool allows you to capture videos of your property and units on your mobile device while in the Inspection feature of the rmAppSuite Pro mobile app. Once the inspection is uploaded, you can access your videos directly in Rent Manager.
 
@@ -1008,7 +1470,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-011](#clause-work-011) (partial)
 
-**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “rmAppSuite Pro Integration”, [capture](switch-checklist-sources/rm-maintenance.txt) line 133.
+**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Inspections”, [capture](switch-checklist-sources/rm-maintenance.txt) line 133.
 
 > Inspections can be conducted from start to finish via the rmAppSuite Pro mobile app. Make notes, take photos, and schedule work orders in the field from your smart device—all of which is synced to Rent Manager.
 
@@ -1018,7 +1480,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-010](#clause-work-010) (done)
 
-**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Create Service Issues from Inspections”, [capture](switch-checklist-sources/rm-maintenance.txt) line 135.
+**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Inspections”, [capture](switch-checklist-sources/rm-maintenance.txt) line 135.
 
 > After an inspection is complete and you’ve identified the areas that require maintenance, you can effortlessly create service issues for any items that require attention.
 
@@ -1038,7 +1500,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [ACCT-015](#clause-acct-015) (missing)
 
-**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Expense Recovery”, [capture](switch-checklist-sources/rm-maintenance.txt) line 141.
+**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Utility Management”, [capture](switch-checklist-sources/rm-maintenance.txt) line 141.
 
 > We handle all billing methods—including flat fee, RUBS, and sub-metering—ensuring maximum expense recovery.
 
@@ -1048,7 +1510,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [ACCT-007](#clause-acct-007) (done)
 
-**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Expense Management”, [capture](switch-checklist-sources/rm-maintenance.txt) line 143.
+**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Utility Management”, [capture](switch-checklist-sources/rm-maintenance.txt) line 143.
 
 > Our integrated accounts payable solution streamlines utility invoice collection and payment, reducing administrative tasks.
 
@@ -1058,7 +1520,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [PAY-010](#clause-pay-010) (partial)
 
-**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Consolidated Billing”, [capture](switch-checklist-sources/rm-maintenance.txt) line 145.
+**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Utility Management”, [capture](switch-checklist-sources/rm-maintenance.txt) line 145.
 
 > We combine all resident charges—from rent to utilities—into one easy-to-pay electronic bill, simplifying the payment process.
 
@@ -1068,7 +1530,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Utility Rate Review Service”, [capture](switch-checklist-sources/rm-maintenance.txt) line 147.
+**Official source:** [rm-maintenance](https://www.rentmanager.com/maintenance/), captured 2026-11-05; section “Utility Management”, [capture](switch-checklist-sources/rm-maintenance.txt) line 147.
 
 > Our rate review service ensures accurate, up-to-date utility rates, maximizing cost recovery and compliance.
 
@@ -1078,7 +1540,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [SAFE-002](#clause-safe-002) (done)
 
-**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Audit Trail”, [capture](switch-checklist-sources/rm-reports.txt) line 108.
+**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Over 450 Pre-Defined Reports”, [capture](switch-checklist-sources/rm-reports.txt) line 108.
 
 > View a full scope of each user’s actions inside Rent Manager. Administrators can monitor everything from user login times to crucial decisions that affect database setup and financial records. This powerful report can help isolate and correct mistakes made during data entry.
 
@@ -1088,7 +1550,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Financial Statements”, [capture](switch-checklist-sources/rm-reports.txt) line 112.
+**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Over 450 Pre-Defined Reports”, [capture](switch-checklist-sources/rm-reports.txt) line 112.
 
 > These reports assist you in keeping an informed and watchful eye over your company’s finances. At its core, Rent Manager is an accounting software armed with an array of fundamental financial reports including the Balance Sheet, General Ledger, and Profit & Loss statements.
 
@@ -1098,7 +1560,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-014](#clause-work-014) (done)
 
-**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Budgeting”, [capture](switch-checklist-sources/rm-reports.txt) line 110.
+**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Over 450 Pre-Defined Reports”, [capture](switch-checklist-sources/rm-reports.txt) line 110.
 
 > Rent Manager’s reporting module provides several different budget reports to analyze cash flow and company spending habits, and to compare your actual allocations against your projected budget. Reference your budget reports while you make informed financial decisions.
 
@@ -1108,7 +1570,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [REPORT-001](#clause-report-001) (done)
 
-**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Summary Rent Roll”, [capture](switch-checklist-sources/rm-reports.txt) line 116.
+**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Over 450 Pre-Defined Reports”, [capture](switch-checklist-sources/rm-reports.txt) line 116.
 
 > Get an immediate overview of your tenants’ transaction activity during a specified time period with the Summary Rent Roll. This report shows held security deposits and loss to lease totals, as well as a breakdown of rent and non-rent charges, payments, credits, and prior balances.
 
@@ -1118,7 +1580,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [ACCT-014](#clause-acct-014) (missing)
 
-**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Tax Forms”, [capture](switch-checklist-sources/rm-reports.txt) line 120.
+**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Over 450 Pre-Defined Reports”, [capture](switch-checklist-sources/rm-reports.txt) line 120.
 
 > Begin and end tax season with peace of mind with Rent Manager’s convenient tax tools. Easily generate vendor and owner 1099 reports—and print them onto prepared IRS 1099 forms—directly from the software. These forms can then be mailed or e-filed to satisfy IRS requirements.
 
@@ -1128,7 +1590,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [REPORT-003](#clause-report-003) (done)
 
-**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Vacancy Report”, [capture](switch-checklist-sources/rm-reports.txt) line 122.
+**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Over 450 Pre-Defined Reports”, [capture](switch-checklist-sources/rm-reports.txt) line 122.
 
 > Generate the Vacancy Report to quickly identify which of your units are available and vacant. This informative report shows the length of vacancy as well as the rent amount of each unit, providing you with the information you need to turn units faster.
 
@@ -1138,7 +1600,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [REPORT-005](#clause-report-005) (done)
 
-**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Your business is unique. With the help of Report Writer, you can produce flexible, feature-rich reports that are expertly tailored to your operation. These reports include built-in, predefined functions and variables specific to Rent Manager. This module allows you to drag and drop functions directly into your reports to create professional statements that are personalized for your exact needs.”, [capture](switch-checklist-sources/rm-reports.txt) line 125.
+**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Report Writer”, [capture](switch-checklist-sources/rm-reports.txt) line 125.
 
 > Create property, tenant, prospect, owner, vendor, and unit reports with Report Writer to reflect your business demands and control the display through a variety of different options.
 
@@ -1158,7 +1620,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [REPORT-006](#clause-report-006) (partial)
 
-**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Reports Delivered on a Set Schedule”, [capture](switch-checklist-sources/rm-reports.txt) line 133.
+**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Report Automation”, [capture](switch-checklist-sources/rm-reports.txt) line 133.
 
 > Send Report Batches based on a pre-determined schedule. You have complete control over when reports are sent, and who receives them.
 
@@ -1168,7 +1630,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Report Batches”, [capture](switch-checklist-sources/rm-reports.txt) line 131.
+**Official source:** [rm-reports](https://www.rentmanager.com/reporting/), captured 2026-11-05; section “Report Automation”, [capture](switch-checklist-sources/rm-reports.txt) line 131.
 
 > The Rent Manager Report Batches feature makes running a series of reports possible with a single click. This time-saving workflow delivers the data you need effortlessly.
 
@@ -1248,7 +1710,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [rm-telephone](https://www.rentmanager.com/call-center/), captured 2026-11-05; section “Know Who’s Calling”, [capture](switch-checklist-sources/rm-telephone.txt) line 108.
+**Official source:** [rm-telephone](https://www.rentmanager.com/call-center/), captured 2026-11-05; section “24/7 Assistance & Realtime Updates Built Into Rent Manager”, [capture](switch-checklist-sources/rm-telephone.txt) line 108.
 
 > Call Center can use information from your Rent Manager database to determine who is calling.
 
@@ -1258,7 +1720,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-001](#clause-work-001) (partial)
 
-**Official source:** [rm-telephone](https://www.rentmanager.com/call-center/), captured 2026-11-05; section “Integrated Maintenance Requests”, [capture](switch-checklist-sources/rm-telephone.txt) line 112.
+**Official source:** [rm-telephone](https://www.rentmanager.com/call-center/), captured 2026-11-05; section “24/7 Assistance & Realtime Updates Built Into Rent Manager”, [capture](switch-checklist-sources/rm-telephone.txt) line 112.
 
 > Call Center agents instantly add maintenance requests to your system to match your current workflows.
 
@@ -1268,7 +1730,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [WORK-001](#clause-work-001) (partial)
 
-**Official source:** [rm-telephone](https://www.rentmanager.com/call-center/), captured 2026-11-05; section “Onboarding”, [capture](switch-checklist-sources/rm-telephone.txt) line 118.
+**Official source:** [rm-telephone](https://www.rentmanager.com/call-center/), captured 2026-11-05; section “Full-Feature Call Center”, [capture](switch-checklist-sources/rm-telephone.txt) line 118.
 
 > After signing up for Call Center, you’ll provide basic property details, define emergencies and dispatch protocols, and set leasing instructions; Call Center will then assign a phone number and manage calls per your instructions.
 
@@ -1278,7 +1740,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [LEASE-005](#clause-lease-005) (done)
 
-**Official source:** [rm-telephone](https://www.rentmanager.com/call-center/), captured 2026-11-05; section “Leasing”, [capture](switch-checklist-sources/rm-telephone.txt) line 122.
+**Official source:** [rm-telephone](https://www.rentmanager.com/call-center/), captured 2026-11-05; section “Full-Feature Call Center”, [capture](switch-checklist-sources/rm-telephone.txt) line 122.
 
 > Let the Call Center assist with your leasing process by sharing available unit information with prospective residents.
 
@@ -1288,7 +1750,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** [REPORT-004](#clause-report-004) (done)
 
-**Official source:** [rm-telephone](https://www.rentmanager.com/call-center/), captured 2026-11-05; section “Reporting”, [capture](switch-checklist-sources/rm-telephone.txt) line 120.
+**Official source:** [rm-telephone](https://www.rentmanager.com/call-center/), captured 2026-11-05; section “Full-Feature Call Center”, [capture](switch-checklist-sources/rm-telephone.txt) line 120.
 
 > Once a quarter, you’ll receive a report detailing the number of tickets created, emergencies, complaints, and actions taken to resolve them. You can also provide feedback to the Call Center during quarterly review meetings.
 
@@ -1298,7 +1760,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
 
-**Official source:** [rm-telephone](https://www.rentmanager.com/call-center/), captured 2026-11-05; section “Decision Trees”, [capture](switch-checklist-sources/rm-telephone.txt) line 134.
+**Official source:** [rm-telephone](https://www.rentmanager.com/call-center/), captured 2026-11-05; section “Additional Benefits”, [capture](switch-checklist-sources/rm-telephone.txt) line 134.
 
 > Eliminate the guesswork for Call Center reps by providing predetermined workflows for resolving issues.
 
@@ -1310,7 +1772,7 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 Raw SHA-256: `24fc945167f735a7a95c556df693e59b8dc4909d9bd1992f0aaa126662b65505`. Capture SHA-256: `489ea74a0f200db9108b065ff65ce4979d4e4333e170ae0b970e4a9233b8c9af`.
 
-**Partial audit:** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `af-accounting-01`, `af-accounting-02`, `af-accounting-03`, `af-accounting-04`, `af-accounting-05`, `af-accounting-06`, `af-accounting-07`, `af-accounting-08`, `af-accounting-09`, `af-accounting-10`, `af-accounting-11`, `af-accounting-12`, `af-accounting-13`, `af-accounting-14`, `af-accounting-15`, `af-accounting-16`, `af-accounting-17`, `af-accounting-18`, `af-accounting-19`.
+**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `af-accounting-01`, `af-accounting-02`, `af-accounting-03`, `af-accounting-04`, `af-accounting-05`, `af-accounting-06`, `af-accounting-07`, `af-accounting-08`, `af-accounting-09`, `af-accounting-10`, `af-accounting-11`, `af-accounting-12`, `af-accounting-13`, `af-accounting-14`, `af-accounting-15`, `af-accounting-16`, `af-accounting-17`, `af-accounting-18`, `af-accounting-19`.
 
 ### af-maintenance
 
@@ -1318,7 +1780,7 @@ Raw SHA-256: `24fc945167f735a7a95c556df693e59b8dc4909d9bd1992f0aaa126662b65505`.
 
 Raw SHA-256: `594ccd7df985cb985087e502e10e736d19538b259a6e026f4ca68fcb6ef17727`. Capture SHA-256: `2f6c39dc37e2a4d03eca6f50620dfceb092acb83f2e3bb7dd73deb6f3e56c76c`.
 
-**Partial audit:** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `af-maintenance-01`, `af-maintenance-02`, `af-maintenance-03`, `af-maintenance-04`, `af-maintenance-05`, `af-maintenance-06`, `af-maintenance-07`, `af-maintenance-08`, `af-maintenance-09`, `af-maintenance-10`, `af-maintenance-11`, `af-maintenance-12`, `af-maintenance-13`, `af-maintenance-14`, `af-maintenance-15`.
+**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `af-maintenance-01`, `af-maintenance-02`, `af-maintenance-03`, `af-maintenance-04`, `af-maintenance-05`, `af-maintenance-06`, `af-maintenance-07`, `af-maintenance-08`, `af-maintenance-09`, `af-maintenance-10`, `af-maintenance-11`, `af-maintenance-12`, `af-maintenance-13`, `af-maintenance-14`, `af-maintenance-15`.
 
 ### bu-accounting
 
@@ -1326,7 +1788,7 @@ Raw SHA-256: `594ccd7df985cb985087e502e10e736d19538b259a6e026f4ca68fcb6ef17727`.
 
 Raw SHA-256: `7929adec16783deacd8fe9b19196530c164fd67e47732969f0925b9c78538d5c`. Capture SHA-256: `0b39bf26537fb3619f428e46a86ec05c620980061eca8c9bc135d6d829383342`.
 
-**Partial audit:** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `bu-accounting-01`, `bu-accounting-02`, `bu-accounting-03`, `bu-accounting-04`, `bu-accounting-05`.
+**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `bu-accounting-01`, `bu-accounting-02`, `bu-accounting-03`, `bu-accounting-04`, `bu-accounting-05`.
 
 ### bu-company
 
@@ -1334,7 +1796,7 @@ Raw SHA-256: `7929adec16783deacd8fe9b19196530c164fd67e47732969f0925b9c78538d5c`.
 
 Raw SHA-256: `ccb2fbedf6acb9b79583c32dabf8759208a5548f09e68f4ebdfe94deb4c5fcbf`. Capture SHA-256: `1e92182459a2e08b193d4093f9e68b4b88307b68f2a87c65fb4266e9d4201585`.
 
-**Partial audit:** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `bu-company-01`, `bu-company-02`, `bu-company-03`.
+**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `bu-company-01`, `bu-company-02`, `bu-company-03`.
 
 ### bu-telephone
 
@@ -1342,7 +1804,7 @@ Raw SHA-256: `ccb2fbedf6acb9b79583c32dabf8759208a5548f09e68f4ebdfe94deb4c5fcbf`.
 
 Raw SHA-256: `b4a0fc4f73735f49c44f58637e894b2f1c80d1af6382a917db482a18a0bcce77`. Capture SHA-256: `1d077d245c59de3619273ecefe4ca6862e61217a6f6f314d82047e2ddce0613d`.
 
-**Partial audit:** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `bu-telephone-01`, `bu-telephone-02`, `bu-telephone-03`.
+**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `bu-telephone-01`, `bu-telephone-02`, `bu-telephone-03`.
 
 ### bu-maintenance
 
@@ -1350,7 +1812,7 @@ Raw SHA-256: `b4a0fc4f73735f49c44f58637e894b2f1c80d1af6382a917db482a18a0bcce77`.
 
 Raw SHA-256: `11254f5abfd5bb0f462805a65cc5be6dd184b643bf26ace384ebab2b1d2d8c56`. Capture SHA-256: `2a46b8cc61be15acd2ce73f74f1258adc3767e5338010186cfeaab76f900ddc4`.
 
-**Partial audit:** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `bu-maintenance-01`, `bu-maintenance-02`, `bu-maintenance-03`, `bu-maintenance-04`, `bu-maintenance-05`, `bu-maintenance-06`, `bu-maintenance-07`, `bu-maintenance-08`, `bu-maintenance-09`, `bu-maintenance-10`, `bu-maintenance-11`.
+**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `bu-maintenance-01`, `bu-maintenance-02`, `bu-maintenance-03`, `bu-maintenance-04`, `bu-maintenance-05`, `bu-maintenance-06`, `bu-maintenance-07`, `bu-maintenance-08`, `bu-maintenance-09`, `bu-maintenance-10`, `bu-maintenance-11`.
 
 ### rm-accounting
 
@@ -1358,7 +1820,7 @@ Raw SHA-256: `11254f5abfd5bb0f462805a65cc5be6dd184b643bf26ace384ebab2b1d2d8c56`.
 
 Raw SHA-256: `b9e14e16602a1717201c0723b4c7b3833d14987d5e13ef103bc3e3a35fc6c064`. Capture SHA-256: `bb679da41595d2b3e68fc1e1420ec58ac06560d4e7c332ec09812fa446a50409`.
 
-**Partial audit:** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `rm-accounting-01`, `rm-accounting-02`, `rm-accounting-03`, `rm-accounting-04`, `rm-accounting-05`, `rm-accounting-06`, `rm-accounting-07`, `rm-accounting-08`, `rm-accounting-09`, `rm-accounting-10`, `rm-accounting-11`, `rm-accounting-12`, `rm-accounting-13`, `rm-accounting-14`, `rm-accounting-15`, `rm-accounting-16`, `rm-accounting-17`, `rm-accounting-18`, `rm-accounting-19`, `rm-accounting-20`, `rm-accounting-21`, `rm-accounting-22`, `rm-accounting-23`, `rm-accounting-24`, `rm-accounting-25`, `rm-accounting-26`, `rm-accounting-27`.
+**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `rm-accounting-01`, `rm-accounting-02`, `rm-accounting-03`, `rm-accounting-04`, `rm-accounting-05`, `rm-accounting-06`, `rm-accounting-07`, `rm-accounting-08`, `rm-accounting-09`, `rm-accounting-10`, `rm-accounting-11`, `rm-accounting-12`, `rm-accounting-13`, `rm-accounting-14`, `rm-accounting-15`, `rm-accounting-16`, `rm-accounting-17`, `rm-accounting-18`, `rm-accounting-19`, `rm-accounting-20`, `rm-accounting-21`, `rm-accounting-22`, `rm-accounting-23`, `rm-accounting-24`, `rm-accounting-25`, `rm-accounting-26`, `rm-accounting-27`.
 
 ### rm-maintenance
 
@@ -1366,7 +1828,7 @@ Raw SHA-256: `b9e14e16602a1717201c0723b4c7b3833d14987d5e13ef103bc3e3a35fc6c064`.
 
 Raw SHA-256: `8c37976fd547cc9de6ab6f79452d5abe19b5f8db2a65d4e24341e441c6566d73`. Capture SHA-256: `c6c38fed8bc4fca739698be2ce31bab0200221369139a9c95b4f4966370d4441`.
 
-**Partial audit:** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `rm-maintenance-01`, `rm-maintenance-02`, `rm-maintenance-03`, `rm-maintenance-04`, `rm-maintenance-05`, `rm-maintenance-06`, `rm-maintenance-07`, `rm-maintenance-08`, `rm-maintenance-09`, `rm-maintenance-10`, `rm-maintenance-11`, `rm-maintenance-12`, `rm-maintenance-13`, `rm-maintenance-14`, `rm-maintenance-15`, `rm-maintenance-16`, `rm-maintenance-17`, `rm-maintenance-18`, `rm-maintenance-19`.
+**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `rm-maintenance-01`, `rm-maintenance-02`, `rm-maintenance-03`, `rm-maintenance-04`, `rm-maintenance-05`, `rm-maintenance-06`, `rm-maintenance-07`, `rm-maintenance-08`, `rm-maintenance-09`, `rm-maintenance-10`, `rm-maintenance-11`, `rm-maintenance-12`, `rm-maintenance-13`, `rm-maintenance-14`, `rm-maintenance-15`, `rm-maintenance-16`, `rm-maintenance-17`, `rm-maintenance-18`, `rm-maintenance-19`.
 
 ### rm-reports
 
@@ -1374,7 +1836,7 @@ Raw SHA-256: `8c37976fd547cc9de6ab6f79452d5abe19b5f8db2a65d4e24341e441c6566d73`.
 
 Raw SHA-256: `6568cf30e1522030f36026cea16e6dd2049698e78b9ae638ca4883e28283991c`. Capture SHA-256: `72029a7396bede61d073e0bc45a597c50f44810082eb5c9783b7f679750f11ce`.
 
-**Partial audit:** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `rm-reports-01`, `rm-reports-02`, `rm-reports-03`, `rm-reports-04`, `rm-reports-05`, `rm-reports-06`, `rm-reports-07`, `rm-reports-08`, `rm-reports-09`, `rm-reports-10`, `rm-reports-11`.
+**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `rm-reports-01`, `rm-reports-02`, `rm-reports-03`, `rm-reports-04`, `rm-reports-05`, `rm-reports-06`, `rm-reports-07`, `rm-reports-08`, `rm-reports-09`, `rm-reports-10`, `rm-reports-11`.
 
 ### rm-schedules
 
@@ -1382,7 +1844,7 @@ Raw SHA-256: `6568cf30e1522030f36026cea16e6dd2049698e78b9ae638ca4883e28283991c`.
 
 Raw SHA-256: `91f11f2f4f3550c8793e8e2547069d2a948415afaf28c25f128385b2d2c9f015`. Capture SHA-256: `eb96d403b7460e37dfb20f7f02030bf260d0f41a0524811b4fc0d87f7058dca3`.
 
-**Partial audit:** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `rm-schedules-01`, `rm-schedules-02`, `rm-schedules-03`, `rm-schedules-04`.
+**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `rm-schedules-01`, `rm-schedules-02`, `rm-schedules-03`, `rm-schedules-04`.
 
 ### rm-telephone
 
@@ -1390,7 +1852,47 @@ Raw SHA-256: `91f11f2f4f3550c8793e8e2547069d2a948415afaf28c25f128385b2d2c9f015`.
 
 Raw SHA-256: `dcd3a58fe50b541556caca2b783986c716ca4cb69d3b233514506eca225cccd4`. Capture SHA-256: `0ca4b34fd4660120237af8704fbc49a843243d777e0563ce739a77c90791b29c`.
 
-**Partial audit:** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `rm-telephone-01`, `rm-telephone-02`, `rm-telephone-03`, `rm-telephone-04`, `rm-telephone-05`, `rm-telephone-06`, `rm-telephone-07`, `rm-telephone-08`.
+**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `rm-telephone-01`, `rm-telephone-02`, `rm-telephone-03`, `rm-telephone-04`, `rm-telephone-05`, `rm-telephone-06`, `rm-telephone-07`, `rm-telephone-08`.
+
+### af-vendor
+
+[Official page](https://www.appfolio.com/help/vendor-portal); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/af-vendor.txt).
+
+Raw SHA-256: `0e606402e90ccbacef46ac67583783e4424590914cd792c5b9275475a895ff27`. Capture SHA-256: `c7e86839367c4df61b51d667cc8a87430748bf597a28af700a0479d56974a399`.
+
+**Audit: partial.** Other text and linked source areas remain unaudited; no exhaustive coverage is claimed. Reconciled source workflows: `af-vendor-01`, `af-vendor-02`, `af-vendor-03`, `af-vendor-04`, `af-vendor-05`, `af-vendor-06`, `af-vendor-07`, `af-vendor-08`, `af-vendor-09`, `af-vendor-10`, `af-vendor-11`, `af-vendor-12`, `af-vendor-13`, `af-vendor-14`, `af-vendor-15`, `af-vendor-16`, `af-vendor-17`, `af-vendor-18`, `af-vendor-19`, `af-vendor-20`, `af-vendor-21`, `af-vendor-22`.
+
+### af-resident
+
+[Official page](https://www.appfolio.com/help/online-portal); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/af-resident.txt).
+
+Raw SHA-256: `797ea2dc1d22cc03e137d23e0c5ce9b8982bce47f753bc12803a686f30b80e7e`. Capture SHA-256: `ea2a614d3c6c0a47387bae8f483080a790207ae51cce4570330e710fe9a221f1`.
+
+**Audit: partial.** Other text and linked source areas remain unaudited; no exhaustive coverage is claimed. Reconciled source workflows: `af-resident-01`, `af-resident-02`, `af-resident-03`, `af-resident-04`, `af-resident-05`, `af-resident-06`, `af-resident-07`, `af-resident-08`, `af-resident-09`, `af-resident-10`, `af-resident-11`, `af-resident-12`, `af-resident-13`, `af-resident-14`, `af-resident-15`, `af-resident-16`, `af-resident-17`, `af-resident-18`, `af-resident-19`, `af-resident-20`, `af-resident-21`, `af-resident-22`, `af-resident-23`, `af-resident-24`.
+
+### af-platform
+
+[Official page](https://www.appfolio.com/property-manager) → [resolved page](https://www.appfolio.com/performance-platform); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/af-platform.txt).
+
+Raw SHA-256: `15fe4ab9446a6054573ee544dafa3e12ccea97183f0d71eb5bc430790cb700eb`. Capture SHA-256: `72396b76ba149078d4a3c56d072144b4f039c7ba4fa5838070f6e461769fa161`.
+
+**Audit: unaudited.** Platform entry point retained as an unaudited source area: no workflows have yet been reconciled from its category index and links. Reconciled source workflows: .
+
+### bu-platform
+
+[Official page](https://www.buildium.com/features/); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/bu-platform.txt).
+
+Raw SHA-256: `75b9ef360bcc855970c2ef0e3c3c4b556294acde496d2c95fda6231c9f28d9af`. Capture SHA-256: `c4eddad82edff9e8c5631a4dffdab86119f4d2a9871e623109a6142e687c9e77`.
+
+**Audit: unaudited.** Platform entry point retained as an unaudited source area: no workflows have yet been reconciled from its category index and links. Reconciled source workflows: .
+
+### bu-scheduled-help
+
+[Official page](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/bu-scheduled-help.txt).
+
+Raw SHA-256: `a90fa91f1e12f216715d491a803267a8485f6601e7a773496baa7d23103b361f`. Capture SHA-256: `60459cd7b77e678250073c8fb514e7ac380a508d2cc7564685b026781c4dc83f`.
+
+**Audit: unaudited.** Scheduled reports article contents were not retrieved: HTTP 200 returns a five-line loading shell with a CSS Error. This is inaccessible source content, not evidence of absence or a verified workflow. Reconciled source workflows: .
 
 ## Current Terrace replacement evidence
 
@@ -1400,7 +1902,7 @@ The following statuses, acceptance fingerprints, Evidence and Gap cells come dir
 
 **Maintain a balanced property ledger — done.**
 
-**Evidence:** tests/journal.mjs,tests/terrace.test.mjs,tests/journal-browser.mjs,migrations/core/0056_journal.sql,src/terrace/journal.ts
+**Evidence:** `tests/journal.mjs` (journey, in `tests/terrace.test.mjs` ACCT-001 and ACCT-011): rent, deposits, expenses and contributions across two properties; unbalanced and cross-owner and fund refusals; chart and opening entries; trial and owner/property/resident/vendor/deposit subledgers back to sources; duplicate receipt reversal with unchanged originals; live role and scope, migration, restart and archive restore; `tests/journal-browser.mjs`: native posting and filtered subledger at 1440/390; `migrations/core/0056_journal.sql`; `src/terrace/journal.ts`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1410,7 +1912,7 @@ Acceptance source SHA-256: `893e29feee775ab7a4943cf398731bc1cbfbca1758b856506e7d
 
 **Receive hold and accrue security deposits — missing.**
 
-**Evidence:** 
+**Evidence:** No executed evidence.
 
 **Remaining clause gap:** Security-deposit liabilities, custody, receipts and interest rules are absent.
 
@@ -1420,9 +1922,9 @@ Acceptance source SHA-256: `27c0eeb2ea23a3423953fd46e92fc59ac1a96f251856bca623d5
 
 **Connect Plaid bank feeds — missing.**
 
-**Evidence:** 
+**Evidence:** No executed evidence.
 
-**Remaining clause gap:** Plaid bank feeds and consent/freshness management are absent.
+**Remaining clause gap:** Plaid bank feeds and consent and freshness management are absent.
 
 Acceptance source SHA-256: `4f6eb1abe8c8a9e08d82698dc944bf6f4b27987abbabd92131f32469bef001d4`.
 
@@ -1430,7 +1932,7 @@ Acceptance source SHA-256: `4f6eb1abe8c8a9e08d82698dc944bf6f4b27987abbabd92131f3
 
 **Match statements and perform three-way reconciliation — done.**
 
-**Evidence:** tests/reconcile.mjs,tests/reconcile-browser.mjs,docs/bank-reconciliation.md
+**Evidence:** `tests/reconcile.mjs` journey: reviewed CSV, OFX, QFX and PDF lines, exact settlement and ACH matching, check numbers, outstanding items, unresolved differences and balanced sign-off, stale books, close refusal, scope and restore; `tests/reconcile-browser.mjs`: native matching and sign-off at desktop and phone widths; `docs/bank-reconciliation.md`
 
 **Remaining clause gap:** None for current recorded sources. ACCT-017 and ACCT-018 inherit check-register and transmitted-file source matching before their doors ship.
 
@@ -1440,7 +1942,7 @@ Acceptance source SHA-256: `d3270f695c4827457b345359bb37eff3c17366bcdaec3ea48fdf
 
 **Capture and approve vendor bills — done.**
 
-**Evidence:** migrations/core/0041_bills.sql,src/terrace/bills.ts,src/terrace/bills-input.ts,src/terrace/bills-authority.ts,src/terrace/bills-templates.ts,src/terrace/bills-attachments.ts,src/terrace/bills-retention.ts,src/terrace/bills-view.ts,src/terrace/owners.ts,tests/bills.mjs,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0041_bills.sql`; `src/terrace/bills.ts`; `src/terrace/bills-input.ts`; `src/terrace/bills-authority.ts`; `src/terrace/bills-templates.ts`; `src/terrace/bills-attachments.ts`; `src/terrace/bills-retention.ts`; `src/terrace/bills-view.ts`; `src/terrace/owners.ts`; `tests/bills.mjs`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1450,7 +1952,7 @@ Acceptance source SHA-256: `b058dadfc87d9ab9826f152a117ce9c78e016c999bd7fd017df7
 
 **Pay vendors and reconcile payment outcomes — missing.**
 
-**Evidence:** 
+**Evidence:** No executed evidence.
 
 **Remaining clause gap:** Vendor payment rails, payee controls and reconciliation are absent.
 
@@ -1460,9 +1962,9 @@ Acceptance source SHA-256: `7444106fa79e254beb22ad805cc4f602de7812d04d30914530db
 
 **Disburse owner funds by ACH or check — missing.**
 
-**Evidence:** 
+**Evidence:** No executed evidence.
 
-**Remaining clause gap:** Owner distributions, ACH/check execution and return accounting are absent.
+**Remaining clause gap:** Owner distributions, ACH and check execution and return accounting are absent.
 
 Acceptance source SHA-256: `63feb29668576d91619d9fb103dbcedda3a9ffc94e6f22e199daaf706020b95a`.
 
@@ -1470,7 +1972,7 @@ Acceptance source SHA-256: `63feb29668576d91619d9fb103dbcedda3a9ffc94e6f22e199da
 
 **Close periods without rewriting history — done.**
 
-**Evidence:** migrations/core/0036_periods.sql,src/terrace/periods.ts,src/terrace/periods-view.ts,src/terrace/core.ts,src/terrace/api.ts,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0036_periods.sql`; `src/terrace/periods.ts`; `src/terrace/periods-view.ts`; `src/terrace/core.ts`; `src/terrace/api.ts`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1480,7 +1982,7 @@ Acceptance source SHA-256: `7cf92088deef75ff3300d2086eb27fa5b04d48c7cf7faa985c73
 
 **Publish complete owner statements — partial.**
 
-**Evidence:** tests/statements.mjs,tests/statements.mjs,tests/terrace.test.mjs,tests/statements-browser.mjs
+**Evidence:** `tests/statements.mjs` — "journey": staff cash draft opening and closing cash, expenses, reserves, separate deposits, liabilities and dated ownership. `tests/statements.mjs` — "journey", invoked by the ACCT-012 registration in `tests/terrace.test.mjs`: exact seller and buyer invoice originals on either side of a transfer, expense cents and CSV isolation, absent and other-owner files refused, staff cookies excluded, screening refusal, shared originals held, changed approval withdrawal, cross-property revision history, restart, immediate revocation, audit and native restore with fresh authorization. `tests/statements-browser.mjs`: native owner statement expense, fee and reserve sections and invoice downloads at 1440 and 390.
 
 **Remaining clause gap:** Complete paid-bill and distribution sources, corrected immutable publication, scheduled delivery, receipt and invoice bundles, bank tie-out and REPORT-007 actuals remain unproved. Joint-owner originals are held. Adopted conservative original-disclosure default pending ct: a live owner grant reads only an exact currently approved invoice attachment when every historical allocation belongs wholly to that owner on its invoice date; shared-beneficiary originals stay with staff for review. No new payment, send, bank-change or approval authority.
 
@@ -1490,7 +1992,7 @@ Acceptance source SHA-256: `1d29eec3925f0dd0018ab9d58aad3935d56623b4d0f17c282e3e
 
 **Report cash and accrual financials — done.**
 
-**Evidence:** tests/financial-reports.mjs,tests/terrace.test.mjs,tests/financial-reports-browser.mjs,src/terrace/financial-reports.ts,docs/financial-reports.md
+**Evidence:** `tests/financial-reports.mjs` via `tests/terrace.test.mjs` “ACCT-013: cash and accrual statements reconcile unpaid rent and bills, settlement timing and immutable scoped source drills”: earned unpaid rent, approved unpaid invoice, cash and accrual income and balance-sheet comparison, original-source drills, settlement and reversal timing, trial balance, aging, cash flow, property and owner and entity scope, unchanged ledger, restart and archive restore; `tests/financial-reports-browser.mjs`: native basis and source drill at 1440 and 390, hover and keyboard tooltips; `src/terrace/financial-reports.ts`; `docs/financial-reports.md`
 
 **Remaining clause gap:** None. Exact inclusive dates, basis timing, oldest-first aging and explicit unassigned entity semantics are documented; no bank verification or tax certification.
 
@@ -1500,7 +2002,7 @@ Acceptance source SHA-256: `99a65c77222cf8a1a980e1bdadaf81f2c35fc667326db3708ef9
 
 **Prepare and file owner and vendor 1099s — missing.**
 
-**Evidence:** 
+**Evidence:** No executed evidence.
 
 **Remaining clause gap:** W-9, reportable payment calculation, Nelco filing and correction workflows are absent.
 
@@ -1510,7 +2012,7 @@ Acceptance source SHA-256: `ffbd4464717d9eda82a55e4638090c8d0e6598bf020423767a32
 
 **Sync QuickBooks Online without losing trust truth — missing.**
 
-**Evidence:** 
+**Evidence:** No executed evidence.
 
 **Remaining clause gap:** QuickBooks Online mapping and reconciled sync are absent.
 
@@ -1520,9 +2022,9 @@ Acceptance source SHA-256: `639029835fc3c8c80e90c45e5b56bcfdc335b21aa2a7955a19b6
 
 **Print mail and register trust checks — missing.**
 
-**Evidence:** 
+**Evidence:** No executed evidence.
 
-**Remaining clause gap:** MICR check printing, Lob check mailing, check-number register, void/reissue, stale checks and positive pay are absent.
+**Remaining clause gap:** MICR check printing, Lob check mailing, check-number register, void and reissue, stale checks and positive pay are absent.
 
 Acceptance source SHA-256: `e22f87910354e76bf63399b7d7a0fa1fb6ba8444dec6f388ed6f6ad2b8bc5fa7`.
 
@@ -1530,7 +2032,7 @@ Acceptance source SHA-256: `e22f87910354e76bf63399b7d7a0fa1fb6ba8444dec6f388ed6f
 
 **Run repair intake through owner-statement resolution — partial.**
 
-**Evidence:** src/terrace/work.ts,tests/terrace.test.mjs
+**Evidence:** `src/terrace/work.ts`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** Trade estimate, exact approval and external handoff exist; agent booking, resident checks, bill matching and ledger closure are absent.
 
@@ -1540,7 +2042,7 @@ Acceptance source SHA-256: `b37fbc5b2a5e28fabfc028175081c40a252e46c757871cec8c0f
 
 **Plan vacancy recovery with cash trade-offs — missing.**
 
-**Evidence:** src/terrace/scenarios.ts,src/terrace/scenario-view.ts,tests/scenarios.mjs,tests/terrace.test.mjs
+**Evidence:** `src/terrace/scenarios.ts`; `src/terrace/scenario-view.ts`; `tests/scenarios.mjs`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** Read-only repair-versus-marketing cash and vacancy comparison with sourced assumptions and recalculation ships. A continuing agent joining turnover dependencies and lead funnel, approved-plan execution, delayed-vendor reforecast, applicant/signature/move-in and forecast-versus-actual follow-through is absent. The read-only comparison does not satisfy continuing agent execution; status remains missing.
 
@@ -1550,17 +2052,37 @@ Acceptance source SHA-256: `5820ca4cecd3e7ec456fdcabb5aca17d06595762253a31b26bb4
 
 **Work prospect records and enquiries — done.**
 
-**Evidence:** migrations/core/0044_prospects.sql,src/terrace/prospects.ts,src/terrace/prospect-mail.ts,src/terrace/prospect-view.ts,tests/prospects.mjs,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0044_prospects.sql`; `src/terrace/prospects.ts`; `src/terrace/prospect-mail.ts`; `src/terrace/prospect-view.ts`; `tests/prospects.mjs`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
 Acceptance source SHA-256: `eb9c2afb79465bcb464aad352fd03ba06dc20a165aceb30fff635636f81a6e6b`.
 
+### Clause LEASE-011
+
+**Collect legally evidenced electronic signatures — missing.**
+
+**Evidence:** No executed evidence.
+
+**Remaining clause gap:** E-signature provider and sibling integration and execution lifecycle are absent.
+
+Acceptance source SHA-256: `782fd7c633b6b990c7490a13859b8926270634989a60fc5165926e4446acb809`.
+
+### Clause LEASE-012
+
+**Run renewal and retention campaigns — done.**
+
+**Evidence:** `migrations/core/0046_renewals.sql`; `src/terrace/renewals.ts`; `src/terrace/renewal-mail.ts`; `src/terrace/renewal-view.ts`; `src/terrace/lease-versions.ts`; `src/terrace/leasing-metrics.ts`; `src/terrace/scenarios.ts`; `tests/renewals.mjs`; `tests/terrace.test.mjs`
+
+**Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
+
+Acceptance source SHA-256: `dfa0b6c677d6de0a93865edb1ea1c2b4a064d035719e3d6ba7ec5190e2fc89cc`.
+
 ### Clause MOVE-010
 
 **Carry vendors year-to-date tax and resident ledger history — partial.**
 
-**Evidence:** tests/migration.mjs
+**Evidence:** `tests/migration.mjs` journey: restricted vendor directory and W-9 hold, vendor and owner year-to-date balance-forwards, five source-referenced resident history kinds, staff and resident monthly statements, opening balance and no duplicate cash.
 
 **Remaining clause gap:** AppFolio-format source adapter and independent incumbent summary reconciliation; complete owner and vendor tax carry-forward with post-cutover payments and one 1099 (ACCT-014 requires the unavailable Nelco filing account); eviction ledger export and deposit disposition integration (ACCT-004 awaits PORT-008 counsel content); complete 24-month statement and export proof remain owed.
 
@@ -1570,7 +2092,7 @@ Acceptance source SHA-256: `eb2323b4b7b566ac163a230cd709338a574fe477920b805aeaae
 
 **Post recurring rent and lease charges — done.**
 
-**Evidence:** migrations/core/0022_recurring_charges.sql,src/terrace/charge-run.ts,src/terrace/charge-run-view.ts,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0022_recurring_charges.sql`; `src/terrace/charge-run.ts`; `src/terrace/charge-run-view.ts`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1580,7 +2102,7 @@ Acceptance source SHA-256: `be82e87f24cb302a50f84bde8d221ef976967e2c34019a51ac41
 
 **Collect rent through ACH — missing.**
 
-**Evidence:** 
+**Evidence:** No executed evidence.
 
 **Remaining clause gap:** ACH collection and processor reconciliation are absent.
 
@@ -1590,17 +2112,37 @@ Acceptance source SHA-256: `3a9a89bc24655a963c2b95977c3ced81c0b7579990aaaf763c6b
 
 **Collect rent by card — partial.**
 
-**Evidence:** tests/terrace.test.mjs,tests/card-payments.mjs,tests/card-payments-browser.mjs
+**Evidence:** `tests/terrace.test.mjs` — "PAY-003: hosted card consent, policy admission, provider-only receipts, declines, expiry and replay" (`tests/card-payments.mjs`): scoped collection and versioned consent, inherited admission and atomic reservations, fee disclosure, canonical provider events and charge references, decline, expiry, concurrent replay and restart, credential-free restore and demo no-egress; passed at ea40fc1266b84123ea94242354838db93eca6c74 in heavy job 20261026T053952942981Z-heavy-slot-1f69fefb. `tests/card-payments-browser.mjs` — "journey", with --buffered-http: native review, pending and receipt states, staff reconciliation and uncertain-request resumption at 1440 and 390 through actual buffered Worker responses; only Stripe is faked at the network edge. Passed at c3d97576086bf0ca54d74f813846464509445986 in heavy job 20261026T054310729464Z-heavy-slot-7abac798; captures inspected. Provider-only sandbox capture on 26 October 2026: session cs_test_a1aCgX0MIKGGPYAZsRqaGqaK5zUkKkKIFQ87bwQ6m5YzF8t324KUuHTuni, intent pi_3UUfhRDg8BoejKxo4HBAlIoy, event evt_1UUfhSDg8BoejKxoEpx7eoxW, $10.00 USD paid in test mode. The public pre-event ledger contained no receipt. Two admitted live journeys stalled reading the resident return in Chromium although public HTTP returned the pending page. The corrected buffered transport passed the native network-edge journey; its held-key retry was cancelled after nineteen minutes with eight local jobs still ahead and made no provider request.
 
 **Remaining clause gap:** End-to-end live Stripe ledger receipt, decline, required authentication and provider-event replay remain unproved. Deposit collection and liability require ACCT-003 and PORT-008 counsel-reviewed rules; actual provider settlement into the ACCT-002 mapped banks and authorized production configuration remain unproved. The implementation remains test-only. CT approval of card authority, consent and zero payer fee remains open; PAY-005 stays CT-held and is inherited unchanged.
 
 Acceptance source SHA-256: `626408e04d8274dd6e1f65411e6ba5b1b2c820848f672323767a08a06a0720e9`.
 
+### Clause PAY-004
+
+**Manage resident autopay mandates — missing.**
+
+**Evidence:** No executed evidence.
+
+**Remaining clause gap:** Autopay mandates, schedules and notices are absent.
+
+Acceptance source SHA-256: `8b411211c872a47bf12cf626400688612dc7cbbb9866654e0b63b4450907ceea`.
+
+### Clause PAY-005
+
+**Enforce partial and split payment policies — partial.**
+
+**Evidence:** `tests/payer-accounting.test.mjs` — PAY-005: reviewed lease stages reserve concurrent co-tenant payments, allocate settlement once, separate credit and block partial or excess funds (`tests/payments.mjs`): concurrent co-tenants and ACH reservation, allocation and remaining balance, credit, reviewed stage refusal, signed-lease resident and HAP payer records and preserved bookkeeper authority; restart and restore. `tests/payments-browser.mjs`: native settlement and refusal, 1440/390, keyboard and hover tooltip.
+
+**Remaining clause gap:** External-record slice only: resident online collection must inherit this policy in PAY-002 and PAY-003; PAY-013 has separate payer entitlement and reconciliation journeys, done at its own ct judgment. Adopted default pending ct: owner-only policy configuration; existing ROLE-001 rent receipt recorders retain payment and outcome authority, no outbound instruction or automatic credit use; DONE awaits ct approval and the remaining payment doors.
+
+Acceptance source SHA-256: `56eb734cd2e6c75ebb0f15d25c3a5b9111313a3a400d67f776bcf58cf92ed2b4`.
+
 ### Clause PAY-006
 
 **Calculate late fees and grace periods — partial.**
 
-**Evidence:** tests/payer-accounting.test.mjs,tests/late-fees.mjs,tests/late-fees-browser.mjs
+**Evidence:** `tests/payer-accounting.test.mjs` — PAY-006: reviewed state caps, weekend and holiday grace, timely pending settlement and reasoned waivers retain original calculations (`tests/late-fees.mjs`): weekend and holiday schedule and delayed settlement, basis/version/citation, waiver, state cap comparison, reversal hold, no compounding, restart/restore. `tests/late-fees-browser.mjs`: native review/post/waiver, 1440/390 and keyboard tooltip.
 
 **Remaining clause gap:** Adopted default pending ct: owner-only fee configuration, manual reviewed schedule posting and waivers; no automatic collections, notices or paid-fee reversal. All stated acceptance examples use synthetic owner-reviewed pack fixtures, not Terrace counsel review. Other fee bases are visibly held; PORT-008 reviewed authored contents remain open. DONE awaits ct approval of the authority and execution default.
 
@@ -1610,9 +2152,9 @@ Acceptance source SHA-256: `961658b3e85084ae46c0789e11f2cbe9547c5e173d157e8ccd44
 
 **Offer cash-at-retail and offline payment options — partial.**
 
-**Evidence:** src/terrace/ledger.ts
+**Evidence:** `src/terrace/ledger.ts`
 
-**Remaining clause gap:** Manual external receipts exist; retail network, check deposits and clearance/return states are absent.
+**Remaining clause gap:** Manual external receipts exist; retail network, check deposits and clearance and return states are absent.
 
 Acceptance source SHA-256: `cf32ec18db5fde3d83cb1e9d3515a31ff9cc62210cbcc260a668b1da5eb6d1a6`.
 
@@ -1620,7 +2162,7 @@ Acceptance source SHA-256: `cf32ec18db5fde3d83cb1e9d3515a31ff9cc62210cbcc260a668
 
 **Issue resident statements and receipts — partial.**
 
-**Evidence:** tests/payer-accounting.test.mjs,tests/resident-statements.mjs,tests/resident-statements-browser.mjs,tests/resident-statements-live.mjs
+**Evidence:** `tests/payer-accounting.test.mjs` — "PAY-010: resident statements, delivered receipts, failed-email tasks and private accessible downloads" (`tests/resident-statements.mjs`): monthly issuance before partial payment; itemized USD charges, fees, credits, pending funds and matching balance; private source inspection; tagged selectable PDF and CSV; frozen recipient review, explicit sending, delivered receipt and replacement statement; authenticated bounce into one follow-up, completion and replay after restart; household scope, custody, erasure and inert restore. `tests/resident-statements-browser.mjs` — "journey": native month selection, exact frozen downloads, payment source, delivered receipt and statement, matching staff aging, owner preparation, review, explicit send and task completion at 1440 and 390. The three touched API tests and statement browser component passed at ea40fc1266b84123ea94242354838db93eca6c74 in heavy job 20261026T053952942981Z-heavy-slot-1f69fefb; its subsequent independent card-transport component failed and was corrected separately. Screens and PDF inspected. Signed SendGrid outcomes use network-edge fixtures. `tests/resident-statements-live.mjs` — "PAY-010 real QA delivery": SendGrid message I3ne_caQQ2iJKekc32-sJg, delivery 05d4d855-c99d-4fe5-8ca9-2f3ff832503d, actual QA mailbox receipt e3901470-9111-4375-a512-2ba63e25842a received 26 October 2026 at 04:41:02Z; owner-recorded mailbox evidence, receipt $200.00 and matching resident balance $800.00.
 
 **Remaining clause gap:** CT approval of the adopted owner-only fresh-proof delivery authority, affirmative resident request, current household email eligibility and financial-document custody default remains open. Provider acceptance alone is never delivery.
 
@@ -1630,17 +2172,47 @@ Acceptance source SHA-256: `5f052251fb2eefdea17453a8842abd723d929bb7159f90ca69d5
 
 **Work delinquencies to a recorded outcome — partial.**
 
-**Evidence:** src/terrace/tenancies.ts,src/terrace/ledger.ts,tests/terrace.test.mjs
+**Evidence:** `src/terrace/tenancies.ts`; `src/terrace/ledger.ts`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** Arrears totals and approved drafts exist; delivered sequences, plans, replies and resolution tracking are absent.
 
 Acceptance source SHA-256: `e311cd51f09a46bc03336c28c93ecbc8c20961ffdfbb6c5f987255cad1521303`.
 
+### Clause PORT-006
+
+**Complete move-in transfers and move-out — partial.**
+
+**Evidence:** `src/terrace/properties.ts`; `src/terrace/turnover-writes.ts`; `src/terrace/property-view.ts`; `src/terrace/move-checklists.ts`; `src/terrace/move-checklist-view.ts`; `migrations/core/0052_move_checklists.sql`; `tests/move-out.mjs`; `tests/move-checklists.mjs`; `tests/move-out-browser.mjs`; `tests/roommates.mjs`; `src/terrace/households.ts`; `src/terrace/household-view.ts`; `tests/terrace.test.mjs`
+
+**Remaining clause gap:** Linked make-ready transitions and sourced, versioned keys/meters/condition/possession/forwarding checklists ship through scoped staff doors, with stale and concurrent-edit refusal, prior revisions, lease-date review, archive restore and lease erasure. Roommate changes and unit transfers close and reopen who is named on each charge by membership dates, and a transfer carries the household to the new lease in the same write. Gap: distinct deposits and disposition, final accounts and complete proration reconciliation (ACCT-003/004, blocked on PORT-008 counsel); successor-occupied make-ready follow-up remains manual.
+
+Acceptance source SHA-256: `abf4c4a8af9c55dbf7e4838488a520ac81aa672ffc00f1835f5cdfbc8c1c43da`.
+
+### Clause PORTAL-001
+
+**Give residents a complete account portal — done.**
+
+**Evidence:** `tests/card-payments.mjs` — journey, registered as PAY-003 in `tests/terrace.test.mjs`, with `tests/resident-account.mjs` — accountBefore and accountPaid: two-lease resident sign-in; populated current and future itemized charges and household obligations; separate native deposits; pending funds that do not reduce the balance; explicit hosted card consent and canonical once-only provider receipts; tagged receipt PDF and source amount; primary and co-tenant contact preferences, optional-email admission, no destination changes and no sends; unrelated household, private guarantor, screening and delegate refusal; staff portfolio 404 and role 403; stale email-link bank-change refusal with no stored bank details; restart, revoked sessions, erased sharing and older-archive resurrection refusal. `tests/retention.mjs` — retentionJourney: an explicit historic account grant retains its itemized balance while even a shared original still requires current household entitlement. `tests/resident-account-browser.mjs` — resident account browser journey, invoked by push Verify: owner sharing, two leases, itemized account, future charges, contact Settings and receipt downloads asserted at 1440, with captures at 1440 and 390 and staff icon tooltip focus and hover. Only Stripe is faked at its network edge; PAY-003 test mode and bank-settlement boundaries remain explicit.
+
+**Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
+
+Acceptance source SHA-256: `47035d3f890205ea6f620919b03de38aafb8616592c24d19b51412de33d32ba6`.
+
+### Clause PORTAL-003
+
+**Give vendors a work and invoice portal — partial.**
+
+**Evidence:** `tests/portal.mjs` — "journey": live vendor invitation, exact approved-work acceptance and decline, explicit confirmation, qualification hold, same-response retry, conflicting-response refusal, assignment revocation and credential-free archive restore. `tests/documents-browser.mjs`: native response review and accepted result at 1440 and 390.  `tests/portal.mjs` — "journey": vendor appointment confirmation and cancellation, unrelated-person refusal, Origin and consent checks, stale revision and qualification refusals, concurrent identical confirmation, conflicting retry, restart retry, separate resident confirmation, cancellation under a qualification hold, reassignment revocation and restored event custody. `tests/documents-browser.mjs`: appointment response review and cancelled result at 1440 and 390.  `tests/portal.mjs` — "journey": estimate scope, consent, validation and qualification refusals, identical concurrent submission, native quote comparison, staff role and portfolio refusals, selection reopening spend approval, reassignment and restored estimate custody. `tests/documents-browser.mjs`: native estimate submission at 1440 and 390.  `tests/portal.mjs` — "journey": staff-review-only appointment proposals, exact retries, qualification and assignment guards, property-time validation, native backup; vendor invoice originals into ACCT-007, duplicate supplier invoices and original bytes, exact derived property and work allocation, pending-to-approved payable through staff authority, role and portfolio refusals.  `tests/portal.mjs` — "journey": fresh proof on bank preparation and independent verification, self-verification refusal, replacement holds and portal exclusion. `tests/vendor-proposals-browser.mjs`: native availability, invoice and Settings bank-verification end states at 1440 and 390; heavy job 20261025T234243288885Z-heavy-slot-2d234c53.
+
+**Remaining clause gap:** Vendor-origin completion originals integrated with WORK-007 and WORK-008; authorized access-detail disclosure and time-window enforcement; CT approval of the new availability, invoice and bank-reference authority and custody defaults; independent exact-SHA runtime acceptance outside the builder. ADOPTED defaults: current assigned qualified vendors explicitly submit availability and original invoices for staff review only; staff retain booking, resident permission, notice, entry, allocation, revision and payable approval authority. Owner prepares external bank references; a different authorized person verifies the exact revision with fresh proof. Submission grants no notification or payment authority. ACCT-008 and ACCT-018 retain payment execution.
+
+Acceptance source SHA-256: `c308041f17122bdde67d8d8abd476719536cb251193b6d98da53edb1bad01416`.
+
 ### Clause PORTAL-005
 
 **Deliver two-way email and SMS — partial.**
 
-**Evidence:** tests/terrace.test.mjs,tests/messages.mjs,tests/demo.test.mjs,tests/messages-browser.mjs
+**Evidence:** `tests/terrace.test.mjs` — "PORTAL-005: approved repair communication, signed replies, arrival confirmation and opt-out survive restore" invokes `tests/messages.mjs` — "journey" and "repairMailJourney": exact approval and once-only send, frozen provider and recipient, authenticated Resend and SendGrid delivery intake, signature and exact identity refusals, atomic mixed-batch refusal, concurrent duplicate and conflicting events, terminal ordering, persisted receipt recovery after Worker restart, failed-delivery next actions, scoped 404 and role 403, quiet hours and STOP, communication holds, eligible erasure of provider artifacts, readable evidence and inert restored callbacks. `tests/demo.test.mjs` — "DEMO-001: ordinary installs are empty; native demo records, approvals and mail suppression persist": no-egress refusals. `tests/messages-browser.mjs`: native permissions, approval, send, delivered and bounced threads at 1440 and 390, loaded by push Verify.
 
 **Remaining clause gap:** CT 26 October 2026 approves communication authority, consent, inbound binding and custody defaults WITH RIDERS; the prior pending-policy wording is historical. Native signed delivery fixtures establish no live delivery, mailbox identity, provider-origin inbound proof or new provider scope. Inbound email routing, PORTAL-009 postal fallback and complete two-way communication acceptance remain outstanding. Verified live sender and webhook setup, real email and SMS delivery, authorized live Twilio sender and paging entitlement remain unqualified. Real paging and timed escalation inherited from WORK-001 remain unproved; no timer authority is added. Existing account, CT, Base and device holds remain unchanged.
 
@@ -1650,17 +2222,27 @@ Acceptance source SHA-256: `8687b59bd3edf4150298a7f3b0a83e9938e0078ead6e5750bf1a
 
 **Track requests documents and approvals to completion — partial.**
 
-**Evidence:** tests/terrace.test.mjs,tests/action-requests.mjs,tests/action-requests-browser.mjs
+**Evidence:** `tests/terrace.test.mjs` — "PORTAL-007: scoped request actions, expiry, replacement, validated originals and exact owner decisions" (`tests/action-requests.mjs`): insurance original, exact owner quote decision, expiry and replacement, open versus validated completion, reminders, named signer and approver, staff 404 and 403; `tests/action-requests-browser.mjs`: staff and external action screens at 1440 and 390, including compact icon tooltip focus and hover.
 
 **Remaining clause gap:** PARTIAL: policy is approved with changes, but assertions remain unproved. Qualification map: PORTAL-007 entry 7 and ROLE-001 entry 11, ROLE-002 entry 12, PORT-004 entry 4, PORT-001 entry 1 require before, on and after household and property-local ownership dates (including UTC and local-day disagreement) and refusal after authority changes; SAFE-001 entry 1 and ROLE-001 entry 11 require stale-proof refusal for every command, prohibited roles and credentials, and authority changes between review and mutation; SAFE-002 entry 2 and PORT-007 entry 7 require durable affirmative-consent wording or version and refusal of substituted document bytes; WORK-003 entry 3, ROLE-003 entry 13 and future PORTAL-002 entry 2 require visible decline, stopped reminders, changed-term decisions and preserved spend and independence controls; ROLE-002 entry 12 requires actual seven-day expiry, replacement refusal on reads and submissions, missing-item history and expiry distinct from cancellation; future PORTAL-005 entry 5 and PORTAL-006 entry 6 require send uncertainty and claim-interruption refusal, side-effect-free opens and lost-response once-only completion; SAFE-004 entry 4 and SAFE-005 entry 5 require subject-scoped access, retention and holds, eligible evidence and original erasure and later-journal restore fences; SAFE-005 entry 5 and ROLE-002 entry 12 require original bytes, hashes and attribution in backup and readable export and inert restored open requests until fresh invitations and preparation. LEASE-011 entry 11 and PORTAL-009 entry 9 still require their own legal-execution and statutory-delivery journeys. Future PORTAL-001 entry 1, PORTAL-002 entry 2, PORTAL-003 entry 3 and PORTAL-008 entry 8 inherit applicable identity, scope, consent, revocation and custody duties. PORT-007 remains the separate document clause. No permanent withdrawal state is commissioned; any future such capability belongs to the next free PORTAL-011, initially missing in both documents.
 
 Acceptance source SHA-256: `297490a9495e44685d12e7f0f163f9ac553ab3342b3e333f8818e7466460e6a0`.
 
+### Clause PORTAL-008
+
+**Support mobile and accessible everyday work — partial.**
+
+**Evidence:** `tests/card-payments-browser.mjs` — "journey": keyboard-only card preparation, named main and form, associated invalid-field descriptions in the Chromium accessibility tree, correction without a reservation, pending and confirmed receipt status, existing provider replay and custody assertions. `tests/portal-requests-browser.mjs` — "journey": keyboard-only repair submission, associated errors and correction, readable receipt and tracking, original-media and scope journeys. `tests/accessibility-browser.mjs` — "workJourney": keyboard navigation through work preparation and exact approval, collapsed invalid-field recovery, blank-text correction without writes, portfolio refusal, hidden prohibited-role approval with command refusal, stale approval replay refusal and phone navigation focus. All three run on push Verify; native screen proof uses 1440 and 390.
+
+**Remaining clause gap:** Responsive web forms exist; full accessible mobile journeys, native apps and push and device controls are absent. Bounded Terrace-owned web evidence only. Native iOS and Android apps, suspend and resume, lost-device revocation, permissioned push and cached-data device proof remain unavailable. Full WCAG 2.2 AA and actual screen-reader qualification, safe connectivity-loss resume, provider-hosted payment accessibility and remaining mobile journeys are unproved. PAY-003 live receipt, decline, authentication and replay, settlement, production configuration and CT payment-policy holds remain unchanged; no device or payment authority is released.
+
+Acceptance source SHA-256: `e413ef2f3dd4b4b38dcf6aa7770bcaef30955e8cc2af6e37d84f030363b870d0`.
+
 ### Clause PORTAL-009
 
 **Print mail and record service of notices — partial.**
 
-**Evidence:** tests/portal-threads.mjs,tests/terrace.test.mjs,tests/portal-threads-browser.mjs
+**Evidence:** `tests/portal-threads.mjs` — journey, invoked by the PORTAL-006 registration in `tests/terrace.test.mjs`: five recipient-specific frozen PDFs, combined batch and manifest; exact hash approval and downloads; changed-content and revoked-grant refusal; staff portfolio 404 and role 403, stale-proof refusal; printing distinct from service; structured server identity, actual timestamp, office certified tracking and photo originals; immutable returned and uncertain attempts with assigned reconciliation; native restart, readable export, inert restore, retention holds, eligible erasure and later-journal resurrection refusal. `tests/portal-threads-browser.mjs` — shared thread native journey in push Verify: office preparation, exact PDF review and approval, frozen-byte downloads and physical-service capture through native Messages, asserted at 1440 with screenshots at 1440 and 390.
 
 **Remaining clause gap:** Terrace counsel engagement and PORT-008 reviewed authored packs and notice template contents remain unavailable; statutory sufficiency, notice eligibility, service-based deadlines and mailing extensions remain unqualified. Deposit-disposition acceptance still depends on ACCT-004. Lob account and entitlement, provider mailing and tracking events and complete acceptance across pay-or-quit, lease violation, entry, nonrenewal, deposit disposition and owner letters remain outstanding. Vendor postal addresses are not yet recorded, so their print preparation is held rather than guessed. Current communication authority, consent and custody limits remain unchanged; recorded service and a printed PDF prove no legal sufficiency or provider delivery.
 
@@ -1670,7 +2252,7 @@ Acceptance source SHA-256: `701e3f2118014a410a625541b98314df2cf2c32cc52dfc9dd6e1
 
 **Explain the complete rent roll — done.**
 
-**Evidence:** migrations/core/0026_rent_roll.sql,src/terrace/rent-roll.ts,src/terrace/rent-roll-view.ts,src/terrace/exports.ts,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0026_rent_roll.sql`; `src/terrace/rent-roll.ts`; `src/terrace/rent-roll-view.ts`; `src/terrace/exports.ts`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1680,7 +2262,7 @@ Acceptance source SHA-256: `40ec3211fe55ddb33bb5c40f331c6f4d0a1c6ffb4a70687633b2
 
 **Measure vacancy leasing and renewal performance — done.**
 
-**Evidence:** src/terrace/leasing-report.ts,src/terrace/leasing-metrics.ts,src/terrace/leasing-view.ts,src/terrace/api.ts,tests/leasing-report.mjs,tests/terrace.test.mjs
+**Evidence:** `src/terrace/leasing-report.ts`; `src/terrace/leasing-metrics.ts`; `src/terrace/leasing-view.ts`; `src/terrace/api.ts`; `tests/leasing-report.mjs`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1690,7 +2272,7 @@ Acceptance source SHA-256: `69b72e699f08f27209d1d6b62cdfb0e892acde8bd8d2ec53a83c
 
 **Report maintenance service and cost — done.**
 
-**Evidence:** migrations/core/0033_service_report.sql,src/terrace/service-report.ts,src/terrace/service-view.ts,src/terrace/api.ts,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0033_service_report.sql`; `src/terrace/service-report.ts`; `src/terrace/service-view.ts`; `src/terrace/api.ts`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1700,7 +2282,7 @@ Acceptance source SHA-256: `0530aaa8922318bde64ac345e96fe6bcea7e8005b6c0443a530c
 
 **Build governed custom reports and fields — done.**
 
-**Evidence:** migrations/core/0048_custom_reports.sql,src/terrace/custom-commands.ts,src/terrace/custom-reports.ts,src/terrace/custom-documents.ts,src/terrace/custom-view.ts,tests/custom-reports.mjs,tests/custom-browser.mjs,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0048_custom_reports.sql`; `src/terrace/custom-commands.ts`; `src/terrace/custom-reports.ts`; `src/terrace/custom-documents.ts`; `src/terrace/custom-view.ts`; `tests/custom-reports.mjs`; `tests/custom-browser.mjs`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1710,27 +2292,47 @@ Acceptance source SHA-256: `579b03841102bee62d1e1490d4ee333f5db98b00f5bcd9863780
 
 **Schedule delivered operating reports — partial.**
 
-**Evidence:** tests/report-schedules.mjs,tests/terrace.test.mjs,tests/report-schedules-browser.mjs,src/terrace/report-deliveries.ts,src/terrace/report-custody.ts,migrations/core/0076_report_snapshot_custody.sql,docs/report-schedules.md
+**Evidence:** `tests/report-schedules.mjs` via `tests/terrace.test.mjs` “REPORT-006: reviewed owner links enforce send approval, live scope, frozen portal fields, archive isolation and audited hold-aware deletion”: timezone boundary and close status; explicit approval required on initial send and definite-refusal retry; one concurrent authorized submission; live grant revocation before send; equality with existing portal fields; source-verified frozen statement and hash; recipient access; bounce with failed-delivery task; no Cron sends; visible uncertain outcome without replay after restart; backup and readable archive exclusion; persistent snapshots; audited deletion refused for each active legal or accountant hold and allowed after release; retained send identity prevents replay. `tests/report-schedules-browser.mjs`: native generation, send, recipient statement, bounce, holds and deletion at 1440 and 390 with hover and keyboard tooltips; `src/terrace/report-deliveries.ts`; `src/terrace/report-custody.ts`; `migrations/core/0076_report_snapshot_custody.sql`; `docs/report-schedules.md`
 
 **Remaining clause gap:** Ct approved delivery and installation-only snapshot custody on 24 October 2026: explicit installation-owner approval for each send; existing owner portal fields only, with no new recipient data fields; live recipient grants checked at send; source-verified frozen statements; snapshots excluded from archives; no unattended sends; uncertain outcomes are visible and never retried automatically. Retention default ADOPTED: snapshots remain until the owner explicitly deletes them through an audited path; legal and accountant holds block deletion until released. Recipient-scope delivery for rent roll, delinquency, vacancy, maintenance and staff financial reports, plus the SAFE-009 reference-deployment 150-owner batch timing proof, remain unproved. Owner allocation statement links are the reviewed delivery slice. No unattended send or uncertain-send retry is authorized.
 
 Acceptance source SHA-256: `1744dff0533aae19e7419bf02711e0f7bf35a97a3f5d503067d5fce283f6b62f`.
 
+### Clause SAFE-001
+
+**Enforce authenticated least-privilege doors — done.**
+
+**Evidence:** `migrations/core/0032_second_factor.sql`; `src/terrace/second-factor.ts`; `src/terrace/security-view.ts`; `src/terrace/api.ts`; `src/terrace/core.ts`; `src/auth.server.ts`; `tests/terrace.test.mjs`
+
+**Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
+
+Acceptance source SHA-256: `1b06c59b9a915e3691b418ef723a275364feef3a98c172ac34bf5e9c8fa95d14`.
+
 ### Clause SAFE-002
 
 **Keep attributable immutable operating history — done.**
 
-**Evidence:** migrations/core/0035_history.sql,src/terrace/history.ts,src/terrace/core.ts,src/terrace/api.ts,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0035_history.sql`; `src/terrace/history.ts`; `src/terrace/core.ts`; `src/terrace/api.ts`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
 Acceptance source SHA-256: `b8faa96b7202645003dad131df16770b68cea779f6ef217cc4a3e11dec55631c`.
 
+### Clause SAFE-004
+
+**Apply reviewed retention holds and erasure — done.**
+
+**Evidence:** `migrations/core/0039_retention.sql`; `src/terrace/retention.ts`; `src/terrace/erasure.ts`; `src/terrace/retention-view.ts`; `src/terrace/imports-target.ts`; `src/terrace/archive-policy.mjs`; `tests/retention.mjs`; `tests/terrace.test.mjs`
+
+**Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
+
+Acceptance source SHA-256: `f3dfad930bf07a3a65f48e6e771183499ace6b4ca8d1e92b1ce981f506135c16`.
+
 ### Clause SAFE-005
 
 **Leave with complete usable operating data — done.**
 
-**Evidence:** src/terrace/readable-export.ts,src/terrace/data.ts,src/terrace/exports.ts,src/terrace/archive-policy.mjs,tests/terrace.test.mjs
+**Evidence:** `src/terrace/readable-export.ts`; `src/terrace/data.ts`; `src/terrace/exports.ts`; `src/terrace/archive-policy.mjs`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1740,7 +2342,7 @@ Acceptance source SHA-256: `18e47a91afdc99aa7a27c871b594708a77201ff4d5596b5922c5
 
 **Triage safety and emergency requests — partial.**
 
-**Evidence:** tests/emergencies.mjs,tests/portal-requests.mjs,tests/messages.mjs,tests/messages-browser.mjs
+**Evidence:** `tests/emergencies.mjs` — "journey": guidance, off-hours intake, scoped urgent queue, human acknowledgement and resolution. `tests/portal-requests.mjs` — "journey": resident safety intake. `tests/messages.mjs` — "journey": manually approved primary voice page and backup text page, provider completion leaves the case open, pages refuse after human acknowledgement. `tests/messages-browser.mjs`: native message and safety screens at 1440 and 390.
 
 **Remaining clause gap:** Real SMS and voice paging with timed automatic escalation remains unproved. The ct 19 October 16:58Z rule still disables timer escalation; new timer authority is requested. Twilio TEST accepts requests without a real call, handset delivery or provider-origin callbacks. Communication authority and consent defaults await ct approval. CT 26 October 2026 approves the manual default and future case-bound timer authority WITH RIDERS. Earlier pending-policy and timer-prohibition statements describe the implementation at the reviewed pin; timed automatic escalation remains required and unproved. All existing implementation and provider gaps remain. Status remains partial.
 
@@ -1750,7 +2352,7 @@ Acceptance source SHA-256: `dec5689661cdbefaf2b59230970c17d484230e403649be374aea
 
 **Maintain property asset and warranty history — done.**
 
-**Evidence:** migrations/core/0019_assets.sql,src/terrace/assets.ts,src/terrace/asset-view.ts,src/terrace/work.ts,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0019_assets.sql`; `src/terrace/assets.ts`; `src/terrace/asset-view.ts`; `src/terrace/work.ts`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1760,7 +2362,7 @@ Acceptance source SHA-256: `ee4b5206e31997b614f11108f8b239323a8750633f9ecae23e91
 
 **Estimate work and obtain owner approval — done.**
 
-**Evidence:** migrations/core/0028_quotes.sql,src/terrace/quotes.ts,src/terrace/quote-view.ts,src/terrace/work.ts,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0028_quotes.sql`; `src/terrace/quotes.ts`; `src/terrace/quote-view.ts`; `src/terrace/work.ts`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1770,7 +2372,7 @@ Acceptance source SHA-256: `ca7a33e9f1d956e8d27c9fdef6e658d4b3f3718f45daee90c2c8
 
 **Qualify and assign vendors — done.**
 
-**Evidence:** migrations/core/0020_vendors.sql,src/terrace/vendors.ts,src/terrace/vendor-view.ts,src/terrace/work.ts,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0020_vendors.sql`; `src/terrace/vendors.ts`; `src/terrace/vendor-view.ts`; `src/terrace/work.ts`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1780,7 +2382,7 @@ Acceptance source SHA-256: `e6b68226df76a14ecd5c2b5cc90bc6d742d62b9e39fe8c04454b
 
 **Book appointments and resident access — partial.**
 
-**Evidence:** tests/appointments.mjs,tests/portal.mjs,tests/messages.mjs,tests/messages-browser.mjs
+**Evidence:** `tests/appointments.mjs` — "journey": permission, qualification, calendars, cancellation, rescheduling and report timing. `tests/portal.mjs` — "journey": vendor-portal confirmation and cancellation. `tests/messages.mjs` — "journey": reviewed arrival text, unanswered window stays proposed, signed Y confirms once after vendor confirmation, cancelled and changed-work windows stay unconfirmed, separately approved cancellation emails to both parties. `tests/messages-browser.mjs`: arrival confirmation and reply history at 1440 and 390.
 
 **Remaining clause gap:** Resident communication consent and signed-reply authority defaults await ct approval. Actual arrival-text delivery and resident-origin reply remain unproved under TEST-only authorization; signed fixtures prove native routing only. Notifications require separate exact-content human approval; no automatic notification is authorized. CT 26 October 2026 approves the current-invitation signed-reply policy WITH RIDERS, separate from resident entry permission and vendor confirmation. Earlier pending-policy wording is historical. Actual delivery, resident-origin reply proof, separately approved notifications and independent runtime and browser evidence remain gaps. Status remains partial.
 
@@ -1790,7 +2392,7 @@ Acceptance source SHA-256: `075a597aa92f3edecdfc636a47630e351b65aa2806c9a215b087
 
 **Dispatch and track technician progress — done.**
 
-**Evidence:** migrations/core/0049_dispatch.sql,src/terrace/dispatch.ts,src/terrace/dispatch-mail.ts,src/terrace/dispatch-view.ts,tests/dispatch.mjs,tests/dispatch-browser.mjs,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0049_dispatch.sql`; `src/terrace/dispatch.ts`; `src/terrace/dispatch-mail.ts`; `src/terrace/dispatch-view.ts`; `tests/dispatch.mjs`; `tests/dispatch-browser.mjs`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1800,9 +2402,9 @@ Acceptance source SHA-256: `223d7b6ad7a9bf10ff1830e699a088b583eb18c01ee9edaf3273
 
 **Capture field labor materials and completion evidence — partial.**
 
-**Evidence:** tests/field-capture.test.mjs,tests/technician-capture.mjs,tests/technician-capture-browser.mjs,tests/field-evidence.mjs,tests/field-evidence-browser.mjs,src/terrace/field-evidence.ts,src/terrace/completions.ts,migrations/core/0072_field_scope.sql
+**Evidence:** `tests/field-capture.test.mjs` — ‘WORK-007: direct technician originals, approved scope reconciliation and once-only review submission’ (`tests/technician-capture.mjs`); `tests/technician-capture-browser.mjs` — direct offline time and photos and video, persisted originals, changed-scope reconciliation and review submission at 1440/390; `tests/field-evidence.mjs` / `tests/field-evidence-browser.mjs` — retained staff-sourced report; `src/terrace/field-evidence.ts`; `src/terrace/completions.ts`; `migrations/core/0072_field_scope.sql`
 
-**Remaining clause gap:** Direct authenticated operator capture now includes labor, materials, notes, access, current approved tasks and before/after original photos and video, with once-only submission, offline drafts and manual scope reconciliation. Adopted conservative default pending ct: direct capture and field-scope changes are owner/portfolio-manager only; explicit private-device consent, no credentials in drafts, explicit sync/deletion; no new vendor authentication or grants. Existing sourced staff evidence remains available. Resident resolution stays a separate check.
+**Remaining clause gap:** Direct authenticated operator capture now includes labor, materials, notes, access, current approved tasks and before and after original photos and video, with once-only submission, offline drafts and manual scope reconciliation. Adopted conservative default pending ct: direct capture and field-scope changes are owner and portfolio-manager only; explicit private-device consent, no credentials in drafts, explicit sync and deletion; no new vendor authentication or grants. Existing sourced staff evidence remains available. Resident resolution stays a separate check.
 
 Acceptance source SHA-256: `bdfe7f02f20bf0c2d0cf11ecd7259ff1edc58e3b0084c7428d143770fdb3a501`.
 
@@ -1810,7 +2412,7 @@ Acceptance source SHA-256: `bdfe7f02f20bf0c2d0cf11ecd7259ff1edc58e3b0084c7428d14
 
 **Verify repair with the resident — done.**
 
-**Evidence:** migrations/core/0029_completion_checks.sql,src/terrace/completions.ts,src/terrace/completion-view.ts,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0029_completion_checks.sql`; `src/terrace/completions.ts`; `src/terrace/completion-view.ts`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1820,7 +2422,7 @@ Acceptance source SHA-256: `ef3b6e006fd460efa9671c45e3eaafdc89ce53c20361aa5acf47
 
 **Match invoice work and owner charge — missing.**
 
-**Evidence:** src/terrace/bills.ts,src/terrace/bills-input.ts,src/terrace/bills-authority.ts,src/terrace/owners.ts,tests/bills.mjs,tests/terrace.test.mjs
+**Evidence:** `src/terrace/bills.ts`; `src/terrace/bills-input.ts`; `src/terrace/bills-authority.ts`; `src/terrace/owners.ts`; `tests/bills.mjs`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** Staff-entered bills match supplier, approved work and cumulative estimate, hold excess spend, and post approved owner allocations. Invoice extraction and source locations, labor and material and completion matching, settlement linkage and invoiced maintenance-report costs are absent. WORK-009 remains missing until ACCT-008 and ACCT-012 ship.
 
@@ -1830,7 +2432,7 @@ Acceptance source SHA-256: `26457229854e73255cf6a28dc52e5e82b75ba481c8832aaca0d0
 
 **Schedule preventive and recurring maintenance — done.**
 
-**Evidence:** migrations/core/0021_schedules.sql,src/terrace/schedules.ts,src/terrace/schedule-view.ts,src/terrace/job-writes.ts,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0021_schedules.sql`; `src/terrace/schedules.ts`; `src/terrace/schedule-view.ts`; `src/terrace/job-writes.ts`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1840,9 +2442,9 @@ Acceptance source SHA-256: `07c045793c0a7d645ce2086aebad59c5577bfbc213394b1492cd
 
 **Complete mobile move-in and move-out inspections — partial.**
 
-**Evidence:** tests/field-capture.test.mjs,tests/mobile-inspections.mjs,tests/mobile-inspections-browser.mjs,src/terrace/field-evidence-inspections.ts,migrations/core/0071_mobile_inspections.sql
+**Evidence:** `tests/field-capture.test.mjs` — ‘WORK-011: structured entry and exit findings preserve disputes and refuse unsupported deductions’ (`tests/mobile-inspections.mjs`); `tests/mobile-inspections-browser.mjs` — phone-offline originals, persisted device drafts, manual changed-checklist reconciliation and retained comparison and dispute at 1440/390; `src/terrace/field-evidence-inspections.ts`; `migrations/core/0071_mobile_inspections.sql`
 
-**Remaining clause gap:** Structured room/asset checklists, original media, readings, sourced acknowledgement/disputes, completed inspections, entry/exit comparison and evidence-gated human work/deduction proposals ship. Adopted conservative default pending ct: new capture/configuration/acknowledgement/proposal doors are owner or portfolio-manager only; offline originals stay on the device only by explicit consent until explicit sync or deletion; acknowledgements are staff-sourced, never resident authentication or signatures; human decisions execute no work or deposit charge.
+**Remaining clause gap:** Structured room and asset checklists, original media, readings, sourced acknowledgement and disputes, completed inspections, entry and exit comparison and evidence-gated human work and deduction proposals ship. Adopted conservative default pending ct: new capture/configuration/acknowledgement/proposal doors are owner or portfolio-manager only; offline originals stay on the device only by explicit consent until explicit sync or deletion; acknowledgements are staff-sourced, never resident authentication or signatures; human decisions execute no work or deposit charge.
 
 Acceptance source SHA-256: `a0c6eaa92ee9ef7a8eeac1cd49fb349de2e3a530eda0d523d584a5b8e1fbf47b`.
 
@@ -1850,7 +2452,7 @@ Acceptance source SHA-256: `a0c6eaa92ee9ef7a8eeac1cd49fb349de2e3a530eda0d523d584
 
 **Run make-ready and turnover boards — done.**
 
-**Evidence:** migrations/core/0024_turnovers.sql,src/terrace/turnovers.ts,src/terrace/turnover-view.ts,tests/terrace.test.mjs
+**Evidence:** `migrations/core/0024_turnovers.sql`; `src/terrace/turnovers.ts`; `src/terrace/turnover-view.ts`; `tests/terrace.test.mjs`
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
@@ -1860,7 +2462,7 @@ Acceptance source SHA-256: `eb151e9503264a8a7d76bdb23d363106cc35ef1154cfd81fae4f
 
 **Control maintenance budgets inventory and chargebacks — done.**
 
-**Evidence:** tests/work-budgets.mjs,tests/bills.mjs,tests/bills.mjs,tests/work-budgets.mjs,tests/work-budgets-browser.mjs,tests/bills.mjs,tests/work-budgets.mjs,tests/bills.mjs
+**Evidence:** `tests/work-budgets.mjs` — "authorityBoundaries", invoked by `tests/bills.mjs` — "journey": before, on and after household joining and leaving dates at the source and current property-local day; before, on and after ownership transfer dates; October 25 UTC versus October 24 in Los Angeles; proposal and approval refusal after household or ownership changes, with no extra receivable. `tests/bills.mjs` — "journey" invoking `tests/work-budgets.mjs` — "journey": the existing stock consumption and budget-limit assertions plus resident proposal and independent approval; resident, owner and insurance allocations; source-tax preservation; exact payable, receivable and net owner-cost reconciliation; explicit authorization and fingerprint refusal; role, property and beneficiary refusal; duplicate and concurrent recovery refusal; owner-statement source allocations, restart and archive restore. `tests/work-budgets-browser.mjs`: native proposal, pending review and approved allocation at 1440 and 390, existing stock and budget screens, tooltip hover and keyboard focus.  Ct approved the authorization default on 25 October 2026. Existing bill preparers propose and independent owners or currently scoped portfolio managers approve under ROLE-001 and ROLE-003. Current household rights and property-local ownership, exact recipient and source, durable authorization declaration and version, included source tax and atomic recovery limits apply. No new readers, legal determination, notices or money movement. `tests/bills.mjs` — "journey", its "retention" segment, proves accounting-hold preservation and eligible authorization-text erasure while cents and approval survive. `tests/work-budgets.mjs` — "journey" proves subject-scoped access and restart and archive recovery. `tests/bills.mjs` — "journey" also refuses an older private authorization archive against the later erasure journal with an empty destination.
 
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 

@@ -45,7 +45,7 @@
       "id": "bu-company-01",
       "label": "Corporate accounting",
       "source": "bu-company",
-      "section": "Close",
+      "section": "Track the books for your business with the same accuracy and efficiency as your managed properties.",
       "line": 72,
       "quote": "Track the books for your business with the same accuracy and efficiency as your managed properties."
     },
@@ -77,7 +77,7 @@
       "id": "bu-telephone-02",
       "label": "After-hours service calls and email",
       "source": "bu-telephone",
-      "section": "Rely on highly-trained support",
+      "section": "Continue to deliver an incredible resident experience",
       "line": 78,
       "quote": "Every service call and email is answered by professional call center agents. Residents won’t even have to wait for a call back when they need your help after hours."
     },
@@ -85,7 +85,7 @@
       "id": "bu-telephone-03",
       "label": "Emergency classification",
       "source": "bu-telephone",
-      "section": "Answers all inbound service calls",
+      "section": "Maintenance Contact Center Plans",
       "line": 88,
       "quote": "Gathers information and determines if emergency or not"
     },
@@ -101,7 +101,7 @@
       "id": "bu-maintenance-02",
       "label": "Resident repair intake",
       "source": "bu-maintenance",
-      "section": "Centralize all your work and give your team visibility into what needs attention, who owns it, and what’s been completed.",
+      "section": "Keep every task moving forward",
       "line": 88,
       "quote": "Capture and manage resident requests submitted through Resident Center"
     },
@@ -109,7 +109,7 @@
       "id": "bu-maintenance-03",
       "label": "Staff maintenance tasks",
       "source": "bu-maintenance",
-      "section": "Capture and manage resident requests submitted through Resident Center",
+      "section": "Keep every task moving forward",
       "line": 89,
       "quote": "Create property maintenance tasks for staff with clear ownership and due dates"
     },
@@ -117,7 +117,7 @@
       "id": "bu-maintenance-04",
       "label": "Recurring work",
       "source": "bu-maintenance",
-      "section": "Create property maintenance tasks for staff with clear ownership and due dates",
+      "section": "Keep every task moving forward",
       "line": 90,
       "quote": "Schedule recurring work like lawn care or seasonal inspections"
     },
@@ -125,7 +125,7 @@
       "id": "bu-maintenance-05",
       "label": "Timestamped updates",
       "source": "bu-maintenance",
-      "section": "Schedule recurring work like lawn care or seasonal inspections",
+      "section": "Keep every task moving forward",
       "line": 91,
       "quote": "Maintain time-stamped updates for accountability and record-keeping"
     },
@@ -133,7 +133,7 @@
       "id": "bu-maintenance-06",
       "label": "Staff or vendor assignment",
       "source": "bu-maintenance",
-      "section": "Track the progress of work being performed and expected costs with work orders, keeping maintenance activity connected to your accounting.",
+      "section": "Bring order to your maintenance work",
       "line": 94,
       "quote": "Assign work orders to your staff or vendors"
     },
@@ -141,7 +141,7 @@
       "id": "bu-maintenance-07",
       "label": "Pre-work quotes and estimates",
       "source": "bu-maintenance",
-      "section": "Assign work orders to your staff or vendors",
+      "section": "Bring order to your maintenance work",
       "line": 95,
       "quote": "Enter quotes or estimates for the work before it’s performed"
     },
@@ -149,7 +149,7 @@
       "id": "bu-maintenance-08",
       "label": "Work order bills",
       "source": "bu-maintenance",
-      "section": "Enter quotes or estimates for the work before it’s performed",
+      "section": "Bring order to your maintenance work",
       "line": 96,
       "quote": "Generate a bill directly from a work order"
     },
@@ -157,7 +157,7 @@
       "id": "bu-maintenance-09",
       "label": "Projects and templates",
       "source": "bu-maintenance",
-      "section": "Keep your maintenance work organized by grouping related tasks into projects to track progress and budgets at a glance.",
+      "section": "Standardize your repeatable tasks",
       "line": 99,
       "quote": "Use project templates for standard workflows like unit turns or recurring repairs."
     },
@@ -173,7 +173,7 @@
       "id": "bu-maintenance-11",
       "label": "Partner inspection capture",
       "source": "bu-maintenance",
-      "section": "Perform inspections on-site and sync results directly into Buildium, powered by HappyCo.",
+      "section": "Complete inspections—right from the field",
       "line": 112,
       "quote": "Capture photos, notes, and reports in the HappyCo app"
     }

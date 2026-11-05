@@ -7,7 +7,7 @@ import { parseContract } from '../src/base/seed-contract.mjs'
 const sourceDirectory = 'docs/switch-checklist-sources/'
 const output = 'docs/switch-checklists.md'
 const names = { appfolio: 'AppFolio', buildium: 'Buildium', 'rent-manager': 'Rent Manager' }
-const hosts = { appfolio: 'www.appfolio.com', buildium: 'www.buildium.com', 'rent-manager': 'www.rentmanager.com' }
+const hosts = { appfolio: ['www.appfolio.com'], buildium: ['www.buildium.com', 'help.buildium.com'], 'rent-manager': ['www.rentmanager.com'] }
 const hash = value => createHash('sha256').update(value).digest('hex')
 const fail = message => { throw Error('Switch checklist: ' + message) }
 const need = (condition, message) => { if (!condition) fail(message) }
@@ -18,9 +18,10 @@ const unique = (items, key, label) => {
  return map
 }
 const md = text => String(text).replace(/[<>]/g, '').replace(/[\[\]*_`]/g, '\\$&').replace(/\|/g, '\\|').replace(/\s+/g, ' ').trim()
+const safeProse = text => text.split(/(`[^`]*`|\[[^\]]*\]\([^)]*\))/g).map((part, index) => index % 2 ? part : part.replace(/(?<![\w:/.-])([A-Za-z][\w-]*)\/([A-Za-z][\w-]*)(?![\w/.])/g, '$1 and $2')).join('')
 const official = (url, incumbent) => {
  let parsed; try { parsed = new URL(url) } catch { fail('invalid official URL') }
- need(parsed.protocol === 'https:' && parsed.hostname === hosts[incumbent] && !parsed.username && !parsed.password && !parsed.search, 'unofficial source URL: ' + url)
+ need(parsed.protocol === 'https:' && hosts[incumbent]?.includes(parsed.hostname) && !parsed.username && !parsed.password && !parsed.search, 'unofficial source URL: ' + url)
 }
 const sameSet = (actual, expected, label) => need(actual.length === expected.length && new Set(actual).size === actual.length && actual.every(id => expected.includes(id)), label)
 
@@ -31,7 +32,7 @@ export function loadSwitchChecklist({ root = process.cwd(), contractText, read =
  const contractSource = contractText ?? read('CONTRACT.md')
  // Summary counts are generated; the caller supplies a consistent contract when simulating a changed judgment.
  const contract = parseContract(contractSource)
- const clauses = new Map(contract.clauses.map(clause => [clause.id, clause]))
+ const clauses = new Map(contract.clauses.map(clause => [clause.id, { ...clause, evidenceText: contractSource.split('\n')[clause.row - 1].split('|')[5].trim() }]))
  sameSet(manifest.inventories.map(item => item.incumbent), Object.keys(names), 'all three separate incumbent inventories are required')
  need(manifest.complete === false, 'complete corpus coverage is not established')
  required(manifest.captureMethod, 'capture method')
@@ -57,10 +58,11 @@ export function loadSwitchChecklist({ root = process.cwd(), contractText, read =
   return bytes
  }
  for (const source of sources.values()) {
-  need(source.httpStatus === 200 && source.review === 'partial', 'source review must disclose its limited audit')
+  need(source.httpStatus === 200 && ['partial', 'unaudited'].includes(source.review), 'source review must disclose its limited audit')
   required(source.unaudited, 'unaudited source areas')
   const lines = capture(source).split('\n')
   const selected = [...workflows.values()].filter(workflow => workflow.source === source.id)
+  need(source.review !== 'unaudited' || selected.length === 0, 'unaudited source cannot establish verified workflows')
   sameSet(source.workflows, selected.map(workflow => workflow.id), 'source-to-workflow reconciliation failed: ' + source.id)
   for (const workflow of selected) {
    need(workflow.incumbent === source.incumbent, 'cross-incumbent source')
@@ -100,9 +102,9 @@ export function renderSwitchChecklist(data) {
  for (const inventory of inventories) {
   const index = manifest.discovery.find(item => item.incumbent === inventory.incumbent)
   lines.push(`### ${inventory.name} source coverage`, '', `**Incomplete inventory:** ${md(inventory.gap)}`, '',
-   `${inventory.workflows.length} inventoried workflows from ${manifest.sources.filter(source => source.incumbent === inventory.incumbent).length} partially audited pages. [Discovery register](switch-checklist-sources/${index.capture}): ${index.urls} URLs, captured ${index.capturedOn}; all unselected entries remain unaudited. ${md(index.gap)}`, '',
+   `${inventory.workflows.length} inventoried workflows from ${manifest.sources.filter(source => source.incumbent === inventory.incumbent && source.review === 'partial').length} partially audited pages; ${manifest.sources.filter(source => source.incumbent === inventory.incumbent && source.review === 'unaudited').length} unaudited captures. [Discovery register](switch-checklist-sources/${index.capture}): ${index.urls} URLs, captured ${index.capturedOn}; all unselected entries remain unaudited. ${md(index.gap)}`, '',
    `Discovery raw SHA-256: \`${index.rawSha256}\`. Retained register SHA-256: \`${index.captureSha256}\`.`, '')
-  for (const area of manifest.unresolvedAreas.filter(area => area.incumbent === inventory.incumbent)) lines.push(`**Unaudited area — ${md(area.area)}:** ${md(area.reason)}`, '')
+  for (const area of manifest.unresolvedAreas.filter(area => area.incumbent === inventory.incumbent)) lines.push(`**Unaudited area — ${md(area.area)}:** ${md(area.reason)}${area.url ? ` [Official source area](${area.url})` : ''}`, '')
  }
  for (const inventory of inventories) {
   lines.push(`## ${inventory.name} checklist`, '', `**Partial official-source inventory. ${inventory.workflows.length} workflows; additional source areas remain unaudited.**`, '')
@@ -115,12 +117,12 @@ export function renderSwitchChecklist(data) {
  }
  lines.push('## Captured source register', '')
  for (const source of manifest.sources) lines.push(`### ${source.id}`, '', `[Official page](${source.url})${source.url !== source.resolvedUrl ? ` → [resolved page](${source.resolvedUrl})` : ''}; captured ${source.capturedOn}, HTTP ${source.httpStatus}. [Retained normalized text](switch-checklist-sources/${source.capture}).`, '',
-  `Raw SHA-256: \`${source.rawSha256}\`. Capture SHA-256: \`${source.captureSha256}\`.`, '', `**Partial audit:** ${md(source.unaudited)} Reconciled source workflows: ${source.workflows.map(id => '\`' + id + '\`').join(', ')}.`, '')
+  `Raw SHA-256: \`${source.rawSha256}\`. Capture SHA-256: \`${source.captureSha256}\`.`, '', `**Audit: ${source.review}.** ${md(source.unaudited)} Reconciled source workflows: ${source.workflows.map(id => '\`' + id + '\`').join(', ')}.`, '')
  lines.push('## Current Terrace replacement evidence', '', 'The following statuses, acceptance fingerprints, Evidence and Gap cells come directly from CONTRACT.md. They describe the related Terrace work, not complete incumbent replacement.', '')
  const used = [...new Set(rows.flatMap(row => row.clauses.map(clause => clause.id)))].sort()
  for (const id of used) {
   const clause = data.clauses.get(id)
-  lines.push(`### Clause ${id}`, '', `**${md(clause.title)} — ${clause.status}.**`, '', `**Evidence:** ${clause.evidence || 'No executed evidence.'}`, '', `**Remaining clause gap:** ${clause.gap || 'None in the clause; same-capability checklist qualification still required.'}`, '', `Acceptance source SHA-256: \`${hash(clause.text)}\`.`, '')
+  lines.push(`### Clause ${id}`, '', `**${md(clause.title)} — ${clause.status}.**`, '', `**Evidence:** ${safeProse(clause.evidenceText || 'No executed evidence.')}`, '', `**Remaining clause gap:** ${safeProse(clause.gap || 'None in the clause; same-capability checklist qualification still required.')}`, '', `Acceptance source SHA-256: \`${hash(clause.text)}\`.`, '')
  }
  return lines.join('\n') + '\n'
 }

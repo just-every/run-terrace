@@ -15,6 +15,7 @@ const requiredGaps = [
  ['rm-telephone', /Call Center agents instantly add maintenance requests/, 'Telephone maintenance intake'],
  ['rm-maintenance', /device’s GPS/, 'Technician GPS'],
  ['rm-reports', /Send Report Batches based on a pre-determined schedule/, 'Scheduled reports'],
+ ['af-vendor', /request estimates from multiple vendors/, 'Competing repair estimates'],
  ['rm-schedules', /automatically generates and delivers designated Report Batches/, 'Scheduled reports'],
 ]
 const sourceInventory = () => {
@@ -71,7 +72,6 @@ export function assertSwitchChecklistIntegrity() {
  const unknown = structuredClone(mappings); unknown.mappings[0].clauses = ['UNKNOWN-999']
  assert.throws(() => loadSwitchChecklist(altered('docs/switch-checklists.json', unknown)), /unknown clause/)
  const unsupported = structuredClone(mappings), staffQuote = unsupported.mappings.find(row => row.clauses.includes('WORK-003'))
- assert.equal(data.clauses.get('WORK-003').status, 'done')
  staffQuote.coverage = 'covered'
  assert.throws(() => loadSwitchChecklist(altered('docs/switch-checklists.json', unsupported)), /actor, public door, prerequisites and outcome/, 'staff-recorded quotes cannot qualify vendor pre-approval estimates')
  const absent = structuredClone(manifest); delete absent.sources[0].rawSha256
@@ -98,6 +98,18 @@ export function assertSwitchChecklistIntegrity() {
   assert.notEqual(revised, contract, 'acceptance source revision is exercised')
   writeFileSync(join(directory, 'CONTRACT.md'), revised)
   assert.throws(() => generateSwitchChecklist('check', { root: directory }), /stale output/, 'changed replacement acceptance invalidates generated proof provenance')
+  generateSwitchChecklist('write', { root: directory })
+  const demoted = revised.split('\n').map(line => { if (!line.startsWith('| `WORK-003` |')) return line; const cells = line.split('|'); cells[4] = ' partial '; cells[6] = ' Synthetic unqualified replacement acceptance. '; return cells.join('|') }).join('\n')
+  const statusRows = demoted.split('\n').filter(line => /^\| `[A-Z][A-Z0-9-]*-\d+` \|/.test(line)).map(line => line.split('|').slice(1, -1).map(cell => cell.trim()))
+  const counted = demoted.replace(/^\| (Published|Target and push further|All) \|.*$/gm, (_, label) => {
+   const rows = statusRows.filter(row => label === 'All' || (label === 'Published' ? row[2] === 'published' : row[2] !== 'published'))
+   return '| ' + label + ' | ' + ['done', 'partial', 'missing'].map(status => rows.filter(row => row[3] === status).length).concat(rows.length).join(' | ') + ' |'
+  })
+  writeFileSync(join(directory, 'CONTRACT.md'), counted)
+  assert.throws(() => generateSwitchChecklist('check', { root: directory }), /stale output/, 'changed mapped clause status invalidates the public output')
+  const afterDemotion = loadSwitchChecklist({ root: directory })
+  assert.equal(afterDemotion.clauses.get('WORK-003').status, 'partial')
+  assert.ok(afterDemotion.rows.filter(row => row.replacement.clauses.includes('WORK-003')).every(row => row.replacement.coverage === 'gap'), 'demoted or unsupported acceptance never becomes coverage')
  } finally { rmSync(directory, { recursive: true, force: true }) }
 }
 
@@ -107,18 +119,21 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
  await visitor.waitForURL(url => url.pathname === '/docs/switch-checklists')
  const { manifest, workflows } = sourceInventory()
  for (const inventory of manifest.inventories) {
-  await visitor.getByRole('heading', { name: names[inventory.incumbent] + ' checklist', exact: true }).scrollIntoViewIfNeeded()
+  await visitor.getByRole('heading', { name: names[inventory.incumbent] + ' checklist' }).scrollIntoViewIfNeeded()
   for (const workflow of workflows.filter(item => item.incumbent === inventory.incumbent)) {
-   const heading = visitor.getByRole('heading', { name: workflow.label + ' · ' + workflow.id, exact: true })
+   const heading = visitor.getByRole('heading', { name: workflow.label + ' · ' + workflow.id })
    assert.equal(await heading.count(), 1, workflow.id)
    assert.match(await heading.evaluate(element => element.nextElementSibling.textContent), /^Gap:/, 'each source workflow shows its replacement gap')
   }
  }
- await visitor.getByRole('heading', { name: 'Buildium checklist', exact: true }).scrollIntoViewIfNeeded()
+ await visitor.getByRole('heading', { name: 'Buildium checklist' }).scrollIntoViewIfNeeded()
  const permalink = visitor.getByRole('link', { name: 'Link to Buildium checklist', exact: true })
  await permalink.focus()
  assert.equal(await permalink.evaluate(element => getComputedStyle(element, '::after').opacity), '1', 'icon permalink tooltip appears on keyboard focus')
- assert.equal(await permalink.getAttribute('data-tooltip'), 'Section link')
+ await permalink.blur()
+ await permalink.hover()
+ await visitor.waitForTimeout(350)
+ assert.equal(await permalink.evaluate(element => getComputedStyle(element, '::after').opacity), '1', 'permalink tooltip appears after hover delay')
  assert.ok(await visitor.locator('article').evaluate(element => [...element.querySelectorAll('p, li, h2, h3, h4')].every(node => parseFloat(getComputedStyle(node).fontSize) >= 13)), 'checklist text is readable')
  assert.ok(await visitor.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'desktop checklist fits')
  // Screens are opt-in artifacts only; all assertions above run unconditionally in push Verify.
@@ -128,7 +143,7 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
   for (const width of [1440, 390]) {
    await visitor.setViewportSize({ width, height: width === 1440 ? 900 : 844 })
    for (const name of Object.values(names)) {
-    await visitor.getByRole('heading', { name: name + ' checklist', exact: true }).scrollIntoViewIfNeeded()
+    await visitor.getByRole('heading', { name: name + ' checklist' }).scrollIntoViewIfNeeded()
     await visitor.screenshot({ path: join(directory, name.toLowerCase().replaceAll(' ', '-') + '-' + width + '.png') })
    }
   }

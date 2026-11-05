@@ -1,0 +1,198 @@
+AppFolio Vendor Portal Overview
+Products
+Why AppFolio
+Resources
+Pricing
+Login
+Contact Us
+Book a Free Demo
+AppFolio Vendor Portal Overview
+The AppFolio Vendor Portal allows you to manage end-to-end workflows with your property management clients. In the Vendor Portal, you can choose your payment preference, upload compliance documents, view payments statuses in the dashboard, navigate work orders, coordinate with your clients, and complete other tasks.
+Login to your Vendor Portal
+(opens in a new tab)
+How to Access Portal / Sign In
+Activate Your Vendor Portal
+The property manager will send you an email to activate your online portal. Simply follow the steps to set up your portal and start using its features including setting up payments, uploading compliance documents, navigating work orders, and more!
+Disclaimer: Ensure the email is legitimate and from a known client.
+Mobile Accessibility
+The AppFolio Vendor Portal is a website. It is accessible through both mobile and desktop. When using your phone, it will show the mobile website. There is no app in the iOS or Android App Stores. You can save vendor.appfolio.com to your phone by adding a bookmark. On some phones, you can also add a website as an icon to your home screen.
+Setup Two-Factor Authentication (2FA)
+You will be prompted to set up two-step verification to keep your personal and financial information secure. Signing into your portal will periodically require both a password, as well as a security code, that will be sent via your preferred method.
+Access Your Vendor Portal
+Once you have activated your Vendor Portal, you can login anytime from a computer, tablet, or smartphone.
+To access your Vendor Portal:
+Go to vendor.appfolio.com
+Enter your Email and Password then click Login
+Reset 2FA
+You can reset your two-step verification directly from your Vendor Portal account settings.
+Log in to vendor.appfolio.com
+Go to Account Settings
+Navigate to the 2-Step Verification section and click the down arrow to expand it
+Click Reset
+Check the box for I do not have access to the old phone
+Follow the prompts to set up a new verification method
+Managing User Access
+You can manage what users have access to your account under the Users section in Account Settings:
+You can invite a user via email and once they accept your invitation, they will have access to any of your assigned work orders and can invite other users.
+You can also remove user access from your account via the Delete button. Invited users will also be able to remove other invited users.
+Note: If you would like to invite users to receive emails for new work orders, you must reach out to have them added to the list of vendor emails on file by the property management company. Invited users will also not have the ability to update payment preferences.
+Payments
+Select Your Payment Preference
+Once you’ve set up two-step verification, you can confirm your payment preference and enter your payment information.
+Depending on your property management client’s database configuration, you may have up to three payment methods to choose from. Direct Deposit and Mailed Paper Check are typically available during setup, while Instant Pay usually becomes available soon after the client starts using Online Payables.
+To learn more about the payment options available, click on the link ‘Learn more about payment preferences’ and a pop-up window will appear.
+Please note that Payment Preference may not be provided by all property managers.
+Setting Up Instant Pay
+To set up Instant Pay:
+Select Instant Pay
+Click Continue
+Enter your payment information
+Enter your billing address
+Click Submit
+Please note that Instant Pay may not be available or provided by all property managers.
+Setting Up Direct Deposit
+To set up Direct Deposit:
+Select Direct Deposit
+Click Continue
+Enter payment details in required fields
+Click Submit
+Setting Up a Mailed Paper Check
+To set up Mailed Paper Check:
+Select Mailed Paper Check
+Click Continue
+Review and ensure the address that’s on file is correct
+Click Submit
+Please note that Mailed Paper Check (Bill Pay) may not be available or provided by all property managers.
+View Payment History
+Click the Payments tab to view status of payments made via Direct Deposit or Instant Pay. Please contact your property manager client if you have any questions about the transactions displayed.
+Use the filter to sort by Initiated Date, Amount, or Payment Preference.
+Click View Details to download the PDF version of the payment details.
+Compliance Documents
+Document Categories
+Below are the types of documents you can upload to your portal:
+W-9 form
+Liability insurance
+Workers' compensation
+Auto insurance
+State license
+Contract
+EPA certification
+How to Upload Compliance Documents
+When Your Client Requests Documents:
+Any time your client requests compliance documents needing attention, you will receive an email notification. The email will prompt you to upload an updated PDF version of the document in the portal.
+You will be taken to a page to upload your documents. Select your Client and Document Type from the dropdown menu, then upload the document in PDF format.
+Then click Submit Document.
+Work Orders
+Work Orders
+Newly assigned Work Orders from your client will automatically appear in your Vendor Portal. You will also receive an email notification.
+When you receive a new job in Vendor Portal, you may need to Accept or Decline the job.
+To find your work order, you can:
+Search Bar: Use the search bar to enter the work order number (e.g., #250-1) or the property address at any time. Click on any result to navigate to the job's details page.
+Work Orders (Index) Page: Visit the Work Orders (index) page to view all jobs assigned to you by management companies.
+Filter by Property Manager: To see work from a specific management company, click the "Property Manager" field and select the desired customer.
+Work orders are separated into three different groups based on the stage of the job:
+Estimates: When a customer requests an estimate for a job, it will appear in the Estimates tab. Navigate here to view work orders that need an estimate.
+In Progress: This is for assigned work orders that you have not completed work for. Navigate here to see what jobs you can work on.
+Completed: This is for assigned work orders that you have marked as completed and need to be paid for. Navigate here to submit an invoice and to track your payments.
+A status is a quick summary that tells you what stage the job is in. On the Work Orders page, color coded badges on each work order indicate statuses.
+Statuses in the “Estimates” Group:
+Needs Estimate: You need to submit an estimate of this job
+Estimated: The customer needs to review your estimate
+Statuses in the “In Progress” Group:
+On Hold: You should ask the customer if this job is available
+Accept and Reject: You need to accept or reject the job
+Available: You are able to do the job
+Scheduled: The job has been scheduled and you are able to do the job
+Statuses in the “Completed” Group:
+Needs Invoice: You need to submit an invoice for this job
+Under Review: The customer is reviewing your invoice
+Payment Pending: The customer has approved your invoice
+Payment Sent: The customer has sent your payment
+Closed: The job was completed without a payment
+How to Print Work Orders
+You can download a PDF containing the details of the work order by clicking the Download PDF button at the top of the Details Page.
+Scheduling With Work Orders
+For maintenance requests submitted by residents, they may provide their availability. If this is the case, you are able to schedule a time matching their availability.
+Select any time and click Schedule Job to schedule the job. Your customer and the resident will be notified.
+We will send the resident a reminder 24 hours before the scheduled time.
+If residents have not provided their availability, you can also reach out to the resident directly and schedule a time. After doing so, you can enter the information in the Schedule block.
+Invoice, Estimates, Notes, and Work Done
+Send an Invoice:
+Invoices allow you to tell your customer how much you expect to be paid for your work. To send an invoice to your customer, click the Invoices button at the bottom of a Work Order
+With a Work Order, there are two ways you can send an invoice to your customer.
+Upload an Invoice
+If you have another tool you use to create your invoice, you can upload it to Vendor Portal and your customer will receive it.
+Create an Invoice
+You can create a new invoice from scratch by creating billable items.
+Description: Enter the item to be paid for, such as materials or labor.
+Quantity: Enter in the amount of the materials or hours of labor.
+Rate: Enter in the cost of individual cost of each material or hourly rate.
+1. Click the Create Invoice button on the Vendor Portal Invoice
+2. Fill out the Description, Quantity, and Rate for each billable line item
+3. If needed, you can add more line items by clicking Add Line Item
+4. Click Submit Invoice to finish sending the invoice
+Note: Adding invoices, editing existing invoices, and uploading attachments to invoices will send an email notification to your customer.
+Editing an Invoice
+You can make changes to the invoice by clicking Edit and by clicking the three dots (Kebab) icon:
+Sending an Estimate
+Property managers have the option to request estimates from multiple vendors for each job. If you are selected, you will receive the job details in the “Estimates” Work Order Group in the Vendor Portal.
+You will be able to submit an estimated cost, which will be submitted back to the property manager. If you are approved, this will move to the “In Progress” Work Order Group in the Vendor Portal and you will be notified via email.Adding a Note
+Adding a Note
+Notes allow you to provide messages and photos about the job to your customer. To add notes to your work order, click the Notes button at the bottom of a Work Order.
+1. Type in your message in the Add Note field.
+2. If you need to add a photo, click the Add Photos to this Note button to upload up to 10 photos per note.
+3. Click the Save Note button.
+4. After saving, you can edit a note by clicking Edit in the top right corner of a note. Edited messages will receive an “Edited Tag.”
+Note: Adding notes, editing existing notes, and uploading images to notes will send an email notification to your customer.
+Work Done
+After completing the job, you can tell your customer that you have finished by clicking Work Done. This will change the status to Under Review or Needs Invoice if you have not added an invoice.
+Note: After moving a work order to the “Work Done” group, you have 10 seconds to undo this action. Do this by clicking Revert on the green pop-up at the bottom of your screen.
+FAQ
+What do I do if emails keep going to spam?
+Please add [address omitted] & [address omitted] to your email contacts.
+If your email service marks our emails as spam, it might cause our system to stop sending you emails.
+How do I change my email in the Vendor Portal?
+Your property manager client manages this information for you. Please reach out to all of your property management clients that use AppFolio to have each of them update their records.
+I am not receiving Work Orders. What should I do?
+Your client manages this information for you. Please reach out to all of your property management clients that use AppFolio to have each of them update their records to include your email.
+My payments are going to the wrong mailing address. How do I edit my mailing address?
+Please reach out to all of your property management clients that use AppFolio to have each of them update their records to update your address. If payment preferences are enabled, you can also update your address by going to Payment Preferences and selecting “Mailed Paper Check” (if that option is available) and update your payment address.
+Why am I being directed to a different property management company's portal when I click a payment or invitation link?
+The AppFolio Vendor Portal uses your email address to identify your account. If you work with more than one property management company, each company tracks your contact information separately in their own records. When the email address on a link doesn't match the email you use to log in, the portal may open under a different company's account.
+A property management company is missing from my payment preference options. What should I do?
+If you're setting up your payment preference and one of your property management companies doesn't appear in the list, your login email may not match the email that company has on file for you.
+Start by confirming which email address you used to activate your Vendor Portal account. Then reach out to the property management company that's missing and ask them to verify the email address they have on file for you. Once they update their records to match your login email, that company should appear in your payment preference options.
+If the company still doesn't appear after the email has been corrected, contact that property management company directly for further assistance.
+Why aren't all of my work orders showing in my In Progress tab?
+There are two common reasons a work order may not appear in your In Progress tab:
+The work order was already completed. Completed work orders are removed from the portal immediately and will no longer appear in any tab.
+You have a large number of open work orders. The In Progress tab displays a maximum of 100 work orders at a time. If you have more than 100 open, newer ones may not appear in the list.
+If you believe a work order is missing, use the search bar to look it up by work order number or property address — search is not subject to the 100 work order limit. If you still can't locate it, reach out to your property management company directly.
+How are my work orders sorted in the In Progress tab?
+Work orders in your In Progress tab are sorted in the following order:
+Scheduled for today
+Past due (scheduled dates that have already passed)
+Upcoming (scheduled for a future date)
+Recently created (unscheduled work orders, ordered by when they were added)
+If two work orders fall into the same category, they are sorted by time of day.
+Why am I being directed to a different property management company's portal when I click a payment or invitation link?
+The AppFolio Vendor Portal uses your email address to identify your account. If you work with more than one property management company, each company tracks your contact information separately in their own records. When the email address on a link doesn't match the email you use to log in, the portal may open under a different company's account.
+A property management company is missing from my payment preference options. What should I do?
+If you're setting up your payment preference and one of your property management companies doesn't appear in the list, your login email may not match the email that company has on file for you.
+Start by confirming which email address you used to activate your Vendor Portal account. Then reach out to the property management company that's missing and ask them to verify the email address they have on file for you. Once they update their records to match your login email, that company should appear in your payment preference options.
+If the company still doesn't appear after the email has been corrected, contact that property management company directly for further assistance.
+Why aren't all of my work orders showing in my In Progress tab?
+There are two common reasons a work order may not appear in your In Progress tab:
+The work order was already completed. Completed work orders are removed from the portal immediately and will no longer appear in any tab.
+You have a large number of open work orders. The In Progress tab displays a maximum of 100 work orders at a time. If you have more than 100 open, newer ones may not appear in the list.
+If you believe a work order is missing, use the search bar to look it up by work order number or property address — search is not subject to the 100 work order limit. If you still can't locate it, reach out to your property management company directly.
+How are my work orders sorted in the In Progress tab?
+Work orders in your In Progress tab are sorted in the following order:
+Scheduled for today
+Past due (scheduled dates that have already passed)
+Upcoming (scheduled for a future date)
+Recently created (unscheduled work orders, ordered by when they were added)
+If two work orders fall into the same category, they are sorted by time of day.
+© 2026 AppFolio, Inc Privacy Notice
+(opens in a new tab) Do Not Sell or Share My Personal Information
+(opens in a new tab)

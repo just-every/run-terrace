@@ -968,6 +968,382 @@
       "clauses": [],
       "gap": "Call-center decision tree configuration remains unsupported.",
       "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-01",
+      "clauses": [
+        "PORTAL-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-02",
+      "clauses": [
+        "SAFE-001",
+        "PORTAL-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-03",
+      "clauses": [],
+      "gap": "Vendor-team delegated account invitations remain unsupported.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-04",
+      "clauses": [],
+      "gap": "Vendor-managed team revocation remains unsupported.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-05",
+      "clauses": [
+        "PORTAL-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-06",
+      "clauses": [
+        "ACCT-008"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-07",
+      "clauses": [
+        "PORTAL-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-08",
+      "clauses": [
+        "PORTAL-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-09",
+      "clauses": [
+        "PORTAL-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-10",
+      "clauses": [
+        "PORTAL-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-11",
+      "clauses": [
+        "PORTAL-003",
+        "WORK-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-12",
+      "clauses": [
+        "WORK-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-13",
+      "clauses": [
+        "WORK-003",
+        "PORTAL-003"
+      ],
+      "gap": "Several vendors must submit their own estimates before work approval. WORK-003 staff-recorded quotes and the Terrace estimate door restricted to already-approved assigned work do not replace this capability.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-14",
+      "clauses": [
+        "PORTAL-003",
+        "WORK-003"
+      ],
+      "gap": "The vendor must be able to submit before approval; the current assigned approved-work prerequisite does not qualify.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-15",
+      "clauses": [
+        "PORTAL-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-16",
+      "clauses": [
+        "WORK-005",
+        "PORTAL-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-17",
+      "clauses": [
+        "WORK-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-18",
+      "clauses": [
+        "PORTAL-003",
+        "ACCT-007"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-19",
+      "clauses": [
+        "PORTAL-003",
+        "ACCT-007"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-20",
+      "clauses": [
+        "PORTAL-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-21",
+      "clauses": [
+        "PORTAL-003",
+        "WORK-007"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-vendor-22",
+      "clauses": [
+        "PORTAL-003",
+        "WORK-008"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-01",
+      "clauses": [
+        "PORTAL-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-02",
+      "clauses": [
+        "PORTAL-008"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-03",
+      "clauses": [
+        "SAFE-001",
+        "PORTAL-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-04",
+      "clauses": [
+        "SAFE-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-05",
+      "clauses": [
+        "PORTAL-001",
+        "PAY-010"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-06",
+      "clauses": [
+        "PAY-002",
+        "PAY-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-07",
+      "clauses": [
+        "PAY-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-08",
+      "clauses": [
+        "PAY-010"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-09",
+      "clauses": [
+        "PAY-004"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-10",
+      "clauses": [
+        "PAY-004"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-11",
+      "clauses": [
+        "PAY-004"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-12",
+      "clauses": [
+        "PAY-004"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-13",
+      "clauses": [
+        "PAY-004"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-14",
+      "clauses": [
+        "PAY-004"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-15",
+      "clauses": [
+        "PORTAL-001",
+        "PAY-010"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-16",
+      "clauses": [
+        "PAY-004"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-17",
+      "clauses": [
+        "PAY-007"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-18",
+      "clauses": [
+        "LEASE-011"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-19",
+      "clauses": [
+        "LEASE-011",
+        "LEASE-012"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-20",
+      "clauses": [
+        "LEASE-011"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-21",
+      "clauses": [
+        "PORT-006"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-22",
+      "clauses": [],
+      "gap": "Utility concierge workflows remain inventoried; a referral does not establish replacement.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-23",
+      "clauses": [
+        "PORTAL-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-24",
+      "clauses": [
+        "SAFE-004"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
+      "coverage": "gap"
     }
   ]
 }
