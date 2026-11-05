@@ -30,6 +30,7 @@ const sameSet = (actual, expected, label) => need(actual.length === expected.len
 export function loadSwitchChecklist({ root = process.cwd(), contractText, read = path => readFileSync(resolve(root, path), 'utf8') } = {}) {
  const manifest = JSON.parse(read(sourceDirectory + 'manifest.json'))
  const audits = unique(JSON.parse(read(sourceDirectory + 'source-areas.json')).sources, 'source', 'source area audit')
+ const discoveries = unique(JSON.parse(read(sourceDirectory + 'discovery-audit.json')).discoveries, 'incumbent', 'discovery audit')
  const mappings = JSON.parse(read('docs/switch-checklists.json')).mappings
  const contractSource = contractText ?? read('CONTRACT.md')
  // Summary counts are generated; the caller supplies a consistent contract when simulating a changed judgment.
@@ -97,10 +98,22 @@ export function loadSwitchChecklist({ root = process.cwd(), contractText, read =
  }
  for (const workflow of workflows.values()) need(sources.has(workflow.source), 'unknown source: ' + workflow.source)
  sameSet(manifest.discovery.map(item => item.incumbent), Object.keys(names), 'each incumbent needs a discovery register')
+ sameSet([...discoveries.keys()], Object.keys(names), 'each incumbent needs an independent discovery audit')
  for (const index of manifest.discovery) {
   const urls = capture(index).trim().split('\n')
   need(urls.length === index.urls && index.review === 'unaudited', 'discovery register reconciliation failed')
   required(index.gap, 'discovery uncertainty')
+  const audit = discoveries.get(index.incumbent)
+  need(audit.captureSha256 === index.captureSha256, 'discovery audit is stale for captured URLs: ' + index.incumbent)
+  sameSet(audit.urls.map(item => item.url), urls, 'discovery audit must retain every captured URL exactly once: ' + index.incumbent)
+  for (const item of audit.urls) {
+   official(item.url, index.incumbent)
+   const retained = [...sources.values()].filter(source => source.incumbent === index.incumbent && [source.url, source.resolvedUrl].includes(item.url)).map(source => source.id)
+   need(Array.isArray(item.sources), 'discovery source references missing')
+   sameSet(item.sources, retained, 'discovery URL must reconcile to its actual retained sources: ' + item.url)
+   need(item.review === (retained.length ? 'partial' : 'unaudited'), 'a captured page cannot establish complete discovery coverage')
+  }
+  index.areas = audit.urls
  }
  for (const area of manifest.unresolvedAreas) { need(names[area.incumbent], 'unknown unresolved incumbent'); required(area.area, 'unaudited area'); required(area.reason, 'unaudited reason') }
  sameSet(manifest.namedGaps.map(item => item.incumbent + ':' + item.category), Object.keys(names).flatMap(incumbent => Object.keys(gapNames).map(category => incumbent + ':' + category)), 'each incumbent needs every required named-gap assessment')
@@ -157,6 +170,12 @@ export function renderSwitchChecklist(data) {
     `**Official source:** [${md(row.source.id)}](${row.source.url}), captured ${row.source.capturedOn}; section “${md(row.section)}”, [capture](switch-checklist-sources/${row.source.capture}) line ${row.line}.`, '',
     `> ${md(row.quote)}`, '')
   }
+ }
+ lines.push('## Discovery audit register', '', 'Every URL in each retained discovery capture is accounted for below, including pages outside Terrace product boundaries. A partially audited capture qualifies only its inventoried quotations; every other URL remains unaudited. Discovery is itself incomplete: omitted indexes, nested links and authenticated documentation remain open.', '')
+ for (const index of manifest.discovery) {
+  lines.push(`### ${names[index.incumbent]} discovery audit`, '', `[Capture-bound discovery audit](switch-checklist-sources/discovery-audit.json): ${index.areas.length} URLs reconciled; ${index.areas.filter(area => area.review === 'unaudited').length} have no retained source audit.`, '')
+  for (const area of index.areas) lines.push(`- [${md(area.url)}](${area.url}) — **${area.review}**.${area.sources.length ? ' Retained source areas: ' + area.sources.map(id => `[${id}](#${id})`).join(', ') + '; surrounding and linked documentation remains unqualified.' : ' No workflow absence or replacement is inferred.'}`)
+  lines.push('')
  }
  lines.push('## Captured source register', '')
  for (const source of manifest.sources) {

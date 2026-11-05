@@ -61,6 +61,21 @@ export function assertSwitchChecklistSite(html) {
   assert.doesNotMatch(row, /<strong>Covered/, 'a related done or boundary clause cannot establish replacement')
  }
  for (const area of manifest.unresolvedAreas) assert.ok(plain.includes(area.reason), 'unaudited source area cannot disappear')
+ for (const index of manifest.discovery) {
+  const id = names[index.incumbent].toLowerCase().replaceAll(' ', '-') + '-discovery-audit'
+  const start = html.indexOf('id="' + id + '"')
+  assert.ok(start > 0, 'each incumbent exposes its full discovery audit')
+  const body = html.slice(html.indexOf('>', start) + 1).split(/<h[23]\b/)[0]
+  const urls = read(sourceDirectory + index.capture).trim().split('\n')
+  assert.equal([...body.matchAll(/<li>/g)].length, urls.length, 'every discovery URL renders independently of workflow mappings')
+  for (const url of urls) {
+   const row = [...body.matchAll(/<li>(.*?)<\/li>/g)].find(match => match[1].includes('href="' + url + '"'))?.[1]
+   assert.ok(row, 'a discovered official source may not disappear: ' + url)
+   const retained = manifest.sources.filter(source => source.incumbent === index.incumbent && [source.url, source.resolvedUrl].includes(url))
+   assert.match(row, retained.length ? /<strong>partial<\/strong>/ : /<strong>unaudited<\/strong>/, 'retained captures never imply complete source coverage')
+   for (const source of retained) assert.ok(row.includes('href="#' + source.id + '"'), 'discovery links to the actual captured source area')
+  }
+ }
  const areas = JSON.parse(read(sourceDirectory + 'source-areas.json')).sources
  for (const source of manifest.sources) {
   const audit = areas.find(item => item.source === source.id)
@@ -95,6 +110,15 @@ export function assertSwitchChecklistIntegrity() {
  assert.throws(() => loadSwitchChecklist(altered(areaPath, noArea)), /reconcile every captured line/, 'unreviewed source areas may not disappear')
  const staleArea = structuredClone(areas); staleArea.sources[0].captureSha256 = '0'.repeat(64)
  assert.throws(() => loadSwitchChecklist(altered(areaPath, staleArea)), /source area audit is stale/, 'review of an earlier source capture cannot qualify changed bytes')
+ const discoveryPath = sourceDirectory + 'discovery-audit.json', discovery = JSON.parse(read(discoveryPath))
+ const lostUrl = structuredClone(discovery); lostUrl.discoveries[0].urls.pop()
+ assert.throws(() => loadSwitchChecklist(altered(discoveryPath, lostUrl)), /retain every captured URL/, 'an unreviewed discovered source cannot disappear')
+ const staleDiscovery = structuredClone(discovery); staleDiscovery.discoveries[0].captureSha256 = '0'.repeat(64)
+ assert.throws(() => loadSwitchChecklist(altered(discoveryPath, staleDiscovery)), /discovery audit is stale/, 'discovery audit is bound to its captured URL corpus')
+ const wrongSource = structuredClone(discovery); wrongSource.discoveries[0].urls[0].sources = [manifest.sources[0].id]
+ assert.throws(() => loadSwitchChecklist(altered(discoveryPath, wrongSource)), /actual retained sources/, 'an unrelated capture cannot audit a discovered URL')
+ const falseAudit = structuredClone(discovery); falseAudit.discoveries[0].urls.find(item => item.sources.length === 0).review = 'partial'
+ assert.throws(() => loadSwitchChecklist(altered(discoveryPath, falseAudit)), /complete discovery coverage/, 'a source without a capture cannot be promoted to reviewed')
  for (const [source, , label] of requiredGaps) {
   const inventory = manifest.inventories.find(item => workflows.find(workflow => workflow.source === source)?.incumbent === item.incumbent)
   const path = sourceDirectory + inventory.file, value = JSON.parse(read(path))
@@ -173,6 +197,10 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
    assert.equal(await heading.count(), 1, workflow.id)
    assert.match(await heading.evaluate(element => element.nextElementSibling.textContent), /^Gap:/, 'each source workflow shows its replacement gap')
   }
+  await visitor.getByRole('navigation', { name: 'On this page' }).getByRole('link', { name: names[inventory.incumbent] + ' discovery audit', exact: true }).click()
+  const discovery = visitor.getByRole('heading', { name: names[inventory.incumbent] + ' discovery audit' })
+  assert.equal(await discovery.evaluate(element => element.id === decodeURIComponent(location.hash.slice(1))), true, 'the public discovery audit is reachable through page navigation')
+  assert.match(await discovery.evaluate(element => element.nextElementSibling.textContent), /URLs reconciled.*no retained source audit/, 'unaudited discovery sources stay visible')
  }
  await visitor.getByRole('heading', { name: 'Buildium checklist' }).scrollIntoViewIfNeeded()
  const permalink = visitor.getByRole('link', { name: 'Link to Buildium checklist', exact: true })
