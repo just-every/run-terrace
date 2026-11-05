@@ -1,3 +1,4 @@
+import {csvRows,readableFiles,originalByHash} from './readable-files.mjs'
 import {journey as integrationHealthJourney} from './integration-health.mjs'
 import {journey as applicationJourney} from './applications.mjs'
 import {journey as messageJourney} from './messages.mjs'
@@ -87,6 +88,11 @@ test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned 
  assert.equal(detail.status,200)
  assert.ok(detailHtml.includes('name="tenancyId" value="'+t.id+'"'),'detail actions keep the selected tenancy')
  assert.ok(detailHtml.includes('name="command" value="renewal.prepare"'),'the existing renewal flow is reachable from the list')
+ // Browser notices come from session-bound server results, never URL-supplied text.
+ const spoof=await(await h.request('/app?notice=Your%20session%20expired.%20Call%20555-0100')).text()
+ assert.ok(!spoof.includes('Call 555-0100'))
+ const missing=await h.request('/app/no-such-page');assert.equal(missing.status,404);assert.ok((await missing.text()).includes('Back to Tenancies'))
+ assert.ok(!/<details open><summary>Enter comparison assumptions/.test(detailHtml),'optional scenario starts collapsed')
  const people=await(await h.request('/auth/operators')).json(),m=people.find(x=>x.email==='manager@example.test')
  assert.ok(m)
  assert.equal((await h.request('/auth/operator/status',{method:'POST',body:{operatorId:m.id,status:'inactive'}})).status,200)
@@ -180,7 +186,7 @@ test('ROLE-001: ordinary sign-in, staff roles by responsibility across assigned 
   assert.equal(find('rent.adjust').source,'Agreed discount for the second key')
   assert.deepEqual(['actorName','outcome','tenancyId'].map(k=>find('read:statement')[k]),['accountant','read',south.t.id],'a statement download is recorded')
   assert.ok(!trail.some(x=>x.tenancyId===west.t.id||x.tenancyId===loose.id),'history about other portfolios stays out')
-  const exported=await(await get('accountant','/api/history?format=csv')).text();assert.ok(exported.includes('Lease page 2')&&exported.includes('bookkeeper v1'))
+  const exported=await(await get('accountant','/api/history?format=csv')).text();assert.ok(exported.includes('Lease page 2')&&exported.includes('Bookkeeper, policy version 1'))
   const exportRow=(await(await r.request('/api/history')).json()).rows.find(x=>x.action==='export:history');assert.deepEqual([exportRow.actorName,exportRow.outcome],['accountant','exported'],'an export is itself recorded')
   for(const role of ['member','leasing','maintenance_coordinator'])assert.equal((await get(role,'/api/history')).status,403,role)
   const db=await r.mf.getD1Database('DB')
@@ -226,6 +232,15 @@ test('rent charges, external receipts and corrections preserve balances under ra
  await h.command('rent.receipt',{chargeId:charge.id,amount:'200.00',receivedDate:'2026-09-02',reference:'BANK-001'},{status:409})
  const results=await Promise.all(['BANK-002','BANK-003'].map(reference=>h.request('/api/commands',{method:'POST',body:{command:'rent.receipt',chargeId:charge.id,amount:'300.00',receivedDate:'2026-09-03',reference}})))
  assert.deepEqual(results.map(r=>r.status).sort(),[200,409])
+ // A refused native form keeps its selected charge and typed fields at a GET URL.
+ const form=await h.request('/app/command',{method:'POST',form:new URLSearchParams({command:'rent.receipt',tab:'ledger',tenancyId:t.id,chargeId:charge.id,amount:'700.00',receivedDate:'2026-09-04',reference:'CHK-2291',method:'check'})})
+ assert.equal(form.status,303)
+ const destination=form.headers.get('location');assert.ok(destination.startsWith('/app?'))
+ const refusedHtml=await(await h.request(destination)).text()
+ for(const value of ['role="alert"','notice error','value="700.00"','value="2026-09-04"','value="CHK-2291"','Remaining balance:'])assert.ok(refusedHtml.includes(value),value)
+ assert.ok(refusedHtml.includes('value="'+charge.id+'" selected'),'the chosen charge remains selected')
+ const otherSession=await(await h.request(destination,{as:member})).text();assert.ok(!otherSession.includes('CHK-2291'),'a result belongs only to its original sign-in')
+ assert.equal((await h.request(destination)).status,200,'refresh repeats a GET without recording another receipt')
  await h.command('rent.adjust',{chargeId:charge.id,amount:'20.00',reason:'Agreed charge correction'})
  const state=await h.state(t.id);assert.equal(state.ledger.balanceCents,10000);assert.equal(state.ledger.arrearsCents,10000)
  const csv=await(await h.request(`/api/statement?tenancyId=${t.id}&from=2026-09-01&to=2026-09-30`)).text()
@@ -498,6 +513,11 @@ test('MOVE-009: reviewed move-in, refuse-before-reverse undo, owner compensation
  const csv=await readFile('fixtures/terrace-tenancies.csv','utf8'),preview=await h.command('import.preview',{csv,namespace:'archive-a'})
  assert.equal((await h.state()).tenancies.length,1)
  await h.command('import.apply',{csv,namespace:'archive-a',fingerprint:'0'.repeat(64)},{status:409})
+ const rejectedCsv=csv.replace('2027-01-31','2027-02-30')
+ const browserPreview=await h.request('/app/command',{method:'POST',form:new URLSearchParams({command:'import.preview',tab:'import',csv:rejectedCsv,namespace:'browser-review'})})
+ assert.equal(browserPreview.status,303)
+ const reviewHtml=await(await h.request(browserPreview.headers.get('location'))).text()
+ for(const value of ['1840 Alder Street','Maya Chen','2027-02-30','Invalid date'])assert.ok(reviewHtml.includes(value),'rejected source value remains visible: '+value)
  const applied=await h.command('import.apply',{csv,namespace:'archive-a',fingerprint:preview.fingerprint});imported=applied.job
  assert.equal(imported.state,'completed');assert.equal((await h.state()).tenancies.length,3)
  const journal=await h.command('import.journal',{jobId:imported.id});assert.ok(journal.journal.length);assert.ok(journal.originals.length)
@@ -574,12 +594,14 @@ test('complete backup restores into a fresh owner installation, preserving photo
   assert.equal((await fresh.request('/api/state',{as:h.cookie})).status,401,'sessions are never restored')
   const zip=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer()),entries=new Map()
   for(let o=0;zip.readUInt32LE(o)===0x04034b50;){const size=zip.readUInt32LE(o+18),n=zip.readUInt16LE(o+26),x=zip.readUInt16LE(o+28),name=zip.subarray(o+30,o+30+n).toString();entries.set(name,zip.subarray(o+30+n+x,o+30+n+x+size));o+=30+n+x+size}
-  const manifest=JSON.parse(entries.get('manifest.json')),tenancyCsv=entries.get('tables/tt_tenancies.csv').toString(),photoCsv=entries.get('tables/tt_inspection_photos.csv').toString()
-  for(const x of original.tenancies)assert.ok(tenancyCsv.includes(x.id)&&tenancyCsv.includes(x.tenant_email),'every tenancy is in its CSV')
-  assert.equal(manifest.tables.find(x=>x.name==='tt_tenancies').rows,original.tenancies.length)
-  for(const p of original.work.photos){const file=manifest.files.find(f=>f.path===`files/tt_inspection_photos/${p.id}.png`);assert.deepEqual(entries.get(file.path),png);assert.equal(file.sha256,p.sha256);assert.ok(photoCsv.includes(`file:${file.path} sha256:${p.sha256}`))}
-  const chargeCsv=entries.get('tables/tt_charges.csv').toString();for(const q of original.ledger.charges)assert.ok(chargeCsv.includes(q.reference)&&chargeCsv.includes(String(q.amount_cents)))
-  assert.ok(!manifest.tables.some(x=>/^(oa_|tt_totp|tt_recovery_codes|tt_factor_sessions)/.test(x.name)),'no sign-in secrets or sessions');assert.ok(manifest.tables.find(x=>x.name==='ik_jobs').rows>=1,'move-in import custody is exported')
+  const tenancyCsv=entries.get('Tenancies.csv').toString(),photoCsv=entries.get('Repairs and inspections.csv').toString()
+  for(const x of original.tenancies)assert.ok(tenancyCsv.includes(x.address)&&tenancyCsv.includes(x.tenant_email),'every tenancy is in its readable CSV')
+  assert.equal(csvRows(tenancyCsv).length-1,original.tenancies.length)
+  for(const p of original.work.photos){const file=originalByHash(entries,p.sha256);assert.deepEqual(entries.get(file.path),png);assert.ok(photoCsv.includes(file.path)&&photoCsv.includes(p.sha256))}
+  const chargeCsv=entries.get('Charges.csv').toString();for(const q of original.ledger.charges)assert.ok(chargeCsv.includes(q.reference)&&chargeCsv.includes((q.amount_cents/100).toFixed(2)))
+  const collections=entries.get('Collections.csv').toString();assert.ok(!/oa_|tt_totp|tt_recovery_codes|tt_factor_sessions/.test(collections),'no sign-in secrets or sessions');assert.ok(collections.includes('Move-in imports'),'move-in import custody is exported')
+  assert.ok(!entries.has('manifest.json')&&![...entries.keys()].some(k=>k.startsWith('tables/')),'the readable export uses named operating collections')
+  for(const [name,bytes]of entries)if(name.endsWith('.csv')&&!name.startsWith('Original files/'))assert.ok(!/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b|\d{4}-\d{2}-\d{2}T/.test(bytes.toString()),'readable metadata has named references and dates: '+name)
   assert.equal((await h.request('/api/readable-export',{as:member})).status,403)
  }finally{await fresh.close()}
 })

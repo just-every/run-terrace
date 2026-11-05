@@ -1,7 +1,7 @@
 // The Tenancies home: the month card (recorded rent and the month's dated stops), the decisions and work
 // waiting on a person, and the rent roll grouped by property.
 import { escape as e, money, shown, type Row } from './core'
-import { daysBetween, monthName, place, shortDate, usDate } from './format'
+import { count, daysBetween, monthName, place, shortDate, usDate } from './format'
 import { icon } from './icons'
 import type { monthData } from './month'
 import { avatar, button, form, hidden, pill } from './view'
@@ -48,7 +48,7 @@ function waitingStrip(m: Month, manage: boolean) {
 function standing(r: RollRow) {
  if (r.standing === 'paid') return pill('Paid', 'paid')
  if (r.standing === 'partial') return pill('Partial', 'pending')
- if (r.standing === 'overdue') return pill(`Overdue · ${daysBetween(r.oldest, r.today)} days`, 'overdue')
+ if (r.standing === 'overdue') return pill(`Overdue · ${count(daysBetween(r.oldest, r.today), 'day')}`, 'overdue')
  if (r.standing === 'due') return pill(`Due ${shortDate(r.oldest)}`, 'due')
  return '<span class="muted">No charge this month</span>'
 }

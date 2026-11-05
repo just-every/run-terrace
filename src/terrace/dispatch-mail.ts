@@ -1,3 +1,4 @@
+import { maintenancePacketSubject, maintenancePacketText } from './maintenance-packet'
 // A committed claim prevents concurrent/replayed sends, including an uncertain provider outcome.
 import type { Bindings } from '../auth.server'
 import {integrationMail} from './integration-mail'
@@ -19,10 +20,10 @@ export async function sendDispatch(c: Context, env: Bindings, m: Row) {
  await c.db.batch([authority(c, 'maintenance.dispatch'), guard(c, "EXISTS(SELECT 1 FROM tt_maintenance_jobs WHERE id=? AND version=? AND state='approved')", m.jobId, m.jobVersion)])
  const approval = await one(c, 'SELECT snapshot,sha256 FROM tt_maintenance_approvals WHERE id=?', m.approvalId)
  if (!approval || await sha256(new TextEncoder().encode(approval.snapshot)) !== approval.sha256) throw new Error('The approval evidence could not be verified.')
- const body = [`Approved work: ${a.title}`, `Location: ${a.address}`, `Scope: ${a.scope || a.title}`, `Authorized spend: ${money(a.estimateCents,a.currency)}`, `Due date: ${a.dueDate}`, 'Task checklist:', ...a.checklist.map((task: string) => `[ ] ${task}`), a.appointment ? `Arrival: ${a.appointment.starts} to ${a.appointment.ends} (${a.appointment.zone}; ${a.appointment.state})` : 'Arrival appointment: not booked; contact staff before attending.', `Permitted contact: ${a.permittedContact?.display_name || 'approving staff'}${a.permittedContact?.email ? ' <'+a.permittedContact.email+'>' : ''}`, `Job: ${m.jobId}; approved version: ${a.version}`, 'Reply to staff with acceptance, en route, started, blockers, parts needed and completion. Staff record replies with their source; technician completion does not confirm the resident issue is resolved.'].join('\n')
+ const body = maintenancePacketText(a)
  if (mail) {
   try {
-   const sent = await mail.send({ deliveryId: m.id, from: env.MAIL_FROM!, to: [a.tradeEmail], ...(a.permittedContact?.email ? {replyTo:a.permittedContact.email} : {}), subject: `Approved Terrace work: ${a.title}`, text: body, html: `<p>${escape(body).replaceAll('\n','<br>')}</p>`, headers: {} } as Parameters<NonNullable<typeof mail>['send']>[0])
+   const sent = await mail.send({ deliveryId: m.id, from: env.MAIL_FROM!, to: [a.tradeEmail], ...(a.permittedContact?.email ? {replyTo:a.permittedContact.email} : {}), subject: maintenancePacketSubject(a), text: body, html: `<p>${escape(body).replaceAll('\n','<br>')}</p>`, headers: {} } as Parameters<NonNullable<typeof mail>['send']>[0])
    outcome = sent.status; provider = sent.providerMessageId ?? null
   } catch { outcome = 'failed' }
  }

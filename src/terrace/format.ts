@@ -22,5 +22,14 @@ export function place(address: string) {
 }
 /** Up to two initials: "Maya Chen" -> "MC". */
 export const initials = (name: string) => name.trim().split(/\s+/).filter(Boolean).map(w => w[0]).slice(0, 2).join('').toUpperCase() || '?'
+/** A recorded instant in the property's zone, including its daylight-saving abbreviation. */
+export function localTime(iso: unknown, zone = 'America/New_York') {
+ const date = new Date(String(iso ?? ''))
+ return Number.isNaN(date.getTime()) ? 'Date unavailable' : new Intl.DateTimeFormat('en-US', {timeZone:zone,month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}).format(date)
+}
+export const count = (n: number, singular: string, plural = singular + 's') => `${n} ${n === 1 ? singular : plural}`
+export function fileSize(bytes: number) {
+ return bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+}
 /** One of six avatar tints, fixed per name. */
 export const tint = (name: string) => [...name].reduce((s, ch) => (s * 31 + ch.charCodeAt(0)) >>> 0, 7) % 6

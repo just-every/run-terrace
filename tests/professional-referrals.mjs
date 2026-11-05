@@ -1,3 +1,4 @@
+import {originalByHash} from './readable-files.mjs'
 import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
 import {installation,tenancyInput} from './api/harness.mjs'
@@ -110,9 +111,9 @@ export async function journey({assets=false,inspect}={}){
   }finally{await fresh.close()}
   const zip=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer()),entries=new Map()
   for(let o=0;zip.readUInt32LE(o)===0x04034b50;){const size=zip.readUInt32LE(o+18),n=zip.readUInt16LE(o+26),x=zip.readUInt16LE(o+28),name=zip.subarray(o+30,o+30+n).toString();entries.set(name,zip.subarray(o+30+n+x,o+30+n+x+size));o+=30+n+x+size}
-  assert.deepEqual(entries.get('files/tt_document_versions/'+received.versionId+'.txt'),goodBytes)
-  assert.ok(entries.get('tables/tt_professional_referrals.csv').toString().includes(create.reference))
-  assert.ok(entries.get('tables/tt_professional_reviews.csv').toString().includes(review.nextAction))
+  assert.deepEqual(entries.get(originalByHash(entries,createHash('sha256').update(goodBytes).digest('hex')).path),goodBytes)
+  assert.ok(entries.get('Documents and conversations.csv').toString().includes(create.reference))
+  assert.ok(entries.get('Documents and conversations.csv').toString().includes(review.nextAction))
   const history=(await json('/api/history')).rows
   for(const action of ['referral.create','referral.response','referral.review'])assert.ok(history.some(x=>x.action===action&&x.tenancyId===t.id))
   // Existing lease retention and legal holds protect originals; erasure fences both old archives and re-upload.

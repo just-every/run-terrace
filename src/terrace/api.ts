@@ -1,3 +1,4 @@
+import { redirectResult, readResult, formValues, restoreForm } from './command-results'
 import {repairMailWebhook} from './repair-mail-events'
 import { applicationReview, applicationReviewChoices } from './application-review'
 import { incomeReviewView } from './application-view'
@@ -76,14 +77,14 @@ import { moveChecklistSection } from './move-checklist-view'
 import { DISPATCH_COMMANDS, dispatchCommand } from './dispatch'
 import { sendDispatch } from './dispatch-mail'
 import { operatorAuth,type Bindings } from '../auth.server'
-import { all, allow, audit, authority, can, Fault, insist, recordRead, sha256, tenancy, text, type Context, type Row } from './core'
+import { all, allow, audit, authority, can, Fault, insist, recordRead, sha256, sql, tenancy, text, type Context, type Row } from './core'
 import { loadStaff } from './roles'
 import { FACTOR_COMMANDS,factorCommand,factorState } from './second-factor'
 import { securityView } from './security-view'
 import { serviceReport,serviceTable } from './service-report'
 import { serviceSection } from './service-view'
 import { readableExport } from './readable-export'
-import { history,historyCsv,historyView } from './history'
+import { history,historyForView,historyCsv,historyView } from './history'
 import { localDate as today } from './zones'
 import { tenancyCommand,tenancyData,proposals } from './tenancies'
 import { ledgerCommand,ledgerData,statement,statementCsv } from './ledger'
@@ -184,7 +185,7 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
  else if(tab==='applications'){title='Applications';const data=await applicationData(c);for(const a of data.applications)a.fees=await applicationFeeData(c.db,a.id);body=incomeReviewView(await applicationReviewChoices(c),result.incomeReview,Object.fromEntries(url.searchParams))+staffApplications(data,a=>can(c,a))}
  else if(tab==='prospects'){title='Prospects';const names=await operatorNames(c);body=prospectView(await prospectData(c),a=>can(c,a),id=>names[id]??id)}
  else if(tab==='bills'){title='Vendor bills';body=billSection(await billData(c),a=>can(c,a));await recordRead(c,'bills.read','bills')}
- else if(tab==='history'){title='History';const q=Object.fromEntries(url.searchParams);body=historyView(c,await history(c,q),q)}
+ else if(tab==='history'){title='History';const q=Object.fromEntries(url.searchParams);body=historyView(c,await historyForView(c,q),q)}
  else if(tab==='shadow'){title='Shadow rent';body=shadowView(await shadowData(c))}
  else if(tab==='import'){allow(c,'import.preview');title='Move in';body=(c.actor.role==='owner'?'<section><h2>Shadow rent</h2><p>Compare source statements with native recorded rent, lease by lease.</p><a href="/app?tab=shadow">Open shadow rent comparison</a></section>':'')+importView({...await importData(c),...result})}
  else if(tab==='properties'){title='Properties';const data=await propertyData(c),siblings=await siblingData(c);const owners=await ownershipData(c),recovery:Record<string,Row>=can(c,'ledger.read')?Object.fromEntries(await Promise.all(data.portfolios.flatMap((f:Row)=>f.properties).map(async(p:Row)=>[p.id,await recoveryData(c,p.id)]))):{},keep=can(c,'ownership.set')&&!!owners.directory;body=(c.actor.role==='owner'?'<section><h2>Report schedules</h2><p>Monthly private report generation; no delivery.</p><a href="/app?tab=report-schedules">Open report schedules</a></section>':'')+(can(c,'reports.read')?'<section><h2>Financial reports</h2><p>Cash and accrual statements with source postings and aging.</p><a href="/app?tab=financial-reports">Open financial reports</a></section>':'')+(can(c,'rules.read')?'<section><h2>State &amp; local rules</h2><p>Versioned counsel review and held rule-dependent previews.</p><a href="/app?tab=rules">Open state &amp; local rules</a></section>':'')+(can(c,'work.read')?'<section><h2>Custom reports &amp; documents</h2><p>Typed fields, saved reports and versioned document templates.</p><a href="/app?tab=custom">Open custom reports &amp; documents</a></section>':'')+(can(c,'reports.read')?'<section><h2>Delinquency</h2><p>Aged household receivables, dated owners and assigned follow-up.</p><a href="/app?tab=delinquency">Open delinquency report</a></section>':'')+(can(c,'reports.read')?'<section><h2>Leasing performance</h2><p>Occupancy, vacancy, lead sources and recorded renewal retention with dated sources.</p><a href="/app?tab=leasing-report">Open leasing report</a></section>':'')+(can(c,'renewal.prepare')?'<section><h2>Renewals</h2><p>Renewal campaigns from lease-end dates: offers with their comparison, sends, replies and the follow-up queue.</p><a href="/app?tab=renewals">Open renewals</a></section>':'')+(can(c,'workflow.read')?'<section><h2>Workflows</h2><p>Persistent leasing, renewal, rent, delinquency and unit-turn workflows: next actions, contact limits and escalations to a person.</p><a href="/app?tab=workflows">Open workflows</a></section>':'')+(can(c,'prospect.read')?'<section><h2>Prospects</h2><p>Leads, duplicate review, assigned leasing staff and stages from enquiry to lease.</p><a href="/app?tab=prospects">Open prospects</a></section>':'')+(can(c,'bills.read')?'<section><h2>Vendor bills</h2><p>Capture invoices, approve payables and run recurring owner expenses.</p><a href="/app?tab=bills">Open vendor bills</a></section>':'')+ownerDirectory(owners.directory,can(c,'owner.add'),can(c,'reports.read'))+propertiesView(data,await unitChoices(c),can(c,'unit.add'),await turnoverData(c),p=>siblingLinks(p,siblings,a=>can(c,a))+propertyOwners(p,owners.byProperty[p.id],owners.directory,keep,can(c,'fees.run'))+(recovery[p.id]?recoverySection(p,recovery[p.id],{authorize:can(c,'recovery.authorize'),prepare:can(c,'utility.prepare'),approve:can(c,'utility.approve'),ancillary:can(c,'ancillary.charge'),taxPrepare:can(c,'tax.prepare'),taxReview:can(c,'tax.review')}):''));if(can(c,'maintenance.report'))body+=serviceSection(data.portfolios.flatMap((f:Row)=>f.properties));if(can(c,'reports.read')){const day=today(c.now,c.zone!);body+=rentRollSection(await rentRoll(c,{asOf:url.searchParams.get('asOf')||day,propertyId:url.searchParams.get('propertyId'),occupancy:url.searchParams.get('occupancy')}),await collections(c,url.searchParams.get('month')||day.slice(0,7)),data.portfolios.flatMap((f:Row)=>f.properties))}}
@@ -206,7 +207,8 @@ async function render(c:Context,url:URL,notice='',result:Row={},status=200,reque
   else if(tab==='work'){allow(c,'work.read');title='Inspections & maintenance';if(selected&&can(c,'message.read'))body+=`<section><h2>Repair messages</h2><a href="/app?tab=messages&amp;tenancy=${selected.id}">Open repair messages</a></section>`;if(can(c,'emergency.read'))body=`<section><h2>Safety & emergencies</h2><p>Record a safety report, give approved guidance and see urgent cases until a person acknowledges and resolves them.</p><a href="/app?tab=emergencies">Open safety & emergencies</a></section>`+body;if(selected)body+=workView(selected,{...await workData(c,selected.id),names:await operatorNames(c)})}
   else if(tab!=='tenancy') throw new Fault('not_found','Page not found.',404)
  }
- return page(c,title,body,notice,status,tab,head)
+ if(result.browserState)body=restoreForm(body,result.browserState)
+ return page(c,title,body,notice,status,tab,{...head,error:!!result.browserState?.error})
 }
 const COMMANDS=[...SHADOW_COMMANDS,'integration.save',...REFERRAL_COMMANDS,...APPLICATION_COMMANDS,'application.fee.reconcile',...THREAD_COMMANDS,...HAP_CHANGE_COMMANDS,...HAP_REMITTANCE_COMMANDS,...MESSAGE_COMMANDS,...RESIDENT_DELIVERY_COMMANDS,...VENDOR_BANK_COMMANDS,...CARD_COMMANDS,...CHARGEBACK_COMMANDS,...STOCK_COMMANDS,'work.budget',...REQUEST_COMMANDS,...REPORT_DELIVERY_COMMANDS,...REPORT_SCHEDULE_COMMANDS,...AGENT_COMMANDS,...RECONCILE_COMMANDS,'maintenance.field-revise',...INSPECTION_COMMANDS,...MEDIA_COMMANDS,...FINANCIAL_COMMANDS,...LATE_FEE_COMMANDS,...PAYMENT_COMMANDS,...PORTAL_COMMANDS,...DOCUMENT_COMMANDS,...TRUST_COMMANDS,...RULE_COMMANDS,...JOURNAL_COMMANDS,'move.checklist','tenancy.create','renewal.prepare','arrears.prepare','proposal.approve','proposal.reject','rent.charge','rent.receipt','rent.adjust','inspection.create','inspection.photo','inspection.complete','maintenance.prepare','maintenance.approve','maintenance.sent','migration.preview','migration.apply','migration.journal','import.preview','import.apply','import.undo','import.journal','import.compensation.preview','import.compensate','tenancy.erase','data.restore','company.save','entity.add','account.add','tenancy.timezone','asset.add','asset.replace','vendor.add','vendor.update','maintenance.reassign','maintenance.exception','schedule.add','schedule.defer','schedule.run','term.add','term.amend','charges.preview','charges.post','portfolio.add','property.add','unit.add','unit.update','tenancy.end','tenancy.transfer','turnover.open','turnover.task.update','turnover.task.submit','turnover.task.check','turnover.publish','household.add','household.leave','household.move','currency.confirm','work.limits','quote.add','quote.select','maintenance.revise','maintenance.owner','completion.record','completion.check','completion.close','owner.add','owner.w9','ownership.set','agreement.set','factor.start','factor.confirm','factor.verify','factor.require','factor.reset','operator.invite','operator.status','operator.role',...CREDENTIAL_COMMANDS,...LEASE_COMMANDS,...BILL_COMMANDS,...APPOINTMENT_COMMANDS,...RETENTION_COMMANDS,...EMERGENCY_COMMANDS,...PROSPECT_COMMANDS,...DELINQUENCY_COMMANDS,...RENEWAL_COMMANDS,...SIBLING_COMMANDS,...CUSTOM_COMMANDS,...DISPATCH_COMMANDS,...WORKFLOW_COMMANDS,...PERIOD_COMMANDS,'fees.run','fee.override',...RECOVERY_COMMANDS,'tax.prepare','tax.review']
 const STEPPED=['integration.save',...APPLICATION_COMMANDS,'application.fee.reconcile',...THREAD_COMMANDS,...MESSAGE_COMMANDS,...RESIDENT_DELIVERY_COMMANDS,...VENDOR_BANK_COMMANDS,...REQUEST_COMMANDS,'finance.record','portal.document.share','portal.bank.update','portal.invite','portal.revoke','trust.account.add','trust.map','trust.assign','trust.approve','trust.record','entity.add','account.add','operator.invite','operator.role','operator.status','factor.require','factor.reset',...CREDENTIAL_COMMANDS]
@@ -222,7 +224,7 @@ async function command(c:Context,name:string,p:Row) {
  throw new Fault('unknown_command','Unknown Terrace command.',404)
 }
 export async function terraceResponse(request:Request,env:Bindings):Promise<Response|null> {
- const url=new URL(request.url),isApi=url.pathname.startsWith('/api/'),isPage=url.pathname==='/app'||url.pathname==='/app/command'||url.pathname==='/app/application-review'
+ const url=new URL(request.url),isApi=url.pathname.startsWith('/api/'),isPage=url.pathname==='/app'||url.pathname.startsWith('/app/')
  // ROLE-002: portal people have their own door, cookie and pages; nothing below serves them.
  if(['/api/twilio/inbound','/api/twilio/status'].includes(url.pathname))return twilioResponse(request,env)
  if(url.pathname==='/api/repair-mail/events')return repairMailWebhook(request,env)
@@ -249,6 +251,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
    c={db:env.DB,actor:session.operator,now:new Date().toISOString(),session:{hash:await sha256(new TextEncoder().encode(session.id)),kind:session.kind},secret:env.SESSION_SECRET};await loadStaff(c);c.zone=await officeZone(c)
    const factor=await factorState(c);c.gated=factor.needed&&!factor.satisfied
   }
+  if(isPage&&!['/app','/app/command','/app/application-review'].includes(url.pathname))return page(c,'Page not found','<section><p>This page is unavailable. Open Tenancies to continue.</p><p><a class="button" href="/app">Back to Tenancies</a></p></section>','',404)
   const credential=!!c.actor.credential
   if(['/api/application-review','/app/application-review'].includes(url.pathname)) {
    insist(request.method==='POST','method','Use POST to recompute a review.',405)
@@ -297,19 +300,21 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
    if(result.alert){const sent=await deliverAlert(c,env,result.alert);result.alertOutcome=sent.outcome;result.notice=`${result.notice} Alert: ${sent.label}.`}
    // SAFE-002: move-in applies and undos and restores keep custody in Base's import journal; history records each once it succeeds.
    if(['import.apply','import.undo','data.restore'].includes(name)&&!result.replayed)await audit(c,name,String(result.job?.id??result.jobId??p.jobId??'installation')).run()
+   if(['tenancy.erase','data.restore'].includes(name))await sql(c,'DELETE FROM tt_command_results').run()
    if(result.checkoutUrl&&!isApi)return new Response(null,{status:303,headers:{location:result.checkoutUrl,'cache-control':'no-store','referrer-policy':'no-referrer'}})
    if(isApi){if(idem)await finishIdempotent(c,idem,JSON.stringify({ok:true,result}));return json({ok:true,result})}
    const dest=new URL('/app',url);dest.searchParams.set('tab',String(p.tab??'tenancy'));dest.searchParams.set('tenancy',String(result.tenancyId??(name==='tenancy.create'?result.id:p.tenancyId)??''))
-   if(name==='privacy.review')return await render(c,dest,result.notice,result)
-   if(name==='migration.preview'||name==='migration.journal'||name==='migration.apply'||name==='import.preview'||name==='import.journal'||name==='credential.mint'||name==='credential.rotate'||name==='factor.start'||name==='factor.confirm'||name==='lease.preview'||name==='hap.change.preview'||name==='latefee.preview')return await render(c,dest,result.notice??'Review the result below.',result)
+   if(name==='privacy.review')return await redirectResult(c,dest,{notice:result.notice??'Review retained records below.'})
+   if(['migration.preview','migration.journal','migration.apply','import.preview','import.journal'].includes(name))return await redirectResult(c,dest,{notice:result.notice??'Review the result below.',result})
+   if(name==='credential.mint'||name==='credential.rotate'||name==='factor.start'||name==='factor.confirm'||name==='lease.preview'||name==='hap.change.preview'||name==='latefee.preview')return await render(c,dest,result.notice??'Review the result below.',result)
    if(name==='delinquency.assign'){dest.searchParams.set('tab','delinquency');for(const key of ['asOf','propertyId','ownerId'])if(p[key])dest.searchParams.set(key,String(p[key]))}
    if(result.tab==='shadow')dest.searchParams.set('tab','shadow')
    if(result.bankVendorId)dest.searchParams.set('bankVendor',result.bankVendorId)
    if(result.statementId)dest.searchParams.set('statementId',result.statementId)
-   if(result.month)dest.searchParams.set('month',result.month);dest.searchParams.set('notice',result.notice??'Saved.');return new Response(null,{status:303,headers:{location:dest.pathname+dest.search,'cache-control':'no-store'}})
+   if(result.month)dest.searchParams.set('month',result.month);return await redirectResult(c,dest,{notice:result.notice??'Saved.'})
   }
   insist(request.method==='GET','method','Method not allowed.',405)
-  if(url.pathname==='/app')return await render(c,url,url.searchParams.get('notice')??'',{},200,request,env)
+  if(url.pathname==='/app'){const state=await readResult(c,url.searchParams.get('result'));return await render(c,url,state?.notice??'',{...state?.result,browserState:state},200,request,env)}
   insist(!c.gated,'second_factor_required','Pass your second factor first: open /app?tab=security.',403)
   if(V1_PATH.test(url.pathname))return await apiV1(c,url)
   if(url.pathname==='/api/shadow-runs'){const data=await shadowData(c);await recordRead(c,'read:shadow-rent','comparisons');return json(data)}
@@ -391,7 +396,7 @@ export async function terraceResponse(request:Request,env:Bindings):Promise<Resp
   // an uncertain attempt must never become runnable again, including after a Worker restart.
   const x=error as any,conflict=String(x.message).includes('UNIQUE constraint'),known=error instanceof Fault,status=conflict?409:(x.status??400),message=conflict?'That reference already exists. Use the existing record or a distinct reference.':known?redactSensitive(x.message):'The operation failed. Try again or ask the owner to review it.',code=conflict?'duplicate':known?x.code:'operation_failed'
   if(isApi)return json({ok:false,error:code,message,...(x.report?{report:redactErrorReport(x.report)}:{})},status)
-  if(c) {const dest=new URL('/app',url);dest.searchParams.set('tab',String(p.tab??url.searchParams.get('tab')??'tenancy'));dest.searchParams.set('tenancy',String(p.tenancyId??url.searchParams.get('tenancy')??''));try{return await render(c,dest,message,{},status,request,env)}catch{return page(c,'Unable to continue','<p><a href="/app">Back to tenancies</a></p>',message,status)}}
+  if(c) {const dest=new URL('/app',url);dest.searchParams.set('tab',String(p.tab??url.searchParams.get('tab')??'tenancy'));dest.searchParams.set('tenancy',String(p.tenancyId??url.searchParams.get('tenancy')??''));try{if(request.method==='POST')return await redirectResult(c,dest,{notice:message,error:true,command:String(p.command??''),values:formValues(p)});return await render(c,dest,message,{browserState:{error:true}},status,request,env)}catch{return page(c,'Unable to continue','<p><a href="/app">Back to tenancies</a></p>',message,status,'tenancy',{error:true})}}
   return new Response(message,{status})
  }
 }

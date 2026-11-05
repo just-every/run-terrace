@@ -65,7 +65,7 @@ export async function journey({assets=false,inspect}={}){
   const frozenPdf=await h.request(receiptPath+'&format=pdf',{as});assert.equal(frozenPdf.status,200)
   const current=await(await h.request(path+'&format=json',{as})).json(),matching=await(await h.request('/portal/api/resident?tenancyId='+t.id,{as})).json();assert.equal(current.currentBalanceCents,10075);assert.equal(current.currentBalanceCents,matching.balanceCents);assert.ok(current.lines.some(l=>l.id==='charge:'+fee.id&&l.date==='2026-10-05'&&l.amountCents===100));assert.ok(current.lines.some(l=>l.chargeId===fee.id&&l.receivableDeltaCents===-25),'the statement itemizes its recorded fee credit separately')
   const sourcePdf=Buffer.from(await frozenPdf.arrayBuffer());assert.ok(sourcePdf.includes(Buffer.from('/StructTreeRoot')));assert.ok(sourcePdf.includes(Buffer.from('/ActualText')))
-  const archive=await(await h.request('/api/backup')).text(),readable=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer());assert.ok(readable.includes(Buffer.from(receipt.id)),'readable export retains receipt delivery evidence')
+  const archive=await(await h.request('/api/backup')).text(),readable=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer());assert.ok(readable.includes(Buffer.from(receiptData.fingerprint)),'readable export retains receipt delivery evidence')
   const fresh=await installation({now:clock})
   try{
    await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'resident-documents.rer')})

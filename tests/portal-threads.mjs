@@ -1,3 +1,4 @@
+import {csvRows,readableFiles,originalByHash} from './readable-files.mjs'
 import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
 const servicePng=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')
@@ -169,7 +170,7 @@ export async function journey({assets=false,inspect,inspectRetained}={}){
   await r.restart();assert.equal((await data(thread.id)).entries.at(-1).body,'Resident confirms repair details')
   assert.equal(createHash('sha256').update(Buffer.from(await(await r.request('/api/thread-print?id='+office.printBatchId)).arrayBuffer())).digest('hex'),office.pdfSha256)
   const archive=await(await r.request('/api/backup')).text(),readable=new Uint8Array(await(await r.request('/api/readable-export')).arrayBuffer());const readableText=new TextDecoder().decode(readable)
-  for(const text of ['tt_print_batches.csv','tt_print_items.csv','tt_print_approvals.csv',office.pdfSha256,'tt_threads.csv','tt_thread_service.csv','tt_thread_reconciliations.csv','tt_thread_events.csv','Synthetic independent witness receipt','Synthetic public original','Synthetic private original',publicEntry.sha256])assert.ok(readableText.includes(text),text+' is readable and portable')
+  for(const text of ['Print batches','Print items','Print approvals',office.pdfSha256,'Threads','Thread service','Thread reconciliations','Thread events','Synthetic independent witness receipt','Synthetic public original','Synthetic private original',publicEntry.sha256])assert.ok(readableText.includes(text),text+' is readable and portable')
   assertOfficeExport(readable,office,servicePng)
   const restored=await installation({now:'2026-10-27T16:00:00.000Z'});try{
    await restored.formCommand('data.restore',{confirm:'RESTORE',backup:new File([archive],'backup.rer')})
@@ -226,8 +227,9 @@ export async function journey({assets=false,inspect,inspectRetained}={}){
    assert.equal(retiredBatch.size,0,'combined PDF containing erased recipients is removed')
    const retainedExport=Buffer.from(await(await future.request('/api/readable-export')).arrayBuffer())
    const preserved=office.recipientPdfs.find(item=>item.threadId===retainedThread)
-   assert.deepEqual(zipEntries(retainedExport).get('files/tt_print_items/'+preserved.id+'.pdf'),preserved.bytes)
-   assert.ok(!zipEntries(retainedExport).has('files/tt_print_items/'+office.recipientPdfs.find(item=>item.tenancyId===t.id).id+'.pdf'))
+   const retainedFiles=zipEntries(retainedExport)
+   assert.deepEqual(retainedFiles.get(originalByHash(retainedFiles,preserved.sha256).path),preserved.bytes)
+   assert.ok(!readableFiles(retainedFiles).some(file=>file.sha256===office.recipientPdfs.find(item=>item.tenancyId===t.id).sha256),'the erased recipient original is absent')
    assert.equal((await future.db.prepare('SELECT COUNT(*) AS n FROM tt_erased_document_files WHERE sha256=?').bind(preserved.sha256).first()).n,0,'another tenancy original is never fenced as erased')
    assert.equal((await future.db.prepare('SELECT COUNT(*) AS n FROM tt_erased_document_files WHERE sha256=?').bind(office.pdfSha256).first()).n,1)
    assert.equal((await(await future.request('/api/threads')).json()).threads.some(x=>x.tenancy_id===t.id),false)
@@ -314,8 +316,8 @@ export async function journey({assets=false,inspect,inspectRetained}={}){
    const restoredPrint=(await(await survivorRestore.request('/api/threads?id='+kept.threadId)).json()).threads[0].prints[0]
    assert.deepEqual(restoredPrint.approval,exactApproval);assert.ok(restoredPrint.inert)
    const exported=zipEntries(Buffer.from(await(await survivorRestore.request('/api/readable-export')).arrayBuffer()))
-   assert.deepEqual(exported.get('files/tt_print_items/'+kept.id+'.pdf'),kept.bytes)
-   assert.ok(!exported.has('files/tt_print_items/'+removed.id+'.pdf'))
+   assert.deepEqual(exported.get(originalByHash(exported,createHash('sha256').update(kept.bytes).digest('hex')).path),kept.bytes)
+   assert.ok(!readableFiles(exported).some(file=>file.sha256===createHash('sha256').update(removed.bytes).digest('hex')),'the erased recipient original is absent from the inventory')
    assert.equal((await survivorRestore.request('/api/thread-print?id='+office.printBatchId+'&item='+kept.id)).status,404)
   }finally{await survivorRestore.close()}
  }finally{await r.close()}
@@ -416,10 +418,7 @@ function zipEntries(value){
 
 function assertOfficeExport(value,office,photo){
  const entries=zipEntries(value)
- const inventory=JSON.parse(entries.get('manifest.json')).files
- assert.deepEqual(entries.get(`files/tt_print_batches/${office.printBatchId}.pdf`),office.pdfBytes,'readable export preserves the exact combined PDF')
- assert.deepEqual(entries.get(`files/tt_print_batches/${office.ownerPrint.printBatchId}.pdf`),office.ownerPrint.bytes,'readable export preserves the exact owner letter PDF')
- for(const item of office.recipientPdfs)assert.deepEqual(entries.get(`files/tt_print_items/${item.id}.pdf`),item.bytes,'readable export preserves each recipient PDF')
- const photograph=inventory.find(f=>f.table==='tt_thread_service'&&f.column==='photo_bytes'&&f.sha256===office.photoSha256)
- assert.ok(photograph);assert.ok(photograph.path.endsWith('.png'));assert.deepEqual(entries.get(photograph.path),photo,'readable export preserves the service photograph')
+ for(const bytes of [office.pdfBytes,office.ownerPrint.bytes,...office.recipientPdfs.map(item=>item.bytes)]){const file=originalByHash(entries,createHash('sha256').update(bytes).digest('hex'));assert.deepEqual(entries.get(file.path),bytes,'readable export preserves every combined, owner and recipient PDF')}
+ const photograph=originalByHash(entries,office.photoSha256)
+ assert.ok(photograph.path.endsWith('.png'));assert.deepEqual(entries.get(photograph.path),photo,'readable export preserves the service photograph')
 }

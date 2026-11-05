@@ -1,3 +1,4 @@
+import {csvRows} from './readable-files.mjs'
 // OPS-001: a read-only accountant and a prepare-only agent credential traverse paginated records inside their
 // portfolios, retry an idempotent work proposal, and are refused approval, money, access and out-of-portfolio reads.
 import assert from 'node:assert/strict'
@@ -109,9 +110,11 @@ export async function journey({assets=false,inspect}={}) {
   assert.equal((await call(agent,'/api/v1/work')).status,401);await get(rotated,'/api/v1/work')
   await h.command('credential.revoke',{credentialId:accountant.id});assert.equal((await call(accountant,'/api/v1/leases')).status,401)
   assert.equal((await h.command('credential.rotate',{credentialId:accountant.id},{status:409})).error,'revoked')
-  const bytes=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer()),names=[]
-  for(let o=0;bytes.readUInt32LE(o)===0x04034b50;){const n=bytes.readUInt16LE(o+26),x=bytes.readUInt16LE(o+28),size=bytes.readUInt32LE(o+18);names.push(bytes.subarray(o+30,o+30+n).toString());o+=30+n+x+size}
-  assert.ok(names.includes('tables/tt_maintenance_jobs.csv')&&!names.some(n=>/api_credential|api_idempotency/.test(n)),'credentials and their token hashes stay out of exports')
+  const bytes=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer()),names=[],entries=new Map()
+  for(let o=0;bytes.readUInt32LE(o)===0x04034b50;){const n=bytes.readUInt16LE(o+26),x=bytes.readUInt16LE(o+28),size=bytes.readUInt32LE(o+18);const name=bytes.subarray(o+30,o+30+n).toString();names.push(name);entries.set(name,bytes.subarray(o+30+n+x,o+30+n+x+size));o+=30+n+x+size}
+  assert.ok(names.includes('Maintenance.csv'),'maintenance operating records remain in the export')
+  const collections=csvRows(entries.get('Collections.csv')).slice(1).map(row=>row[0])
+  assert.ok(!collections.some(name=>/Api credential|Api idempotency/.test(name)),'credentials and their token hashes stay out of exports')
   assert.ok(northInspection.id)
  } finally { await h.close() }
 }

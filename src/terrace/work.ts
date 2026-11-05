@@ -3,7 +3,7 @@ import {stockData} from './work-stock'
 import {costClass,budgetGuard} from './work-budgets'
 import {inspectionCaptures} from './field-evidence-inspections'
 import { independence } from './dual-control'
-import { all, can, cents, commit, date, email, guard, id, insist, allow, money, one, sha256, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
+import { all, can, cents, commit, date, email, guard, id, insist, allow, money, one, sha256, sql, tenancy, text, type Context, type Row } from './core'
 import { assetData, serviceableAsset } from './assets'
 import { hold, trade, vendor, vendorData, vendorGuard } from './vendors'
 import { jobWrites } from './job-writes'
@@ -13,6 +13,8 @@ import { authority, authorityGuard, OWNER_LABEL, quoteData } from './quotes'
 import { completionData } from './completions'
 import { appointmentData } from './appointments'
 import { checklist, dispatchData } from './dispatch'
+import { roleLabel } from './roles'
+import { approvalRole, maintenancePacketFilename, maintenancePacketSubject, maintenancePacketText } from './maintenance-packet'
 
 // Adapted evidence storage/version guards from gasket/src/gasket/work.ts
 // at 3f87ba0fdba9955f2b7d018d10afafcd50afa919; proposal preparation and
@@ -55,6 +57,16 @@ async function qualified(c: Context, row: Row, t: Row) {
   const h = await hold(c, row, t)
   insist(!h.held, 'qualification_hold', `Held: ${h.issues.join('; ')}. A manager records a documented exception for these issues first.`, 409)
   return h
+}
+
+/** References only: the packet does not disclose inspection notes or attach private originals. */
+async function inspectionReferences(c: Context, tenancyId: string) {
+  const [inspections, photos, media] = await Promise.all([
+    all(c, 'SELECT id,inspection_date,state FROM tt_inspections WHERE tenancy_id=? ORDER BY inspection_date DESC,created_at DESC', tenancyId),
+    all(c, 'SELECT p.id,p.inspection_id,p.filename,p.sha256 FROM tt_inspection_photos p JOIN tt_inspections i ON i.id=p.inspection_id WHERE i.tenancy_id=? ORDER BY p.uploaded_at', tenancyId),
+    all(c, "SELECT m.id,m.inspection_id,m.name AS filename,m.sha256 FROM tt_record_media m JOIN tt_inspections i ON i.id=m.inspection_id WHERE i.tenancy_id=? AND m.state='ready' AND (m.media_type LIKE 'image/%' OR m.media_type LIKE 'video/%') ORDER BY m.uploaded_at", tenancyId),
+  ])
+  return inspections.map(i => ({date:i.inspection_date,state:i.state,photos:[...photos.filter(p=>p.inspection_id===i.id).map(p=>({filename:p.filename,sha256:p.sha256,url:`/api/inspections/photos/${encodeURIComponent(p.id)}`})),...media.filter(p=>p.inspection_id===i.id).map(p=>({filename:p.filename,sha256:p.sha256,url:`/api/record-media/file?id=${encodeURIComponent(p.id)}`}))]}))
 }
 
 /** Unknown commands are left for the next module. All writes include the live operator guard in commit. */
@@ -133,7 +145,8 @@ export async function workCommand(c: Context, command: string, p: Row): Promise<
       if (a.limit?.quotes_needed && row.estimate_cents > a.limit.quotes_above_cents) { const n = (await one<{ n: number }>(c, 'SELECT COUNT(*) AS n FROM tt_job_quotes WHERE job_id=?', row.id))!.n; insist(n >= a.limit.quotes_needed, 'quotes_required', `The owner requires ${a.limit.quotes_needed} quotes above ${money(a.limit.quotes_above_cents, a.limit.currency)}; this job has ${n}.`, 409) }
       insist(!a.needsOwner || owner?.decision === 'approved', owner ? 'owner_declined' : 'owner_approval_required', owner ? 'The owner declined these terms. Change the scope, vendor or price, or record a new owner decision on new terms.' : `Needs the owner’s decision: ${a.reasons.join('; ')}. Record the owner’s approval of these exact terms first.`, 409)
       const contact = await one(c, 'SELECT display_name,email FROM oa_operators WHERE id=?', c.actor.id)
-      const snapshot = JSON.stringify({ checklist: JSON.parse(row.checklist).length ? JSON.parse(row.checklist) : [row.title], permittedContact: contact, jobId: row.id, version, tenancyId: t.id, tenancyVersion: t.version, address: t.address, title: row.title, scope: row.scope ?? null, quoteId: row.quote_id ?? null, categoryBudgets:a.budgets.rows, costClass:row.cost_class, assetId:row.asset_id, ownerLimit: a.limit ? { limitCents: a.limit.limit_cents, budgetCents: a.limit.budget_cents, spentCents: a.spentCents, reasons: a.reasons } : null, ownerDecision: owner ? { decision: owner.decision, source: owner.source, reference: owner.reference, recordedBy: owner.recorded_by, recordedAt: owner.recorded_at, termsSha256: owner.terms_sha256, label: OWNER_LABEL } : null, tradeName: row.trade_name, tradeEmail: row.trade_email, vendorId: row.vendor_id, trade: row.trade, qualificationIssues: h.issues, qualificationException: h.exception ? { id: h.exception.id, reason: h.exception.reason, approvedBy: h.exception.approved_by } : null, dueDate: row.due_date, estimateCents: row.estimate_cents, currency: row.currency, preparedBy: row.prepared_by, preparedAt: row.prepared_at, revisedBy: row.revised_by ?? null, approvedBy: c.actor.id, approvedRole: c.actor.role, approvedAt: c.now, approvalLabel: solo.label })
+      const inspectionEvidence = await inspectionReferences(c,t.id)
+      const snapshot = JSON.stringify({ timeZone:t.time_zone, approvedRoleLabel:c.actor.staff ? roleLabel(c.actor.staff.role) : approvalRole(c.actor.role), inspectionEvidence, checklist: JSON.parse(row.checklist).length ? JSON.parse(row.checklist) : [row.title], permittedContact: contact, jobId: row.id, version, tenancyId: t.id, tenancyVersion: t.version, address: t.address, title: row.title, scope: row.scope ?? null, quoteId: row.quote_id ?? null, categoryBudgets:a.budgets.rows, costClass:row.cost_class, assetId:row.asset_id, ownerLimit: a.limit ? { limitCents: a.limit.limit_cents, budgetCents: a.limit.budget_cents, spentCents: a.spentCents, reasons: a.reasons } : null, ownerDecision: owner ? { decision: owner.decision, source: owner.source, reference: owner.reference, recordedBy: owner.recorded_by, recordedAt: owner.recorded_at, termsSha256: owner.terms_sha256, label: OWNER_LABEL } : null, tradeName: row.trade_name, tradeEmail: row.trade_email, vendorId: row.vendor_id, trade: row.trade, qualificationIssues: h.issues, qualificationException: h.exception ? { id: h.exception.id, reason: h.exception.reason, approvedBy: h.exception.approved_by } : null, dueDate: row.due_date, estimateCents: row.estimate_cents, currency: t.currency_confirmed === 0 ? 'unconfirmed' : row.currency, preparedBy: row.prepared_by, preparedAt: row.prepared_at, revisedBy: row.revised_by ?? null, approvedBy: c.actor.id, approvedRole: c.actor.role, approvedAt: c.now, approvalLabel: solo.label })
       const digest = await sha256(new TextEncoder().encode(snapshot))
       await commit(c, [
         jobGuard(c, row, version, 'pending'), vendorGuard(c, row, h.vendorVersion), ...solo.guards,
@@ -169,8 +182,11 @@ export async function workData(c: Context, tenancyId: string) {
     all(c, 'SELECT p.id,p.inspection_id,p.filename,p.media_type,p.size,p.sha256,p.uploaded_by,p.uploaded_at FROM tt_inspection_photos p JOIN tt_inspections i ON i.id=p.inspection_id WHERE i.tenancy_id=? ORDER BY p.uploaded_at', t.id),
     all(c, 'SELECT j.*,(SELECT h.agent_label FROM tt_audit h WHERE h.subject=j.id AND h.action=\'maintenance.prepare\' AND h.agent_label IS NOT NULL ORDER BY h.at LIMIT 1) AS prepared_label,a.id AS approval_id,a.job_version AS approved_version,a.approved_by,a.approved_role,a.approved_at,a.sha256 AS approval_sha256,a.snapshot AS approval_snapshot FROM tt_maintenance_jobs j LEFT JOIN tt_maintenance_approvals a ON a.job_id=j.id AND j.state<>\'pending\' AND a.job_version=(SELECT MAX(job_version) FROM tt_maintenance_approvals WHERE job_id=j.id) WHERE j.tenancy_id=? ORDER BY j.prepared_at DESC', t.id),
   ])
-  const today = localDate(c.now, t.time_zone)
-  return { chargebacks:await chargebackData(c,t.id), stock:await stockData(c,t.id), ...await inspectionCaptures(c,t.id), inspectionMedia:await all(c,"SELECT m.id,m.inspection_id,m.attachment_id,m.version,m.name,m.media_type,m.size,m.sha256,m.source,m.captured_at FROM tt_record_media m JOIN tt_inspections i ON i.id=m.inspection_id WHERE i.tenancy_id=? AND m.state='ready' ORDER BY m.attachment_id,m.version DESC",t.id), inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), ...await quoteData(c, t, jobs), ...await completionData(c, t.id), ...await appointmentData(c, t), ...await dispatchData(c, t), role: c.actor.role, may: Object.fromEntries(['maintenance.dispatch', 'maintenance.progress', 'maintenance.escalate', 'maintenance.approve', 'inspection.create', 'quote.add', 'schedule.add', 'work.limits', 'vendor.add', 'asset.add', 'appointment.book', 'appointment.confirm', 'appointment.cancel', 'appointment.no-show', 'appointment.reassign'].map(a => [a, can(c, a)])) }
+  const today = localDate(c.now, t.time_zone), dispatch = await dispatchData(c,t)
+  const approvers = [...new Set([...jobs.filter(j=>j.approval_snapshot).map(j=>JSON.parse(j.approval_snapshot).approvedBy),...dispatch.dispatches.map(d=>JSON.parse(d.snapshot).approvedBy)])]
+  const approvalContacts = Object.fromEntries(await Promise.all(approvers.map(async key=>[key,await one(c,'SELECT display_name,email FROM oa_operators WHERE id=?',key)])))
+  const inspectionEvidence = await inspectionReferences(c,t.id)
+  return { approvalContacts, inspectionEvidence, chargebacks:await chargebackData(c,t.id), stock:await stockData(c,t.id), ...await inspectionCaptures(c,t.id), inspectionMedia:await all(c,"SELECT m.id,m.inspection_id,m.attachment_id,m.version,m.name,m.media_type,m.size,m.sha256,m.source,m.captured_at FROM tt_record_media m JOIN tt_inspections i ON i.id=m.inspection_id WHERE i.tenancy_id=? AND m.state='ready' ORDER BY m.attachment_id,m.version DESC",t.id), inspections, photos, jobs, assets: await assetData(c, t), today, ...await vendorData(c, t, today, jobs), schedules: await scheduleData(c, t, today), ...await quoteData(c, t, jobs), ...await completionData(c, t.id), ...await appointmentData(c, t), ...dispatch, role: c.actor.role, may: Object.fromEntries(['maintenance.dispatch', 'maintenance.progress', 'maintenance.escalate', 'maintenance.approve', 'inspection.create', 'quote.add', 'schedule.add', 'work.limits', 'vendor.add', 'asset.add', 'appointment.book', 'appointment.confirm', 'appointment.cancel', 'appointment.no-show', 'appointment.reassign'].map(a => [a, can(c, a)])) }
 }
 
 /** Operator ids to display names, for showing who prepared, approved, uploaded or handed off work. */
@@ -194,21 +210,22 @@ export async function workPacket(c: Context, jobId: string): Promise<Response> {
   await readAccess(c); allow(c, 'work.read')
   const row = await one(c, "SELECT a.*,j.currency,j.tenancy_id,t.currency_confirmed FROM tt_maintenance_approvals a JOIN tt_maintenance_jobs j ON j.id=a.job_id JOIN tt_tenancies t ON t.id=j.tenancy_id WHERE j.id=? AND j.state IN ('approved','sent') ORDER BY a.job_version DESC LIMIT 1", text(jobId, 'Maintenance job', 100))
   insist(row, 'not_approved', 'An approved maintenance job is required to download a handoff packet.', 409)
-  await tenancy(c, row.tenancy_id)
+  const t = await tenancy(c, row.tenancy_id)
   const s = JSON.parse(row.snapshot)
   insist(await sha256(new TextEncoder().encode(row.snapshot)) === row.sha256, 'conflict', 'The approval evidence could not be verified.', 409)
-  const body = [
-    `Hello ${s.tradeName},`, '', `Please arrange the approved maintenance work at ${s.address}.`, '',
-    `Work: ${s.title}`, ...(s.scope ? [`Scope: ${s.scope}`] : []), `Due date: ${s.dueDate}`, `Approved estimate: ${money(s.estimateCents, row.currency_confirmed === 0 ? UNCONFIRMED : row.currency)}`,
-    ...(s.ownerDecision ? [`Owner approval: ${s.ownerDecision.label} (${s.ownerDecision.source}: ${s.ownerDecision.reference})`] : []),
-    '', `Job reference: ${s.jobId}`, `Approved version: ${s.version}`, `Approved by: ${s.approvedBy} (${s.approvedRole})`,
-    `Approved at: ${s.approvedAt}`, `Approval SHA-256: ${row.sha256}`, '',
-    'Please reply to the sender to arrange access and confirm the work.',
-  ].join('\r\n')
+  // Never rewrite saved terms to fit present-day property or staff records.
+  const contact = !s.permittedContact ? await one(c,'SELECT display_name,email FROM oa_operators WHERE id=?',s.approvedBy) : null
+  const context = {timeZone:t.time_zone,contacts:contact?{[s.approvedBy]:contact}:{},inspectionEvidence:!s.inspectionEvidence?await inspectionReferences(c,t.id):[]}
+  const body = maintenancePacketText(s,context).replaceAll('\n','\r\n')
   const base64 = btoa(Array.from(new TextEncoder().encode(body), byte => String.fromCharCode(byte)).join('')).match(/.{1,76}/g)!.join('\r\n')
-  const message = [`To: ${s.tradeEmail}`, `Subject: Terrace maintenance ${s.jobId}`, `Date: ${new Date(s.approvedAt).toUTCString()}`, 'X-Unsent: 1', 'MIME-Version: 1.0', 'Content-Type: text/plain; charset=UTF-8', 'Content-Transfer-Encoding: base64', '', base64, ''].join('\r\n')
+  const subjectWords = Array.from(maintenancePacketSubject(s)).reduce((words,character,index)=>{
+    if(index%10===0) words.push('')
+    words[words.length-1] += character
+    return words
+  },[] as string[]).map(word=>`=?UTF-8?B?${btoa(Array.from(new TextEncoder().encode(word),byte=>String.fromCharCode(byte)).join(''))}?=`).join('\r\n ')
+  const message = [`To: ${s.tradeEmail}`, `Subject: ${subjectWords}`, `Date: ${new Date(s.approvedAt).toUTCString()}`, 'X-Unsent: 1', 'MIME-Version: 1.0', 'Content-Type: text/plain; charset=UTF-8', 'Content-Transfer-Encoding: base64', '', base64, ''].join('\r\n')
   return new Response(message, { headers: {
-    'content-type': 'message/rfc822', 'content-disposition': `attachment; filename="maintenance-${jobId.replace(/[^a-zA-Z0-9-]/g,'')}.eml"`,
+    'content-type': 'message/rfc822', 'content-disposition': `attachment; filename="${maintenancePacketFilename(s)}"`,
     'cache-control': 'private, no-store', 'x-content-type-options': 'nosniff',
   } })
 }

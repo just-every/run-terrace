@@ -75,7 +75,7 @@ export async function journey({assets=false,inspect}={}) {
    const name=readable.subarray(offset+30,offset+30+nameSize).toString(),start=offset+30+nameSize+extra
    files.set(name,readable.subarray(start,start+size).toString());offset=start+size
   }
-  const operationalCsv=files.get('tables/tt_move_checklists.csv')
+  const operationalCsv=files.get('Leasing and households.csv')
   assert.ok(operationalCsv.includes(out.forwardingNotes)&&operationalCsv.includes(draft.keysNotes),'PORT-006 readable export contains original and corrected operational evidence')
   const archive=await(await h.request('/api/backup')).text(),fresh=await installation()
   try {

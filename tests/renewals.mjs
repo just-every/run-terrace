@@ -1,3 +1,4 @@
+import {originalByHash} from './readable-files.mjs'
 // LEASE-012: a renewal campaign through the public command and read doors: scheduling from lease ends, the offer
 // comparison before approval, approved sends, staff-recorded replies and outcomes, a staff-recorded signed renewal
 // activating once (PORT-005), and its sources in REPORT-003, REPORT-007 and SAFE-005's export and restore.
@@ -255,9 +256,9 @@ export async function journey({assets=false,inspect}={}) {
   // SAFE-005: the signed renewal and campaign history are in the readable export and survive a fresh restore.
   const bytes=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer()),entries=new Map()
   for(let o=0;bytes.readUInt32LE(o)===0x04034b50;){const n=bytes.readUInt16LE(o+26),x=bytes.readUInt16LE(o+28),size=bytes.readUInt32LE(o+18);entries.set(bytes.subarray(o+30,o+30+n).toString(),bytes.subarray(o+30+n+x,o+30+n+x+size));o+=30+n+x+size}
-  const manifest=JSON.parse(entries.get('manifest.json')),original=Buffer.from(signed.source.base64,'base64')
-  assert.deepEqual(entries.get(manifest.files.find(f=>f.table==='tt_lease_sources'&&f.sha256===s.leaseVersions[0].source_sha256).path),original)
-  assert.ok(entries.get('tables/tt_renewal_events.csv').toString().includes('executed'))
+  const original=Buffer.from(signed.source.base64,'base64')
+  assert.deepEqual(entries.get(originalByHash(entries,s.leaseVersions[0].source_sha256).path),original)
+  assert.ok(entries.get('Leasing and households.csv').toString().includes('executed'))
   const backup=await(await h.request('/api/backup')).text(),fresh=await installation()
   try {
    await fresh.formCommand('data.restore',{confirm:'RESTORE',backup:new File([backup],'renewals.rer')})

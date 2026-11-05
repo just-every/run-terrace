@@ -6,7 +6,7 @@ import {RESERVED} from './payments'
 // Adapted from Nectar c76a60ccffa39cc1a207b52c152bda16d6d7b1df
 // src/nectar/receivables.ts: integer cents, immutable charges and receipts,
 // with a balance guard in the same batch as every allocation or adjustment.
-import {tenancyGuard, all, cents, money, commit, date, guard, id, insist, allow, one, shown, sql, tenancy, text, UNCONFIRMED, type Context, type Row } from './core'
+import {tenancyGuard, all, cents, money, commit, date, guard, id, insist, allow, one, shown, sql, tenancy, text, UNCONFIRMED, Fault, type Context, type Row } from './core'
 import { dayStart, localDate, nextDay } from './zones'
 import { migrationEvents, migrationHistory } from './migration-history'
 export const BALANCE = `(q.amount_cents + ${RESIDENT_EFFECT} - COALESCE((SELECT SUM(amount_cents) FROM tt_net_receipts WHERE charge_id=q.id),0) - COALESCE((SELECT SUM(amount_cents) FROM tt_adjustments WHERE charge_id=q.id),0))`
@@ -23,7 +23,7 @@ export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|
   const t=await tenancy(c,charge.tenancy_id)
   if(command==='rent.receipt')insist(!await one(c,'SELECT 1 FROM tt_payment_policies WHERE tenancy_id=?',charge.tenancy_id),'payment_policy','Use Record split payment so the reviewed lease policy and pending funds apply.',409)
   const amount=cents(p.amount)
-  insist(amount<=charge.balance_cents,'exceeds_balance','Amount exceeds the unpaid charge balance.',409)
+  insist(amount<=charge.balance_cents,'exceeds_balance',`Amount exceeds the unpaid charge balance. Remaining balance: ${money(charge.balance_cents, t.currency)}.`,409)
   const writes=[tenancyGuard(c,t),guard(c,`(SELECT ${BALANCE}-${RESERVED} FROM tt_charges q WHERE id=?)>=?`,charge.id,amount)]
   if(command==='rent.receipt') {
    const received=date(p.receivedDate,'Received date')
@@ -33,7 +33,13 @@ export async function ledgerCommand(c:Context,command:string,p:Row):Promise<Row|
    insist(!method||['ach','card','cash','check','other'].includes(method),'invalid_method','Method is ach, card, cash, check or other.')
    writes.push(sql(c,'INSERT INTO tt_receipts(id,charge_id,amount_cents,received_date,reference,created_at,currency,method) VALUES(?,?,?,?,?,?,?,?)',key,charge.id,amount,received,text(p.reference,'External receipt reference',150),c.now,charge.currency,method))
   } else writes.push(sql(c,'INSERT INTO tt_adjustments(id,charge_id,amount_cents,reason,at,currency,posting_day) VALUES(?,?,?,?,?,?,?)',key,charge.id,amount,text(p.reason,'Adjustment reason',1000),c.now,charge.currency,localDate(c.now,charge.time_zone)))
-  await commit(c,writes,command,key)
+  try { await commit(c,writes,command,key) } catch (error) {
+   if(command==='rent.receipt'&&String(error).includes('UNIQUE constraint')) {
+    const remaining=await one(c,`SELECT ${BALANCE} AS balance_cents FROM tt_charges q WHERE id=?`,charge.id)
+    throw new Fault('duplicate',`That reference already exists. Use the existing record or a distinct reference. Remaining balance: ${money(remaining!.balance_cents,shown(t))}.`,409)
+   }
+   throw error
+  }
  }
  return {id:key}
 }

@@ -49,5 +49,4 @@ An offline old archive cannot know that a tenancy was erased later. Supplying th
 
 ## Readable export
 
-**Download readable export (.zip)** under **Backup and restore** gives the same records in a form you can open without Terrace: one CSV per table, every photograph as its original file (its SHA-256 is in the CSV cell and in manifest.json), and a README listing what to reconnect after a restore (mail delivery, people and their roles, authenticators, any identity provider). Sessions, operator accounts and sign-in secrets are never exported. Restore from the .rer backup, not from the readable export.
-
+**Download readable export (.zip)** under **Backup and restore** groups nonempty operating records into named CSVs with readable references, dates and amounts. Every stored original keeps its exact bytes and SHA-256 checksum in the file inventory. The included README explains the files and what to reconnect after a restore. Sign-in secrets and internal installation bookkeeping are omitted from this readable copy. Read [the readable export guide](readable-export.md) for details. Restore from the private `.rer` backup.

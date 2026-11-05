@@ -1,3 +1,4 @@
+import {csvRows,readableFiles,originalByHash} from './readable-files.mjs'
 // PORT-007: versioned tenancy documents, authorized search, restricted records by role, the upload check, download history,
 // retention classes, backup and readable export. Inspection video, work documents and invoices are PORT-009's, not tenancy documents.
 import assert from 'node:assert/strict'
@@ -176,7 +177,7 @@ export async function journey({inspect,assets=false}={}){
   const failedInput={tenancyId:north.t.id,kind:'lease',title:'Storage failure',source:'Safe source',file:{name:'safe.txt',type:'text/plain',base64:Buffer.from('Storage failure probe').toString('base64')}}
   const failed=await r.command('document.upload',failedInput,{status:400});assert.equal(failed.error,'operation_failed');assert.ok(!JSON.stringify(failed).includes('synthetic-terrace-904'))
   const form=new FormData();for(const [k,v]of Object.entries({...failedInput,command:'document.upload',tab:'documents',file:file(Buffer.from('Form storage failure'),'safe.txt','text/plain')}))form.set(k,v)
-  const failedPage=await r.request('/app/command',{method:'POST',form});assert.equal(failedPage.status,400);assert.ok(!(await failedPage.text()).includes('synthetic-terrace-904'))
+  const failedPage=await r.request('/app/command',{method:'POST',form});assert.equal(failedPage.status,303);const refused=await r.request(failedPage.headers.get('location'));assert.ok((await refused.text()).includes('role="alert"'));assert.ok(!(await (await r.request(failedPage.headers.get('location'))).text()).includes('synthetic-terrace-904'))
   await r.db.prepare('DROP TRIGGER document_failure_probe').run()
   assert.equal((await json('manager','/api/documents?q=Storage+failure')).documents.length,0,'failed writes create no document')
   await inspect?.({phase:'restricted',r,north,staff,privateDoc,privateBytes,sentinel})
@@ -201,12 +202,12 @@ export async function journey({inspect,assets=false}={}){
   }finally{await fresh.close()}
   const zip=Buffer.from(await(await r.request('/api/readable-export')).arrayBuffer()),entries=new Map()
   for(let o=0;zip.readUInt32LE(o)===0x04034b50;){const size=zip.readUInt32LE(o+18),n=zip.readUInt16LE(o+26),x=zip.readUInt16LE(o+28),name=zip.subarray(o+30,o+30+n).toString();entries.set(name,zip.subarray(o+30+n+x,o+30+n+x+size));o+=30+n+x+size}
-  const manifest=JSON.parse(entries.get('manifest.json')),csv=entries.get('tables/tt_document_versions.csv').toString()
+  const csv=entries.get('Documents and conversations.csv').toString()
   for(const [v,bytes,ext] of [[first,v1,'pdf'],[second,v2,'pdf'],[tax,taxBytes,'pdf'],[screened,screening,'pdf'],[privateDoc,privateBytes,'pdf']]){
-   const path=`files/tt_document_versions/${v.versionId}.${ext}`,entry=manifest.files.find(f=>f.path===path)
-   assert.ok(entry,path+' is listed');assert.deepEqual(entries.get(path),bytes);assert.equal(entry.sha256,sha(bytes));assert.ok(csv.includes(`file:${path} sha256:${sha(bytes)}`))
+   const entry=originalByHash(entries,sha(bytes)),path=entry.path
+   assert.ok(entry,path+' is listed');assert.deepEqual(entries.get(path),bytes);assert.equal(entry.sha256,sha(bytes));assert.ok(csv.includes(path)&&csv.includes(sha(bytes)))
   }
-  for(const [name,entry]of entries)if(name.startsWith('tables/')||name==='manifest.json')assert.ok(!entry.toString().includes(sentinel),'readable metadata omits restricted identifiers: '+name)
+  for(const [name,entry]of entries)if(!name.startsWith('Original files/'))assert.ok(!entry.toString().includes(sentinel),'readable metadata omits restricted identifiers: '+name)
   // Erasure withdraws an already authorized restricted original and prevents old captures from returning it.
   const erasedEmail=['synthetic-terrace-905','example.test'].join('@')
   const historic=await r.command('tenancy.create',{...tenancyInput,tenantEmail:erasedEmail,startDate:'2010-01-01',endDate:'2011-12-31'})
@@ -284,8 +285,8 @@ export async function securityJourney({assets=false,inspect}={}){
   }finally{await fresh.close()}
   const zip=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer()),entries=new Map()
   for(let o=0;zip.readUInt32LE(o)===0x04034b50;){const size=zip.readUInt32LE(o+18),n=zip.readUInt16LE(o+26),x=zip.readUInt16LE(o+28),name=zip.subarray(o+30,o+30+n).toString();entries.set(name,zip.subarray(o+30+n+x,o+30+n+x+size));o+=30+n+x+size}
-  assertRedacted(entries.get('tables/tt_documents.csv').toString());assertRedacted(entries.get('tables/tt_document_versions.csv').toString())
-  assert.deepEqual(entries.get('files/tt_document_versions/'+report.versionId+'.txt'),original,'readable export retains the authorized original bytes')
+  assertRedacted(entries.get('Documents and conversations.csv').toString())
+  assert.deepEqual(entries.get(originalByHash(entries,sha(original)).path),original,'readable export retains the authorized original bytes')
   if(inspect)await inspect({h,report,tin})
  }finally{await h.close()}
 }

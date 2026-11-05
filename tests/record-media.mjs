@@ -1,3 +1,4 @@
+import {csvRows,readableFiles,originalByHash} from './readable-files.mjs'
 import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
 import {readFile} from 'node:fs/promises'
@@ -74,9 +75,9 @@ export async function journey({assets=false,inspect}={}) {
   console.log('media proof: creating readable export');const zip=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer())
   const entries=new Map();let offset=0
   while(zip.readUInt32LE(offset)===0x04034b50){const size=zip.readUInt32LE(offset+18),nameLength=zip.readUInt16LE(offset+26),extraLength=zip.readUInt16LE(offset+28),name=zip.subarray(offset+30,offset+30+nameLength).toString(),start=offset+30+nameLength+extraLength;entries.set(name,zip.subarray(start,start+size));offset=start+size}
-  const manifest=JSON.parse(entries.get('manifest.json')),original=manifest.files.find(x=>x.table==='tt_record_media'&&x.id===began.id)
-  assert.ok(original,'readable export names the complete original video, not just chunks');assert.equal(original.sha256,sha(video));assert.deepEqual(entries.get(original.path),video)
-  for(const id of [prior.id,second.id,work.id,work2.id,invoice.id,invoice2.id]){const f=manifest.files.find(x=>x.table==='tt_record_media'&&x.id===id);assert.ok(f);assert.equal(sha(entries.get(f.path)),f.sha256)}
+  const original=originalByHash(entries,sha(video))
+  assert.deepEqual(entries.get(original.path),video,'readable export contains the complete original video, not just chunks')
+  for(const id of [prior.id,second.id,work.id,work2.id,invoice.id,invoice2.id]){const bytes=Buffer.from(await(await get(id)).arrayBuffer()),f=originalByHash(entries,sha(bytes));assert.deepEqual(entries.get(f.path),bytes)}
   const history=(await(await h.request('/api/history')).json()).rows;assert.ok(history.some(x=>x.action==='read:record-media'))
  }finally{await h.close();await fresh.close()}
 }

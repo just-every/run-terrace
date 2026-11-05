@@ -1,3 +1,4 @@
+import {csvRows} from './readable-files.mjs'
 import assert from 'node:assert/strict'
 import {installation,tenancyInput} from './api/harness.mjs'
 export async function journey({assets=false,inspect}={}){
@@ -93,8 +94,8 @@ export async function journey({assets=false,inspect}={}){
   for(const action of ['report.delivery.hold','report.delivery.release','report.delivery.delete'])assert.ok(history.some(x=>x.action===action&&x.subject===custody.id&&x.outcome==='recorded'),'custody action is audited: '+action)
   const zipped=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer()),entries=new Map()
   for(let o=0;zipped.readUInt32LE(o)===0x04034b50;){const size=zipped.readUInt32LE(o+18),n=zipped.readUInt16LE(o+26),x=zipped.readUInt16LE(o+28);entries.set(zipped.subarray(o+30,o+30+n).toString(),zipped.subarray(o+30+n+x,o+30+n+x+size));o+=30+n+x+size}
-  const manifest=JSON.parse(entries.get('manifest.json'))
-  for(const name of ['tt_report_deliveries','tt_report_delivery_events','tt_report_delivery_holds'])assert.ok(!manifest.tables.some(t=>t.name===name),'private report custody excluded from readable archive: '+name)
+  const collections=csvRows(entries.get('Collections.csv')).slice(1).map(row=>row[0])
+  for(const name of ['Report deliveries','Report delivery events','Report delivery holds'])assert.ok(!collections.includes(name),'private report custody excluded from readable archive: '+name)
   const native=await prepare(people[5])
   const nativeProof={native,person:people[5],delivered:delivery,recipient:people[1],link,frozen}
   for(const path of ['/api/report-delivery?id='+delivery.id])assert.equal((await h.request(path,{as:member})).status,403)

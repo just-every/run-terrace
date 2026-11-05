@@ -1,15 +1,11 @@
-// SAFE-005. A human-readable copy of the complete installation archive: one CSV per archived table (the same tables,
-// columns and secret exclusions the .rer backup and restore use), every stored file (inspection photographs) as its
-// original bytes with its SHA-256, a manifest, and a README naming what must be reconnected after a restore. It is
-// built from the backup archive itself, so whatever a restore brings back, this copy shows.
-import { readArchive, type Manifest, type Part, type Closing } from '@runeditrun/rer/modules/portability'
-import { allow, sha256, type Context } from './core'
+// Display copy of operating records. The complete private backup remains the restore format.
+import { readArchive, type Manifest, type Part } from '@runeditrun/rer/modules/portability'
+import { allow, type Context } from './core'
 import { backup } from './data'
 import { csv, zip } from './exports'
 import { documentExportCell } from './document-redaction'
-
-const EXT: Record<string, string> = { 'image/png': 'png', 'image/jpeg': 'jpg', 'application/pdf': 'pdf', 'video/mp4': 'mp4', 'video/quicktime': 'mov', 'video/webm': 'webm', 'text/plain': 'txt', 'text/csv': 'csv', 'message/rfc822': 'eml' }
-const bytes = (b64: string) => Uint8Array.from(atob(b64), ch => ch.charCodeAt(0))
+import { label, tableLabel, group, internal, presentation, type ExportRow } from './readable-export-labels'
+import { originals, isBlob, type ExportFile } from './readable-export-files'
 
 export const RECONNECT = [
  'Shadow rent: source originals, mappings, differences, next actions and prior reviews are documentary evidence. Restored reviews are inert; capture and review a new comparison with current native statements. No cutover, collection or schedule is authorized.',
@@ -31,40 +27,66 @@ export const RECONNECT = [
  'Card payments: provider references and ledger receipts are portable; Stripe credentials and active Checkout links stay in the originating installation. A restore repeats no collection.',
 ]
 
+
 export async function readableExport(c: Context) {
  allow(c, 'data.restore')
- const archive = await backup(c), records: any[] = []
- for await (const line of readArchive(archive.body!)) records.push(line)
- const manifest = records[0] as Manifest, closing = records.at(-1) as Closing
- const rows = new Map<string, Record<string, unknown>[]>()
- for (const part of records.filter(r => r.kind === 'part') as Part[]) for (const item of part.items) if (item.kind === 'row') rows.set(item.table, [...(rows.get(item.table) ?? []), item.row])
- const restricted = new Set((rows.get('tt_documents') ?? []).filter(row => row.restriction).map(row => row.id))
- const files: [string, string | Uint8Array][] = [], inventory: Record<string, unknown>[] = []
- for (const table of manifest.tables) {
-  const columns = table.columns.map(col => col.name), list = rows.get(table.name) ?? []
-  const lines = [columns, ...await Promise.all(list.map(async (row, i) => Promise.all(columns.map(async name => {
-   const v = documentExportCell(table.name, row, name, row[name], restricted)
-   if (v && typeof v === 'object' && 'blob' in (v as object)) {
-    const data = bytes((v as { blob: string }).blob), ext = EXT[String(name==='pdf_bytes'?'application/pdf':name==='photo_bytes'?row.photo_type:row.media_type ?? row.type)] ?? 'bin', path = `files/${table.name}/${row.id ?? i}.${ext}`, digest = await sha256(data)
-    files.push([path, data]); inventory.push({ path, table: table.name, column: name, size: data.length, sha256: digest })
-    return `file:${path} sha256:${digest}`
+ const archive=await backup(c), rows=new Map<string,ExportRow[]>()
+ let manifest:Manifest|undefined
+ for await(const line of readArchive(archive.body!)){
+  if(line.kind==='manifest')manifest=line as Manifest
+  if(line.kind==='part')for(const item of (line as Part).items)if(item.kind==='row'){
+   if(!rows.has(item.table))rows.set(item.table,[])
+   rows.get(item.table)!.push(item.row)
+  }
+ }
+ const display=presentation(rows), stored=await originals(rows,display.reference)
+ const restricted=new Set((rows.get('tt_documents')??[]).filter(row=>row.restriction).map(row=>row.id))
+ const files:ExportFile[]=[...stored.files], groups=new Map<string,(string|number)[][]>()
+ const primary:Record<string,string>={tt_tenancies:'Tenancies',tt_charges:'Charges',tt_receipts:'Receipts',tt_inspections:'Inspections',tt_maintenance_jobs:'Maintenance'}
+ const counts:(string|number)[][]=[['Collection','Records','File']]
+ for(const [table,list]of rows){
+  if(!list.length||internal(table))continue
+  const fields=Array.from(new Set(list.flatMap(row=>Object.keys(row))))
+  if(stored.cells.has(list[0])&&stored.cells.get(list[0])!.has('original_file'))fields.push('original_file')
+  const value=(row:ExportRow,key:string)=>{
+   const file=stored.cells.get(row)?.get(key);if(file)return file
+   const raw=documentExportCell(table,row,key,row[key],restricted)
+   return isBlob(raw)?'Original file listed in File inventory.csv':display.render(raw,key)
+  }
+  if(primary[table]){
+   const name=`${primary[table]}.csv`
+   const headers=fields.map(key=>key==='id'?'Record reference':label(key).replace(/ cents$/i,' amount'))
+   files.push([name,csv([headers,...list.map(row=>fields.map(key=>value(row,key)))])])
+   counts.push([primary[table],list.length,name])
+  }else{
+   const name=group(table)
+   if(!groups.has(name))groups.set(name,[['Record type','Record reference','Field','Value']])
+   for(const [i,row]of list.entries()){
+    const ref=display.reference(String(row.id??`${table} row ${i+1}`))
+    for(const key of fields)groups.get(name)!.push([tableLabel(table),ref,key==='id'?'Record reference':label(key).replace(/ cents$/i,' amount'),value(row,key)])
+    const original=stored.cells.get(row)?.get('original_file')
+    if(original&&!fields.includes('original_file'))groups.get(name)!.push([tableLabel(table),ref,'Original file',original])
    }
-   return v === null || v === undefined ? '' : typeof v === 'number' ? v : String(v)
-  }))))]
-  files.push([`tables/${table.name}.csv`, csv(lines as (string | number)[][])])
+   counts.push([tableLabel(table),list.length,`${name}.csv`])
+  }
  }
- // Chunked media are also exported as one usable original per immutable version.
- for(const row of rows.get('tt_record_media')??[]) if(row.state==='ready') {
-  const chunks=(rows.get('tt_record_media_chunks')??[]).filter(p=>p.media_id===row.id).sort((a,b)=>Number(a.position)-Number(b.position))
-  const data=new Uint8Array(Number(row.size));let at=0
-  for(const chunk of chunks){const b=bytes((chunk.bytes as {blob:string}).blob);data.set(b,at);at+=b.length}
-  const digest=await sha256(data)
-  if(at!==data.length||digest!==row.sha256)throw Error('A chunked original failed its export checksum.')
-  const path=`files/tt_record_media/${row.id}.${EXT[String(row.media_type)]??'bin'}`
-  files.push([path,data]);inventory.push({path,table:'tt_record_media',id:row.id,attachmentId:row.attachment_id,version:row.version,size:data.length,sha256:digest})
- }
- const summary = { format: 'terrace-readable-export', version: 1, exportedAt: manifest.exportedAt, sourceIdentity: manifest.sourceIdentity, archiveContentHash: closing.contentHash, tables: manifest.tables.map(t => ({ name: t.name, rows: t.count, columns: t.columns.map(col => col.name), file: `tables/${t.name}.csv` })), files: inventory, excludedTables: manifest.excludedTables, excludedColumns: manifest.excludedColumns, reconnect: RECONNECT }
- const readme = `# Terrace readable export\n\nRestricted document metadata is redacted in this readable copy. Original files keep their exact bytes and checksums; the private backup retains complete custody for restore.\n\nExported ${manifest.exportedAt}. This is a readable copy of the same records as your Terrace backup (.rer), which is the file to restore from.\n\n- tables/<table>.csv: one CSV per table (RFC 4180, UTF-8, header row). Money columns ending _cents are whole cents in the row's currency column; dates are ISO 8601 (YYYY-MM-DD); timestamps are UTC.\n- files/: every stored file as its original bytes. The CSV cell that held it reads file:<path> sha256:<hex>.\n- manifest.json: tables, row counts, columns, file checksums, and tables or columns left out (secrets and platform bookkeeping).\n\n## Reconnect after a restore\n\n${RECONNECT.map(x => `- ${x}`).join('\n')}\n`
- files.unshift(['README.md', readme], ['manifest.json', JSON.stringify(summary, null, 1)])
- return new Response(zip(files), { headers: { 'content-type': 'application/zip', 'content-disposition': 'attachment; filename="terrace-readable-export.zip"', 'cache-control': 'no-store' } })
+ for(const [name,lines]of groups)files.push([`${name}.csv`,csv(lines)])
+ files.push(['Collections.csv',csv(counts)])
+ const readme=`# Terrace readable export
+
+Exported ${display.render(manifest?.exportedAt??c.now)}.
+
+Start with Tenancies, Charges, Receipts, Inspections and Maintenance when those collections contain records. Related operating records are grouped by the work they belong to. Collections.csv lists each included collection and its record count. Grouped sheets have one row per field, linked by a readable record reference. These references link records within this export; keep the private backup for restoring an installation.
+
+Money amounts use decimal currency units, with the recorded currency alongside. Dates use month names; times are labelled UTC. Saved structured details are expanded into labelled text. Empty collections, sign-in secrets and internal installation bookkeeping are omitted. The private backup retains complete restore and custody information, including internal identifiers and erasure safeguards.
+
+Original files contains stored originals, including earlier versions and assembled attachments, without changing their bytes. Original source documents can contain their own technical notation, dates and identifiers. File inventory.csv lists each original, its linked record, file size and SHA-256 checksum. Restricted document metadata is redacted; original files remain private and may contain sensitive information. Keep this entire export private.
+
+## Reconnect after a restore
+
+${RECONNECT.map(item=>'- '+display.render(item)).join('\n')}
+`
+ files.unshift(['README.md',readme])
+ files.push(['File inventory.csv',csv([['File','Record reference','File size','SHA-256 checksum'],...stored.inventory])])
+ return new Response(zip(files),{headers:{'content-type':'application/zip','content-disposition':'attachment; filename="terrace-readable-export.zip"','cache-control':'no-store'}})
 }

@@ -65,7 +65,7 @@ async function workJourney(){
    const form=ownerPage.getByRole('form',{name:'Prepare maintenance',exact:true}),title=form.getByRole('textbox',{name:'Work required',exact:true})
    await keyboardTo(ownerPage,title);await ownerPage.keyboard.type('Repair accessible entry handle')
    const directory=form.getByRole('combobox',{name:'Directory vendor',exact:true})
-   await keyboardTo(ownerPage,directory);await ownerPage.keyboard.press('Home');await ownerPage.keyboard.press('ArrowDown');await ownerPage.keyboard.press('Enter');assert.equal(await directory.inputValue(),vendor.id)
+   await keyboardTo(ownerPage,directory);await ownerPage.keyboard.type('Alder Repairs');assert.equal(await directory.inputValue(),vendor.id)
    const trade=form.getByRole('combobox',{name:'Trade',exact:true});await keyboardTo(ownerPage,trade);await ownerPage.keyboard.press('Home');await ownerPage.keyboard.press('Enter');assert.equal(await trade.inputValue(),'plumbing')
    const unlisted=form.getByText('Unlisted vendor',{exact:true}),email=form.locator('input[name=tradeEmail]')
    await keyboardTo(ownerPage,unlisted);await ownerPage.keyboard.press('Enter');await keyboardTo(ownerPage,email);await ownerPage.keyboard.type('missing-domain')
@@ -90,7 +90,7 @@ async function workJourney(){
   const before=(await h.state(t.id)).work.jobs.find(j=>j.id===job.id)
   for(const [as,status]of [[outsider,404],[member,403]]){
    const context=await browser.newContext({viewport:{width:1440,height:900}});await context.addCookies(as.split('; ').map(p=>({name:p.split('=')[0],value:p.slice(p.indexOf('=')+1),url:h.origin})));const page=await context.newPage()
-   try{assert.equal((await page.goto(h.origin+'/app?tab=work&tenancy='+t.id)).status(),as===member?200:status);assert.equal(await page.getByRole('button',{name:'Approve maintenance',exact:true}).count(),0);const refused=await page.request.post(h.origin+'/app/command',{form:{command:'maintenance.approve',tenancyId:t.id,tab:'work',jobId:job.id,version:String(before.version)},headers:{origin:h.origin}});assert.equal(refused.status(),status)}finally{await context.close()}
+   try{assert.equal((await page.goto(h.origin+'/app?tab=work&tenancy='+t.id)).status(),as===member?200:status);assert.equal(await page.getByRole('button',{name:'Approve maintenance',exact:true}).count(),0);const refused=await page.request.post(h.origin+'/app/command',{form:{command:'maintenance.approve',tenancyId:t.id,tab:'work',jobId:job.id,version:String(before.version)},headers:{origin:h.origin},maxRedirects:0});assert.equal(refused.status(),303);const refusal=await page.request.get(h.origin+refused.headers().location);assert.match(await refusal.text(),/role="alert"/)}finally{await context.close()}
    await h.command('maintenance.approve',{jobId:job.id,version:before.version},{as,status})
    const after=(await h.state(t.id)).work.jobs.find(j=>j.id===job.id);assert.equal(after.state,before.state);assert.equal(after.version,before.version);assert.equal(after.approval_snapshot,before.approval_snapshot)
   }
@@ -101,7 +101,7 @@ async function workJourney(){
    await keyboardTo(page,approve);await visibleFocus(approve);await screenshots(page,'work-review',out)
    await page.setViewportSize({width:1440,height:900});const response=page.waitForResponse(r=>r.request().method()==='POST'&&new URL(r.url()).pathname==='/app/command');await page.keyboard.press('Enter');const submitted=await response;assert.equal(submitted.status(),303,submitted.status()===303?'':(await submitted.text()).match(/<div role="status" class="notice">([^<]+)/)?.[1]??'Approval failed');await page.getByRole('status').filter({hasText:/approved/i}).waitFor()
    const approved=(await h.state(t.id)).work.jobs.find(j=>j.id===job.id);assert.equal(approved.state,'approved');assert.ok(approved.approval_snapshot.includes('Repair accessible entry handle'));assert.equal(approved.approved_version,before.version)
-   const replay=await page.request.post(h.origin+'/app/command',{form:{command:'maintenance.approve',tenancyId:t.id,tab:'work',jobId:job.id,version:String(before.version)},headers:{origin:h.origin}});assert.equal(replay.status(),409);assert.equal((await h.state(t.id)).work.jobs.find(j=>j.id===job.id).approval_snapshot,approved.approval_snapshot);await card.getByText('Approval evidence',{exact:true}).waitFor();await screenshots(page,'work-approved',out)
+   const replay=await page.request.post(h.origin+'/app/command',{form:{command:'maintenance.approve',tenancyId:t.id,tab:'work',jobId:job.id,version:String(before.version)},headers:{origin:h.origin},maxRedirects:0});assert.equal(replay.status(),303);const replayResult=await page.request.get(h.origin+replay.headers().location);assert.match(await replayResult.text(),/role="alert"/);assert.equal((await h.state(t.id)).work.jobs.find(j=>j.id===job.id).approval_snapshot,approved.approval_snapshot);await card.getByText('Approval evidence',{exact:true}).waitFor();await screenshots(page,'work-approved',out)
    await page.setViewportSize({width:390,height:844});await page.goto(h.origin+'/app?tab=work&tenancy='+t.id)
    // The phone smoke includes every header link, even links scrolled horizontally.
    for(const link of await page.locator('.app-nav a').all()){await keyboardTo(page,link);await visibleFocus(link)}

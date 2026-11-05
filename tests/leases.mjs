@@ -1,3 +1,4 @@
+import {originalByHash} from './readable-files.mjs'
 // PORT-005: signed lease custody and complete effective obligations through the public command and read doors.
 import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
@@ -104,8 +105,7 @@ export async function journey({inspect,assets=false}={}) {
   assert.ok(history.rows.some(x=>x.action==='lease.source'&&x.outcome==='read'))
   const bytes=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer()),entries=new Map()
   for(let o=0;bytes.readUInt32LE(o)===0x04034b50;){const n=bytes.readUInt16LE(o+26),x=bytes.readUInt16LE(o+28),size=bytes.readUInt32LE(o+18);entries.set(bytes.subarray(o+30,o+30+n).toString(),bytes.subarray(o+30+n+x,o+30+n+x+size));o+=30+n+x+size}
-  const manifest=JSON.parse(entries.get('manifest.json'))
-  const pdfFile=manifest.files.find(f=>f.table==='tt_lease_sources'&&f.sha256===versions.find(v=>v.id===first.leaseId).source_sha256)
+  const pdfFile=originalByHash(entries,versions.find(v=>v.id===first.leaseId).source_sha256)
   assert.ok(pdfFile.path.endsWith('.pdf'));assert.deepEqual(entries.get(pdfFile.path),originalBytes)
   const backup=await(await h.request('/api/backup')).text(),fresh=await installation()
   try {

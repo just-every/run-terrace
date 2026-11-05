@@ -1,3 +1,4 @@
+import {readableFiles} from './readable-files.mjs'
 import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
 import {readArchive} from '../src/modules/portability/index.mjs'
@@ -36,8 +37,53 @@ function csvRows(bytes){
  const header=lines.shift()
  return lines.map(values=>{assert.equal(values.length,header.length);return Object.fromEntries(header.map((key,i)=>[key,values[i]]))})
 }
-// Readable CSV protects formula-like values, including negative financial cents.
-const csvValues=row=>Object.fromEntries(Object.entries(row).map(([key,value])=>[key,value===null?'':String(value).replace(/^[=+@-]/,"'$&").replace(/^[=+@-]/,"'$&")]))
+// Compare the readable representation while retaining the archive's identity graph.
+const fieldLabel=key=>key.replace(/([a-z])([A-Z])/g,'$1 $2').replace(/^(?:tt_|ik_d1_|ik_|bs_|rer_|agent_door_)/,'').replace(/^id$/,'record reference').replace(/_id$/,' reference').replace(/_cents$/,' amount').replace(/_/g,' ').replace(/\bjson\b/gi,'details').replace(/^./,s=>s.toUpperCase())
+const collectionLabel=table=>({tt_audit:'Operating history',tt_maintenance_jobs:'Maintenance',tt_inspection_photos:'Inspection photographs',tt_gl_accounts:'Chart of accounts',ik_jobs:'Move-in imports',ik_provenance:'Import sources'}[table]??fieldLabel(table))
+async function expectedDisplay(archive){
+ const refs=new Map(),items=[];let serial=0
+ for await(const record of readArchive(new Blob([archive]).stream()))if(record.kind==='part')for(const item of record.items)if(item.kind==='row')items.push(item)
+ // The successful export's own read audit is written after its snapshot.
+ const exportAudit=items.findLast(item=>item.table==='tt_audit'&&item.row.action==='export:readable')
+ for(const item of items)if(item!==exportAudit&&typeof item.row.id==='string'){
+  const title={tt_tenancies:'Tenancy',tt_charges:'Charge',tt_receipts:'Receipt',tt_inspections:'Inspection',tt_maintenance_jobs:'Maintenance job'}[item.table]??collectionLabel(item.table)+' record'
+  refs.set(item.row.id,title+' '+String(++serial).padStart(4,'0'))
+ }
+ const reference=id=>{if(!refs.has(id))refs.set(id,'Record '+String(++serial).padStart(4,'0'));return refs.get(id)}
+ function text(value){
+  if(refs.has(value))return refs.get(value)
+  return value.replace(/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi,reference).replace(/\b\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})?)?\b/g,value=>new Intl.DateTimeFormat('en-US',value.includes('T')?{dateStyle:'medium',timeStyle:'short',timeZone:'UTC'}:{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'}).format(new Date(value.includes('T')?value:value+'T00:00:00Z'))+(value.includes('T')?' UTC':'')).replace(/\b(?:ACCT|AGENT|BASE(?:-AGENT)?|BOUND|LEASE|MOVE|OPS|PAY|PORTAL|PORT|REPORT|ROLE|SAFE|TER|US)-\d{3}\b/g,'recorded policy').replace(/\b(?:tt_|ik_d1_|ik_|bs_)[a-z_]+\b/g,fieldLabel)
+ }
+ function render(value,key=''){
+  if(value===null||value===undefined)return ''
+  if(typeof value==='string'){
+   if(/^[\s]*[\[{]/.test(value)){try{return render(JSON.parse(value),key)}catch{}}
+   if(/(?:^id$|_id$|_by$)/.test(key)&&value&&!value.includes(' '))return reference(value)
+   return text(/(?:^|_)(?:action|command|operation|kind|state|outcome|role|policy)$/.test(key)?value.replace(/[_.:]/g,' '):value)
+  }
+  if(Array.isArray(value))return value.map(v=>render(v,key)).join(' | ')
+  if(typeof value==='object')return Object.entries(value).map(([k,v])=>text(fieldLabel(k))+': '+render(v,k)).join('; ')
+  return typeof value==='number'&&/(?:_cents|Cents)$|^(?:debit|credit|resident_delta|pha_delta)$/.test(key)?(value/100).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:8,useGrouping:false}):String(value)
+ }
+ function bind(row,record){
+  for(const [key,value]of Object.entries(row))if(typeof value==='string'&&value&&!value.includes(' ')&&/(?:^id$|_id$|_by$)/.test(key)&&!refs.has(value)){
+   const shown=record[fieldLabel(key)]
+   assert.ok(shown,'historical identity retains a readable reference')
+   assert.ok(![...refs.values()].includes(shown),'distinct historical identities keep distinct references')
+   refs.set(value,shown)
+  }
+ }
+ return {reference,render,bind}
+}
+const protectedCell=value=>String(value).replace(/^[=+@-]/,"'$&")
+function readableRecord(entries,table,reference){
+ const primary={tt_charges:'Charges.csv',tt_receipts:'Receipts.csv'}[table]
+ if(primary)return csvRows(entries.get(primary)).find(row=>row['Record reference']===reference)
+ const file=table==='tt_document_versions'?'Documents and conversations.csv':'Accounts and payments.csv'
+ const fields=csvRows(entries.get(file)).filter(row=>row['Record type']===collectionLabel(table)&&row['Record reference']===reference)
+ assert.ok(fields.length,'readable export retains '+table+' '+reference)
+ return Object.fromEntries(fields.map(row=>[row.Field,row.Value]))
+}
 
 /** PAY-013 and SAFE-004 share the posted, corrected and externally receipted leases. */
 export async function hapErasureFlow(backup,leases){
@@ -86,23 +132,30 @@ export async function hapErasureFlow(backup,leases){
   for(const version of versions)originals.set(version.id,Buffer.from(await(await read(h,'/api/document?id='+version.id)).arrayBuffer()))
   const exported=Buffer.from(await(await read(h,'/api/readable-export')).arrayBuffer()),entries=new Map()
   for(let o=0;exported.readUInt32LE(o)===0x04034b50;){const n=exported.readUInt16LE(o+26),x=exported.readUInt16LE(o+28),size=exported.readUInt32LE(o+18);entries.set(exported.subarray(o+30,o+30+n).toString(),exported.subarray(o+30+n+x,o+30+n+x+size));o+=30+n+x+size}
-  const manifest=JSON.parse(entries.get('manifest.json')),exportedVersions=csvRows(entries.get('tables/tt_document_versions.csv'))
+  const display=await expectedDisplay(await snapshot(h)),inventory=readableFiles(entries)
+  const exportedVersionRefs=new Set()
   for(const version of versions){
-   const record=exportedVersions.find(row=>row.id===version.id)
-   assert.ok(record,'readable export includes each PHA notice and remittance version before erasure')
-   const reference=/^file:(.+) sha256:([a-f0-9]{64})$/.exec(record.bytes)
-   assert.ok(reference,'PHA original CSV names its file and checksum')
-   const file=manifest.files.find(row=>row.path===reference[1]),original=originals.get(version.id)
-   assert.ok(file,'readable manifest includes each PHA original')
-   assert.deepEqual(pick(file,['table','column','size','sha256']),{table:'tt_document_versions',column:'bytes',size:original.length,sha256:version.sha256})
-   assert.equal(reference[2],version.sha256,'PHA original CSV retains its recorded checksum')
+   const reference=display.reference(version.id),record=readableRecord(entries,'tt_document_versions',reference)
+   display.bind(version,record)
+   exportedVersionRefs.add(reference)
+   const file=inventory.find(file=>file.reference===reference&&file.sha256===version.sha256),original=originals.get(version.id)
+   assert.ok(file,'every PHA original version has its own linked inventory entry')
+   assert.ok(record.Bytes.includes(file.path)&&record.Bytes.includes(version.sha256),'PHA original field names its file and checksum')
    assert.deepEqual(entries.get(file.path),original,'readable export retains exact PHA notice and remittance original bytes before erasure')
-   assert.equal(createHash('sha256').update(entries.get(file.path)).digest('hex'),version.sha256,'exported PHA original matches its recorded checksum')
-   assert.deepEqual(record,csvValues({...version,bytes:record.bytes}),'readable export retains the PHA original version and source identity')
+   assert.equal(createHash('sha256').update(entries.get(file.path)).digest('hex'),version.sha256)
+   for(const [key,value]of Object.entries(version))assert.equal(record[fieldLabel(key)],key==='bytes'?record.Bytes:protectedCell(display.render(value,key)),'PHA original retains '+key+' and source identity')
   }
+  assert.equal(inventory.filter(file=>exportedVersionRefs.has(file.reference)).length,versions.length,'every retained PHA original version is inventoried exactly once')
   for(const [table,before] of financial){
-   const ids=new Set(before.map(row=>row.id)),exportedRows=csvRows(entries.get('tables/'+table+'.csv')).filter(row=>ids.has(row.id))
-   assert.deepEqual(sorted(exportedRows),sorted(before.map(csvValues)),table+' readable export retains exact financial rows before erasure')
+   const actual=[],expected=[]
+   for(const row of before){
+    const record=readableRecord(entries,table,display.reference(row.id))
+    assert.ok(record,table+' retains its financial record')
+    display.bind(row,record)
+    actual.push(record)
+    expected.push(Object.fromEntries(Object.entries(row).map(([key,value])=>[fieldLabel(key),protectedCell(display.render(value,key))])))
+   }
+   assert.deepEqual(actual,expected,table+' readable export retains every exact financial field and identity relationship before erasure')
   }
   const requests=[]
   for(const [index,t] of tenancies.entries())requests.push(await h.command('privacy.request',{tenancyId:t.id,kind:'erase',source:'synthetic-terrace-'+(802+index)}))

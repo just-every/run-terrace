@@ -1,3 +1,4 @@
+import {csvRows} from './readable-files.mjs'
 // OPS-007: a mixed owner's residential property links to its Cabin record and a Chest document by address only,
 // within property scope; the links open the sibling, and the residential ledger and export carry no short-stay data.
 import assert from 'node:assert/strict'
@@ -41,9 +42,12 @@ export async function journey() {
 
   // The residential ledger and export are unchanged by links and hold no reservation or guest records.
   assert.equal(await statement(),before)
-  const bytes=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer()),names=[]
-  for(let o=0;bytes.readUInt32LE(o)===0x04034b50;){const n=bytes.readUInt16LE(o+26),x=bytes.readUInt16LE(o+28),size=bytes.readUInt32LE(o+18);names.push(bytes.subarray(o+30,o+30+n).toString());o+=30+n+x+size}
-  assert.ok(names.includes('tables/tt_charges.csv')&&names.includes('tables/tt_receipts.csv')&&names.includes('tables/tt_sibling_links.csv'))
+  const bytes=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer()),names=[],entries=new Map()
+  for(let o=0;bytes.readUInt32LE(o)===0x04034b50;){const n=bytes.readUInt16LE(o+26),x=bytes.readUInt16LE(o+28),size=bytes.readUInt32LE(o+18);const name=bytes.subarray(o+30,o+30+n).toString();names.push(name);entries.set(name,bytes.subarray(o+30+n+x,o+30+n+x+size));o+=30+n+x+size}
+  assert.ok(names.includes('Charges.csv')&&names.includes('Receipts.csv')&&names.includes('Office and property records.csv'))
+  const collections=csvRows(entries.get('Collections.csv')).slice(1).map(row=>row[0])
+  assert.ok(collections.includes('Sibling links'),'sibling links remain an exported operating collection')
+  assert.ok(!collections.some(name=>/reservation|booking|guest/i.test(name)),'no short-stay collections are kept in Terrace')
   assert.ok(!names.some(n=>/reservation|booking|guest/i.test(n)),'no short-stay records are kept in Terrace')
   await h.command('sibling.unlink',{linkId:cabin.id},{as:staff.mixedpm})
   assert.equal((await h.state()).siblings.links.length,1)

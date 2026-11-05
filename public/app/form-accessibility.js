@@ -8,6 +8,13 @@ for (const navigation of document.querySelectorAll('.app-nav')) {
 }
 
 // Progressive validation for Terrace-owned forms; the server remains authoritative.
+for (const error of document.querySelectorAll('form .notice.error')) {
+ for (let parent = error.parentElement; parent; parent = parent.parentElement) {
+  if (parent instanceof HTMLDetailsElement) parent.open = true
+ }
+ error.tabIndex = -1
+ error.focus()
+}
 for (const [index, form] of [...document.querySelectorAll('form[data-accessible-form]')].entries()) {
   const summary = document.createElement('div')
   summary.className = 'validation-summary'

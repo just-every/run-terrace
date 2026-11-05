@@ -33,7 +33,7 @@ export async function journey({inspect,assets=false}={}) {
   const sent=await h.command('maintenance.dispatch',{jobId:j.id,version:2})
   assert.equal(sent.emailOutcome??sent.outcome,'accepted');assert.equal(count(),1)
   const mail=h.messages.findLast(m=>m.to.includes(vendorFields.email)),body=mail.text
-  for(const value of ['Kitchen sink inlet leak','Replace leaking inlet valve','1840 Alder Street','$385.00',...tasks,window.startsAt.slice(0,10),'dispatch-manager@example.test',j.id])assert.ok(body.includes(value),'WORK-006 dispatch contains '+value)
+  for(const value of ['Kitchen sink inlet leak','Replace leaking inlet valve','1840 Alder Street','$385.00',...tasks,new Intl.DateTimeFormat('en-US',{timeZone:'America/Los_Angeles',month:'short',day:'numeric',year:'numeric'}).format(new Date(window.startsAt)),'dispatch-manager@example.test','WORK-'+j.id.replaceAll('-','').slice(0,8).toUpperCase()])assert.ok(body.includes(value),'WORK-006 dispatch contains '+value)
   assert.ok(!JSON.stringify(mail).includes('jordan-private@example.test')&&!JSON.stringify(mail).includes('PRIVATE-KEY-NO-EMAIL-439'),'WORK-006 does not add unapproved resident details or keys')
   await Promise.all([h.command('maintenance.dispatch',{jobId:j.id,version:2}),h.command('maintenance.dispatch',{jobId:j.id,version:2})]);assert.equal(count(),1,'WORK-006 replay never resends')
   const progress=(state,opts={})=>h.command('maintenance.progress',{jobId:j.id,state,reference:`River email: ${state}; office follows up`,...opts})

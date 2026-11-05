@@ -315,3 +315,5 @@ This slice authorizes no cutover date, collecting system, payment, mandate,
 schedule change or payout. Authentic incumbent qualification, fees, full owner
 statements, bank matching, future schedules, mandate reauthorization, stopping
 old collections and duplicate-execution prevention remain outstanding.
+
+Preview and journal results open at refreshable GET addresses. Rejected rows retain the supplied property, tenant and lease values so you can find and correct them. Journals use the namespace, date, readable row counts and source references. Result links work only for the sign-in that created them and expire after thirty minutes.

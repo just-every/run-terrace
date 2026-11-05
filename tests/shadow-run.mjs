@@ -1,3 +1,4 @@
+import {originalByHash} from './readable-files.mjs'
 import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
 import {installation,tenancyInput} from './api/harness.mjs'
@@ -125,8 +126,8 @@ export async function journey({assets=false,inspect}={}){
   }finally{await fresh.close()}
   const zip=Buffer.from(await(await h.request('/api/readable-export')).arrayBuffer()),files=new Map()
   for(let at=0;zip.readUInt32LE(at)===0x04034b50;){const size=zip.readUInt32LE(at+18),n=zip.readUInt16LE(at+26),x=zip.readUInt16LE(at+28),name=zip.subarray(at+30,at+30+n).toString();files.set(name,zip.subarray(at+30+n+x,at+30+n+x+size));at+=30+n+x+size}
-  assert.deepEqual(files.get('files/tt_shadow_runs/'+r.id+'.txt'),correctedBytes)
-  assert.ok(files.get('tables/tt_shadow_reviews.csv').toString().includes('synthetic-terrace-16'))
+  assert.deepEqual(files.get(originalByHash(files,createHash('sha256').update(correctedBytes).digest('hex')).path),correctedBytes)
+  assert.ok(files.get('Move-in records.csv').toString().includes('synthetic-terrace-16'))
   const history=await get('/api/history');for(const action of ['shadow.capture','shadow.action','shadow.review'])assert.ok(history.rows.some(x=>x.action===action))
   // Accounting retention and a peer's legal hold protect shared statement bytes.
   let req=await h.command('privacy.request',{tenancyId:leases[0].id,kind:'erase',source:'synthetic-terrace-22'})

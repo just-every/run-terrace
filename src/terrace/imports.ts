@@ -28,6 +28,10 @@ async function jobContext(c: Context, jobId: string) {
   return tenancyImportContext(c, row?.namespace ?? 'terrace-tenancies-v1')
 }
 
+async function importRecordedAt(c: Context, jobId: string) {
+  return (await one(c, "SELECT MIN(at) AS recordedAt FROM tt_audit WHERE action='import.apply' AND subject=?", jobId))?.recordedAt ?? null
+}
+
 /** POST /api/commands and owner forms both use this same authorization boundary.
  * Preview is read-only. Only import.apply accepts the owner's exact reviewed
  * fingerprint and creates/applies a durable job; it never approves a preview. */
@@ -41,16 +45,17 @@ export async function importCommand(c: Context, command: string, p: Row): Promis
       const current = await readD1ImportJob(jobId,context)
       insist(p.fingerprint === current.fingerprint, 'review_changed', 'The retained import changed. Review its journal before continuing.',409)
       insist(['queued','applying','completed'].includes(current.state), 'import_conflict', 'This import cannot continue forward. Review its journal or undo it.',409)
-      return { kit: IMPORT_KIT, job: await applyD1ImportBatches(jobId, { ...context, reviewedFingerprint: current.fingerprint }), replayed:current.state==='completed' }
+      return { kit: IMPORT_KIT, job: await applyD1ImportBatches(jobId, { ...context, reviewedFingerprint: current.fingerprint }), recordedAt: await importRecordedAt(c,jobId), zone: await officeZone(c), replayed:current.state==='completed' }
     }
     if (command === 'import.preview' || command === 'import.apply') {
       const namespace = importNamespace(p.namespace), csv = csvInput(p)
       const context = tenancyImportContext(c, namespace)
-      const plan = await planD1Import(tenancySource(csv,namespace), tenancyMapping(await officeZone(c)), context)
-      const rows = plan.entries.map(entry => ({ ref: entry.source.sourceId, sourceRow: entry.source.location.row, targetId: entry.effects[0]?.targetId, value: entry.effects[0]?.value, rejection: entry.rejection ?? null }))
+      const zone = await officeZone(c)
+      const plan = await planD1Import(tenancySource(csv,namespace), tenancyMapping(zone), context)
+      const rows = plan.entries.map(entry => ({ ref: entry.source.sourceId, sourceRow: entry.source.location.row, source: entry.source.payload, targetId: entry.effects[0]?.targetId, value: entry.effects[0]?.value, rejection: entry.rejection ?? null }))
       if (command === 'import.preview') {
         const original = plan.source.artifacts[0].original
-        return { kit: IMPORT_KIT, namespace, csv, csvBase64: original?.status === 'available' ? original.base64 : '', fingerprint: plan.fingerprint, counts: plan.counts, diagnostics: plan.diagnostics, rows, approvalRequired: true }
+        return { kit: IMPORT_KIT, namespace, zone, csv, csvBase64: original?.status === 'available' ? original.base64 : '', fingerprint: plan.fingerprint, counts: plan.counts, diagnostics: plan.diagnostics, rows, approvalRequired: true }
       }
       const fingerprint = text(p.fingerprint, 'Reviewed fingerprint', 64)
       insist(/^[a-f0-9]{64}$/.test(fingerprint) && fingerprint === plan.fingerprint, 'review_changed', 'The CSV or namespace changed. Preview it and approve the new fingerprint.', 409)
@@ -58,25 +63,25 @@ export async function importCommand(c: Context, command: string, p: Row): Promis
       const reviewed = tenancyImportContext(c, namespace, { reviewedFingerprint: fingerprint, operationKey: `terrace-csv:${fingerprint}`, reversalPolicy:'preserve-conflicts' })
       const created = await createD1ImportJob(plan, reviewed)
       const job = ['undone','undoing','rolled_back','rolling_back'].includes(created.state) ? created : await applyD1ImportBatches(created.id, reviewed)
-      return { kit: IMPORT_KIT, job, replayed:['completed','undone','undoing','rolled_back','rolling_back'].includes(created.state) }
+      return { kit: IMPORT_KIT, job, recordedAt: await importRecordedAt(c,job.id) ?? (created.state === 'queued' ? c.now : null), zone, replayed:['completed','undone','undoing','rolled_back','rolling_back'].includes(created.state) }
     }
     const jobId = text(p.jobId, 'Import job', 100), context = await jobContext(c,jobId)
     if (['import.undo','import.compensation.preview','import.compensate'].includes(command)) return await importReversal(c,command,p,context)
     const originals = await readD1ImportOriginals(jobId,context)
     const journal = await all(c, 'SELECT action,position,end_position,fence FROM ik_batches WHERE job_id=? ORDER BY fence,position',jobId)
-    const provenance = await all(c, 'SELECT source_identity,target_kind,target_id,reversed,record_json FROM ik_provenance WHERE job_id=? ORDER BY ordinal,effect_ordinal',jobId)
+    const provenance = await all(c, 'SELECT ordinal,source_identity,target_kind,target_id,reversed,record_json FROM ik_provenance WHERE job_id=? ORDER BY ordinal,effect_ordinal',jobId)
     const job = await readD1ImportJob(jobId,context)
     const undoReport=await readD1ImportUndoReport(jobId,context),approvals=await all(c,'SELECT * FROM tt_import_compensations WHERE job_id=? ORDER BY at,id',jobId)
     const reconciliation=provenance.map(row=>{
       const disposition=undoReport.dispositions.find(d=>d.targetId===row.target_id),approval=approvals.find(a=>JSON.parse(a.target_ids).includes(row.target_id))
       return {sourceIdentity:row.source_identity,targetId:row.target_id,status:row.reversed?'removed':disposition?.disposition==='retained'?`imported, retained by compensation ${approval?.id??'recorded'}`:'imported',compensationId:approval?.id??null}
     })
-    return { kit: IMPORT_KIT, job, outcome:labelOutcome(job,undoReport.dispositions), undoReport, approvals, reconciliation, originals, journal, provenance, erasureJournal: await readD1ErasureJournal(context) }
+    return { kit: IMPORT_KIT, job, recordedAt: await importRecordedAt(c,jobId), zone: await officeZone(c), outcome:labelOutcome(job,undoReport.dispositions), undoReport, approvals, reconciliation, originals, journal, provenance, erasureJournal: await readD1ErasureJournal(context) }
   } catch (error) {
     if (error instanceof Fault) throw error
     const code = error instanceof Error ? error.message : ''
     if (code==='IMPORT_JOB_RETIRED'&&command.startsWith('import.compen'))throw unavailable()
-    if (/^IMPORT_JOB_RETIRED$/.test(code)) throw new Fault('import_retired', `Import retired by erasure; receipt ${(error as Error & {receiptId?: string}).receiptId ?? 'recorded in erasure journal'}.`,410)
+    if (/^IMPORT_JOB_RETIRED$/.test(code)) throw new Fault('import_retired', 'This import was retired after erasure. See the import erasure receipts for its record.',410)
     if (/^(IMPORT_JOB_NOT_FOUND|JOB_BINDING_MISMATCH)$/.test(code)) throw new Fault('not_found','Import job not found.',404)
     if (code.includes('IMPORT_ATOMIC_GUARD') || code.includes('IMPORT_FINAL_GUARD')) throw new Fault('import_conflict','Your owner access, the import, or a tenancy changed. Reload and review it again.',409)
     if (code === 'NATIVE_EDIT_CONFLICT') throw new Fault('import_conflict','A tenancy has later edits or related work. Undo preserved that work and stopped.',409)
@@ -89,10 +94,10 @@ export async function importCommand(c: Context, command: string, p: Row): Promis
 
 export async function importData(c: Context) {
   await importOwner(c)
-  const jobs = await all(c, `SELECT id,namespace,mapping_version AS mappingVersion,fingerprint,state,CASE WHEN state='undone' AND reversal_policy='preserve-conflicts' AND EXISTS(SELECT 1 FROM ik_d1_reversal_reports r WHERE r.job_id=ik_jobs.id AND json_extract(r.record_json,'$.disposition')='retained') THEN 'compensated' ELSE state END AS outcome,checkpoint,total,error FROM ik_jobs WHERE destination=? AND principal_id=? ORDER BY rowid DESC LIMIT 30`,IMPORT_DESTINATION,'role:owner')
+  const jobs = await all(c, `SELECT id,namespace,mapping_version AS mappingVersion,fingerprint,state,CASE WHEN state='undone' AND reversal_policy='preserve-conflicts' AND EXISTS(SELECT 1 FROM ik_d1_reversal_reports r WHERE r.job_id=ik_jobs.id AND json_extract(r.record_json,'$.disposition')='retained') THEN 'compensated' ELSE state END AS outcome,checkpoint,total,error,(SELECT MIN(at) FROM tt_audit WHERE action='import.apply' AND subject=ik_jobs.id) AS recordedAt FROM ik_jobs WHERE destination=? AND principal_id=? ORDER BY rowid DESC LIMIT 30`,IMPORT_DESTINATION,'role:owner')
   const erasureJournal = await readD1ErasureJournal(tenancyImportContext(c,'terrace-tenancies-v1'))
   await importOwner(c)
-  return { kit: IMPORT_KIT, jobs, erasureJournal, migrations: await migrationData(c) }
+  return { kit: IMPORT_KIT, jobs, erasureJournal, zone: await officeZone(c), migrations: await migrationData(c) }
 }
 
 /** The caller supplies full native erasure and portability checkpoint statements.
