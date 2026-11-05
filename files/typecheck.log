@@ -1,0 +1,4 @@
+
+> @residential/terrace@0.1.4 typecheck /home/agent/rer-consolidation/work/sx-terrace-c-f88-pc1/run-terrace
+> tsc --build --incremental
+

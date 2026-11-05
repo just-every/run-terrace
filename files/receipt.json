@@ -1,0 +1,111 @@
+{
+  "start_head": "c4676d0dd270f49f68976d87d09c98d5de79847b",
+  "branch": "cloud/sx-terrace-c-f88-pc1",
+  "prior_verify_run": 42103858627,
+  "github_invocations": 6,
+  "counts_before": {
+    "done": 59,
+    "partial": 56,
+    "missing": 43
+  },
+  "clause_before": "partial",
+  "test_count": 50,
+  "test_cap": 200,
+  "setup_exit": 0,
+  "typecheck_exit": 0,
+  "source_reproduction": {
+    "head": "c4676d0dd270f49f68976d87d09c98d5de79847b",
+    "job": "127513511207",
+    "command": "CI=true WRANGLER_SEND_METRICS=false PLAYWRIGHT_SKIP_BROWSER_GC=1 SHARD=source node scripts/verify-ci.mjs source",
+    "test": "node scripts/contract-docs.mjs check",
+    "exit": 1,
+    "failure": "Error: Stale contract projection: ACCEPTANCE.md",
+    "classification": "expected landing-only generated projection"
+  },
+  "log_archive_reads": [
+    {
+      "command": "gh run view 42103858627 --repo just-every/run-terrace --job 127513511207 --log-failed",
+      "exit": 0,
+      "bytes": 0
+    },
+    {
+      "command": "gh run view 42103858627 --repo just-every/run-terrace --job 127513511467 --log-failed",
+      "exit": 0,
+      "bytes": 0
+    },
+    {
+      "command": "gh run view 42103858627 --repo just-every/run-terrace --job 127513511467 --log",
+      "exit": 0,
+      "bytes": 0
+    }
+  ],
+  "head": "c4676d0dd270f49f68976d87d09c98d5de79847b",
+  "runtime_reproduction": {
+    "head": "c4676d0dd270f49f68976d87d09c98d5de79847b",
+    "job": "127513511467",
+    "command": "CI=true WRANGLER_SEND_METRICS=false PLAYWRIGHT_SKIP_BROWSER_GC=1 SHARD=runtime TERRACE_CHROMIUM_PATH=/usr/bin/chromium perl -e 'alarm 1200; exec @ARGV' -- node scripts/verify-ci.mjs runtime",
+    "exit": 0,
+    "failure": null,
+    "result": "Did not reproduce prior GitHub failure; no speculative repair"
+  },
+  "counts_after": {
+    "done": 59,
+    "partial": 56,
+    "missing": 43
+  },
+  "clause_after": "partial",
+  "new_product_commits": 0,
+  "product_diff_files": [],
+  "views_write_exit": 0,
+  "views_check_exit": 0,
+  "views_restored_from": "origin/main",
+  "lock_write_exit": 0,
+  "lock_check_exit": 0,
+  "migration_ledger": "not applicable; no migration edits",
+  "browser_proof_exit": 0,
+  "corpus_integrity_exit": 0,
+  "public_renderer_exit": 0,
+  "disposition": "BLOCKED: runtime Verify failure did not reproduce; failed-job archives returned zero bytes",
+  "finished_at": "2026-11-05T22:51:06.728474+00:00",
+  "ci": {
+    "run": 42103858627,
+    "head": "c4676d0dd270f49f68976d87d09c98d5de79847b",
+    "status": "completed",
+    "conclusion": "failure",
+    "event": "push",
+    "url": "https://github.com/just-every/run-terrace/actions/runs/42103858627"
+  },
+  "screens": [
+    {
+      "path": "screens/appfolio-1440.png",
+      "bytes": 211716,
+      "sha256": "5d1f2df746fa1b58af998617c31b612443bfc09a9e46c14e3617b40758c5fe60"
+    },
+    {
+      "path": "screens/appfolio-390.png",
+      "bytes": 91345,
+      "sha256": "14620c5a34f56d67e7e12154717251f126f7576a22e5e54cf88329ad6ce54ece"
+    },
+    {
+      "path": "screens/buildium-1440.png",
+      "bytes": 191932,
+      "sha256": "cc68fdbdd58e012033c0007a4477053d04bee5c91c9e3aa0b9a80a36668f494e"
+    },
+    {
+      "path": "screens/buildium-390.png",
+      "bytes": 88544,
+      "sha256": "f8b841f7e7493e9e58f9a18cfb40173b3c049cb7719c16b51052126d44bd8b77"
+    },
+    {
+      "path": "screens/rent-manager-1440.png",
+      "bytes": 192189,
+      "sha256": "6cff1c72849a2a8e9faac332353ac68b3608a2c2a6513efc2035e1f5a142a3a1"
+    },
+    {
+      "path": "screens/rent-manager-390.png",
+      "bytes": 83107,
+      "sha256": "ba2ac5c2ac6c90b454ad1c98b86993b2a965d0df26cf912689d01e9182f1caa0"
+    }
+  ],
+  "runtime_annotation": "Process completed with exit code 1."
+}

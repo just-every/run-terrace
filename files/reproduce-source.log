@@ -1,0 +1,20 @@
+> pnpm run verify:app
+
+> @residential/terrace@0.1.4 verify:app /home/agent/rer-consolidation/work/sx-terrace-c-f88-pc1/run-terrace
+> node scripts/verify-app.mjs
+
+> pnpm run check --profile first-party
+
+> @residential/terrace@0.1.4 check /home/agent/rer-consolidation/work/sx-terrace-c-f88-pc1/run-terrace
+> rer check --profile first-party
+
+> node scripts/contract-docs.mjs check
+file:///home/agent/rer-consolidation/work/sx-terrace-c-f88-pc1/run-terrace/scripts/contract-docs.mjs:73
+ else{let current;try{current=await readFile(path,'utf8')}catch{};if(current!==bytes)throw Error('Stale contract projection: '+path)}
+                                                                                           ^
+
+Error: Stale contract projection: ACCEPTANCE.md
+    at file:///home/agent/rer-consolidation/work/sx-terrace-c-f88-pc1/run-terrace/scripts/contract-docs.mjs:73:92
+
+Node.js v22.20.0
+ ELIFECYCLE  Command failed with exit code 1.
