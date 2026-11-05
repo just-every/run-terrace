@@ -219,8 +219,10 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
   for (const width of [1440, 390]) {
    await visitor.setViewportSize({ width, height: width === 1440 ? 900 : 844 })
    for (const name of Object.values(names)) {
-    await visitor.getByRole('heading', { name: name + ' required named gaps' }).scrollIntoViewIfNeeded()
-    await visitor.screenshot({ path: join(directory, name.toLowerCase().replaceAll(' ', '-') + '-' + width + '.png') })
+    for (const [section, suffix] of [['required named gaps', 'gaps'], ['discovery audit', 'discovery']]) {
+     await visitor.getByRole('heading', { name: name + ' ' + section, exact: true }).scrollIntoViewIfNeeded()
+     await visitor.screenshot({ path: join(directory, name.toLowerCase().replaceAll(' ', '-') + '-' + suffix + '-' + width + '.png') })
+    }
    }
   }
   await visitor.setViewportSize({ width: 1440, height: 900 })
