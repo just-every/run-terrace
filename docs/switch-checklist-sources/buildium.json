@@ -1208,6 +1208,70 @@
       "section": "Owner and vendor tax filing",
       "line": 79,
       "quote": "Send digital copies along with the hard paper copy we send to recipients with online 1099 filing. Digital copies are completely free when you file with Buildium."
+    },
+    {
+      "id": "bu-company-04",
+      "label": "Company cash and undeposited funds review",
+      "source": "bu-company",
+      "section": "Company financials",
+      "line": 74,
+      "quote": "Use real estate accounting software to get a snapshot of your company cash and net income, and quickly take action on any undeposited funds. Manage incoming rent and security deposits, collect and automate fees, and pay bills online easily."
+    },
+    {
+      "id": "bu-company-05",
+      "label": "Rent and security deposit accounting",
+      "source": "bu-company",
+      "section": "Company financials",
+      "line": 74,
+      "quote": "Use real estate accounting software to get a snapshot of your company cash and net income, and quickly take action on any undeposited funds. Manage incoming rent and security deposits, collect and automate fees, and pay bills online easily."
+    },
+    {
+      "id": "bu-company-06",
+      "label": "Company fee collection and automation",
+      "source": "bu-company",
+      "section": "Company financials",
+      "line": 74,
+      "quote": "Use real estate accounting software to get a snapshot of your company cash and net income, and quickly take action on any undeposited funds. Manage incoming rent and security deposits, collect and automate fees, and pay bills online easily."
+    },
+    {
+      "id": "bu-company-07",
+      "label": "Company online bill payment",
+      "source": "bu-company",
+      "section": "Company financials",
+      "line": 74,
+      "quote": "Use real estate accounting software to get a snapshot of your company cash and net income, and quickly take action on any undeposited funds. Manage incoming rent and security deposits, collect and automate fees, and pay bills online easily."
+    },
+    {
+      "id": "bu-scheduled-help-21",
+      "label": "Scheduled template name and description",
+      "source": "bu-scheduled-help",
+      "section": "Schedule Batched Reports",
+      "line": 22,
+      "quote": "Enter the Name and Description for the template."
+    },
+    {
+      "id": "bu-scheduled-help-22",
+      "label": "Owner-specific report entity selection",
+      "source": "bu-scheduled-help",
+      "section": "Schedule Batched Reports",
+      "line": 31,
+      "quote": "Note: If your selected ‘Report type’ is “Rental owner”, when adding entities, instead of property and company names, you will have a list of rental owners (people) to choose from."
+    },
+    {
+      "id": "bu-scheduled-help-23",
+      "label": "Schedulable report eligibility",
+      "source": "bu-scheduled-help",
+      "section": "Schedule Batched Reports",
+      "line": 35,
+      "quote": "Note: Currently, only 14 reports support scheduling. This means you’ll see different reports when creating a scheduled template compared to a non-scheduled template."
+    },
+    {
+      "id": "bu-scheduled-help-24",
+      "label": "Unscheduled custom-date report filters",
+      "source": "bu-scheduled-help",
+      "section": "Schedule Batched Reports",
+      "line": 39,
+      "quote": "Note: For custom date filters, we only recommend custom dates for unscheduled, one-time reports."
     }
   ]
 }

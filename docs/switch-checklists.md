@@ -14,19 +14,19 @@ Public HTTPS response captured on the stated UTC date. Capture text decodes HTML
 
 **Incomplete inventory:** Complete official-source inventory remains unqualified: selected public pages are only partially audited; help hubs, account-only documentation, nested source areas and linked material may contain omitted workflows.
 
-244 inventoried workflows from 12 partially audited pages; 0 unaudited captures. [Discovery register](switch-checklist-sources/appfolio-discovery.txt): 620 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
+247 inventoried workflows from 12 partially audited pages; 0 unaudited captures. [Discovery register](switch-checklist-sources/appfolio-discovery.txt): 620 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
 
 Discovery raw SHA-256: `fb6caeb03cac37cae19ab8e5ae1dca27374d82af0de5fb299e3048f081740190`. Retained register SHA-256: `f377f2fc41e5df91d8f8d6ad4dd7e5538ed5a34e5b0a23f18560ad9a0cb77703`.
 
 **Unaudited area — Technician GPS and scheduled reports:** Exact capability boundaries in unreviewed or inaccessible official documentation remain unaudited. Association violations GPS and workflow schedule triggers do not establish technician location tracking or report delivery.
 
-**Captured source areas awaiting review:** 196 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
+**Captured source areas awaiting review:** 193 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
 
 ### Buildium source coverage
 
 **Incomplete inventory:** Complete official-source inventory remains unqualified: selected public pages are only partially audited; help hubs, account-only documentation, nested source areas and linked material may contain omitted workflows.
 
-151 inventoried workflows from 17 partially audited pages; 0 unaudited captures. [Discovery register](switch-checklist-sources/buildium-discovery.txt): 171 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
+159 inventoried workflows from 17 partially audited pages; 0 unaudited captures. [Discovery register](switch-checklist-sources/buildium-discovery.txt): 171 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
 
 Discovery raw SHA-256: `fd9c781afb1796c103da3fb7bfd4c3d94d67972bd76e3256e499ba00fe4c0d5b`. Retained register SHA-256: `9e822554e4881605f8b1dfafe1bdcd13c3197a622312b637b5f1b1eb692d983c`.
 
@@ -34,23 +34,23 @@ Discovery raw SHA-256: `fd9c781afb1796c103da3fb7bfd4c3d94d67972bd76e3256e499ba00
 
 **Unaudited area — Related scheduled-report help articles and supported report details:** The official Schedule Batched Reports article now loads in a clean browser and its documented workflows remain gaps. Linked batched-report articles, available-report details and any authenticated documentation remain unaudited; this retrieved article does not establish complete Buildium coverage. [Official source area](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports)
 
-**Captured source areas awaiting review:** 119 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
+**Captured source areas awaiting review:** 101 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
 
 ### Rent Manager source coverage
 
 **Incomplete inventory:** Complete official-source inventory remains unqualified: selected public pages are only partially audited; help hubs, account-only documentation, nested source areas and linked material may contain omitted workflows.
 
-147 inventoried workflows from 12 partially audited pages; 0 unaudited captures. [Discovery register](switch-checklist-sources/rent-manager-discovery.txt): 76 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
+149 inventoried workflows from 12 partially audited pages; 0 unaudited captures. [Discovery register](switch-checklist-sources/rent-manager-discovery.txt): 76 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
 
 Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b3cc3c941`. Retained register SHA-256: `6aaaa762d45b866d37e91a17909998655d1d125629529f67d155c9d8c8476d5c`.
 
 **Unaudited area — Remaining leasing, communications, portals, customization and authenticated help:** Not exhaustively audited; the selected accounting and maintenance sources do not establish a complete inventory.
 
-**Captured source areas awaiting review:** 134 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
+**Captured source areas awaiting review:** 129 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
 
 ## AppFolio checklist
 
-**Partial official-source inventory. 244 workflows; additional source areas remain unaudited.**
+**Partial official-source inventory. 247 workflows; additional source areas remain unaudited.**
 
 ### AppFolio required named gaps
 
@@ -2506,9 +2506,39 @@ Documented in [Telephone maintenance intake · af-smart-blog-01](#telephone-main
 
 > Handling maintenance requests around the clock shouldn’t mean your team is on-call 24/7. AppFolio's suite of Smart Maintenance tools helps you stay ahead of resident requests and deliver exceptional experiences, without the overwhelm.
 
+#### Income and owner statement reporting · af-reports-04
+
+**Gap:** Complete income and owner financial statements with categorized costs and opening and closing balances remain unqualified.
+
+**Related replacements:** [ACCT-012](#clause-acct-012) (partial); [ACCT-013](#clause-acct-013) (done)
+
+**Official source:** [af-reports](https://www.appfolio.com/blog/tips-and-tricks-for-customizing-your-appfolio-reports), captured 2026-11-05; section “Performance reporting and Report Builder”, [capture](switch-checklist-sources/af-reports.txt) line 16.
+
+> For example, you may rely on reports like an income statement, which tells you whether revenue is sufficient to pay off all expenses and, of course, the property’s net operating income. There are also owner statements, which help maintain accurate and categorized accounts of financial transactions, including utilities and contractor payments. Owner statements typically include beginning and ending balances.
+
+#### Native operational report data · af-reports-05
+
+**Gap:** Combining native day-to-day data without duplicate entry remains unqualified for the documented report builder.
+
+**Related replacements:** [REPORT-005](#clause-report-005) (done)
+
+**Official source:** [af-reports](https://www.appfolio.com/blog/tips-and-tricks-for-customizing-your-appfolio-reports), captured 2026-11-05; section “Performance reporting and Report Builder”, [capture](switch-checklist-sources/af-reports.txt) line 24.
+
+> With dedicated property management reporting technology, you can build reports using day-to-day data that already exists in the system. There’s no need for double data entry, removing another vector for human error.
+
+#### Base report selection · af-reports-06
+
+**Gap:** Selecting and extending the incumbent base reports remains unqualified; a custom Terrace report alone does not establish the same data or door.
+
+**Related replacements:** [REPORT-005](#clause-report-005) (done)
+
+**Official source:** [af-reports](https://www.appfolio.com/blog/tips-and-tricks-for-customizing-your-appfolio-reports), captured 2026-11-05; section “Performance reporting and Report Builder”, [capture](switch-checklist-sources/af-reports.txt) line 29.
+
+> The user selects a base report that already contains most of the information they are looking for. For our example, let’s use the Rent Roll as a base report.
+
 ## Buildium checklist
 
-**Partial official-source inventory. 151 workflows; additional source areas remain unaudited.**
+**Partial official-source inventory. 159 workflows; additional source areas remain unaudited.**
 
 ### Buildium required named gaps
 
@@ -4042,9 +4072,89 @@ Documented in [Scheduled report portal delivery · bu-scheduled-help-02](#schedu
 
 > Send digital copies along with the hard paper copy we send to recipients with online 1099 filing. Digital copies are completely free when you file with Buildium.
 
+#### Company cash and undeposited funds review · bu-company-04
+
+**Gap:** Company cash, net income and undeposited-fund actions have no qualified corporate accounting replacement.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [bu-company](https://www.buildium.com/features/company-financials/), captured 2026-11-05; section “Company financials”, [capture](switch-checklist-sources/bu-company.txt) line 74.
+
+> Use real estate accounting software to get a snapshot of your company cash and net income, and quickly take action on any undeposited funds. Manage incoming rent and security deposits, collect and automate fees, and pay bills online easily.
+
+#### Rent and security deposit accounting · bu-company-05
+
+**Gap:** Incoming rent and security-deposit accounting on the documented accounting surface remain unqualified.
+
+**Related replacements:** [ACCT-003](#clause-acct-003) (missing)
+
+**Official source:** [bu-company](https://www.buildium.com/features/company-financials/), captured 2026-11-05; section “Company financials”, [capture](switch-checklist-sources/bu-company.txt) line 74.
+
+> Use real estate accounting software to get a snapshot of your company cash and net income, and quickly take action on any undeposited funds. Manage incoming rent and security deposits, collect and automate fees, and pay bills online easily.
+
+#### Company fee collection and automation · bu-company-06
+
+**Gap:** Company fee collection and automation remain unqualified; manual prepared fees do not replace collection.
+
+**Related replacements:** [PAY-006](#clause-pay-006) (partial)
+
+**Official source:** [bu-company](https://www.buildium.com/features/company-financials/), captured 2026-11-05; section “Company financials”, [capture](switch-checklist-sources/bu-company.txt) line 74.
+
+> Use real estate accounting software to get a snapshot of your company cash and net income, and quickly take action on any undeposited funds. Manage incoming rent and security deposits, collect and automate fees, and pay bills online easily.
+
+#### Company online bill payment · bu-company-07
+
+**Gap:** Online company bill payment has no qualified replacement; staff-recorded invoices do not execute payment.
+
+**Related replacements:** [ACCT-008](#clause-acct-008) (missing)
+
+**Official source:** [bu-company](https://www.buildium.com/features/company-financials/), captured 2026-11-05; section “Company financials”, [capture](switch-checklist-sources/bu-company.txt) line 74.
+
+> Use real estate accounting software to get a snapshot of your company cash and net income, and quickly take action on any undeposited funds. Manage incoming rent and security deposits, collect and automate fees, and pay bills online easily.
+
+#### Scheduled template name and description · bu-scheduled-help-21
+
+**Gap:** Named scheduled batch templates with retained descriptions remain unqualified.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Schedule Batched Reports”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 22.
+
+> Enter the Name and Description for the template.
+
+#### Owner-specific report entity selection · bu-scheduled-help-22
+
+**Gap:** Owner entities rather than property or company entities require matching supported selection and output.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Schedule Batched Reports”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 31.
+
+> Note: If your selected ‘Report type’ is “Rental owner”, when adding entities, instead of property and company names, you will have a list of rental owners (people) to choose from.
+
+#### Schedulable report eligibility · bu-scheduled-help-23
+
+**Gap:** The documented subset of reports eligible for scheduling remains unqualified; arbitrary report generation does not qualify the supported set.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Schedule Batched Reports”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 35.
+
+> Note: Currently, only 14 reports support scheduling. This means you’ll see different reports when creating a scheduled template compared to a non-scheduled template.
+
+#### Unscheduled custom-date report filters · bu-scheduled-help-24
+
+**Gap:** Custom-date one-time reports remain a separate unqualified capability from recurring scheduled reporting.
+
+**Related replacements:** [REPORT-005](#clause-report-005) (done); [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Schedule Batched Reports”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 39.
+
+> Note: For custom date filters, we only recommend custom dates for unscheduled, one-time reports.
+
 ## Rent Manager checklist
 
-**Partial official-source inventory. 147 workflows; additional source areas remain unaudited.**
+**Partial official-source inventory. 149 workflows; additional source areas remain unaudited.**
 
 ### Rent Manager required named gaps
 
@@ -5538,6 +5648,26 @@ Documented in [Scheduled reports · rm-schedules-01](#scheduled-reports-rm-sched
 
 > AmRent’s screening workflows incorporate your resident selection criteria, helping you find an ideal fit for your property.
 
+#### Simultaneous report batches · rm-schedules-05
+
+**Gap:** Combining and running several reports simultaneously with each recipient option retained remains unqualified.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [rm-schedules](https://www.rentmanager.com/report-automation/), captured 2026-11-05; section “Report Automation”, [capture](switch-checklist-sources/rm-schedules.txt) line 106.
+
+> Tedious tasks like report generation and delivery can consume one of your most valuable resources: time. With Report Batches, users can combine a series of reports and run them simultaneously to save time and promote seamless workflows. You can also save the required options of each report to reflect the needs of specific recipients.
+
+#### Scheduled report email delivery · rm-schedules-06
+
+**Gap:** Scheduled email delivery to selected recipients remains unqualified; a manual export or prepared delivery is not automatic delivery.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [rm-schedules](https://www.rentmanager.com/report-automation/), captured 2026-11-05; section “Report Automation”, [capture](switch-checklist-sources/rm-schedules.txt) line 108.
+
+> Report Automation takes the convenience and efficiency of Report Batches to the next level. This time-saving feature allows you to schedule Report Batches automatically at a set frequency, and deliver the report results via email to whomever you choose. You can easily customize and manage the list of Report Batches by reordering and sharing ownership of them with other users.
+
 ## Discovery audit register
 
 Every URL in each retained discovery capture is accounted for below, including pages outside Terrace product boundaries. A partially audited capture qualifies only its inventoried quotations; every other URL remains unaudited. Discovery is itself incomplete: omitted indexes, nested links and authenticated documentation remain open.
@@ -6436,6 +6566,8 @@ Raw SHA-256: `24fc945167f735a7a95c556df693e59b8dc4909d9bd1992f0aaa126662b65505`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 25 lines with inventoried workflows; 0 lines of reviewed context; 142 unaudited lines.
+
 - af-accounting lines 1–36, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
 - af-accounting lines 37–37, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-02`, `af-accounting-20`.
 - af-accounting lines 38–42, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
@@ -6491,6 +6623,8 @@ Raw SHA-256: `594ccd7df985cb985087e502e10e736d19538b259a6e026f4ca68fcb6ef17727`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 17 lines with inventoried workflows; 0 lines of reviewed context; 162 unaudited lines.
+
 - af-maintenance lines 1–24, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
 - af-maintenance lines 25–25, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-01`.
 - af-maintenance lines 26–36, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
@@ -6534,6 +6668,8 @@ Raw SHA-256: `7929adec16783deacd8fe9b19196530c164fd67e47732969f0925b9c78538d5c`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 5 lines with inventoried workflows; 0 lines of reviewed context; 139 unaudited lines.
+
 - bu-accounting lines 1–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - bu-accounting lines 74–74, Follow every transaction: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-accounting-01`.
 - bu-accounting lines 75–78, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
@@ -6552,17 +6688,25 @@ Raw SHA-256: `7929adec16783deacd8fe9b19196530c164fd67e47732969f0925b9c78538d5c`.
 
 Raw SHA-256: `ccb2fbedf6acb9b79583c32dabf8759208a5548f09e68f4ebdfe94deb4c5fcbf`. Capture SHA-256: `1e92182459a2e08b193d4093f9e68b4b88307b68f2a87c65fb4266e9d4201585`.
 
-**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `bu-company-01`, `bu-company-02`, `bu-company-03`.
+**Audit: partial.** All retained normalized text is reconciled to workflow statements or reviewed context. Linked articles, full source revisions, embedded media and authenticated documentation remain unaudited; this retained-text review establishes no complete official-source inventory. Reconciled source workflows: `bu-company-01`, `bu-company-02`, `bu-company-03`, `bu-company-04`, `bu-company-05`, `bu-company-06`, `bu-company-07`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- bu-company lines 1–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- bu-company lines 72–72, Track the books for your business with the same accuracy and efficiency as your managed properties.: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-company-01`.
-- bu-company lines 73–78, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- bu-company lines 79–79, Enter data without a hassle: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-company-02`.
-- bu-company lines 80–80, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- bu-company lines 81–81, View and report on key financial metrics: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-company-03`.
-- bu-company lines 82–120, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+**Retained text accounting:** 4 lines with inventoried workflows; 116 lines of reviewed context; 0 unaudited lines.
+
+**Retained-text review:** 2026-11-05; bound to capture SHA-256 `1e92182459a2e08b193d4093f9e68b4b88307b68f2a87c65fb4266e9d4201585`. All retained lines are accounted for. Linked articles, embedded media and authenticated documentation remain unqualified; this is not a complete incumbent inventory.
+
+- bu-company lines 1–65, Site navigation and feature links: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-company lines 66–71, Company accounting headings, trial invitation and testimonial: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-company lines 72–72, Track the books for your business with the same accuracy and efficiency as your managed properties.: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-company-01`.
+- bu-company lines 73–73, Company accounting headings, trial invitation and testimonial: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-company lines 74–74, Company financials: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-company-04`, `bu-company-05`, `bu-company-06`, `bu-company-07`.
+- bu-company lines 75–78, Company accounting headings, trial invitation and testimonial: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-company lines 79–79, Enter data without a hassle: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-company-02`.
+- bu-company lines 80–80, Company accounting headings, trial invitation and testimonial: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-company lines 81–81, View and report on key financial metrics: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-company-03`.
+- bu-company lines 82–84, Company accounting headings, trial invitation and testimonial: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-company lines 85–120, Trial form, newsletter, navigation and footer: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
 
 ### bu-telephone
 
@@ -6573,6 +6717,8 @@ Raw SHA-256: `b4a0fc4f73735f49c44f58637e894b2f1c80d1af6382a917db482a18a0bcce77`.
 **Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `bu-telephone-01`, `bu-telephone-02`, `bu-telephone-03`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 3 lines with inventoried workflows; 0 lines of reviewed context; 132 unaudited lines.
 
 - bu-telephone lines 1–68, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - bu-telephone lines 69–69, A trusted call center service to help you satisfy residents while reducing property risk: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-telephone-01`.
@@ -6591,6 +6737,8 @@ Raw SHA-256: `11254f5abfd5bb0f462805a65cc5be6dd184b643bf26ace384ebab2b1d2d8c56`.
 **Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `bu-maintenance-01`, `bu-maintenance-02`, `bu-maintenance-03`, `bu-maintenance-04`, `bu-maintenance-05`, `bu-maintenance-06`, `bu-maintenance-07`, `bu-maintenance-08`, `bu-maintenance-09`, `bu-maintenance-10`, `bu-maintenance-11`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 11 lines with inventoried workflows; 0 lines of reviewed context; 178 unaudited lines.
 
 - bu-maintenance lines 1–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - bu-maintenance lines 74–74, Get more time back with the Lumina AI Maintenance Agent: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-01`.
@@ -6620,6 +6768,8 @@ Raw SHA-256: `b9e14e16602a1717201c0723b4c7b3833d14987d5e13ef103bc3e3a35fc6c064`.
 **Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `rm-accounting-01`, `rm-accounting-02`, `rm-accounting-03`, `rm-accounting-04`, `rm-accounting-05`, `rm-accounting-06`, `rm-accounting-07`, `rm-accounting-08`, `rm-accounting-09`, `rm-accounting-10`, `rm-accounting-11`, `rm-accounting-12`, `rm-accounting-13`, `rm-accounting-14`, `rm-accounting-15`, `rm-accounting-16`, `rm-accounting-17`, `rm-accounting-18`, `rm-accounting-19`, `rm-accounting-20`, `rm-accounting-21`, `rm-accounting-22`, `rm-accounting-23`, `rm-accounting-24`, `rm-accounting-25`, `rm-accounting-26`, `rm-accounting-27`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 27 lines with inventoried workflows; 0 lines of reviewed context; 268 unaudited lines.
 
 - rm-accounting lines 1–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - rm-accounting lines 106–106, Complete Double-Entry Accounting System: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-01`.
@@ -6687,6 +6837,8 @@ Raw SHA-256: `8c37976fd547cc9de6ab6f79452d5abe19b5f8db2a65d4e24341e441c6566d73`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 19 lines with inventoried workflows; 0 lines of reviewed context; 254 unaudited lines.
+
 - rm-maintenance lines 1–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - rm-maintenance lines 106–106, Keep Track with Service Issues: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-01`.
 - rm-maintenance lines 107–107, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
@@ -6736,6 +6888,8 @@ Raw SHA-256: `6568cf30e1522030f36026cea16e6dd2049698e78b9ae638ca4883e28283991c`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 11 lines with inventoried workflows; 0 lines of reviewed context; 250 unaudited lines.
+
 - rm-reports lines 1–107, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - rm-reports lines 108–108, Over 450 Pre-Defined Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-01`.
 - rm-reports lines 109–109, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
@@ -6766,19 +6920,24 @@ Raw SHA-256: `6568cf30e1522030f36026cea16e6dd2049698e78b9ae638ca4883e28283991c`.
 
 Raw SHA-256: `91f11f2f4f3550c8793e8e2547069d2a948415afaf28c25f128385b2d2c9f015`. Capture SHA-256: `eb96d403b7460e37dfb20f7f02030bf260d0f41a0524811b4fc0d87f7058dca3`.
 
-**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `rm-schedules-01`, `rm-schedules-02`, `rm-schedules-03`, `rm-schedules-04`.
+**Audit: partial.** All retained normalized text is reconciled to workflow statements or reviewed context. Linked articles, full source revisions, embedded media and authenticated documentation remain unaudited; this retained-text review establishes no complete official-source inventory. Reconciled source workflows: `rm-schedules-01`, `rm-schedules-02`, `rm-schedules-03`, `rm-schedules-04`, `rm-schedules-05`, `rm-schedules-06`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- rm-schedules lines 1–102, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- rm-schedules lines 103–103, Report Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-schedules-01`.
-- rm-schedules lines 104–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- rm-schedules lines 106–106, Report Batches: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-schedules-02`.
-- rm-schedules lines 107–107, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- rm-schedules lines 108–108, Schedule Report Batches: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-schedules-03`.
-- rm-schedules lines 109–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- rm-schedules lines 112–112, History Tracking: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-schedules-04`.
-- rm-schedules lines 113–233, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+**Retained text accounting:** 4 lines with inventoried workflows; 229 lines of reviewed context; 0 unaudited lines.
+
+**Retained-text review:** 2026-11-05; bound to capture SHA-256 `eb96d403b7460e37dfb20f7f02030bf260d0f41a0524811b4fc0d87f7058dca3`. All retained lines are accounted for. Linked articles, embedded media and authenticated documentation remain unqualified; this is not a complete incumbent inventory.
+
+- rm-schedules lines 1–102, Site navigation and feature links: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- rm-schedules lines 103–103, Report Automation: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `rm-schedules-01`.
+- rm-schedules lines 104–105, Report automation headings, repeated summaries and testimonial: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- rm-schedules lines 106–106, Report Batches: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `rm-schedules-02`, `rm-schedules-05`.
+- rm-schedules lines 107–107, Report automation headings, repeated summaries and testimonial: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- rm-schedules lines 108–108, Schedule Report Batches: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `rm-schedules-03`, `rm-schedules-06`.
+- rm-schedules lines 109–111, Report automation headings, repeated summaries and testimonial: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- rm-schedules lines 112–112, History Tracking: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `rm-schedules-04`.
+- rm-schedules lines 113–117, Report automation headings, repeated summaries and testimonial: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- rm-schedules lines 118–233, Support links, product navigation and footer: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
 
 ### rm-telephone
 
@@ -6789,6 +6948,8 @@ Raw SHA-256: `dcd3a58fe50b541556caca2b783986c716ca4cb69d3b233514506eca225cccd4`.
 **Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `rm-telephone-01`, `rm-telephone-02`, `rm-telephone-03`, `rm-telephone-04`, `rm-telephone-05`, `rm-telephone-06`, `rm-telephone-07`, `rm-telephone-08`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 8 lines with inventoried workflows; 0 lines of reviewed context; 252 unaudited lines.
 
 - rm-telephone lines 1–102, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - rm-telephone lines 103–103, Live Support Whenever Your Residents Need It: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-01`.
@@ -6817,6 +6978,8 @@ Raw SHA-256: `0e606402e90ccbacef46ac67583783e4424590914cd792c5b9275475a895ff27`.
 **Audit: partial.** Other text and linked source areas remain unaudited; no exhaustive coverage is claimed. Reconciled source workflows: `af-vendor-01`, `af-vendor-02`, `af-vendor-03`, `af-vendor-04`, `af-vendor-05`, `af-vendor-06`, `af-vendor-07`, `af-vendor-08`, `af-vendor-09`, `af-vendor-10`, `af-vendor-11`, `af-vendor-12`, `af-vendor-13`, `af-vendor-14`, `af-vendor-15`, `af-vendor-16`, `af-vendor-17`, `af-vendor-18`, `af-vendor-19`, `af-vendor-20`, `af-vendor-21`, `af-vendor-22`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 22 lines with inventoried workflows; 0 lines of reviewed context; 176 unaudited lines.
 
 - af-vendor lines 1–14, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - af-vendor lines 15–15, Activate Your Vendor Portal: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-01`.
@@ -6869,6 +7032,8 @@ Raw SHA-256: `797ea2dc1d22cc03e137d23e0c5ce9b8982bce47f753bc12803a686f30b80e7e`.
 **Audit: partial.** Other text and linked source areas remain unaudited; no exhaustive coverage is claimed. Reconciled source workflows: `af-resident-01`, `af-resident-02`, `af-resident-03`, `af-resident-04`, `af-resident-05`, `af-resident-06`, `af-resident-07`, `af-resident-08`, `af-resident-09`, `af-resident-10`, `af-resident-11`, `af-resident-12`, `af-resident-13`, `af-resident-14`, `af-resident-15`, `af-resident-16`, `af-resident-17`, `af-resident-18`, `af-resident-19`, `af-resident-20`, `af-resident-21`, `af-resident-22`, `af-resident-23`, `af-resident-24`, `af-resident-25`, `af-resident-26`, `af-resident-27`, `af-resident-28`, `af-resident-29`, `af-resident-30`, `af-resident-31`, `af-resident-32`, `af-resident-33`, `af-resident-34`, `af-resident-35`, `af-resident-36`, `af-resident-37`, `af-resident-38`, `af-resident-39`, `af-resident-40`, `af-resident-41`, `af-resident-42`, `af-resident-43`, `af-resident-44`, `af-resident-45`, `af-resident-46`, `af-resident-47`, `af-resident-48`, `af-resident-49`, `af-resident-50`, `af-resident-51`, `af-resident-52`, `af-resident-53`, `af-resident-54`, `af-resident-55`, `af-resident-56`, `af-resident-57`, `af-resident-58`, `af-resident-59`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 59 lines with inventoried workflows; 0 lines of reviewed context; 131 unaudited lines.
 
 - af-resident lines 1–13, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
 - af-resident lines 14–14, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-01`.
@@ -6993,6 +7158,8 @@ Raw SHA-256: `15fe4ab9446a6054573ee544dafa3e12ccea97183f0d71eb5bc430790cb700eb`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 5 lines with inventoried workflows; 0 lines of reviewed context; 180 unaudited lines.
+
 - af-platform lines 1–29, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - af-platform lines 30–30, Maintenance: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-platform-01`.
 - af-platform lines 31–41, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
@@ -7013,6 +7180,8 @@ Raw SHA-256: `75b9ef360bcc855970c2ef0e3c3c4b556294acde496d2c95fda6231c9f28d9af`.
 **Audit: partial.** Selected source statements and instructions are reconciled. Unreconciled text and linked or authenticated documentation remain explicitly unaudited; no complete official-source inventory is claimed. Reconciled source workflows: `bu-platform-01`, `bu-platform-02`, `bu-platform-03`, `bu-platform-04`, `bu-platform-05`, `bu-platform-06`, `bu-platform-07`, `bu-platform-08`, `bu-platform-09`, `bu-platform-10`, `bu-platform-11`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 11 lines with inventoried workflows; 0 lines of reviewed context; 224 unaudited lines.
 
 - bu-platform lines 1–116, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - bu-platform lines 117–117, Commercial Property Management Software: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-platform-01`.
@@ -7041,46 +7210,54 @@ Raw SHA-256: `75b9ef360bcc855970c2ef0e3c3c4b556294acde496d2c95fda6231c9f28d9af`.
 
 Raw SHA-256: `962fc5bd671d7741f3ac12a36e8add747029706b45855c65c928497bb3a0617b`. Capture SHA-256: `dc111fa7ff550ca1727e53229cfb1b43aa2e68d9a0971077153c7fc63beb7eaa`.
 
-**Audit: partial.** The official article was retrieved after JavaScript loading in a clean browser. Selected instructions below are reconciled; related help articles, media and other official documentation remain unaudited. The earlier HTTP-only loading-shell limitation is resolved. Reconciled source workflows: `bu-scheduled-help-01`, `bu-scheduled-help-02`, `bu-scheduled-help-03`, `bu-scheduled-help-04`, `bu-scheduled-help-05`, `bu-scheduled-help-06`, `bu-scheduled-help-07`, `bu-scheduled-help-08`, `bu-scheduled-help-09`, `bu-scheduled-help-10`, `bu-scheduled-help-11`, `bu-scheduled-help-12`, `bu-scheduled-help-13`, `bu-scheduled-help-14`, `bu-scheduled-help-15`, `bu-scheduled-help-16`, `bu-scheduled-help-17`, `bu-scheduled-help-18`, `bu-scheduled-help-19`, `bu-scheduled-help-20`.
+**Audit: partial.** All retained normalized text is reconciled to workflow statements or reviewed context. Linked articles, full source revisions, embedded media and authenticated documentation remain unaudited; this retained-text review establishes no complete official-source inventory. Reconciled source workflows: `bu-scheduled-help-01`, `bu-scheduled-help-02`, `bu-scheduled-help-03`, `bu-scheduled-help-04`, `bu-scheduled-help-05`, `bu-scheduled-help-06`, `bu-scheduled-help-07`, `bu-scheduled-help-08`, `bu-scheduled-help-09`, `bu-scheduled-help-10`, `bu-scheduled-help-11`, `bu-scheduled-help-12`, `bu-scheduled-help-13`, `bu-scheduled-help-14`, `bu-scheduled-help-15`, `bu-scheduled-help-16`, `bu-scheduled-help-17`, `bu-scheduled-help-18`, `bu-scheduled-help-19`, `bu-scheduled-help-20`, `bu-scheduled-help-21`, `bu-scheduled-help-22`, `bu-scheduled-help-23`, `bu-scheduled-help-24`.
 
 **Browser-rendered source:** the initial HTTP response is a loading shell; the retained text was read after the official article loaded in a clean browser. Rendered document SHA-256: `87452bd1aab0ac7b7f5affdce869adfaac52118e628ba4b66782667acc986621`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- bu-scheduled-help lines 1–10, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
-- bu-scheduled-help lines 11–11, Schedule Batched Reports: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-01`.
-- bu-scheduled-help lines 12–14, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
-- bu-scheduled-help lines 15–15, Why it makes sense to schedule Batched Reports: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-02`.
-- bu-scheduled-help lines 16–18, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
-- bu-scheduled-help lines 19–19, How to Schedule and Share Batched Reports: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-03`.
-- bu-scheduled-help lines 20–22, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
-- bu-scheduled-help lines 23–23, Fill Out Required Fields: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-04`.
-- bu-scheduled-help lines 24–24, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
-- bu-scheduled-help lines 25–25, Schedule and Share: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-05`.
-- bu-scheduled-help lines 26–28, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
-- bu-scheduled-help lines 29–29, Select Report Entities: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-06`.
-- bu-scheduled-help lines 30–30, Select Report Entities: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-07`.
-- bu-scheduled-help lines 31–32, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
-- bu-scheduled-help lines 33–33, Add Reports: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-08`.
-- bu-scheduled-help lines 34–34, Add Reports: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-09`.
-- bu-scheduled-help lines 35–37, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
-- bu-scheduled-help lines 38–38, Set Report Filters: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-10`.
-- bu-scheduled-help lines 39–41, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
-- bu-scheduled-help lines 42–42, Add Attachments: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-11`.
-- bu-scheduled-help lines 43–43, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
-- bu-scheduled-help lines 44–44, Organize Reports: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-12`.
-- bu-scheduled-help lines 45–45, Organize Reports: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-13`.
-- bu-scheduled-help lines 46–47, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
-- bu-scheduled-help lines 48–48, Recipients: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-14`.
-- bu-scheduled-help lines 49–49, Recipients: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-15`.
-- bu-scheduled-help lines 50–50, Recipients: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-16`.
-- bu-scheduled-help lines 51–51, Recipients: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-17`.
-- bu-scheduled-help lines 52–52, Recipients: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-18`.
-- bu-scheduled-help lines 53–54, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
-- bu-scheduled-help lines 55–55, Set Scheduling Settings: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-19`.
-- bu-scheduled-help lines 56–56, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
-- bu-scheduled-help lines 57–57, Save Draft or Schedule and Share: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-20`.
-- bu-scheduled-help lines 58–78, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
+**Retained text accounting:** 24 lines with inventoried workflows; 54 lines of reviewed context; 0 unaudited lines.
+
+**Retained-text review:** 2026-11-05; bound to capture SHA-256 `dc111fa7ff550ca1727e53229cfb1b43aa2e68d9a0971077153c7fc63beb7eaa`. All retained lines are accounted for. Linked articles, embedded media and authenticated documentation remain unqualified; this is not a complete incumbent inventory.
+
+- bu-scheduled-help lines 1–10, Help navigation, article title and publication date: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-scheduled-help lines 11–11, Schedule Batched Reports: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-01`.
+- bu-scheduled-help lines 12–14, Procedure headings, repeated instructions and explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-scheduled-help lines 15–15, Why it makes sense to schedule Batched Reports: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-02`.
+- bu-scheduled-help lines 16–18, Procedure headings, repeated instructions and explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-scheduled-help lines 19–19, How to Schedule and Share Batched Reports: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-03`.
+- bu-scheduled-help lines 20–21, Procedure headings, repeated instructions and explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-scheduled-help lines 22–22, Schedule Batched Reports: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-21`.
+- bu-scheduled-help lines 23–23, Fill Out Required Fields: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-04`.
+- bu-scheduled-help lines 24–24, Procedure headings, repeated instructions and explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-scheduled-help lines 25–25, Schedule and Share: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-05`.
+- bu-scheduled-help lines 26–28, Procedure headings, repeated instructions and explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-scheduled-help lines 29–29, Select Report Entities: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-06`.
+- bu-scheduled-help lines 30–30, Select Report Entities: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-07`.
+- bu-scheduled-help lines 31–31, Schedule Batched Reports: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-22`.
+- bu-scheduled-help lines 32–32, Procedure headings, repeated instructions and explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-scheduled-help lines 33–33, Add Reports: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-08`.
+- bu-scheduled-help lines 34–34, Add Reports: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-09`.
+- bu-scheduled-help lines 35–35, Schedule Batched Reports: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-23`.
+- bu-scheduled-help lines 36–37, Procedure headings, repeated instructions and explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-scheduled-help lines 38–38, Set Report Filters: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-10`.
+- bu-scheduled-help lines 39–39, Schedule Batched Reports: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-24`.
+- bu-scheduled-help lines 40–41, Procedure headings, repeated instructions and explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-scheduled-help lines 42–42, Add Attachments: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-11`.
+- bu-scheduled-help lines 43–43, Procedure headings, repeated instructions and explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-scheduled-help lines 44–44, Organize Reports: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-12`.
+- bu-scheduled-help lines 45–45, Organize Reports: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-13`.
+- bu-scheduled-help lines 46–47, Procedure headings, repeated instructions and explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-scheduled-help lines 48–48, Recipients: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-14`.
+- bu-scheduled-help lines 49–49, Recipients: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-15`.
+- bu-scheduled-help lines 50–50, Recipients: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-16`.
+- bu-scheduled-help lines 51–51, Recipients: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-17`.
+- bu-scheduled-help lines 52–52, Recipients: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-18`.
+- bu-scheduled-help lines 53–54, Procedure headings, repeated instructions and explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-scheduled-help lines 55–55, Set Scheduling Settings: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-19`.
+- bu-scheduled-help lines 56–56, Procedure headings, repeated instructions and explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- bu-scheduled-help lines 57–57, Save Draft or Schedule and Share: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `bu-scheduled-help-20`.
+- bu-scheduled-help lines 58–78, Support invitation and related article links: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
 
 ### af-smart-blog
 
@@ -7091,6 +7268,8 @@ Raw SHA-256: `19be48c1b6d02a74ab9ac894a0a3d0246f688af5171d916d23679255cb50320a`.
 **Audit: partial.** Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed. Reconciled source workflows: `af-smart-blog-01`, `af-smart-blog-02`, `af-smart-blog-03`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 2 lines with inventoried workflows; 0 lines of reviewed context; 86 unaudited lines.
 
 - af-smart-blog lines 1–20, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - af-smart-blog lines 21–21, So how does it work?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-smart-blog-01`, `af-smart-blog-02`.
@@ -7104,16 +7283,27 @@ Raw SHA-256: `19be48c1b6d02a74ab9ac894a0a3d0246f688af5171d916d23679255cb50320a`.
 
 Raw SHA-256: `c04dc3f2fe1bf5abadebfc05898de0fdfdbc5655d67fa4a1a2831c96fc8dd028`. Capture SHA-256: `3b44fa7a461b85a5f99e1f63bf56248ffebb3293738e18365aab5589e4e3887a`.
 
-**Audit: partial.** Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed. Reconciled source workflows: `af-reports-01`, `af-reports-02`, `af-reports-03`.
+**Audit: partial.** All retained normalized text is reconciled to workflow statements or reviewed context. Linked articles, full source revisions, embedded media and authenticated documentation remain unaudited; this retained-text review establishes no complete official-source inventory. Reconciled source workflows: `af-reports-01`, `af-reports-02`, `af-reports-03`, `af-reports-04`, `af-reports-05`, `af-reports-06`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- af-reports lines 1–26, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-reports lines 27–27, Customizing your reports in AppFolio Property Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-reports-01`.
-- af-reports lines 28–29, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-reports lines 30–30, Customizing your reports in AppFolio Property Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-reports-02`.
-- af-reports lines 31–31, Customizing your reports in AppFolio Property Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-reports-03`.
-- af-reports lines 32–94, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+**Retained text accounting:** 6 lines with inventoried workflows; 88 lines of reviewed context; 0 unaudited lines.
+
+**Retained-text review:** 2026-11-05; bound to capture SHA-256 `3b44fa7a461b85a5f99e1f63bf56248ffebb3293738e18365aab5589e4e3887a`. All retained lines are accounted for. Linked articles, embedded media and authenticated documentation remain unqualified; this is not a complete incumbent inventory.
+
+- af-reports lines 1–14, Page title, navigation and article date: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- af-reports lines 15–15, Reporting article context and repeated explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- af-reports lines 16–16, Performance reporting and Report Builder: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `af-reports-04`.
+- af-reports lines 17–23, Reporting article context and repeated explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- af-reports lines 24–24, Performance reporting and Report Builder: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `af-reports-05`.
+- af-reports lines 25–26, Reporting article context and repeated explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- af-reports lines 27–27, Customizing your reports in AppFolio Property Manager: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `af-reports-01`.
+- af-reports lines 28–28, Reporting article context and repeated explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- af-reports lines 29–29, Performance reporting and Report Builder: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `af-reports-06`.
+- af-reports lines 30–30, Customizing your reports in AppFolio Property Manager: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `af-reports-02`.
+- af-reports lines 31–31, Customizing your reports in AppFolio Property Manager: **workflows**. Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified. Workflows: `af-reports-03`.
+- af-reports lines 32–32, Reporting article context and repeated explanations: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
+- af-reports lines 33–94, Author biography, linked products, navigation and footer: **context**. Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.
 
 ### af-marketing
 
@@ -7124,6 +7314,8 @@ Raw SHA-256: `ff1ec426352140047109ee0fb327081203ce2a41dbad35eaf836673a6eb6e5cf`.
 **Audit: partial.** Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed. Reconciled source workflows: `af-marketing-01`, `af-marketing-02`, `af-marketing-03`, `af-marketing-04`, `af-marketing-05`, `af-marketing-06`, `af-marketing-07`, `af-marketing-08`, `af-marketing-09`, `af-marketing-10`, `af-marketing-11`, `af-marketing-12`, `af-marketing-13`, `af-marketing-14`, `af-marketing-15`, `af-marketing-16`, `af-marketing-17`, `af-marketing-18`, `af-marketing-19`, `af-marketing-20`, `af-marketing-21`, `af-marketing-22`, `af-marketing-23`, `af-marketing-24`, `af-marketing-25`, `af-marketing-26`, `af-marketing-27`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 27 lines with inventoried workflows; 0 lines of reviewed context; 236 unaudited lines.
 
 - af-marketing lines 1–20, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - af-marketing lines 21–21, AppFolio Realm-X Leasing Performer: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-01`.
@@ -7189,6 +7381,8 @@ Raw SHA-256: `2ce23d20838bc5b0c7e3e5b0a82648dc45ff3ed6eef60ff3f4d9bba8050c0f11`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 21 lines with inventoried workflows; 0 lines of reviewed context; 188 unaudited lines.
+
 - af-communication lines 1–29, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - af-communication lines 30–30, Online Resident Portal and Mobile App: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-01`.
 - af-communication lines 31–37, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
@@ -7240,6 +7434,8 @@ Raw SHA-256: `31be1328236084d09ab2430095572e9c20b105c413b17701c27e7775d9ec48f9`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 16 lines with inventoried workflows; 0 lines of reviewed context; 187 unaudited lines.
+
 - af-automation lines 1–27, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - af-automation lines 28–28, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-01`.
 - af-automation lines 29–29, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-02`.
@@ -7277,6 +7473,8 @@ Raw SHA-256: `ffcfd022eb2e36049cea3af614704b70b53a798dff884c88fac9ed19dd72fb99`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 10 lines with inventoried workflows; 0 lines of reviewed context; 163 unaudited lines.
+
 - bu-automation lines 1–77, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - bu-automation lines 78–78, Reporting Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-01`.
 - bu-automation lines 79–80, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
@@ -7306,6 +7504,8 @@ Raw SHA-256: `1cd973b887fd91e1f6c1cef9df2cb96635241119c9c3726541c49bc42dd6376d`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 3 lines with inventoried workflows; 0 lines of reviewed context; 107 unaudited lines.
+
 - bu-analytics lines 1–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - bu-analytics lines 70–70, Property Management Analytics & Insights: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-analytics-01`.
 - bu-analytics lines 71–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
@@ -7324,6 +7524,8 @@ Raw SHA-256: `4ea7d616847704c6ff73d8b99ce067758a76c24f248c0b6cbe8902e2961ce911`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 3 lines with inventoried workflows; 0 lines of reviewed context; 110 unaudited lines.
+
 - bu-leasing lines 1–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - bu-leasing lines 70–70, Online Leasing Software powered by Dropbox Sign: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-leasing-01`.
 - bu-leasing lines 71–74, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
@@ -7341,6 +7543,8 @@ Raw SHA-256: `890e87e393da81e7bf2d173c67f7b0de3a3733493694a88caeba3129e0e7c7cc`.
 **Audit: partial.** Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed. Reconciled source workflows: `bu-resident-01`, `bu-resident-02`, `bu-resident-03`, `bu-resident-04`, `bu-resident-05`, `bu-resident-06`, `bu-resident-07`, `bu-resident-08`, `bu-resident-09`, `bu-resident-10`, `bu-resident-11`, `bu-resident-12`, `bu-resident-13`, `bu-resident-14`, `bu-resident-15`, `bu-resident-16`, `bu-resident-17`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 17 lines with inventoried workflows; 0 lines of reviewed context; 163 unaudited lines.
 
 - bu-resident lines 1–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - bu-resident lines 74–74, Put your brand front and center: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-01`.
@@ -7383,6 +7587,8 @@ Raw SHA-256: `1378ac6434663570cf80dcfc9d940c488bb5e9d4f25495298768c9fca2b0ba2f`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 11 lines with inventoried workflows; 0 lines of reviewed context; 235 unaudited lines.
+
 - rm-mobile lines 1–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - rm-mobile lines 106–106, Communication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-01`.
 - rm-mobile lines 107–108, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
@@ -7411,6 +7617,8 @@ Raw SHA-256: `5a141e73ed7528171a720d41a4ba3a5bf0adb79c77b954f523ae3ef671a9c790`.
 **Audit: partial.** Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed. Reconciled source workflows: `rm-leasing-01`, `rm-leasing-02`, `rm-leasing-03`, `rm-leasing-04`, `rm-leasing-05`, `rm-leasing-06`, `rm-leasing-07`, `rm-leasing-08`, `rm-leasing-09`, `rm-leasing-10`, `rm-leasing-11`, `rm-leasing-12`, `rm-leasing-13`, `rm-leasing-14`, `rm-leasing-15`, `rm-leasing-16`, `rm-leasing-17`, `rm-leasing-18`, `rm-leasing-19`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 19 lines with inventoried workflows; 0 lines of reviewed context; 259 unaudited lines.
 
 - rm-leasing lines 1–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - rm-leasing lines 106–106, Prospect & Tenant Online Portal: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-01`.
@@ -7461,6 +7669,8 @@ Raw SHA-256: `d07b2c7c62d6734593eca41ef7130853a5a12298443e8d10dd16f3dc177bf0e9`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 8 lines with inventoried workflows; 0 lines of reviewed context; 230 unaudited lines.
+
 - rm-owner lines 1–102, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - rm-owner lines 103–103, Owners: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-01`.
 - rm-owner lines 104–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
@@ -7487,6 +7697,8 @@ Raw SHA-256: `0619eaf13d260e9de21f1e310991ec563a095286801b654c26700032e9e15335`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 2 lines with inventoried workflows; 0 lines of reviewed context; 25 unaudited lines.
+
 - af-smart-maintenance lines 1–11, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
 - af-smart-maintenance lines 12–12, Smart Maintenance: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-smart-maintenance-01`, `af-smart-maintenance-02`, `af-smart-maintenance-03`.
 - af-smart-maintenance lines 13–18, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
@@ -7502,6 +7714,8 @@ Raw SHA-256: `95ae2d15f0851726b5dc2baec192363fae0362c827a4ffd69fc017d218923eff`.
 **Audit: partial.** Selected source statements and instructions are reconciled. Unreconciled text and linked or authenticated documentation remain explicitly unaudited; no complete official-source inventory is claimed. Reconciled source workflows: `af-owner-01`, `af-owner-02`, `af-owner-03`, `af-owner-04`, `af-owner-05`, `af-owner-06`, `af-owner-07`, `af-owner-08`, `af-owner-09`, `af-owner-10`, `af-owner-11`, `af-owner-12`, `af-owner-13`, `af-owner-14`, `af-owner-15`, `af-owner-16`, `af-owner-17`, `af-owner-18`, `af-owner-19`, `af-owner-20`, `af-owner-21`, `af-owner-22`, `af-owner-23`, `af-owner-24`, `af-owner-25`, `af-owner-26`, `af-owner-27`, `af-owner-28`, `af-owner-29`, `af-owner-30`, `af-owner-31`, `af-owner-32`, `af-owner-33`, `af-owner-34`, `af-owner-35`, `af-owner-36`, `af-owner-37`, `af-owner-38`, `af-owner-39`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 39 lines with inventoried workflows; 0 lines of reviewed context; 155 unaudited lines.
 
 - af-owner lines 1–16, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - af-owner lines 17–17, Activate Your Owner Portal: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-01`.
@@ -7574,6 +7788,8 @@ Raw SHA-256: `b35db719918c96037f2617275c7a70a84c2c30882cd827db391216dcb57870f2`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 20 lines with inventoried workflows; 0 lines of reviewed context; 142 unaudited lines.
+
 - bu-owner lines 1–80, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
 - bu-owner lines 81–81, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-01`.
 - bu-owner lines 82–82, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-02`.
@@ -7614,6 +7830,8 @@ Raw SHA-256: `3becd0ff87359847e32393ed91706e4c590f8930a5831b92a448b275ac0d38f0`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 17 lines with inventoried workflows; 0 lines of reviewed context; 134 unaudited lines.
+
 - bu-payments lines 1–73, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
 - bu-payments lines 74–74, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-01`.
 - bu-payments lines 75–78, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
@@ -7653,6 +7871,8 @@ Raw SHA-256: `5094969189972eee802d93336bcd6bee0cdf202594df9d6b4d93c2956e5045a1`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 4 lines with inventoried workflows; 0 lines of reviewed context; 119 unaudited lines.
+
 - bu-application lines 1–74, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
 - bu-application lines 75–75, Online rental applications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-application-01`.
 - bu-application lines 76–76, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
@@ -7672,6 +7892,8 @@ Raw SHA-256: `bb689e34f423e9594699a6adeb9c2cca3331a5ae6afe1ad14385b28a279e908d`.
 **Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `bu-screening-01`, `bu-screening-02`, `bu-screening-03`, `bu-screening-04`, `bu-screening-05`, `bu-screening-06`, `bu-screening-07`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 6 lines with inventoried workflows; 0 lines of reviewed context; 144 unaudited lines.
 
 - bu-screening lines 1–73, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
 - bu-screening lines 74–74, Tenant background checks: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-screening-01`.
@@ -7696,6 +7918,8 @@ Raw SHA-256: `ab31c38826d9055eba6ecb1c8a62f7803dab4f571003344c6f0522207b0eedff`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 5 lines with inventoried workflows; 0 lines of reviewed context; 114 unaudited lines.
+
 - bu-inspection lines 1–71, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
 - bu-inspection lines 72–72, Mobile property inspections: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-inspection-01`.
 - bu-inspection lines 73–76, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
@@ -7718,6 +7942,8 @@ Raw SHA-256: `af778c235a373cf8792f9aaf3113c090fcfef59c930a7626ca4ded7623f3ba4b`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 3 lines with inventoried workflows; 0 lines of reviewed context; 112 unaudited lines.
+
 - bu-association lines 1–71, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
 - bu-association lines 72–72, Homeowner and board communication: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-association-01`, `bu-association-02`.
 - bu-association lines 73–73, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
@@ -7735,6 +7961,8 @@ Raw SHA-256: `9da00071708824e4cf87598ee1f2bcbf24f25283155e69f562ca309d29485b7f`.
 **Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `bu-tax-01`, `bu-tax-02`, `bu-tax-03`, `bu-tax-04`, `bu-tax-05`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 4 lines with inventoried workflows; 0 lines of reviewed context; 111 unaudited lines.
 
 - bu-tax lines 1–69, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
 - bu-tax lines 70–70, Owner and vendor tax filing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-tax-01`, `bu-tax-02`.
@@ -7755,6 +7983,8 @@ Raw SHA-256: `71b05793b97b68ca63556c0ed7ad3965b5dd1f8d1e1e0ac5179101e598d00d5a`.
 **Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `rm-communication-01`, `rm-communication-02`, `rm-communication-03`, `rm-communication-04`, `rm-communication-05`, `rm-communication-06`, `rm-communication-07`, `rm-communication-08`, `rm-communication-09`, `rm-communication-10`, `rm-communication-11`, `rm-communication-12`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 9 lines with inventoried workflows; 0 lines of reviewed context; 230 unaudited lines.
 
 - rm-communication lines 1–105, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
 - rm-communication lines 106–106, Communications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-communication-01`, `rm-communication-02`, `rm-communication-03`.
@@ -7782,6 +8012,8 @@ Raw SHA-256: `d8159e9e0901eb2a84becbed131a887a331ee7edb50c8df3719b4f61b0f276e9`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 8 lines with inventoried workflows; 0 lines of reviewed context; 235 unaudited lines.
+
 - rm-payments lines 1–102, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
 - rm-payments lines 103–103, Receivable and payable processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-payments-01`.
 - rm-payments lines 104–105, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
@@ -7808,6 +8040,8 @@ Raw SHA-256: `4f8f155824283a17be37d7f30addd26ad30ef2b5845f58463f6f76d6e1456dfb`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
+**Retained text accounting:** 5 lines with inventoried workflows; 0 lines of reviewed context; 230 unaudited lines.
+
 - rm-tenant lines 1–105, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
 - rm-tenant lines 106–106, Prospect and tenant portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-tenant-01`.
 - rm-tenant lines 107–107, Prospect and tenant portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-tenant-02`.
@@ -7828,6 +8062,8 @@ Raw SHA-256: `f18aa54ced17137516291b901ed2f689ee7bacedc7a04e11f3cc70ca2ae38885`.
 **Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `rm-screening-01`, `rm-screening-02`, `rm-screening-03`, `rm-screening-04`, `rm-screening-05`, `rm-screening-06`, `rm-screening-07`, `rm-screening-08`, `rm-screening-09`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+**Retained text accounting:** 9 lines with inventoried workflows; 0 lines of reviewed context; 251 unaudited lines.
 
 - rm-screening lines 1–107, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
 - rm-screening lines 108–108, Built-in screening: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-screening-01`.

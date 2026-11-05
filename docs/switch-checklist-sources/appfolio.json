@@ -1952,6 +1952,30 @@
       "section": "Smart Maintenance",
       "line": 19,
       "quote": "Handling maintenance requests around the clock shouldn’t mean your team is on-call 24/7. AppFolio's suite of Smart Maintenance tools helps you stay ahead of resident requests and deliver exceptional experiences, without the overwhelm."
+    },
+    {
+      "id": "af-reports-04",
+      "label": "Income and owner statement reporting",
+      "source": "af-reports",
+      "section": "Performance reporting and Report Builder",
+      "line": 16,
+      "quote": "For example, you may rely on reports like an income statement, which tells you whether revenue is sufficient to pay off all expenses and, of course, the property’s net operating income. There are also owner statements, which help maintain accurate and categorized accounts of financial transactions, including utilities and contractor payments. Owner statements typically include beginning and ending balances."
+    },
+    {
+      "id": "af-reports-05",
+      "label": "Native operational report data",
+      "source": "af-reports",
+      "section": "Performance reporting and Report Builder",
+      "line": 24,
+      "quote": "With dedicated property management reporting technology, you can build reports using day-to-day data that already exists in the system. There’s no need for double data entry, removing another vector for human error."
+    },
+    {
+      "id": "af-reports-06",
+      "label": "Base report selection",
+      "source": "af-reports",
+      "section": "Performance reporting and Report Builder",
+      "line": 29,
+      "quote": "The user selects a base report that already contains most of the information they are looking for. For our example, let’s use the Rent Roll as a base report."
     }
   ]
 }
