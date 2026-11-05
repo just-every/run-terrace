@@ -1,0 +1,25 @@
+{
+  "run_id": 42121470539,
+  "head": "d09ea20e3cd7ecdaf4233216853cbac606895a61",
+  "conclusion": "failure",
+  "source_job": {
+    "id": 127574679609,
+    "error": "Stale contract projection: ACCEPTANCE.md",
+    "expected_generated_view_exception": true,
+    "log_reads": 1
+  },
+  "runtime_job": {
+    "id": 127574679571,
+    "conclusion": "cancelled",
+    "error": "The operation was canceled.",
+    "target_public_checklist_probes_passed": true,
+    "installed_app_journey_passed": true,
+    "later_phase": "payer-accounting.test.mjs",
+    "failing_assertion_observed": false,
+    "log_reads": 1,
+    "cancellation_cause": "Not established by the retrieved job log; no speculative product repair or rerun."
+  },
+  "api_calls_used": 10,
+  "api_budget": 10,
+  "verify_green_claimed": false
+}

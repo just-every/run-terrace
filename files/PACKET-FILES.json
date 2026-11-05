@@ -1,0 +1,160 @@
+{
+  "head": "d09ea20e3cd7ecdaf4233216853cbac606895a61",
+  "files": [
+    {
+      "file": "REPORT.md",
+      "bytes": 12167,
+      "sha256": "4bd920eff6756da0456302dbfcf0ca72ba41d21b49d117e2e1818544658005d3"
+    },
+    {
+      "file": "PLAN.md",
+      "bytes": 1891,
+      "sha256": "7c7cdc10149d2ff9faefbf3b5446b9ada7543770024a59ec577e36be3d6750a0"
+    },
+    {
+      "file": "CHECKS.json",
+      "bytes": 4267,
+      "sha256": "d93f65db46127c6e6ed613bbb4d5a82e00d4687cf605b0c4ec9eda128d118730"
+    },
+    {
+      "file": "MUTATIONS.json",
+      "bytes": 501,
+      "sha256": "6759894f616b37f34df1914f859f9e7cf65624ea283ea0b5eaa482b9ffda7265"
+    },
+    {
+      "file": "APP-JOURNEY.log",
+      "bytes": 1574,
+      "sha256": "6c1f87d7f34bd62bceee1fdd2d385f48678d06e3ff437520e64bb8fea32142fc"
+    },
+    {
+      "file": "TYPECHECK.log",
+      "bytes": 133,
+      "sha256": "35fbc8afb0c99bc0a025a5c2d3a2cb7e3629f77839cbacbcff0882d64b12c165"
+    },
+    {
+      "file": "FIRST-PARTY.log",
+      "bytes": 135,
+      "sha256": "e8290fd7c8992e7e8338f85c056934cf86dbcc5f74831ebd4853bd26cebb54f8"
+    },
+    {
+      "file": "GENERATOR-CHECK.log",
+      "bytes": 71,
+      "sha256": "e794235f92f419fad96cd8d31bd61414fdf749c6a5705e0654267cc336dac677"
+    },
+    {
+      "file": "PRODUCT-PUSH.txt",
+      "bytes": 722,
+      "sha256": "4b9cf72de8c535a087a99c25585d59818bd7022b5bbdd0d020ded3a5e1d1a343"
+    },
+    {
+      "file": "PRODUCT-PROVENANCE.json",
+      "bytes": 822,
+      "sha256": "f7e247e52958d268d8e5401330f1d4fc7c362542d9f4dde8293f9bfe75281c9c"
+    },
+    {
+      "file": "BASE-VERIFY.json",
+      "bytes": 486,
+      "sha256": "79c848c8333170acd46ce07f40864f98fc6966999f15694ad9b341fd0be43f7e"
+    },
+    {
+      "file": "CI-DISCOVERY.jsonl",
+      "bytes": 225,
+      "sha256": "f9900e852740f346b8478c22a06c875ff2f1e2194f3ee8cdca219df18b1f8a4f"
+    },
+    {
+      "file": "CI-STATUS.json",
+      "bytes": 239,
+      "sha256": "01b9d408d5d6d4b9c19f294b4b81f15bc1cb871656ab7e02afb46d3f5bdebdd3"
+    },
+    {
+      "file": "CI-JOBS.json",
+      "bytes": 947,
+      "sha256": "5e7ba921dece646297faf1f21b9b903cc9d3571e53716b6cfaa753c28152c671"
+    },
+    {
+      "file": "CI-ANALYSIS.json",
+      "bytes": 791,
+      "sha256": "eab5dcd4d8e8b6bf9fb5551d55e1a7574af917816fb2f467826fee0c4438e888"
+    },
+    {
+      "file": "CI-RUNTIME-EXCERPT.txt",
+      "bytes": 1963,
+      "sha256": "5aebd615ef08a2cbee398e8914c6913cd81517682f894cfd63cb3ec4759c4e21"
+    },
+    {
+      "file": "CI-SOURCE-EXCERPT.txt",
+      "bytes": 115,
+      "sha256": "6c574583f8019a6e6abd31354fa505cea2a0a38f8ea24fd165c9a0d5904ee329"
+    },
+    {
+      "file": "screens/appfolio-gaps-1440.png",
+      "bytes": 212088,
+      "sha256": "f1729d926b6e4d1a0b808f7d552f3f475fc141f67d5ccc440fea0104e902dcff"
+    },
+    {
+      "file": "screens/appfolio-gaps-390.png",
+      "bytes": 91774,
+      "sha256": "8c2d7b987b3fb1ed6e6154201a5a96b5dcc604e0efd188067cdcd3e3953823b6"
+    },
+    {
+      "file": "screens/appfolio-discovery-1440.png",
+      "bytes": 214395,
+      "sha256": "818d7511dc3e068ac1cf218b071be07e30956f9b038c78fc26fbb12468a26297"
+    },
+    {
+      "file": "screens/appfolio-discovery-390.png",
+      "bytes": 94805,
+      "sha256": "1afbdbef02dace69785f90d26131797f9fc6de0559ec5cb88488471a5d7786ed"
+    },
+    {
+      "file": "screens/buildium-gaps-1440.png",
+      "bytes": 191186,
+      "sha256": "4750e302547653923e864d5fe83d36774b644d1dc292026fe8c6538666bd6f18"
+    },
+    {
+      "file": "screens/buildium-gaps-390.png",
+      "bytes": 85710,
+      "sha256": "7cde6fd31cd08a6f0c85063d8f2b37371e4c17ab830996db2ad24c08dd29cd8a"
+    },
+    {
+      "file": "screens/buildium-discovery-1440.png",
+      "bytes": 231858,
+      "sha256": "b5c33c45f4c44983cfc735c42f0c1d227e6b413862ccbf514c48e10a07a8783a"
+    },
+    {
+      "file": "screens/buildium-discovery-390.png",
+      "bytes": 103646,
+      "sha256": "8741f44abe0f0980016fd2c68aae30190aed370eed203e7ee598ec90d8243d8b"
+    },
+    {
+      "file": "screens/rent-manager-gaps-1440.png",
+      "bytes": 191764,
+      "sha256": "990a641fc9b4d379f76ccae720fc0531b6fcae00484e3328809a60da41719c94"
+    },
+    {
+      "file": "screens/rent-manager-gaps-390.png",
+      "bytes": 81948,
+      "sha256": "66670d356af99abbb3e467619808ddc33979408232ea8ce9be46f1c6f612f909"
+    },
+    {
+      "file": "screens/rent-manager-discovery-1440.png",
+      "bytes": 231230,
+      "sha256": "ab477da1b444aeb4378116a6ba84062630eded413cd6cd7afaff9169ef630c3f"
+    },
+    {
+      "file": "screens/rent-manager-discovery-390.png",
+      "bytes": 103661,
+      "sha256": "e9463b9e45ee3c35e56319f4809adde1fe2a8c98e62392446f5ce082a5c511ad"
+    },
+    {
+      "file": "screens/documentation-access-1440.png",
+      "bytes": 209230,
+      "sha256": "c251705db9f9037966e428f9f6ee6996ebe061e37c01985b365e4d0314a23692"
+    },
+    {
+      "file": "screens/documentation-access-390.png",
+      "bytes": 88699,
+      "sha256": "2b600fdc2d05918286f5d2cc25db67e3901be4eb9a2c821b59f44ad469a7f9ca"
+    }
+  ]
+}

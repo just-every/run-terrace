@@ -1,0 +1,17 @@
+{
+  "head": "d09ea20e3cd7ecdaf4233216853cbac606895a61",
+  "door": "built public checklist HTML",
+  "baseline": "passed",
+  "mutations": [
+    {
+      "name": "documentation access gap removed",
+      "refused": true,
+      "failure": "the actual documentation access gap stays public for appfolio"
+    },
+    {
+      "name": "retained line accounting removed",
+      "refused": true,
+      "failure": "public review accounting reconciles independently to the captured text: af-accounting"
+    }
+  ]
+}

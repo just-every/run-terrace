@@ -1,0 +1,10 @@
+shards (runtime, true)	Run this shard	2026-11-05T22:37:22.8478400Z PROBE MOVE-012 1: GET /docs/switch-checklists -> AppFolio 247 sourced rows; complete inventory explicitly unqualified
+shards (runtime, true)	Run this shard	2026-11-05T22:37:22.8500043Z PROBE MOVE-012 2: GET /docs/switch-checklists -> Buildium 159 sourced rows; complete inventory explicitly unqualified
+shards (runtime, true)	Run this shard	2026-11-05T22:37:22.8501087Z PROBE MOVE-012 3: GET /docs/switch-checklists -> Rent Manager 149 sourced rows; complete inventory explicitly unqualified
+shards (runtime, true)	Run this shard	2026-11-05T22:37:22.8501999Z PROBE MOVE-012 4: built public inventory -> every inventoried workflow has a named Gap; unsupported boundary and partner workflows remain visible
+shards (runtime, true)	Run this shard	2026-11-05T22:37:22.8502682Z PROBE MOVE-012 5: built corporate accounting rows -> AppFolio and Buildium corporate books and Rent Manager company reports remain gaps
+shards (runtime, true)	Run this shard	2026-11-05T22:37:22.8503322Z PROBE MOVE-012 6: built telephone maintenance rows -> sourced AppFolio, Buildium and Rent Manager call intake remain named gaps
+shards (runtime, true)	Run this shard	2026-11-05T22:37:22.8504310Z PROBE MOVE-012 7: built technician GPS row -> Rent Manager Service Tech Map remains a gap; association violations GPS remains separate
+shards (runtime, true)	Run this shard	2026-11-05T22:37:22.8505719Z PROBE MOVE-012 8: built scheduled-report rows -> rendered Buildium scheduling and owner-portal delivery, and Rent Manager scheduled report batches remain sourced gaps; unaudited AppFolio and remaining help areas stay disclosed
+shards (runtime, true)	Run this shard	2026-11-05T22:37:24.2479061Z TER-012 passed: run site /, /run, /docs and a 404 document; linked tenancy and ledger actions with a stacked 390-pixel ledger
+shards (runtime, true)	Run this shard	2026-11-05T22:39:05.0368415Z ##[error]The operation was canceled.

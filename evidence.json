@@ -1,0 +1,202 @@
+{
+  "files": [
+    {
+      "blob": "5d69c4d6431a4a13b812f762338a2e26e32077f7",
+      "bytes": 1574,
+      "path": "APP-JOURNEY.log",
+      "sha256": "6c1f87d7f34bd62bceee1fdd2d385f48678d06e3ff437520e64bb8fea32142fc"
+    },
+    {
+      "blob": "e5d5eaf5da54ca9873d764b37d601b5940c3893e",
+      "bytes": 486,
+      "path": "BASE-VERIFY.json",
+      "sha256": "79c848c8333170acd46ce07f40864f98fc6966999f15694ad9b341fd0be43f7e"
+    },
+    {
+      "blob": "1b8eae235cff47a08e1636cf51922d1d6b0ebcf7",
+      "bytes": 4267,
+      "path": "CHECKS.json",
+      "sha256": "d93f65db46127c6e6ed613bbb4d5a82e00d4687cf605b0c4ec9eda128d118730"
+    },
+    {
+      "blob": "5b6ec169a4eb7d3bd07e0e1c6b4c3eb24f3f1e3b",
+      "bytes": 791,
+      "path": "CI-ANALYSIS.json",
+      "sha256": "eab5dcd4d8e8b6bf9fb5551d55e1a7574af917816fb2f467826fee0c4438e888"
+    },
+    {
+      "blob": "e43bf47642c39b7ed724766244091d682a45945a",
+      "bytes": 225,
+      "path": "CI-DISCOVERY.jsonl",
+      "sha256": "f9900e852740f346b8478c22a06c875ff2f1e2194f3ee8cdca219df18b1f8a4f"
+    },
+    {
+      "blob": "9596932d081f9a5e225e59e302aea2fd842d295a",
+      "bytes": 947,
+      "path": "CI-JOBS.json",
+      "sha256": "5e7ba921dece646297faf1f21b9b903cc9d3571e53716b6cfaa753c28152c671"
+    },
+    {
+      "blob": "2cd615af79f8550728c13848fffdcdc799685aca",
+      "bytes": 1963,
+      "path": "CI-RUNTIME-EXCERPT.txt",
+      "sha256": "5aebd615ef08a2cbee398e8914c6913cd81517682f894cfd63cb3ec4759c4e21"
+    },
+    {
+      "blob": "8f6887cda4a16ffdbefae2730f1d0d3d1b8c9c44",
+      "bytes": 115,
+      "path": "CI-SOURCE-EXCERPT.txt",
+      "sha256": "6c574583f8019a6e6abd31354fa505cea2a0a38f8ea24fd165c9a0d5904ee329"
+    },
+    {
+      "blob": "30e660209a3fe8c63c54a674e54dbf133bfee9d6",
+      "bytes": 239,
+      "path": "CI-STATUS.json",
+      "sha256": "01b9d408d5d6d4b9c19f294b4b81f15bc1cb871656ab7e02afb46d3f5bdebdd3"
+    },
+    {
+      "blob": "ed1621f71979f74f7f4f5ad0c122aa26eb3d627e",
+      "bytes": 135,
+      "path": "FIRST-PARTY.log",
+      "sha256": "e8290fd7c8992e7e8338f85c056934cf86dbcc5f74831ebd4853bd26cebb54f8"
+    },
+    {
+      "blob": "e3983e667c050f3ab7e68f5ffaa385deb446df1f",
+      "bytes": 71,
+      "path": "GENERATOR-CHECK.log",
+      "sha256": "e794235f92f419fad96cd8d31bd61414fdf749c6a5705e0654267cc336dac677"
+    },
+    {
+      "blob": "ef6b65423c9c273fbf85eb6bc97bec3d32a96061",
+      "bytes": 501,
+      "path": "MUTATIONS.json",
+      "sha256": "6759894f616b37f34df1914f859f9e7cf65624ea283ea0b5eaa482b9ffda7265"
+    },
+    {
+      "blob": "7529178b2d5d92da05a1dca3e74c239dcd78a1ac",
+      "bytes": 5004,
+      "path": "PACKET-FILES.json",
+      "sha256": "bda9370f892104a7939b7b0770aee017e27151ce2b17ed4aad9c07c1d57fedc1"
+    },
+    {
+      "blob": "18a14cb05fc97301467dc057266841f30c8c5acb",
+      "bytes": 1891,
+      "path": "PLAN.md",
+      "sha256": "7c7cdc10149d2ff9faefbf3b5446b9ada7543770024a59ec577e36be3d6750a0"
+    },
+    {
+      "blob": "5cef98eba961d0aa0b8aca5bfbfd4b5c26417023",
+      "bytes": 822,
+      "path": "PRODUCT-PROVENANCE.json",
+      "sha256": "f7e247e52958d268d8e5401330f1d4fc7c362542d9f4dde8293f9bfe75281c9c"
+    },
+    {
+      "blob": "d55ecfae6130f5a3fb44b5589beadd0607629d34",
+      "bytes": 722,
+      "path": "PRODUCT-PUSH.txt",
+      "sha256": "4b9cf72de8c535a087a99c25585d59818bd7022b5bbdd0d020ded3a5e1d1a343"
+    },
+    {
+      "blob": "d988be189669e098a57d81842e91e78ea4c45224",
+      "bytes": 12167,
+      "path": "REPORT.md",
+      "sha256": "4bd920eff6756da0456302dbfcf0ca72ba41d21b49d117e2e1818544658005d3"
+    },
+    {
+      "blob": "29a1b577737b8e98c85395cbe110e989eb26265a",
+      "bytes": 133,
+      "path": "TYPECHECK.log",
+      "sha256": "35fbc8afb0c99bc0a025a5c2d3a2cb7e3629f77839cbacbcff0882d64b12c165"
+    },
+    {
+      "blob": "62fffa8c07d431e4f7a9664e63bf84ea629f607c",
+      "bytes": 214395,
+      "path": "screens/appfolio-discovery-1440.png",
+      "sha256": "818d7511dc3e068ac1cf218b071be07e30956f9b038c78fc26fbb12468a26297"
+    },
+    {
+      "blob": "57fe4c999eb4963a4006de8971463dcffdee812a",
+      "bytes": 94805,
+      "path": "screens/appfolio-discovery-390.png",
+      "sha256": "1afbdbef02dace69785f90d26131797f9fc6de0559ec5cb88488471a5d7786ed"
+    },
+    {
+      "blob": "f8d454f3900a48a69bc2f096ef7fb346fcda5d76",
+      "bytes": 212088,
+      "path": "screens/appfolio-gaps-1440.png",
+      "sha256": "f1729d926b6e4d1a0b808f7d552f3f475fc141f67d5ccc440fea0104e902dcff"
+    },
+    {
+      "blob": "b98dc74c7a08dbeb7208d82bfb497bf53e9a5a48",
+      "bytes": 91774,
+      "path": "screens/appfolio-gaps-390.png",
+      "sha256": "8c2d7b987b3fb1ed6e6154201a5a96b5dcc604e0efd188067cdcd3e3953823b6"
+    },
+    {
+      "blob": "02201171dee117a979f8fba130f650e9d4da125a",
+      "bytes": 231858,
+      "path": "screens/buildium-discovery-1440.png",
+      "sha256": "b5c33c45f4c44983cfc735c42f0c1d227e6b413862ccbf514c48e10a07a8783a"
+    },
+    {
+      "blob": "f4757accbbfc4c1b85133a4f9568c55ed274a5f2",
+      "bytes": 103646,
+      "path": "screens/buildium-discovery-390.png",
+      "sha256": "8741f44abe0f0980016fd2c68aae30190aed370eed203e7ee598ec90d8243d8b"
+    },
+    {
+      "blob": "f7a9da424aefe4f535ebefc26cb33cc8e7405ad2",
+      "bytes": 191186,
+      "path": "screens/buildium-gaps-1440.png",
+      "sha256": "4750e302547653923e864d5fe83d36774b644d1dc292026fe8c6538666bd6f18"
+    },
+    {
+      "blob": "43f95167ca9ad259a82448b7c9c81d14d73b0060",
+      "bytes": 85710,
+      "path": "screens/buildium-gaps-390.png",
+      "sha256": "7cde6fd31cd08a6f0c85063d8f2b37371e4c17ab830996db2ad24c08dd29cd8a"
+    },
+    {
+      "blob": "8dc7f665a2ee60fc8dee3aac562a3f3427023d13",
+      "bytes": 209230,
+      "path": "screens/documentation-access-1440.png",
+      "sha256": "c251705db9f9037966e428f9f6ee6996ebe061e37c01985b365e4d0314a23692"
+    },
+    {
+      "blob": "47d40fb3222cfc9f89a63ece0093a9b76edce8f9",
+      "bytes": 88699,
+      "path": "screens/documentation-access-390.png",
+      "sha256": "2b600fdc2d05918286f5d2cc25db67e3901be4eb9a2c821b59f44ad469a7f9ca"
+    },
+    {
+      "blob": "cfe0ed471e73ba9096d0086a19883f818e5539eb",
+      "bytes": 231230,
+      "path": "screens/rent-manager-discovery-1440.png",
+      "sha256": "ab477da1b444aeb4378116a6ba84062630eded413cd6cd7afaff9169ef630c3f"
+    },
+    {
+      "blob": "d3fea868677fd15a57a95fcc54df75e5b5aba809",
+      "bytes": 103661,
+      "path": "screens/rent-manager-discovery-390.png",
+      "sha256": "e9463b9e45ee3c35e56319f4809adde1fe2a8c98e62392446f5ce082a5c511ad"
+    },
+    {
+      "blob": "a9ba0c70852aea09af3f59b430d07b2e2cb2846a",
+      "bytes": 191764,
+      "path": "screens/rent-manager-gaps-1440.png",
+      "sha256": "990a641fc9b4d379f76ccae720fc0531b6fcae00484e3328809a60da41719c94"
+    },
+    {
+      "blob": "bdf8bd39620ab5cdaea4890b263a9412d4bcaa31",
+      "bytes": 81948,
+      "path": "screens/rent-manager-gaps-390.png",
+      "sha256": "66670d356af99abbb3e467619808ddc33979408232ea8ce9be46f1c6f612f909"
+    }
+  ],
+  "product_branch": "cloud/sx-terrace-c-f90",
+  "product_head": "d09ea20e3cd7ecdaf4233216853cbac606895a61",
+  "ref": "refs/heads/evidence/sx-terrace-c-f90",
+  "repository": "just-every/run-terrace",
+  "schema": 1,
+  "tag": "sx-terrace-c-f90"
+}

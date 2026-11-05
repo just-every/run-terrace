@@ -1,0 +1,139 @@
+{
+  "schema": 1,
+  "tag": "sx-terrace-c-f90",
+  "repository": "just-every/run-terrace",
+  "branch": "cloud/sx-terrace-c-f90",
+  "head": "d09ea20e3cd7ecdaf4233216853cbac606895a61",
+  "base": "b572d41893a560d29d089b698e1770d4b1882fef",
+  "main_observed": "354b7960edf19cf7934767caea70080104fc6cc3",
+  "checks": [
+    {
+      "command": "node scripts/contract-docs.mjs write",
+      "exit": 0,
+      "note": "Landing-only views restored from origin/main afterward."
+    },
+    {
+      "command": "node scripts/contract-docs.mjs check",
+      "exit": 0,
+      "note": "Passed after write; committed views intentionally retain main bytes."
+    },
+    {
+      "command": "node scripts/edition-authoring/cli.mjs lock",
+      "exit": 0
+    },
+    {
+      "command": "node scripts/edition-authoring/cli.mjs check",
+      "exit": 0,
+      "note": "Includes the four newly tracked access evidence files."
+    },
+    {
+      "command": "pnpm run typecheck",
+      "exit": 0
+    },
+    {
+      "command": "pnpm run check --profile first-party",
+      "exit": 0
+    },
+    {
+      "command": "node tests/app-journey.mjs",
+      "exit": 0,
+      "node": "22.20.0",
+      "browser": "/usr/bin/chromium",
+      "hard_timeout_seconds": 1200,
+      "note": "Existing emitted-app journey, public checklist integrity and runtime browser proof at 1440 and 390. No provider account used."
+    },
+    {
+      "command": "rer build",
+      "exit": 0
+    },
+    {
+      "command": "rer build --site",
+      "exit": 0
+    },
+    {
+      "command": "assertRunSite()",
+      "exit": 0,
+      "note": "Built-page integrity and source-to-rendered-row reconciliation."
+    },
+    {
+      "command": "migration ledger",
+      "exit": 0,
+      "note": "Not applicable; no migration added or edited."
+    }
+  ],
+  "counts": {
+    "clauses_before": {
+      "done": 59,
+      "partial": 56,
+      "missing": 43
+    },
+    "clauses_after": {
+      "done": 59,
+      "partial": 56,
+      "missing": 43
+    },
+    "workflows_before": 542,
+    "workflows_after": 555,
+    "sources": 41,
+    "discovery_urls": 867,
+    "access_observations": 3,
+    "status_rows_before": 158,
+    "status_rows_after": 158,
+    "declared_tests_before": 50,
+    "declared_tests_after": 50
+  },
+  "retained_text_lines": {
+    "before": {
+      "workflow_lines": 521,
+      "reviewed_context": 0,
+      "unaudited": 6949
+    },
+    "after": {
+      "workflow_lines": 529,
+      "reviewed_context": 487,
+      "unaudited": 6454
+    }
+  },
+  "local_development_failure": {
+    "head": "71ab8e5b3a6101b6c20bbdc1002df702c397c71f",
+    "error": "New exact heading-name lookup timed out because the heading includes its permalink accessible name.",
+    "resolution": "Corrected only the newly introduced heading locators to the existing journey convention. The final exact-head journey passed. This SHA was never pushed."
+  },
+  "scan": {
+    "status": "NOT RUN",
+    "reason": "Cloud adaptation assigns full-history publication scan to the fleet lander."
+  },
+  "run_site": {
+    "status": "NOT RUN",
+    "reason": "Main-only deployment remains with the fleet lander."
+  },
+  "pr": null,
+  "complete_official_inventory": false,
+  "remaining": "Full official documentation coverage, linked and authenticated material and omitted source areas remain unqualified for every incumbent. Detailed Rent Manager Help needs an authorized incumbent installation.",
+  "ci": {
+    "run_id": 42121470539,
+    "head": "d09ea20e3cd7ecdaf4233216853cbac606895a61",
+    "conclusion": "failure",
+    "source_job": {
+      "id": 127574679609,
+      "error": "Stale contract projection: ACCEPTANCE.md",
+      "expected_generated_view_exception": true,
+      "log_reads": 1
+    },
+    "runtime_job": {
+      "id": 127574679571,
+      "conclusion": "cancelled",
+      "error": "The operation was canceled.",
+      "target_public_checklist_probes_passed": true,
+      "installed_app_journey_passed": true,
+      "later_phase": "payer-accounting.test.mjs",
+      "failing_assertion_observed": false,
+      "log_reads": 1,
+      "cancellation_cause": "Not established by the retrieved job log; no speculative product repair or rerun."
+    },
+    "api_calls_used": 10,
+    "api_budget": 10,
+    "verify_green_claimed": false
+  },
+  "terminal_custody": "PUSHED"
+}

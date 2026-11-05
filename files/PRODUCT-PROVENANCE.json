@@ -1,0 +1,17 @@
+{
+  "repository": "just-every/run-terrace",
+  "branch": "cloud/sx-terrace-c-f90",
+  "head": "d09ea20e3cd7ecdaf4233216853cbac606895a61",
+  "tree": "763da55154dc357d31ef6314a1deff033eaf97ac",
+  "remote_ref": "refs/heads/cloud/sx-terrace-c-f90",
+  "remote_head": "d09ea20e3cd7ecdaf4233216853cbac606895a61",
+  "worktree_clean": true,
+  "main_observed": "354b7960edf19cf7934767caea70080104fc6cc3",
+  "main_is_ancestor": true,
+  "generated_view_diff_from_main": false,
+  "source_lock_sha256": "fb0623e15637511764b480a77a69936a655f7d3e36234a5420f49968c60dd8d2",
+  "new_commits": [
+    "d09ea20e3cd7ecdaf4233216853cbac606895a61 Disclose official documentation access limits on public switch checklists",
+    "eaf377e788f73f171ba82b182bbff36316ac1092 Reconcile retained report sources and expose review accounting [skip ci]"
+  ]
+}

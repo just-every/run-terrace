@@ -1,0 +1,11 @@
+{
+  "head": "b572d41893a560d29d089b698e1770d4b1882fef",
+  "run_id": 42113801998,
+  "failed_job_id": 127548840916,
+  "job": "shards (source, false)",
+  "failed_command": "node scripts/contract-docs.mjs check",
+  "error": "Stale contract projection: ACCEPTANCE.md",
+  "log_read_command": "gh run view 42113801998 --repo just-every/run-terrace --job 127548840916 --log-failed",
+  "log_reads": 1,
+  "classification": "Expected landing-only generated-view exception; no repair attempted."
+}
