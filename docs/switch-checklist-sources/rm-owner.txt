@@ -1,0 +1,238 @@
+Owners - Rent Manager Property Management Software
+Skip to content
+Express Login
+Contact Us
+RMU Login
+Customer Portal
+Site Search
+Site Search Submit
+Features
+Accounting
+Accounts Receivable
+Accounts Payable
+Payments
+AI-Powered Tools
+Electronic Reconciliations
+Tax Tools
+Budgeting
+Reporting
+Built-In Reports
+Report Writer
+Financial Report Writer
+Report Automation
+Custom Reports
+Marketing & Leasing
+Prospect & Tenant Portal
+Resident Screening
+Resident App
+Guest Cards
+Websites
+ILS Advertising
+Web Chat
+Business Operations
+Communication Tools
+Mobile App
+Renters Insurance
+Call Center
+Project Management
+Owners
+Process and Admin Features
+Maintenance
+Service Issues
+Maintenance Scheduling
+Work Orders and Billing
+Inspections
+Make-Ready Boards
+Utility Management
+Orion AI
+Writing Assistant
+Smart AP
+Smart AR
+Instant Insights
+MCP
+Software Customization
+API
+Open Access
+Industries
+Residential
+Commercial
+Manufactured Housing
+Associations
+Student Housing
+RV Park & Campgrounds
+Self Storage
+Affordable Housing
+Vacation Homes
+Other Markets
+Integrations
+Built-In
+Featured
+Newly Added
+Internet Listing Services
+Solutions Partners
+All Integrations
+Resources
+Industry Resources
+Blog
+Beyond Rent Podcast
+Industry Affiliations
+Onboarding
+Implementation
+Data Migration
+Customer Support
+Customer Success
+User Resources
+Tenant Resources
+Training
+Rent Manager University
+Guided Online Training
+Training Calendar
+Rent Manager Certification
+About
+Rent Manager
+Our Story
+Events
+Data Security
+Our Company
+Products
+Awards and Recognitions
+Career Opportunities
+Bundles
+Request Demo
+Owners
+For fee-based management companies, establishing an Ownership setup in Rent Manager is a breeze. Accomplish crucial business tasks—including receiving Owner Contributions, collecting Management Fees, and paying owners their equity distributions—in a matter of a few mouse clicks. You also have the ability to give your owners access to important property and financial investment information through their own online portal.
+Owner PortalManagement FeesGuest CardsWeb ChatNACHA Files
+Owner Portal
+Owner Web Access (OWA) allows your owners to log into a designated, customized portal to view reserves, bank balances, distributions, and management fees. Owners can generate and export Rent Manager reports to stay up to date on how their properties are doing. Your team can even upload documents to OWA and owners can review and sign documents electronically.
+This helpful digital resource provides owners with vital property and financial investment-related information in a convenient, secure location.
+Management Fees
+After paying bills and collecting receivables, efficiently calculate and post management fees in Rent Manager. Transfer funds from your managed properties’ operating bank accounts to your management company in a matter of a few clicks. Create and assign Management Fee Templates for each of your managed properties and post fees based on your specific requirements.
+Guest Cards
+Owner prospects browsing your website can quickly request a follow-up call and submit details about their property—specified by you—via a Guest Card template. Their submission automatically creates an Owner Prospect account within your Rent Manager database.
+Web Chat
+Implementing Web Chat on your company website enables immediate and valuable communication between you, your owners, and and or owner prospects. Quicker and more convenient than email, owners can send you a Web Chat message that instantly appears in the My Conversations window of Rent Manager.
+By structuring Web Chat so that these inquiries go to a specific owner’s queue, you can keep your chats organized and ensure that each question is answered by a staff member who understands their particular needs.
+NACHA Files
+This universal file type is used to request the transfer of funds electronically as an ACH and is easily generated in Rent Manager. NACHA files contain specific payment instructions for your bank and make the owner payout process quick and seamless.
+Beyond NACHA and ACH, you can pay your owners a specified amount or their full distribution via check or other electronic payment methods.
+Ideal for portfolios of every size, Rent Manager is your key to an effective and efficient property management business.
+Request a Free Demo
+Wendy Kreis
+Kearney Rental Pros
+I can’t imagine doing my job without Rent Manager. They listen to us as customers. We can let them know what’s going on in the real world and they build solutions to fit our needs.
+Resources
+Support
+Submit a Feature Request
+Submit an API Support Request
+Remote Assistance
+Install Rent Manager Online
+Install Scan Manager
+Training Calendar
+Virtual Classroom Enrollment
+Rent Manager Blog
+Beyond Rent Podcast
+About
+Rent Manager
+Our Company
+Awards and Accolades
+Events
+Careers at LCS.com
+Contact
+513-583-1482
+9140 Waterstone Blvd
+Cincinnati, OH 45249
+Connect
+Facebook User Forum
+Join Our Mailing List
+Copyright 2026 London Computer Systems, Inc. | Privacy Policy (updated 7.25.25) | Do Not Sell My Info
+Features▼
+Accounting▼
+Accounts Receivable
+Accounts Payable
+Payments
+AI-Powered Tools
+Electronic Reconciliations
+Tax Tools
+Budgeting
+Reporting▼
+Built-In Reports
+Report Writer
+Financial Report Writer
+Report Automation
+Custom Reports
+Marketing & Leasing▼
+Prospect & Tenant Portal
+Resident Screening
+Resident App
+Guest Cards
+Websites
+ILS Advertising
+Web Chat
+Business Operations▼
+Communication Tools
+Mobile App
+Renters Insurance
+Call Center
+Project Management
+Owners
+Process and Admin Features
+Maintenance▼
+Service Issues
+Maintenance Scheduling
+Work Orders and Billing
+Inspections
+Make-Ready Boards
+Utility Management
+Orion AI▼
+Writing Assistant
+Smart AP
+Smart AR
+Instant Insights
+MCP
+Software Customization▼
+API
+Open Access
+Industries▼
+Residential
+Commercial
+Manufactured Housing
+Associations
+Student Housing
+RV Park & Campgrounds
+Self Storage
+Affordable Housing
+Vacation Homes
+Other Markets
+Integrations▼
+Built-In
+Featured
+Newly Added
+Internet Listing Services
+Solutions Partners
+All Integrations
+Resources▼
+Industry Resources▼
+Blog
+Beyond Rent Podcast
+Industry Affiliations
+Onboarding▼
+Implementation
+Data Migration
+Customer Support▼
+Customer Success
+User Resources
+Tenant Resources
+Training▼
+Rent Manager University
+Guided Online Training
+Training Calendar
+Rent Manager Certification
+About▼
+Rent Manager▼
+Our Story
+Events
+Data Security
+Our Company▼
+Products
+Awards and Recognitions
+Career Opportunities

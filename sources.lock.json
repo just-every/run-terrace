@@ -133,7 +133,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "8bf8c0faa4ff5b8ef0f6586f5684a995d7e2f9c1a1a424f9437c16ad40ad0379",
+      "sha256": "b97cc3f05fa85b714a06c5941acd3fd7b1c3cb83f9acb966a3b20b5fd146aca4",
       "executable": false
     },
     "DEMO.md": {
@@ -244,16 +244,44 @@
       "sha256": "489ea74a0f200db9108b065ff65ce4979d4e4333e170ae0b970e4a9233b8c9af",
       "executable": false
     },
+    "docs/switch-checklist-sources/af-automation.txt": {
+      "sha256": "50c5616cc7375dd9cda5fe561bd084cebbe3694950e8e5713443c722b58bc4c2",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/af-communication.txt": {
+      "sha256": "2a2e768b9925260fff55b5060c54626a0de61c7bdb847dba1f5389ee0bcfa52e",
+      "executable": false
+    },
     "docs/switch-checklist-sources/af-maintenance.txt": {
       "sha256": "2f6c39dc37e2a4d03eca6f50620dfceb092acb83f2e3bb7dd73deb6f3e56c76c",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/af-marketing.txt": {
+      "sha256": "655ec0a26d13ef582a29877be4b0ca06f72a19e49b7049ca0472b3e92ad431be",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/af-owner.txt": {
+      "sha256": "e8186dc8272db8f046ab2844b2d7df885d80dcfabf2768c3b4f676cba87c84fb",
       "executable": false
     },
     "docs/switch-checklist-sources/af-platform.txt": {
       "sha256": "72396b76ba149078d4a3c56d072144b4f039c7ba4fa5838070f6e461769fa161",
       "executable": false
     },
+    "docs/switch-checklist-sources/af-reports.txt": {
+      "sha256": "3b44fa7a461b85a5f99e1f63bf56248ffebb3293738e18365aab5589e4e3887a",
+      "executable": false
+    },
     "docs/switch-checklist-sources/af-resident.txt": {
       "sha256": "ea2a614d3c6c0a47387bae8f483080a790207ae51cce4570330e710fe9a221f1",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/af-smart-blog.txt": {
+      "sha256": "6b9bde70cd153d1f552bd0bceee532da2ecb2307e2f02bcf08c083d3da7afbdb",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/af-smart-maintenance.txt": {
+      "sha256": "18f142098db2145ea36260e3bf2921c89e701d0d05d3dccf3c6468f14b3eed60",
       "executable": false
     },
     "docs/switch-checklist-sources/af-vendor.txt": {
@@ -265,15 +293,27 @@
       "executable": false
     },
     "docs/switch-checklist-sources/appfolio.json": {
-      "sha256": "38bba655e4e11c97d61b723418ab5904f2f2dbf495470418a18e0960bf8de2cf",
+      "sha256": "8a6dd688635994fc1ddb5077ea8324f27419808e03523a9afb6d4573828dfffe",
       "executable": false
     },
     "docs/switch-checklist-sources/bu-accounting.txt": {
       "sha256": "0b39bf26537fb3619f428e46a86ec05c620980061eca8c9bc135d6d829383342",
       "executable": false
     },
+    "docs/switch-checklist-sources/bu-analytics.txt": {
+      "sha256": "7c8c53228635138ba2b76b95b561fbb40c0bc1e753bf59e119e98c0c3c96a096",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/bu-automation.txt": {
+      "sha256": "430f0cf269fbb48f63401a4394d389fcdb2676da1683cd0b6b511c46ad09d0b2",
+      "executable": false
+    },
     "docs/switch-checklist-sources/bu-company.txt": {
       "sha256": "1e92182459a2e08b193d4093f9e68b4b88307b68f2a87c65fb4266e9d4201585",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/bu-leasing.txt": {
+      "sha256": "f5780b10b82c9402a40825889511d22495d461e788eeb93d572ce4b39a730750",
       "executable": false
     },
     "docs/switch-checklist-sources/bu-maintenance.txt": {
@@ -282,6 +322,10 @@
     },
     "docs/switch-checklist-sources/bu-platform.txt": {
       "sha256": "c4eddad82edff9e8c5631a4dffdab86119f4d2a9871e623109a6142e687c9e77",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/bu-resident.txt": {
+      "sha256": "539980a3c8077553bf1ea477fa84d445267c53d5844dd09545c182f70b651ee8",
       "executable": false
     },
     "docs/switch-checklist-sources/bu-scheduled-help.txt": {
@@ -297,11 +341,11 @@
       "executable": false
     },
     "docs/switch-checklist-sources/buildium.json": {
-      "sha256": "dc149584c818220f6b64bcbb9a4066aed7e88faf992663c806981c3d5c73a4d9",
+      "sha256": "2f88a1728432b3bbee6e2abcb22be52ede807b0df16f822dd85a08f666e736e9",
       "executable": false
     },
     "docs/switch-checklist-sources/manifest.json": {
-      "sha256": "d6060f708a8d2f058a64181e72a238b6543cd439c9f8f85f0b3e20a98147f7e7",
+      "sha256": "bb62e1ee21d05ab797adee872cd6225417d155609ba40397f9279a5735d0c25d",
       "executable": false
     },
     "docs/switch-checklist-sources/rent-manager-discovery.txt": {
@@ -309,15 +353,27 @@
       "executable": false
     },
     "docs/switch-checklist-sources/rent-manager.json": {
-      "sha256": "fc9422b8fef35e00b9f05a9f430c689999a208825ec6d743cf0beecb53f67ca4",
+      "sha256": "98e3627b269633ac4d01ba0527c20d54060ec68440f177cc4b76096ff91f62f5",
       "executable": false
     },
     "docs/switch-checklist-sources/rm-accounting.txt": {
       "sha256": "bb679da41595d2b3e68fc1e1420ec58ac06560d4e7c332ec09812fa446a50409",
       "executable": false
     },
+    "docs/switch-checklist-sources/rm-leasing.txt": {
+      "sha256": "04134d13142ef5c189deb9b7517a653583d31c4239e71e9680ec2fcbddf45ea5",
+      "executable": false
+    },
     "docs/switch-checklist-sources/rm-maintenance.txt": {
       "sha256": "c6c38fed8bc4fca739698be2ce31bab0200221369139a9c95b4f4966370d4441",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/rm-mobile.txt": {
+      "sha256": "c5f8fd0eba6af686568cc31bf4df67c79e5081f883c35bba9be0f52ccf6e988a",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/rm-owner.txt": {
+      "sha256": "5167f9afa12c63ca9e30634b38dbd3af94703f093e133e731079eb0edaae1efa",
       "executable": false
     },
     "docs/switch-checklist-sources/rm-reports.txt": {
@@ -332,12 +388,16 @@
       "sha256": "0ca4b34fd4660120237af8704fbc49a843243d777e0563ce739a77c90791b29c",
       "executable": false
     },
+    "docs/switch-checklist-sources/source-areas.json": {
+      "sha256": "e5fcc363b748c17336579468963ff7fe4c7a66f0349563a0e6d5d38c1c238cc1",
+      "executable": false
+    },
     "docs/switch-checklists.json": {
-      "sha256": "7532995b928a622b8816a9c161ba9b08466db3a36250c6210985f59844b996e4",
+      "sha256": "0dfcd1d51345feb52580abb717278f3a8a2e9218e1f719223001e0bcb8d272ad",
       "executable": false
     },
     "docs/switch-checklists.md": {
-      "sha256": "fe372e6782240106e8c99d5fb481d988256d948fdc895813cfe2ddff6e055d5a",
+      "sha256": "816686437c72ce51cb8a40a550b2307807b614aa5b26b0a5154e67e97e24b760",
       "executable": false
     },
     "docs/tenancies.md": {
@@ -1365,7 +1425,7 @@
       "executable": false
     },
     "scripts/switch-checklists.mjs": {
-      "sha256": "9c5480e248a15c60eca64995d6bcc391b9f88adc629583dc316fe904d35aca06",
+      "sha256": "80bc16c4cd15035a40adbeffb907946ae91789feb91a6f7fa75b91864c9b890b",
       "executable": false
     },
     "scripts/twilio-sandbox.mjs": {
@@ -5505,7 +5565,7 @@
       "executable": false
     },
     "tests/site/switch-checklists.mjs": {
-      "sha256": "6232eb4d240ddfc64d7c18e9c633e755f37b13e7dc70f014597c871db33f06f7",
+      "sha256": "e850ceed3967611bcf5e53ea09069b13b58c8e7fe939e5d6732488bb720b9984",
       "executable": false
     },
     "tests/statements-browser.mjs": {

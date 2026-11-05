@@ -1344,6 +1344,1118 @@
       ],
       "gap": "Same-capability replacement acceptance is unqualified for this documented workflow; inspect the current clause evidence and remaining gaps.",
       "coverage": "gap"
+    },
+    {
+      "workflow": "af-smart-blog-01",
+      "clauses": [
+        "WORK-001",
+        "PORTAL-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for telephone maintenance intake. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-smart-blog-02",
+      "clauses": [
+        "AGENT-003",
+        "WORK-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for ai maintenance urgency follow-up. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-smart-blog-03",
+      "clauses": [
+        "AGENT-003",
+        "WORK-001",
+        "WORK-004"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for maintenance emergency troubleshooting and preferred-vendor dispatch. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-reports-01",
+      "clauses": [
+        "REPORT-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for combined report builder with drill-down. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-reports-02",
+      "clauses": [
+        "REPORT-001",
+        "REPORT-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for rent roll column customization and saved export. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-reports-03",
+      "clauses": [
+        "REPORT-003",
+        "REPORT-004"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for vacancy duration and trailing owner income reports. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-01",
+      "clauses": [
+        "AGENT-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for autonomous lead nurture and tour scheduling. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-02",
+      "clauses": [
+        "LEASE-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for cross-portfolio prospect guest cards. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-03",
+      "clauses": [
+        "LEASE-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for prioritized leasing task lists. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-04",
+      "clauses": [
+        "REPORT-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for leasing pipeline and team performance. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-05",
+      "clauses": [
+        "LEASE-007",
+        "LEASE-009"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for custom rental applications with integrated screening. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-06",
+      "clauses": [
+        "LEASE-009"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for criminal and background screening. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-07",
+      "clauses": [
+        "LEASE-009"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for income identity and employment verification. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-08",
+      "clauses": [
+        "LEASE-006"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for comparable-data rent pricing. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-09",
+      "clauses": [
+        "LEASE-006"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for adjustable pricing suggestions. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-10",
+      "clauses": [
+        "LEASE-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for integrated property marketing website. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-11",
+      "clauses": [],
+      "gap": "3D virtual tours has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-12",
+      "clauses": [],
+      "gap": "Interactive unit amenity and parking maps has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-13",
+      "clauses": [
+        "LEASE-002",
+        "LEASE-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for paid listing syndication. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-14",
+      "clauses": [
+        "LEASE-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for guest card capture and action inbox. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-15",
+      "clauses": [],
+      "gap": "Self-guided property tours has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-16",
+      "clauses": [],
+      "gap": "Live virtual showings has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-17",
+      "clauses": [
+        "LEASE-004"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for showing identity verification. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-18",
+      "clauses": [
+        "LEASE-010",
+        "LEASE-011",
+        "LEASE-012"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for branded electronic leases and renewals. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-19",
+      "clauses": [
+        "LEASE-012"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for automatic renewal date rent and status updates. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-20",
+      "clauses": [
+        "LEASE-001",
+        "REPORT-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for vacancy publication dashboard. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-21",
+      "clauses": [
+        "LEASE-001",
+        "LEASE-002",
+        "LEASE-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for own-site and ils vacancy publication. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-22",
+      "clauses": [],
+      "gap": "Multi-unit marketing campaigns has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-23",
+      "clauses": [],
+      "gap": "Student rent by the bed has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-24",
+      "clauses": [
+        "PORT-006"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for bulk move-outs with charges credits and work. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-25",
+      "clauses": [
+        "LEASE-012"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for bulk renewal choices and monthly charges. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-26",
+      "clauses": [
+        "LEASE-006"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for bulk unit and campaign pricing. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-marketing-27",
+      "clauses": [
+        "REPORT-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for leasing metrics dashboard. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-01",
+      "clauses": [
+        "PORTAL-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for resident shared-document portal. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-02",
+      "clauses": [
+        "AGENT-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for multilingual around-the-clock resident response. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-03",
+      "clauses": [
+        "AGENT-003",
+        "WORK-004"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for resident request to technician dispatch. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-04",
+      "clauses": [
+        "PORTAL-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for central text and email inbox. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-05",
+      "clauses": [
+        "PORTAL-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for inbound message sorting and filtering. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-06",
+      "clauses": [
+        "AGENT-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for contextual suggested next actions. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-07",
+      "clauses": [
+        "AGENT-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for personalized suggested message replies. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-08",
+      "clauses": [
+        "PORTAL-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for resident dues payments and lease downloads. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-09",
+      "clauses": [],
+      "gap": "Homeowner and board portals has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-10",
+      "clauses": [
+        "PORTAL-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for vendor work originals and completion. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-11",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for owner financial and work portal. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-12",
+      "clauses": [
+        "PORTAL-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for individual and mass vendor and resident texts. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-13",
+      "clauses": [
+        "PORTAL-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for individual and bulk resident emails. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-14",
+      "clauses": [
+        "PAY-011"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for deferred rent and association payment plans. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-15",
+      "clauses": [
+        "PORTAL-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for shared document organization and withdrawal. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-16",
+      "clauses": [],
+      "gap": "Board check and invoice approvals has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-17",
+      "clauses": [],
+      "gap": "Homeowner architectural requests has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-18",
+      "clauses": [],
+      "gap": "Board-member documents and voting has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-19",
+      "clauses": [
+        "PORT-010"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for tenant insurance proof and purchase. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-20",
+      "clauses": [],
+      "gap": "Automatic resident satisfaction surveys has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-communication-21",
+      "clauses": [
+        "PORTAL-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for reusable text templates. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-01",
+      "clauses": [
+        "LEASE-007"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for workflow templates for applications. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-02",
+      "clauses": [
+        "PAY-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for workflow templates for rent collection. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-03",
+      "clauses": [
+        "PAY-011"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for workflow templates for debt collection. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-04",
+      "clauses": [
+        "LEASE-012"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for workflow templates for renewals. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-05",
+      "clauses": [
+        "LEASE-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for workflow templates for lead nurture. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-06",
+      "clauses": [
+        "PAY-011"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for workflow templates for delinquencies. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-07",
+      "clauses": [
+        "WORK-010"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for workflow templates for unit turns. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-08",
+      "clauses": [
+        "LEASE-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for workflow templates for listing and withdrawal. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-09",
+      "clauses": [
+        "OPS-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for workflow progress and reassignment. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-10",
+      "clauses": [
+        "OPS-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for custom workflow blueprints. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-11",
+      "clauses": [
+        "OPS-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for event date and schedule workflow triggers. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-12",
+      "clauses": [
+        "SAFE-002"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for staff change audit center. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-13",
+      "clauses": [
+        "ROLE-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for custom user roles. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-14",
+      "clauses": [
+        "SAFE-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for warehouse and report data exports. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-15",
+      "clauses": [
+        "SAFE-002"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for page audit logs and reversions. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-automation-16",
+      "clauses": [
+        "SAFE-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for staff two-factor authentication. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-automation-01",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for scheduled reports. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-automation-02",
+      "clauses": [
+        "LEASE-009"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for automatic application screening. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-automation-03",
+      "clauses": [
+        "PAY-008",
+        "PAY-011"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for returned-payment fees and notices. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-automation-04",
+      "clauses": [
+        "PORTAL-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for activity-triggered resident communication. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-automation-05",
+      "clauses": [
+        "WORK-010"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for automated unit-turn processes. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-automation-06",
+      "clauses": [],
+      "gap": "AI email and announcement drafting has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-automation-07",
+      "clauses": [
+        "AGENT-008"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for goal-driven leasing maintenance and reporting agents. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-automation-08",
+      "clauses": [
+        "ACCT-007"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for ai invoice processing. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-automation-09",
+      "clauses": [],
+      "gap": "Same-capability replacement acceptance is unqualified for custom api integrations. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-automation-10",
+      "clauses": [
+        "PAY-004",
+        "PAY-006",
+        "PAY-011"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for payment reminders late fees and scheduled payments. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-analytics-01",
+      "clauses": [
+        "REPORT-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for real-time performance and business goals. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-analytics-02",
+      "clauses": [],
+      "gap": "Localized peer performance benchmarks has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-analytics-03",
+      "clauses": [
+        "REPORT-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for staff and client data visualizations. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-leasing-01",
+      "clauses": [
+        "LEASE-011"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for electronic signing with signer order reminders and status. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-leasing-02",
+      "clauses": [
+        "LEASE-010"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for lease templates with signature blocks and autofill. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-leasing-03",
+      "clauses": [
+        "LEASE-011",
+        "SAFE-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for searchable signed documents and automatic uploads. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-01",
+      "clauses": [],
+      "gap": "Resident branding and user permissions has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-02",
+      "clauses": [
+        "PAY-004"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for resident autopay and scheduled payments. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-03",
+      "clauses": [
+        "PORTAL-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for resident payment history. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-04",
+      "clauses": [
+        "PAY-007"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for retail cash flexible rent and deposit alternatives. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-05",
+      "clauses": [
+        "PORTAL-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for resident two-way messages and property announcements. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-06",
+      "clauses": [
+        "PORTAL-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for automatic payment and renewal reminders. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-07",
+      "clauses": [
+        "PORTAL-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for resident sms announcements. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-08",
+      "clauses": [
+        "WORK-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for resident repair photos and requests. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-09",
+      "clauses": [
+        "PORTAL-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for resident repair assignment status. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-10",
+      "clauses": [
+        "WORK-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for appointment availability coordination. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-11",
+      "clauses": [],
+      "gap": "Amenity reservations and community events has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-12",
+      "clauses": [
+        "PORT-010"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for resident insurance purchase and participation tracking. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-13",
+      "clauses": [],
+      "gap": "Resident credit-bureau rent reporting has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-14",
+      "clauses": [],
+      "gap": "Flexible rent installment partner has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-15",
+      "clauses": [],
+      "gap": "Resident utility move-in services has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-16",
+      "clauses": [],
+      "gap": "Deposit-free rental partner program has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-resident-17",
+      "clauses": [
+        "PORTAL-008"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for native resident mobile applications. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-mobile-01",
+      "clauses": [
+        "PORTAL-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for mobile texts and recorded voice calls. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-mobile-02",
+      "clauses": [
+        "PAY-002",
+        "PAY-003",
+        "PAY-007"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for mobile ach cash and card acceptance. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-mobile-03",
+      "clauses": [
+        "WORK-011"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for field inspections synchronized to native records. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-mobile-04",
+      "clauses": [
+        "PORTAL-008"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for technician inspection push notifications. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-mobile-05",
+      "clauses": [
+        "WORK-011"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for technician inspection templates. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-mobile-06",
+      "clauses": [],
+      "gap": "Inspection map directions has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-mobile-07",
+      "clauses": [
+        "WORK-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for inspection arrival and departure communications. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-mobile-08",
+      "clauses": [
+        "WORK-007"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for technician gps. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-mobile-09",
+      "clauses": [
+        "WORK-007",
+        "WORK-008"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for field repair photos and electronic signoff. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-mobile-10",
+      "clauses": [],
+      "gap": "Mobile association violations and charges has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-mobile-11",
+      "clauses": [
+        "PAY-013"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for barcode utility meter readings. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-mobile-12",
+      "clauses": [
+        "PAY-013"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for historical utility reading anomaly review. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-01",
+      "clauses": [
+        "PORTAL-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for resident online payments signatures and repairs. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-02",
+      "clauses": [
+        "LEASE-007"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for custom online application templates. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-03",
+      "clauses": [
+        "LEASE-011"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for portal signable fields on arbitrary documents. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-04",
+      "clauses": [
+        "LEASE-011"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for signed document synchronization. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-05",
+      "clauses": [
+        "LEASE-011",
+        "LEASE-012"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for digital leases and renewals. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-06",
+      "clauses": [
+        "LEASE-009"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for credit criminal and eviction screening. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-07",
+      "clauses": [
+        "PORTAL-008"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for resident mobile payments and repairs. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-08",
+      "clauses": [
+        "LEASE-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for prospect crm and personalized unit letters. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-09",
+      "clauses": [
+        "LEASE-005"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for website guest cards creating native prospects. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-10",
+      "clauses": [
+        "LEASE-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for self-managed property website templates. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-11",
+      "clauses": [],
+      "gap": "Integrated professional website service has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-12",
+      "clauses": [
+        "LEASE-001"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for existing website integration. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-13",
+      "clauses": [
+        "LEASE-002",
+        "LEASE-003"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for automatic ils listing updates. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-14",
+      "clauses": [],
+      "gap": "Prospect web chat with staff queues has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-15",
+      "clauses": [
+        "PORTAL-009"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for dynamic notice letters emailed exported and printed. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-16",
+      "clauses": [],
+      "gap": "Aerial property maps with financial indicators has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-17",
+      "clauses": [],
+      "gap": "Property maps for prospect marketing has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-18",
+      "clauses": [],
+      "gap": "Map drill-down to residents and work has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-leasing-19",
+      "clauses": [],
+      "gap": "Prospect matching by mapped amenities and accessibility has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-owner-01",
+      "clauses": [
+        "ACCT-010"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for owner contributions and equity distributions. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-owner-02",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for owner reserves balances distributions and fee portal. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-owner-03",
+      "clauses": [
+        "PORTAL-002",
+        "REPORT-004"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for owner generated and exported reports. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-owner-04",
+      "clauses": [],
+      "gap": "Owner document signing has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-owner-05",
+      "clauses": [
+        "ACCT-009"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for management fee templates posting and transfers. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-owner-06",
+      "clauses": [],
+      "gap": "Owner prospect guest cards has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-owner-07",
+      "clauses": [],
+      "gap": "Owner web chat has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-owner-08",
+      "clauses": [],
+      "gap": "Owner-specific chat queues has no qualified Terrace replacement and remains an explicit gap, including any partner or product-boundary dependency.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-owner-09",
+      "clauses": [
+        "ACCT-010"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for owner ach nacha file creation. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-owner-10",
+      "clauses": [
+        "ACCT-010"
+      ],
+      "gap": "Same-capability replacement acceptance is unqualified for check and electronic owner distributions. Related native evidence does not qualify the documented actor, door, prerequisites and outcome.",
+      "coverage": "gap"
     }
   ]
 }

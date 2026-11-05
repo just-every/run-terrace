@@ -1,0 +1,278 @@
+Marketing & Leasing - Rent Manager Property Management Software
+Skip to content
+Express Login
+Contact Us
+RMU Login
+Customer Portal
+Site Search
+Site Search Submit
+Features
+Accounting
+Accounts Receivable
+Accounts Payable
+Payments
+AI-Powered Tools
+Electronic Reconciliations
+Tax Tools
+Budgeting
+Reporting
+Built-In Reports
+Report Writer
+Financial Report Writer
+Report Automation
+Custom Reports
+Marketing & Leasing
+Prospect & Tenant Portal
+Resident Screening
+Resident App
+Guest Cards
+Websites
+ILS Advertising
+Web Chat
+Business Operations
+Communication Tools
+Mobile App
+Renters Insurance
+Call Center
+Project Management
+Owners
+Process and Admin Features
+Maintenance
+Service Issues
+Maintenance Scheduling
+Work Orders and Billing
+Inspections
+Make-Ready Boards
+Utility Management
+Orion AI
+Writing Assistant
+Smart AP
+Smart AR
+Instant Insights
+MCP
+Software Customization
+API
+Open Access
+Industries
+Residential
+Commercial
+Manufactured Housing
+Associations
+Student Housing
+RV Park & Campgrounds
+Self Storage
+Affordable Housing
+Vacation Homes
+Other Markets
+Integrations
+Built-In
+Featured
+Newly Added
+Internet Listing Services
+Solutions Partners
+All Integrations
+Resources
+Industry Resources
+Blog
+Beyond Rent Podcast
+Industry Affiliations
+Onboarding
+Implementation
+Data Migration
+Customer Support
+Customer Success
+User Resources
+Tenant Resources
+Training
+Rent Manager University
+Guided Online Training
+Training Calendar
+Rent Manager Certification
+About
+Rent Manager
+Our Story
+Events
+Data Security
+Our Company
+Products
+Awards and Recognitions
+Career Opportunities
+Bundles
+Request Demo
+Marketing & Leasing
+Fill your vacancies faster with strategic, automated online marketing tools. Upload photos of your properties and units to your Rent Manager database and seamlessly push listings to your company website and industry-leading ILS sites. Streamline your prospecting and leasing process with online applications and digital leases that include built-in eSign technology. Leverage increased visibility and quickly convert prospects into paying tenants.
+Prospect and Tenant PortalResident ScreeningResident AppProspect ManagerGuest CardsWebsitesILS AdvertisingWeb ChatLetter TemplatesBird's Eye View
+Prospect & Tenant Online Portal
+Rent Manager’s Prospect and Tenant portal is the ultimate online resource for prospective and current renters. This secure resource gives tenants the flexibility to pay rent and other charges online, electronically sign leases, and submit maintenance requests rather than make a trip to the leasing office, which also results in fewer interruptions for you.
+Online Applications
+Signable Documents
+Online Leasing & Renewals
+Online Applications
+Rent Manager’s online application abilities provide convenience for your prospects and quicker approval response times for your management company. Craft your own application templates that prospects can easily access and complete on your website.
+Kick off the application and leasing process with confidence.
+Learn More
+Signable Documents
+Take your leases to the next level. Signable Docs allows you to place signable fields on any document. Prospects and tenants can review and sign the documents electronically through their online portals.
+Once you have received a signature, the document will appear in your Rent Manager database.
+Learn More
+Online Leasing & Renewals
+Go digital with your leasing and renewals process. With Rent Manager, tenants can access and sign their leases from any web-enabled device—allowing you to streamline this crucial aspect of your business.
+Remove the stress and unnecessary paperwork from lease renewal season with this efficient digital resource.
+Learn More
+Resident Screening
+Uncover potential credit issues—such as late payments or accumulated debt—as well as criminal and eviction history with Rent Manager’s fully integrated Resident Screening capabilities.
+Safeguard your communities from potential risks with a comprehensive screening program that doesn’t require any complicated setup on your end.
+Learn More About AmRent
+Resident App
+Keep residents in the know, even when they’re on the go. rmResident is a secure, easy-to-use mobile app designed to keep renters and property managers connected. Residents can use the app to make and view payments, review work orders and submit new ones, and more. Property Managers can respond to and resolve service issues while staying in touch with renters, anywhere, at any time.
+Go Mobile With rmResident
+Prospect Manager and CRM
+Turn prospects into tenants with Prospect Manager. This powerful feature provides valuable insights, tools, and reports that make tracking your prospects and marketing campaigns a breeze. Tailor your message to each prospect with customizable unit profile letters to speak directly to potential tenants who have certain amenities in mind.
+Guest Cards
+Never miss a chance to connect with future customers through strategically positioned Guest Cards. Guest Cards allow you to place a contact submission form on your custom website. Prospects browsing your site can quickly submit answers to the questions you craft via Rent Manager’s Guest Card template. These submissions also automatically generate a Prospect contact profile in your database.
+Website Design & Development
+A professionally crafted website makes a world of a difference in your marketing efforts. Our expert Web Design and Development department can craft a flexible, high-caliber website for your business that fully integrates with Rent Manager. Incorporate your brand into a stunning visual layout to drive more traffic to your properties.
+Web Template Suite
+Build a simple yet effective website for your business with no prior development or programming experience with Web Template Suite’s easy-to-use tools.
+rmWebPro
+Using your vision and feedback as a guideline, our team will craft an eye-catching website for your operation that fully integrates with Rent Manager—in as little as two weeks!
+Custom Website Design
+Integrate Rent Manager with your pre-existing website, or our developers can create a professionally designed website from scratch for your business.
+ILS Advertising
+Increase your unit marketability by taking advantage of Rent Manager’s internet listing service (ILS) integrations. Effortlessly push your unit and property information from your database onto various ILS platforms. All data changes in Rent Manager automatically update on each ILS site, so you’ll never have to worry about posting an unavailable unit or listing inaccurate rates.
+See More ILS Integrations
+Web Chat
+Inspire immediate, effective communication through Rent Manager’s Web Chat feature. This convenient resource enables prospects to send messages and connect with your team instantly via your website. Chats appear in the My Conversations window of your Rent Manager database, where you also have the ability to create a queue structure so every inquiry is answered promptly, by the right member of your staff.
+Letter Templates
+Rent Manager’s powerful Online Template Library is a continuously updated resource full of industry-standard property management letters, such as 5 Day Pay or Quit, Automatic Payment Instructions, Balance Due, and more. Customize your letters to automatically incorporate unit, property, prospect, tenant, owner, or vendor information through dynamic rmScript commands. Once complete, you can email, export, and print letters directly from the software.
+Bird’s Eye View
+Bird’s Eye View allows you to build an aerial picture of a property and its associated units. Create custom maps that visually report delinquencies, vacancies, amenities, and more. This unique add-on feature is ideal for any type of property management operation. Bird’s Eye View illustrations can also be used for marketing materials, quick-reference guides, and directional maps.
+Property Maps
+Our Professional Services department can create a specialized Bird’s Eye View map of your property and its associated units. Let us build a custom aerial-view map for you to quickly see trends in your properties, including vacancies, amenities, and cost of rent.
+Marketing Tool
+Bird’s Eye View illustrations can double as a standard property map that can be given to prospects, or used on an array of marketing materials. Apply color to your Bird’s Eye View illustrations to help easily identify different buildings and specific areas of your property.
+Reporting Functionality
+While you’re viewing your property from above, you can quickly drill-down on each unit to view detailed information—see who is currently occupying the unit, any outstanding maintenance requests, or look at the tenant’s records.
+Quick Reference for Prospects
+Having a complete picture of your units, their amenities, cost of rent, and accessibility makes it so easy to match prospects with spaces that meet their preferences. Bird’s Eye View provides a unique reporting perspective that ties essential portfolio data to a custom aerial-view map of your properties.
+Ideal for portfolios of every size, Rent Manager is your key to an effective and efficient property management business.
+Request A Free Demo
+Patricia Stone
+Beaufort Rentals
+Rent Manager saves me hours every day because of the automation–we run everything in Rent Manager.
+Resources
+Support
+Submit a Feature Request
+Submit an API Support Request
+Remote Assistance
+Install Rent Manager Online
+Install Scan Manager
+Training Calendar
+Virtual Classroom Enrollment
+Rent Manager Blog
+Beyond Rent Podcast
+About
+Rent Manager
+Our Company
+Awards and Accolades
+Events
+Careers at LCS.com
+Contact
+513-583-1482
+9140 Waterstone Blvd
+Cincinnati, OH 45249
+Connect
+Facebook User Forum
+Join Our Mailing List
+Copyright 2026 London Computer Systems, Inc. | Privacy Policy (updated 7.25.25) | Do Not Sell My Info
+Features▼
+Accounting▼
+Accounts Receivable
+Accounts Payable
+Payments
+AI-Powered Tools
+Electronic Reconciliations
+Tax Tools
+Budgeting
+Reporting▼
+Built-In Reports
+Report Writer
+Financial Report Writer
+Report Automation
+Custom Reports
+Marketing & Leasing▼
+Prospect & Tenant Portal
+Resident Screening
+Resident App
+Guest Cards
+Websites
+ILS Advertising
+Web Chat
+Business Operations▼
+Communication Tools
+Mobile App
+Renters Insurance
+Call Center
+Project Management
+Owners
+Process and Admin Features
+Maintenance▼
+Service Issues
+Maintenance Scheduling
+Work Orders and Billing
+Inspections
+Make-Ready Boards
+Utility Management
+Orion AI▼
+Writing Assistant
+Smart AP
+Smart AR
+Instant Insights
+MCP
+Software Customization▼
+API
+Open Access
+Industries▼
+Residential
+Commercial
+Manufactured Housing
+Associations
+Student Housing
+RV Park & Campgrounds
+Self Storage
+Affordable Housing
+Vacation Homes
+Other Markets
+Integrations▼
+Built-In
+Featured
+Newly Added
+Internet Listing Services
+Solutions Partners
+All Integrations
+Resources▼
+Industry Resources▼
+Blog
+Beyond Rent Podcast
+Industry Affiliations
+Onboarding▼
+Implementation
+Data Migration
+Customer Support▼
+Customer Success
+User Resources
+Tenant Resources
+Training▼
+Rent Manager University
+Guided Online Training
+Training Calendar
+Rent Manager Certification
+About▼
+Rent Manager▼
+Our Story
+Events
+Data Security
+Our Company▼
+Products
+Awards and Recognitions
+Career Opportunities

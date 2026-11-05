@@ -552,6 +552,334 @@
       "section": "Additional Benefits",
       "line": 134,
       "quote": "Eliminate the guesswork for Call Center reps by providing predetermined workflows for resolving issues."
+    },
+    {
+      "id": "rm-mobile-01",
+      "label": "Mobile texts and recorded voice calls",
+      "source": "rm-mobile",
+      "section": "Communication",
+      "line": 106,
+      "quote": "Set a solid communications precedent and increase your response times by sending text messages and making rmVoIP-integrated calls to your contacts. Every text you send via the app will appear in the contact’s History and Notes, and recordings of calls made through rmAppSuite Pro will also attach to their History and Notes, giving you a comprehensive historical record of each communication."
+    },
+    {
+      "id": "rm-mobile-02",
+      "label": "Mobile ACH cash and card acceptance",
+      "source": "rm-mobile",
+      "section": "Payments",
+      "line": 109,
+      "quote": "ePay users can conveniently accept ACH, cash, and credit card payments via the app. Payments will be instantly reflected on the contact’s transaction ledger, ensuring your data and receivable collections are entirely up-to-date."
+    },
+    {
+      "id": "rm-mobile-03",
+      "label": "Field inspections synchronized to native records",
+      "source": "rm-mobile",
+      "section": "Inspections",
+      "line": 112,
+      "quote": "rmAppSuite Pro’s Inspections feature enables you to perform, document, and complete inspections in the field using your smart device, and then seamlessly upload the results to Rent Manager."
+    },
+    {
+      "id": "rm-mobile-04",
+      "label": "Technician inspection push notifications",
+      "source": "rm-mobile",
+      "section": "Inspections",
+      "line": 113,
+      "quote": "Your maintenance team will never miss an inspection with rmAppSuite Pro. When you assign inspections to your maintenance techs while they’re in the field, they’ll receive a push notification alerting them about the task."
+    },
+    {
+      "id": "rm-mobile-05",
+      "label": "Technician inspection templates",
+      "source": "rm-mobile",
+      "section": "Inspections",
+      "line": 114,
+      "quote": "Perform inspections from start to finish within the app. Using previously created Inspection Templates, technicians can move through the procedure with confidence as they tackle items associated with each area of a unit."
+    },
+    {
+      "id": "rm-mobile-06",
+      "label": "Inspection map directions",
+      "source": "rm-mobile",
+      "section": "Inspections",
+      "line": 115,
+      "quote": "Rather than jumping out of the app to get directions to the next inspection location, rmAppSuite Pro users can map the location of their next inspection stop with a click of a button."
+    },
+    {
+      "id": "rm-mobile-07",
+      "label": "Inspection arrival and departure communications",
+      "source": "rm-mobile",
+      "section": "Inspections",
+      "line": 116,
+      "quote": "rmAppsuite Pro facilitates communication and quick turnaround times by enabling your technicians to text, email, or call tenants linked to each inspection to establish arrival and departure times."
+    },
+    {
+      "id": "rm-mobile-08",
+      "label": "Technician GPS",
+      "source": "rm-mobile",
+      "section": "Service Issues",
+      "line": 118,
+      "quote": "Add, edit, and complete tasks on the go, ensuring seamless field-to-office communication. The enhanced Service Tech Map tracks check-ins, check-outs, and provides on-demand location data, making it easy to assign tasks to the nearest technician. Technicians can also upload project photos and collect electronic tenant sign-offs, boosting efficiency and accountability."
+    },
+    {
+      "id": "rm-mobile-09",
+      "label": "Field repair photos and electronic signoff",
+      "source": "rm-mobile",
+      "section": "Service Issues",
+      "line": 118,
+      "quote": "Add, edit, and complete tasks on the go, ensuring seamless field-to-office communication. The enhanced Service Tech Map tracks check-ins, check-outs, and provides on-demand location data, making it easy to assign tasks to the nearest technician. Technicians can also upload project photos and collect electronic tenant sign-offs, boosting efficiency and accountability."
+    },
+    {
+      "id": "rm-mobile-10",
+      "label": "Mobile association violations and charges",
+      "source": "rm-mobile",
+      "section": "Violations",
+      "line": 120,
+      "quote": "You make rules for your properties, and administer violations when those rules are broken. Now, when you’re working in the field and witness a violation, you can address the issue immediately with rmAppSuite Pro. Effortlessly add a violation to a tenant’s account, access and escalate existing violations, attach photos and supporting notes, and quickly calculate the associated charges."
+    },
+    {
+      "id": "rm-mobile-11",
+      "label": "Barcode utility meter readings",
+      "source": "rm-mobile",
+      "section": "Metered Utilities",
+      "line": 122,
+      "quote": "Entering meter readings and billing tenants for their utility consumption has never been easier. With rmAppSuite Pro, users can submit reading data from their properties while in the field. If your meters have a barcode, you can scan it with your device’s camera and then enter usage data for that meter."
+    },
+    {
+      "id": "rm-mobile-12",
+      "label": "Historical utility reading anomaly review",
+      "source": "rm-mobile",
+      "section": "Metered Utilities",
+      "line": 123,
+      "quote": "rmAppSuite Pro displays historical readings of each meter, helping you to isolate and identify irregularities on the spot."
+    },
+    {
+      "id": "rm-leasing-01",
+      "label": "Resident online payments signatures and repairs",
+      "source": "rm-leasing",
+      "section": "Prospect & Tenant Online Portal",
+      "line": 106,
+      "quote": "Rent Manager’s Prospect and Tenant portal is the ultimate online resource for prospective and current renters. This secure resource gives tenants the flexibility to pay rent and other charges online, electronically sign leases, and submit maintenance requests rather than make a trip to the leasing office, which also results in fewer interruptions for you."
+    },
+    {
+      "id": "rm-leasing-02",
+      "label": "Custom online application templates",
+      "source": "rm-leasing",
+      "section": "Online Applications",
+      "line": 111,
+      "quote": "Rent Manager’s online application abilities provide convenience for your prospects and quicker approval response times for your management company. Craft your own application templates that prospects can easily access and complete on your website."
+    },
+    {
+      "id": "rm-leasing-03",
+      "label": "Portal signable fields on arbitrary documents",
+      "source": "rm-leasing",
+      "section": "Signable Documents",
+      "line": 115,
+      "quote": "Take your leases to the next level. Signable Docs allows you to place signable fields on any document. Prospects and tenants can review and sign the documents electronically through their online portals."
+    },
+    {
+      "id": "rm-leasing-04",
+      "label": "Signed document synchronization",
+      "source": "rm-leasing",
+      "section": "Signable Documents",
+      "line": 116,
+      "quote": "Once you have received a signature, the document will appear in your Rent Manager database."
+    },
+    {
+      "id": "rm-leasing-05",
+      "label": "Digital leases and renewals",
+      "source": "rm-leasing",
+      "section": "Online Leasing & Renewals",
+      "line": 119,
+      "quote": "Go digital with your leasing and renewals process. With Rent Manager, tenants can access and sign their leases from any web-enabled device—allowing you to streamline this crucial aspect of your business."
+    },
+    {
+      "id": "rm-leasing-06",
+      "label": "Credit criminal and eviction screening",
+      "source": "rm-leasing",
+      "section": "Resident Screening",
+      "line": 123,
+      "quote": "Uncover potential credit issues—such as late payments or accumulated debt—as well as criminal and eviction history with Rent Manager’s fully integrated Resident Screening capabilities."
+    },
+    {
+      "id": "rm-leasing-07",
+      "label": "Resident mobile payments and repairs",
+      "source": "rm-leasing",
+      "section": "Resident App",
+      "line": 127,
+      "quote": "Keep residents in the know, even when they’re on the go. rmResident is a secure, easy-to-use mobile app designed to keep renters and property managers connected. Residents can use the app to make and view payments, review work orders and submit new ones, and more. Property Managers can respond to and resolve service issues while staying in touch with renters, anywhere, at any time."
+    },
+    {
+      "id": "rm-leasing-08",
+      "label": "Prospect CRM and personalized unit letters",
+      "source": "rm-leasing",
+      "section": "Prospect Manager and CRM",
+      "line": 130,
+      "quote": "Turn prospects into tenants with Prospect Manager. This powerful feature provides valuable insights, tools, and reports that make tracking your prospects and marketing campaigns a breeze. Tailor your message to each prospect with customizable unit profile letters to speak directly to potential tenants who have certain amenities in mind."
+    },
+    {
+      "id": "rm-leasing-09",
+      "label": "Website guest cards creating native prospects",
+      "source": "rm-leasing",
+      "section": "Guest Cards",
+      "line": 132,
+      "quote": "Never miss a chance to connect with future customers through strategically positioned Guest Cards. Guest Cards allow you to place a contact submission form on your custom website. Prospects browsing your site can quickly submit answers to the questions you craft via Rent Manager’s Guest Card template. These submissions also automatically generate a Prospect contact profile in your database."
+    },
+    {
+      "id": "rm-leasing-10",
+      "label": "Self-managed property website templates",
+      "source": "rm-leasing",
+      "section": "Web Template Suite",
+      "line": 136,
+      "quote": "Build a simple yet effective website for your business with no prior development or programming experience with Web Template Suite’s easy-to-use tools."
+    },
+    {
+      "id": "rm-leasing-11",
+      "label": "Integrated professional website service",
+      "source": "rm-leasing",
+      "section": "rmWebPro",
+      "line": 138,
+      "quote": "Using your vision and feedback as a guideline, our team will craft an eye-catching website for your operation that fully integrates with Rent Manager—in as little as two weeks!"
+    },
+    {
+      "id": "rm-leasing-12",
+      "label": "Existing website integration",
+      "source": "rm-leasing",
+      "section": "Custom Website Design",
+      "line": 140,
+      "quote": "Integrate Rent Manager with your pre-existing website, or our developers can create a professionally designed website from scratch for your business."
+    },
+    {
+      "id": "rm-leasing-13",
+      "label": "Automatic ILS listing updates",
+      "source": "rm-leasing",
+      "section": "ILS Advertising",
+      "line": 142,
+      "quote": "Increase your unit marketability by taking advantage of Rent Manager’s internet listing service (ILS) integrations. Effortlessly push your unit and property information from your database onto various ILS platforms. All data changes in Rent Manager automatically update on each ILS site, so you’ll never have to worry about posting an unavailable unit or listing inaccurate rates."
+    },
+    {
+      "id": "rm-leasing-14",
+      "label": "Prospect web chat with staff queues",
+      "source": "rm-leasing",
+      "section": "Web Chat",
+      "line": 145,
+      "quote": "Inspire immediate, effective communication through Rent Manager’s Web Chat feature. This convenient resource enables prospects to send messages and connect with your team instantly via your website. Chats appear in the My Conversations window of your Rent Manager database, where you also have the ability to create a queue structure so every inquiry is answered promptly, by the right member of your staff."
+    },
+    {
+      "id": "rm-leasing-15",
+      "label": "Dynamic notice letters emailed exported and printed",
+      "source": "rm-leasing",
+      "section": "Letter Templates",
+      "line": 147,
+      "quote": "Rent Manager’s powerful Online Template Library is a continuously updated resource full of industry-standard property management letters, such as 5 Day Pay or Quit, Automatic Payment Instructions, Balance Due, and more. Customize your letters to automatically incorporate unit, property, prospect, tenant, owner, or vendor information through dynamic rmScript commands. Once complete, you can email, export, and print letters directly from the software."
+    },
+    {
+      "id": "rm-leasing-16",
+      "label": "Aerial property maps with financial indicators",
+      "source": "rm-leasing",
+      "section": "Bird’s Eye View",
+      "line": 149,
+      "quote": "Bird’s Eye View allows you to build an aerial picture of a property and its associated units. Create custom maps that visually report delinquencies, vacancies, amenities, and more. This unique add-on feature is ideal for any type of property management operation. Bird’s Eye View illustrations can also be used for marketing materials, quick-reference guides, and directional maps."
+    },
+    {
+      "id": "rm-leasing-17",
+      "label": "Property maps for prospect marketing",
+      "source": "rm-leasing",
+      "section": "Marketing Tool",
+      "line": 153,
+      "quote": "Bird’s Eye View illustrations can double as a standard property map that can be given to prospects, or used on an array of marketing materials. Apply color to your Bird’s Eye View illustrations to help easily identify different buildings and specific areas of your property."
+    },
+    {
+      "id": "rm-leasing-18",
+      "label": "Map drill-down to residents and work",
+      "source": "rm-leasing",
+      "section": "Reporting Functionality",
+      "line": 155,
+      "quote": "While you’re viewing your property from above, you can quickly drill-down on each unit to view detailed information—see who is currently occupying the unit, any outstanding maintenance requests, or look at the tenant’s records."
+    },
+    {
+      "id": "rm-leasing-19",
+      "label": "Prospect matching by mapped amenities and accessibility",
+      "source": "rm-leasing",
+      "section": "Quick Reference for Prospects",
+      "line": 157,
+      "quote": "Having a complete picture of your units, their amenities, cost of rent, and accessibility makes it so easy to match prospects with spaces that meet their preferences. Bird’s Eye View provides a unique reporting perspective that ties essential portfolio data to a custom aerial-view map of your properties."
+    },
+    {
+      "id": "rm-owner-01",
+      "label": "Owner contributions and equity distributions",
+      "source": "rm-owner",
+      "section": "Owners",
+      "line": 103,
+      "quote": "For fee-based management companies, establishing an Ownership setup in Rent Manager is a breeze. Accomplish crucial business tasks—including receiving Owner Contributions, collecting Management Fees, and paying owners their equity distributions—in a matter of a few mouse clicks. You also have the ability to give your owners access to important property and financial investment information through their own online portal."
+    },
+    {
+      "id": "rm-owner-02",
+      "label": "Owner reserves balances distributions and fee portal",
+      "source": "rm-owner",
+      "section": "Owner Portal",
+      "line": 106,
+      "quote": "Owner Web Access (OWA) allows your owners to log into a designated, customized portal to view reserves, bank balances, distributions, and management fees. Owners can generate and export Rent Manager reports to stay up to date on how their properties are doing. Your team can even upload documents to OWA and owners can review and sign documents electronically."
+    },
+    {
+      "id": "rm-owner-03",
+      "label": "Owner generated and exported reports",
+      "source": "rm-owner",
+      "section": "Owner Portal",
+      "line": 106,
+      "quote": "Owner Web Access (OWA) allows your owners to log into a designated, customized portal to view reserves, bank balances, distributions, and management fees. Owners can generate and export Rent Manager reports to stay up to date on how their properties are doing. Your team can even upload documents to OWA and owners can review and sign documents electronically."
+    },
+    {
+      "id": "rm-owner-04",
+      "label": "Owner document signing",
+      "source": "rm-owner",
+      "section": "Owner Portal",
+      "line": 106,
+      "quote": "Owner Web Access (OWA) allows your owners to log into a designated, customized portal to view reserves, bank balances, distributions, and management fees. Owners can generate and export Rent Manager reports to stay up to date on how their properties are doing. Your team can even upload documents to OWA and owners can review and sign documents electronically."
+    },
+    {
+      "id": "rm-owner-05",
+      "label": "Management fee templates posting and transfers",
+      "source": "rm-owner",
+      "section": "Management Fees",
+      "line": 109,
+      "quote": "After paying bills and collecting receivables, efficiently calculate and post management fees in Rent Manager. Transfer funds from your managed properties’ operating bank accounts to your management company in a matter of a few clicks. Create and assign Management Fee Templates for each of your managed properties and post fees based on your specific requirements."
+    },
+    {
+      "id": "rm-owner-06",
+      "label": "Owner prospect guest cards",
+      "source": "rm-owner",
+      "section": "Guest Cards",
+      "line": 111,
+      "quote": "Owner prospects browsing your website can quickly request a follow-up call and submit details about their property—specified by you—via a Guest Card template. Their submission automatically creates an Owner Prospect account within your Rent Manager database."
+    },
+    {
+      "id": "rm-owner-07",
+      "label": "Owner web chat",
+      "source": "rm-owner",
+      "section": "Web Chat",
+      "line": 113,
+      "quote": "Implementing Web Chat on your company website enables immediate and valuable communication between you, your owners, and and or owner prospects. Quicker and more convenient than email, owners can send you a Web Chat message that instantly appears in the My Conversations window of Rent Manager."
+    },
+    {
+      "id": "rm-owner-08",
+      "label": "Owner-specific chat queues",
+      "source": "rm-owner",
+      "section": "Web Chat",
+      "line": 114,
+      "quote": "By structuring Web Chat so that these inquiries go to a specific owner’s queue, you can keep your chats organized and ensure that each question is answered by a staff member who understands their particular needs."
+    },
+    {
+      "id": "rm-owner-09",
+      "label": "Owner ACH NACHA file creation",
+      "source": "rm-owner",
+      "section": "NACHA Files",
+      "line": 116,
+      "quote": "This universal file type is used to request the transfer of funds electronically as an ACH and is easily generated in Rent Manager. NACHA files contain specific payment instructions for your bank and make the owner payout process quick and seamless."
+    },
+    {
+      "id": "rm-owner-10",
+      "label": "Check and electronic owner distributions",
+      "source": "rm-owner",
+      "section": "NACHA Files",
+      "line": 117,
+      "quote": "Beyond NACHA and ACH, you can pay your owners a specified amount or their full distribution via check or other electronic payment methods."
     }
   ]
 }
