@@ -18,6 +18,8 @@ const requiredGaps = [
  ['rm-reports', /Send Report Batches based on a pre-determined schedule/, 'Scheduled reports'],
  ['af-vendor', /request estimates from multiple vendors/, 'Competing repair estimates'],
  ['rm-schedules', /automatically generates and delivers designated Report Batches/, 'Scheduled reports'],
+ ['af-smart-blog', /make a quick call/, 'Telephone maintenance intake'],
+ ['bu-automation', /Set up reports once and let them send themselves/, 'Scheduled reports'],
 ]
 const sourceInventory = () => {
  const manifest = JSON.parse(read(sourceDirectory + 'manifest.json'))
@@ -33,6 +35,7 @@ export function assertSwitchChecklistSite(html) {
   assert.ok(plain.includes(incumbent.gap), 'incomplete source coverage stays visible')
  }
  const headings = [...html.matchAll(/<h4\b[^>]*>([\s\S]*?)<\/h4>/g)].map(match => match[1].replace(/<a\b[\s\S]*?<\/a>/g, '').replace(/<[^>]*>/g, '').trim())
+ const headingPositions = [...html.matchAll(/<h4\b[^>]*>([\s\S]*?)<\/h4>/g)]
  assert.equal(headings.length, workflows.length, 'every inventoried source workflow renders exactly once')
  for (const workflow of workflows) {
   assert.equal(headings.filter(heading => heading.endsWith('· ' + workflow.id)).length, 1, 'rendered source workflow: ' + workflow.id)
@@ -47,12 +50,22 @@ export function assertSwitchChecklistSite(html) {
   assert.match(read(sourceDirectory + source.capture), documented, 'independent official capture documents the workflow')
   const workflow = workflows.find(item => item.source === sourceId && item.label === label)
   assert.ok(workflow, 'documented named gap may not be deleted: ' + label)
-  const at = html.indexOf('· ' + workflow.id), end = html.indexOf('<h4', at)
+  const at = headingPositions[headings.findIndex(heading => heading.endsWith('· ' + workflow.id))].index, end = html.indexOf('<h4', at + 1)
   const row = html.slice(at, end < 0 ? undefined : end)
   assert.match(row, /<strong>Gap:<\/strong>/, label + ' remains a gap')
   assert.doesNotMatch(row, /<strong>Covered/, 'a related done or boundary clause cannot establish replacement')
  }
  for (const area of manifest.unresolvedAreas) assert.ok(plain.includes(area.reason), 'unaudited source area cannot disappear')
+ const areas = JSON.parse(read(sourceDirectory + 'source-areas.json')).sources
+ for (const source of manifest.sources) {
+  const audit = areas.find(item => item.source === source.id)
+  assert.equal(audit.captureSha256, source.captureSha256, 'area review is bound to the retained source revision')
+  for (const area of audit.areas.filter(item => item.review === 'unaudited')) assert.ok(plain.includes(`${source.id} lines ${area.from}–${area.to}`), 'unreconciled captured text stays visible independently of workflow mappings')
+ }
+ for (const incumbent of Object.keys(names)) {
+  assert.ok(plain.includes(names[incumbent] + ' required named gaps'), 'every incumbent has an explicit required-capability assessment')
+  for (const category of manifest.namedGaps.filter(item => item.incumbent === incumbent)) assert.ok(plain.includes(category.gap), 'unknown official-source coverage is disclosed rather than inferred absent')
+ }
 }
 
 /** Run through the same write and check commands used by maintainers, plus invalid corpus and coverage inputs. */
@@ -61,9 +74,22 @@ export function assertSwitchChecklistIntegrity() {
  assert.equal(read('docs/switch-checklists.md'), renderSwitchChecklist(data), 'stale public output is refused')
  const { manifest, workflows } = sourceInventory()
  const mappings = JSON.parse(read('docs/switch-checklists.json'))
+ const areaPath = sourceDirectory + 'source-areas.json', areas = JSON.parse(read(areaPath))
  const altered = (path, value) => ({ read: name => name === path ? JSON.stringify(value) : read(name) })
  const missing = structuredClone(mappings); missing.mappings = missing.mappings.filter(row => row.workflow !== workflows[0].id)
  assert.throws(() => loadSwitchChecklist(altered('docs/switch-checklists.json', missing)), /every inventoried source workflow/, 'deleting a replacement row cannot silently omit a source workflow')
+ // Coordinated deletion in both inventories and replacement mappings still leaves the source review unsatisfied.
+ const omitted = workflows[0], withoutSource = structuredClone(manifest), inventoryPath = sourceDirectory + manifest.inventories.find(item => item.incumbent === omitted.incumbent).file
+ withoutSource.sources.find(item => item.id === omitted.source).workflows = withoutSource.sources.find(item => item.id === omitted.source).workflows.filter(id => id !== omitted.id)
+ const withoutWorkflow = JSON.parse(read(inventoryPath)); withoutWorkflow.workflows = withoutWorkflow.workflows.filter(item => item.id !== omitted.id)
+ const omissions = new Map([[sourceDirectory + 'manifest.json', withoutSource], [inventoryPath, withoutWorkflow], ['docs/switch-checklists.json', missing]])
+ assert.throws(() => loadSwitchChecklist({ read: path => omissions.has(path) ? JSON.stringify(omissions.get(path)) : read(path) }), /source area workflow provenance mismatch/, 'a source area cannot silently disappear with its workflow and replacement mapping')
+ const noAssessment = structuredClone(manifest); noAssessment.namedGaps.pop()
+ assert.throws(() => loadSwitchChecklist(altered(sourceDirectory + 'manifest.json', noAssessment)), /every required named-gap assessment/, 'a required named gap cannot disappear with its replacement row')
+ const noArea = structuredClone(areas); noArea.sources[0].areas.shift()
+ assert.throws(() => loadSwitchChecklist(altered(areaPath, noArea)), /reconcile every captured line/, 'unreviewed source areas may not disappear')
+ const staleArea = structuredClone(areas); staleArea.sources[0].captureSha256 = '0'.repeat(64)
+ assert.throws(() => loadSwitchChecklist(altered(areaPath, staleArea)), /source area audit is stale/, 'review of an earlier source capture cannot qualify changed bytes')
  for (const [source, , label] of requiredGaps) {
   const inventory = manifest.inventories.find(item => workflows.find(workflow => workflow.source === source)?.incumbent === item.incumbent)
   const path = sourceDirectory + inventory.file, value = JSON.parse(read(path))
@@ -157,8 +183,8 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
  for (const [point, inventory] of manifest.inventories.entries()) console.log(`PROBE MOVE-012 ${point + 1}: GET /docs/switch-checklists -> ${names[inventory.incumbent]} ${workflows.filter(workflow => workflow.incumbent === inventory.incumbent).length} sourced rows; complete inventory explicitly unqualified`)
  console.log('PROBE MOVE-012 4: built public inventory -> every inventoried workflow has a named Gap; unsupported boundary and partner workflows remain visible')
  console.log('PROBE MOVE-012 5: built corporate accounting rows -> AppFolio and Buildium corporate books and Rent Manager company reports remain gaps')
- console.log('PROBE MOVE-012 6: built telephone maintenance rows -> Buildium and Rent Manager call intake remain gaps; AppFolio source area remains unaudited')
+ console.log('PROBE MOVE-012 6: built telephone maintenance rows -> sourced AppFolio, Buildium and Rent Manager call intake remain named gaps')
  console.log('PROBE MOVE-012 7: built technician GPS row -> Rent Manager Service Tech Map remains a gap; association violations GPS remains separate')
- console.log('PROBE MOVE-012 8: built scheduled-report rows -> Rent Manager scheduled generation and delivery remain gaps; inaccessible Buildium article is disclosed')
+ console.log('PROBE MOVE-012 8: built scheduled-report rows -> Buildium automatic report sends and Rent Manager scheduled generation and delivery remain gaps; inaccessible help contents and unaudited AppFolio source coverage stay disclosed')
  await visitor.goto(siteOrigin + '/docs')
 }

@@ -53,7 +53,7 @@
       "id": "af-accounting-07",
       "label": "Data export",
       "source": "af-accounting",
-      "section": "Credit Card Accounting",
+      "section": "Extended Access to Data",
       "line": 64,
       "quote": "Take advantage of secure export functionality to organize your data outside AppFolio."
     },
@@ -61,7 +61,7 @@
       "id": "af-accounting-08",
       "label": "Online payments",
       "source": "af-accounting",
-      "section": "Credit Card Accounting",
+      "section": "Online Payments",
       "line": 66,
       "quote": "Send and receive payments all on one online platform, with the controls and visibility you need to maximize cash flow and scale your business."
     },
@@ -69,7 +69,7 @@
       "id": "af-accounting-09",
       "label": "Automatic bank reconciliation",
       "source": "af-accounting",
-      "section": "Credit Card Accounting",
+      "section": "Auto Bank Reconciliation",
       "line": 68,
       "quote": "Securely link your bank accounts with AppFolio to automate transaction matching via our Plaid integration."
     },
@@ -77,7 +77,7 @@
       "id": "af-accounting-10",
       "label": "Late fee waivers",
       "source": "af-accounting",
-      "section": "Credit Card Accounting",
+      "section": "Late Fee Waivers",
       "line": 70,
       "quote": "Adjust and customize how you process late fees with convenient bulk and case-by-case waivers."
     },
@@ -85,7 +85,7 @@
       "id": "af-accounting-11",
       "label": "Common area maintenance accounting",
       "source": "af-accounting",
-      "section": "Credit Card Accounting",
+      "section": "CAM Tracking & Reconciliation",
       "line": 72,
       "quote": "Conveniently track, bill, and reconcile the CAM expenses and income whenever you need to."
     },
@@ -93,7 +93,7 @@
       "id": "af-accounting-12",
       "label": "Automatic late fees",
       "source": "af-accounting",
-      "section": "Credit Card Accounting",
+      "section": "Automated Late Fees",
       "line": 74,
       "quote": "Ensure that fees are assessed accurately and on time according to your lease agreements."
     },
@@ -101,7 +101,7 @@
       "id": "af-accounting-13",
       "label": "Electronic checks",
       "source": "af-accounting",
-      "section": "Credit Card Accounting",
+      "section": "eCheck",
       "line": 78,
       "quote": "Pay your owners, vendors, and residents quickly and securely via eCheck."
     },
@@ -109,7 +109,7 @@
       "id": "af-accounting-14",
       "label": "Tenant debt collection",
       "source": "af-accounting",
-      "section": "Credit Card Accounting",
+      "section": "Tenant Debt Collections",
       "line": 82,
       "quote": "Streamline your debt recovery process and reduce the burden on your team to collect past due receivables."
     },
@@ -117,7 +117,7 @@
       "id": "af-accounting-15",
       "label": "Bulk tenant charges",
       "source": "af-accounting",
-      "section": "Credit Card Accounting",
+      "section": "Bulk Tenant Charges",
       "line": 84,
       "quote": "Save time and effort by uploading bulk tenant charges rather than manually processing them."
     },
@@ -125,7 +125,7 @@
       "id": "af-accounting-16",
       "label": "Holding deposits",
       "source": "af-accounting",
-      "section": "Credit Card Accounting",
+      "section": "Holding Deposits",
       "line": 88,
       "quote": "Easily manage multiple applicants and refund deposits directly from escrow."
     },
@@ -133,7 +133,7 @@
       "id": "af-accounting-17",
       "label": "Loan tracking",
       "source": "af-accounting",
-      "section": "Credit Card Accounting",
+      "section": "Loan Tracking",
       "line": 90,
       "quote": "Monitor your loans payable in a single location and save time with automated transaction creation."
     },
@@ -141,7 +141,7 @@
       "id": "af-accounting-18",
       "label": "Reimbursable corporate expenses",
       "source": "af-accounting",
-      "section": "Credit Card Accounting",
+      "section": "Reimbursable Expenses",
       "line": 92,
       "quote": "Flag expenses as reimbursable the moment they happen, then bill properties back without the month end scramble."
     },
@@ -149,7 +149,7 @@
       "id": "af-accounting-19",
       "label": "Unified company chart of accounts",
       "source": "af-accounting",
-      "section": "Credit Card Accounting",
+      "section": "Unified Chart of Accounts",
       "line": 94,
       "quote": "Merge property and corporate accounts into one chart, so your books reflect how your business runs."
     },
@@ -640,6 +640,566 @@
       "section": "I No Longer Rent With This Property Manager. How Do I Delete My Account?",
       "line": 138,
       "quote": "Please contact your property manager and ask them to delete the login information associated with your account."
+    },
+    {
+      "id": "af-smart-blog-01",
+      "label": "Telephone maintenance intake",
+      "source": "af-smart-blog",
+      "section": "So how does it work?",
+      "line": 21,
+      "quote": "The Smart Maintenance Contact Center uses intelligent AI to automate responses to residents 24/7 — no matter the time of day or night, so your team can focus on running your business. Long gone are the days of you or your residents having to fill out stacks of paperwork if something breaks. With multiple forms of communication, residents can easily submit a text message, make a quick call, or use their online resident portal to get started. From there, the request is received and the resident gets an AI-aided response within minutes to follow up and determine the urgency of the issue."
+    },
+    {
+      "id": "af-smart-blog-02",
+      "label": "AI maintenance urgency follow-up",
+      "source": "af-smart-blog",
+      "section": "So how does it work?",
+      "line": 21,
+      "quote": "The Smart Maintenance Contact Center uses intelligent AI to automate responses to residents 24/7 — no matter the time of day or night, so your team can focus on running your business. Long gone are the days of you or your residents having to fill out stacks of paperwork if something breaks. With multiple forms of communication, residents can easily submit a text message, make a quick call, or use their online resident portal to get started. From there, the request is received and the resident gets an AI-aided response within minutes to follow up and determine the urgency of the issue."
+    },
+    {
+      "id": "af-smart-blog-03",
+      "label": "Maintenance emergency troubleshooting and preferred-vendor dispatch",
+      "source": "af-smart-blog",
+      "section": "So how does it work?",
+      "line": 23,
+      "quote": "“Smart Maintenance monitors all work orders that come in, day or night, to see if it’s an emergency and helps residents troubleshoot or decide any next steps to ensure the property is not being damaged or that there are no health and safety issues. Then, the system contacts our preferred vendors, a choice that we put within the system. So ultimately, Smart Maintenance can take that work order and handle the situation without contacting anyone on our team. Right now with the staffing shortage that is going on nationwide, it’s just one extra support that you can have for those team members so they aren’t working overtime every single week.”"
+    },
+    {
+      "id": "af-reports-01",
+      "label": "Combined report builder with drill-down",
+      "source": "af-reports",
+      "section": "Customizing your reports in AppFolio Property Manager",
+      "line": 27,
+      "quote": "Report Builder is a tool that allows you to combine and customize reports into a single, actionable view with easy drill-down capabilities — all within AppFolio Property Manager."
+    },
+    {
+      "id": "af-reports-02",
+      "label": "Rent roll column customization and saved export",
+      "source": "af-reports",
+      "section": "Customizing your reports in AppFolio Property Manager",
+      "line": 30,
+      "quote": "Once selected, a new screen will show the typical columns that are contained in the rent roll — Unit, Tenant, Status, Rent, Deposit, Lease Start, Lease End, etc. Below this, the user will see a section for adding columns from other reports. As long as the data is in the system, it can be added to your customized report. So, let’s say you want to add residents’ contact information to a current Rent Roll. You could do so by finding their phone number and email address in this section and adding it to the base report. This new report can then be exported or saved for future use."
+    },
+    {
+      "id": "af-reports-03",
+      "label": "Vacancy duration and trailing owner income reports",
+      "source": "af-reports",
+      "section": "Customizing your reports in AppFolio Property Manager",
+      "line": 31,
+      "quote": "This is just one very basic example of the capabilities of Report Builder. Want to find out how long a unit has been vacant? Does an owner want to see a trailing five-year income statement? You can now get those insights in seconds, without needing to export and manually manipulate reports. With Report Builder, it’s easier than ever to make better business decisions and deliver the insights your stakeholders need. And the easier it is to extract data and create reports, the more efficient your operation can be."
+    },
+    {
+      "id": "af-marketing-01",
+      "label": "Autonomous lead nurture and tour scheduling",
+      "source": "af-marketing",
+      "section": "AppFolio Realm-X Leasing Performer",
+      "line": 21,
+      "quote": "Built into AppFolio's platform, the Realm-X Leasing Performer is an AI agent that works autonomously take over and transform the entire lead-to-lease process — from nurturing leads to scheduling tours and updating guest cards — empowering teams to operate with true agency."
+    },
+    {
+      "id": "af-marketing-02",
+      "label": "Cross-portfolio prospect guest cards",
+      "source": "af-marketing",
+      "section": "Leasing CRM",
+      "line": 30,
+      "quote": "Create and update one guest card for every lead, and track their activity across your portfolio"
+    },
+    {
+      "id": "af-marketing-03",
+      "label": "Prioritized leasing task lists",
+      "source": "af-marketing",
+      "section": "Leasing CRM",
+      "line": 31,
+      "quote": "Automate personalized and prioritized to-do lists with clear calls-to-action"
+    },
+    {
+      "id": "af-marketing-04",
+      "label": "Leasing pipeline and team performance",
+      "source": "af-marketing",
+      "section": "Leasing CRM",
+      "line": 33,
+      "quote": "Give leaders an in-depth view into pipeline progress and team performance"
+    },
+    {
+      "id": "af-marketing-05",
+      "label": "Custom rental applications with integrated screening",
+      "source": "af-marketing",
+      "section": "FolioScreen Trusted Renter",
+      "line": 54,
+      "quote": "A fully integrated screening solution and customizable rental applications"
+    },
+    {
+      "id": "af-marketing-06",
+      "label": "Criminal and background screening",
+      "source": "af-marketing",
+      "section": "FolioScreen Trusted Renter",
+      "line": 56,
+      "quote": "Comprehensive criminal and background checks"
+    },
+    {
+      "id": "af-marketing-07",
+      "label": "Income identity and employment verification",
+      "source": "af-marketing",
+      "section": "FolioScreen Trusted Renter",
+      "line": 57,
+      "quote": "Verification of income, ID, and employment to help identify fraud"
+    },
+    {
+      "id": "af-marketing-08",
+      "label": "Comparable-data rent pricing",
+      "source": "af-marketing",
+      "section": "Leasing Signals",
+      "line": 60,
+      "quote": "AppFolio Leasing Signals is a pricing tool built into AppFolio that helps you make confident, data-informed rent decisions based on comparable public data and your occupancy goals. Stay responsive to market shifts, set attractive rates for units and renewals, and sustain strong leasing performance, all from within your existing AppFolio workflows."
+    },
+    {
+      "id": "af-marketing-09",
+      "label": "Adjustable pricing suggestions",
+      "source": "af-marketing",
+      "section": "Leasing Signals",
+      "line": 64,
+      "quote": "Modify pricing suggestions by adjusting the weight of settings, reviewing comparable units, and setting a price you believe in"
+    },
+    {
+      "id": "af-marketing-10",
+      "label": "Integrated property marketing website",
+      "source": "af-marketing",
+      "section": "AppFolio Sites",
+      "line": 70,
+      "quote": "Inspire renters, owners, and prospects to take action with a modern, mobile-responsive website that’s fully integrated with the AppFolio Platform."
+    },
+    {
+      "id": "af-marketing-11",
+      "label": "3D virtual tours",
+      "source": "af-marketing",
+      "section": "3D Virtual Tours",
+      "line": 72,
+      "quote": "Help prospective residents better self-qualify by clicking through 3D tours of units directly on your AppFolio-powered website."
+    },
+    {
+      "id": "af-marketing-12",
+      "label": "Interactive unit amenity and parking maps",
+      "source": "af-marketing",
+      "section": "Interactive Property Maps",
+      "line": 74,
+      "quote": "Provide context on your website for a unit's location relative to amenities, parking, and other wayfinding."
+    },
+    {
+      "id": "af-marketing-13",
+      "label": "Paid listing syndication",
+      "source": "af-marketing",
+      "section": "Premium Listing",
+      "line": 76,
+      "quote": "Syndicate your listings with dozens of the top pay-to-list websites, including featured placement on most sites, and only pay for verified leads."
+    },
+    {
+      "id": "af-marketing-14",
+      "label": "Guest card capture and action inbox",
+      "source": "af-marketing",
+      "section": "Guest Card Tracking",
+      "line": 78,
+      "quote": "Automatically capture prospective resident information for easy reporting and view a prioritized inbox to see which guest cards need action."
+    },
+    {
+      "id": "af-marketing-15",
+      "label": "Self-guided property tours",
+      "source": "af-marketing",
+      "section": "Self-Guided Tours",
+      "line": 80,
+      "quote": "Free up your team's time and fill vacancies faster by allowing prospects to tour vacancies on their own."
+    },
+    {
+      "id": "af-marketing-16",
+      "label": "Live virtual showings",
+      "source": "af-marketing",
+      "section": "Virtual Showings",
+      "line": 82,
+      "quote": "Easily accommodate your prospects’ needs by scheduling and running live virtual tours within the AppFolio platform."
+    },
+    {
+      "id": "af-marketing-17",
+      "label": "Showing identity verification",
+      "source": "af-marketing",
+      "section": "ID Verification for Showings",
+      "line": 84,
+      "quote": "Know who is touring before you hand over access by requiring prospects to verify their identity before they can schedule a showing."
+    },
+    {
+      "id": "af-marketing-18",
+      "label": "Branded electronic leases and renewals",
+      "source": "af-marketing",
+      "section": "Online Leases",
+      "line": 88,
+      "quote": "Create customized, branded lease or renewal offers and have an applicant quickly and easily e-sign it on the spot on any mobile device."
+    },
+    {
+      "id": "af-marketing-19",
+      "label": "Automatic renewal date rent and status updates",
+      "source": "af-marketing",
+      "section": "Renewal Automation",
+      "line": 90,
+      "quote": "Streamline your renewals by setting a default offer that automatically updates lease dates, rent amounts, and status upon the current lease expiration."
+    },
+    {
+      "id": "af-marketing-20",
+      "label": "Vacancy publication dashboard",
+      "source": "af-marketing",
+      "section": "Vacancy Dashboard",
+      "line": 92,
+      "quote": "Consolidate all your property vacancy posting links and tasks in a real-time dashboard and view the status of your current vacancies in one place."
+    },
+    {
+      "id": "af-marketing-21",
+      "label": "Own-site and ILS vacancy publication",
+      "source": "af-marketing",
+      "section": "Vacancy Posting",
+      "line": 94,
+      "quote": "Generate more leads faster by sharing vacancies on your website and internet listing services with a single click."
+    },
+    {
+      "id": "af-marketing-22",
+      "label": "Multi-unit marketing campaigns",
+      "source": "af-marketing",
+      "section": "Marketing Campaigns",
+      "line": 96,
+      "quote": "Go beyond the limits of legacy property management marketing software. With AppFolio, you can quickly and easily market multiple identical units at once for multifamily and student housing portfolio types."
+    },
+    {
+      "id": "af-marketing-23",
+      "label": "Student rent by the bed",
+      "source": "af-marketing",
+      "section": "Rent By-The-Bed",
+      "line": 98,
+      "quote": "Market and manage your student housing properties more effectively with separate leases and tenant ledgers by-the-bed rather than the unit as a whole."
+    },
+    {
+      "id": "af-marketing-24",
+      "label": "Bulk move-outs with charges credits and work",
+      "source": "af-marketing",
+      "section": "Bulk Move Outs",
+      "line": 100,
+      "quote": "Quickly and easily move out a large number of residents at once, set move-out dates, add charges and credits, and create work orders in a few steps."
+    },
+    {
+      "id": "af-marketing-25",
+      "label": "Bulk renewal choices and monthly charges",
+      "source": "af-marketing",
+      "section": "Bulk Lease Renewals",
+      "line": 102,
+      "quote": "Prepare and send out lease renewals for a large number of residents all at once, allow residents to select from predefined offers, and set renewal offers and monthly charges in a single customizable workflow."
+    },
+    {
+      "id": "af-marketing-26",
+      "label": "Bulk unit and campaign pricing",
+      "source": "af-marketing",
+      "section": "Bulk Pricing",
+      "line": 104,
+      "quote": "Easily update pricing across all units, unit types, and campaigns in a single, centralized workflow to keep your team on the same page with one source of truth."
+    },
+    {
+      "id": "af-marketing-27",
+      "label": "Leasing metrics dashboard",
+      "source": "af-marketing",
+      "section": "Leasing Metrics Dashboard",
+      "line": 106,
+      "quote": "Generate trustworthy metrics and actionable insights with a single view to answer your most important leasing questions."
+    },
+    {
+      "id": "af-communication-01",
+      "label": "Resident shared-document portal",
+      "source": "af-communication",
+      "section": "Online Resident Portal and Mobile App",
+      "line": 30,
+      "quote": "Empower residents and make their lives easier with a one-stop shop to access everything they need. With convenient, on-demand access to their Online Portal, residents can submit maintenance requests, make payments, and more. Plus, your team can upload shared documents to ensure everyone has on-demand access to critical information."
+    },
+    {
+      "id": "af-communication-02",
+      "label": "Multilingual around-the-clock resident response",
+      "source": "af-communication",
+      "section": "Agentic AI Workflows",
+      "line": 38,
+      "quote": "Fast, 24/7 response and multilingual support"
+    },
+    {
+      "id": "af-communication-03",
+      "label": "Resident request to technician dispatch",
+      "source": "af-communication",
+      "section": "Agentic AI Workflows",
+      "line": 39,
+      "quote": "Quick issue resolution: Leveraging the Realm-X Maintenance Performer, residents can easily submit maintenance requests and get a technician dispatched without delay"
+    },
+    {
+      "id": "af-communication-04",
+      "label": "Central text and email inbox",
+      "source": "af-communication",
+      "section": "Centralized Inbox",
+      "line": 42,
+      "quote": "With AppFolio Realm-X Messages, property managers can easily and promptly contact residents through text and email via a central inbox. Teams can quickly act on every incoming message and provide superior service for customers."
+    },
+    {
+      "id": "af-communication-05",
+      "label": "Inbound message sorting and filtering",
+      "source": "af-communication",
+      "section": "Centralized Inbox",
+      "line": 44,
+      "quote": "All inbound messages can be viewed in one place, filtered, and sorted"
+    },
+    {
+      "id": "af-communication-06",
+      "label": "Contextual suggested next actions",
+      "source": "af-communication",
+      "section": "Centralized Inbox",
+      "line": 45,
+      "quote": "Suggested actions use a message's context to guide users toward appropriate steps to address the resident’s needs"
+    },
+    {
+      "id": "af-communication-07",
+      "label": "Personalized suggested message replies",
+      "source": "af-communication",
+      "section": "Centralized Inbox",
+      "line": 46,
+      "quote": "Suggested responses make replies quick, clear, and relevant with personalized details automatically included"
+    },
+    {
+      "id": "af-communication-08",
+      "label": "Resident dues payments and lease downloads",
+      "source": "af-communication",
+      "section": "Online Portal for Renters",
+      "line": 54,
+      "quote": "The Online Portal lets your residents pay rent or dues online, view and download their lease agreement, or even submit maintenance requests from anywhere in a safe and secure way."
+    },
+    {
+      "id": "af-communication-09",
+      "label": "Homeowner and board portals",
+      "source": "af-communication",
+      "section": "Online Portal for Homeowners & Board Members",
+      "line": 56,
+      "quote": "Open the lines of communication with robust online portals that serve as a one-stop-shop for homeowners and board members to complete tasks."
+    },
+    {
+      "id": "af-communication-10",
+      "label": "Vendor work originals and completion",
+      "source": "af-communication",
+      "section": "Online Portal for Vendors",
+      "line": 58,
+      "quote": "Give vendors access to view work order details, upload invoices, add notes and photos, and mark their work as complete all within the fully mobile Vendor Portal in AppFolio."
+    },
+    {
+      "id": "af-communication-11",
+      "label": "Owner financial and work portal",
+      "source": "af-communication",
+      "section": "Online Owner Portal",
+      "line": 60,
+      "quote": "Keep owners happy with timely insights into performance and finances and quick access to important documents, work orders, and reports."
+    },
+    {
+      "id": "af-communication-12",
+      "label": "Individual and mass vendor and resident texts",
+      "source": "af-communication",
+      "section": "Text Communication",
+      "line": 62,
+      "quote": "Quickly and easily send individual or mass texts to your residents and vendors through AppFolio, and be immediately notified of replies."
+    },
+    {
+      "id": "af-communication-13",
+      "label": "Individual and bulk resident emails",
+      "source": "af-communication",
+      "section": "Email Communication",
+      "line": 64,
+      "quote": "Email residents individually or in bulk from AppFolio for quick and convenient communication."
+    },
+    {
+      "id": "af-communication-14",
+      "label": "Deferred rent and association payment plans",
+      "source": "af-communication",
+      "section": "Payment Plans",
+      "line": 66,
+      "quote": "Track and account for deferred rent, association dues, and other charges with payment plans."
+    },
+    {
+      "id": "af-communication-15",
+      "label": "Shared document organization and withdrawal",
+      "source": "af-communication",
+      "section": "Shared Documents & Folders",
+      "line": 68,
+      "quote": "Quickly share important documents with residents directly through their AppFolio Online Portal. Documents can be easily organized and unshared as needed."
+    },
+    {
+      "id": "af-communication-16",
+      "label": "Board check and invoice approvals",
+      "source": "af-communication",
+      "section": "Online Board Approvals",
+      "line": 70,
+      "quote": "Board members can easily sign checks and approve invoices through their AppFolio Online Portal, ensuring that association business can move quickly."
+    },
+    {
+      "id": "af-communication-17",
+      "label": "Homeowner architectural requests",
+      "source": "af-communication",
+      "section": "Architectural Reviews",
+      "line": 72,
+      "quote": "Give homeowners the best customer experience, from the minute they submit an architectural request to when they complete the update to their home."
+    },
+    {
+      "id": "af-communication-18",
+      "label": "Board-member documents and voting",
+      "source": "af-communication",
+      "section": "Board Member Management",
+      "line": 74,
+      "quote": "From online board approvals for voting on invoices and architectural requests, to shared documents and reports just for board members, empower your board with modern tools that make their job a breeze."
+    },
+    {
+      "id": "af-communication-19",
+      "label": "Tenant insurance proof and purchase",
+      "source": "af-communication",
+      "section": "Tenant Insurance",
+      "line": 76,
+      "quote": "Tenants have the option to either provide proof of renters insurance or to purchase renters insurance, offered by Appfolio Insurance Services, available through their tenant portal."
+    },
+    {
+      "id": "af-communication-20",
+      "label": "Automatic resident satisfaction surveys",
+      "source": "af-communication",
+      "section": "Surveys",
+      "line": 78,
+      "quote": "Automatically send surveys to receive immediate feedback from residents and measure their satisfaction with your services over time."
+    },
+    {
+      "id": "af-communication-21",
+      "label": "Reusable text templates",
+      "source": "af-communication",
+      "section": "Text Templates",
+      "line": 80,
+      "quote": "Simplify and streamline your text communication process with text templates."
+    },
+    {
+      "id": "af-automation-01",
+      "label": "Workflow templates for applications",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 28,
+      "quote": "Rental Applications"
+    },
+    {
+      "id": "af-automation-02",
+      "label": "Workflow templates for rent collection",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 29,
+      "quote": "Rent Collection"
+    },
+    {
+      "id": "af-automation-03",
+      "label": "Workflow templates for debt collection",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 30,
+      "quote": "Debt Collection"
+    },
+    {
+      "id": "af-automation-04",
+      "label": "Workflow templates for renewals",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 31,
+      "quote": "Lease Renewals"
+    },
+    {
+      "id": "af-automation-05",
+      "label": "Workflow templates for lead nurture",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 32,
+      "quote": "Lead Nurturing"
+    },
+    {
+      "id": "af-automation-06",
+      "label": "Workflow templates for delinquencies",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 33,
+      "quote": "Delinquencies"
+    },
+    {
+      "id": "af-automation-07",
+      "label": "Workflow templates for unit turns",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 34,
+      "quote": "Unit Turns"
+    },
+    {
+      "id": "af-automation-08",
+      "label": "Workflow templates for listing and withdrawal",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 35,
+      "quote": "Listing and Un-Listing Units"
+    },
+    {
+      "id": "af-automation-09",
+      "label": "Workflow progress and reassignment",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 62,
+      "quote": "Track the status of all your workflow processes from within one view. Review what’s in-progress, or behind schedule, and easily reassign steps to staff within a few clicks."
+    },
+    {
+      "id": "af-automation-10",
+      "label": "Custom workflow blueprints",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 64,
+      "quote": "Quickly and easily develop workflow processes from pre-built templates and edit a wide range of process types to fit your specific company's needs."
+    },
+    {
+      "id": "af-automation-11",
+      "label": "Event date and schedule workflow triggers",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 66,
+      "quote": "Our workflow management autotriggers instantly initiate workflows to begin when tagged events occur within AppFolio, on relative dates, or on a specific schedule."
+    },
+    {
+      "id": "af-automation-12",
+      "label": "Staff change audit center",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 68,
+      "quote": "Gain enhanced visibility into tracked changes made by your staff within AppFolio. View an itemized history of activity and edits throughout AppFolio, when they occurred and who performed them."
+    },
+    {
+      "id": "af-automation-13",
+      "label": "Custom user roles",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 70,
+      "quote": "Create additional user roles specific to your business’ terminologies and structure."
+    },
+    {
+      "id": "af-automation-14",
+      "label": "Warehouse and report data exports",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 72,
+      "quote": "Export AppFolio reports and data into downloaded files or your data warehouse."
+    },
+    {
+      "id": "af-automation-15",
+      "label": "Page audit logs and reversions",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 74,
+      "quote": "All changes made to specific pages will be tracked, giving you peace of mind to catch mistakes and quickly revert them when needed."
+    },
+    {
+      "id": "af-automation-16",
+      "label": "Staff two-factor authentication",
+      "source": "af-automation",
+      "section": "Workflow automation",
+      "line": 76,
+      "quote": "Two-factor authentication defends against phishers, fraudsters, and unwanted users from accessing your sensitive financial and personal data in AppFolio."
     }
   ]
 }

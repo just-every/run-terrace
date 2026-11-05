@@ -465,18 +465,370 @@
       "review": "unaudited",
       "workflows": [],
       "unaudited": "Scheduled reports article contents were not retrieved: HTTP 200 returns a five-line loading shell with a CSS Error. This is inaccessible source content, not evidence of absence or a verified workflow."
+    },
+    {
+      "id": "af-smart-blog",
+      "url": "https://www.appfolio.com/blog/smart-maintenance",
+      "resolvedUrl": "https://www.appfolio.com/blog/smart-maintenance",
+      "httpStatus": 200,
+      "capturedOn": "2026-11-05",
+      "rawSha256": "19be48c1b6d02a74ab9ac894a0a3d0246f688af5171d916d23679255cb50320a",
+      "captureSha256": "6b9bde70cd153d1f552bd0bceee532da2ecb2307e2f02bcf08c083d3da7afbdb",
+      "incumbent": "appfolio",
+      "capture": "af-smart-blog.txt",
+      "review": "partial",
+      "workflows": [
+        "af-smart-blog-01",
+        "af-smart-blog-02",
+        "af-smart-blog-03"
+      ],
+      "unaudited": "Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed."
+    },
+    {
+      "id": "af-reports",
+      "url": "https://www.appfolio.com/blog/tips-and-tricks-for-customizing-your-appfolio-reports",
+      "resolvedUrl": "https://www.appfolio.com/blog/tips-and-tricks-for-customizing-your-appfolio-reports",
+      "httpStatus": 200,
+      "capturedOn": "2026-11-05",
+      "rawSha256": "c04dc3f2fe1bf5abadebfc05898de0fdfdbc5655d67fa4a1a2831c96fc8dd028",
+      "captureSha256": "3b44fa7a461b85a5f99e1f63bf56248ffebb3293738e18365aab5589e4e3887a",
+      "incumbent": "appfolio",
+      "capture": "af-reports.txt",
+      "review": "partial",
+      "workflows": [
+        "af-reports-01",
+        "af-reports-02",
+        "af-reports-03"
+      ],
+      "unaudited": "Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed."
+    },
+    {
+      "id": "af-marketing",
+      "url": "https://www.appfolio.com/property-manager/marketing-leasing",
+      "resolvedUrl": "https://www.appfolio.com/property-manager/marketing-leasing",
+      "httpStatus": 200,
+      "capturedOn": "2026-11-05",
+      "rawSha256": "ff1ec426352140047109ee0fb327081203ce2a41dbad35eaf836673a6eb6e5cf",
+      "captureSha256": "655ec0a26d13ef582a29877be4b0ca06f72a19e49b7049ca0472b3e92ad431be",
+      "incumbent": "appfolio",
+      "capture": "af-marketing.txt",
+      "review": "partial",
+      "workflows": [
+        "af-marketing-01",
+        "af-marketing-02",
+        "af-marketing-03",
+        "af-marketing-04",
+        "af-marketing-05",
+        "af-marketing-06",
+        "af-marketing-07",
+        "af-marketing-08",
+        "af-marketing-09",
+        "af-marketing-10",
+        "af-marketing-11",
+        "af-marketing-12",
+        "af-marketing-13",
+        "af-marketing-14",
+        "af-marketing-15",
+        "af-marketing-16",
+        "af-marketing-17",
+        "af-marketing-18",
+        "af-marketing-19",
+        "af-marketing-20",
+        "af-marketing-21",
+        "af-marketing-22",
+        "af-marketing-23",
+        "af-marketing-24",
+        "af-marketing-25",
+        "af-marketing-26",
+        "af-marketing-27"
+      ],
+      "unaudited": "Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed."
+    },
+    {
+      "id": "af-communication",
+      "url": "https://www.appfolio.com/property-manager/communication-service",
+      "resolvedUrl": "https://www.appfolio.com/property-manager/communication-service",
+      "httpStatus": 200,
+      "capturedOn": "2026-11-05",
+      "rawSha256": "2ce23d20838bc5b0c7e3e5b0a82648dc45ff3ed6eef60ff3f4d9bba8050c0f11",
+      "captureSha256": "2a2e768b9925260fff55b5060c54626a0de61c7bdb847dba1f5389ee0bcfa52e",
+      "incumbent": "appfolio",
+      "capture": "af-communication.txt",
+      "review": "partial",
+      "workflows": [
+        "af-communication-01",
+        "af-communication-02",
+        "af-communication-03",
+        "af-communication-04",
+        "af-communication-05",
+        "af-communication-06",
+        "af-communication-07",
+        "af-communication-08",
+        "af-communication-09",
+        "af-communication-10",
+        "af-communication-11",
+        "af-communication-12",
+        "af-communication-13",
+        "af-communication-14",
+        "af-communication-15",
+        "af-communication-16",
+        "af-communication-17",
+        "af-communication-18",
+        "af-communication-19",
+        "af-communication-20",
+        "af-communication-21"
+      ],
+      "unaudited": "Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed."
+    },
+    {
+      "id": "af-automation",
+      "url": "https://www.appfolio.com/property-manager/workflow-automation",
+      "resolvedUrl": "https://www.appfolio.com/property-manager/workflow-automation",
+      "httpStatus": 200,
+      "capturedOn": "2026-11-05",
+      "rawSha256": "31be1328236084d09ab2430095572e9c20b105c413b17701c27e7775d9ec48f9",
+      "captureSha256": "50c5616cc7375dd9cda5fe561bd084cebbe3694950e8e5713443c722b58bc4c2",
+      "incumbent": "appfolio",
+      "capture": "af-automation.txt",
+      "review": "partial",
+      "workflows": [
+        "af-automation-01",
+        "af-automation-02",
+        "af-automation-03",
+        "af-automation-04",
+        "af-automation-05",
+        "af-automation-06",
+        "af-automation-07",
+        "af-automation-08",
+        "af-automation-09",
+        "af-automation-10",
+        "af-automation-11",
+        "af-automation-12",
+        "af-automation-13",
+        "af-automation-14",
+        "af-automation-15",
+        "af-automation-16"
+      ],
+      "unaudited": "Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed."
+    },
+    {
+      "id": "bu-automation",
+      "url": "https://www.buildium.com/features/property-management-automation-software/",
+      "resolvedUrl": "https://www.buildium.com/features/property-management-automation-software/",
+      "httpStatus": 200,
+      "capturedOn": "2026-11-05",
+      "rawSha256": "ffcfd022eb2e36049cea3af614704b70b53a798dff884c88fac9ed19dd72fb99",
+      "captureSha256": "430f0cf269fbb48f63401a4394d389fcdb2676da1683cd0b6b511c46ad09d0b2",
+      "incumbent": "buildium",
+      "capture": "bu-automation.txt",
+      "review": "partial",
+      "workflows": [
+        "bu-automation-01",
+        "bu-automation-02",
+        "bu-automation-03",
+        "bu-automation-04",
+        "bu-automation-05",
+        "bu-automation-06",
+        "bu-automation-07",
+        "bu-automation-08",
+        "bu-automation-09",
+        "bu-automation-10"
+      ],
+      "unaudited": "Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed."
+    },
+    {
+      "id": "bu-analytics",
+      "url": "https://www.buildium.com/features/property-management-analytics/",
+      "resolvedUrl": "https://www.buildium.com/features/property-management-analytics/",
+      "httpStatus": 200,
+      "capturedOn": "2026-11-05",
+      "rawSha256": "1cd973b887fd91e1f6c1cef9df2cb96635241119c9c3726541c49bc42dd6376d",
+      "captureSha256": "7c8c53228635138ba2b76b95b561fbb40c0bc1e753bf59e119e98c0c3c96a096",
+      "incumbent": "buildium",
+      "capture": "bu-analytics.txt",
+      "review": "partial",
+      "workflows": [
+        "bu-analytics-01",
+        "bu-analytics-02",
+        "bu-analytics-03"
+      ],
+      "unaudited": "Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed."
+    },
+    {
+      "id": "bu-leasing",
+      "url": "https://www.buildium.com/features/online-leasing/",
+      "resolvedUrl": "https://www.buildium.com/features/online-leasing/",
+      "httpStatus": 200,
+      "capturedOn": "2026-11-05",
+      "rawSha256": "4ea7d616847704c6ff73d8b99ce067758a76c24f248c0b6cbe8902e2961ce911",
+      "captureSha256": "f5780b10b82c9402a40825889511d22495d461e788eeb93d572ce4b39a730750",
+      "incumbent": "buildium",
+      "capture": "bu-leasing.txt",
+      "review": "partial",
+      "workflows": [
+        "bu-leasing-01",
+        "bu-leasing-02",
+        "bu-leasing-03"
+      ],
+      "unaudited": "Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed."
+    },
+    {
+      "id": "bu-resident",
+      "url": "https://www.buildium.com/features/resident-center/",
+      "resolvedUrl": "https://www.buildium.com/features/resident-center/",
+      "httpStatus": 200,
+      "capturedOn": "2026-11-05",
+      "rawSha256": "890e87e393da81e7bf2d173c67f7b0de3a3733493694a88caeba3129e0e7c7cc",
+      "captureSha256": "539980a3c8077553bf1ea477fa84d445267c53d5844dd09545c182f70b651ee8",
+      "incumbent": "buildium",
+      "capture": "bu-resident.txt",
+      "review": "partial",
+      "workflows": [
+        "bu-resident-01",
+        "bu-resident-02",
+        "bu-resident-03",
+        "bu-resident-04",
+        "bu-resident-05",
+        "bu-resident-06",
+        "bu-resident-07",
+        "bu-resident-08",
+        "bu-resident-09",
+        "bu-resident-10",
+        "bu-resident-11",
+        "bu-resident-12",
+        "bu-resident-13",
+        "bu-resident-14",
+        "bu-resident-15",
+        "bu-resident-16",
+        "bu-resident-17"
+      ],
+      "unaudited": "Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed."
+    },
+    {
+      "id": "rm-mobile",
+      "url": "https://www.rentmanager.com/mobile-app/",
+      "resolvedUrl": "https://www.rentmanager.com/mobile-app/",
+      "httpStatus": 200,
+      "capturedOn": "2026-11-05",
+      "rawSha256": "1378ac6434663570cf80dcfc9d940c488bb5e9d4f25495298768c9fca2b0ba2f",
+      "captureSha256": "c5f8fd0eba6af686568cc31bf4df67c79e5081f883c35bba9be0f52ccf6e988a",
+      "incumbent": "rent-manager",
+      "capture": "rm-mobile.txt",
+      "review": "partial",
+      "workflows": [
+        "rm-mobile-01",
+        "rm-mobile-02",
+        "rm-mobile-03",
+        "rm-mobile-04",
+        "rm-mobile-05",
+        "rm-mobile-06",
+        "rm-mobile-07",
+        "rm-mobile-08",
+        "rm-mobile-09",
+        "rm-mobile-10",
+        "rm-mobile-11",
+        "rm-mobile-12"
+      ],
+      "unaudited": "Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed."
+    },
+    {
+      "id": "rm-leasing",
+      "url": "https://www.rentmanager.com/marketing-leasing/",
+      "resolvedUrl": "https://www.rentmanager.com/marketing-leasing/",
+      "httpStatus": 200,
+      "capturedOn": "2026-11-05",
+      "rawSha256": "5a141e73ed7528171a720d41a4ba3a5bf0adb79c77b954f523ae3ef671a9c790",
+      "captureSha256": "04134d13142ef5c189deb9b7517a653583d31c4239e71e9680ec2fcbddf45ea5",
+      "incumbent": "rent-manager",
+      "capture": "rm-leasing.txt",
+      "review": "partial",
+      "workflows": [
+        "rm-leasing-01",
+        "rm-leasing-02",
+        "rm-leasing-03",
+        "rm-leasing-04",
+        "rm-leasing-05",
+        "rm-leasing-06",
+        "rm-leasing-07",
+        "rm-leasing-08",
+        "rm-leasing-09",
+        "rm-leasing-10",
+        "rm-leasing-11",
+        "rm-leasing-12",
+        "rm-leasing-13",
+        "rm-leasing-14",
+        "rm-leasing-15",
+        "rm-leasing-16",
+        "rm-leasing-17",
+        "rm-leasing-18",
+        "rm-leasing-19"
+      ],
+      "unaudited": "Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed."
+    },
+    {
+      "id": "rm-owner",
+      "url": "https://www.rentmanager.com/owners/",
+      "resolvedUrl": "https://www.rentmanager.com/owners/",
+      "httpStatus": 200,
+      "capturedOn": "2026-11-05",
+      "rawSha256": "d07b2c7c62d6734593eca41ef7130853a5a12298443e8d10dd16f3dc177bf0e9",
+      "captureSha256": "5167f9afa12c63ca9e30634b38dbd3af94703f093e133e731079eb0edaae1efa",
+      "incumbent": "rent-manager",
+      "capture": "rm-owner.txt",
+      "review": "partial",
+      "workflows": [
+        "rm-owner-01",
+        "rm-owner-02",
+        "rm-owner-03",
+        "rm-owner-04",
+        "rm-owner-05",
+        "rm-owner-06",
+        "rm-owner-07",
+        "rm-owner-08",
+        "rm-owner-09",
+        "rm-owner-10"
+      ],
+      "unaudited": "Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed."
+    },
+    {
+      "id": "af-smart-maintenance",
+      "url": "https://www.appfolio.com/services/smart-maintenance",
+      "resolvedUrl": "https://www.appfolio.com/services/smart-maintenance",
+      "httpStatus": 200,
+      "capturedOn": "2026-11-05",
+      "rawSha256": "0619eaf13d260e9de21f1e310991ec563a095286801b654c26700032e9e15335",
+      "captureSha256": "18f142098db2145ea36260e3bf2921c89e701d0d05d3dccf3c6468f14b3eed60",
+      "incumbent": "appfolio",
+      "capture": "af-smart-maintenance.txt",
+      "review": "unaudited",
+      "workflows": [],
+      "unaudited": "Retained official source area has not yet been reconciled into workflow rows. This is an explicit inventory gap, not absence of incumbent capability."
+    },
+    {
+      "id": "af-owner",
+      "url": "https://www.appfolio.com/help/owner",
+      "resolvedUrl": "https://www.appfolio.com/help/owner",
+      "httpStatus": 200,
+      "capturedOn": "2026-11-05",
+      "rawSha256": "95ae2d15f0851726b5dc2baec192363fae0362c827a4ffd69fc017d218923eff",
+      "captureSha256": "e8186dc8272db8f046ab2844b2d7df885d80dcfabf2768c3b4f676cba87c84fb",
+      "incumbent": "appfolio",
+      "capture": "af-owner.txt",
+      "review": "unaudited",
+      "workflows": [],
+      "unaudited": "Retained official source area has not yet been reconciled into workflow rows. This is an explicit inventory gap, not absence of incumbent capability."
     }
   ],
   "unresolvedAreas": [
     {
       "incumbent": "appfolio",
-      "area": "Telephone maintenance intake, technician GPS and scheduled reports",
-      "reason": "Exact capability boundaries in unreviewed or inaccessible official documentation remain unaudited. Online work orders and association violations GPS do not establish telephone or technician capability."
+      "area": "Technician GPS and scheduled reports",
+      "reason": "Exact capability boundaries in unreviewed or inaccessible official documentation remain unaudited. Association violations GPS and workflow schedule triggers do not establish technician location tracking or report delivery."
     },
     {
       "incumbent": "buildium",
-      "area": "Technician GPS and scheduled reports",
-      "reason": "Not established by the selected public sources; retained as unaudited source areas, never inferred absent."
+      "area": "Technician GPS and scheduled-report configuration details",
+      "reason": "Technician location tracking is not established by the reviewed public sources. Reporting Automation documents automatic report sends; the separate official help article remains inaccessible, so its scheduling and delivery details remain unaudited."
     },
     {
       "incumbent": "rent-manager",
@@ -486,8 +838,114 @@
     {
       "incumbent": "buildium",
       "area": "Scheduled reports — official help contents inaccessible",
-      "reason": "The Schedule Batched Reports official help URL returned HTTP 200 with a loading shell and CSS Error, not article text. Scheduled generation and delivery remain a named unqualified gap; no source contents or completeness are inferred.",
+      "reason": "The Schedule Batched Reports official help URL still returns HTTP 200 with a loading shell and CSS Error. Reporting Automation is independently documented on the public automation page and retained as a named gap; the help article contents and complete reporting inventory remain unqualified.",
       "url": "https://help.buildium.com/hc/s/article/Schedule-Batched-Reports"
+    }
+  ],
+  "namedGaps": [
+    {
+      "incumbent": "appfolio",
+      "category": "corporate",
+      "status": "documented",
+      "workflows": [
+        "af-accounting-01"
+      ],
+      "gap": "Company books and financial reporting remain unqualified replacements; residential accounting and product boundaries cannot remove this gap."
+    },
+    {
+      "incumbent": "appfolio",
+      "category": "telephone",
+      "status": "documented",
+      "workflows": [
+        "af-smart-blog-01"
+      ],
+      "gap": "Documented call intake remains a gap. Online repair forms, staff entry and provider referrals do not replace telephone maintenance intake."
+    },
+    {
+      "incumbent": "appfolio",
+      "category": "gps",
+      "status": "unqualified",
+      "workflows": [],
+      "gap": "Official-source coverage of this capability remains unaudited or inaccessible. No absence, replacement or complete inventory is inferred."
+    },
+    {
+      "incumbent": "appfolio",
+      "category": "reports",
+      "status": "unqualified",
+      "workflows": [],
+      "gap": "Official-source coverage of this capability remains unaudited or inaccessible. No absence, replacement or complete inventory is inferred."
+    },
+    {
+      "incumbent": "buildium",
+      "category": "corporate",
+      "status": "documented",
+      "workflows": [
+        "bu-company-01"
+      ],
+      "gap": "Company books and financial reporting remain unqualified replacements; residential accounting and product boundaries cannot remove this gap."
+    },
+    {
+      "incumbent": "buildium",
+      "category": "telephone",
+      "status": "documented",
+      "workflows": [
+        "bu-telephone-01"
+      ],
+      "gap": "Documented call intake remains a gap. Online repair forms, staff entry and provider referrals do not replace telephone maintenance intake."
+    },
+    {
+      "incumbent": "buildium",
+      "category": "gps",
+      "status": "unqualified",
+      "workflows": [],
+      "gap": "Official-source coverage of this capability remains unaudited or inaccessible. No absence, replacement or complete inventory is inferred."
+    },
+    {
+      "incumbent": "buildium",
+      "category": "reports",
+      "status": "documented",
+      "workflows": [
+        "bu-automation-01"
+      ],
+      "gap": "Documented automatic report generation or delivery remains a gap; manual export does not qualify it."
+    },
+    {
+      "incumbent": "rent-manager",
+      "category": "corporate",
+      "status": "documented",
+      "workflows": [
+        "rm-reports-02"
+      ],
+      "gap": "Company books and financial reporting remain unqualified replacements; residential accounting and product boundaries cannot remove this gap."
+    },
+    {
+      "incumbent": "rent-manager",
+      "category": "telephone",
+      "status": "documented",
+      "workflows": [
+        "rm-telephone-01"
+      ],
+      "gap": "Documented call intake remains a gap. Online repair forms, staff entry and provider referrals do not replace telephone maintenance intake."
+    },
+    {
+      "incumbent": "rent-manager",
+      "category": "gps",
+      "status": "documented",
+      "workflows": [
+        "rm-maintenance-09",
+        "rm-mobile-08"
+      ],
+      "gap": "Documented technician location tracking remains a gap; inspection maps and association violations are separate capabilities."
+    },
+    {
+      "incumbent": "rent-manager",
+      "category": "reports",
+      "status": "documented",
+      "workflows": [
+        "rm-reports-09",
+        "rm-schedules-01"
+      ],
+      "gap": "Documented automatic report generation or delivery remains a gap; manual export does not qualify it."
     }
   ]
 }

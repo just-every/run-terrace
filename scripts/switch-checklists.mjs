@@ -7,6 +7,7 @@ import { parseContract } from '../src/base/seed-contract.mjs'
 const sourceDirectory = './docs/switch-checklist-sources/'
 const output = 'docs/switch-checklists.md'
 const names = { appfolio: 'AppFolio', buildium: 'Buildium', 'rent-manager': 'Rent Manager' }
+const gapNames = { corporate: 'Corporate accounting', telephone: 'Telephone maintenance intake', gps: 'Technician GPS', reports: 'Scheduled reports' }
 const hosts = { appfolio: ['www.appfolio.com'], buildium: ['www.buildium.com', 'help.buildium.com'], 'rent-manager': ['www.rentmanager.com'] }
 const hash = value => createHash('sha256').update(value).digest('hex')
 const fail = message => { throw Error('Switch checklist: ' + message) }
@@ -28,6 +29,7 @@ const sameSet = (actual, expected, label) => need(actual.length === expected.len
 /** Read the source corpus independently of replacement mappings. Never infer an absent workflow from an unaudited area. */
 export function loadSwitchChecklist({ root = process.cwd(), contractText, read = path => readFileSync(resolve(root, path), 'utf8') } = {}) {
  const manifest = JSON.parse(read(sourceDirectory + 'manifest.json'))
+ const audits = unique(JSON.parse(read(sourceDirectory + 'source-areas.json')).sources, 'source', 'source area audit')
  const mappings = JSON.parse(read('docs/switch-checklists.json')).mappings
  const contractSource = contractText ?? read('CONTRACT.md')
  // Summary counts are generated; the caller supplies a consistent contract when simulating a changed judgment.
@@ -37,6 +39,7 @@ export function loadSwitchChecklist({ root = process.cwd(), contractText, read =
  need(manifest.complete === false, 'complete corpus coverage is not established')
  required(manifest.captureMethod, 'capture method')
  const sources = unique(manifest.sources, 'id', 'source ID')
+ sameSet([...audits.keys()], [...sources.keys()], 'every captured source needs a source area audit')
  const inventories = manifest.inventories.map(inventory => {
   need(inventory.complete === false, 'inventory completeness is unqualified: ' + inventory.incumbent)
   required(inventory.gap, 'inventory uncertainty')
@@ -69,6 +72,26 @@ export function loadSwitchChecklist({ root = process.cwd(), contractText, read =
    required(workflow.label, 'workflow name'); required(workflow.section, 'page section'); required(workflow.quote, 'captured quotation')
    need(Number.isInteger(workflow.line) && workflow.line > 0 && lines[workflow.line - 1] === workflow.quote, 'missing provenance at captured source line: ' + workflow.id)
   }
+  // Partition the retained capture, separately from the replacement mappings. Gaps in review may not disappear with a row.
+  const audit = audits.get(source.id), assigned = []
+  need(audit.captureSha256 === source.captureSha256, 'source area audit is stale for captured bytes: ' + source.id)
+  let next = 1
+  for (const area of audit.areas) {
+   need(Number.isInteger(area.from) && Number.isInteger(area.to) && area.from === next && area.to >= area.from && area.to <= lines.length - 1, 'source area audit must reconcile every captured line without overlap: ' + source.id)
+   need(['workflows', 'unaudited', 'context'].includes(area.review), 'invalid source area review')
+   required(area.section, 'source area section'); required(area.note, 'source area explanation')
+   need(Array.isArray(area.workflows), 'missing source area workflows')
+   need(area.review === 'workflows' ? area.workflows.length > 0 : area.workflows.length === 0, 'source area review disagrees with its workflows')
+   for (const id of area.workflows) {
+    const workflow = workflows.get(id)
+    need(workflow?.source === source.id && workflow.line >= area.from && workflow.line <= area.to, 'source area workflow provenance mismatch: ' + id)
+    assigned.push(id)
+   }
+   next = area.to + 1
+  }
+  need(next === lines.length, 'source area audit omits captured lines: ' + source.id)
+  sameSet(assigned, source.workflows, 'source area workflow reconciliation failed: ' + source.id)
+  source.areas = audit.areas
  }
  for (const workflow of workflows.values()) need(sources.has(workflow.source), 'unknown source: ' + workflow.source)
  sameSet(manifest.discovery.map(item => item.incumbent), Object.keys(names), 'each incumbent needs a discovery register')
@@ -78,6 +101,14 @@ export function loadSwitchChecklist({ root = process.cwd(), contractText, read =
   required(index.gap, 'discovery uncertainty')
  }
  for (const area of manifest.unresolvedAreas) { need(names[area.incumbent], 'unknown unresolved incumbent'); required(area.area, 'unaudited area'); required(area.reason, 'unaudited reason') }
+ sameSet(manifest.namedGaps.map(item => item.incumbent + ':' + item.category), Object.keys(names).flatMap(incumbent => Object.keys(gapNames).map(category => incumbent + ':' + category)), 'each incumbent needs every required named-gap assessment')
+ for (const item of manifest.namedGaps) {
+  required(item.gap, 'named-gap assessment')
+  need(['documented', 'unqualified'].includes(item.status) && Array.isArray(item.workflows), 'invalid named-gap assessment')
+  need(item.status === 'documented' ? item.workflows.length > 0 : item.workflows.length === 0, 'named-gap provenance required')
+  sameSet(item.workflows, [...new Set(item.workflows)], 'duplicate named-gap workflow')
+  for (const id of item.workflows) need(workflows.get(id)?.incumbent === item.incumbent, 'named-gap source workflow missing: ' + id)
+ }
  const mapping = unique(mappings, 'workflow', 'replacement workflow')
  sameSet([...mapping.keys()], [...workflows.keys()], 'every inventoried source workflow needs exactly one rendered replacement or named gap')
  const rows = [...workflows.values()].map(workflow => {
@@ -105,9 +136,18 @@ export function renderSwitchChecklist(data) {
    `${inventory.workflows.length} inventoried workflows from ${manifest.sources.filter(source => source.incumbent === inventory.incumbent && source.review === 'partial').length} partially audited pages; ${manifest.sources.filter(source => source.incumbent === inventory.incumbent && source.review === 'unaudited').length} unaudited captures. [Discovery register](switch-checklist-sources/${index.capture}): ${index.urls} URLs, captured ${index.capturedOn}; all unselected entries remain unaudited. ${md(index.gap)}`, '',
    `Discovery raw SHA-256: \`${index.rawSha256}\`. Retained register SHA-256: \`${index.captureSha256}\`.`, '')
   for (const area of manifest.unresolvedAreas.filter(area => area.incumbent === inventory.incumbent)) lines.push(`**Unaudited area — ${md(area.area)}:** ${md(area.reason)}${area.url ? ` [Official source area](${area.url})` : ''}`, '')
+  lines.push('**Captured source areas awaiting review:** ' + manifest.sources.filter(source => source.incumbent === inventory.incumbent).flatMap(source => source.areas.filter(area => area.review === 'unaudited').map(area => `${md(source.id)} lines ${area.from}–${area.to} (${md(area.section)})`)).join('; ') + '.', '')
  }
  for (const inventory of inventories) {
   lines.push(`## ${inventory.name} checklist`, '', `**Partial official-source inventory. ${inventory.workflows.length} workflows; additional source areas remain unaudited.**`, '')
+  lines.push(`### ${inventory.name} required named gaps`, '')
+  for (const item of manifest.namedGaps.filter(item => item.incumbent === inventory.incumbent)) {
+   lines.push(`**${gapNames[item.category]} — ${item.status === 'documented' ? 'Gap' : 'Unqualified source coverage'}:** ${md(item.gap)}`, '')
+   for (const id of item.workflows) {
+    const row = rows.find(row => row.id === id)
+    lines.push(`Documented in [${md(row.label)} · ${row.id}](#${md(row.label + ' ' + row.id).normalize('NFKD').toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, '').trim().replace(/\s+/g, '-')}) — [official source](${row.source.url}), captured ${row.source.capturedOn}, section “${md(row.section)}”, line ${row.line}.`, '')
+   }
+  }
   for (const row of rows.filter(row => row.incumbent === inventory.incumbent)) {
    lines.push(`#### ${md(row.label)} · ${row.id}`, '', `**Gap:** ${md(row.replacement.gap)}`, '',
     `**Related replacements:** ${row.clauses.length ? row.clauses.map(clause => `[${clause.id}](#clause-${clause.id.toLowerCase()}) (${clause.status})`).join('; ') : 'Intentionally unmapped; no qualified Terrace replacement.'}`, '',
@@ -116,8 +156,13 @@ export function renderSwitchChecklist(data) {
   }
  }
  lines.push('## Captured source register', '')
- for (const source of manifest.sources) lines.push(`### ${source.id}`, '', `[Official page](${source.url})${source.url !== source.resolvedUrl ? ` → [resolved page](${source.resolvedUrl})` : ''}; captured ${source.capturedOn}, HTTP ${source.httpStatus}. [Retained normalized text](switch-checklist-sources/${source.capture}).`, '',
+ for (const source of manifest.sources) {
+  lines.push(`### ${source.id}`, '', `[Official page](${source.url})${source.url !== source.resolvedUrl ? ` → [resolved page](${source.resolvedUrl})` : ''}; captured ${source.capturedOn}, HTTP ${source.httpStatus}. [Retained normalized text](switch-checklist-sources/${source.capture}).`, '',
   `Raw SHA-256: \`${source.rawSha256}\`. Capture SHA-256: \`${source.captureSha256}\`.`, '', `**Audit: ${source.review}.** ${md(source.unaudited)} Reconciled source workflows: ${source.workflows.map(id => '\`' + id + '\`').join(', ')}.`, '')
+  lines.push('**Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.', '')
+  for (const area of source.areas) lines.push(`- Lines ${area.from}–${area.to}, ${md(area.section)}: **${area.review}**. ${md(area.note)}${area.workflows.length ? ' Workflows: ' + area.workflows.map(id => '\`' + id + '\`').join(', ') + '.' : ''}`)
+  lines.push('')
+ }
  lines.push('## Current Terrace replacement evidence', '', 'The following statuses, acceptance fingerprints, Evidence and Gap cells come directly from CONTRACT.md. They describe the related Terrace work, not complete incumbent replacement.', '')
  const used = [...new Set(rows.flatMap(row => row.clauses.map(clause => clause.id)))].sort()
  for (const id of used) {

@@ -1,0 +1,94 @@
+How to Get Better Insights by Customizing Your Performance Reporting
+The RPM Model is your map to performance. Explore the model.
+Book a Free Demo
+Products
+Why AppFolio
+Resources
+Pricing
+Login
+Contact Us
+Book a Free Demo
+Blog Home
+How to Get Better Insights by Customizing Your Performance Reporting
+How to Get Better Insights by Customizing Your Performance Reporting
+Author: Marc Frenkiel November 9, 2023
+Whether you’re operating and managing real estate that you own or serving as a fee manager, data and reporting are key to making sound decisions that benefit the bottom line.
+For example, you may rely on reports like an income statement, which tells you whether revenue is sufficient to pay off all expenses and, of course, the property’s net operating income. There are also owner statements, which help maintain accurate and categorized accounts of financial transactions, including utilities and contractor payments. Owner statements typically include beginning and ending balances.
+When it comes to reporting, the more data you can collect, the easier it is to get a complete view of how a property is performing and where your team can make improvements. Reports are also critical for ownership and can shed light on the value of the real estate investment overall. However, reports can be challenging to produce for operators who rely on paper-based invoices and receipts, especially if managing at scale.
+Getting more from your performance reporting
+Dedicated property management software offers efficiency-enhancing tools that go way beyond what industry-agnostic spreadsheets can provide. Those familiar with Excel, for example, know that while it’s an incredibly powerful tool, it’s not always the easiest or most intuitive to use. It may be great for building financial models, but it’s not necessarily ideal for compiling property management reports because it doesn’t provide users with the ability to drill down into specific metrics and create more specific, custom reports such as:
+Average days-to-lease
+Repair and maintenance costs
+Average arrears
+Changes in occupancy
+With dedicated property management reporting technology, you can build reports using day-to-day data that already exists in the system. There’s no need for double data entry, removing another vector for human error.
+Customizing your reports in AppFolio Property Manager
+Recent AppFolio research shows that greater customization is by far the most desired improvement in the reporting capabilities of property management software. In a survey of nearly 5,000 property management employees, 38% of respondents said they don’t have the customization functionality they need. This challenge was cited nearly twice as often as the runner-up, which was insight into how specific properties are performing (20%).
+Report Builder is a tool that allows you to combine and customize reports into a single, actionable view with easy drill-down capabilities — all within AppFolio Property Manager.
+Like the name implies, Report Builder allows users to build customized reports off of base reports. Here’s how it works:
+The user selects a base report that already contains most of the information they are looking for. For our example, let’s use the Rent Roll as a base report.
+Once selected, a new screen will show the typical columns that are contained in the rent roll — Unit, Tenant, Status, Rent, Deposit, Lease Start, Lease End, etc. Below this, the user will see a section for adding columns from other reports. As long as the data is in the system, it can be added to your customized report. So, let’s say you want to add residents’ contact information to a current Rent Roll. You could do so by finding their phone number and email address in this section and adding it to the base report. This new report can then be exported or saved for future use.
+This is just one very basic example of the capabilities of Report Builder. Want to find out how long a unit has been vacant? Does an owner want to see a trailing five-year income statement? You can now get those insights in seconds, without needing to export and manually manipulate reports. With Report Builder, it’s easier than ever to make better business decisions and deliver the insights your stakeholders need. And the easier it is to extract data and create reports, the more efficient your operation can be.
+To learn more about how you can optimize your reporting and accounting processes, check out this guide.
+Marc Frenkiel
+Sr. Industry Writer
+Marc built his career as a copywriter in the advertising world of New York City — and then its leafy suburbs. He later took a hiatus from the industry to work at a real estate investment and management firm, where he also gained exposure to the firm’s venture capital business. At AppFolio, Marc draws on this unique combination of experiences to craft content that resonates with property management and investment professionals alike.
+Product
+Property Management
+Overview
+Workflow Automation
+Resident Experience
+Accounting & Reporting
+Marketing & Leasing
+Maintenance
+Communication & Service
+Integrations & Partnerships
+More from AppFolio
+Investment Management
+Realm-X AI
+What’s New
+Solutions
+Single-Family
+Multifamily
+Student Housing
+Affordable Housing
+Community Associations
+Commercial
+Investment Management
+Pricing
+Property Management
+Investment Management
+Our Company
+Who We Are
+Careers
+Diversity & Inclusion
+Investor Relations
+(opens in a new tab)
+Resources
+Blog
+Events
+Newsroom
+Contact Us
+Why AppFolio
+Real Estate Performance Management
+Customer Experience
+Customer Stories
+Customer Trust
+Login
+Property Manager Login
+Investment Manager Login
+FolioSpace Online Portal Login
+Owner Portal Login
+Vendor Portal Login
+Investor Portal Login
+Book a Free Demo
+Contact Us
+© 2026 AppFolio, Inc
+Privacy Notice
+(opens in a new tab) Do Not Sell or Share My Personal Information
+(opens in a new tab)
+(opens in a new tab)
+(opens in a new tab)
+(opens in a new tab)
+(opens in a new tab)
+(opens in a new tab)

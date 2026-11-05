@@ -176,6 +176,270 @@
       "section": "Complete inspections—right from the field",
       "line": 112,
       "quote": "Capture photos, notes, and reports in the HappyCo app"
+    },
+    {
+      "id": "bu-automation-01",
+      "label": "Scheduled reports",
+      "source": "bu-automation",
+      "section": "Reporting Automation",
+      "line": 78,
+      "quote": "Set up reports once and let them send themselves. Owners and stakeholders stay informed, and you stay focused on bigger priorities."
+    },
+    {
+      "id": "bu-automation-02",
+      "label": "Automatic application screening",
+      "source": "bu-automation",
+      "section": "Automated Tenant Screening",
+      "line": 81,
+      "quote": "Start screening the moment an application comes in—and increase your lead-to-lease efficiency."
+    },
+    {
+      "id": "bu-automation-03",
+      "label": "Returned-payment fees and notices",
+      "source": "bu-automation",
+      "section": "Returned Payment Automation",
+      "line": 84,
+      "quote": "Apply fees and trigger notices automatically when payments fail. Everything is tracked and updated so you’re not chasing anything down."
+    },
+    {
+      "id": "bu-automation-04",
+      "label": "Activity-triggered resident communication",
+      "source": "bu-automation",
+      "section": "Automated Resident Reminders & Communication",
+      "line": 87,
+      "quote": "Align reminders, notices, and follow-ups based on real-time activity. Residents get the right message at the right time."
+    },
+    {
+      "id": "bu-automation-05",
+      "label": "Automated unit-turn processes",
+      "source": "bu-automation",
+      "section": "Property Management Workflow Automations",
+      "line": 90,
+      "quote": "Save time by automating repetitive tasks: Process unit turnovers an estimated 66% faster."
+    },
+    {
+      "id": "bu-automation-06",
+      "label": "AI email and announcement drafting",
+      "source": "bu-automation",
+      "section": "Advanced Automation",
+      "line": 126,
+      "quote": "AI-powered tools like Write with AI for drafting emails and announcements"
+    },
+    {
+      "id": "bu-automation-07",
+      "label": "Goal-driven leasing maintenance and reporting agents",
+      "source": "bu-automation",
+      "section": "Advanced Automation",
+      "line": 127,
+      "quote": "Lumina AI Workforce—goal-driven agents that proactively manage leasing, maintenance, and reporting"
+    },
+    {
+      "id": "bu-automation-08",
+      "label": "AI invoice processing",
+      "source": "bu-automation",
+      "section": "Advanced Automation",
+      "line": 128,
+      "quote": "AI Bill Scan for instant invoice processing"
+    },
+    {
+      "id": "bu-automation-09",
+      "label": "Custom API integrations",
+      "source": "bu-automation",
+      "section": "Advanced Automation",
+      "line": 129,
+      "quote": "Open API access for custom integrations."
+    },
+    {
+      "id": "bu-automation-10",
+      "label": "Payment reminders late fees and scheduled payments",
+      "source": "bu-automation",
+      "section": "How can I start automating tasks in Buildium now?",
+      "line": 131,
+      "quote": "Getting started is simple. Buildium Includes basic automation like payment reminders, automated late fees, and scheduled payments for residents so you can offload repetitive tasks."
+    },
+    {
+      "id": "bu-analytics-01",
+      "label": "Real-time performance and business goals",
+      "source": "bu-analytics",
+      "section": "Property Management Analytics & Insights",
+      "line": 70,
+      "quote": "See real-time performance, set goals, and use property management data analytics to strategically manage and grow your business."
+    },
+    {
+      "id": "bu-analytics-02",
+      "label": "Localized peer performance benchmarks",
+      "source": "bu-analytics",
+      "section": "Property Management Analytics & Insights",
+      "line": 72,
+      "quote": "Compare your data with localized industry benchmarks and similar companies. See how you stack up against the competition and uncover the choices that’ll unlock your business’ potential."
+    },
+    {
+      "id": "bu-analytics-03",
+      "label": "Staff and client data visualizations",
+      "source": "bu-analytics",
+      "section": "Property Management Analytics & Insights",
+      "line": 74,
+      "quote": "Keep staff members and clients informed about key property management data analytics through clear, easy-to-read data visualizations."
+    },
+    {
+      "id": "bu-leasing-01",
+      "label": "Electronic signing with signer order reminders and status",
+      "source": "bu-leasing",
+      "section": "Online Leasing Software powered by Dropbox Sign",
+      "line": 70,
+      "quote": "Collect signatures securely and digitally—all online. Applicants can sign from anywhere and any device, and you can automate the signing process with signer order, reminders, and status updates."
+    },
+    {
+      "id": "bu-leasing-02",
+      "label": "Lease templates with signature blocks and autofill",
+      "source": "bu-leasing",
+      "section": "Online Leasing Software powered by Dropbox Sign",
+      "line": 75,
+      "quote": "Set up flexible templates tailored to your business for all lease documents and addenda. Use common file types (including PDF), place signature blocks, and speed up completion with over 50 autofill fields—even create your own."
+    },
+    {
+      "id": "bu-leasing-03",
+      "label": "Searchable signed documents and automatic uploads",
+      "source": "bu-leasing",
+      "section": "Online Leasing Software powered by Dropbox Sign",
+      "line": 77,
+      "quote": "Create legally-binding, searchable documents with ease while keeping them stowed away securely with automatic uploads to your Buildium account."
+    },
+    {
+      "id": "bu-resident-01",
+      "label": "Resident branding and user permissions",
+      "source": "bu-resident",
+      "section": "Put your brand front and center",
+      "line": 74,
+      "quote": "Customize Resident Center with your logo, colors, and user permissions so residents get an experience that feels connected to their needs (and your marketing)."
+    },
+    {
+      "id": "bu-resident-02",
+      "label": "Resident autopay and scheduled payments",
+      "source": "bu-resident",
+      "section": "Payments",
+      "line": 84,
+      "quote": "Encourage autopay and scheduled payments"
+    },
+    {
+      "id": "bu-resident-03",
+      "label": "Resident payment history",
+      "source": "bu-resident",
+      "section": "Payments",
+      "line": 85,
+      "quote": "Log every payment automatically with easy access to history"
+    },
+    {
+      "id": "bu-resident-04",
+      "label": "Retail cash flexible rent and deposit alternatives",
+      "source": "bu-resident",
+      "section": "Payments",
+      "line": 86,
+      "quote": "Offer more resident-friendly options like retail cash payments, flexible rent payments (Livble), and security deposit alternatives (Obligo)"
+    },
+    {
+      "id": "bu-resident-05",
+      "label": "Resident two-way messages and property announcements",
+      "source": "bu-resident",
+      "section": "Communications",
+      "line": 88,
+      "quote": "Message individual residents or send property-wide announcements from Resident Center, keeping conversations organized and easier to track."
+    },
+    {
+      "id": "bu-resident-06",
+      "label": "Automatic payment and renewal reminders",
+      "source": "bu-resident",
+      "section": "Communications",
+      "line": 91,
+      "quote": "Schedule automated reminders for payments and renewals"
+    },
+    {
+      "id": "bu-resident-07",
+      "label": "Resident SMS announcements",
+      "source": "bu-resident",
+      "section": "Communications",
+      "line": 92,
+      "quote": "Send announcements and SMS messages when email isn’t enough"
+    },
+    {
+      "id": "bu-resident-08",
+      "label": "Resident repair photos and requests",
+      "source": "bu-resident",
+      "section": "Maintenance Requests",
+      "line": 95,
+      "quote": "Let residents submit maintenance requests and upload details or photos"
+    },
+    {
+      "id": "bu-resident-09",
+      "label": "Resident repair assignment status",
+      "source": "bu-resident",
+      "section": "Maintenance Requests",
+      "line": 96,
+      "quote": "Share the status of repairs as work orders are assigned to staff or vendors"
+    },
+    {
+      "id": "bu-resident-10",
+      "label": "Appointment availability coordination",
+      "source": "bu-resident",
+      "section": "Maintenance Requests",
+      "line": 97,
+      "quote": "Coordinate appointments with preset availability for your maintenance team"
+    },
+    {
+      "id": "bu-resident-11",
+      "label": "Amenity reservations and community events",
+      "source": "bu-resident",
+      "section": "Community",
+      "line": 99,
+      "quote": "Let residents reserve amenities, discover upcoming events, and stay updated in one place—while reducing the coordination work for your team."
+    },
+    {
+      "id": "bu-resident-12",
+      "label": "Resident insurance purchase and participation tracking",
+      "source": "bu-resident",
+      "section": "Buildium renters insurance",
+      "line": 103,
+      "quote": "Give residents an simple way to select a renters insurance policy or add their own coverage directly in Resident Center, while you track participation and policy activity —without extra backend management or billing."
+    },
+    {
+      "id": "bu-resident-13",
+      "label": "Resident credit-bureau rent reporting",
+      "source": "bu-resident",
+      "section": "Rent reporting",
+      "line": 106,
+      "quote": "Make it easy and affordable for residents to build their credit history by reporting on-time, monthly rent payment activity to one or more of the major credit bureaus."
+    },
+    {
+      "id": "bu-resident-14",
+      "label": "Flexible rent installment partner",
+      "source": "bu-resident",
+      "section": "Livble",
+      "line": 109,
+      "quote": "Offer residents more flexibility with manageable rent installments, while your business receives the full payment on schedule."
+    },
+    {
+      "id": "bu-resident-15",
+      "label": "Resident utility move-in services",
+      "source": "bu-resident",
+      "section": "Move-in services",
+      "line": 112,
+      "quote": "Help residents set up utility services through Buildium’s resident portal, making the transition into their new home easier from day one."
+    },
+    {
+      "id": "bu-resident-16",
+      "label": "Deposit-free rental partner program",
+      "source": "bu-resident",
+      "section": "Obligo security deposit alternative",
+      "line": 115,
+      "quote": "Eliminate the burden of security deposits by offering Obligo’s fully integrated, deposit-free rental program."
+    },
+    {
+      "id": "bu-resident-17",
+      "label": "Native resident mobile applications",
+      "source": "bu-resident",
+      "section": "Does Resident Center have a mobile app?",
+      "line": 140,
+      "quote": "Yes! The highly-rated Buildium Resident Center mobile app is available for download on iOS and Android. In fact, Buildium’s mobile apps set it apart from the competition."
     }
   ]
 }

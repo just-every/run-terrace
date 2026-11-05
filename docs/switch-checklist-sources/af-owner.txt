@@ -1,0 +1,194 @@
+Owner Portal Help & FAQs
+The RPM Model is your map to performance. Explore the model.
+Book a Free Demo
+Products
+Why AppFolio
+Resources
+Pricing
+Login
+Contact Us
+Book a Free Demo
+Anytime, anywhere, access to your owner portal.
+Use your Owner Portal to securely access reports, property inspections, important documents, or 1099s shared by your property manager, and make secure monetary contributions to the property of your choice via credit/ debit card or eCheck (ACH).
+Video Overview: Owner Portal
+Help Topics
+Activate Your Owner Portal
+Your property manager will send you an announcement email, or you will receive a notification email that an item is ready to view in your portal. If you have not yet activated your portal, either of these emails will prompt you to begin the process.
+Click the Activate Now button in the email from your property management company to begin setting up the Owner Portal
+On the Owner Portal sign up page, the email your property manager has on file will be automatically filled in, or, you will be prompted to manually type in your email address.
+Now, navigate back to your email inbox to find this activation link and click Confirm my email.
+You're all set! Follow the next steps to create your password and set up two-factor authorization.
+Create a Password & Set Up Two-Factor Authentication
+After confirming your email in the last step, you will be directed to this page to set up a secure password for your portal.
+After checking the box to certify you have read and agreed to the Terms of Service, click Create an account.
+To keep your personal and financial information secure, your Owner Portal has an additional layer of security with two-factor authentication. This means signing into your portal will periodically require both a password and as well as a security code that will be sent via your preferred method.
+Getting started is quick and simple.
+After creating a password, you will then be prompted to set up two-factor authentication by typing in your phone number.
+If you selected to receive your verification code via SMS, check your messages to find the Verification Code or type in the code you received via phone call.
+Additionally, you can check a box that remembers the device you’re on for 30 days, which will automatically log you into your Owner Portal without having to verify your email and password again.
+Finally, click Log In.
+Access Your Owner Portal
+Once you have activated your Owner Portal you can login anytime from a computer, tablet or smartphone.
+To Access Your Owner Portal:
+Open the internet browser on your computer or mobile device and enter the URL for your Owner Portal (contained in your activation email).
+Enter your Email and Password then click Login.
+Migrate to Phone Two-Factor Authentication (2FA)
+Note: This only applies to owners who are currently using email two-factor authentication (2FA).
+At AppFolio, we constantly seek ways to limit our customers’ exposure to fraud and security risks. Protecting the security of your account is our topmost priority. Most email account services, such as Gmail, Yahoo, Outlook, and more use passwords for login. Passwords are not secure as they get leaked in data breaches and can be guessed. If the password for your email service is compromised and known by a bad actor, it also puts your AppFolio account at risk.
+To protect your account security, we will not be able to allow customers to use email as their method for two-factor authentication when logging in. From now on, you will need to use SMS or a phone call as your verification method to log in.
+Follow these steps to set up and switch to phone-based two-factor authentication:
+You will receive an automated email like the one below.
+The next time you login, you will be prompted to verify your email.
+Click the verification link int he email to confirm.
+After your email has been successfully verified, login with your password again.
+Next, you will be prompted to add a phone number with the following screen. You can set up phone verification via SMS or phone call. You can enter your mobile or landline number. We suggest providing the primary mobile number you use, one that is accessible all the time.
+After you provide a phone number and select the verification method, you will be prompted to enter the verification code as part of the setup process. On successful verification, your account will be set up with phone-based verification for future logins.
+View Your Dashboard
+Note: If you do not see ‘Dashboard’ as an option when you log in to your online portal, please contact your property management company.
+The dashboard gives you an in-depth real-time view of your active property's performance under management. The dashboard is broken down into widgets which will give insight into various items:
+Total Income: All receipts against your properties.
+Total Expense: All paid bills against your properties
+‘Your Contribution’ Total - The lump sum of all contributions you have made towards your properties
+‘Your Disbursement’ Total - The lump sum of all distributions made to you from the property management company
+Most Recent Packet - The most recent packet shared with you by your property management company (click ‘See All’ to see all statements shared)
+Occupancy percentage - The percentage of your active units that are occupied vs. vacant as of today’s date. (clicking ‘See More’ will take you to the Properties page for more information)
+Rent Collection - The total amount of rent charged vs. rent paid month-to-date
+Income breakdown - Each individual transaction that makes up the total shown at the top in Total Income
+Expense breakdown - Each individual transaction that makes up the total shown at the top in Total Expense
+By default, your dashboard will show you all active properties. However, if you would like to see specific properties or entities click the dropdown in the top left corner of your dashboard and choose either a specific entity (if your email address is affiliated with more than one entity) or choose a specific property under ownership. When you choose a different item from the dropdown your dashboard will automatically filter to show you details for the selected.
+Customize Your Dashboard
+Your dashboard can be customized to your specific needs at any time. To do this, follow these steps:
+From the dashboard page, click ‘Customize’ in the right-hand corner. This will bring you into Customize mode
+Click ‘Select Widgets’ to add or remove portions of the dashboard
+Once you have your desired widgets, you can drag and drop them to different areas of the dashboard.
+Use the bottom right-hand corner of any widget to resize as desired
+Once satisfied with your settings, click ‘Save Changes’
+The next time you log in, you will see the dashboard as you have personalized it - no matter what device you are using.
+If at any point you want to start over, there is a ‘Restore to Default’ option in the top left of Customize mode that will set your dashboard back to default settings.
+Reports
+Note: If you do not see ‘Reports’ as an option when you log in to your online portal, please contact your property management company.
+The reports tab gives you the ability to run reports in real-time for your active properties. To run a report, follow these steps:
+Click on the report you would like to run by selecting the name in the left column
+You will be brought to a ‘Customize’ screen where you can select the desired property and applicable date ranges (if you want to see all properties, don’t select any).
+When you have these filtered, click ‘Update’ and the report will begin generating.
+Once generated, you will see various options at the top right:
+Find in Report allows you to search for specific words or numbers within the report
+Print to PDF will give you the ability to print to PDF in either portrait or landscape view
+Actions allows you to export the report to Excel or CSV
+Refresh will update the report with any new data, if available
+Customize will bring you back to the original customize screen to change your filters or columns, when applicable
+Properties
+The properties tab is home to all actively owned properties for any entity tied to your e-mail address. Not only can you quickly see the address but you also have a table with the following information:
+Unit breakdown (for Multi-Family properties)
+Occupancy status (vacant or occupied)
+Move-In Date (the move-in date for the unit in question - will be blank if vacant)
+Lease End Date (the lease end date for the unit in question - will be blank if vacant)
+Rental Amount (the total of recurring monthly charges against the rental income account)
+If you have a reserve on the property, the amount will appear to the right of the address. For properties without a reserve amount, nothing will appear.
+Your properties tab will only show you information for properties that are active as of today’s date. If your ownership ended on a specific property, you will not see that property on the Properties page.
+View Statements, Transactions, and Documents
+Depending on what your property manager has published to your portal, you will see one or more of the following tabs: Statements, Contributions, Inspection Reports and Documents.
+Statements: View or download published statements and reports. Packets are ordered by date with the most recent at the top and will be grouped under the owner of record. Click Download Packet to download the packet to your computer or mobile device.
+Transactions: Make secure monetary contributions via credit and debit card or eCheck (ACH) to the property of your choice.
+Documents: Any files your property manager has shared will be stored here. Click the name of the file to view it online, or click Download to save it to your computer.
+Update Your Bank Account Information
+Within the Online Portal, owners have the ability to update their own bank account information for online payments.
+Log in to your Owner Portal using your email address and password.
+2. Click your name or email address in the top-right corner and select Settings.
+3. Then, click Bank Account Settings.
+4. On this page, you can update or change your Routing Number, Account Number, and Account Type. When completed, check off the box to agree to the terms and finally, click Save Changes.
+5. Your property manager will then receive an email notification letting them know you have updated your bank account settings.
+If you are unable to edit your bank account information, please contact your property manager as this feature needs to be enabled by an admin on their AppFolio database.
+Make a Contribution
+If enabled, you can make secure monetary contributions via credit and debit card or eCheck (ACH) to the property of your choice.
+Log into your Owner Portal and click the Contributions tab on the left-side menu of the portal.
+Select a property, enter an amount ($15,000 max), select a payment method, and click Continue. Transaction fees apply when paying online. You are notified of the fee amount before you submit the payment.
+Enter the bank account or card details and click Continue.
+Review your payment information and click Submit.
+Note: The contribution and fee will be processed as separate transactions. The base contribution appears on your statement as a transaction from the management company and the fee will appear as a transaction from AppFolio.
+You will receive an email notification if your payment was successfully submitted. Print or save the confirmation page or email for your records if necessary.
+FAQ
+What is my Owner Portal URL?
+For help retrieving your Owner Portal URL, open the internet browser on your computer or mobile device and type "www.appfolio.com/login-owner" into the web address bar.
+Who do I contact with questions about my Owner Portal?
+Please contact your property management company if you have any questions about the portal.
+My reports are incorrect or not showing me the information I need, what do I do?
+Please contact your property management company to discuss your reports.
+I entered my email address and clicked Sign Up, but haven't received my activation email, what do I do?
+Confirm you are using the correct email address and check your spam or junk mail folders. The email address you use to log in to your Owner Portal is the email address your property manager has on file for your record.
+I have multiple LLC's but only see reports for one company in my portal. What should I do?
+Access to your Owner Portal is based upon your email address. As long as each record in your property manager's database has the same email address entered, information for all properties should be contained within one portal. Scroll down the page to see separate packets for each entity. If you still cannot find the correct packets, please contact your property manager.
+Why am I required to enable two-factor authentication (2FA)?
+Two-factor authentication is the industry standard for data protection and greatly improves the security of confidential information. This additional step helps us verify that the person signing in is authorized to do so.
+Are international numbers supported for 2FA?
+Yes. You can select your country code from the dropdown of available countries. There are known issues with people in China receiving codes. We are currently working to resolve this.
+Can I use Google Voice to receive 2FA codes?
+Yes! This is a great option for any customers who are traveling internationally and if your international phone number country code is not currently available in the dropdown of currently-supported countries.
+Can I use a landline phone number to request a 2FA code?
+Yes, you can use a landline if you select to receive your verification code via phone call. If you selected to receive an authentication code via SMS (text message) than you must input a number capable of receiving text messages.
+How do I use phone 2FA while traveling internationally?
+If you are traveling, you can use the following options
+- Enable international roaming to receive SMS and phone calls outside of the United States.
+- Use VoIP services like Google Voice that just require a wi-fi and internet connection. You would receive verification SMS and phone calls via Google Voice iOS and Android App or [voice.google.com](http://voice.google.com)
+- You can add an international phone number to your account temporarily while traveling.
+Who do I contact if I no longer have access to the phone I used for 2FA?
+Please contact your property management company.
+Product
+Property Management
+Overview
+Workflow Automation
+Resident Experience
+Accounting & Reporting
+Marketing & Leasing
+Maintenance
+Communication & Service
+Integrations & Partnerships
+More from AppFolio
+Investment Management
+Realm-X AI
+What’s New
+Solutions
+Single-Family
+Multifamily
+Student Housing
+Affordable Housing
+Community Associations
+Commercial
+Investment Management
+Pricing
+Property Management
+Investment Management
+Our Company
+Who We Are
+Careers
+Diversity & Inclusion
+Investor Relations
+(opens in a new tab)
+Resources
+Blog
+Events
+Newsroom
+Contact Us
+Why AppFolio
+Real Estate Performance Management
+Customer Experience
+Customer Stories
+Customer Trust
+Login
+Property Manager Login
+Investment Manager Login
+FolioSpace Online Portal Login
+Owner Portal Login
+Vendor Portal Login
+Investor Portal Login
+Book a Free Demo
+Contact Us
+© 2026 AppFolio, Inc
+Privacy Notice
+(opens in a new tab) Do Not Sell or Share My Personal Information
+(opens in a new tab)
+(opens in a new tab)
+(opens in a new tab)
+(opens in a new tab)
+(opens in a new tab)
+(opens in a new tab)
