@@ -8,336 +8,405 @@
         {
           "from": 1,
           "to": 36,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 37,
           "to": 37,
-          "section": "Realm-X Accounting Performer",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
-            "af-accounting-02"
-          ]
+            "af-accounting-02",
+            "af-accounting-20"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 38,
           "to": 42,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 43,
           "to": 43,
-          "section": "Corporate Accounting",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-01"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 44,
-          "to": 51,
-          "section": "Unreconciled captured text",
+          "to": 44,
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 45,
+          "to": 45,
+          "section": "Accounting and reporting",
+          "review": "workflows",
+          "workflows": [
+            "af-accounting-21"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 46,
+          "to": 46,
+          "section": "Accounting and reporting",
+          "review": "workflows",
+          "workflows": [
+            "af-accounting-22"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 47,
+          "to": 51,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 52,
           "to": 52,
-          "section": "Portfolio Accounting",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-03"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 53,
+          "to": 53,
+          "section": "Accounting and reporting",
+          "review": "workflows",
+          "workflows": [
+            "af-accounting-23"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 54,
+          "to": 54,
+          "section": "Accounting and reporting",
+          "review": "workflows",
+          "workflows": [
+            "af-accounting-24"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 55,
+          "to": 55,
+          "section": "Accounting and reporting",
+          "review": "workflows",
+          "workflows": [
+            "af-accounting-25"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 56,
           "to": 56,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 57,
           "to": 57,
-          "section": "Credit Card Accounting",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-04"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 58,
           "to": 58,
-          "section": "Credit Card Accounting",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-05"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 59,
           "to": 59,
-          "section": "Credit Card Accounting",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-06"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 60,
+          "to": 60,
+          "section": "Accounting and reporting",
+          "review": "workflows",
+          "workflows": [
+            "af-accounting-26"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 61,
           "to": 63,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 64,
           "to": 64,
-          "section": "Extended Access to Data",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-07"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 65,
           "to": 65,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 66,
           "to": 66,
-          "section": "Online Payments",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-08"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 67,
           "to": 67,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 68,
           "to": 68,
-          "section": "Auto Bank Reconciliation",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-09"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 69,
           "to": 69,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 70,
           "to": 70,
-          "section": "Late Fee Waivers",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-10"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 71,
           "to": 71,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 72,
           "to": 72,
-          "section": "CAM Tracking & Reconciliation",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-11"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 73,
           "to": 73,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 74,
           "to": 74,
-          "section": "Automated Late Fees",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-12"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 75,
           "to": 77,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 78,
           "to": 78,
-          "section": "eCheck",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-13"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 79,
           "to": 81,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 82,
           "to": 82,
-          "section": "Tenant Debt Collections",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-14"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 83,
           "to": 83,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 84,
           "to": 84,
-          "section": "Bulk Tenant Charges",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-15"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 85,
           "to": 87,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 88,
           "to": 88,
-          "section": "Holding Deposits",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-16"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 89,
           "to": 89,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 90,
           "to": 90,
-          "section": "Loan Tracking",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-17"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 91,
           "to": 91,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 92,
           "to": 92,
-          "section": "Reimbursable Expenses",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-18"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 93,
           "to": 93,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 94,
           "to": 94,
-          "section": "Unified Chart of Accounts",
+          "section": "Accounting and reporting",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-accounting-19"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 95,
           "to": 167,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Remaining source text and linked documentation remain unaudited for omitted workflows."
         }
       ]
     },
@@ -348,264 +417,294 @@
         {
           "from": 1,
           "to": 24,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 25,
           "to": 25,
-          "section": "Track Work Orders From Beginning To Finish",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-maintenance-01"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 26,
           "to": 36,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 37,
           "to": 37,
-          "section": "Pay Your Bills, Owners, and Vendors",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-maintenance-02"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 38,
           "to": 44,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 45,
           "to": 45,
-          "section": "The Realm-X Maintenance Performer & Automated Scheduling & Billing",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
-            "af-maintenance-03"
-          ]
+            "af-maintenance-03",
+            "af-maintenance-16",
+            "af-maintenance-17"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 46,
-          "to": 47,
-          "section": "Unreconciled captured text",
+          "to": 46,
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 47,
+          "to": 47,
+          "section": "Maintenance and auditing",
+          "review": "workflows",
+          "workflows": [
+            "af-maintenance-18"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 48,
           "to": 48,
-          "section": "The Realm-X Maintenance Performer & Automated Scheduling & Billing",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-maintenance-04"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 49,
           "to": 49,
-          "section": "The Realm-X Maintenance Performer & Automated Scheduling & Billing",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-maintenance-05"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 50,
           "to": 50,
-          "section": "The Realm-X Maintenance Performer & Automated Scheduling & Billing",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-maintenance-06"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 51,
           "to": 51,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 52,
           "to": 52,
-          "section": "Auditing Center",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-maintenance-07"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 53,
-          "to": 60,
-          "section": "Unreconciled captured text",
+          "to": 56,
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 57,
+          "to": 57,
+          "section": "Maintenance and auditing",
+          "review": "workflows",
+          "workflows": [
+            "af-maintenance-19"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 58,
+          "to": 60,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 61,
           "to": 61,
-          "section": "Mobile Inspections",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-maintenance-08"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 62,
           "to": 62,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 63,
           "to": 63,
-          "section": "Unit Turn Board",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-maintenance-09"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 64,
           "to": 66,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 67,
           "to": 67,
-          "section": "Online Maintenance Requests",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-maintenance-10"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 68,
           "to": 68,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 69,
           "to": 69,
-          "section": "Common Area Maintenance",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-maintenance-11"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 70,
           "to": 70,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 71,
           "to": 71,
-          "section": "Mobile Violations & Tracking",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-maintenance-12"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 72,
           "to": 72,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 73,
           "to": 73,
-          "section": "Architectural Reviews",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-maintenance-13"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 74,
           "to": 74,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 75,
           "to": 75,
-          "section": "Board Member Roles & Tenure Tracking",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-maintenance-14"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 76,
           "to": 78,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 79,
           "to": 79,
-          "section": "In-House Maintenance",
+          "section": "Maintenance and auditing",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-maintenance-15"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 80,
           "to": 179,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Remaining source text and linked documentation remain unaudited for omitted workflows."
         }
       ]
     },
@@ -2710,434 +2809,1016 @@
         {
           "from": 1,
           "to": 13,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 14,
           "to": 14,
-          "section": "Activate Your Account Online",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-01"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 15,
           "to": 18,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 19,
           "to": 19,
-          "section": "Download the Mobile App",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-02"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 20,
           "to": 27,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 28,
           "to": 28,
-          "section": "Set Up Two Factor Authentication",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-03"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 29,
           "to": 36,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 37,
           "to": 37,
-          "section": "Reset Your Password",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-04"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 38,
           "to": 42,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 43,
           "to": 43,
-          "section": "Make a One-Time Payment",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-05"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 44,
           "to": 44,
-          "section": "Make a One-Time Payment",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-06"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 45,
           "to": 45,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 46,
           "to": 46,
-          "section": "Make a One-Time Payment",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-07"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 47,
           "to": 47,
-          "section": "Unreconciled captured text",
-          "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-25"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 48,
           "to": 48,
-          "section": "Make a One-Time Payment",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-08"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 49,
-          "to": 50,
-          "section": "Unreconciled captured text",
+          "to": 49,
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 50,
+          "to": 50,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-26"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 51,
           "to": 51,
-          "section": "Set Up an Auto Payment",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-09"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 52,
-          "to": 57,
-          "section": "Unreconciled captured text",
+          "to": 52,
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 53,
+          "to": 53,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-27"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 54,
+          "to": 54,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-28"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 55,
+          "to": 57,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 58,
           "to": 58,
-          "section": "How Do I Delete My Auto Payment?",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-10"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 59,
+          "to": 59,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-29"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 60,
           "to": 60,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 61,
           "to": 61,
-          "section": "How Do I Skip My Auto Payment?",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-11"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 62,
           "to": 62,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 63,
           "to": 63,
-          "section": "How Do I Change the Amount of My Auto Payment?",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-12"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 64,
           "to": 65,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 66,
           "to": 66,
-          "section": "How Do I Change the Payment Information of My Auto Payment?",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-13"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 67,
           "to": 67,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 68,
           "to": 68,
-          "section": "How Do I Change My Auto Payment Maximum Limit?",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-14"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 69,
-          "to": 73,
-          "section": "Unreconciled captured text",
+          "to": 69,
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 70,
+          "to": 70,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-30"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 71,
+          "to": 73,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 74,
           "to": 74,
-          "section": "View Payment History",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-15"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 75,
           "to": 75,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 76,
           "to": 76,
-          "section": "Can I Delete My Saved Bank Account or Card?",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-16"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 77,
-          "to": 95,
-          "section": "Unreconciled captured text",
+          "to": 77,
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 78,
+          "to": 78,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-31"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 79,
+          "to": 89,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 90,
+          "to": 90,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-32"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 91,
+          "to": 95,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 96,
           "to": 96,
-          "section": "Where Can I Find My Electronic Cash Payment Slip?",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-17"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 97,
-          "to": 116,
-          "section": "Unreconciled captured text",
+          "to": 97,
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 98,
+          "to": 98,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-33"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 99,
+          "to": 101,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 102,
+          "to": 102,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-34"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 103,
+          "to": 103,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 104,
+          "to": 104,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-35"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 105,
+          "to": 106,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 107,
+          "to": 107,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-36"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 108,
+          "to": 109,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 110,
+          "to": 110,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-37"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 111,
+          "to": 111,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 112,
+          "to": 112,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-38"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 113,
+          "to": 116,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 117,
           "to": 117,
-          "section": "How Do I Sign My Lease Electronically?",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-18"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 118,
           "to": 118,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 119,
           "to": 119,
-          "section": "How Do I Renew My Lease Electronically?",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-19"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 120,
           "to": 122,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 123,
           "to": 123,
-          "section": "How Do I Update My Electronic Signature for Signing Documents?",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-20"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 124,
           "to": 124,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 125,
           "to": 125,
-          "section": "How Do I Set Up My Utilities in FolioSpace?",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-21"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 126,
           "to": 126,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 127,
           "to": 127,
-          "section": "How Do I Get Help With Utilities?",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-22"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 128,
-          "to": 135,
-          "section": "Unreconciled captured text",
+          "to": 131,
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 132,
+          "to": 132,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-39"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 133,
+          "to": 135,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 136,
           "to": 136,
-          "section": "Update Your Contact Information",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-23"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 137,
           "to": 137,
-          "section": "Unreconciled captured text",
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
         },
         {
           "from": 138,
           "to": 138,
-          "section": "I No Longer Rent With This Property Manager. How Do I Delete My Account?",
+          "section": "FolioSpace resident and applicant help",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-resident-24"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
         },
         {
           "from": 139,
-          "to": 190,
-          "section": "Unreconciled captured text",
+          "to": 139,
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 140,
+          "to": 140,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-40"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 141,
+          "to": 141,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 142,
+          "to": 142,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-41"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 143,
+          "to": 143,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 144,
+          "to": 144,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-42"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 145,
+          "to": 145,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 146,
+          "to": 146,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-43"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 147,
+          "to": 147,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 148,
+          "to": 148,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-44"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 149,
+          "to": 152,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 153,
+          "to": 153,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-45"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 154,
+          "to": 154,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-46"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 155,
+          "to": 155,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 156,
+          "to": 156,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-47"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 157,
+          "to": 158,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 159,
+          "to": 159,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-48"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 160,
+          "to": 160,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 161,
+          "to": 161,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-49"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 162,
+          "to": 162,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 163,
+          "to": 163,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-50"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 164,
+          "to": 164,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 165,
+          "to": 165,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-51"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 166,
+          "to": 166,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 167,
+          "to": 167,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-52"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 168,
+          "to": 168,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 169,
+          "to": 169,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-53"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 170,
+          "to": 171,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 172,
+          "to": 172,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-54"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 173,
+          "to": 173,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 174,
+          "to": 174,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-55"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 175,
+          "to": 176,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 177,
+          "to": 177,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-56"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 178,
+          "to": 182,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 183,
+          "to": 183,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-57"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 184,
+          "to": 184,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 185,
+          "to": 185,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-58"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 186,
+          "to": 186,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 187,
+          "to": 187,
+          "section": "FolioSpace resident and applicant help",
+          "review": "workflows",
+          "workflows": [
+            "af-resident-59"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 188,
+          "to": 190,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Remaining source text and linked documentation remain unaudited for omitted workflows."
         }
       ]
     },
@@ -6209,11 +6890,49 @@
       "areas": [
         {
           "from": 1,
-          "to": 27,
-          "section": "Unreconciled captured text",
+          "to": 11,
+          "section": "Unreviewed source context",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 12,
+          "to": 12,
+          "section": "Smart Maintenance",
+          "review": "workflows",
+          "workflows": [
+            "af-smart-maintenance-01",
+            "af-smart-maintenance-02",
+            "af-smart-maintenance-03"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 13,
+          "to": 18,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source content remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 19,
+          "to": 19,
+          "section": "Smart Maintenance",
+          "review": "workflows",
+          "workflows": [
+            "af-smart-maintenance-04"
+          ],
+          "note": "Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement."
+        },
+        {
+          "from": 20,
+          "to": 27,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Remaining source text and linked documentation remain unaudited for omitted workflows."
         }
       ]
     },
@@ -6778,6 +7497,1576 @@
           "review": "unaudited",
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
+        }
+      ]
+    },
+    {
+      "source": "bu-owner",
+      "captureSha256": "6cfbde9630b9b06dad6f4805c9bfa62d22184ccc7b4754fa6984d6ee221a885c",
+      "areas": [
+        {
+          "from": 1,
+          "to": 80,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 81,
+          "to": 81,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-01"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 82,
+          "to": 82,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-02"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 83,
+          "to": 83,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-03"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 84,
+          "to": 84,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-04"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 85,
+          "to": 85,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 86,
+          "to": 86,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-05"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 87,
+          "to": 87,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-06"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 88,
+          "to": 88,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-07"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 89,
+          "to": 89,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-08"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 90,
+          "to": 90,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 91,
+          "to": 91,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-09"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 92,
+          "to": 92,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-10"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 93,
+          "to": 93,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-11"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 94,
+          "to": 94,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-12"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 95,
+          "to": 95,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 96,
+          "to": 96,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-13"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 97,
+          "to": 97,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-14"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 98,
+          "to": 98,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-15"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 99,
+          "to": 99,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-16"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 100,
+          "to": 119,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 120,
+          "to": 120,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-17"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 121,
+          "to": 121,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 122,
+          "to": 122,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-18"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 123,
+          "to": 123,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 124,
+          "to": 124,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-19"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 125,
+          "to": 125,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 126,
+          "to": 126,
+          "section": "Owner portal",
+          "review": "workflows",
+          "workflows": [
+            "bu-owner-20"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 127,
+          "to": 162,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Remaining text and linked source areas remain unaudited for additional documented workflows."
+        }
+      ]
+    },
+    {
+      "source": "bu-payments",
+      "captureSha256": "e50737d684e858fa7d298e8e4409e468dd896bf02d911f5607b8e5cfa1e93a95",
+      "areas": [
+        {
+          "from": 1,
+          "to": 73,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 74,
+          "to": 74,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-01"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 75,
+          "to": 78,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 79,
+          "to": 79,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-02"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 80,
+          "to": 80,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 81,
+          "to": 81,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-03"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 82,
+          "to": 82,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 83,
+          "to": 83,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-04"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 84,
+          "to": 84,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 85,
+          "to": 85,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-05"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 86,
+          "to": 86,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 87,
+          "to": 87,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-06"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 88,
+          "to": 97,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 98,
+          "to": 98,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-07"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 99,
+          "to": 99,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-08"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 100,
+          "to": 100,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-09"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 101,
+          "to": 101,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-10"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 102,
+          "to": 104,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 105,
+          "to": 105,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-11"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 106,
+          "to": 106,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-12"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 107,
+          "to": 109,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 110,
+          "to": 110,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-13"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 111,
+          "to": 111,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 112,
+          "to": 112,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-14"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 113,
+          "to": 113,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-15"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 114,
+          "to": 114,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-16"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 115,
+          "to": 115,
+          "section": "Online payment processing",
+          "review": "workflows",
+          "workflows": [
+            "bu-payments-17"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 116,
+          "to": 151,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Remaining text and linked source areas remain unaudited for additional documented workflows."
+        }
+      ]
+    },
+    {
+      "source": "bu-application",
+      "captureSha256": "0293b5364be9407949ce9ec0c576041abc858d68452708861abce954e8d3f6dd",
+      "areas": [
+        {
+          "from": 1,
+          "to": 74,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 75,
+          "to": 75,
+          "section": "Online rental applications",
+          "review": "workflows",
+          "workflows": [
+            "bu-application-01"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 76,
+          "to": 76,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 77,
+          "to": 77,
+          "section": "Online rental applications",
+          "review": "workflows",
+          "workflows": [
+            "bu-application-02",
+            "bu-application-03"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 78,
+          "to": 78,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 79,
+          "to": 79,
+          "section": "Online rental applications",
+          "review": "workflows",
+          "workflows": [
+            "bu-application-04"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 80,
+          "to": 80,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 81,
+          "to": 81,
+          "section": "Online rental applications",
+          "review": "workflows",
+          "workflows": [
+            "bu-application-05",
+            "bu-application-06"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 82,
+          "to": 123,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Remaining text and linked source areas remain unaudited for additional documented workflows."
+        }
+      ]
+    },
+    {
+      "source": "bu-screening",
+      "captureSha256": "814dbce80dc05e122b614b9989e0c15b8c3001b93286c060e382ec95ca8da365",
+      "areas": [
+        {
+          "from": 1,
+          "to": 73,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 74,
+          "to": 74,
+          "section": "Tenant background checks",
+          "review": "workflows",
+          "workflows": [
+            "bu-screening-01"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 75,
+          "to": 78,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 79,
+          "to": 79,
+          "section": "Tenant background checks",
+          "review": "workflows",
+          "workflows": [
+            "bu-screening-02",
+            "bu-screening-03"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 80,
+          "to": 101,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 102,
+          "to": 102,
+          "section": "Tenant background checks",
+          "review": "workflows",
+          "workflows": [
+            "bu-screening-04"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 103,
+          "to": 104,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 105,
+          "to": 105,
+          "section": "Tenant background checks",
+          "review": "workflows",
+          "workflows": [
+            "bu-screening-05"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 106,
+          "to": 110,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 111,
+          "to": 111,
+          "section": "Tenant background checks",
+          "review": "workflows",
+          "workflows": [
+            "bu-screening-06"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 112,
+          "to": 112,
+          "section": "Tenant background checks",
+          "review": "workflows",
+          "workflows": [
+            "bu-screening-07"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 113,
+          "to": 150,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Remaining text and linked source areas remain unaudited for additional documented workflows."
+        }
+      ]
+    },
+    {
+      "source": "bu-inspection",
+      "captureSha256": "cab22f1a5c457d534833508612d6bcde991805a7dc5b6eee439cf13c1e03d095",
+      "areas": [
+        {
+          "from": 1,
+          "to": 71,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 72,
+          "to": 72,
+          "section": "Mobile property inspections",
+          "review": "workflows",
+          "workflows": [
+            "bu-inspection-01"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 73,
+          "to": 76,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 77,
+          "to": 77,
+          "section": "Mobile property inspections",
+          "review": "workflows",
+          "workflows": [
+            "bu-inspection-02"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 78,
+          "to": 78,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 79,
+          "to": 79,
+          "section": "Mobile property inspections",
+          "review": "workflows",
+          "workflows": [
+            "bu-inspection-03"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 80,
+          "to": 80,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 81,
+          "to": 81,
+          "section": "Mobile property inspections",
+          "review": "workflows",
+          "workflows": [
+            "bu-inspection-04"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 82,
+          "to": 82,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 83,
+          "to": 83,
+          "section": "Mobile property inspections",
+          "review": "workflows",
+          "workflows": [
+            "bu-inspection-05",
+            "bu-inspection-06"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 84,
+          "to": 119,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Remaining text and linked source areas remain unaudited for additional documented workflows."
+        }
+      ]
+    },
+    {
+      "source": "bu-association",
+      "captureSha256": "2b261b27956d4be6ba9f671529852bfa38a1de0304b43630801767f4b519141c",
+      "areas": [
+        {
+          "from": 1,
+          "to": 71,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 72,
+          "to": 72,
+          "section": "Homeowner and board communication",
+          "review": "workflows",
+          "workflows": [
+            "bu-association-01",
+            "bu-association-02"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 73,
+          "to": 73,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 74,
+          "to": 74,
+          "section": "Homeowner and board communication",
+          "review": "workflows",
+          "workflows": [
+            "bu-association-03"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 75,
+          "to": 75,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 76,
+          "to": 76,
+          "section": "Homeowner and board communication",
+          "review": "workflows",
+          "workflows": [
+            "bu-association-04"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 77,
+          "to": 115,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Remaining text and linked source areas remain unaudited for additional documented workflows."
+        }
+      ]
+    },
+    {
+      "source": "bu-tax",
+      "captureSha256": "038634d093a49b2cc3d82397f56123f71e6c5478bb15d3f143f8e580f5702613",
+      "areas": [
+        {
+          "from": 1,
+          "to": 69,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 70,
+          "to": 70,
+          "section": "Owner and vendor tax filing",
+          "review": "workflows",
+          "workflows": [
+            "bu-tax-01",
+            "bu-tax-02"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 71,
+          "to": 71,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 72,
+          "to": 72,
+          "section": "Owner and vendor tax filing",
+          "review": "workflows",
+          "workflows": [
+            "bu-tax-03"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 73,
+          "to": 76,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 77,
+          "to": 77,
+          "section": "Owner and vendor tax filing",
+          "review": "workflows",
+          "workflows": [
+            "bu-tax-04"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 78,
+          "to": 78,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 79,
+          "to": 79,
+          "section": "Owner and vendor tax filing",
+          "review": "workflows",
+          "workflows": [
+            "bu-tax-05"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 80,
+          "to": 115,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Remaining text and linked source areas remain unaudited for additional documented workflows."
+        }
+      ]
+    },
+    {
+      "source": "rm-communication",
+      "captureSha256": "c1afa2684b997146a868b79ab896fa5f8c60efc5d09170d10beb2a8e3bf4c502",
+      "areas": [
+        {
+          "from": 1,
+          "to": 105,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 106,
+          "to": 106,
+          "section": "Communications",
+          "review": "workflows",
+          "workflows": [
+            "rm-communication-01",
+            "rm-communication-02",
+            "rm-communication-03"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 107,
+          "to": 107,
+          "section": "Communications",
+          "review": "workflows",
+          "workflows": [
+            "rm-communication-04"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 108,
+          "to": 108,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 109,
+          "to": 109,
+          "section": "Communications",
+          "review": "workflows",
+          "workflows": [
+            "rm-communication-05"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 110,
+          "to": 110,
+          "section": "Communications",
+          "review": "workflows",
+          "workflows": [
+            "rm-communication-06"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 111,
+          "to": 111,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 112,
+          "to": 112,
+          "section": "Communications",
+          "review": "workflows",
+          "workflows": [
+            "rm-communication-07"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 113,
+          "to": 113,
+          "section": "Communications",
+          "review": "workflows",
+          "workflows": [
+            "rm-communication-08"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 114,
+          "to": 114,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 115,
+          "to": 115,
+          "section": "Communications",
+          "review": "workflows",
+          "workflows": [
+            "rm-communication-09",
+            "rm-communication-10"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 116,
+          "to": 116,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 117,
+          "to": 117,
+          "section": "Communications",
+          "review": "workflows",
+          "workflows": [
+            "rm-communication-11"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 118,
+          "to": 118,
+          "section": "Communications",
+          "review": "workflows",
+          "workflows": [
+            "rm-communication-12"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 119,
+          "to": 239,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Remaining text and linked source areas remain unaudited for additional documented workflows."
+        }
+      ]
+    },
+    {
+      "source": "rm-payments",
+      "captureSha256": "ebbdb617ae101365ed9ef77f03ce95e2cc837ed4ebce5713c0480fc80c236be8",
+      "areas": [
+        {
+          "from": 1,
+          "to": 102,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 103,
+          "to": 103,
+          "section": "Receivable and payable processing",
+          "review": "workflows",
+          "workflows": [
+            "rm-payments-01"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 104,
+          "to": 105,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 106,
+          "to": 106,
+          "section": "Receivable and payable processing",
+          "review": "workflows",
+          "workflows": [
+            "rm-payments-02"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 107,
+          "to": 108,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 109,
+          "to": 109,
+          "section": "Receivable and payable processing",
+          "review": "workflows",
+          "workflows": [
+            "rm-payments-03"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 110,
+          "to": 112,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 113,
+          "to": 113,
+          "section": "Receivable and payable processing",
+          "review": "workflows",
+          "workflows": [
+            "rm-payments-04",
+            "rm-payments-05"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 114,
+          "to": 114,
+          "section": "Receivable and payable processing",
+          "review": "workflows",
+          "workflows": [
+            "rm-payments-06"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 115,
+          "to": 116,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 117,
+          "to": 117,
+          "section": "Receivable and payable processing",
+          "review": "workflows",
+          "workflows": [
+            "rm-payments-07"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 118,
+          "to": 118,
+          "section": "Receivable and payable processing",
+          "review": "workflows",
+          "workflows": [
+            "rm-payments-08"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 119,
+          "to": 120,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 121,
+          "to": 121,
+          "section": "Receivable and payable processing",
+          "review": "workflows",
+          "workflows": [
+            "rm-payments-09"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 122,
+          "to": 243,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Remaining text and linked source areas remain unaudited for additional documented workflows."
+        }
+      ]
+    },
+    {
+      "source": "rm-tenant",
+      "captureSha256": "2bb6059858e1db610f3b17e566444ce59a16042c55292165fcc5d1a6f1636b1d",
+      "areas": [
+        {
+          "from": 1,
+          "to": 105,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 106,
+          "to": 106,
+          "section": "Prospect and tenant portal",
+          "review": "workflows",
+          "workflows": [
+            "rm-tenant-01"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 107,
+          "to": 107,
+          "section": "Prospect and tenant portal",
+          "review": "workflows",
+          "workflows": [
+            "rm-tenant-02"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 108,
+          "to": 108,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 109,
+          "to": 109,
+          "section": "Prospect and tenant portal",
+          "review": "workflows",
+          "workflows": [
+            "rm-tenant-03",
+            "rm-tenant-04"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 110,
+          "to": 110,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 111,
+          "to": 111,
+          "section": "Prospect and tenant portal",
+          "review": "workflows",
+          "workflows": [
+            "rm-tenant-05",
+            "rm-tenant-06"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 112,
+          "to": 113,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 114,
+          "to": 114,
+          "section": "Prospect and tenant portal",
+          "review": "workflows",
+          "workflows": [
+            "rm-tenant-07"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 115,
+          "to": 235,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Remaining text and linked source areas remain unaudited for additional documented workflows."
+        }
+      ]
+    },
+    {
+      "source": "rm-screening",
+      "captureSha256": "f84499deb7aec93ef7deec80cd818e5f68797656a5e9935ec9fd68985b95a87b",
+      "areas": [
+        {
+          "from": 1,
+          "to": 107,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 108,
+          "to": 108,
+          "section": "Built-in screening",
+          "review": "workflows",
+          "workflows": [
+            "rm-screening-01"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 109,
+          "to": 109,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 110,
+          "to": 110,
+          "section": "Built-in screening",
+          "review": "workflows",
+          "workflows": [
+            "rm-screening-02"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 111,
+          "to": 111,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 112,
+          "to": 112,
+          "section": "Built-in screening",
+          "review": "workflows",
+          "workflows": [
+            "rm-screening-03"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 113,
+          "to": 113,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 114,
+          "to": 114,
+          "section": "Built-in screening",
+          "review": "workflows",
+          "workflows": [
+            "rm-screening-04"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 115,
+          "to": 117,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 118,
+          "to": 118,
+          "section": "Built-in screening",
+          "review": "workflows",
+          "workflows": [
+            "rm-screening-05"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 119,
+          "to": 119,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 120,
+          "to": 120,
+          "section": "Built-in screening",
+          "review": "workflows",
+          "workflows": [
+            "rm-screening-06"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 121,
+          "to": 121,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 122,
+          "to": 122,
+          "section": "Built-in screening",
+          "review": "workflows",
+          "workflows": [
+            "rm-screening-07"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 123,
+          "to": 123,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 124,
+          "to": 124,
+          "section": "Built-in screening",
+          "review": "workflows",
+          "workflows": [
+            "rm-screening-08"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 125,
+          "to": 131,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Surrounding source text remains unaudited for additional documented workflows."
+        },
+        {
+          "from": 132,
+          "to": 132,
+          "section": "Built-in screening",
+          "review": "workflows",
+          "workflows": [
+            "rm-screening-09"
+          ],
+          "note": "Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification."
+        },
+        {
+          "from": 133,
+          "to": 260,
+          "section": "Unreviewed source context",
+          "review": "unaudited",
+          "workflows": [],
+          "note": "Remaining text and linked source areas remain unaudited for additional documented workflows."
         }
       ]
     }

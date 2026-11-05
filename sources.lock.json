@@ -133,7 +133,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "5ec632ab0249404fc872c499f605a58a24dc11c780767b4b32796603bafe7dfd",
+      "sha256": "e4209a7a49fd0372ab6a7bf73197e5dcb6b0f36f4c297d4b8ecf11bb7c1be1d8",
       "executable": false
     },
     "DEMO.md": {
@@ -293,7 +293,7 @@
       "executable": false
     },
     "docs/switch-checklist-sources/appfolio.json": {
-      "sha256": "57140a74719f1944d8a957cd496c36b0de720db4ede1069ef911cff54897134a",
+      "sha256": "2466579bc0f736d9683c65c334b80e15465f20fb7bb1b1fedfc2209bdff547ce",
       "executable": false
     },
     "docs/switch-checklist-sources/bu-accounting.txt": {
@@ -304,6 +304,14 @@
       "sha256": "7c8c53228635138ba2b76b95b561fbb40c0bc1e753bf59e119e98c0c3c96a096",
       "executable": false
     },
+    "docs/switch-checklist-sources/bu-application.txt": {
+      "sha256": "0293b5364be9407949ce9ec0c576041abc858d68452708861abce954e8d3f6dd",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/bu-association.txt": {
+      "sha256": "2b261b27956d4be6ba9f671529852bfa38a1de0304b43630801767f4b519141c",
+      "executable": false
+    },
     "docs/switch-checklist-sources/bu-automation.txt": {
       "sha256": "430f0cf269fbb48f63401a4394d389fcdb2676da1683cd0b6b511c46ad09d0b2",
       "executable": false
@@ -312,12 +320,24 @@
       "sha256": "1e92182459a2e08b193d4093f9e68b4b88307b68f2a87c65fb4266e9d4201585",
       "executable": false
     },
+    "docs/switch-checklist-sources/bu-inspection.txt": {
+      "sha256": "cab22f1a5c457d534833508612d6bcde991805a7dc5b6eee439cf13c1e03d095",
+      "executable": false
+    },
     "docs/switch-checklist-sources/bu-leasing.txt": {
       "sha256": "f5780b10b82c9402a40825889511d22495d461e788eeb93d572ce4b39a730750",
       "executable": false
     },
     "docs/switch-checklist-sources/bu-maintenance.txt": {
       "sha256": "2a46b8cc61be15acd2ce73f74f1258adc3767e5338010186cfeaab76f900ddc4",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/bu-owner.txt": {
+      "sha256": "6cfbde9630b9b06dad6f4805c9bfa62d22184ccc7b4754fa6984d6ee221a885c",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/bu-payments.txt": {
+      "sha256": "e50737d684e858fa7d298e8e4409e468dd896bf02d911f5607b8e5cfa1e93a95",
       "executable": false
     },
     "docs/switch-checklist-sources/bu-platform.txt": {
@@ -332,6 +352,14 @@
       "sha256": "dc111fa7ff550ca1727e53229cfb1b43aa2e68d9a0971077153c7fc63beb7eaa",
       "executable": false
     },
+    "docs/switch-checklist-sources/bu-screening.txt": {
+      "sha256": "814dbce80dc05e122b614b9989e0c15b8c3001b93286c060e382ec95ca8da365",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/bu-tax.txt": {
+      "sha256": "038634d093a49b2cc3d82397f56123f71e6c5478bb15d3f143f8e580f5702613",
+      "executable": false
+    },
     "docs/switch-checklist-sources/bu-telephone.txt": {
       "sha256": "1d077d245c59de3619273ecefe4ca6862e61217a6f6f314d82047e2ddce0613d",
       "executable": false
@@ -341,11 +369,15 @@
       "executable": false
     },
     "docs/switch-checklist-sources/buildium.json": {
-      "sha256": "4943465e361c967c5276524863598ff7db3cec36e4f4bdba71e4033119328450",
+      "sha256": "e9d2860c0369e84e9731fc18fa5b34fd33b0509f349f9f7aa1fe88a80de691c7",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/discovery-audit.json": {
+      "sha256": "bcc846d0ac65bfda9caf60830cf4afd45f9b548b6f0e8df2c72f70504274b087",
       "executable": false
     },
     "docs/switch-checklist-sources/manifest.json": {
-      "sha256": "e1fbf4555f01479c0d1747cbbc18624bd163ab66c955856a8d570859d73eabc5",
+      "sha256": "4d10ed8635afa241c7329a36e14b0193fb6bba823849c9410459ea1fbc1b2f39",
       "executable": false
     },
     "docs/switch-checklist-sources/rent-manager-discovery.txt": {
@@ -353,11 +385,15 @@
       "executable": false
     },
     "docs/switch-checklist-sources/rent-manager.json": {
-      "sha256": "98e3627b269633ac4d01ba0527c20d54060ec68440f177cc4b76096ff91f62f5",
+      "sha256": "e1f44ef2295a5b1b94cdeb53971757f5e6d4993042eed8b64ee6a0b1cf9be01b",
       "executable": false
     },
     "docs/switch-checklist-sources/rm-accounting.txt": {
       "sha256": "bb679da41595d2b3e68fc1e1420ec58ac06560d4e7c332ec09812fa446a50409",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/rm-communication.txt": {
+      "sha256": "c1afa2684b997146a868b79ab896fa5f8c60efc5d09170d10beb2a8e3bf4c502",
       "executable": false
     },
     "docs/switch-checklist-sources/rm-leasing.txt": {
@@ -376,6 +412,10 @@
       "sha256": "5167f9afa12c63ca9e30634b38dbd3af94703f093e133e731079eb0edaae1efa",
       "executable": false
     },
+    "docs/switch-checklist-sources/rm-payments.txt": {
+      "sha256": "ebbdb617ae101365ed9ef77f03ce95e2cc837ed4ebce5713c0480fc80c236be8",
+      "executable": false
+    },
     "docs/switch-checklist-sources/rm-reports.txt": {
       "sha256": "72029a7396bede61d073e0bc45a597c50f44810082eb5c9783b7f679750f11ce",
       "executable": false
@@ -384,20 +424,28 @@
       "sha256": "eb96d403b7460e37dfb20f7f02030bf260d0f41a0524811b4fc0d87f7058dca3",
       "executable": false
     },
+    "docs/switch-checklist-sources/rm-screening.txt": {
+      "sha256": "f84499deb7aec93ef7deec80cd818e5f68797656a5e9935ec9fd68985b95a87b",
+      "executable": false
+    },
     "docs/switch-checklist-sources/rm-telephone.txt": {
       "sha256": "0ca4b34fd4660120237af8704fbc49a843243d777e0563ce739a77c90791b29c",
       "executable": false
     },
+    "docs/switch-checklist-sources/rm-tenant.txt": {
+      "sha256": "2bb6059858e1db610f3b17e566444ce59a16042c55292165fcc5d1a6f1636b1d",
+      "executable": false
+    },
     "docs/switch-checklist-sources/source-areas.json": {
-      "sha256": "469863fc5bea436319abac4bf6b1131d884bbdaf996fb2c4958eb3220561f9a5",
+      "sha256": "092f792cbe06c51a73624de88e379e5f264d53a1d7be1694a75e01f13ef36844",
       "executable": false
     },
     "docs/switch-checklists.json": {
-      "sha256": "e18244cc2947b6cce168617981a6321ada5b1521fb1a42b634b1617252674053",
+      "sha256": "6af413675005a114f694c0dc6b3e7814b95d80612df9091ff0f0bfe1713c83d0",
       "executable": false
     },
     "docs/switch-checklists.md": {
-      "sha256": "05a9085da44db60dda4a5ce57aa452a4f047abb7b9f935749da8c0c95cafef79",
+      "sha256": "c023915989be6e0ac19f26584ca69e843781953cd382c2b089a8803958a0707b",
       "executable": false
     },
     "docs/tenancies.md": {

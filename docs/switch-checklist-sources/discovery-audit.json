@@ -3724,8 +3724,10 @@
         },
         {
           "url": "https://www.buildium.com/features/online-rent-payments/",
-          "review": "unaudited",
-          "sources": []
+          "review": "partial",
+          "sources": [
+            "bu-payments"
+          ]
         },
         {
           "url": "https://www.buildium.com/features/document-storage/",
@@ -3761,8 +3763,10 @@
         },
         {
           "url": "https://www.buildium.com/features/mobile-property-inspection-app/",
-          "review": "unaudited",
-          "sources": []
+          "review": "partial",
+          "sources": [
+            "bu-inspection"
+          ]
         },
         {
           "url": "https://www.buildium.com/features/online-leasing/",
@@ -3780,8 +3784,10 @@
         },
         {
           "url": "https://www.buildium.com/features/online-rental-applications/",
-          "review": "unaudited",
-          "sources": []
+          "review": "partial",
+          "sources": [
+            "bu-application"
+          ]
         },
         {
           "url": "https://www.buildium.com/features/onboarding/",
@@ -3790,8 +3796,10 @@
         },
         {
           "url": "https://www.buildium.com/features/homeowner-and-board-communications/",
-          "review": "unaudited",
-          "sources": []
+          "review": "partial",
+          "sources": [
+            "bu-association"
+          ]
         },
         {
           "url": "https://www.buildium.com/features/all-property-management/",
@@ -3968,13 +3976,17 @@
         },
         {
           "url": "https://www.buildium.com/features/tenant-background-checks/",
-          "review": "unaudited",
-          "sources": []
+          "review": "partial",
+          "sources": [
+            "bu-screening"
+          ]
         },
         {
           "url": "https://www.buildium.com/features/property-owner-portal/",
-          "review": "unaudited",
-          "sources": []
+          "review": "partial",
+          "sources": [
+            "bu-owner"
+          ]
         },
         {
           "url": "https://www.buildium.com/features/resident-center/",
@@ -3990,8 +4002,10 @@
         },
         {
           "url": "https://www.buildium.com/features/1099-efiling/",
-          "review": "unaudited",
-          "sources": []
+          "review": "partial",
+          "sources": [
+            "bu-tax"
+          ]
         },
         {
           "url": "https://www.buildium.com/features/property-management-websites/",
@@ -4088,8 +4102,10 @@
         },
         {
           "url": "https://www.rentmanager.com/prospect-tenant-portal/",
-          "review": "unaudited",
-          "sources": []
+          "review": "partial",
+          "sources": [
+            "rm-tenant"
+          ]
         },
         {
           "url": "https://www.rentmanager.com/resident-app/",
@@ -4103,8 +4119,10 @@
         },
         {
           "url": "https://www.rentmanager.com/payments/",
-          "review": "unaudited",
-          "sources": []
+          "review": "partial",
+          "sources": [
+            "rm-payments"
+          ]
         },
         {
           "url": "https://www.rentmanager.com/rv-park-campgrounds/",
@@ -4128,8 +4146,10 @@
         },
         {
           "url": "https://www.rentmanager.com/communication/",
-          "review": "unaudited",
-          "sources": []
+          "review": "partial",
+          "sources": [
+            "rm-communication"
+          ]
         },
         {
           "url": "https://www.rentmanager.com/screen-share-policies/",
@@ -4328,8 +4348,10 @@
         },
         {
           "url": "https://www.rentmanager.com/screening-solutions/",
-          "review": "unaudited",
-          "sources": []
+          "review": "partial",
+          "sources": [
+            "rm-screening"
+          ]
         },
         {
           "url": "https://www.rentmanager.com/security-deposits/",
