@@ -5613,7 +5613,7 @@
       "executable": false
     },
     "tests/site/switch-checklists.mjs": {
-      "sha256": "50ae3641fdeb09d11e63ff8aef77d96dd591da4ac65dca131159b4c70c3c7093",
+      "sha256": "cc1043c0f35904c9b4fd44457e9ae29b02bccebc69be41d07cc7a638356a022d",
       "executable": false
     },
     "tests/statements-browser.mjs": {

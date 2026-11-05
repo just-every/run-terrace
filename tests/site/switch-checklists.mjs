@@ -220,7 +220,7 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
    await visitor.setViewportSize({ width, height: width === 1440 ? 900 : 844 })
    for (const name of Object.values(names)) {
     for (const [section, suffix] of [['required named gaps', 'gaps'], ['discovery audit', 'discovery']]) {
-     await visitor.getByRole('heading', { name: name + ' ' + section, exact: true }).scrollIntoViewIfNeeded()
+     await visitor.getByRole('heading', { name: name + ' ' + section }).scrollIntoViewIfNeeded()
      await visitor.screenshot({ path: join(directory, name.toLowerCase().replaceAll(' ', '-') + '-' + suffix + '-' + width + '.png') })
     }
    }
