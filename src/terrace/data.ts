@@ -6,7 +6,24 @@ export const portable = (c:Context) => createPortability({db:c.db,policy})
 export async function backup(c:Context) {
  allow(c,'data.restore')
  const service=await portable(c), job=await service.exports.create('role:owner')
- try { while((await service.exports.advance(job,{maxParts:16})).phase==='building') {} return new Response(await service.exports.download(job),{headers:{'content-type':'application/x-ndjson','content-disposition':'attachment; filename="terrace-backup.rer"','cache-control':'no-store'}}) }
+ try {
+  while((await service.exports.advance(job,{maxParts:16})).phase==='building') {}
+  const reader=(await service.exports.download(job)).getReader()
+  let released:Promise<unknown>|undefined
+  // Snapshots must remain fenced while streaming, then release their temporary tables.
+  const release=()=>released??=service.exports.abort(job)
+  const body=new ReadableStream<Uint8Array>({
+   async pull(controller){
+    try {
+     const {done,value}=await reader.read()
+     if(done){await release();reader.releaseLock();controller.close()}
+     else controller.enqueue(value)
+    }catch(error){await release();controller.error(error)}
+   },
+   async cancel(reason){try{await reader.cancel(reason)}finally{await release();reader.releaseLock()}},
+  })
+  return new Response(body,{headers:{'content-type':'application/x-ndjson','content-disposition':'attachment; filename="terrace-backup.rer"','cache-control':'no-store'}})
+ }
  catch(e) {await service.exports.abort(job);throw e}
 }
 async function archive(file:unknown) {
