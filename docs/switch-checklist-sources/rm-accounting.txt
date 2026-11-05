@@ -1,0 +1,295 @@
+Accounting - Rent Manager Property Management Software
+Skip to content
+Express Login
+Contact Us
+RMU Login
+Customer Portal
+Site Search
+Site Search Submit
+Features
+Accounting
+Accounts Receivable
+Accounts Payable
+Payments
+AI-Powered Tools
+Electronic Reconciliations
+Tax Tools
+Budgeting
+Reporting
+Built-In Reports
+Report Writer
+Financial Report Writer
+Report Automation
+Custom Reports
+Marketing & Leasing
+Prospect & Tenant Portal
+Resident Screening
+Resident App
+Guest Cards
+Websites
+ILS Advertising
+Web Chat
+Business Operations
+Communication Tools
+Mobile App
+Renters Insurance
+Call Center
+Project Management
+Owners
+Process and Admin Features
+Maintenance
+Service Issues
+Maintenance Scheduling
+Work Orders and Billing
+Inspections
+Make-Ready Boards
+Utility Management
+Orion AI
+Writing Assistant
+Smart AP
+Smart AR
+Instant Insights
+MCP
+Software Customization
+API
+Open Access
+Industries
+Residential
+Commercial
+Manufactured Housing
+Associations
+Student Housing
+RV Park & Campgrounds
+Self Storage
+Affordable Housing
+Vacation Homes
+Other Markets
+Integrations
+Built-In
+Featured
+Newly Added
+Internet Listing Services
+Solutions Partners
+All Integrations
+Resources
+Industry Resources
+Blog
+Beyond Rent Podcast
+Industry Affiliations
+Onboarding
+Implementation
+Data Migration
+Customer Support
+Customer Success
+User Resources
+Tenant Resources
+Training
+Rent Manager University
+Guided Online Training
+Training Calendar
+Rent Manager Certification
+About
+Rent Manager
+Our Story
+Events
+Data Security
+Our Company
+Products
+Awards and Recognitions
+Career Opportunities
+Bundles
+Request Demo
+Accounting
+You can feel completely confident in your finance management with Rent Manager’s complete accounting capabilities. Conquer everything from rent collection, owner payments, bank reconciliations, and more. Rent Manager is designed to enhance and streamline all of your high-level accounting processes.
+Accounts ReceivableAccounts PayablePaymentsAI-Powered ToolsFinancial ReportingTax ToolsBudgetingPurchase OrdersLoan ManagerUtility BillingCommercial Module
+Complete Double-Entry Accounting System
+Rent Manager’s double-entry accounting system is equipped to handle every aspect of your finances. Whether you manage one community or thousands of properties, our customizable system allows you to gain complete control over your accounting data with time-saving accounts payable and receivable processes. Rent Manager functions in cash and accrual accounting simultaneously. Manage everything from one-time transactions to electronic bank reconciliations in a single user-friendly program.
+Accounts Receivable
+Maintain your monthly A and R processing cycle with Rent Manager. Handling receivables has never been easier—charge, receive, and deposit payments through our streamlined accounting system.
+A and R Automation
+Create a seamless Accounts Receivable schedule. Deliver notices via email, text, phone broadcast, or Virtual Post Office based on your predetermined schedule and protocol. Alerts are personalized for various levels of delinquency.
+Charge Types
+Create Charge Types to track the services and products that your business offers. Once established, post charges for rent, late fees, storage, parking, and more.
+Receive Payments
+Receive payments for everything from one-time charges, recurring charges, late fees, etc. Record payments on your contacts’ transaction ledgers to accurately reflect your monthly income.
+Bank Deposits
+Once payments are received and recorded, deposits can be made within Rent Manager. Deposit funds and easily connect them to the correct property and bank account.
+Accounts Payable
+Track and manage your payables with Rent Manager. Create and pay one-time bills received from vendors, and write and print checks directly from the software. Your entire Accounts Payable cycle is made easier with solutions designed to keep you organized and save time.
+A and P Automation
+Simplify your Accounts Payable processes with AvidXchange’s built-in solutions. Securely process digital payments at no cost with AvidPay while streamlining invoice processing with AvidInvoice.
+Create & Pay Bills
+Easily create and pay one-time bills received from vendors. Entering bills into Rent Manager allows you to track the amounts, due dates, and which properties they’re associated with.
+Recurring Bills
+If you manage properties that receive bills on a regular cycle—such as trash, internet service, or sewage bills—you can save time by creating and posting them as Recurring Bills.
+Access Vendor Information
+Tracking vendors is a crucial piece of Accounts Payable. Create vendor accounts in your database to keep contact information, preferred payment methods, transactions, and communication history on file and at-hand.
+Credit Cards
+The Credit Card register displays the charges, credits, and payments associated with your credit card accounts. Pay bills with credit cards and electronically reconcile in Rent Manager.
+Write & Print Checks
+Managing your checks in Rent Manager gives you the organizational tools to track when checks were written, which properties were expensed, and the check amount. You can even print checks directly from the software.
+Payments
+Electronically process tenant payments, owner contributions and distributions, and vendor bills through Rent Manager in real time. One-time transactions, batch payments, recurring disbursements—these integrated receivable and payable capabilities help keep you and your customers up-to-date and on time.
+ePay
+No more trips to the bank! Process credit card and check payments online in real time with Zego’s ePay integration.
+CashPay
+CashPay gives tenants the freedom to electronically pay rent using cash at any of the 30,000 CheckFreePay locations nationwide.
+Check Scanning & Lockbox
+Using Rent Manager’s convenient check scanners, you can link and process multiple checks at once. Or outsource check scanning entirely with Lockbox, powered by Zego.
+Checks
+Print checks from the software, write checks electronically, and pay bills with eChecks. eChecks are emailed securely to the payee.
+No Cost AvidPay
+Pay your vendors exactly how they want to be paid at no additional cost to you. Ditch manual check writing for good and automate your payables using AvidPay.
+AI-Powered AR and AP Automation
+Bank Sync
+Securely connect your bank and credit card accounts to Rent Manager, allowing real-world transactions to be seamlessly synced and reconciled using AI-assisted technology. See if your bank is compatible:
+Search for a Bank
+Bank Search Submit
+Smart Receipts
+Tracking expenses on the go has never been easier. Simply snap a photo of a receipt, and Smart Receipts will extract and categorize the expense data, automatically creating a payable in Rent Manager.
+Smart Bills
+Eliminate the hassle of manual invoice entry by automatically capturing key data points from bills, categorizing them, and generating payables in Rent Manager.
+Smart Check Scanning
+Automatically read check details—including handwritten amounts—in Rent Manager to minimize errors, save time, and effortlessly review and post batches, even at high volumes.
+Financial Reporting
+Rent Manager’s top-notch financial reporting features organize and summarize your financial data in a comprehensive and customizable format. Accounting staples like the Balance Sheet, General Ledger, and Profit & Loss can be generated in seconds in both cash and accrual accounting bases.
+Rent Manager is also outfitted with property-management-specific financial reports, including the Aged Receivables, Charge Detail, and Delinquency Report statements. Determine the state of your finances with ease using our advanced financial reporting capabilities.
+Tax Tools
+Between your daily responsibilities and planning for the year ahead, finding time to navigate the road of proper 1099 filing can feel almost impossible. With Rent Manager’s comprehensive and easy-to-use tools, tax season doesn’t have to be a stress-fueled few weeks. You can access our top 8 tips for year-end close by downloading our free Year-End Close eBook. Generate vendor and owner 1099s, verify amounts, enter expenses, and other essential tax time duties.
+New this tax season—the IRS now requires electronic filing for 10 or more information returns (such as 1099s, 1098s, etc.). You’ll have no worries with Rent Manager since our software supports electronic filing through the IRS FIRE system. For more information about this IRS-initiated change, please visit Filing Information Returns Electronically (FIRE).
+If you’re submitting paper forms to the IRS, be sure to purchase your tax forms from Safeguard. Only Safeguard provides forms that are compatible with Rent Manager and designed to meet government and IRS filing requirements.
+Access Year-End Close eBook
+Check Out Safeguard
+Budgeting
+Plan your finances with Rent Manager’s comprehensive budgeting features. Measure income, track expenses, and develop informed financial projections. To ensure your company spending is on track, set budget warnings to appear on financial transactions that may approach or exceed your budget goals.
+Purchase Orders
+Stay organized and maintain a historical record of your purchases. Set statuses to easily determine which purchases are pending, approved, or denied. Establish workflows to create and reply to purchase orders in an efficient manner. Purchase orders can also be linked to bills or invoices, and when the items are received, the quantity can directly increase the number of available inventory items.
+Loan Manager
+Loan Manager simplifies home loan complexities by enabling you to track thousands of owner-financed loans within Rent Manager. This comprehensive feature eliminates the need for third-party loan programs and lets you to charge principal and interest amounts directly to the tenant, just like rent charges.
+Estimate monthly payments with a clear forecast of each individual’s payment plan; calculate loan payoff amounts; you can even pre-qualify and quote loans on the spot.
+Utility Billing
+Simplify utility billing with Rent Manager. Every billing period, you enter in your meter readings for gas, water, electric, and sewage. Once utilities have been calculated and posted, you can quickly charge your tenants for their consumption right within the program. This streamlined method keeps a record of your tenants’ and units’ consumption history while ensuring this crucial piece of property management is incorporated into your software.
+More About Utility Management
+Commercial Module
+Rent Manager’s Commercial Module enables you to manage various commercial charges and reconcile them against commercial expenses. Easily calculate, distribute, and reconcile one-time and recurring charges associated with your properties. Produce versatile, informative statements for your tenants, owners, and vendors with the program’s comprehensive collection of commercial property reports.
+Ideal for portfolios of every size, Rent Manager is your key to an effective and efficient property management business.
+Request A Free Demo
+Manja Fields
+Imperial Realty Management Corp.
+Working with Rent Manager’s customer service department has been one of the best experiences I’ve had with a company. They make me feel heard and make the solution for the issue clear.
+Resources
+Support
+Submit a Feature Request
+Submit an API Support Request
+Remote Assistance
+Install Rent Manager Online
+Install Scan Manager
+Training Calendar
+Virtual Classroom Enrollment
+Rent Manager Blog
+Beyond Rent Podcast
+About
+Rent Manager
+Our Company
+Awards and Accolades
+Events
+Careers at LCS.com
+Contact
+513-583-1482
+9140 Waterstone Blvd
+Cincinnati, OH 45249
+Connect
+Facebook User Forum
+Join Our Mailing List
+Copyright 2026 London Computer Systems, Inc. | Privacy Policy (updated 7.25.25) | Do Not Sell My Info
+Features▼
+Accounting▼
+Accounts Receivable
+Accounts Payable
+Payments
+AI-Powered Tools
+Electronic Reconciliations
+Tax Tools
+Budgeting
+Reporting▼
+Built-In Reports
+Report Writer
+Financial Report Writer
+Report Automation
+Custom Reports
+Marketing & Leasing▼
+Prospect & Tenant Portal
+Resident Screening
+Resident App
+Guest Cards
+Websites
+ILS Advertising
+Web Chat
+Business Operations▼
+Communication Tools
+Mobile App
+Renters Insurance
+Call Center
+Project Management
+Owners
+Process and Admin Features
+Maintenance▼
+Service Issues
+Maintenance Scheduling
+Work Orders and Billing
+Inspections
+Make-Ready Boards
+Utility Management
+Orion AI▼
+Writing Assistant
+Smart AP
+Smart AR
+Instant Insights
+MCP
+Software Customization▼
+API
+Open Access
+Industries▼
+Residential
+Commercial
+Manufactured Housing
+Associations
+Student Housing
+RV Park & Campgrounds
+Self Storage
+Affordable Housing
+Vacation Homes
+Other Markets
+Integrations▼
+Built-In
+Featured
+Newly Added
+Internet Listing Services
+Solutions Partners
+All Integrations
+Resources▼
+Industry Resources▼
+Blog
+Beyond Rent Podcast
+Industry Affiliations
+Onboarding▼
+Implementation
+Data Migration
+Customer Support▼
+Customer Success
+User Resources
+Tenant Resources
+Training▼
+Rent Manager University
+Guided Online Training
+Training Calendar
+Rent Manager Certification
+About▼
+Rent Manager▼
+Our Story
+Events
+Data Security
+Our Company▼
+Products
+Awards and Recognitions
+Career Opportunities

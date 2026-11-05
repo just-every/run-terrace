@@ -1,0 +1,277 @@
+{
+  "incumbent": "appfolio",
+  "workflows": [
+    {
+      "id": "af-accounting-01",
+      "label": "Corporate accounting",
+      "source": "af-accounting",
+      "section": "Accounting Performer's high-confidence budget predictions outperformed customers' own budgets – more accurate on nearly 2 of 3 line items",
+      "line": 42,
+      "quote": "Corporate Accounting"
+    },
+    {
+      "id": "af-accounting-02",
+      "label": "Automated bill coding and close",
+      "source": "af-accounting",
+      "section": "Realm-X Accounting Performer",
+      "line": 37,
+      "quote": "Nobody got into this business to spend their evenings entering bills. The Accounting Performer works alongside your accounting team to handle the most time-consuming tasks — coding bills, reconciling accounts, closing the books, and preparing budget forecasts — so your team focuses on the work that actually moves the business."
+    },
+    {
+      "id": "af-accounting-03",
+      "label": "Owner portfolio accounting",
+      "source": "af-accounting",
+      "section": "Portfolio Accounting",
+      "line": 52,
+      "quote": "Bring every property under one owner into a single financial picture. Pay bills, true up balances, and send distributions without exporting to a spreadsheet first."
+    },
+    {
+      "id": "af-accounting-04",
+      "label": "Credit card accounting",
+      "source": "af-accounting",
+      "section": "Credit Card Accounting",
+      "line": 57,
+      "quote": "Record every swipe on a card as its own transaction, not a workaround involving a fake property, a fake vendor, or a spreadsheet."
+    },
+    {
+      "id": "af-accounting-05",
+      "label": "Mobile receipt capture",
+      "source": "af-accounting",
+      "section": "Record every swipe on a card as its own transaction, not a workaround involving a fake property, a fake vendor, or a spreadsheet.",
+      "line": 58,
+      "quote": "Capture receipts at the point of sale with Mobile Receipt Capture"
+    },
+    {
+      "id": "af-accounting-06",
+      "label": "Bank feed transactions",
+      "source": "af-accounting",
+      "section": "Capture receipts at the point of sale with Mobile Receipt Capture",
+      "line": 59,
+      "quote": "Create transactions directly from your Bank Feed Integration"
+    },
+    {
+      "id": "af-accounting-07",
+      "label": "Data export",
+      "source": "af-accounting",
+      "section": "Extended Access to Data",
+      "line": 64,
+      "quote": "Take advantage of secure export functionality to organize your data outside AppFolio."
+    },
+    {
+      "id": "af-accounting-08",
+      "label": "Online payments",
+      "source": "af-accounting",
+      "section": "Online Payments",
+      "line": 66,
+      "quote": "Send and receive payments all on one online platform, with the controls and visibility you need to maximize cash flow and scale your business."
+    },
+    {
+      "id": "af-accounting-09",
+      "label": "Automatic bank reconciliation",
+      "source": "af-accounting",
+      "section": "Auto Bank Reconciliation",
+      "line": 68,
+      "quote": "Securely link your bank accounts with AppFolio to automate transaction matching via our Plaid integration."
+    },
+    {
+      "id": "af-accounting-10",
+      "label": "Late fee waivers",
+      "source": "af-accounting",
+      "section": "Late Fee Waivers",
+      "line": 70,
+      "quote": "Adjust and customize how you process late fees with convenient bulk and case-by-case waivers."
+    },
+    {
+      "id": "af-accounting-11",
+      "label": "Common area maintenance accounting",
+      "source": "af-accounting",
+      "section": "CAM Tracking & Reconciliation",
+      "line": 72,
+      "quote": "Conveniently track, bill, and reconcile the CAM expenses and income whenever you need to."
+    },
+    {
+      "id": "af-accounting-12",
+      "label": "Automatic late fees",
+      "source": "af-accounting",
+      "section": "Automated Late Fees",
+      "line": 74,
+      "quote": "Ensure that fees are assessed accurately and on time according to your lease agreements."
+    },
+    {
+      "id": "af-accounting-13",
+      "label": "Electronic checks",
+      "source": "af-accounting",
+      "section": "eCheck",
+      "line": 78,
+      "quote": "Pay your owners, vendors, and residents quickly and securely via eCheck."
+    },
+    {
+      "id": "af-accounting-14",
+      "label": "Tenant debt collection",
+      "source": "af-accounting",
+      "section": "Tenant Debt Collections",
+      "line": 82,
+      "quote": "Streamline your debt recovery process and reduce the burden on your team to collect past due receivables."
+    },
+    {
+      "id": "af-accounting-15",
+      "label": "Bulk tenant charges",
+      "source": "af-accounting",
+      "section": "Bulk Tenant Charges",
+      "line": 84,
+      "quote": "Save time and effort by uploading bulk tenant charges rather than manually processing them."
+    },
+    {
+      "id": "af-accounting-16",
+      "label": "Holding deposits",
+      "source": "af-accounting",
+      "section": "Holding Deposits",
+      "line": 88,
+      "quote": "Easily manage multiple applicants and refund deposits directly from escrow."
+    },
+    {
+      "id": "af-accounting-17",
+      "label": "Loan tracking",
+      "source": "af-accounting",
+      "section": "Loan Tracking",
+      "line": 90,
+      "quote": "Monitor your loans payable in a single location and save time with automated transaction creation."
+    },
+    {
+      "id": "af-accounting-18",
+      "label": "Reimbursable corporate expenses",
+      "source": "af-accounting",
+      "section": "Reimbursable Expenses",
+      "line": 92,
+      "quote": "Flag expenses as reimbursable the moment they happen, then bill properties back without the month end scramble."
+    },
+    {
+      "id": "af-accounting-19",
+      "label": "Unified company chart of accounts",
+      "source": "af-accounting",
+      "section": "Unified Chart of Accounts",
+      "line": 94,
+      "quote": "Merge property and corporate accounts into one chart, so your books reflect how your business runs."
+    },
+    {
+      "id": "af-maintenance-01",
+      "label": "Resident maintenance requests",
+      "source": "af-maintenance",
+      "section": "Track Work Orders From Beginning To Finish",
+      "line": 25,
+      "quote": "Effectively manage your properties, make fixes quickly, and give residents and homeowners ongoing updates using AppFolio. In one powerful platform, residents can submit work orders and expect immediate attention from your team, with the ability to track and communicate progress."
+    },
+    {
+      "id": "af-maintenance-02",
+      "label": "Automated bill and purchase approval",
+      "source": "af-maintenance",
+      "section": "Benefits:",
+      "line": 37,
+      "quote": "Automate billing and PO approvals, and approve payments from your mobile app"
+    },
+    {
+      "id": "af-maintenance-03",
+      "label": "Agent maintenance coordination",
+      "source": "af-maintenance",
+      "section": "The Realm-X Maintenance Performer & Automated Scheduling & Billing",
+      "line": 45,
+      "quote": "Real estate’s only truly agentic AI, the Realm-X Maintenance Performer has the intelligence to reply to residents, analyze images, troubleshoot, prioritize emergencies, and dispatch work to the right technician. Once work is dispatched, you can use automation-driven platform tools to schedule work and bill owners consistently."
+    },
+    {
+      "id": "af-maintenance-04",
+      "label": "Vendor network dispatch",
+      "source": "af-maintenance",
+      "section": "Built into the Online Resident Portal and Contact Center, the Maintenance Performer acts as your AI coordinator, responding to residents and dispatching",
+      "line": 48,
+      "quote": "When your regular technicians aren't available, the Maintenance Performer can dispatch from the Lula Vendor Network to fully automate vendor outsourcing"
+    },
+    {
+      "id": "af-maintenance-05",
+      "label": "Technician calendar scheduling",
+      "source": "af-maintenance",
+      "section": "When your regular technicians aren't available, the Maintenance Performer can dispatch from the Lula Vendor Network to fully automate vendor outsourcing",
+      "line": 49,
+      "quote": "Assign and schedule work orders to in-house technicians through the drag-and-drop calendar scheduler"
+    },
+    {
+      "id": "af-maintenance-06",
+      "label": "Automatic owner invoicing",
+      "source": "af-maintenance",
+      "section": "Assign and schedule work orders to in-house technicians through the drag-and-drop calendar scheduler",
+      "line": 50,
+      "quote": "Instantly generate custom invoices for owners using pre-set rules and adjustments, with automated billing tools"
+    },
+    {
+      "id": "af-maintenance-07",
+      "label": "Maintenance audit history",
+      "source": "af-maintenance",
+      "section": "Auditing Center",
+      "line": 52,
+      "quote": "Gain enhanced visibility into tracked changes made by your staff. View an itemized history of maintenance activities and edits throughout AppFolio, when they occurred, and who performed them."
+    },
+    {
+      "id": "af-maintenance-08",
+      "label": "Mobile inspections",
+      "source": "af-maintenance",
+      "section": "Mobile Inspections",
+      "line": 61,
+      "quote": "Enable your team to manage on-site property inspections directly in AppFolio. This results in faster and more accurate workflows that get your units tuned more quickly."
+    },
+    {
+      "id": "af-maintenance-09",
+      "label": "Unit turn board",
+      "source": "af-maintenance",
+      "section": "Unit Turn Board",
+      "line": 63,
+      "quote": "Quickly complete unit turns from a single, convenient location. The Unit Turn Board keeps track of all the work necessary to minimize the time a unit is vacant."
+    },
+    {
+      "id": "af-maintenance-10",
+      "label": "Online request status",
+      "source": "af-maintenance",
+      "section": "Online Maintenance Requests",
+      "line": 67,
+      "quote": "With detailed descriptions and live status views, communicating and resolving maintenance issues is simple."
+    },
+    {
+      "id": "af-maintenance-11",
+      "label": "Common area maintenance",
+      "source": "af-maintenance",
+      "section": "Common Area Maintenance",
+      "line": 69,
+      "quote": "Easily keep your community in top condition with CAM requests, tracking, and reconciliation tools."
+    },
+    {
+      "id": "af-maintenance-12",
+      "label": "Mobile violations GPS",
+      "source": "af-maintenance",
+      "section": "Mobile Violations & Tracking",
+      "line": 71,
+      "quote": "With real-time GPS tracking, navigate community maps to easily add new violations, follow up on existing violations, and close them out all from the field."
+    },
+    {
+      "id": "af-maintenance-13",
+      "label": "Architectural reviews",
+      "source": "af-maintenance",
+      "section": "Architectural Reviews",
+      "line": 73,
+      "quote": "Give homeowners the best customer experience from the minute they submit an architectural request to the moment they complete the update to their home."
+    },
+    {
+      "id": "af-maintenance-14",
+      "label": "Board roles and tenure",
+      "source": "af-maintenance",
+      "section": "Board Member Roles & Tenure Tracking",
+      "line": 75,
+      "quote": "Find the latest information at all times without having to search other systems or files."
+    },
+    {
+      "id": "af-maintenance-15",
+      "label": "In-house maintenance billing",
+      "source": "af-maintenance",
+      "section": "In-House Maintenance",
+      "line": 79,
+      "quote": "From resident submission to billing, spend less time manually entering data and enable your maintenance team to manage their entire workflow online."
+    }
+  ]
+}

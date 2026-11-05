@@ -1,4 +1,5 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises'
+import {generateSwitchChecklist} from './switch-checklists.mjs'
 import {parseContract} from '../src/base/seed-contract.mjs'
 
 // Preserve the legacy acceptance document while migrating one clause projection at a time.
@@ -38,6 +39,16 @@ for(const id of ids){
  lines[index]=`${prefix} **${id} — ${clause.title}.** **Status: ${clause.status}.** ${sentence} **Current evidence:** ${source.split('\n')[clause.row-1].split('|')[5].trim()||'No executed proof yet.'}${clause.gap?' **Remaining:** '+clause.gap:''}`
  acceptance=lines.join('\n')
 }
+// Heading-form native clauses have no legacy numbered entry; preserve their acceptance sentences explicitly.
+const inventoryClause=contract.clauses.find(clause=>clause.id==='MOVE-012')
+if(!inventoryClause)throw Error('Missing contract clause MOVE-012')
+const inventoryAcceptance=inventoryClause.text.split('**Acceptance.**')[1]?.trim()
+if(!inventoryAcceptance)throw Error('Missing heading-form acceptance for MOVE-012')
+const inventoryRow=source.split('\n')[inventoryClause.row-1].split('|')
+const inventoryHeading='### Official-source switch inventory'
+const inventorySection=inventoryHeading+'\n\n'+'1. **MOVE-012 — '+inventoryClause.title+'.** **Status: '+inventoryClause.status+'.**\n\n'+inventoryAcceptance.replace(/ ([1-8])\. /g,'\n$1. ')+'\n\n**Current evidence:** '+(inventoryRow[5].trim()||'No executed proof yet.')+(inventoryClause.gap?' **Remaining:** '+inventoryClause.gap:'')+'\n'
+const inventoryStart=acceptance.indexOf(inventoryHeading),inventoryEnd=inventoryStart<0?-1:acceptance.indexOf('\n### ',inventoryStart+inventoryHeading.length)
+acceptance=inventoryStart<0?acceptance.trimEnd()+'\n\n'+inventorySection:acceptance.slice(0,inventoryStart)+inventorySection+(inventoryEnd<0?'':acceptance.slice(inventoryEnd))
 // Shared agent duties are an additive projection; legacy native journeys stay intact.
 const agentClauses=contract.clauses.filter(clause=>clause.id.startsWith('BASE-AGENT-'))
 if(agentClauses.length){
@@ -62,3 +73,6 @@ for(const[path,bytes]of outputs){
  else{let current;try{current=await readFile(path,'utf8')}catch{};if(current!==bytes)throw Error('Stale contract projection: '+path)}
 }
 console.log('Contract projections '+(mode==='write'?'written':'match their source')+'; all '+contract.clauses.length+' Status rows retained.')
+
+// The public checklist is a product guide; unlike landing-only acceptance views, its generated Markdown ships with its source corpus.
+generateSwitchChecklist(mode)

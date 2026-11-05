@@ -1,7 +1,7 @@
 /* /docs in the homepage's look: the same header, lavender paper, white cards, navy code cards. */
 .docs-layout{display:grid;grid-template-columns:250px minmax(0,760px);gap:64px;padding:48px 0 72px}
 .docs-layout aside{position:sticky;top:24px;align-self:start}
-.nav-label{margin:22px 0 8px;font:700 12.5px/1.4 var(--rer-font-body);letter-spacing:.2em;text-transform:uppercase;color:var(--accent-ink)}
+.nav-label{margin:22px 0 8px;font:700 13px/1.4 var(--rer-font-body);letter-spacing:.2em;text-transform:uppercase;color:var(--accent-ink)}
 .nav-label:first-child{margin-top:0}
 .guide-nav ul{display:grid;gap:2px}
 .guide-nav a{display:block;padding:8px 12px;border-radius:10px;color:var(--body);text-decoration:none;font-size:16px}
@@ -70,3 +70,9 @@
  .pager{grid-template-columns:1fr}
  .pager-next{text-align:left}
 }
+
+/* Section permalinks disclose their action to pointer and keyboard users. */
+.heading-link{position:relative}
+.heading-link::after{content:attr(data-tooltip);position:absolute;z-index:2;bottom:calc(100% + 8px);left:0;white-space:nowrap;padding:6px 10px;border-radius:8px;background:var(--ink);color:#fff;font:500 13px/1.4 var(--rer-font-body);opacity:0;pointer-events:none;transition:opacity 0s}
+.heading-link:hover::after{opacity:1;transition-delay:300ms}
+.heading-link:focus::after{opacity:1;transition-delay:0s}

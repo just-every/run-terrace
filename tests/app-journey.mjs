@@ -4,6 +4,7 @@ const queued=await queuedEntrypoint(import.meta.url,'verify:app-journey');if(que
 // opens /, /run, /docs and a missing path; a signed-in owner enters a tenancy, follows its linked row and ledger
 // action, records rent and reads the ledger at 1440 and 390 pixels. Only the paid mail provider is replaced.
 import assert from 'node:assert/strict'
+import { inspectSwitchChecklists } from './site/switch-checklists.mjs'
 import { assertRunSite } from './site/assert-run-site.mjs'
 import { randomBytes } from 'node:crypto'
 import { mkdtemp, readdir, readFile, rm } from 'node:fs/promises'
@@ -23,7 +24,7 @@ const modules=[{type:'ESModule',path:resolve('dist/server/index.js')},...(await 
 const appOptions=port=>({...convertV4MiniflareOptions({host:'127.0.0.1',port,modules,compatibilityDate:'2026-09-08',compatibilityFlags:['nodejs_compat'],d1Databases:['DB'],bindings:vars,outboundService:async()=>Response.json({id:crypto.randomUUID()}),assets:{directory:resolve('dist/client'),routerConfig:{has_user_worker:true}}}),resourcePersistencePath:join(directory,'app')})
 const site=new Miniflare(convertV4MiniflareOptions({host:'127.0.0.1',port:0,modules:true,script:SITE_WORKER,compatibilityDate:'2026-09-08',assets:{directory:resolve('dist/site'),binding:'ASSETS',assetConfig:SITE_ASSETS_CONFIG,routerConfig:{has_user_worker:true}}}))
 const app=new Miniflare(appOptions(0))
-const browser=await chromium.launch({headless:true,args:['--use-mock-keychain','--password-store=basic']})
+const browser=await chromium.launch({headless:true,...(process.env.TERRACE_CHROMIUM_PATH ? {executablePath:process.env.TERRACE_CHROMIUM_PATH} : {}),args:['--use-mock-keychain','--password-store=basic','--no-sandbox']})
 try {
  const siteOrigin=(await site.ready).origin,origin=(await app.ready).origin
  vars.AUTH_ORIGIN=origin;await app.setOptions(appOptions(Number(new URL(origin).port)))
@@ -38,6 +39,7 @@ try {
  assert.equal(await visitor.title(),'Run Terrace')
  assert.equal((await visitor.goto(siteOrigin+'/docs')).status(),200)
  assert.equal(await visitor.title(),'Terrace docs')
+ await inspectSwitchChecklists(visitor,siteOrigin)
  const missing=await visitor.goto(siteOrigin+'/no-such-page')
  assert.equal(missing.status(),404,'a missing path is a real 404')
  assert.equal(await visitor.title(),'Not found · Terrace')

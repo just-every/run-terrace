@@ -1,0 +1,273 @@
+Maintenance - Rent Manager Property Management Software
+Skip to content
+Express Login
+Contact Us
+RMU Login
+Customer Portal
+Site Search
+Site Search Submit
+Features
+Accounting
+Accounts Receivable
+Accounts Payable
+Payments
+AI-Powered Tools
+Electronic Reconciliations
+Tax Tools
+Budgeting
+Reporting
+Built-In Reports
+Report Writer
+Financial Report Writer
+Report Automation
+Custom Reports
+Marketing & Leasing
+Prospect & Tenant Portal
+Resident Screening
+Resident App
+Guest Cards
+Websites
+ILS Advertising
+Web Chat
+Business Operations
+Communication Tools
+Mobile App
+Renters Insurance
+Call Center
+Project Management
+Owners
+Process and Admin Features
+Maintenance
+Service Issues
+Maintenance Scheduling
+Work Orders and Billing
+Inspections
+Make-Ready Boards
+Utility Management
+Orion AI
+Writing Assistant
+Smart AP
+Smart AR
+Instant Insights
+MCP
+Software Customization
+API
+Open Access
+Industries
+Residential
+Commercial
+Manufactured Housing
+Associations
+Student Housing
+RV Park & Campgrounds
+Self Storage
+Affordable Housing
+Vacation Homes
+Other Markets
+Integrations
+Built-In
+Featured
+Newly Added
+Internet Listing Services
+Solutions Partners
+All Integrations
+Resources
+Industry Resources
+Blog
+Beyond Rent Podcast
+Industry Affiliations
+Onboarding
+Implementation
+Data Migration
+Customer Support
+Customer Success
+User Resources
+Tenant Resources
+Training
+Rent Manager University
+Guided Online Training
+Training Calendar
+Rent Manager Certification
+About
+Rent Manager
+Our Story
+Events
+Data Security
+Our Company
+Products
+Awards and Recognitions
+Career Opportunities
+Bundles
+Request Demo
+Maintenance
+Quick response times = happier tenants. Manage maintenance issues efficiently and track their progress from creation to completion in Rent Manager. Handle service issues, conduct inspections, enter meter readings, tackle checklists, track inventory, and more with the software’s vast maintenance capabilities.
+Service IssuesMaintenance SchedulingIssue ChecklistsService Tech MapWork OrdersInspectionsMake Ready BoardsUtilities ManagementProject Management
+Keep Track with Service Issues
+Service issues help your team organize and stay ahead of your ever-changing list of maintenance tasks. Create, track, manage, and resolve service issues from within your database. Turn service management into a revenue generator for your business with Rent Manager.
+Service Issue Statuses
+Thoroughly track your maintenance progress with Service Issue Statuses. Statuses describe the current condition of your project—New, Work in Progress, Resolved, etc. Sort your issue list by status as you’re filtering through which assignments need to be resolved.
+Complete Service Issues in the field
+rmAppSuite Pro users can manage and update the service issue stage on their smart device while they’re still on the job. Project progress can be updated in real time and tenants can electronically sign off on completed work.
+Memorized Service Issues
+Avoid redundant data entry with Memorized Service Issues. If you create issues for the same maintenance tasks over and over again, memorize them to save the name, description, and other issue details, so you can populate the form in the future with just one click.
+Assign Service Issues
+Efficiently delegate maintenance tasks by assigning service issues to other Rent Manager users. Users can even create an Automated Notification to alert them when they’ve been assigned a new task.
+Maintenance Scheduling
+Our Maintenance Scheduling tool offers a simplified approach for maintenance coordinators to establish workflows that efficiently manage their technicians’ schedules and day-to-day repair and upkeep appointments. Easily group properties and technicians to manage availability and input your maintenance team’s working hours effortlessly. Plus, the Tech View in the rmAppSuite Pro mobile app allows employees to quickly review their daily schedules any time, anywhere.
+Further, residents can use Rent Manager’s Tenant Web Access (TWA) portal or the rmResident mobile app to select time slots to schedule service requests—saving you and them valuable time. And automated notifications can be sent directly from Rent Manager Express when requests are created, scheduled, confirmed, and closed—keeping everyone informed.
+Issue Checklists
+Manage and conquer your to-do list with Issue Checklists. Implement Issue Checklists for service issues that require several steps to be accomplished before final completion. Create a checklist item for each step of the process. When a step is finished and marked as completed in Rent Manager, you can advance the issue to another user in the process—inspiring a fluid, easy-to-follow workflow.
+Service Tech Map
+Track your service techs’ locations and gauge productivity levels with the Service Tech Map. When an rmAppSuite Pro user checks in to a service issue, the map will update their location using the device’s GPS.
+This innovative mobile capability fully integrates with your Rent Manager database and enables you to open the map in the office to see how efficiency levels are faring.
+Check Out rmAppSuite Pro
+Work Orders & Integrated Billing
+Simplify your payables and receivables by integrating billable expenses into work orders. This billing and invoicing tool allows you to charge back expenses to tenants or owners in the form of invoices, and optionally add a markup amount to each billable expense as part of the reimbursement.
+Inspections
+Inspections play a major role in the maintenance process. Streamline and standardize your inspections procedures with Rent Manager. Inspection reports include important details that provide a complete picture of the inspection process. Inspection templates are completely customizable, allowing you to create assessments based on the unique specifications of each property and unit type.
+Video Inspections
+Take your inspection process to the next level with video inspections. This powerful tool allows you to capture videos of your property and units on your mobile device while in the Inspection feature of the rmAppSuite Pro mobile app. Once the inspection is uploaded, you can access your videos directly in Rent Manager.
+Inspection Templates
+These helpful forms remove uncertainties from the inspection process. Clearly define the areas and elements of a unit that need to be reviewed so your maintenance techs can proceed with confidence. Your customizations can also be saved and used for future inspections.
+rmAppSuite Pro Integration
+Inspections can be conducted from start to finish via the rmAppSuite Pro mobile app. Make notes, take photos, and schedule work orders in the field from your smart device—all of which is synced to Rent Manager.
+Create Service Issues from Inspections
+After an inspection is complete and you’ve identified the areas that require maintenance, you can effortlessly create service issues for any items that require attention.
+Make Ready Boards
+The make-ready process is often costly and labor-intensive. Simplify unit turnover with organization and clear task delegation via Rent Manager’s Make Ready Board. This feature displays the units you’ve assigned a make-ready process, with color-coded statuses for associated service issues and inspections. Make your to-do lists more manageable with Make Ready Boards.
+Utility Management
+Our comprehensive utility management solution is designed to streamline and optimize the entire utility management process. From monitoring usage to managing expenses, our software provides a high-level overview that ensures efficiency and cost-effectiveness
+Expense Recovery
+We handle all billing methods—including flat fee, RUBS, and sub-metering—ensuring maximum expense recovery.
+Expense Management
+Our integrated accounts payable solution streamlines utility invoice collection and payment, reducing administrative tasks.
+Consolidated Billing
+We combine all resident charges—from rent to utilities—into one easy-to-pay electronic bill, simplifying the payment process.
+Utility Rate Review Service
+Our rate review service ensures accurate, up-to-date utility rates, maximizing cost recovery and compliance.
+Take Meter Readings With rmAppSuite Pro
+Project Management
+Transform multifaceted tasks—like tenant move-ins and move-outs—into straightforward steps. Ensuring that your units are move-in ready and and or initiating the unit-turnover process can be time- and labor-intensive, and doing so requires clear communication between your team and your tenants.
+Getting organized is the first step, and Rent Manager can help!
+Learn More About Project Management
+Ideal for portfolios of every size, Rent Manager is your key to an effective and efficient property management business.
+Request A Free Demo
+Shivani Sami
+CBW Properties
+I love Rent Manager because it makes my job easier. All the small details are very well put together.
+Resources
+Support
+Submit a Feature Request
+Submit an API Support Request
+Remote Assistance
+Install Rent Manager Online
+Install Scan Manager
+Training Calendar
+Virtual Classroom Enrollment
+Rent Manager Blog
+Beyond Rent Podcast
+About
+Rent Manager
+Our Company
+Awards and Accolades
+Events
+Careers at LCS.com
+Contact
+513-583-1482
+9140 Waterstone Blvd
+Cincinnati, OH 45249
+Connect
+Facebook User Forum
+Join Our Mailing List
+Copyright 2026 London Computer Systems, Inc. | Privacy Policy (updated 7.25.25) | Do Not Sell My Info
+Features▼
+Accounting▼
+Accounts Receivable
+Accounts Payable
+Payments
+AI-Powered Tools
+Electronic Reconciliations
+Tax Tools
+Budgeting
+Reporting▼
+Built-In Reports
+Report Writer
+Financial Report Writer
+Report Automation
+Custom Reports
+Marketing & Leasing▼
+Prospect & Tenant Portal
+Resident Screening
+Resident App
+Guest Cards
+Websites
+ILS Advertising
+Web Chat
+Business Operations▼
+Communication Tools
+Mobile App
+Renters Insurance
+Call Center
+Project Management
+Owners
+Process and Admin Features
+Maintenance▼
+Service Issues
+Maintenance Scheduling
+Work Orders and Billing
+Inspections
+Make-Ready Boards
+Utility Management
+Orion AI▼
+Writing Assistant
+Smart AP
+Smart AR
+Instant Insights
+MCP
+Software Customization▼
+API
+Open Access
+Industries▼
+Residential
+Commercial
+Manufactured Housing
+Associations
+Student Housing
+RV Park & Campgrounds
+Self Storage
+Affordable Housing
+Vacation Homes
+Other Markets
+Integrations▼
+Built-In
+Featured
+Newly Added
+Internet Listing Services
+Solutions Partners
+All Integrations
+Resources▼
+Industry Resources▼
+Blog
+Beyond Rent Podcast
+Industry Affiliations
+Onboarding▼
+Implementation
+Data Migration
+Customer Support▼
+Customer Success
+User Resources
+Tenant Resources
+Training▼
+Rent Manager University
+Guided Online Training
+Training Calendar
+Rent Manager Certification
+About▼
+Rent Manager▼
+Our Story
+Events
+Data Security
+Our Company▼
+Products
+Awards and Recognitions
+Career Opportunities

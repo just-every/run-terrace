@@ -2,6 +2,7 @@
 // Run Terrace action and the docs from Read the docs, every link and file a page names resolves inside the site,
 // no page links an instance-only route, and the homepage carries no local dev output.
 import assert from 'node:assert/strict'
+import { assertSwitchChecklistIntegrity, assertSwitchChecklistSite } from './switch-checklists.mjs'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join, relative } from 'node:path'
 
@@ -14,6 +15,10 @@ const attrs = (html, name) => [...html.matchAll(new RegExp(`\\s${name}="([^"]*)"
 // OPEN-001 TER-012: retained clause evidence, called by the emitted-app journey.
 // Its command already builds the site; do not build the same artifact twice.
 export function assertRunSite() {
+  assertSwitchChecklistIntegrity()
+  const switchPage = readFileSync(join(site, 'docs/switch-checklists.html'), 'utf8')
+  assertSwitchChecklistSite(switchPage)
+  assert.match(readFileSync(join(site, 'docs.html'), 'utf8'), /href="\/docs\/switch-checklists"/, 'the docs index links the public checklists')
   const home = readFileSync(join(site, 'index.html'), 'utf8')
   assert.match(home, /<a class="run-button" href="\/run">Run Terrace /, 'the homepage leads with Run Terrace to /run')
   assert.match(home, /href="\/docs">Read the docs</, 'the homepage links the docs')

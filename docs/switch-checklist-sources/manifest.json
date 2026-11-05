@@ -1,0 +1,369 @@
+{
+  "schemaVersion": 1,
+  "complete": false,
+  "captureMethod": "Public HTTPS response captured on the stated UTC date. Capture text decodes HTML entities, drops script, style, noscript and SVG contents, collapses whitespace by block, omits addresses and expands ambiguous word slash pairs. Raw response and retained normalized text have separate SHA-256 hashes. Hashes identify captures, not present-day source currency.",
+  "inventories": [
+    {
+      "incumbent": "appfolio",
+      "file": "appfolio.json",
+      "complete": false,
+      "gap": "Complete official-source inventory remains unqualified: selected public pages are only partially audited; help hubs, account-only documentation, nested source areas and linked material may contain omitted workflows."
+    },
+    {
+      "incumbent": "buildium",
+      "file": "buildium.json",
+      "complete": false,
+      "gap": "Complete official-source inventory remains unqualified: selected public pages are only partially audited; help hubs, account-only documentation, nested source areas and linked material may contain omitted workflows."
+    },
+    {
+      "incumbent": "rent-manager",
+      "file": "rent-manager.json",
+      "complete": false,
+      "gap": "Complete official-source inventory remains unqualified: selected public pages are only partially audited; help hubs, account-only documentation, nested source areas and linked material may contain omitted workflows."
+    }
+  ],
+  "discovery": [
+    {
+      "incumbent": "appfolio",
+      "url": "https://www.appfolio.com/sitemap.xml",
+      "capturedOn": "2026-11-05",
+      "rawSha256": "fb6caeb03cac37cae19ab8e5ae1dca27374d82af0de5fb299e3048f081740190",
+      "capture": "appfolio-discovery.txt",
+      "captureSha256": "f377f2fc41e5df91d8f8d6ad4dd7e5538ed5a34e5b0a23f18560ad9a0cb77703",
+      "urls": 620,
+      "review": "unaudited",
+      "gap": "Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness."
+    },
+    {
+      "incumbent": "buildium",
+      "url": "https://www.buildium.com/page-sitemap.xml",
+      "capturedOn": "2026-11-05",
+      "rawSha256": "fd9c781afb1796c103da3fb7bfd4c3d94d67972bd76e3256e499ba00fe4c0d5b",
+      "capture": "buildium-discovery.txt",
+      "captureSha256": "9e822554e4881605f8b1dfafe1bdcd13c3197a622312b637b5f1b1eb692d983c",
+      "urls": 171,
+      "review": "unaudited",
+      "gap": "Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness."
+    },
+    {
+      "incumbent": "rent-manager",
+      "url": "https://www.rentmanager.com/page-sitemap.xml",
+      "capturedOn": "2026-11-05",
+      "rawSha256": "f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b3cc3c941",
+      "capture": "rent-manager-discovery.txt",
+      "captureSha256": "6aaaa762d45b866d37e91a17909998655d1d125629529f67d155c9d8c8476d5c",
+      "urls": 76,
+      "review": "unaudited",
+      "gap": "Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness."
+    }
+  ],
+  "sources": [
+    {
+      "id": "af-accounting",
+      "incumbent": "appfolio",
+      "url": "https://www.appfolio.com/property-manager/accounting-reporting",
+      "resolvedUrl": "https://www.appfolio.com/property-manager/accounting-reporting",
+      "capturedOn": "2026-11-05",
+      "httpStatus": 200,
+      "rawSha256": "24fc945167f735a7a95c556df693e59b8dc4909d9bd1992f0aaa126662b65505",
+      "capture": "af-accounting.txt",
+      "captureSha256": "489ea74a0f200db9108b065ff65ce4979d4e4333e170ae0b970e4a9233b8c9af",
+      "review": "partial",
+      "workflows": [
+        "af-accounting-01",
+        "af-accounting-02",
+        "af-accounting-03",
+        "af-accounting-04",
+        "af-accounting-05",
+        "af-accounting-06",
+        "af-accounting-07",
+        "af-accounting-08",
+        "af-accounting-09",
+        "af-accounting-10",
+        "af-accounting-11",
+        "af-accounting-12",
+        "af-accounting-13",
+        "af-accounting-14",
+        "af-accounting-15",
+        "af-accounting-16",
+        "af-accounting-17",
+        "af-accounting-18",
+        "af-accounting-19"
+      ],
+      "unaudited": "Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing."
+    },
+    {
+      "id": "af-maintenance",
+      "incumbent": "appfolio",
+      "url": "https://www.appfolio.com/property-manager/maintenance",
+      "resolvedUrl": "https://www.appfolio.com/property-manager/maintenance",
+      "capturedOn": "2026-11-05",
+      "httpStatus": 200,
+      "rawSha256": "594ccd7df985cb985087e502e10e736d19538b259a6e026f4ca68fcb6ef17727",
+      "capture": "af-maintenance.txt",
+      "captureSha256": "2f6c39dc37e2a4d03eca6f50620dfceb092acb83f2e3bb7dd73deb6f3e56c76c",
+      "review": "partial",
+      "workflows": [
+        "af-maintenance-01",
+        "af-maintenance-02",
+        "af-maintenance-03",
+        "af-maintenance-04",
+        "af-maintenance-05",
+        "af-maintenance-06",
+        "af-maintenance-07",
+        "af-maintenance-08",
+        "af-maintenance-09",
+        "af-maintenance-10",
+        "af-maintenance-11",
+        "af-maintenance-12",
+        "af-maintenance-13",
+        "af-maintenance-14",
+        "af-maintenance-15"
+      ],
+      "unaudited": "Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing."
+    },
+    {
+      "id": "bu-accounting",
+      "incumbent": "buildium",
+      "url": "https://www.buildium.com/features/property-management-accounting/",
+      "resolvedUrl": "https://www.buildium.com/features/property-management-accounting/",
+      "capturedOn": "2026-11-05",
+      "httpStatus": 200,
+      "rawSha256": "7929adec16783deacd8fe9b19196530c164fd67e47732969f0925b9c78538d5c",
+      "capture": "bu-accounting.txt",
+      "captureSha256": "0b39bf26537fb3619f428e46a86ec05c620980061eca8c9bc135d6d829383342",
+      "review": "partial",
+      "workflows": [
+        "bu-accounting-01",
+        "bu-accounting-02",
+        "bu-accounting-03",
+        "bu-accounting-04",
+        "bu-accounting-05"
+      ],
+      "unaudited": "Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing."
+    },
+    {
+      "id": "bu-company",
+      "incumbent": "buildium",
+      "url": "https://www.buildium.com/features/company-financials/",
+      "resolvedUrl": "https://www.buildium.com/features/company-financials/",
+      "capturedOn": "2026-11-05",
+      "httpStatus": 200,
+      "rawSha256": "ccb2fbedf6acb9b79583c32dabf8759208a5548f09e68f4ebdfe94deb4c5fcbf",
+      "capture": "bu-company.txt",
+      "captureSha256": "1e92182459a2e08b193d4093f9e68b4b88307b68f2a87c65fb4266e9d4201585",
+      "review": "partial",
+      "workflows": [
+        "bu-company-01",
+        "bu-company-02",
+        "bu-company-03"
+      ],
+      "unaudited": "Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing."
+    },
+    {
+      "id": "bu-telephone",
+      "incumbent": "buildium",
+      "url": "https://www.buildium.com/maintenance-contact-center/",
+      "resolvedUrl": "https://www.buildium.com/maintenance-contact-center/",
+      "capturedOn": "2026-11-05",
+      "httpStatus": 200,
+      "rawSha256": "b4a0fc4f73735f49c44f58637e894b2f1c80d1af6382a917db482a18a0bcce77",
+      "capture": "bu-telephone.txt",
+      "captureSha256": "1d077d245c59de3619273ecefe4ca6862e61217a6f6f314d82047e2ddce0613d",
+      "review": "partial",
+      "workflows": [
+        "bu-telephone-01",
+        "bu-telephone-02",
+        "bu-telephone-03"
+      ],
+      "unaudited": "Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing."
+    },
+    {
+      "id": "bu-maintenance",
+      "incumbent": "buildium",
+      "url": "https://www.buildium.com/features/maintenance-request-management/",
+      "resolvedUrl": "https://www.buildium.com/features/property-management-maintenance-software/",
+      "capturedOn": "2026-11-05",
+      "httpStatus": 200,
+      "rawSha256": "11254f5abfd5bb0f462805a65cc5be6dd184b643bf26ace384ebab2b1d2d8c56",
+      "capture": "bu-maintenance.txt",
+      "captureSha256": "2a46b8cc61be15acd2ce73f74f1258adc3767e5338010186cfeaab76f900ddc4",
+      "review": "partial",
+      "workflows": [
+        "bu-maintenance-01",
+        "bu-maintenance-02",
+        "bu-maintenance-03",
+        "bu-maintenance-04",
+        "bu-maintenance-05",
+        "bu-maintenance-06",
+        "bu-maintenance-07",
+        "bu-maintenance-08",
+        "bu-maintenance-09",
+        "bu-maintenance-10",
+        "bu-maintenance-11"
+      ],
+      "unaudited": "Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing."
+    },
+    {
+      "id": "rm-accounting",
+      "incumbent": "rent-manager",
+      "url": "https://www.rentmanager.com/accounting/",
+      "resolvedUrl": "https://www.rentmanager.com/accounting/",
+      "capturedOn": "2026-11-05",
+      "httpStatus": 200,
+      "rawSha256": "b9e14e16602a1717201c0723b4c7b3833d14987d5e13ef103bc3e3a35fc6c064",
+      "capture": "rm-accounting.txt",
+      "captureSha256": "bb679da41595d2b3e68fc1e1420ec58ac06560d4e7c332ec09812fa446a50409",
+      "review": "partial",
+      "workflows": [
+        "rm-accounting-01",
+        "rm-accounting-02",
+        "rm-accounting-03",
+        "rm-accounting-04",
+        "rm-accounting-05",
+        "rm-accounting-06",
+        "rm-accounting-07",
+        "rm-accounting-08",
+        "rm-accounting-09",
+        "rm-accounting-10",
+        "rm-accounting-11",
+        "rm-accounting-12",
+        "rm-accounting-13",
+        "rm-accounting-14",
+        "rm-accounting-15",
+        "rm-accounting-16",
+        "rm-accounting-17",
+        "rm-accounting-18",
+        "rm-accounting-19",
+        "rm-accounting-20",
+        "rm-accounting-21",
+        "rm-accounting-22",
+        "rm-accounting-23",
+        "rm-accounting-24",
+        "rm-accounting-25",
+        "rm-accounting-26",
+        "rm-accounting-27"
+      ],
+      "unaudited": "Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing."
+    },
+    {
+      "id": "rm-maintenance",
+      "incumbent": "rent-manager",
+      "url": "https://www.rentmanager.com/maintenance/",
+      "resolvedUrl": "https://www.rentmanager.com/maintenance/",
+      "capturedOn": "2026-11-05",
+      "httpStatus": 200,
+      "rawSha256": "8c37976fd547cc9de6ab6f79452d5abe19b5f8db2a65d4e24341e441c6566d73",
+      "capture": "rm-maintenance.txt",
+      "captureSha256": "c6c38fed8bc4fca739698be2ce31bab0200221369139a9c95b4f4966370d4441",
+      "review": "partial",
+      "workflows": [
+        "rm-maintenance-01",
+        "rm-maintenance-02",
+        "rm-maintenance-03",
+        "rm-maintenance-04",
+        "rm-maintenance-05",
+        "rm-maintenance-06",
+        "rm-maintenance-07",
+        "rm-maintenance-08",
+        "rm-maintenance-09",
+        "rm-maintenance-10",
+        "rm-maintenance-11",
+        "rm-maintenance-12",
+        "rm-maintenance-13",
+        "rm-maintenance-14",
+        "rm-maintenance-15",
+        "rm-maintenance-16",
+        "rm-maintenance-17",
+        "rm-maintenance-18",
+        "rm-maintenance-19"
+      ],
+      "unaudited": "Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing."
+    },
+    {
+      "id": "rm-reports",
+      "incumbent": "rent-manager",
+      "url": "https://www.rentmanager.com/reporting/",
+      "resolvedUrl": "https://www.rentmanager.com/reporting/",
+      "capturedOn": "2026-11-05",
+      "httpStatus": 200,
+      "rawSha256": "6568cf30e1522030f36026cea16e6dd2049698e78b9ae638ca4883e28283991c",
+      "capture": "rm-reports.txt",
+      "captureSha256": "72029a7396bede61d073e0bc45a597c50f44810082eb5c9783b7f679750f11ce",
+      "review": "partial",
+      "workflows": [
+        "rm-reports-01",
+        "rm-reports-02",
+        "rm-reports-03",
+        "rm-reports-04",
+        "rm-reports-05",
+        "rm-reports-06",
+        "rm-reports-07",
+        "rm-reports-08",
+        "rm-reports-09",
+        "rm-reports-10",
+        "rm-reports-11"
+      ],
+      "unaudited": "Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing."
+    },
+    {
+      "id": "rm-schedules",
+      "incumbent": "rent-manager",
+      "url": "https://www.rentmanager.com/report-automation/",
+      "resolvedUrl": "https://www.rentmanager.com/report-automation/",
+      "capturedOn": "2026-11-05",
+      "httpStatus": 200,
+      "rawSha256": "91f11f2f4f3550c8793e8e2547069d2a948415afaf28c25f128385b2d2c9f015",
+      "capture": "rm-schedules.txt",
+      "captureSha256": "eb96d403b7460e37dfb20f7f02030bf260d0f41a0524811b4fc0d87f7058dca3",
+      "review": "partial",
+      "workflows": [
+        "rm-schedules-01",
+        "rm-schedules-02",
+        "rm-schedules-03",
+        "rm-schedules-04"
+      ],
+      "unaudited": "Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing."
+    },
+    {
+      "id": "rm-telephone",
+      "incumbent": "rent-manager",
+      "url": "https://www.rentmanager.com/call-center/",
+      "resolvedUrl": "https://www.rentmanager.com/call-center/",
+      "capturedOn": "2026-11-05",
+      "httpStatus": 200,
+      "rawSha256": "dcd3a58fe50b541556caca2b783986c716ca4cb69d3b233514506eca225cccd4",
+      "capture": "rm-telephone.txt",
+      "captureSha256": "0ca4b34fd4660120237af8704fbc49a843243d777e0563ce739a77c90791b29c",
+      "review": "partial",
+      "workflows": [
+        "rm-telephone-01",
+        "rm-telephone-02",
+        "rm-telephone-03",
+        "rm-telephone-04",
+        "rm-telephone-05",
+        "rm-telephone-06",
+        "rm-telephone-07",
+        "rm-telephone-08"
+      ],
+      "unaudited": "Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing."
+    }
+  ],
+  "unresolvedAreas": [
+    {
+      "incumbent": "appfolio",
+      "area": "Telephone maintenance intake, technician GPS and scheduled reports",
+      "reason": "Exact capability boundaries in unreviewed or inaccessible official documentation remain unaudited. Online work orders and association violations GPS do not establish telephone or technician capability."
+    },
+    {
+      "incumbent": "buildium",
+      "area": "Technician GPS and scheduled reports",
+      "reason": "Not established by the selected public sources; retained as unaudited source areas, never inferred absent."
+    },
+    {
+      "incumbent": "rent-manager",
+      "area": "Remaining leasing, communications, portals, customization and authenticated help",
+      "reason": "Not exhaustively audited; the selected accounting and maintenance sources do not establish a complete inventory."
+    }
+  ]
+}

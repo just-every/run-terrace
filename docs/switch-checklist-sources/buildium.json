@@ -1,0 +1,181 @@
+{
+  "incumbent": "buildium",
+  "workflows": [
+    {
+      "id": "bu-accounting-01",
+      "label": "Resident and association transactions",
+      "source": "bu-accounting",
+      "section": "Follow every transaction",
+      "line": 74,
+      "quote": "Easily record payments from residents and association homeowners. Collect and view every fee, deposit, and refund for a true financial picture of your properties, 24/7"
+    },
+    {
+      "id": "bu-accounting-02",
+      "label": "Work orders to payable bills",
+      "source": "bu-accounting",
+      "section": "Manage accounts payable",
+      "line": 79,
+      "quote": "Built-in calculators show you what you owe your company, property owners, and vendors. Change work orders into bills, then pay them online—and, set up automatic payments for recurring items."
+    },
+    {
+      "id": "bu-accounting-03",
+      "label": "Automatic bank reconciliation",
+      "source": "bu-accounting",
+      "section": "Reconcile bank accounts automatically",
+      "line": 81,
+      "quote": "Get back time with automatic reconciliations of bank statements and every recorded check and deposit. Take advantage of our full suite of reports to ensure you’re following trust accounting rules."
+    },
+    {
+      "id": "bu-accounting-04",
+      "label": "Chart of accounts and financial reporting",
+      "source": "bu-accounting",
+      "section": "Is Buildium good for accounting?",
+      "line": 97,
+      "quote": "Buildium accounting is purpose-built for property management. It helps bookkeeping stay complete and accurate with a fully featured financial transaction ledger, customizable chart of accounts, and comprehensive reporting suite."
+    },
+    {
+      "id": "bu-accounting-05",
+      "label": "Automatic collection and late fees",
+      "source": "bu-accounting",
+      "section": "How does property management accounting software help with rent collection and late fees?",
+      "line": 104,
+      "quote": "With property management accounting software, you can collect payments electronically and automatically post them to financial ledgers. You can also assess late fees (automatically) based on payment date."
+    },
+    {
+      "id": "bu-company-01",
+      "label": "Corporate accounting",
+      "source": "bu-company",
+      "section": "Close",
+      "line": 72,
+      "quote": "Track the books for your business with the same accuracy and efficiency as your managed properties."
+    },
+    {
+      "id": "bu-company-02",
+      "label": "Company recurring expenses",
+      "source": "bu-company",
+      "section": "Enter data without a hassle",
+      "line": 79,
+      "quote": "Add your company’s financial transactions with simple forms provided by Buildium. Expenses that repeat every month—like your office’s rent, an insurance bill, or legal retainers—will be included automatically."
+    },
+    {
+      "id": "bu-company-03",
+      "label": "Company financial reports",
+      "source": "bu-company",
+      "section": "View and report on key financial metrics",
+      "line": 81,
+      "quote": "In just a few clicks, view monthly profits, upcoming bills, and cash in the bank. And generate comprehensive reports—including real estate balance sheets, income statements, cash flows, bank reconciliations, and transaction reports—available right at your fingertips."
+    },
+    {
+      "id": "bu-telephone-01",
+      "label": "Telephone maintenance intake",
+      "source": "bu-telephone",
+      "section": "A trusted call center service to help you satisfy residents while reducing property risk",
+      "line": 69,
+      "quote": "Maintenance Contact Center, a call center service trusted by hundreds of Property Management companies, manages service requests 24/7/365 and delivers prompt responses to residents with full visibility into what’s going on—all connected directly to your Buildium account."
+    },
+    {
+      "id": "bu-telephone-02",
+      "label": "After-hours service calls and email",
+      "source": "bu-telephone",
+      "section": "Rely on highly-trained support",
+      "line": 78,
+      "quote": "Every service call and email is answered by professional call center agents. Residents won’t even have to wait for a call back when they need your help after hours."
+    },
+    {
+      "id": "bu-telephone-03",
+      "label": "Emergency classification",
+      "source": "bu-telephone",
+      "section": "Answers all inbound service calls",
+      "line": 88,
+      "quote": "Gathers information and determines if emergency or not"
+    },
+    {
+      "id": "bu-maintenance-01",
+      "label": "Maintenance agent follow-through",
+      "source": "bu-maintenance",
+      "section": "Get more time back with the Lumina AI Maintenance Agent",
+      "line": 74,
+      "quote": "Maintenance doesn’t have to mean constant follow‑ups. The Lumina AI Maintenance Agent automatically summarizes work orders, monitors progress across vendors and tasks, and helps close the loop when work is complete so maintenance requests move faster with less manual oversight."
+    },
+    {
+      "id": "bu-maintenance-02",
+      "label": "Resident repair intake",
+      "source": "bu-maintenance",
+      "section": "Centralize all your work and give your team visibility into what needs attention, who owns it, and what’s been completed.",
+      "line": 88,
+      "quote": "Capture and manage resident requests submitted through Resident Center"
+    },
+    {
+      "id": "bu-maintenance-03",
+      "label": "Staff maintenance tasks",
+      "source": "bu-maintenance",
+      "section": "Capture and manage resident requests submitted through Resident Center",
+      "line": 89,
+      "quote": "Create property maintenance tasks for staff with clear ownership and due dates"
+    },
+    {
+      "id": "bu-maintenance-04",
+      "label": "Recurring work",
+      "source": "bu-maintenance",
+      "section": "Create property maintenance tasks for staff with clear ownership and due dates",
+      "line": 90,
+      "quote": "Schedule recurring work like lawn care or seasonal inspections"
+    },
+    {
+      "id": "bu-maintenance-05",
+      "label": "Timestamped updates",
+      "source": "bu-maintenance",
+      "section": "Schedule recurring work like lawn care or seasonal inspections",
+      "line": 91,
+      "quote": "Maintain time-stamped updates for accountability and record-keeping"
+    },
+    {
+      "id": "bu-maintenance-06",
+      "label": "Staff or vendor assignment",
+      "source": "bu-maintenance",
+      "section": "Track the progress of work being performed and expected costs with work orders, keeping maintenance activity connected to your accounting.",
+      "line": 94,
+      "quote": "Assign work orders to your staff or vendors"
+    },
+    {
+      "id": "bu-maintenance-07",
+      "label": "Pre-work quotes and estimates",
+      "source": "bu-maintenance",
+      "section": "Assign work orders to your staff or vendors",
+      "line": 95,
+      "quote": "Enter quotes or estimates for the work before it’s performed"
+    },
+    {
+      "id": "bu-maintenance-08",
+      "label": "Work order bills",
+      "source": "bu-maintenance",
+      "section": "Enter quotes or estimates for the work before it’s performed",
+      "line": 96,
+      "quote": "Generate a bill directly from a work order"
+    },
+    {
+      "id": "bu-maintenance-09",
+      "label": "Projects and templates",
+      "source": "bu-maintenance",
+      "section": "Keep your maintenance work organized by grouping related tasks into projects to track progress and budgets at a glance.",
+      "line": 99,
+      "quote": "Use project templates for standard workflows like unit turns or recurring repairs."
+    },
+    {
+      "id": "bu-maintenance-10",
+      "label": "Staff time tracking",
+      "source": "bu-maintenance",
+      "section": "Capture accurate work hours",
+      "line": 101,
+      "quote": "Track time and labor expenses by recording hours spent on tasks and work orders."
+    },
+    {
+      "id": "bu-maintenance-11",
+      "label": "Partner inspection capture",
+      "source": "bu-maintenance",
+      "section": "Perform inspections on-site and sync results directly into Buildium, powered by HappyCo.",
+      "line": 112,
+      "quote": "Capture photos, notes, and reports in the HappyCo app"
+    }
+  ]
+}
