@@ -50,6 +50,7 @@ try {
  const page=await context.newPage()
  assert.equal((await page.goto(origin+'/')).status(),200)
  assert.equal(await page.locator('html[data-state]').count(),1,'the installed root is the shared Lobby')
+ assert.equal(await page.locator('a.btn').getAttribute('href'),'/app','a current session opens the app from the existing Lobby action')
  await page.goto(origin+'/setup')
  await page.getByRole('checkbox').check()
  await page.getByRole('button',{name:'Finish setup'}).click()

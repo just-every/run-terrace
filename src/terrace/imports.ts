@@ -3,6 +3,7 @@ import { toD1Sql } from '../modules/erasure/index.mjs'
 import { Context, Fault, Row, all, insist, one, allow, text } from './core'
 import { IMPORT_DESTINATION, IMPORT_KIT, TENANCY_KIND, importNamespace, tenancyMapping, tenancySource } from './imports-source'
 import { tenancyImportContext } from './imports-target'
+import { guardTenancyImportDuplicates, tenancyDuplicateMapping } from './imports-duplicates'
 import { importReversal } from './imports-compensation'
 import { labelOutcome, unavailable } from './imports-review'
 import { officeZone } from './company'
@@ -41,12 +42,14 @@ export async function importCommand(c: Context, command: string, p: Row): Promis
       const current = await readD1ImportJob(jobId,context)
       insist(p.fingerprint === current.fingerprint, 'review_changed', 'The retained import changed. Review its journal before continuing.',409)
       insist(['queued','applying','completed'].includes(current.state), 'import_conflict', 'This import cannot continue forward. Review its journal or undo it.',409)
-      return { kit: IMPORT_KIT, job: await applyD1ImportBatches(jobId, { ...context, reviewedFingerprint: current.fingerprint }), replayed:current.state==='completed' }
+      return { kit: IMPORT_KIT, job: await applyD1ImportBatches(jobId, guardTenancyImportDuplicates({ ...context, reviewedFingerprint: current.fingerprint })), replayed:current.state==='completed' }
     }
     if (command === 'import.preview' || command === 'import.apply') {
       const namespace = importNamespace(p.namespace), csv = csvInput(p)
       const context = tenancyImportContext(c, namespace)
-      const plan = await planD1Import(tenancySource(csv,namespace), tenancyMapping(await officeZone(c)), context)
+      const source = tenancySource(csv,namespace)
+      const mapping = await tenancyDuplicateMapping(c, source, tenancyMapping(await officeZone(c)))
+      const plan = await planD1Import(source, mapping, context)
       const rows = plan.entries.map(entry => ({ ref: entry.source.sourceId, sourceRow: entry.source.location.row, targetId: entry.effects[0]?.targetId, value: entry.effects[0]?.value, rejection: entry.rejection ?? null }))
       if (command === 'import.preview') {
         const original = plan.source.artifacts[0].original
@@ -54,8 +57,8 @@ export async function importCommand(c: Context, command: string, p: Row): Promis
       }
       const fingerprint = text(p.fingerprint, 'Reviewed fingerprint', 64)
       insist(/^[a-f0-9]{64}$/.test(fingerprint) && fingerprint === plan.fingerprint, 'review_changed', 'The CSV or namespace changed. Preview it and approve the new fingerprint.', 409)
-      insist(plan.counts.rejected === 0 && !plan.diagnostics.some(d => d.severity === 'error'), 'invalid_import', 'Resolve every rejected record before approving this import.')
-      const reviewed = tenancyImportContext(c, namespace, { reviewedFingerprint: fingerprint, operationKey: `terrace-csv:${fingerprint}`, reversalPolicy:'preserve-conflicts' })
+      insist(plan.counts.rejected === 0 && !plan.diagnostics.some(d => d.severity === 'error'), 'invalid_import', plan.entries.find(entry => entry.rejection)?.rejection ?? 'Resolve every rejected record before approving this import.')
+      const reviewed = guardTenancyImportDuplicates(tenancyImportContext(c, namespace, { reviewedFingerprint: fingerprint, operationKey: `terrace-csv:${fingerprint}`, reversalPolicy:'preserve-conflicts' }))
       const created = await createD1ImportJob(plan, reviewed)
       const job = ['undone','undoing','rolled_back','rolling_back'].includes(created.state) ? created : await applyD1ImportBatches(created.id, reviewed)
       return { kit: IMPORT_KIT, job, replayed:['completed','undone','undoing','rolled_back','rolling_back'].includes(created.state) }
@@ -82,7 +85,7 @@ export async function importCommand(c: Context, command: string, p: Row): Promis
     if (code === 'NATIVE_EDIT_CONFLICT') throw new Fault('import_conflict','A tenancy has later edits or related work. Undo preserved that work and stopped.',409)
     if (code === 'TARGET_REVISION_CONFLICT') throw new Fault('import_conflict','A tenancy with this source reference already exists. This kit does not replace existing tenancies.',409)
     if (/^(IMPORT_|TARGET_|NATIVE_|OPERATION_KEY_|SOURCE_|STORED_|REVIEW_|UNDO_|REVERSAL_)/.test(code)) throw new Fault('import_conflict',code,409)
-    if (code.includes('CHECK constraint')) throw new Fault('import_conflict','An erased tenant or later tenancy work prevents this change.',409)
+    if (code.includes('CHECK constraint')) throw new Fault('import_conflict','A matching existing tenancy, an erased tenant or later tenancy work prevents this change. Preview again and review the affected source rows.',409)
     throw error
   }
 }

@@ -1,6 +1,7 @@
 import { createPortability, readArchive, type Manifest, type Part, type Closing, type LaterJournal } from '@runeditrun/rer/modules/portability'
 import policy from './archive-policy.mjs'
 import { Fault, insist, allow, type Context, type Row } from './core'
+import { EMPTY_RESTORE, restoreOccupied } from './restore-state'
 import { eraseTenancy } from './erasure'
 export const portable = (c:Context) => createPortability({db:c.db,policy})
 export async function backup(c:Context) {
@@ -17,12 +18,13 @@ async function archive(file:unknown) {
 export async function dataCommand(c:Context,command:string,p:Row):Promise<Row|undefined> {
  if(command==='data.restore') {
   allow(c, command);insist(p.confirm==='RESTORE','confirmation','Type RESTORE to confirm importing into an empty installation.')
+  insist(!await restoreOccupied(c),'restore_not_empty',EMPTY_RESTORE,409)
   const records=await archive(p.backup),manifest=records[0] as Manifest,closing=records.at(-1) as Closing
   let laterJournal:LaterJournal|undefined
   if(p.journal instanceof File && p.journal.size>0) { const latest=(await archive(p.journal))[0] as Manifest;laterJournal={sourceIdentity:latest.sourceIdentity,epoch:latest.epoch,journal:latest.journal} }
-  const service=await portable(c), job=await service.imports.create(manifest,'role:owner')
-  try {for(const part of records.filter(r=>r.kind==='part') as Part[]) await service.imports.uploadPart(job,part.index,part);await service.imports.finalize(job,{archiveHash:closing.archiveHash,contentHash:closing.contentHash,laterJournal})}
-  catch(e){await service.imports.abort(job);if(String((e as any).code).startsWith('erasure_'))throw new Fault('erasure_fence','This older archive is blocked by the later erasure journal. Restore a backup made after the erasure.',409);throw e}
+  const service=await portable(c);let job:string|undefined
+  try {job=await service.imports.create(manifest,'role:owner');for(const part of records.filter(r=>r.kind==='part') as Part[]) await service.imports.uploadPart(job,part.index,part);await service.imports.finalize(job,{archiveHash:closing.archiveHash,contentHash:closing.contentHash,laterJournal})}
+  catch(e){if(job)await service.imports.abort(job);const code=String((e as any).code??(e as Error).message);if(/^(target_not_empty|legacy_target_not_empty|bucket_not_empty)(:|$)/.test(code))throw new Fault('restore_not_empty',EMPTY_RESTORE,409);if(code.startsWith('erasure_'))throw new Fault('erasure_fence',laterJournal?'This older archive is blocked by the supplied later erasure journal. Restore a backup made after the erasure.':'This archive predates erasure records retained by this installation. Restore a backup made after the erasure into a separate empty installation.',409);throw e}
   return {notice:'Archive restored. Your current sign-in remains in this installation.'}
  }
  if(command==='tenancy.erase') { allow(c,command);return eraseTenancy(c,p) }

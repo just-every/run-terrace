@@ -16,14 +16,14 @@ rer export --output exports/terrace.rer
 
 ## Restore in the browser
 
-1. Start a separate empty installation with the same product schema and finish its owner setup.
-2. Open **Data & access**, then **Restore an archive into this empty installation**.
+1. Clone Terrace into a separate directory. Run `rer dev --port 8821` there (choose a free port) and finish its owner setup. Use the same product schema; do not enter product data before restoring.
+2. Open **Data & access**, then **Restore an archive**.
 3. Choose the **Backup archive**. Browser uploads accept archives up to 20 MB.
 4. If restoring an archive made before an erasure, choose a later backup from the same source as **Later backup / erasure journal**.
 5. Type `RESTORE` and select **Restore archive**.
 6. Check the restored tenancies, rent entries, photographs and import journals.
 
-Restore preserves the destination owner and current sign-in. It refuses a nonempty product destination, corrupt archives and data blocked by a supplied later erasure journal. The archive does not bring the source installation's sessions or credentials into the destination.
+Restore preserves the destination owner and current sign-in. The page identifies an installation that already has product data and refuses before processing the archive; use a separate empty installation. Actor display-name evidence survives restore and is labelled **former operator** when the source account is absent. An old archive that never saved a name shows **Former operator**. It refuses a nonempty product destination, corrupt archives and data blocked by a supplied later erasure journal. The archive does not bring the source installation's sessions or credentials into the destination.
 
 ## Restore with the command line
 

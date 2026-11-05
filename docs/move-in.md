@@ -315,3 +315,9 @@ This slice authorizes no cutover date, collecting system, payment, mandate,
 schedule change or payout. Authentic incumbent qualification, fees, full owner
 statements, bank matching, future schedules, mandate reauthorization, stopping
 old collections and duplicate-execution prevention remain outstanding.
+
+### When ordinary undo is refused
+
+Ordinary undo checks the whole batch before removing any tenancy. One changed tenancy keeps the entire batch in place. The refusal names the source reference, address, resident and later work (for example a rent charge and its reference). **Review import undo** lists the unchanged tenancies separately. Keep the import by leaving the page, or enter a reason and approve **Remove unchanged tenancies; keep later work** against the displayed review. This uses the existing reviewed compensation operation and preserves the changed tenancy and all its later work; its import history reports **compensated**. Refresh the review if records change.
+
+Preview rejects a row matching an existing tenancy’s address and resident email when the lease dates overlap, including a manually entered tenancy. It names the source reference and address. Review the existing tenancy and remove the duplicate source row; Terrace never merges it automatically. The same namespace and source reference can still replay its original import.

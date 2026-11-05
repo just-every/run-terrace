@@ -112,3 +112,7 @@
 .income-review dd{margin-bottom:12px;min-width:0}
 .income-review .mono{font:400 13px/1.5 var(--rer-font-mono);overflow-wrap:anywhere}
 @media(min-width:861px){.income-review dl{grid-template-columns:minmax(140px,220px) minmax(0,1fr);gap:10px 20px}.income-review dd{margin-bottom:0}}
+
+.local-operator-signin code{white-space:normal;overflow-wrap:anywhere}
+
+.tenancy-import-review{min-width:960px;overflow-wrap:normal}.tenancy-import-review th{white-space:nowrap}.tenancy-import-review td:last-child{min-width:240px;max-width:360px}

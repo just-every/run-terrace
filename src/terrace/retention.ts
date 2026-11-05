@@ -57,8 +57,10 @@ export async function retentionCommand(c:Context,command:string,p:Row):Promise<R
  }
  const request=await one(c,'SELECT * FROM tt_privacy_requests WHERE id=? AND tenancy_id=?',text(p.requestId,'Request'),t.id);insist(request,'not_found','Request not found.',404)
  const review=await retentionReview(c,t)
+ const notice=`Retention reviewed. ${review.eligible?'Lease evidence is eligible for erasure.':'No lease evidence is eligible for erasure.'} ${review.kept.length?'Kept: '+review.kept.map(k=>k.class+(k.through?' through '+k.through:'')+' — '+k.reasons.join('; ')).join(' · '):'Financial amounts, dates and links remain under an opaque alias.'}`
+ if(request.review&&JSON.parse(request.review).fingerprint===review.fingerprint)return {tenancyId:t.id,requestId:request.id,review,replayed:true,notice}
  await commit(c,[guard(c,'EXISTS(SELECT 1 FROM tt_tenancies WHERE id=? AND version=?)',t.id,t.version),sql(c,'UPDATE tt_privacy_requests SET review=?,reviewed_at=? WHERE id=?',JSON.stringify(review),c.now,request.id)],command,request.id)
- return {tenancyId:t.id,requestId:request.id,review,notice:'Retention reviewed. Kept records and reasons are listed below.'}
+ return {tenancyId:t.id,requestId:request.id,review,notice}
 }
 /** Owner records the request; no public or bearer identity is implied. Subject-only access omits owner and other household contacts. */
 export async function residentAccess(c:Context,tenancyId:unknown){

@@ -6,6 +6,7 @@ import type { D1Database, D1ImportContext, D1Statement, D1UndoEffect, D1UndoSnap
 import { id, sql, text, type Context, type Row } from './core'
 import { dependencySnapshot, snapshotGuard } from './imports-dependencies'
 import { compensationReview, labelOutcome, publicReview, reviewedFault, unavailable, type Review } from './imports-review'
+import { reversalBlockers } from './imports-reversal-view'
 import { kitSql, tenancyTargets } from './imports-target'
 
 export async function importReversal(c: Context, command: string, p: Row, context: D1ImportContext) {
@@ -19,7 +20,7 @@ export async function importReversal(c: Context, command: string, p: Row, contex
   return reverseReviewed(c,context,review,{id:id(),reason})
  }
  if(['undone','rolled_back'].includes(review.job.state))return {job:review.job,replayed:true,outcome:labelOutcome(review.job,review.undoReport.dispositions)}
- if(review.rows.some(r=>r.action==='retain')||review.job.state==='undoing')reviewedFault('import_conflict',`Undo refused: ${review.counts.reversed} reversed, ${review.counts.retain} blocked. Review compensation; nothing else was reversed.`,report)
+ if(review.rows.some(r=>r.action==='retain')||review.job.state==='undoing')reviewedFault('import_conflict',`Undo refused. ${reversalBlockers(review.rows)} Nothing was removed: this undo checks the whole batch before removing any tenancy. Keep the import, or review removing the ${review.counts.reverse} unchanged tenancies while keeping the ${review.counts.retain} with later work below.`,report)
  return reverseReviewed(c,context,review)
 }
 

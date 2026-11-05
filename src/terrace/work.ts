@@ -1,3 +1,4 @@
+import { recordedActorNames } from './actors'
 import {chargebackData} from './work-chargebacks'
 import {stockData} from './work-stock'
 import {costClass,budgetGuard} from './work-budgets'
@@ -175,8 +176,7 @@ export async function workData(c: Context, tenancyId: string) {
 
 /** Operator ids to display names, for showing who prepared, approved, uploaded or handed off work. */
 export async function operatorNames(c: Context): Promise<Record<string, string>> {
-  const keys = (await all(c, 'SELECT id,label FROM tt_api_credentials')).map(k => [k.id, `${k.label} (API credential)`])
-  return Object.fromEntries([...keys, ...(await all(c, 'SELECT id,display_name FROM oa_operators')).filter(o => o.display_name).map(o => [o.id, o.display_name])])
+  return recordedActorNames(c)
 }
 
 export async function photoResponse(c: Context, photoId: string): Promise<Response> {
