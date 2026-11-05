@@ -5,11 +5,12 @@ import { tmpdir } from 'node:os'
 import { loadSwitchChecklist, renderSwitchChecklist, generateSwitchChecklist } from '../../scripts/switch-checklists.mjs'
 
 const read = path => readFileSync(path, 'utf8')
-const sourceDirectory = 'docs/switch-checklist-sources/'
+const sourceDirectory = './docs/switch-checklist-sources/'
 const names = { appfolio: 'AppFolio', buildium: 'Buildium', 'rent-manager': 'Rent Manager' }
 // Separate from the replacement manifest: these source statements require these named gaps.
 const requiredGaps = [
  ['af-accounting', /Bring your management company’s books|Bring your management company's books/, 'Corporate accounting'],
+ ['rm-reports', /company’s finances/, 'Corporate accounting reports'],
  ['bu-company', /Track the books for your business/, 'Corporate accounting'],
  ['bu-telephone', /Answers all inbound service calls/, 'Telephone maintenance intake'],
  ['rm-telephone', /Call Center agents instantly add maintenance requests/, 'Telephone maintenance intake'],
@@ -149,5 +150,15 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
   }
   await visitor.setViewportSize({ width: 1440, height: 900 })
  }
+ const phoneSize = { width: 390, height: 844 }
+ await visitor.setViewportSize(phoneSize)
+ assert.ok(await visitor.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'phone checklist smoke: long sources and capture hashes wrap within the viewport')
+ await visitor.setViewportSize({ width: 1440, height: 900 })
+ for (const [point, inventory] of manifest.inventories.entries()) console.log(`PROBE MOVE-012 ${point + 1}: GET /docs/switch-checklists -> ${names[inventory.incumbent]} ${workflows.filter(workflow => workflow.incumbent === inventory.incumbent).length} sourced rows; complete inventory explicitly unqualified`)
+ console.log('PROBE MOVE-012 4: built public inventory -> every inventoried workflow has a named Gap; unsupported boundary and partner workflows remain visible')
+ console.log('PROBE MOVE-012 5: built corporate accounting rows -> AppFolio and Buildium corporate books and Rent Manager company reports remain gaps')
+ console.log('PROBE MOVE-012 6: built telephone maintenance rows -> Buildium and Rent Manager call intake remain gaps; AppFolio source area remains unaudited')
+ console.log('PROBE MOVE-012 7: built technician GPS row -> Rent Manager Service Tech Map remains a gap; association violations GPS remains separate')
+ console.log('PROBE MOVE-012 8: built scheduled-report rows -> Rent Manager scheduled generation and delivery remain gaps; inaccessible Buildium article is disclosed')
  await visitor.goto(siteOrigin + '/docs')
 }

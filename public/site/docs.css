@@ -35,7 +35,7 @@
 .prose th{color:var(--ink);font-weight:600}
 .prose blockquote{margin:0 0 16px;padding:12px 18px;border-radius:12px;background:var(--card);border:1px solid var(--rule)}
 .heading-link{margin-left:10px;color:#B9B6D3;text-decoration:none;font-weight:400;opacity:0}
-.prose h2:hover .heading-link,.prose h3:hover .heading-link,.heading-link:focus{opacity:1}
+.prose h2:hover .heading-link,.prose h3:hover .heading-link,.prose h4:hover .heading-link,.heading-link:focus{opacity:1}
 .contents{margin:0 0 30px;padding:16px 20px;border-radius:14px;background:var(--card);border:1px solid var(--rule)}
 .contents summary{cursor:pointer;font-weight:600;color:var(--ink)}
 .contents ul{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:4px}
@@ -73,6 +73,6 @@
 
 /* Section permalinks disclose their action to pointer and keyboard users. */
 .heading-link{position:relative}
-.heading-link::after{content:attr(data-tooltip);position:absolute;z-index:2;bottom:calc(100% + 8px);left:0;white-space:nowrap;padding:6px 10px;border-radius:8px;background:var(--ink);color:#fff;font:500 13px/1.4 var(--rer-font-body);opacity:0;pointer-events:none;transition:opacity 0s}
+.heading-link::after{content:attr(data-tooltip);position:absolute;z-index:2;bottom:calc(100% + 8px);right:0;white-space:nowrap;padding:6px 10px;border-radius:8px;background:var(--ink);color:#fff;font:500 13px/1.4 var(--rer-font-body);opacity:0;pointer-events:none;transition:opacity 0s}
 .heading-link:hover::after{opacity:1;transition-delay:300ms}
 .heading-link:focus::after{opacity:1;transition-delay:0s}

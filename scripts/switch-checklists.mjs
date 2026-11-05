@@ -4,7 +4,7 @@ import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { parseContract } from '../src/base/seed-contract.mjs'
 
-const sourceDirectory = 'docs/switch-checklist-sources/'
+const sourceDirectory = './docs/switch-checklist-sources/'
 const output = 'docs/switch-checklists.md'
 const names = { appfolio: 'AppFolio', buildium: 'Buildium', 'rent-manager': 'Rent Manager' }
 const hosts = { appfolio: ['www.appfolio.com'], buildium: ['www.buildium.com', 'help.buildium.com'], 'rent-manager': ['www.rentmanager.com'] }

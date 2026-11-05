@@ -1017,7 +1017,7 @@
       "executable": false
     },
     "public/site/docs.css": {
-      "sha256": "6c4416025afe142f57561d163fda2076419928c73eeaeca5d1a81c1467127bab",
+      "sha256": "4ff76aec47301b0a2aeb688977af3081107329a985d90818a88c5e3ec26a2d8d",
       "executable": false
     },
     "public/site/hero-1152.avif": {
@@ -1365,7 +1365,7 @@
       "executable": false
     },
     "scripts/switch-checklists.mjs": {
-      "sha256": "a88eda6ff4b83dd7ed9ee206e133e32ad8b7c9ce6198f4a5ae73dfe341387615",
+      "sha256": "9c5480e248a15c60eca64995d6bcc391b9f88adc629583dc316fe904d35aca06",
       "executable": false
     },
     "scripts/twilio-sandbox.mjs": {
@@ -5505,7 +5505,7 @@
       "executable": false
     },
     "tests/site/switch-checklists.mjs": {
-      "sha256": "147c9b5dd58754c0147d5798b769c084fa349969cefc7692f54ae588068b3624",
+      "sha256": "6232eb4d240ddfc64d7c18e9c633e755f37b13e7dc70f014597c871db33f06f7",
       "executable": false
     },
     "tests/statements-browser.mjs": {
