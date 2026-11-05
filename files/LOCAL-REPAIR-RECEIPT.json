@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "head": "0ce1dc0cfa9af6fa2a3eb0aa1029de671ea7a7b6",
+  "kind": "optional screenshot capture selector",
+  "command": "node tests/app-journey.mjs with TERRACE_SWITCH_SCREENS enabled",
+  "exit": 1,
+  "failure": "locator.scrollIntoViewIfNeeded: Timeout 30000ms exceeded; waiting for heading AppFolio required named gaps with exact true",
+  "cause": "The section permalink contributes its accessible text to the heading name. The exact screenshot selector failed after normal assertions passed.",
+  "repair": "Use the same heading-name matching as the existing unconditional public navigation assertions. No assertion, timeout or product control changed."
+}

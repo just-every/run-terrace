@@ -1,0 +1,17 @@
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+verify:app-journey
+Heavy job admitted: Terrace verify:app-journey:suite [67326b97153c]
+▲ [WARNING] Proxy environment variables detected. We'll use your proxy for fetch requests.
+
+
+PROBE MOVE-012 1: GET /docs/switch-checklists -> AppFolio 244 sourced rows; complete inventory explicitly unqualified
+PROBE MOVE-012 2: GET /docs/switch-checklists -> Buildium 151 sourced rows; complete inventory explicitly unqualified
+PROBE MOVE-012 3: GET /docs/switch-checklists -> Rent Manager 147 sourced rows; complete inventory explicitly unqualified
+PROBE MOVE-012 4: built public inventory -> every inventoried workflow has a named Gap; unsupported boundary and partner workflows remain visible
+PROBE MOVE-012 5: built corporate accounting rows -> AppFolio and Buildium corporate books and Rent Manager company reports remain gaps
+PROBE MOVE-012 6: built telephone maintenance rows -> sourced AppFolio, Buildium and Rent Manager call intake remain named gaps
+PROBE MOVE-012 7: built technician GPS row -> Rent Manager Service Tech Map remains a gap; association violations GPS remains separate
+PROBE MOVE-012 8: built scheduled-report rows -> rendered Buildium scheduling and owner-portal delivery, and Rent Manager scheduled report batches remain sourced gaps; unaudited AppFolio and remaining help areas stay disclosed
+TER-012 passed: run site /, /run, /docs and a 404 document; linked tenancy and ledger actions with a stacked 390-pixel ledger

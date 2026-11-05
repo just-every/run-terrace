@@ -1,0 +1,190 @@
+{
+  "files": [
+    {
+      "blob": "1d2b45513a90eb6463efe8b9487799b0eb33733b",
+      "bytes": 1808,
+      "path": "ACCESS-RECEIPT.json",
+      "sha256": "943edc3575464d89ef93aa9662f1845a9c0e7feacdd657ed199caeb79cdffd14"
+    },
+    {
+      "blob": "b868142a22c74d371de0125ff8372b80526541f1",
+      "bytes": 850,
+      "path": "BROWSER-ARTIFACT-FAILURE.log",
+      "sha256": "ed45499710a3239a2cc1bf212dc454e5cd67e12a5f08de1185382e84620f719e"
+    },
+    {
+      "blob": "a51bcee8dec6c8ba80c6037d11ea526ae4c36bbe",
+      "bytes": 4757,
+      "path": "BROWSER-RECEIPT.json",
+      "sha256": "34b995e3661f6627233727f0520dcf3832ee41c160702c834112b451d0b40c4f"
+    },
+    {
+      "blob": "360830a6a03a57504928df7ce89cfa9fbb85bfe2",
+      "bytes": 1574,
+      "path": "BROWSER.log",
+      "sha256": "5bef49f71d6fa279ff2a1c66b40b870f2316c3850a3a9ea92db1c23580480abb"
+    },
+    {
+      "blob": "f57a1cd4657a1640bdbab83f0df6308eee3adb6e",
+      "bytes": 2900,
+      "path": "CHECKS-RECEIPT.json",
+      "sha256": "c8109b6d6eedc6ebed140fbf0173c0d7ff214d3ee8bb00daa478fec581652356"
+    },
+    {
+      "blob": "eacd3ca4ba9e31d8ace91921aa5334e23886c3e7",
+      "bytes": 232,
+      "path": "CI-DISCOVERY.json",
+      "sha256": "92959ad71e3324fbf90c07d19e33c2f74f816cdcf23680a47201e91608f5a96d"
+    },
+    {
+      "blob": "cc533ef831b21dd73ef51d4fd42ec2ff77e96479",
+      "bytes": 1161,
+      "path": "CI-RECEIPT.json",
+      "sha256": "c305b9045e2a02e2cb11e74db6c9d0ce6c6b6bba300ce45ef1d60676c91e3eeb"
+    },
+    {
+      "blob": "c11a07006d082523ea0218e0f4415fb57fd3ba05",
+      "bytes": 592,
+      "path": "IDENTITY-RECEIPT.txt",
+      "sha256": "1bb07e07fab2ddfd98abf28510f72df4a3864be5971cacd4d3ede6979d009b91"
+    },
+    {
+      "blob": "50851cadbe5d23b18bc3fdee70a725ee379eed85",
+      "bytes": 671,
+      "path": "LOCAL-REPAIR-RECEIPT.json",
+      "sha256": "b11989afb5dfdf6edb64a2d3534cbffe4b96682c64c6b34601b60d0ad19769f1"
+    },
+    {
+      "blob": "11b1da23a762ef7a2acdd8367beae6a097f475a3",
+      "bytes": 3366,
+      "path": "MUTATION-RECEIPT.json",
+      "sha256": "7fe32af8d506ba3cac7da1f1981139858387669b27a7305d8c6db4001cc0ca7e"
+    },
+    {
+      "blob": "796d96beea79d1c976d989529967ab1ab7371f1b",
+      "bytes": 1911,
+      "path": "PLAN.md",
+      "sha256": "852d06968e1a964aa52af93a91d354ceb2b65ef3bcedad25f75fad6562829937"
+    },
+    {
+      "blob": "827cea3e98c27e3bea1f804e248a264b3531484c",
+      "bytes": 1130,
+      "path": "PROBES.txt",
+      "sha256": "60224e3cb2635b90096d57216c1a0bdf481bd4338533df89b2a3b7e80edca109"
+    },
+    {
+      "blob": "d13fc0d74e4fc8d4f750bf07ae2be63934b251b1",
+      "bytes": 680,
+      "path": "PUSH-RECEIPT.txt",
+      "sha256": "9d17134971fdfe0ce00d314b3ea1eaa79b742d6a0b37557b6d7116064dc99604"
+    },
+    {
+      "blob": "952d222f275f309c499924f0a619f910116cd80d",
+      "bytes": 15507,
+      "path": "REPORT.md",
+      "sha256": "ee87c6f407687b601e10e1db2e7eb304654e975b97b270643bfe67354df3c069"
+    },
+    {
+      "blob": "3786b6e3a223eda74394b6d200dbf98c46fc2bc5",
+      "bytes": 2944,
+      "path": "REPRODUCTION-RECEIPT.json",
+      "sha256": "d98034849757ade29ddc6ccdea0997dddae93c4d242001fe0f0d3af9f8e7ed26"
+    },
+    {
+      "blob": "dce6de026cef641a5fbfb86d83c108515295caa3",
+      "bytes": 616,
+      "path": "SOURCE-PRESERVATION-RECEIPT.json",
+      "sha256": "bc2e8e350860b6dc5261a32aa65b4780185a294ef13bb25b01fb90c1f4f8f972"
+    },
+    {
+      "blob": "5d6acb94fd3c5e0f66c46e1bcfff571a86d89593",
+      "bytes": 9265,
+      "path": "SOURCE-RECEIPT.json",
+      "sha256": "09faa1f61ec09f63fbebcdde74a29b1d235e95201bbf82c931c703c4ab7dd925"
+    },
+    {
+      "blob": "c5d392e51bbe1820d0eea4b55a36d6257cc8ecf2",
+      "bytes": 1403,
+      "path": "STATUS-ROWS-RECEIPT.json",
+      "sha256": "af4337174684b64320f37679d7dc7d1d7686272e68ca0b9fa5e7dae6ac5d315b"
+    },
+    {
+      "blob": "af4d750491a30de2698dbd11924fb3ef0d506c1f",
+      "bytes": 208784,
+      "path": "screens/appfolio-discovery-1440.png",
+      "sha256": "60cfb10bc77662767b6f580f0be737cd8d36d884ad782e549ed577718497f897"
+    },
+    {
+      "blob": "b723125fa1b2d2565d1d69c9ab6b7eb42c7a429f",
+      "bytes": 93808,
+      "path": "screens/appfolio-discovery-390.png",
+      "sha256": "128d9e92f7d49a5c896c762f1203abf764d633815ec5eb8f8d141bbbd34a1b8c"
+    },
+    {
+      "blob": "8faf95447ca95c88fb179250eb272156f28a79ba",
+      "bytes": 211620,
+      "path": "screens/appfolio-gaps-1440.png",
+      "sha256": "f06b58530cf73eaaddb0797f4876ef6b957bc1e85d4e2b2c4ab3171ffa91871b"
+    },
+    {
+      "blob": "d861a6e0fb899fb747fb757961bd5275186b012a",
+      "bytes": 92021,
+      "path": "screens/appfolio-gaps-390.png",
+      "sha256": "9820bda8bc384d6fe5125e0ffc89ffc601860a135fb64f71ddfa89fdb4714d8e"
+    },
+    {
+      "blob": "6081d09b95a9aff561452b2b9a541ed5d82cd9c4",
+      "bytes": 231695,
+      "path": "screens/buildium-discovery-1440.png",
+      "sha256": "299db280208d613257d797bfccb349bfd23973c5e97b62c0a9dcc3de5e890659"
+    },
+    {
+      "blob": "b263c49b1620d642773ad4d1c5b5d8092410d632",
+      "bytes": 103636,
+      "path": "screens/buildium-discovery-390.png",
+      "sha256": "f1d2c379391e35d42edeef5e397c84830617d60e39ad7d621ad8da2f84b9ccc8"
+    },
+    {
+      "blob": "8e7756bdfdab54626a09d5cacd3ebe7ae382b887",
+      "bytes": 186642,
+      "path": "screens/buildium-gaps-1440.png",
+      "sha256": "9ff3f6025883b1392aba7e579f310159752025d0c18209eb9c9d220a87f34fa9"
+    },
+    {
+      "blob": "7aaef3a5fd3b55236e2438b3e577f8fd1daae6bf",
+      "bytes": 82004,
+      "path": "screens/buildium-gaps-390.png",
+      "sha256": "e07b839c2a53ab71fdaebd55e8aa976a83e7924c8d7f04e7c7e0faf6d526c7ff"
+    },
+    {
+      "blob": "b4bdf8df437516d266c379dabeee33b6abb1d6d5",
+      "bytes": 231155,
+      "path": "screens/rent-manager-discovery-1440.png",
+      "sha256": "44e3d9c6693efbc96dbd6809ab6040349ad24cf90c988a69403489cf080b1cda"
+    },
+    {
+      "blob": "44a1c05e1a3e6bba6525eecfa1a3256f5f8fd8ff",
+      "bytes": 103661,
+      "path": "screens/rent-manager-discovery-390.png",
+      "sha256": "6b83c1cc2e1fe94e021c9164e5335374f1b395397b163b239df367485d5f5569"
+    },
+    {
+      "blob": "b33bed2d5b96e6bef23b4d332640004449dfa1ed",
+      "bytes": 195949,
+      "path": "screens/rent-manager-gaps-1440.png",
+      "sha256": "a085b320c23322ab35096d7c24d8d48c6e162db9b67d251e402c8acaa836ffda"
+    },
+    {
+      "blob": "1f40c312d157ed32e48541095d2becc2378e0d46",
+      "bytes": 84164,
+      "path": "screens/rent-manager-gaps-390.png",
+      "sha256": "4f75ecc84d9c4d59eceebf50a27ccb49d25dfb1977fd9e04073e1c08f6819631"
+    }
+  ],
+  "product_branch": "cloud/sx-terrace-c-f89",
+  "product_head": "b572d41893a560d29d089b698e1770d4b1882fef",
+  "ref": "refs/heads/evidence/sx-terrace-c-f89",
+  "repository": "just-every/run-terrace",
+  "schema": 1,
+  "tag": "sx-terrace-c-f89"
+}

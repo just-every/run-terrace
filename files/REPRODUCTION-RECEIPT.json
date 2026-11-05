@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "checkedAt": "2026-11-05T21:38:42.422272+00:00",
+  "inheritedFailure": {
+    "head": "c4676d0dd270f49f68976d87d09c98d5de79847b",
+    "run": 42103858627,
+    "job": 127513511467,
+    "test": "inspectSwitchChecklists: icon permalink tooltip appears on keyboard focus",
+    "failure": "AssertionError: '0' !== '1'",
+    "workflowCommand": "node scripts/verify-ci.mjs runtime"
+  },
+  "failedShaReproduction": {
+    "head": "c4676d0dd270f49f68976d87d09c98d5de79847b",
+    "command": "node scripts/verify-ci.mjs runtime",
+    "node": "22.20.0",
+    "CI": true,
+    "WRANGLER_SEND_METRICS": false,
+    "PLAYWRIGHT_SKIP_BROWSER_GC": 1,
+    "SHARD": "runtime",
+    "browser": "/usr/bin/chromium",
+    "timeoutSeconds": 1200,
+    "exit": 0,
+    "outcome": "VERIFY_NOT_REPRODUCED",
+    "observed": [
+      "PROBE MOVE-012 1: GET /docs/switch-checklists -> AppFolio 194 sourced rows; complete inventory explicitly unqualified",
+      "PROBE MOVE-012 2: GET /docs/switch-checklists -> Buildium 86 sourced rows; complete inventory explicitly unqualified",
+      "PROBE MOVE-012 3: GET /docs/switch-checklists -> Rent Manager 110 sourced rows; complete inventory explicitly unqualified",
+      "PROBE MOVE-012 4: built public inventory -> every inventoried workflow has a named Gap; unsupported boundary and partner workflows remain visible",
+      "PROBE MOVE-012 5: built corporate accounting rows -> AppFolio and Buildium corporate books and Rent Manager company reports remain gaps",
+      "PROBE MOVE-012 6: built telephone maintenance rows -> sourced AppFolio, Buildium and Rent Manager call intake remain named gaps",
+      "PROBE MOVE-012 7: built technician GPS row -> Rent Manager Service Tech Map remains a gap; association violations GPS remains separate",
+      "PROBE MOVE-012 8: built scheduled-report rows -> rendered Buildium scheduling and owner-portal delivery, and Rent Manager scheduled report batches remain sourced gaps; unaudited AppFolio and remaining help areas stay disclosed",
+      "TER-012 passed: run site /, /run, /docs and a 404 document; linked tenancy and ledger actions with a stacked 390-pixel ledger",
+      "Agent door conformance: 1753/1753 points passed.",
+      "verify: complete (exit 0)"
+    ]
+  },
+  "mainComparison": {
+    "head": "354b7960edf19cf7934767caea70080104fc6cc3",
+    "command": "pnpm run test:app-journey",
+    "node": "22.20.0",
+    "browser": "/usr/bin/chromium",
+    "exit": 0,
+    "outcome": "Same public app journey passed on the same runner."
+  },
+  "repairDecision": "No tooltip code or assertion repair was attempted. The candidate retains the existing assertion. This does not classify the inherited CI failure as a proven infrastructure flake or claim a successful failed-job rerun.",
+  "candidate": {
+    "head": "b572d41893a560d29d089b698e1770d4b1882fef",
+    "publicAppJourneyExit": 0,
+    "verifyRun": 42113801998,
+    "verifyConclusion": "See CI-RECEIPT.json."
+  }
+}

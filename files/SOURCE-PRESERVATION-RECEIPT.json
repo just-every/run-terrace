@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "base": "c4676d0dd270f49f68976d87d09c98d5de79847b",
+  "head": "b572d41893a560d29d089b698e1770d4b1882fef",
+  "inventories": [
+    {
+      "incumbent": "appfolio",
+      "before": 194,
+      "after": 244,
+      "removedOrChanged": []
+    },
+    {
+      "incumbent": "buildium",
+      "before": 86,
+      "after": 151,
+      "removedOrChanged": []
+    },
+    {
+      "incumbent": "rent-manager",
+      "before": 110,
+      "after": 147,
+      "removedOrChanged": []
+    }
+  ],
+  "priorMappingsRetainedUnchanged": 390,
+  "priorSourceCapturesRetainedUnchanged": 30,
+  "acceptanceTextUnchanged": true
+}

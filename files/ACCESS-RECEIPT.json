@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "entries": [
+    {
+      "incumbent": "appfolio",
+      "url": "https://support.appfolio.com/",
+      "checkedAt": "2026-11-05T21:28:11.025041+00:00",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.appfolio.com/page-not-found-sub",
+      "responseSha256": "f66f46859aab6c4d834a3906f43a9c1bd3422ed49b6774889a20c3fa9fd954c1",
+      "title": "Page not found | AppFolio",
+      "qualification": "Public entry response only; linked and authenticated documentation has not been exhaustively audited. No access restriction or complete inventory is inferred from this response alone."
+    },
+    {
+      "incumbent": "buildium",
+      "url": "https://help.buildium.com/hc/s/",
+      "checkedAt": "2026-11-05T21:28:11.025879+00:00",
+      "httpStatus": 200,
+      "resolvedUrl": "https://help.buildium.com/hc/s/",
+      "responseSha256": "8194bcf70971a3e6c063281121e790fd81a4e4db24a618fe3a5380c199019cd6",
+      "title": "BuildiumHelpCenter",
+      "qualification": "Public entry response only; linked and authenticated documentation has not been exhaustively audited. No access restriction or complete inventory is inferred from this response alone."
+    },
+    {
+      "incumbent": "rent-manager",
+      "url": "https://www.rentmanager.com/support/",
+      "checkedAt": "2026-11-05T21:28:11.026513+00:00",
+      "httpStatus": 200,
+      "resolvedUrl": "https://www.rentmanager.com/support/",
+      "responseSha256": "9aa5f2c360b15da17d5072209618d4f1a077f44e53e02b0335be179c296e9a6c",
+      "title": "Customer Support - Rent Manager Property Management Software",
+      "qualification": "Public entry response only; linked and authenticated documentation has not been exhaustively audited. No access restriction or complete inventory is inferred from this response alone."
+    }
+  ]
+}

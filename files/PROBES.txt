@@ -1,0 +1,8 @@
+PROBE MOVE-012 1: GET /docs/switch-checklists -> AppFolio 244 sourced rows; complete inventory explicitly unqualified
+PROBE MOVE-012 2: GET /docs/switch-checklists -> Buildium 151 sourced rows; complete inventory explicitly unqualified
+PROBE MOVE-012 3: GET /docs/switch-checklists -> Rent Manager 147 sourced rows; complete inventory explicitly unqualified
+PROBE MOVE-012 4: built public inventory -> every inventoried workflow has a named Gap; unsupported boundary and partner workflows remain visible
+PROBE MOVE-012 5: built corporate accounting rows -> AppFolio and Buildium corporate books and Rent Manager company reports remain gaps
+PROBE MOVE-012 6: built telephone maintenance rows -> sourced AppFolio, Buildium and Rent Manager call intake remain named gaps
+PROBE MOVE-012 7: built technician GPS row -> Rent Manager Service Tech Map remains a gap; association violations GPS remains separate
+PROBE MOVE-012 8: built scheduled-report rows -> rendered Buildium scheduling and owner-portal delivery, and Rent Manager scheduled report batches remain sourced gaps; unaudited AppFolio and remaining help areas stay disclosed

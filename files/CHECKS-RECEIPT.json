@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "repository": "just-every/run-terrace",
+  "tag": "sx-terrace-c-f89",
+  "head": "b572d41893a560d29d089b698e1770d4b1882fef",
+  "branch": "cloud/sx-terrace-c-f89",
+  "checks": [
+    {
+      "name": "contract views write",
+      "command": "node scripts/contract-docs.mjs write",
+      "exit": 0,
+      "output": "Contract projections written; all 158 Status rows retained.\n",
+      "outputSha256": "b3d868de7eafa158172a6bc9f2d04f438e5f64537f5a17466feaad6d4b5a8c2d"
+    },
+    {
+      "name": "contract views check before restoring landing views",
+      "command": "node scripts/contract-docs.mjs check",
+      "exit": 0,
+      "output": "Contract projections match their source; all 158 Status rows retained.\n",
+      "outputSha256": "e794235f92f419fad96cd8d31bd61414fdf749c6a5705e0654267cc336dac677"
+    },
+    {
+      "name": "typecheck",
+      "command": "pnpm run typecheck",
+      "exit": 0,
+      "output": "\u2009WARN\u2009 Unsupported engine: wanted: {\"node\":\"22.20.0\"} (current: {\"node\":\"v24.19.0\",\"pnpm\":\"10.12.4\"})\n\n> @residential/terrace@0.1.4 typecheck /home/agent/rer-consolidation/work/sx-terrace-c-f89/run-terrace\n> tsc --build --incremental\n\n",
+      "outputSha256": "bdb6fe9453cac2fd7b61c8cbce8fc41fd464cf5013989f07c1874b5e7061e727"
+    },
+    {
+      "name": "first-party profile",
+      "command": "npx -y @runeditrun/rer check --profile first-party",
+      "exit": 0,
+      "output": "",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "source lock",
+      "command": "node scripts/edition-authoring/cli.mjs lock; node scripts/edition-authoring/cli.mjs check",
+      "exit": 0,
+      "ok": true,
+      "manifest": "bd6a0c592875e1272bfc41c51b0c91a19a55d93b1d8c895a97bd63642b52b247",
+      "lockSha256": "0dcaa0d01d676a7952584064fb7f6587b5e8bbc0af930b673b4b1630337cc66a"
+    },
+    {
+      "name": "source and built site assertions",
+      "command": "node --input-type=module -e import('./tests/site/assert-run-site.mjs').then(m=>m.assertRunSite())",
+      "exit": 0,
+      "observed": "Corrected artifact selector: source and site assertions passed"
+    }
+  ],
+  "mechanical": "MECHANICAL lock=node scripts/edition-authoring/cli.mjs lock and check exit=0; views=node scripts/contract-docs.mjs write and check exit=0; ledger=none exit=0",
+  "viewCustody": "Generated ACCEPTANCE.md and docs/CLAIMS.md checked locally and restored from origin main before each commit. Only the product checklist guide ships with its generator and corpus.",
+  "migrations": "No migration edits; ledger check not applicable.",
+  "statusRows": {
+    "parent": 158,
+    "candidate": 158,
+    "dropped": []
+  },
+  "tests": {
+    "before": 50,
+    "after": 50,
+    "cap": 200
+  },
+  "claims": "No DONE flip, new acceptance sentence, qualified replacement, provider authority or financial execution."
+}

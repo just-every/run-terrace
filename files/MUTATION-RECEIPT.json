@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "baseline": "valid corpus accepted",
+  "mutations": [
+    {
+      "id": "remove-corporate-workflow",
+      "point": 5,
+      "publicDoor": "node scripts/switch-checklists.mjs check",
+      "mutation": "remove-corporate-workflow",
+      "observed": "Switch checklist: source-to-workflow reconciliation failed: af-accounting",
+      "outcome": "rejected"
+    },
+    {
+      "id": "remove-call-intake-workflow",
+      "point": 6,
+      "publicDoor": "node scripts/switch-checklists.mjs check",
+      "mutation": "remove-call-intake-workflow",
+      "observed": "Switch checklist: source-to-workflow reconciliation failed: bu-telephone",
+      "outcome": "rejected"
+    },
+    {
+      "id": "remove-technician-location-workflow",
+      "point": 7,
+      "publicDoor": "node scripts/switch-checklists.mjs check",
+      "mutation": "remove-technician-location-workflow",
+      "observed": "Switch checklist: source-to-workflow reconciliation failed: rm-maintenance",
+      "outcome": "rejected"
+    },
+    {
+      "id": "remove-scheduled-report-workflow",
+      "point": 8,
+      "publicDoor": "node scripts/switch-checklists.mjs check",
+      "mutation": "remove-scheduled-report-workflow",
+      "observed": "Switch checklist: source-to-workflow reconciliation failed: rm-schedules",
+      "outcome": "rejected"
+    },
+    {
+      "id": "drop-discovered-source-url",
+      "point": "1\u20133 source audit",
+      "publicDoor": "node scripts/switch-checklists.mjs check",
+      "mutation": "drop-discovered-source-url",
+      "observed": "Switch checklist: discovery audit must retain every captured URL exactly once: appfolio",
+      "outcome": "rejected"
+    },
+    {
+      "id": "substitute-unrelated-discovery-source",
+      "point": "1\u20133 source audit",
+      "publicDoor": "node scripts/switch-checklists.mjs check",
+      "mutation": "substitute-unrelated-discovery-source",
+      "observed": "Switch checklist: discovery URL must reconcile to its actual retained sources: https://www.appfolio.com/",
+      "outcome": "rejected"
+    },
+    {
+      "id": "remove-source-provenance",
+      "point": "1\u20134 provenance",
+      "publicDoor": "node scripts/switch-checklists.mjs check",
+      "mutation": "remove-source-provenance",
+      "observed": "Switch checklist: missing raw source hash",
+      "outcome": "rejected"
+    },
+    {
+      "id": "promote-boundary-to-covered",
+      "point": 4,
+      "publicDoor": "node scripts/switch-checklists.mjs check",
+      "mutation": "promote-boundary-to-covered",
+      "observed": "Switch checklist: Covered needs current passed acceptance matching actor, public door, prerequisites and outcome: af-accounting-01",
+      "outcome": "rejected"
+    }
+  ],
+  "limitation": "These finite refusals do not establish complete official-documentation inventory coverage.",
+  "head": "b572d41893a560d29d089b698e1770d4b1882fef",
+  "sourceHashes": {
+    "scripts/switch-checklists.mjs": "46d1e2d9d40d31efa77a99a6d0aa5da5e0774aefad5ba700d4806b004bd27007",
+    "docs/switch-checklists.json": "6af413675005a114f694c0dc6b3e7814b95d80612df9091ff0f0bfe1713c83d0",
+    "docs/switch-checklist-sources/manifest.json": "4d10ed8635afa241c7329a36e14b0193fb6bba823849c9410459ea1fbc1b2f39",
+    "docs/switch-checklist-sources/discovery-audit.json": "bcc846d0ac65bfda9caf60830cf4afd45f9b548b6f0e8df2c72f70504274b087"
+  }
+}

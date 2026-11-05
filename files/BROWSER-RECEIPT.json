@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "repository": "just-every/run-terrace",
+  "tag": "sx-terrace-c-f89",
+  "head": "b572d41893a560d29d089b698e1770d4b1882fef",
+  "command": "TERRACE_CHROMIUM_PATH=/usr/bin/chromium TERRACE_SWITCH_SCREENS=<packet screens> node tests/app-journey.mjs",
+  "node": "22.20.0",
+  "timeoutSeconds": 1200,
+  "exit": 0,
+  "checkedAt": "2026-11-05T21:36:52.073776+00:00",
+  "probes": [
+    "PROBE MOVE-012 1: GET /docs/switch-checklists -> AppFolio 244 sourced rows; complete inventory explicitly unqualified",
+    "PROBE MOVE-012 2: GET /docs/switch-checklists -> Buildium 151 sourced rows; complete inventory explicitly unqualified",
+    "PROBE MOVE-012 3: GET /docs/switch-checklists -> Rent Manager 147 sourced rows; complete inventory explicitly unqualified",
+    "PROBE MOVE-012 4: built public inventory -> every inventoried workflow has a named Gap; unsupported boundary and partner workflows remain visible",
+    "PROBE MOVE-012 5: built corporate accounting rows -> AppFolio and Buildium corporate books and Rent Manager company reports remain gaps",
+    "PROBE MOVE-012 6: built telephone maintenance rows -> sourced AppFolio, Buildium and Rent Manager call intake remain named gaps",
+    "PROBE MOVE-012 7: built technician GPS row -> Rent Manager Service Tech Map remains a gap; association violations GPS remains separate",
+    "PROBE MOVE-012 8: built scheduled-report rows -> rendered Buildium scheduling and owner-portal delivery, and Rent Manager scheduled report batches remain sourced gaps; unaudited AppFolio and remaining help areas stay disclosed"
+  ],
+  "artifacts": [
+    {
+      "path": "screens/appfolio-discovery-1440.png",
+      "bytes": 208784,
+      "sha256": "60cfb10bc77662767b6f580f0be737cd8d36d884ad782e549ed577718497f897",
+      "width": 1440,
+      "height": 900,
+      "inspected": true
+    },
+    {
+      "path": "screens/appfolio-discovery-390.png",
+      "bytes": 93808,
+      "sha256": "128d9e92f7d49a5c896c762f1203abf764d633815ec5eb8f8d141bbbd34a1b8c",
+      "width": 390,
+      "height": 844,
+      "inspected": true
+    },
+    {
+      "path": "screens/appfolio-gaps-1440.png",
+      "bytes": 211620,
+      "sha256": "f06b58530cf73eaaddb0797f4876ef6b957bc1e85d4e2b2c4ab3171ffa91871b",
+      "width": 1440,
+      "height": 900,
+      "inspected": true
+    },
+    {
+      "path": "screens/appfolio-gaps-390.png",
+      "bytes": 92021,
+      "sha256": "9820bda8bc384d6fe5125e0ffc89ffc601860a135fb64f71ddfa89fdb4714d8e",
+      "width": 390,
+      "height": 844,
+      "inspected": true
+    },
+    {
+      "path": "screens/buildium-discovery-1440.png",
+      "bytes": 231695,
+      "sha256": "299db280208d613257d797bfccb349bfd23973c5e97b62c0a9dcc3de5e890659",
+      "width": 1440,
+      "height": 900,
+      "inspected": true
+    },
+    {
+      "path": "screens/buildium-discovery-390.png",
+      "bytes": 103636,
+      "sha256": "f1d2c379391e35d42edeef5e397c84830617d60e39ad7d621ad8da2f84b9ccc8",
+      "width": 390,
+      "height": 844,
+      "inspected": true
+    },
+    {
+      "path": "screens/buildium-gaps-1440.png",
+      "bytes": 186642,
+      "sha256": "9ff3f6025883b1392aba7e579f310159752025d0c18209eb9c9d220a87f34fa9",
+      "width": 1440,
+      "height": 900,
+      "inspected": true
+    },
+    {
+      "path": "screens/buildium-gaps-390.png",
+      "bytes": 82004,
+      "sha256": "e07b839c2a53ab71fdaebd55e8aa976a83e7924c8d7f04e7c7e0faf6d526c7ff",
+      "width": 390,
+      "height": 844,
+      "inspected": true
+    },
+    {
+      "path": "screens/rent-manager-discovery-1440.png",
+      "bytes": 231155,
+      "sha256": "44e3d9c6693efbc96dbd6809ab6040349ad24cf90c988a69403489cf080b1cda",
+      "width": 1440,
+      "height": 900,
+      "inspected": true
+    },
+    {
+      "path": "screens/rent-manager-discovery-390.png",
+      "bytes": 103661,
+      "sha256": "6b83c1cc2e1fe94e021c9164e5335374f1b395397b163b239df367485d5f5569",
+      "width": 390,
+      "height": 844,
+      "inspected": true
+    },
+    {
+      "path": "screens/rent-manager-gaps-1440.png",
+      "bytes": 195949,
+      "sha256": "a085b320c23322ab35096d7c24d8d48c6e162db9b67d251e402c8acaa836ffda",
+      "width": 1440,
+      "height": 900,
+      "inspected": true
+    },
+    {
+      "path": "screens/rent-manager-gaps-390.png",
+      "bytes": 84164,
+      "sha256": "4f75ecc84d9c4d59eceebf50a27ccb49d25dfb1977fd9e04073e1c08f6819631",
+      "width": 390,
+      "height": 844,
+      "inspected": true
+    }
+  ],
+  "inspection": "All twelve desktop and phone images inspected: named gaps and discovery audit for every incumbent remain readable; official source links and long URLs wrap within each viewport. All source, navigation, row and tooltip assertions run unconditionally at desktop width, plus existing phone fit smoke."
+}
