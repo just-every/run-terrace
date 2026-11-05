@@ -8,33 +8,33 @@ The [source-corpus manifest](switch-checklist-sources/manifest.json) retains sep
 
 ## Corpus coverage and uncertainty
 
-Public HTTPS response captured on the stated UTC date. Capture text decodes HTML entities, drops script, style, noscript and SVG contents, collapses whitespace by block, omits addresses and expands ambiguous word slash pairs. Raw response and retained normalized text have separate SHA-256 hashes. Hashes identify captures, not present-day source currency.
+Public HTTPS response captured on the stated UTC date. Capture text decodes HTML entities, drops script, style, noscript and SVG contents, collapses whitespace by block, omits addresses and expands ambiguous word slash pairs. Raw response and retained normalized text have separate SHA-256 hashes. Hashes identify captures, not present-day source currency. Browser-rendered sources explicitly retain hashes for the initial HTTP response, the loaded document and the normalized visible article text; a loading shell is never substituted for the article.
 
 ### AppFolio source coverage
 
 **Incomplete inventory:** Complete official-source inventory remains unqualified: selected public pages are only partially audited; help hubs, account-only documentation, nested source areas and linked material may contain omitted workflows.
 
-150 inventoried workflows from 9 partially audited pages; 3 unaudited captures. [Discovery register](switch-checklist-sources/appfolio-discovery.txt): 620 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
+194 inventoried workflows from 11 partially audited pages; 1 unaudited captures. [Discovery register](switch-checklist-sources/appfolio-discovery.txt): 620 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
 
 Discovery raw SHA-256: `fb6caeb03cac37cae19ab8e5ae1dca27374d82af0de5fb299e3048f081740190`. Retained register SHA-256: `f377f2fc41e5df91d8f8d6ad4dd7e5538ed5a34e5b0a23f18560ad9a0cb77703`.
 
 **Unaudited area — Technician GPS and scheduled reports:** Exact capability boundaries in unreviewed or inaccessible official documentation remain unaudited. Association violations GPS and workflow schedule triggers do not establish technician location tracking or report delivery.
 
-**Captured source areas awaiting review:** af-accounting lines 1–36 (Unreconciled captured text); af-accounting lines 38–42 (Unreconciled captured text); af-accounting lines 44–51 (Unreconciled captured text); af-accounting lines 53–56 (Unreconciled captured text); af-accounting lines 60–63 (Unreconciled captured text); af-accounting lines 65–65 (Unreconciled captured text); af-accounting lines 67–67 (Unreconciled captured text); af-accounting lines 69–69 (Unreconciled captured text); af-accounting lines 71–71 (Unreconciled captured text); af-accounting lines 73–73 (Unreconciled captured text); af-accounting lines 75–77 (Unreconciled captured text); af-accounting lines 79–81 (Unreconciled captured text); af-accounting lines 83–83 (Unreconciled captured text); af-accounting lines 85–87 (Unreconciled captured text); af-accounting lines 89–89 (Unreconciled captured text); af-accounting lines 91–91 (Unreconciled captured text); af-accounting lines 93–93 (Unreconciled captured text); af-accounting lines 95–167 (Unreconciled captured text); af-maintenance lines 1–24 (Unreconciled captured text); af-maintenance lines 26–36 (Unreconciled captured text); af-maintenance lines 38–44 (Unreconciled captured text); af-maintenance lines 46–47 (Unreconciled captured text); af-maintenance lines 51–51 (Unreconciled captured text); af-maintenance lines 53–60 (Unreconciled captured text); af-maintenance lines 62–62 (Unreconciled captured text); af-maintenance lines 64–66 (Unreconciled captured text); af-maintenance lines 68–68 (Unreconciled captured text); af-maintenance lines 70–70 (Unreconciled captured text); af-maintenance lines 72–72 (Unreconciled captured text); af-maintenance lines 74–74 (Unreconciled captured text); af-maintenance lines 76–78 (Unreconciled captured text); af-maintenance lines 80–179 (Unreconciled captured text); af-vendor lines 1–14 (Unreconciled captured text); af-vendor lines 16–19 (Unreconciled captured text); af-vendor lines 21–35 (Unreconciled captured text); af-vendor lines 38–40 (Unreconciled captured text); af-vendor lines 42–51 (Unreconciled captured text); af-vendor lines 53–68 (Unreconciled captured text); af-vendor lines 70–81 (Unreconciled captured text); af-vendor lines 83–87 (Unreconciled captured text); af-vendor lines 89–89 (Unreconciled captured text); af-vendor lines 91–98 (Unreconciled captured text); af-vendor lines 101–112 (Unreconciled captured text); af-vendor lines 114–115 (Unreconciled captured text); af-vendor lines 118–123 (Unreconciled captured text); af-vendor lines 125–125 (Unreconciled captured text); af-vendor lines 127–135 (Unreconciled captured text); af-vendor lines 137–137 (Unreconciled captured text); af-vendor lines 140–140 (Unreconciled captured text); af-vendor lines 142–147 (Unreconciled captured text); af-vendor lines 149–198 (Unreconciled captured text); af-resident lines 1–13 (Unreconciled captured text); af-resident lines 15–18 (Unreconciled captured text); af-resident lines 20–27 (Unreconciled captured text); af-resident lines 29–36 (Unreconciled captured text); af-resident lines 38–42 (Unreconciled captured text); af-resident lines 45–45 (Unreconciled captured text); af-resident lines 47–47 (Unreconciled captured text); af-resident lines 49–50 (Unreconciled captured text); af-resident lines 52–57 (Unreconciled captured text); af-resident lines 59–60 (Unreconciled captured text); af-resident lines 62–62 (Unreconciled captured text); af-resident lines 64–65 (Unreconciled captured text); af-resident lines 67–67 (Unreconciled captured text); af-resident lines 69–73 (Unreconciled captured text); af-resident lines 75–75 (Unreconciled captured text); af-resident lines 77–95 (Unreconciled captured text); af-resident lines 97–116 (Unreconciled captured text); af-resident lines 118–118 (Unreconciled captured text); af-resident lines 120–122 (Unreconciled captured text); af-resident lines 124–124 (Unreconciled captured text); af-resident lines 126–126 (Unreconciled captured text); af-resident lines 128–135 (Unreconciled captured text); af-resident lines 137–137 (Unreconciled captured text); af-resident lines 139–190 (Unreconciled captured text); af-platform lines 1–185 (Unreconciled captured text); af-smart-blog lines 1–20 (Unreconciled captured text); af-smart-blog lines 22–22 (Unreconciled captured text); af-smart-blog lines 24–88 (Unreconciled captured text); af-reports lines 1–26 (Unreconciled captured text); af-reports lines 28–29 (Unreconciled captured text); af-reports lines 32–94 (Unreconciled captured text); af-marketing lines 1–20 (Unreconciled captured text); af-marketing lines 22–29 (Unreconciled captured text); af-marketing lines 32–32 (Unreconciled captured text); af-marketing lines 34–53 (Unreconciled captured text); af-marketing lines 55–55 (Unreconciled captured text); af-marketing lines 58–59 (Unreconciled captured text); af-marketing lines 61–63 (Unreconciled captured text); af-marketing lines 65–69 (Unreconciled captured text); af-marketing lines 71–71 (Unreconciled captured text); af-marketing lines 73–73 (Unreconciled captured text); af-marketing lines 75–75 (Unreconciled captured text); af-marketing lines 77–77 (Unreconciled captured text); af-marketing lines 79–79 (Unreconciled captured text); af-marketing lines 81–81 (Unreconciled captured text); af-marketing lines 83–83 (Unreconciled captured text); af-marketing lines 85–87 (Unreconciled captured text); af-marketing lines 89–89 (Unreconciled captured text); af-marketing lines 91–91 (Unreconciled captured text); af-marketing lines 93–93 (Unreconciled captured text); af-marketing lines 95–95 (Unreconciled captured text); af-marketing lines 97–97 (Unreconciled captured text); af-marketing lines 99–99 (Unreconciled captured text); af-marketing lines 101–101 (Unreconciled captured text); af-marketing lines 103–103 (Unreconciled captured text); af-marketing lines 105–105 (Unreconciled captured text); af-marketing lines 107–263 (Unreconciled captured text); af-communication lines 1–29 (Unreconciled captured text); af-communication lines 31–37 (Unreconciled captured text); af-communication lines 40–41 (Unreconciled captured text); af-communication lines 43–43 (Unreconciled captured text); af-communication lines 47–53 (Unreconciled captured text); af-communication lines 55–55 (Unreconciled captured text); af-communication lines 57–57 (Unreconciled captured text); af-communication lines 59–59 (Unreconciled captured text); af-communication lines 61–61 (Unreconciled captured text); af-communication lines 63–63 (Unreconciled captured text); af-communication lines 65–65 (Unreconciled captured text); af-communication lines 67–67 (Unreconciled captured text); af-communication lines 69–69 (Unreconciled captured text); af-communication lines 71–71 (Unreconciled captured text); af-communication lines 73–73 (Unreconciled captured text); af-communication lines 75–75 (Unreconciled captured text); af-communication lines 77–77 (Unreconciled captured text); af-communication lines 79–79 (Unreconciled captured text); af-communication lines 81–209 (Unreconciled captured text); af-automation lines 1–27 (Unreconciled captured text); af-automation lines 36–61 (Unreconciled captured text); af-automation lines 63–63 (Unreconciled captured text); af-automation lines 65–65 (Unreconciled captured text); af-automation lines 67–67 (Unreconciled captured text); af-automation lines 69–69 (Unreconciled captured text); af-automation lines 71–71 (Unreconciled captured text); af-automation lines 73–73 (Unreconciled captured text); af-automation lines 75–75 (Unreconciled captured text); af-automation lines 77–203 (Unreconciled captured text); af-smart-maintenance lines 1–27 (Unreconciled captured text); af-owner lines 1–194 (Unreconciled captured text).
+**Captured source areas awaiting review:** 163 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
 
 ### Buildium source coverage
 
 **Incomplete inventory:** Complete official-source inventory remains unqualified: selected public pages are only partially audited; help hubs, account-only documentation, nested source areas and linked material may contain omitted workflows.
 
-55 inventoried workflows from 8 partially audited pages; 2 unaudited captures. [Discovery register](switch-checklist-sources/buildium-discovery.txt): 171 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
+86 inventoried workflows from 10 partially audited pages; 0 unaudited captures. [Discovery register](switch-checklist-sources/buildium-discovery.txt): 171 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
 
 Discovery raw SHA-256: `fd9c781afb1796c103da3fb7bfd4c3d94d67972bd76e3256e499ba00fe4c0d5b`. Retained register SHA-256: `9e822554e4881605f8b1dfafe1bdcd13c3197a622312b637b5f1b1eb692d983c`.
 
-**Unaudited area — Technician GPS and scheduled-report configuration details:** Technician location tracking is not established by the reviewed public sources. Reporting Automation documents automatic report sends; the separate official help article remains inaccessible, so its scheduling and delivery details remain unaudited.
+**Unaudited area — Technician GPS and remaining report documentation:** Technician location tracking remains unestablished by the reviewed public sources. Scheduled generation and owner-portal delivery are now documented in the rendered official help article; related reports, help links and complete source coverage remain unaudited.
 
-**Unaudited area — Scheduled reports — official help contents inaccessible:** The Schedule Batched Reports official help URL still returns HTTP 200 with a loading shell and CSS Error. Reporting Automation is independently documented on the public automation page and retained as a named gap; the help article contents and complete reporting inventory remain unqualified. [Official source area](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports)
+**Unaudited area — Related scheduled-report help articles and supported report details:** The official Schedule Batched Reports article now loads in a clean browser and its documented workflows remain gaps. Linked batched-report articles, available-report details and any authenticated documentation remain unaudited; this retrieved article does not establish complete Buildium coverage. [Official source area](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports)
 
-**Captured source areas awaiting review:** bu-accounting lines 1–73 (Unreconciled captured text); bu-accounting lines 75–78 (Unreconciled captured text); bu-accounting lines 80–80 (Unreconciled captured text); bu-accounting lines 82–96 (Unreconciled captured text); bu-accounting lines 98–103 (Unreconciled captured text); bu-accounting lines 105–144 (Unreconciled captured text); bu-company lines 1–71 (Unreconciled captured text); bu-company lines 73–78 (Unreconciled captured text); bu-company lines 80–80 (Unreconciled captured text); bu-company lines 82–120 (Unreconciled captured text); bu-telephone lines 1–68 (Unreconciled captured text); bu-telephone lines 70–77 (Unreconciled captured text); bu-telephone lines 79–87 (Unreconciled captured text); bu-telephone lines 89–135 (Unreconciled captured text); bu-maintenance lines 1–73 (Unreconciled captured text); bu-maintenance lines 75–87 (Unreconciled captured text); bu-maintenance lines 92–93 (Unreconciled captured text); bu-maintenance lines 97–98 (Unreconciled captured text); bu-maintenance lines 100–100 (Unreconciled captured text); bu-maintenance lines 102–111 (Unreconciled captured text); bu-maintenance lines 113–189 (Unreconciled captured text); bu-platform lines 1–235 (Unreconciled captured text); bu-scheduled-help lines 1–5 (Unreconciled captured text); bu-automation lines 1–77 (Unreconciled captured text); bu-automation lines 79–80 (Unreconciled captured text); bu-automation lines 82–83 (Unreconciled captured text); bu-automation lines 85–86 (Unreconciled captured text); bu-automation lines 88–89 (Unreconciled captured text); bu-automation lines 91–125 (Unreconciled captured text); bu-automation lines 130–130 (Unreconciled captured text); bu-automation lines 132–173 (Unreconciled captured text); bu-analytics lines 1–69 (Unreconciled captured text); bu-analytics lines 71–71 (Unreconciled captured text); bu-analytics lines 73–73 (Unreconciled captured text); bu-analytics lines 75–110 (Unreconciled captured text); bu-leasing lines 1–69 (Unreconciled captured text); bu-leasing lines 71–74 (Unreconciled captured text); bu-leasing lines 76–76 (Unreconciled captured text); bu-leasing lines 78–113 (Unreconciled captured text); bu-resident lines 1–73 (Unreconciled captured text); bu-resident lines 75–83 (Unreconciled captured text); bu-resident lines 87–87 (Unreconciled captured text); bu-resident lines 89–90 (Unreconciled captured text); bu-resident lines 93–94 (Unreconciled captured text); bu-resident lines 98–98 (Unreconciled captured text); bu-resident lines 100–102 (Unreconciled captured text); bu-resident lines 104–105 (Unreconciled captured text); bu-resident lines 107–108 (Unreconciled captured text); bu-resident lines 110–111 (Unreconciled captured text); bu-resident lines 113–114 (Unreconciled captured text); bu-resident lines 116–139 (Unreconciled captured text); bu-resident lines 141–180 (Unreconciled captured text).
+**Captured source areas awaiting review:** 73 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
 
 ### Rent Manager source coverage
 
@@ -46,11 +46,11 @@ Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b
 
 **Unaudited area — Remaining leasing, communications, portals, customization and authenticated help:** Not exhaustively audited; the selected accounting and maintenance sources do not establish a complete inventory.
 
-**Captured source areas awaiting review:** rm-accounting lines 1–105 (Unreconciled captured text); rm-accounting lines 107–107 (Unreconciled captured text); rm-accounting lines 109–109 (Unreconciled captured text); rm-accounting lines 111–111 (Unreconciled captured text); rm-accounting lines 113–113 (Unreconciled captured text); rm-accounting lines 115–115 (Unreconciled captured text); rm-accounting lines 117–121 (Unreconciled captured text); rm-accounting lines 123–123 (Unreconciled captured text); rm-accounting lines 125–125 (Unreconciled captured text); rm-accounting lines 127–127 (Unreconciled captured text); rm-accounting lines 129–129 (Unreconciled captured text); rm-accounting lines 131–131 (Unreconciled captured text); rm-accounting lines 133–133 (Unreconciled captured text); rm-accounting lines 135–135 (Unreconciled captured text); rm-accounting lines 137–137 (Unreconciled captured text); rm-accounting lines 139–141 (Unreconciled captured text); rm-accounting lines 143–144 (Unreconciled captured text); rm-accounting lines 146–148 (Unreconciled captured text); rm-accounting lines 150–150 (Unreconciled captured text); rm-accounting lines 152–152 (Unreconciled captured text); rm-accounting lines 154–154 (Unreconciled captured text); rm-accounting lines 156–157 (Unreconciled captured text); rm-accounting lines 159–163 (Unreconciled captured text); rm-accounting lines 165–165 (Unreconciled captured text); rm-accounting lines 167–167 (Unreconciled captured text); rm-accounting lines 169–170 (Unreconciled captured text); rm-accounting lines 172–173 (Unreconciled captured text); rm-accounting lines 175–295 (Unreconciled captured text); rm-maintenance lines 1–105 (Unreconciled captured text); rm-maintenance lines 107–107 (Unreconciled captured text); rm-maintenance lines 109–109 (Unreconciled captured text); rm-maintenance lines 111–111 (Unreconciled captured text); rm-maintenance lines 113–113 (Unreconciled captured text); rm-maintenance lines 115–115 (Unreconciled captured text); rm-maintenance lines 118–118 (Unreconciled captured text); rm-maintenance lines 120–120 (Unreconciled captured text); rm-maintenance lines 122–124 (Unreconciled captured text); rm-maintenance lines 126–126 (Unreconciled captured text); rm-maintenance lines 128–128 (Unreconciled captured text); rm-maintenance lines 130–132 (Unreconciled captured text); rm-maintenance lines 134–134 (Unreconciled captured text); rm-maintenance lines 136–136 (Unreconciled captured text); rm-maintenance lines 138–140 (Unreconciled captured text); rm-maintenance lines 142–142 (Unreconciled captured text); rm-maintenance lines 144–144 (Unreconciled captured text); rm-maintenance lines 146–146 (Unreconciled captured text); rm-maintenance lines 148–273 (Unreconciled captured text); rm-reports lines 1–107 (Unreconciled captured text); rm-reports lines 109–109 (Unreconciled captured text); rm-reports lines 111–111 (Unreconciled captured text); rm-reports lines 113–115 (Unreconciled captured text); rm-reports lines 117–119 (Unreconciled captured text); rm-reports lines 121–121 (Unreconciled captured text); rm-reports lines 123–124 (Unreconciled captured text); rm-reports lines 126–126 (Unreconciled captured text); rm-reports lines 128–130 (Unreconciled captured text); rm-reports lines 132–132 (Unreconciled captured text); rm-reports lines 134–139 (Unreconciled captured text); rm-reports lines 141–261 (Unreconciled captured text); rm-schedules lines 1–102 (Unreconciled captured text); rm-schedules lines 104–105 (Unreconciled captured text); rm-schedules lines 107–107 (Unreconciled captured text); rm-schedules lines 109–111 (Unreconciled captured text); rm-schedules lines 113–233 (Unreconciled captured text); rm-telephone lines 1–102 (Unreconciled captured text); rm-telephone lines 104–105 (Unreconciled captured text); rm-telephone lines 107–107 (Unreconciled captured text); rm-telephone lines 109–111 (Unreconciled captured text); rm-telephone lines 113–117 (Unreconciled captured text); rm-telephone lines 119–119 (Unreconciled captured text); rm-telephone lines 121–121 (Unreconciled captured text); rm-telephone lines 123–133 (Unreconciled captured text); rm-telephone lines 135–260 (Unreconciled captured text); rm-mobile lines 1–105 (Unreconciled captured text); rm-mobile lines 107–108 (Unreconciled captured text); rm-mobile lines 110–111 (Unreconciled captured text); rm-mobile lines 117–117 (Unreconciled captured text); rm-mobile lines 119–119 (Unreconciled captured text); rm-mobile lines 121–121 (Unreconciled captured text); rm-mobile lines 124–246 (Unreconciled captured text); rm-leasing lines 1–105 (Unreconciled captured text); rm-leasing lines 107–110 (Unreconciled captured text); rm-leasing lines 112–114 (Unreconciled captured text); rm-leasing lines 117–118 (Unreconciled captured text); rm-leasing lines 120–122 (Unreconciled captured text); rm-leasing lines 124–126 (Unreconciled captured text); rm-leasing lines 128–129 (Unreconciled captured text); rm-leasing lines 131–131 (Unreconciled captured text); rm-leasing lines 133–135 (Unreconciled captured text); rm-leasing lines 137–137 (Unreconciled captured text); rm-leasing lines 139–139 (Unreconciled captured text); rm-leasing lines 141–141 (Unreconciled captured text); rm-leasing lines 143–144 (Unreconciled captured text); rm-leasing lines 146–146 (Unreconciled captured text); rm-leasing lines 148–148 (Unreconciled captured text); rm-leasing lines 150–152 (Unreconciled captured text); rm-leasing lines 154–154 (Unreconciled captured text); rm-leasing lines 156–156 (Unreconciled captured text); rm-leasing lines 158–278 (Unreconciled captured text); rm-owner lines 1–102 (Unreconciled captured text); rm-owner lines 104–105 (Unreconciled captured text); rm-owner lines 107–108 (Unreconciled captured text); rm-owner lines 110–110 (Unreconciled captured text); rm-owner lines 112–112 (Unreconciled captured text); rm-owner lines 115–115 (Unreconciled captured text); rm-owner lines 118–238 (Unreconciled captured text).
+**Captured source areas awaiting review:** 106 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
 
 ## AppFolio checklist
 
-**Partial official-source inventory. 150 workflows; additional source areas remain unaudited.**
+**Partial official-source inventory. 194 workflows; additional source areas remain unaudited.**
 
 ### AppFolio required named gaps
 
@@ -1566,15 +1566,457 @@ Documented in [Telephone maintenance intake · af-smart-blog-01](#telephone-main
 
 > Two-factor authentication defends against phishers, fraudsters, and unwanted users from accessing your sensitive financial and personal data in AppFolio.
 
+#### Owner invitation activation · af-owner-01
+
+**Gap:** Owner invitation activation remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Activate Your Owner Portal”, [capture](switch-checklist-sources/af-owner.txt) line 17.
+
+> Click the Activate Now button in the email from your property management company to begin setting up the Owner Portal
+
+#### Owner email confirmation · af-owner-02
+
+**Gap:** Owner email confirmation remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Activate Your Owner Portal”, [capture](switch-checklist-sources/af-owner.txt) line 19.
+
+> Now, navigate back to your email inbox to find this activation link and click Confirm my email.
+
+#### Owner password and two-factor authentication · af-owner-03
+
+**Gap:** Owner password and two-factor authentication remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [SAFE-001](#clause-safe-001) (done); [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Create a Password & Set Up Two-Factor Authentication”, [capture](switch-checklist-sources/af-owner.txt) line 24.
+
+> To keep your personal and financial information secure, your Owner Portal has an additional layer of security with two-factor authentication. This means signing into your portal will periodically require both a password and as well as a security code that will be sent via your preferred method.
+
+#### Owner remembered-device sign-in · af-owner-04
+
+**Gap:** Owner remembered-device sign-in remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Create a Password & Set Up Two-Factor Authentication”, [capture](switch-checklist-sources/af-owner.txt) line 28.
+
+> Additionally, you can check a box that remembers the device you’re on for 30 days, which will automatically log you into your Owner Portal without having to verify your email and password again.
+
+#### Owner phone verification migration · af-owner-05
+
+**Gap:** Owner phone verification migration remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Migrate to Phone Two-Factor Authentication”, [capture](switch-checklist-sources/af-owner.txt) line 44.
+
+> Next, you will be prompted to add a phone number with the following screen. You can set up phone verification via SMS or phone call. You can enter your mobile or landline number. We suggest providing the primary mobile number you use, one that is accessible all the time.
+
+#### Owner property income dashboard · af-owner-06
+
+**Gap:** Owner property income dashboard remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial); [REPORT-004](#clause-report-004) (done)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “View Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 49.
+
+> Total Income: All receipts against your properties.
+
+#### Owner paid-bill expense dashboard · af-owner-07
+
+**Gap:** Owner paid-bill expense dashboard remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial); [ACCT-012](#clause-acct-012) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “View Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 50.
+
+> Total Expense: All paid bills against your properties
+
+#### Owner contribution dashboard · af-owner-08
+
+**Gap:** Owner contribution dashboard remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “View Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 51.
+
+> ‘Your Contribution’ Total - The lump sum of all contributions you have made towards your properties
+
+#### Owner disbursement dashboard · af-owner-09
+
+**Gap:** Owner disbursement dashboard remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial); [ACCT-010](#clause-acct-010) (missing)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “View Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 52.
+
+> ‘Your Disbursement’ Total - The lump sum of all distributions made to you from the property management company
+
+#### Owner latest published statement packet · af-owner-10
+
+**Gap:** Owner latest published statement packet remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “View Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 53.
+
+> Most Recent Packet - The most recent packet shared with you by your property management company (click ‘See All’ to see all statements shared)
+
+#### Owner occupancy dashboard · af-owner-11
+
+**Gap:** Owner occupancy dashboard remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “View Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 54.
+
+> Occupancy percentage - The percentage of your active units that are occupied vs. vacant as of today’s date. (clicking ‘See More’ will take you to the Properties page for more information)
+
+#### Owner rent collection dashboard · af-owner-12
+
+**Gap:** Owner rent collection dashboard remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “View Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 55.
+
+> Rent Collection - The total amount of rent charged vs. rent paid month-to-date
+
+#### Owner income transaction drill-down · af-owner-13
+
+**Gap:** Owner income transaction drill-down remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “View Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 56.
+
+> Income breakdown - Each individual transaction that makes up the total shown at the top in Total Income
+
+#### Owner expense transaction drill-down · af-owner-14
+
+**Gap:** Owner expense transaction drill-down remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “View Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 57.
+
+> Expense breakdown - Each individual transaction that makes up the total shown at the top in Total Expense
+
+#### Owner entity and property dashboard filters · af-owner-15
+
+**Gap:** Owner entity and property dashboard filters remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “View Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 58.
+
+> By default, your dashboard will show you all active properties. However, if you would like to see specific properties or entities click the dropdown in the top left corner of your dashboard and choose either a specific entity (if your email address is affiliated with more than one entity) or choose a specific property under ownership. When you choose a different item from the dropdown your dashboard will automatically filter to show you details for the selected.
+
+#### Owner dashboard widget selection · af-owner-16
+
+**Gap:** Owner dashboard widget selection remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Customize Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 62.
+
+> Click ‘Select Widgets’ to add or remove portions of the dashboard
+
+#### Owner dashboard widget arrangement · af-owner-17
+
+**Gap:** Owner dashboard widget arrangement remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Customize Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 63.
+
+> Once you have your desired widgets, you can drag and drop them to different areas of the dashboard.
+
+#### Owner dashboard widget sizing · af-owner-18
+
+**Gap:** Owner dashboard widget sizing remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Customize Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 64.
+
+> Use the bottom right-hand corner of any widget to resize as desired
+
+#### Owner dashboard preferences across devices · af-owner-19
+
+**Gap:** Owner dashboard preferences across devices remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Customize Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 66.
+
+> The next time you log in, you will see the dashboard as you have personalized it - no matter what device you are using.
+
+#### Owner dashboard default restoration · af-owner-20
+
+**Gap:** Owner dashboard default restoration remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Customize Your Dashboard”, [capture](switch-checklist-sources/af-owner.txt) line 67.
+
+> If at any point you want to start over, there is a ‘Restore to Default’ option in the top left of Customize mode that will set your dashboard back to default settings.
+
+#### Owner live report generation · af-owner-21
+
+**Gap:** Owner live report generation remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial); [REPORT-004](#clause-report-004) (done)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Reports”, [capture](switch-checklist-sources/af-owner.txt) line 70.
+
+> The reports tab gives you the ability to run reports in real-time for your active properties. To run a report, follow these steps:
+
+#### Owner report property and date filters · af-owner-22
+
+**Gap:** Owner report property and date filters remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Reports”, [capture](switch-checklist-sources/af-owner.txt) line 72.
+
+> You will be brought to a ‘Customize’ screen where you can select the desired property and applicable date ranges (if you want to see all properties, don’t select any).
+
+#### Owner report text search · af-owner-23
+
+**Gap:** Owner report text search remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Reports”, [capture](switch-checklist-sources/af-owner.txt) line 75.
+
+> Find in Report allows you to search for specific words or numbers within the report
+
+#### Owner portrait and landscape report PDF · af-owner-24
+
+**Gap:** Owner portrait and landscape report PDF remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Reports”, [capture](switch-checklist-sources/af-owner.txt) line 76.
+
+> Print to PDF will give you the ability to print to PDF in either portrait or landscape view
+
+#### Owner Excel and CSV report export · af-owner-25
+
+**Gap:** Owner Excel and CSV report export remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Reports”, [capture](switch-checklist-sources/af-owner.txt) line 77.
+
+> Actions allows you to export the report to Excel or CSV
+
+#### Owner report data refresh · af-owner-26
+
+**Gap:** Owner report data refresh remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Reports”, [capture](switch-checklist-sources/af-owner.txt) line 78.
+
+> Refresh will update the report with any new data, if available
+
+#### Owner report column customization · af-owner-27
+
+**Gap:** Owner report column customization remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial); [REPORT-005](#clause-report-005) (done)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Reports”, [capture](switch-checklist-sources/af-owner.txt) line 79.
+
+> Customize will bring you back to the original customize screen to change your filters or columns, when applicable
+
+#### Owner active-property views across entities · af-owner-28
+
+**Gap:** Owner active-property views across entities remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Properties”, [capture](switch-checklist-sources/af-owner.txt) line 81.
+
+> The properties tab is home to all actively owned properties for any entity tied to your e-mail address. Not only can you quickly see the address but you also have a table with the following information:
+
+#### Owner property reserve display · af-owner-29
+
+**Gap:** Owner property reserve display remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Properties”, [capture](switch-checklist-sources/af-owner.txt) line 87.
+
+> If you have a reserve on the property, the amount will appear to the right of the address. For properties without a reserve amount, nothing will appear.
+
+#### Former-owner active-property suppression · af-owner-30
+
+**Gap:** Former-owner active-property suppression remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial); [ROLE-002](#clause-role-002) (done)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Properties”, [capture](switch-checklist-sources/af-owner.txt) line 88.
+
+> Your properties tab will only show you information for properties that are active as of today’s date. If your ownership ended on a specific property, you will not see that property on the Properties page.
+
+#### Owner published packet download · af-owner-31
+
+**Gap:** Owner published packet download remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “View Statements, Transactions, and Documents”, [capture](switch-checklist-sources/af-owner.txt) line 91.
+
+> Statements: View or download published statements and reports. Packets are ordered by date with the most recent at the top and will be grouped under the owner of record. Click Download Packet to download the packet to your computer or mobile device.
+
+#### Owner shared original download · af-owner-32
+
+**Gap:** Owner shared original download remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “View Statements, Transactions, and Documents”, [capture](switch-checklist-sources/af-owner.txt) line 93.
+
+> Documents: Any files your property manager has shared will be stored here. Click the name of the file to view it online, or click Download to save it to your computer.
+
+#### Owner bank account change · af-owner-33
+
+**Gap:** Owner bank account change remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Update Your Bank Account Information”, [capture](switch-checklist-sources/af-owner.txt) line 99.
+
+> 4. On this page, you can update or change your Routing Number, Account Number, and Account Type. When completed, check off the box to agree to the terms and finally, click Save Changes.
+
+#### Owner bank-change staff notification · af-owner-34
+
+**Gap:** Owner bank-change staff notification remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Update Your Bank Account Information”, [capture](switch-checklist-sources/af-owner.txt) line 100.
+
+> 5. Your property manager will then receive an email notification letting them know you have updated your bank account settings.
+
+#### Owner card and ACH contributions · af-owner-35
+
+**Gap:** Owner card and ACH contributions remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Make a Contribution”, [capture](switch-checklist-sources/af-owner.txt) line 103.
+
+> If enabled, you can make secure monetary contributions via credit and debit card or eCheck (ACH) to the property of your choice.
+
+#### Owner contribution fee preview · af-owner-36
+
+**Gap:** Owner contribution fee preview remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Make a Contribution”, [capture](switch-checklist-sources/af-owner.txt) line 105.
+
+> Select a property, enter an amount ($15,000 max), select a payment method, and click Continue. Transaction fees apply when paying online. You are notified of the fee amount before you submit the payment.
+
+#### Separate owner contribution and fee transactions · af-owner-37
+
+**Gap:** Separate owner contribution and fee transactions remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Make a Contribution”, [capture](switch-checklist-sources/af-owner.txt) line 108.
+
+> Note: The contribution and fee will be processed as separate transactions. The base contribution appears on your statement as a transaction from the management company and the fee will appear as a transaction from AppFolio.
+
+#### Owner contribution confirmation · af-owner-38
+
+**Gap:** Owner contribution confirmation remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “Make a Contribution”, [capture](switch-checklist-sources/af-owner.txt) line 109.
+
+> You will receive an email notification if your payment was successfully submitted. Print or save the confirmation page or email for your records if necessary.
+
+#### Owner multi-entity statement packets · af-owner-39
+
+**Gap:** Owner multi-entity statement packets remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [af-owner](https://www.appfolio.com/help/owner), captured 2026-11-05; section “FAQ”, [capture](switch-checklist-sources/af-owner.txt) line 120.
+
+> Access to your Owner Portal is based upon your email address. As long as each record in your property manager's database has the same email address entered, information for all properties should be contained within one portal. Scroll down the page to see separate packets for each entity. If you still cannot find the correct packets, please contact your property manager.
+
+#### Unified maintenance intake coordination and feedback · af-platform-01
+
+**Gap:** Unified maintenance intake coordination and feedback remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [AGENT-003](#clause-agent-003) (missing)
+
+**Official source:** [af-platform](https://www.appfolio.com/property-manager), captured 2026-11-05; section “Maintenance”, [capture](switch-checklist-sources/af-platform.txt) line 30.
+
+> Smart automation powered by built-in agentic AI handles everything from intake and follow-up to vendor coordination and feedback, freeing your team to concentrate on providing exceptional service and maximizing profit.
+
+#### Property management workflow automation · af-platform-02
+
+**Gap:** Property management workflow automation remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [OPS-003](#clause-ops-003) (partial)
+
+**Official source:** [af-platform](https://www.appfolio.com/property-manager), captured 2026-11-05; section “Workflow Automation”, [capture](switch-checklist-sources/af-platform.txt) line 42.
+
+> Performance management workflow automation tools allow you to offload tasks from your to-do list so you can focus on winning new customers, executing multi-year strategies, and surpassing your competition.
+
+#### Custom property-management fields · af-platform-03
+
+**Gap:** Custom property-management fields remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-platform](https://www.appfolio.com/property-manager), captured 2026-11-05; section “Max”, [capture](switch-checklist-sources/af-platform.txt) line 76.
+
+> Custom Fields
+
+#### Property-management database API · af-platform-04
+
+**Gap:** Property-management database API remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-platform](https://www.appfolio.com/property-manager), captured 2026-11-05; section “Max”, [capture](switch-checklist-sources/af-platform.txt) line 77.
+
+> Database API
+
+#### Accounting budget forecasts · af-platform-05
+
+**Gap:** Accounting budget forecasts remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [ACCT-015](#clause-acct-015) (missing)
+
+**Official source:** [af-platform](https://www.appfolio.com/property-manager), captured 2026-11-05; section “Max”, [capture](switch-checklist-sources/af-platform.txt) line 79.
+
+> Accounting Performer (Budgeting)
+
 ## Buildium checklist
 
-**Partial official-source inventory. 55 workflows; additional source areas remain unaudited.**
+**Partial official-source inventory. 86 workflows; additional source areas remain unaudited.**
 
 ### Buildium required named gaps
 
 **Corporate accounting — Gap:** Company books and financial reporting remain unqualified replacements; residential accounting and product boundaries cannot remove this gap.
 
 Documented in [Corporate accounting · bu-company-01](#corporate-accounting-bu-company-01) — [official source](https://www.buildium.com/features/company-financials/), captured 2026-11-05, section “Track the books for your business with the same accuracy and efficiency as your managed properties.”, line 72.
+
+Documented in [Corporate accounting report staff access · bu-scheduled-help-17](#corporate-accounting-report-staff-access-bu-scheduled-help-17) — [official source](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05, section “Recipients”, line 51.
 
 **Telephone maintenance intake — Gap:** Documented call intake remains a gap. Online repair forms, staff entry and provider referrals do not replace telephone maintenance intake.
 
@@ -1585,6 +2027,10 @@ Documented in [Telephone maintenance intake · bu-telephone-01](#telephone-maint
 **Scheduled reports — Gap:** Documented automatic report generation or delivery remains a gap; manual export does not qualify it.
 
 Documented in [Scheduled reports · bu-automation-01](#scheduled-reports-bu-automation-01) — [official source](https://www.buildium.com/features/property-management-automation-software/), captured 2026-11-05, section “Reporting Automation”, line 78.
+
+Documented in [Scheduled reports · bu-scheduled-help-01](#scheduled-reports-bu-scheduled-help-01) — [official source](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05, section “Schedule Batched Reports”, line 11.
+
+Documented in [Scheduled report portal delivery · bu-scheduled-help-02](#scheduled-report-portal-delivery-bu-scheduled-help-02) — [official source](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05, section “Why it makes sense to schedule Batched Reports”, line 15.
 
 #### Resident and association transactions · bu-accounting-01
 
@@ -2135,6 +2581,316 @@ Documented in [Scheduled reports · bu-automation-01](#scheduled-reports-bu-auto
 **Official source:** [bu-resident](https://www.buildium.com/features/resident-center/), captured 2026-11-05; section “Does Resident Center have a mobile app?”, [capture](switch-checklist-sources/bu-resident.txt) line 140.
 
 > Yes! The highly-rated Buildium Resident Center mobile app is available for download on iOS and Android. In fact, Buildium’s mobile apps set it apart from the competition.
+
+#### Commercial rent escalations and CAM · bu-platform-01
+
+**Gap:** Commercial rent escalations and CAM remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [bu-platform](https://www.buildium.com/features/), captured 2026-11-05; section “Commercial Property Management Software”, [capture](switch-checklist-sources/bu-platform.txt) line 117.
+
+> Retail, industrial, and office properties all fit under one roof with Buildium. Track leases, rent escalations, and CAM charges with less manual work—and see every financial detail at a glance.
+
+#### Student advance leasing and payments · bu-platform-02
+
+**Gap:** Student advance leasing and payments remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [bu-platform](https://www.buildium.com/features/), captured 2026-11-05; section “Student Housing”, [capture](switch-checklist-sources/bu-platform.txt) line 120.
+
+> Execute leases and receive payments from students in advance of their move-in date, text every resident, file inspection reports in the field, and track maintenance trends and tasks.
+
+#### Mobile association violation tracking · bu-platform-03
+
+**Gap:** Mobile association violation tracking remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [bu-platform](https://www.buildium.com/features/), captured 2026-11-05; section “Business Operations”, [capture](switch-checklist-sources/bu-platform.txt) line 128.
+
+> Manage and track association violations on the go
+
+#### Vacancy advertising and showing coordination · bu-platform-04
+
+**Gap:** Vacancy advertising and showing coordination remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [LEASE-001](#clause-lease-001) (missing); [LEASE-004](#clause-lease-004) (missing)
+
+**Official source:** [bu-platform](https://www.buildium.com/features/), captured 2026-11-05; section “Leasing”, [capture](switch-checklist-sources/bu-platform.txt) line 133.
+
+> Effortlessly advertise vacant units and schedule showings
+
+#### Customized applications and screening · bu-platform-05
+
+**Gap:** Customized applications and screening remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [LEASE-007](#clause-lease-007) (partial); [LEASE-009](#clause-lease-009) (partial)
+
+**Official source:** [bu-platform](https://www.buildium.com/features/), captured 2026-11-05; section “Leasing”, [capture](switch-checklist-sources/bu-platform.txt) line 134.
+
+> Customize rental applications and run comprehensive tenant screenings
+
+#### Lease templates and applicant signatures · bu-platform-06
+
+**Gap:** Lease templates and applicant signatures remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [LEASE-010](#clause-lease-010) (missing); [LEASE-011](#clause-lease-011) (missing)
+
+**Official source:** [bu-platform](https://www.buildium.com/features/), captured 2026-11-05; section “Leasing”, [capture](switch-checklist-sources/bu-platform.txt) line 135.
+
+> Set up templates for all your lease documents and collect applicant signatures from any device
+
+#### Form 1099 filing and tracking · bu-platform-07
+
+**Gap:** Form 1099 filing and tracking remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [ACCT-014](#clause-acct-014) (missing)
+
+**Official source:** [bu-platform](https://www.buildium.com/features/), captured 2026-11-05; section “Accounting & Payments”, [capture](switch-checklist-sources/bu-platform.txt) line 142.
+
+> File and track your Form 1099s in minutes
+
+#### Property website and service marketing · bu-platform-08
+
+**Gap:** Property website and service marketing remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [LEASE-001](#clause-lease-001) (missing)
+
+**Official source:** [bu-platform](https://www.buildium.com/features/), captured 2026-11-05; section “Marketing”, [capture](switch-checklist-sources/bu-platform.txt) line 147.
+
+> Stand up a free property management website to boost your brand, advertise listings, and show off the services you offer
+
+#### Property-owner lead referrals · bu-platform-09
+
+**Gap:** Property-owner lead referrals remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [bu-platform](https://www.buildium.com/features/), captured 2026-11-05; section “Marketing”, [capture](switch-checklist-sources/bu-platform.txt) line 148.
+
+> Connect with property owners looking for your services in your area—or anywhere you want to grow—with All Property Management
+
+#### Portfolio-wide performance reporting · bu-platform-10
+
+**Gap:** Portfolio-wide performance reporting remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** [REPORT-004](#clause-report-004) (done)
+
+**Official source:** [bu-platform](https://www.buildium.com/features/), captured 2026-11-05; section “Business Performance”, [capture](switch-checklist-sources/bu-platform.txt) line 153.
+
+> Understand your entire portfolio’s performance with a full suite of reporting
+
+#### Open API data integrations · bu-platform-11
+
+**Gap:** Open API data integrations remains a named gap: no current passed Terrace replacement acceptance qualifies the documented actor, public door, prerequisites and outcome. Product boundaries and partner referrals do not remove the workflow.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [bu-platform](https://www.buildium.com/features/), captured 2026-11-05; section “Business Performance”, [capture](switch-checklist-sources/bu-platform.txt) line 155.
+
+> Add data workflow horsepower by using Open API to build custom integrations
+
+#### Scheduled reports · bu-scheduled-help-01
+
+**Gap:** Scheduled reports remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Schedule Batched Reports”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 11.
+
+> Batched reports in Buildium allow you to compile multiple reports into a single, comprehensive packet. Available to customers on Growth and Premium, by scheduling Batched Reports, you can now automate the creation and sharing of these report packets, saving time and ensuring consistency.
+
+#### Scheduled report portal delivery · bu-scheduled-help-02
+
+**Gap:** Scheduled report portal delivery remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Why it makes sense to schedule Batched Reports”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 15.
+
+> Convenience: Schedule reports to be sent automatically to recipients’ portals at your desired frequency.
+
+#### Scheduled batch template creation · bu-scheduled-help-03
+
+**Gap:** Scheduled batch template creation remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “How to Schedule and Share Batched Reports”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 19.
+
+> On the right side of the page, select Create New scheduled template.
+
+#### Scheduled template editor permissions · bu-scheduled-help-04
+
+**Gap:** Scheduled template editor permissions remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Fill Out Required Fields”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 23.
+
+> Choose which users can edit the template using the toggle (all user roles with access to edit batched reports or only me and account admins)
+
+#### Automatic owner report generation and sharing · bu-scheduled-help-05
+
+**Gap:** Automatic owner report generation and sharing remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Schedule and Share”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 25.
+
+> Ensure the toggle for ‘Schedule and share automatically’ is on in order to be able to schedule to generate batched reports and share to owner portals automatically.
+
+#### Report template entity selection · bu-scheduled-help-06
+
+**Gap:** Report template entity selection remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Select Report Entities”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 29.
+
+> Add entities if needed by selecting + Add entities and then Save.
+
+#### Separate association rental owner and company report types · bu-scheduled-help-07
+
+**Gap:** Separate association rental owner and company report types remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Select Report Entities”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 30.
+
+> Note: You can only choose 1 report type (associations, rentals, rental owners, or company). You cannot combine report types in the same template.
+
+#### Scheduled batch report selection · bu-scheduled-help-08
+
+**Gap:** Scheduled batch report selection remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Add Reports”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 33.
+
+> Select the reports to include by clicking + Add reports.
+
+#### Batch report ordering · bu-scheduled-help-09
+
+**Gap:** Batch report ordering remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Add Reports”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 34.
+
+> Drag to reorder the reports if needed in the Selected section and then Save.
+
+#### Per-report entity and date filters · bu-scheduled-help-10
+
+**Gap:** Per-report entity and date filters remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Set Report Filters”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 38.
+
+> Edit and save filters for each report available based on your selected properties or company.
+
+#### Recurring report attachments and updates · bu-scheduled-help-11
+
+**Gap:** Recurring report attachments and updates remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Add Attachments”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 42.
+
+> Note: When you add attachments to a template, those same attachments will be included every time the batch is generated. If you need to update or change the attachments, make sure to add the new ones before the batch is scheduled to run.
+
+#### Consolidated or separate report PDFs · bu-scheduled-help-12
+
+**Gap:** Consolidated or separate report PDFs remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Organize Reports”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 44.
+
+> Choose how to export reports (Consolidated PDFs or Separate PDFs).
+
+#### Report file ordering · bu-scheduled-help-13
+
+**Gap:** Report file ordering remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Organize Reports”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 45.
+
+> Define the file order if report entities are included in the template.
+
+#### Owner-specific report recipient routing · bu-scheduled-help-14
+
+**Gap:** Owner-specific report recipient routing remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Recipients”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 48.
+
+> If you have multiple properties and select multiple rental owners, the system will automatically send the appropriate reports to the correct recipients, so you don’t need to worry about every report going to every recipient.
+
+#### Report recipient email eligibility · bu-scheduled-help-15
+
+**Gap:** Report recipient email eligibility remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Recipients”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 49.
+
+> + Add recipients to choose who you want to share the batched reports with. Important: Batched reports cannot be shared with recipients without email addresses. Select the recipients Next.
+
+#### Owner portal report availability notifications · bu-scheduled-help-16
+
+**Gap:** Owner portal report availability notifications remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Recipients”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 50.
+
+> Note: These reports can only be shared to owner portals, including Board members, Association owners, and Rental owners. Recipients will automatically receive an email notifying them that the reports are available in their portals.
+
+#### Corporate accounting report staff access · bu-scheduled-help-17
+
+**Gap:** Corporate accounting report staff access remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Recipients”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 51.
+
+> Note: If your company is the entity, staff members will need to log in and view their reports from the Batched Reports page. They cannot be selected as recipients.
+
+#### Persistent custom batch names · bu-scheduled-help-18
+
+**Gap:** Persistent custom batch names remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Recipients”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 52.
+
+> Rename the batches (optional): Here, you can change the title of the batches if you would like to by entering the new name in the textbox Save.
+
+#### Future report dates and recurrence rules · bu-scheduled-help-19
+
+**Gap:** Future report dates and recurrence rules remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Set Scheduling Settings”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 55.
+
+> Add a new schedule by selecting a future date and setting the recurrence rule using the dropdown menu Save schedule.
+
+#### Draft schedule review and confirmed sharing · bu-scheduled-help-20
+
+**Gap:** Draft schedule review and confirmed sharing remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-scheduled-help](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports), captured 2026-11-05; section “Save Draft or Schedule and Share”, [capture](switch-checklist-sources/bu-scheduled-help.txt) line 57.
+
+> Save as draft if still reviewing, or select Schedule and share if ready. You will be asked to confirm the schedule settings, end date, and recipients before generating the schedule Schedule and share.
 
 ## Rent Manager checklist
 
@@ -3274,43 +4030,43 @@ Raw SHA-256: `24fc945167f735a7a95c556df693e59b8dc4909d9bd1992f0aaa126662b65505`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–36, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 37–37, Realm-X Accounting Performer: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-02`.
-- Lines 38–42, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 43–43, Corporate Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-01`.
-- Lines 44–51, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 52–52, Portfolio Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-03`.
-- Lines 53–56, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 57–57, Credit Card Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-04`.
-- Lines 58–58, Credit Card Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-05`.
-- Lines 59–59, Credit Card Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-06`.
-- Lines 60–63, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 64–64, Extended Access to Data: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-07`.
-- Lines 65–65, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 66–66, Online Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-08`.
-- Lines 67–67, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 68–68, Auto Bank Reconciliation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-09`.
-- Lines 69–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 70–70, Late Fee Waivers: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-10`.
-- Lines 71–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 72–72, CAM Tracking & Reconciliation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-11`.
-- Lines 73–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 74–74, Automated Late Fees: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-12`.
-- Lines 75–77, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 78–78, eCheck: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-13`.
-- Lines 79–81, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 82–82, Tenant Debt Collections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-14`.
-- Lines 83–83, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 84–84, Bulk Tenant Charges: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-15`.
-- Lines 85–87, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 88–88, Holding Deposits: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-16`.
-- Lines 89–89, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 90–90, Loan Tracking: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-17`.
-- Lines 91–91, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 92–92, Reimbursable Expenses: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-18`.
-- Lines 93–93, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 94–94, Unified Chart of Accounts: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-19`.
-- Lines 95–167, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 1–36, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 37–37, Realm-X Accounting Performer: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-02`.
+- af-accounting lines 38–42, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 43–43, Corporate Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-01`.
+- af-accounting lines 44–51, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 52–52, Portfolio Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-03`.
+- af-accounting lines 53–56, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 57–57, Credit Card Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-04`.
+- af-accounting lines 58–58, Credit Card Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-05`.
+- af-accounting lines 59–59, Credit Card Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-06`.
+- af-accounting lines 60–63, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 64–64, Extended Access to Data: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-07`.
+- af-accounting lines 65–65, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 66–66, Online Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-08`.
+- af-accounting lines 67–67, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 68–68, Auto Bank Reconciliation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-09`.
+- af-accounting lines 69–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 70–70, Late Fee Waivers: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-10`.
+- af-accounting lines 71–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 72–72, CAM Tracking & Reconciliation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-11`.
+- af-accounting lines 73–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 74–74, Automated Late Fees: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-12`.
+- af-accounting lines 75–77, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 78–78, eCheck: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-13`.
+- af-accounting lines 79–81, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 82–82, Tenant Debt Collections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-14`.
+- af-accounting lines 83–83, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 84–84, Bulk Tenant Charges: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-15`.
+- af-accounting lines 85–87, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 88–88, Holding Deposits: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-16`.
+- af-accounting lines 89–89, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 90–90, Loan Tracking: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-17`.
+- af-accounting lines 91–91, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 92–92, Reimbursable Expenses: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-18`.
+- af-accounting lines 93–93, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 94–94, Unified Chart of Accounts: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-19`.
+- af-accounting lines 95–167, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### af-maintenance
 
@@ -3322,35 +4078,35 @@ Raw SHA-256: `594ccd7df985cb985087e502e10e736d19538b259a6e026f4ca68fcb6ef17727`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–24, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 25–25, Track Work Orders From Beginning To Finish: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-01`.
-- Lines 26–36, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 37–37, Pay Your Bills, Owners, and Vendors: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-02`.
-- Lines 38–44, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 45–45, The Realm-X Maintenance Performer & Automated Scheduling & Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-03`.
-- Lines 46–47, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 48–48, The Realm-X Maintenance Performer & Automated Scheduling & Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-04`.
-- Lines 49–49, The Realm-X Maintenance Performer & Automated Scheduling & Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-05`.
-- Lines 50–50, The Realm-X Maintenance Performer & Automated Scheduling & Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-06`.
-- Lines 51–51, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 52–52, Auditing Center: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-07`.
-- Lines 53–60, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 61–61, Mobile Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-08`.
-- Lines 62–62, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 63–63, Unit Turn Board: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-09`.
-- Lines 64–66, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 67–67, Online Maintenance Requests: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-10`.
-- Lines 68–68, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 69–69, Common Area Maintenance: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-11`.
-- Lines 70–70, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 71–71, Mobile Violations & Tracking: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-12`.
-- Lines 72–72, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 73–73, Architectural Reviews: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-13`.
-- Lines 74–74, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 75–75, Board Member Roles & Tenure Tracking: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-14`.
-- Lines 76–78, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 79–79, In-House Maintenance: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-15`.
-- Lines 80–179, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 1–24, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 25–25, Track Work Orders From Beginning To Finish: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-01`.
+- af-maintenance lines 26–36, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 37–37, Pay Your Bills, Owners, and Vendors: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-02`.
+- af-maintenance lines 38–44, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 45–45, The Realm-X Maintenance Performer & Automated Scheduling & Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-03`.
+- af-maintenance lines 46–47, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 48–48, The Realm-X Maintenance Performer & Automated Scheduling & Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-04`.
+- af-maintenance lines 49–49, The Realm-X Maintenance Performer & Automated Scheduling & Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-05`.
+- af-maintenance lines 50–50, The Realm-X Maintenance Performer & Automated Scheduling & Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-06`.
+- af-maintenance lines 51–51, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 52–52, Auditing Center: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-07`.
+- af-maintenance lines 53–60, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 61–61, Mobile Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-08`.
+- af-maintenance lines 62–62, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 63–63, Unit Turn Board: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-09`.
+- af-maintenance lines 64–66, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 67–67, Online Maintenance Requests: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-10`.
+- af-maintenance lines 68–68, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 69–69, Common Area Maintenance: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-11`.
+- af-maintenance lines 70–70, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 71–71, Mobile Violations & Tracking: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-12`.
+- af-maintenance lines 72–72, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 73–73, Architectural Reviews: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-13`.
+- af-maintenance lines 74–74, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 75–75, Board Member Roles & Tenure Tracking: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-14`.
+- af-maintenance lines 76–78, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 79–79, In-House Maintenance: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-15`.
+- af-maintenance lines 80–179, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### bu-accounting
 
@@ -3362,17 +4118,17 @@ Raw SHA-256: `7929adec16783deacd8fe9b19196530c164fd67e47732969f0925b9c78538d5c`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 74–74, Follow every transaction: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-accounting-01`.
-- Lines 75–78, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 79–79, Manage accounts payable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-accounting-02`.
-- Lines 80–80, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 81–81, Reconcile bank accounts automatically: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-accounting-03`.
-- Lines 82–96, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 97–97, Is Buildium good for accounting?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-accounting-04`.
-- Lines 98–103, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 104–104, How does property management accounting software help with rent collection and late fees?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-accounting-05`.
-- Lines 105–144, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-accounting lines 1–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-accounting lines 74–74, Follow every transaction: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-accounting-01`.
+- bu-accounting lines 75–78, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-accounting lines 79–79, Manage accounts payable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-accounting-02`.
+- bu-accounting lines 80–80, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-accounting lines 81–81, Reconcile bank accounts automatically: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-accounting-03`.
+- bu-accounting lines 82–96, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-accounting lines 97–97, Is Buildium good for accounting?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-accounting-04`.
+- bu-accounting lines 98–103, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-accounting lines 104–104, How does property management accounting software help with rent collection and late fees?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-accounting-05`.
+- bu-accounting lines 105–144, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### bu-company
 
@@ -3384,13 +4140,13 @@ Raw SHA-256: `ccb2fbedf6acb9b79583c32dabf8759208a5548f09e68f4ebdfe94deb4c5fcbf`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 72–72, Track the books for your business with the same accuracy and efficiency as your managed properties.: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-company-01`.
-- Lines 73–78, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 79–79, Enter data without a hassle: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-company-02`.
-- Lines 80–80, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 81–81, View and report on key financial metrics: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-company-03`.
-- Lines 82–120, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-company lines 1–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-company lines 72–72, Track the books for your business with the same accuracy and efficiency as your managed properties.: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-company-01`.
+- bu-company lines 73–78, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-company lines 79–79, Enter data without a hassle: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-company-02`.
+- bu-company lines 80–80, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-company lines 81–81, View and report on key financial metrics: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-company-03`.
+- bu-company lines 82–120, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### bu-telephone
 
@@ -3402,13 +4158,13 @@ Raw SHA-256: `b4a0fc4f73735f49c44f58637e894b2f1c80d1af6382a917db482a18a0bcce77`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–68, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 69–69, A trusted call center service to help you satisfy residents while reducing property risk: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-telephone-01`.
-- Lines 70–77, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 78–78, Continue to deliver an incredible resident experience: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-telephone-02`.
-- Lines 79–87, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 88–88, Maintenance Contact Center Plans: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-telephone-03`.
-- Lines 89–135, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-telephone lines 1–68, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-telephone lines 69–69, A trusted call center service to help you satisfy residents while reducing property risk: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-telephone-01`.
+- bu-telephone lines 70–77, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-telephone lines 78–78, Continue to deliver an incredible resident experience: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-telephone-02`.
+- bu-telephone lines 79–87, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-telephone lines 88–88, Maintenance Contact Center Plans: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-telephone-03`.
+- bu-telephone lines 89–135, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### bu-maintenance
 
@@ -3420,24 +4176,24 @@ Raw SHA-256: `11254f5abfd5bb0f462805a65cc5be6dd184b643bf26ace384ebab2b1d2d8c56`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 74–74, Get more time back with the Lumina AI Maintenance Agent: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-01`.
-- Lines 75–87, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 88–88, Keep every task moving forward: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-02`.
-- Lines 89–89, Keep every task moving forward: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-03`.
-- Lines 90–90, Keep every task moving forward: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-04`.
-- Lines 91–91, Keep every task moving forward: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-05`.
-- Lines 92–93, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 94–94, Bring order to your maintenance work: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-06`.
-- Lines 95–95, Bring order to your maintenance work: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-07`.
-- Lines 96–96, Bring order to your maintenance work: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-08`.
-- Lines 97–98, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 99–99, Standardize your repeatable tasks: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-09`.
-- Lines 100–100, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 101–101, Capture accurate work hours: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-10`.
-- Lines 102–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 112–112, Complete inspections—right from the field: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-11`.
-- Lines 113–189, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-maintenance lines 1–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-maintenance lines 74–74, Get more time back with the Lumina AI Maintenance Agent: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-01`.
+- bu-maintenance lines 75–87, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-maintenance lines 88–88, Keep every task moving forward: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-02`.
+- bu-maintenance lines 89–89, Keep every task moving forward: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-03`.
+- bu-maintenance lines 90–90, Keep every task moving forward: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-04`.
+- bu-maintenance lines 91–91, Keep every task moving forward: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-05`.
+- bu-maintenance lines 92–93, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-maintenance lines 94–94, Bring order to your maintenance work: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-06`.
+- bu-maintenance lines 95–95, Bring order to your maintenance work: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-07`.
+- bu-maintenance lines 96–96, Bring order to your maintenance work: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-08`.
+- bu-maintenance lines 97–98, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-maintenance lines 99–99, Standardize your repeatable tasks: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-09`.
+- bu-maintenance lines 100–100, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-maintenance lines 101–101, Capture accurate work hours: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-10`.
+- bu-maintenance lines 102–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-maintenance lines 112–112, Complete inspections—right from the field: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-maintenance-11`.
+- bu-maintenance lines 113–189, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### rm-accounting
 
@@ -3449,61 +4205,61 @@ Raw SHA-256: `b9e14e16602a1717201c0723b4c7b3833d14987d5e13ef103bc3e3a35fc6c064`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 106–106, Complete Double-Entry Accounting System: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-01`.
-- Lines 107–107, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 108–108, Accounts Receivable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-02`.
-- Lines 109–109, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 110–110, Accounts Receivable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-03`.
-- Lines 111–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 112–112, Accounts Receivable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-04`.
-- Lines 113–113, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 114–114, Accounts Receivable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-05`.
-- Lines 115–115, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 116–116, Accounts Receivable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-06`.
-- Lines 117–121, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 122–122, Accounts Payable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-07`.
-- Lines 123–123, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 124–124, Accounts Payable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-08`.
-- Lines 125–125, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 126–126, Accounts Payable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-09`.
-- Lines 127–127, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 128–128, Accounts Payable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-10`.
-- Lines 129–129, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 130–130, Accounts Payable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-11`.
-- Lines 131–131, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 132–132, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-12`.
-- Lines 133–133, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 134–134, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-13`.
-- Lines 135–135, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 136–136, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-14`.
-- Lines 137–137, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 138–138, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-15`.
-- Lines 139–141, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 142–142, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-16`.
-- Lines 143–144, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 145–145, Bank Sync: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-17`.
-- Lines 146–148, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 149–149, Smart Receipts: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-18`.
-- Lines 150–150, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 151–151, Smart Bills: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-19`.
-- Lines 152–152, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 153–153, Smart Check Scanning: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-20`.
-- Lines 154–154, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 155–155, Financial Reporting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-21`.
-- Lines 156–157, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 158–158, Tax Tools: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-22`.
-- Lines 159–163, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 164–164, Budgeting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-23`.
-- Lines 165–165, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 166–166, Purchase Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-24`.
-- Lines 167–167, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 168–168, Loan Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-25`.
-- Lines 169–170, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 171–171, Utility Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-26`.
-- Lines 172–173, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 174–174, Commercial Module: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-27`.
-- Lines 175–295, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 1–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 106–106, Complete Double-Entry Accounting System: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-01`.
+- rm-accounting lines 107–107, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 108–108, Accounts Receivable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-02`.
+- rm-accounting lines 109–109, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 110–110, Accounts Receivable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-03`.
+- rm-accounting lines 111–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 112–112, Accounts Receivable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-04`.
+- rm-accounting lines 113–113, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 114–114, Accounts Receivable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-05`.
+- rm-accounting lines 115–115, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 116–116, Accounts Receivable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-06`.
+- rm-accounting lines 117–121, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 122–122, Accounts Payable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-07`.
+- rm-accounting lines 123–123, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 124–124, Accounts Payable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-08`.
+- rm-accounting lines 125–125, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 126–126, Accounts Payable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-09`.
+- rm-accounting lines 127–127, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 128–128, Accounts Payable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-10`.
+- rm-accounting lines 129–129, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 130–130, Accounts Payable: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-11`.
+- rm-accounting lines 131–131, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 132–132, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-12`.
+- rm-accounting lines 133–133, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 134–134, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-13`.
+- rm-accounting lines 135–135, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 136–136, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-14`.
+- rm-accounting lines 137–137, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 138–138, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-15`.
+- rm-accounting lines 139–141, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 142–142, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-16`.
+- rm-accounting lines 143–144, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 145–145, Bank Sync: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-17`.
+- rm-accounting lines 146–148, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 149–149, Smart Receipts: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-18`.
+- rm-accounting lines 150–150, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 151–151, Smart Bills: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-19`.
+- rm-accounting lines 152–152, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 153–153, Smart Check Scanning: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-20`.
+- rm-accounting lines 154–154, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 155–155, Financial Reporting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-21`.
+- rm-accounting lines 156–157, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 158–158, Tax Tools: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-22`.
+- rm-accounting lines 159–163, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 164–164, Budgeting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-23`.
+- rm-accounting lines 165–165, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 166–166, Purchase Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-24`.
+- rm-accounting lines 167–167, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 168–168, Loan Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-25`.
+- rm-accounting lines 169–170, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 171–171, Utility Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-26`.
+- rm-accounting lines 172–173, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-accounting lines 174–174, Commercial Module: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-accounting-27`.
+- rm-accounting lines 175–295, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### rm-maintenance
 
@@ -3515,44 +4271,44 @@ Raw SHA-256: `8c37976fd547cc9de6ab6f79452d5abe19b5f8db2a65d4e24341e441c6566d73`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 106–106, Keep Track with Service Issues: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-01`.
-- Lines 107–107, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 108–108, Keep Track with Service Issues: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-02`.
-- Lines 109–109, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 110–110, Keep Track with Service Issues: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-03`.
-- Lines 111–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 112–112, Keep Track with Service Issues: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-04`.
-- Lines 113–113, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 114–114, Keep Track with Service Issues: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-05`.
-- Lines 115–115, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 116–116, Maintenance Scheduling: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-06`.
-- Lines 117–117, Maintenance Scheduling: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-07`.
-- Lines 118–118, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 119–119, Issue Checklists: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-08`.
-- Lines 120–120, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 121–121, Service Tech Map: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-09`.
-- Lines 122–124, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 125–125, Work Orders & Integrated Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-10`.
-- Lines 126–126, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 127–127, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-11`.
-- Lines 128–128, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 129–129, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-12`.
-- Lines 130–132, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 133–133, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-13`.
-- Lines 134–134, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 135–135, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-14`.
-- Lines 136–136, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 137–137, Make Ready Boards: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-15`.
-- Lines 138–140, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 141–141, Utility Management: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-16`.
-- Lines 142–142, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 143–143, Utility Management: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-17`.
-- Lines 144–144, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 145–145, Utility Management: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-18`.
-- Lines 146–146, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 147–147, Utility Management: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-19`.
-- Lines 148–273, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 1–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 106–106, Keep Track with Service Issues: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-01`.
+- rm-maintenance lines 107–107, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 108–108, Keep Track with Service Issues: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-02`.
+- rm-maintenance lines 109–109, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 110–110, Keep Track with Service Issues: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-03`.
+- rm-maintenance lines 111–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 112–112, Keep Track with Service Issues: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-04`.
+- rm-maintenance lines 113–113, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 114–114, Keep Track with Service Issues: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-05`.
+- rm-maintenance lines 115–115, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 116–116, Maintenance Scheduling: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-06`.
+- rm-maintenance lines 117–117, Maintenance Scheduling: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-07`.
+- rm-maintenance lines 118–118, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 119–119, Issue Checklists: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-08`.
+- rm-maintenance lines 120–120, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 121–121, Service Tech Map: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-09`.
+- rm-maintenance lines 122–124, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 125–125, Work Orders & Integrated Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-10`.
+- rm-maintenance lines 126–126, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 127–127, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-11`.
+- rm-maintenance lines 128–128, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 129–129, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-12`.
+- rm-maintenance lines 130–132, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 133–133, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-13`.
+- rm-maintenance lines 134–134, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 135–135, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-14`.
+- rm-maintenance lines 136–136, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 137–137, Make Ready Boards: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-15`.
+- rm-maintenance lines 138–140, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 141–141, Utility Management: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-16`.
+- rm-maintenance lines 142–142, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 143–143, Utility Management: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-17`.
+- rm-maintenance lines 144–144, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 145–145, Utility Management: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-18`.
+- rm-maintenance lines 146–146, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-maintenance lines 147–147, Utility Management: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-maintenance-19`.
+- rm-maintenance lines 148–273, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### rm-reports
 
@@ -3564,29 +4320,29 @@ Raw SHA-256: `6568cf30e1522030f36026cea16e6dd2049698e78b9ae638ca4883e28283991c`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–107, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 108–108, Over 450 Pre-Defined Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-01`.
-- Lines 109–109, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 110–110, Over 450 Pre-Defined Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-03`.
-- Lines 111–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 112–112, Over 450 Pre-Defined Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-02`.
-- Lines 113–115, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 116–116, Over 450 Pre-Defined Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-04`.
-- Lines 117–119, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 120–120, Over 450 Pre-Defined Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-05`.
-- Lines 121–121, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 122–122, Over 450 Pre-Defined Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-06`.
-- Lines 123–124, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 125–125, Report Writer: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-07`.
-- Lines 126–126, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 127–127, Financial Report Writer: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-08`.
-- Lines 128–130, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 131–131, Report Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-10`.
-- Lines 132–132, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 133–133, Report Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-09`.
-- Lines 134–139, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 140–140, Custom Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-11`.
-- Lines 141–261, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-reports lines 1–107, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-reports lines 108–108, Over 450 Pre-Defined Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-01`.
+- rm-reports lines 109–109, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-reports lines 110–110, Over 450 Pre-Defined Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-03`.
+- rm-reports lines 111–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-reports lines 112–112, Over 450 Pre-Defined Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-02`.
+- rm-reports lines 113–115, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-reports lines 116–116, Over 450 Pre-Defined Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-04`.
+- rm-reports lines 117–119, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-reports lines 120–120, Over 450 Pre-Defined Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-05`.
+- rm-reports lines 121–121, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-reports lines 122–122, Over 450 Pre-Defined Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-06`.
+- rm-reports lines 123–124, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-reports lines 125–125, Report Writer: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-07`.
+- rm-reports lines 126–126, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-reports lines 127–127, Financial Report Writer: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-08`.
+- rm-reports lines 128–130, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-reports lines 131–131, Report Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-10`.
+- rm-reports lines 132–132, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-reports lines 133–133, Report Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-09`.
+- rm-reports lines 134–139, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-reports lines 140–140, Custom Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-reports-11`.
+- rm-reports lines 141–261, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### rm-schedules
 
@@ -3598,15 +4354,15 @@ Raw SHA-256: `91f11f2f4f3550c8793e8e2547069d2a948415afaf28c25f128385b2d2c9f015`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–102, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 103–103, Report Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-schedules-01`.
-- Lines 104–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 106–106, Report Batches: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-schedules-02`.
-- Lines 107–107, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 108–108, Schedule Report Batches: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-schedules-03`.
-- Lines 109–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 112–112, History Tracking: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-schedules-04`.
-- Lines 113–233, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-schedules lines 1–102, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-schedules lines 103–103, Report Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-schedules-01`.
+- rm-schedules lines 104–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-schedules lines 106–106, Report Batches: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-schedules-02`.
+- rm-schedules lines 107–107, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-schedules lines 108–108, Schedule Report Batches: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-schedules-03`.
+- rm-schedules lines 109–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-schedules lines 112–112, History Tracking: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-schedules-04`.
+- rm-schedules lines 113–233, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### rm-telephone
 
@@ -3618,23 +4374,23 @@ Raw SHA-256: `dcd3a58fe50b541556caca2b783986c716ca4cb69d3b233514506eca225cccd4`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–102, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 103–103, Live Support Whenever Your Residents Need It: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-01`.
-- Lines 104–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 106–106, 24/7 Assistance & Realtime Updates Built Into Rent Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-02`.
-- Lines 107–107, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 108–108, 24/7 Assistance & Realtime Updates Built Into Rent Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-03`.
-- Lines 109–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 112–112, 24/7 Assistance & Realtime Updates Built Into Rent Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-04`.
-- Lines 113–117, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 118–118, Full-Feature Call Center: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-05`.
-- Lines 119–119, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 120–120, Full-Feature Call Center: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-07`.
-- Lines 121–121, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 122–122, Full-Feature Call Center: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-06`.
-- Lines 123–133, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 134–134, Additional Benefits: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-08`.
-- Lines 135–260, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-telephone lines 1–102, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-telephone lines 103–103, Live Support Whenever Your Residents Need It: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-01`.
+- rm-telephone lines 104–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-telephone lines 106–106, 24/7 Assistance & Realtime Updates Built Into Rent Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-02`.
+- rm-telephone lines 107–107, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-telephone lines 108–108, 24/7 Assistance & Realtime Updates Built Into Rent Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-03`.
+- rm-telephone lines 109–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-telephone lines 112–112, 24/7 Assistance & Realtime Updates Built Into Rent Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-04`.
+- rm-telephone lines 113–117, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-telephone lines 118–118, Full-Feature Call Center: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-05`.
+- rm-telephone lines 119–119, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-telephone lines 120–120, Full-Feature Call Center: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-07`.
+- rm-telephone lines 121–121, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-telephone lines 122–122, Full-Feature Call Center: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-06`.
+- rm-telephone lines 123–133, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-telephone lines 134–134, Additional Benefits: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-telephone-08`.
+- rm-telephone lines 135–260, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### af-vendor
 
@@ -3646,47 +4402,47 @@ Raw SHA-256: `0e606402e90ccbacef46ac67583783e4424590914cd792c5b9275475a895ff27`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–14, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 15–15, Activate Your Vendor Portal: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-01`.
-- Lines 16–19, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 20–20, Setup Two-Factor Authentication (2FA): **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-02`.
-- Lines 21–35, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 36–36, Managing User Access: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-03`.
-- Lines 37–37, Managing User Access: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-04`.
-- Lines 38–40, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 41–41, Select Your Payment Preference: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-05`.
-- Lines 42–51, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 52–52, Setting Up Instant Pay: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-06`.
-- Lines 53–68, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 69–69, View Payment History: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-07`.
-- Lines 70–81, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 82–82, How to Upload Compliance Documents: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-08`.
-- Lines 83–87, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 88–88, Work Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-09`.
-- Lines 89–89, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 90–90, Work Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-10`.
-- Lines 91–98, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 99–99, Work Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-11`.
-- Lines 100–100, Work Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-12`.
-- Lines 101–112, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 113–113, How to Print Work Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-15`.
-- Lines 114–115, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 116–116, Scheduling With Work Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-16`.
-- Lines 117–117, Scheduling With Work Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-17`.
-- Lines 118–123, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 124–124, Invoice, Estimates, Notes, and Work Done: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-18`.
-- Lines 125–125, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 126–126, Invoice, Estimates, Notes, and Work Done: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-19`.
-- Lines 127–135, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 136–136, Invoice, Estimates, Notes, and Work Done: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-20`.
-- Lines 137–137, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 138–138, Invoice, Estimates, Notes, and Work Done: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-13`.
-- Lines 139–139, Invoice, Estimates, Notes, and Work Done: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-14`.
-- Lines 140–140, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 141–141, Invoice, Estimates, Notes, and Work Done: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-21`.
-- Lines 142–147, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 148–148, Invoice, Estimates, Notes, and Work Done: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-22`.
-- Lines 149–198, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 1–14, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 15–15, Activate Your Vendor Portal: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-01`.
+- af-vendor lines 16–19, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 20–20, Setup Two-Factor Authentication (2FA): **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-02`.
+- af-vendor lines 21–35, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 36–36, Managing User Access: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-03`.
+- af-vendor lines 37–37, Managing User Access: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-04`.
+- af-vendor lines 38–40, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 41–41, Select Your Payment Preference: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-05`.
+- af-vendor lines 42–51, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 52–52, Setting Up Instant Pay: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-06`.
+- af-vendor lines 53–68, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 69–69, View Payment History: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-07`.
+- af-vendor lines 70–81, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 82–82, How to Upload Compliance Documents: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-08`.
+- af-vendor lines 83–87, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 88–88, Work Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-09`.
+- af-vendor lines 89–89, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 90–90, Work Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-10`.
+- af-vendor lines 91–98, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 99–99, Work Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-11`.
+- af-vendor lines 100–100, Work Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-12`.
+- af-vendor lines 101–112, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 113–113, How to Print Work Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-15`.
+- af-vendor lines 114–115, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 116–116, Scheduling With Work Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-16`.
+- af-vendor lines 117–117, Scheduling With Work Orders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-17`.
+- af-vendor lines 118–123, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 124–124, Invoice, Estimates, Notes, and Work Done: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-18`.
+- af-vendor lines 125–125, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 126–126, Invoice, Estimates, Notes, and Work Done: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-19`.
+- af-vendor lines 127–135, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 136–136, Invoice, Estimates, Notes, and Work Done: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-20`.
+- af-vendor lines 137–137, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 138–138, Invoice, Estimates, Notes, and Work Done: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-13`.
+- af-vendor lines 139–139, Invoice, Estimates, Notes, and Work Done: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-14`.
+- af-vendor lines 140–140, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 141–141, Invoice, Estimates, Notes, and Work Done: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-21`.
+- af-vendor lines 142–147, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-vendor lines 148–148, Invoice, Estimates, Notes, and Work Done: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-vendor-22`.
+- af-vendor lines 149–198, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### af-resident
 
@@ -3698,54 +4454,54 @@ Raw SHA-256: `797ea2dc1d22cc03e137d23e0c5ce9b8982bce47f753bc12803a686f30b80e7e`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–13, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 14–14, Activate Your Account Online: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-01`.
-- Lines 15–18, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 19–19, Download the Mobile App: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-02`.
-- Lines 20–27, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 28–28, Set Up Two Factor Authentication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-03`.
-- Lines 29–36, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 37–37, Reset Your Password: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-04`.
-- Lines 38–42, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 43–43, Make a One-Time Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-05`.
-- Lines 44–44, Make a One-Time Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-06`.
-- Lines 45–45, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 46–46, Make a One-Time Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-07`.
-- Lines 47–47, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 48–48, Make a One-Time Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-08`.
-- Lines 49–50, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 51–51, Set Up an Auto Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-09`.
-- Lines 52–57, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 58–58, How Do I Delete My Auto Payment?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-10`.
-- Lines 59–60, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 61–61, How Do I Skip My Auto Payment?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-11`.
-- Lines 62–62, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 63–63, How Do I Change the Amount of My Auto Payment?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-12`.
-- Lines 64–65, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 66–66, How Do I Change the Payment Information of My Auto Payment?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-13`.
-- Lines 67–67, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 68–68, How Do I Change My Auto Payment Maximum Limit?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-14`.
-- Lines 69–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 74–74, View Payment History: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-15`.
-- Lines 75–75, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 76–76, Can I Delete My Saved Bank Account or Card?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-16`.
-- Lines 77–95, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 96–96, Where Can I Find My Electronic Cash Payment Slip?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-17`.
-- Lines 97–116, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 117–117, How Do I Sign My Lease Electronically?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-18`.
-- Lines 118–118, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 119–119, How Do I Renew My Lease Electronically?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-19`.
-- Lines 120–122, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 123–123, How Do I Update My Electronic Signature for Signing Documents?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-20`.
-- Lines 124–124, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 125–125, How Do I Set Up My Utilities in FolioSpace?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-21`.
-- Lines 126–126, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 127–127, How Do I Get Help With Utilities?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-22`.
-- Lines 128–135, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 136–136, Update Your Contact Information: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-23`.
-- Lines 137–137, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 138–138, I No Longer Rent With This Property Manager. How Do I Delete My Account?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-24`.
-- Lines 139–190, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 1–13, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 14–14, Activate Your Account Online: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-01`.
+- af-resident lines 15–18, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 19–19, Download the Mobile App: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-02`.
+- af-resident lines 20–27, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 28–28, Set Up Two Factor Authentication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-03`.
+- af-resident lines 29–36, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 37–37, Reset Your Password: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-04`.
+- af-resident lines 38–42, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 43–43, Make a One-Time Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-05`.
+- af-resident lines 44–44, Make a One-Time Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-06`.
+- af-resident lines 45–45, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 46–46, Make a One-Time Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-07`.
+- af-resident lines 47–47, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 48–48, Make a One-Time Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-08`.
+- af-resident lines 49–50, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 51–51, Set Up an Auto Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-09`.
+- af-resident lines 52–57, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 58–58, How Do I Delete My Auto Payment?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-10`.
+- af-resident lines 59–60, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 61–61, How Do I Skip My Auto Payment?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-11`.
+- af-resident lines 62–62, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 63–63, How Do I Change the Amount of My Auto Payment?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-12`.
+- af-resident lines 64–65, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 66–66, How Do I Change the Payment Information of My Auto Payment?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-13`.
+- af-resident lines 67–67, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 68–68, How Do I Change My Auto Payment Maximum Limit?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-14`.
+- af-resident lines 69–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 74–74, View Payment History: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-15`.
+- af-resident lines 75–75, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 76–76, Can I Delete My Saved Bank Account or Card?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-16`.
+- af-resident lines 77–95, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 96–96, Where Can I Find My Electronic Cash Payment Slip?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-17`.
+- af-resident lines 97–116, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 117–117, How Do I Sign My Lease Electronically?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-18`.
+- af-resident lines 118–118, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 119–119, How Do I Renew My Lease Electronically?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-19`.
+- af-resident lines 120–122, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 123–123, How Do I Update My Electronic Signature for Signing Documents?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-20`.
+- af-resident lines 124–124, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 125–125, How Do I Set Up My Utilities in FolioSpace?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-21`.
+- af-resident lines 126–126, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 127–127, How Do I Get Help With Utilities?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-22`.
+- af-resident lines 128–135, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 136–136, Update Your Contact Information: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-23`.
+- af-resident lines 137–137, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 138–138, I No Longer Rent With This Property Manager. How Do I Delete My Account?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-24`.
+- af-resident lines 139–190, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### af-platform
 
@@ -3753,11 +4509,20 @@ Raw SHA-256: `797ea2dc1d22cc03e137d23e0c5ce9b8982bce47f753bc12803a686f30b80e7e`.
 
 Raw SHA-256: `15fe4ab9446a6054573ee544dafa3e12ccea97183f0d71eb5bc430790cb700eb`. Capture SHA-256: `72396b76ba149078d4a3c56d072144b4f039c7ba4fa5838070f6e461769fa161`.
 
-**Audit: unaudited.** Platform entry point retained as an unaudited source area: no workflows have yet been reconciled from its category index and links. Reconciled source workflows: .
+**Audit: partial.** Selected source statements and instructions are reconciled. Unreconciled text and linked or authenticated documentation remain explicitly unaudited; no complete official-source inventory is claimed. Reconciled source workflows: `af-platform-01`, `af-platform-02`, `af-platform-03`, `af-platform-04`, `af-platform-05`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–185, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-platform lines 1–29, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-platform lines 30–30, Maintenance: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-platform-01`.
+- af-platform lines 31–41, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-platform lines 42–42, Workflow Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-platform-02`.
+- af-platform lines 43–75, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-platform lines 76–76, Max: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-platform-03`.
+- af-platform lines 77–77, Max: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-platform-04`.
+- af-platform lines 78–78, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-platform lines 79–79, Max: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-platform-05`.
+- af-platform lines 80–185, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### bu-platform
 
@@ -3765,23 +4530,77 @@ Raw SHA-256: `15fe4ab9446a6054573ee544dafa3e12ccea97183f0d71eb5bc430790cb700eb`.
 
 Raw SHA-256: `75b9ef360bcc855970c2ef0e3c3c4b556294acde496d2c95fda6231c9f28d9af`. Capture SHA-256: `c4eddad82edff9e8c5631a4dffdab86119f4d2a9871e623109a6142e687c9e77`.
 
-**Audit: unaudited.** Platform entry point retained as an unaudited source area: no workflows have yet been reconciled from its category index and links. Reconciled source workflows: .
+**Audit: partial.** Selected source statements and instructions are reconciled. Unreconciled text and linked or authenticated documentation remain explicitly unaudited; no complete official-source inventory is claimed. Reconciled source workflows: `bu-platform-01`, `bu-platform-02`, `bu-platform-03`, `bu-platform-04`, `bu-platform-05`, `bu-platform-06`, `bu-platform-07`, `bu-platform-08`, `bu-platform-09`, `bu-platform-10`, `bu-platform-11`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–235, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-platform lines 1–116, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-platform lines 117–117, Commercial Property Management Software: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-platform-01`.
+- bu-platform lines 118–119, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-platform lines 120–120, Student Housing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-platform-02`.
+- bu-platform lines 121–127, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-platform lines 128–128, Business Operations: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-platform-03`.
+- bu-platform lines 129–132, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-platform lines 133–133, Leasing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-platform-04`.
+- bu-platform lines 134–134, Leasing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-platform-05`.
+- bu-platform lines 135–135, Leasing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-platform-06`.
+- bu-platform lines 136–141, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-platform lines 142–142, Accounting & Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-platform-07`.
+- bu-platform lines 143–146, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-platform lines 147–147, Marketing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-platform-08`.
+- bu-platform lines 148–148, Marketing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-platform-09`.
+- bu-platform lines 149–152, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-platform lines 153–153, Business Performance: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-platform-10`.
+- bu-platform lines 154–154, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-platform lines 155–155, Business Performance: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-platform-11`.
+- bu-platform lines 156–235, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### bu-scheduled-help
 
 [Official page](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/bu-scheduled-help.txt).
 
-Raw SHA-256: `a90fa91f1e12f216715d491a803267a8485f6601e7a773496baa7d23103b361f`. Capture SHA-256: `60459cd7b77e678250073c8fb514e7ac380a508d2cc7564685b026781c4dc83f`.
+Raw SHA-256: `962fc5bd671d7741f3ac12a36e8add747029706b45855c65c928497bb3a0617b`. Capture SHA-256: `dc111fa7ff550ca1727e53229cfb1b43aa2e68d9a0971077153c7fc63beb7eaa`.
 
-**Audit: unaudited.** Scheduled reports article contents were not retrieved: HTTP 200 returns a five-line loading shell with a CSS Error. This is inaccessible source content, not evidence of absence or a verified workflow. Reconciled source workflows: .
+**Audit: partial.** The official article was retrieved after JavaScript loading in a clean browser. Selected instructions below are reconciled; related help articles, media and other official documentation remain unaudited. The earlier HTTP-only loading-shell limitation is resolved. Reconciled source workflows: `bu-scheduled-help-01`, `bu-scheduled-help-02`, `bu-scheduled-help-03`, `bu-scheduled-help-04`, `bu-scheduled-help-05`, `bu-scheduled-help-06`, `bu-scheduled-help-07`, `bu-scheduled-help-08`, `bu-scheduled-help-09`, `bu-scheduled-help-10`, `bu-scheduled-help-11`, `bu-scheduled-help-12`, `bu-scheduled-help-13`, `bu-scheduled-help-14`, `bu-scheduled-help-15`, `bu-scheduled-help-16`, `bu-scheduled-help-17`, `bu-scheduled-help-18`, `bu-scheduled-help-19`, `bu-scheduled-help-20`.
+
+**Browser-rendered source:** the initial HTTP response is a loading shell; the retained text was read after the official article loaded in a clean browser. Rendered document SHA-256: `87452bd1aab0ac7b7f5affdce869adfaac52118e628ba4b66782667acc986621`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–5, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-scheduled-help lines 1–10, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
+- bu-scheduled-help lines 11–11, Schedule Batched Reports: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-01`.
+- bu-scheduled-help lines 12–14, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
+- bu-scheduled-help lines 15–15, Why it makes sense to schedule Batched Reports: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-02`.
+- bu-scheduled-help lines 16–18, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
+- bu-scheduled-help lines 19–19, How to Schedule and Share Batched Reports: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-03`.
+- bu-scheduled-help lines 20–22, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
+- bu-scheduled-help lines 23–23, Fill Out Required Fields: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-04`.
+- bu-scheduled-help lines 24–24, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
+- bu-scheduled-help lines 25–25, Schedule and Share: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-05`.
+- bu-scheduled-help lines 26–28, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
+- bu-scheduled-help lines 29–29, Select Report Entities: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-06`.
+- bu-scheduled-help lines 30–30, Select Report Entities: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-07`.
+- bu-scheduled-help lines 31–32, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
+- bu-scheduled-help lines 33–33, Add Reports: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-08`.
+- bu-scheduled-help lines 34–34, Add Reports: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-09`.
+- bu-scheduled-help lines 35–37, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
+- bu-scheduled-help lines 38–38, Set Report Filters: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-10`.
+- bu-scheduled-help lines 39–41, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
+- bu-scheduled-help lines 42–42, Add Attachments: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-11`.
+- bu-scheduled-help lines 43–43, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
+- bu-scheduled-help lines 44–44, Organize Reports: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-12`.
+- bu-scheduled-help lines 45–45, Organize Reports: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-13`.
+- bu-scheduled-help lines 46–47, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
+- bu-scheduled-help lines 48–48, Recipients: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-14`.
+- bu-scheduled-help lines 49–49, Recipients: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-15`.
+- bu-scheduled-help lines 50–50, Recipients: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-16`.
+- bu-scheduled-help lines 51–51, Recipients: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-17`.
+- bu-scheduled-help lines 52–52, Recipients: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-18`.
+- bu-scheduled-help lines 53–54, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
+- bu-scheduled-help lines 55–55, Set Scheduling Settings: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-19`.
+- bu-scheduled-help lines 56–56, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
+- bu-scheduled-help lines 57–57, Save Draft or Schedule and Share: **workflows**. Official article instruction retained with its source-specific prerequisites and outcome. Workflows: `bu-scheduled-help-20`.
+- bu-scheduled-help lines 58–78, Unreconciled article text and related sources: **unaudited**. Supporting instructions, article context and related help links remain visible as unaudited source areas.
 
 ### af-smart-blog
 
@@ -3793,11 +4612,11 @@ Raw SHA-256: `19be48c1b6d02a74ab9ac894a0a3d0246f688af5171d916d23679255cb50320a`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–20, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 21–21, So how does it work?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-smart-blog-01`, `af-smart-blog-02`.
-- Lines 22–22, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 23–23, So how does it work?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-smart-blog-03`.
-- Lines 24–88, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-smart-blog lines 1–20, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-smart-blog lines 21–21, So how does it work?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-smart-blog-01`, `af-smart-blog-02`.
+- af-smart-blog lines 22–22, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-smart-blog lines 23–23, So how does it work?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-smart-blog-03`.
+- af-smart-blog lines 24–88, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### af-reports
 
@@ -3809,12 +4628,12 @@ Raw SHA-256: `c04dc3f2fe1bf5abadebfc05898de0fdfdbc5655d67fa4a1a2831c96fc8dd028`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–26, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 27–27, Customizing your reports in AppFolio Property Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-reports-01`.
-- Lines 28–29, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 30–30, Customizing your reports in AppFolio Property Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-reports-02`.
-- Lines 31–31, Customizing your reports in AppFolio Property Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-reports-03`.
-- Lines 32–94, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-reports lines 1–26, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-reports lines 27–27, Customizing your reports in AppFolio Property Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-reports-01`.
+- af-reports lines 28–29, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-reports lines 30–30, Customizing your reports in AppFolio Property Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-reports-02`.
+- af-reports lines 31–31, Customizing your reports in AppFolio Property Manager: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-reports-03`.
+- af-reports lines 32–94, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### af-marketing
 
@@ -3826,59 +4645,59 @@ Raw SHA-256: `ff1ec426352140047109ee0fb327081203ce2a41dbad35eaf836673a6eb6e5cf`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–20, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 21–21, AppFolio Realm-X Leasing Performer: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-01`.
-- Lines 22–29, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 30–30, Leasing CRM: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-02`.
-- Lines 31–31, Leasing CRM: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-03`.
-- Lines 32–32, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 33–33, Leasing CRM: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-04`.
-- Lines 34–53, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 54–54, FolioScreen Trusted Renter: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-05`.
-- Lines 55–55, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 56–56, FolioScreen Trusted Renter: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-06`.
-- Lines 57–57, FolioScreen Trusted Renter: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-07`.
-- Lines 58–59, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 60–60, Leasing Signals: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-08`.
-- Lines 61–63, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 64–64, Leasing Signals: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-09`.
-- Lines 65–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 70–70, AppFolio Sites: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-10`.
-- Lines 71–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 72–72, 3D Virtual Tours: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-11`.
-- Lines 73–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 74–74, Interactive Property Maps: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-12`.
-- Lines 75–75, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 76–76, Premium Listing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-13`.
-- Lines 77–77, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 78–78, Guest Card Tracking: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-14`.
-- Lines 79–79, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 80–80, Self-Guided Tours: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-15`.
-- Lines 81–81, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 82–82, Virtual Showings: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-16`.
-- Lines 83–83, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 84–84, ID Verification for Showings: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-17`.
-- Lines 85–87, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 88–88, Online Leases: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-18`.
-- Lines 89–89, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 90–90, Renewal Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-19`.
-- Lines 91–91, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 92–92, Vacancy Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-20`.
-- Lines 93–93, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 94–94, Vacancy Posting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-21`.
-- Lines 95–95, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 96–96, Marketing Campaigns: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-22`.
-- Lines 97–97, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 98–98, Rent By-The-Bed: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-23`.
-- Lines 99–99, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 100–100, Bulk Move Outs: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-24`.
-- Lines 101–101, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 102–102, Bulk Lease Renewals: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-25`.
-- Lines 103–103, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 104–104, Bulk Pricing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-26`.
-- Lines 105–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 106–106, Leasing Metrics Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-27`.
-- Lines 107–263, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 1–20, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 21–21, AppFolio Realm-X Leasing Performer: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-01`.
+- af-marketing lines 22–29, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 30–30, Leasing CRM: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-02`.
+- af-marketing lines 31–31, Leasing CRM: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-03`.
+- af-marketing lines 32–32, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 33–33, Leasing CRM: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-04`.
+- af-marketing lines 34–53, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 54–54, FolioScreen Trusted Renter: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-05`.
+- af-marketing lines 55–55, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 56–56, FolioScreen Trusted Renter: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-06`.
+- af-marketing lines 57–57, FolioScreen Trusted Renter: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-07`.
+- af-marketing lines 58–59, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 60–60, Leasing Signals: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-08`.
+- af-marketing lines 61–63, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 64–64, Leasing Signals: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-09`.
+- af-marketing lines 65–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 70–70, AppFolio Sites: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-10`.
+- af-marketing lines 71–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 72–72, 3D Virtual Tours: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-11`.
+- af-marketing lines 73–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 74–74, Interactive Property Maps: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-12`.
+- af-marketing lines 75–75, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 76–76, Premium Listing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-13`.
+- af-marketing lines 77–77, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 78–78, Guest Card Tracking: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-14`.
+- af-marketing lines 79–79, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 80–80, Self-Guided Tours: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-15`.
+- af-marketing lines 81–81, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 82–82, Virtual Showings: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-16`.
+- af-marketing lines 83–83, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 84–84, ID Verification for Showings: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-17`.
+- af-marketing lines 85–87, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 88–88, Online Leases: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-18`.
+- af-marketing lines 89–89, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 90–90, Renewal Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-19`.
+- af-marketing lines 91–91, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 92–92, Vacancy Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-20`.
+- af-marketing lines 93–93, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 94–94, Vacancy Posting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-21`.
+- af-marketing lines 95–95, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 96–96, Marketing Campaigns: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-22`.
+- af-marketing lines 97–97, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 98–98, Rent By-The-Bed: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-23`.
+- af-marketing lines 99–99, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 100–100, Bulk Move Outs: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-24`.
+- af-marketing lines 101–101, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 102–102, Bulk Lease Renewals: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-25`.
+- af-marketing lines 103–103, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 104–104, Bulk Pricing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-26`.
+- af-marketing lines 105–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-marketing lines 106–106, Leasing Metrics Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-marketing-27`.
+- af-marketing lines 107–263, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### af-communication
 
@@ -3890,46 +4709,46 @@ Raw SHA-256: `2ce23d20838bc5b0c7e3e5b0a82648dc45ff3ed6eef60ff3f4d9bba8050c0f11`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–29, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 30–30, Online Resident Portal and Mobile App: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-01`.
-- Lines 31–37, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 38–38, Agentic AI Workflows: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-02`.
-- Lines 39–39, Agentic AI Workflows: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-03`.
-- Lines 40–41, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 42–42, Centralized Inbox: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-04`.
-- Lines 43–43, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 44–44, Centralized Inbox: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-05`.
-- Lines 45–45, Centralized Inbox: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-06`.
-- Lines 46–46, Centralized Inbox: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-07`.
-- Lines 47–53, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 54–54, Online Portal for Renters: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-08`.
-- Lines 55–55, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 56–56, Online Portal for Homeowners & Board Members: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-09`.
-- Lines 57–57, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 58–58, Online Portal for Vendors: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-10`.
-- Lines 59–59, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 60–60, Online Owner Portal: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-11`.
-- Lines 61–61, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 62–62, Text Communication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-12`.
-- Lines 63–63, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 64–64, Email Communication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-13`.
-- Lines 65–65, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 66–66, Payment Plans: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-14`.
-- Lines 67–67, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 68–68, Shared Documents & Folders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-15`.
-- Lines 69–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 70–70, Online Board Approvals: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-16`.
-- Lines 71–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 72–72, Architectural Reviews: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-17`.
-- Lines 73–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 74–74, Board Member Management: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-18`.
-- Lines 75–75, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 76–76, Tenant Insurance: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-19`.
-- Lines 77–77, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 78–78, Surveys: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-20`.
-- Lines 79–79, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 80–80, Text Templates: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-21`.
-- Lines 81–209, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 1–29, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 30–30, Online Resident Portal and Mobile App: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-01`.
+- af-communication lines 31–37, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 38–38, Agentic AI Workflows: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-02`.
+- af-communication lines 39–39, Agentic AI Workflows: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-03`.
+- af-communication lines 40–41, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 42–42, Centralized Inbox: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-04`.
+- af-communication lines 43–43, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 44–44, Centralized Inbox: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-05`.
+- af-communication lines 45–45, Centralized Inbox: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-06`.
+- af-communication lines 46–46, Centralized Inbox: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-07`.
+- af-communication lines 47–53, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 54–54, Online Portal for Renters: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-08`.
+- af-communication lines 55–55, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 56–56, Online Portal for Homeowners & Board Members: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-09`.
+- af-communication lines 57–57, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 58–58, Online Portal for Vendors: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-10`.
+- af-communication lines 59–59, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 60–60, Online Owner Portal: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-11`.
+- af-communication lines 61–61, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 62–62, Text Communication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-12`.
+- af-communication lines 63–63, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 64–64, Email Communication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-13`.
+- af-communication lines 65–65, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 66–66, Payment Plans: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-14`.
+- af-communication lines 67–67, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 68–68, Shared Documents & Folders: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-15`.
+- af-communication lines 69–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 70–70, Online Board Approvals: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-16`.
+- af-communication lines 71–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 72–72, Architectural Reviews: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-17`.
+- af-communication lines 73–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 74–74, Board Member Management: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-18`.
+- af-communication lines 75–75, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 76–76, Tenant Insurance: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-19`.
+- af-communication lines 77–77, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 78–78, Surveys: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-20`.
+- af-communication lines 79–79, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-communication lines 80–80, Text Templates: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-communication-21`.
+- af-communication lines 81–209, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### af-automation
 
@@ -3941,32 +4760,32 @@ Raw SHA-256: `31be1328236084d09ab2430095572e9c20b105c413b17701c27e7775d9ec48f9`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–27, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 28–28, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-01`.
-- Lines 29–29, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-02`.
-- Lines 30–30, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-03`.
-- Lines 31–31, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-04`.
-- Lines 32–32, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-05`.
-- Lines 33–33, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-06`.
-- Lines 34–34, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-07`.
-- Lines 35–35, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-08`.
-- Lines 36–61, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 62–62, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-09`.
-- Lines 63–63, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 64–64, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-10`.
-- Lines 65–65, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 66–66, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-11`.
-- Lines 67–67, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 68–68, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-12`.
-- Lines 69–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 70–70, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-13`.
-- Lines 71–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 72–72, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-14`.
-- Lines 73–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 74–74, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-15`.
-- Lines 75–75, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 76–76, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-16`.
-- Lines 77–203, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-automation lines 1–27, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-automation lines 28–28, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-01`.
+- af-automation lines 29–29, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-02`.
+- af-automation lines 30–30, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-03`.
+- af-automation lines 31–31, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-04`.
+- af-automation lines 32–32, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-05`.
+- af-automation lines 33–33, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-06`.
+- af-automation lines 34–34, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-07`.
+- af-automation lines 35–35, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-08`.
+- af-automation lines 36–61, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-automation lines 62–62, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-09`.
+- af-automation lines 63–63, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-automation lines 64–64, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-10`.
+- af-automation lines 65–65, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-automation lines 66–66, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-11`.
+- af-automation lines 67–67, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-automation lines 68–68, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-12`.
+- af-automation lines 69–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-automation lines 70–70, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-13`.
+- af-automation lines 71–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-automation lines 72–72, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-14`.
+- af-automation lines 73–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-automation lines 74–74, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-15`.
+- af-automation lines 75–75, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-automation lines 76–76, Workflow automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-automation-16`.
+- af-automation lines 77–203, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### bu-automation
 
@@ -3978,24 +4797,24 @@ Raw SHA-256: `ffcfd022eb2e36049cea3af614704b70b53a798dff884c88fac9ed19dd72fb99`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–77, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 78–78, Reporting Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-01`.
-- Lines 79–80, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 81–81, Automated Tenant Screening: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-02`.
-- Lines 82–83, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 84–84, Returned Payment Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-03`.
-- Lines 85–86, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 87–87, Automated Resident Reminders & Communication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-04`.
-- Lines 88–89, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 90–90, Property Management Workflow Automations: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-05`.
-- Lines 91–125, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 126–126, Advanced Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-06`.
-- Lines 127–127, Advanced Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-07`.
-- Lines 128–128, Advanced Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-08`.
-- Lines 129–129, Advanced Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-09`.
-- Lines 130–130, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 131–131, How can I start automating tasks in Buildium now?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-10`.
-- Lines 132–173, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-automation lines 1–77, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-automation lines 78–78, Reporting Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-01`.
+- bu-automation lines 79–80, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-automation lines 81–81, Automated Tenant Screening: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-02`.
+- bu-automation lines 82–83, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-automation lines 84–84, Returned Payment Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-03`.
+- bu-automation lines 85–86, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-automation lines 87–87, Automated Resident Reminders & Communication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-04`.
+- bu-automation lines 88–89, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-automation lines 90–90, Property Management Workflow Automations: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-05`.
+- bu-automation lines 91–125, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-automation lines 126–126, Advanced Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-06`.
+- bu-automation lines 127–127, Advanced Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-07`.
+- bu-automation lines 128–128, Advanced Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-08`.
+- bu-automation lines 129–129, Advanced Automation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-09`.
+- bu-automation lines 130–130, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-automation lines 131–131, How can I start automating tasks in Buildium now?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-automation-10`.
+- bu-automation lines 132–173, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### bu-analytics
 
@@ -4007,13 +4826,13 @@ Raw SHA-256: `1cd973b887fd91e1f6c1cef9df2cb96635241119c9c3726541c49bc42dd6376d`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 70–70, Property Management Analytics & Insights: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-analytics-01`.
-- Lines 71–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 72–72, Property Management Analytics & Insights: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-analytics-02`.
-- Lines 73–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 74–74, Property Management Analytics & Insights: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-analytics-03`.
-- Lines 75–110, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-analytics lines 1–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-analytics lines 70–70, Property Management Analytics & Insights: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-analytics-01`.
+- bu-analytics lines 71–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-analytics lines 72–72, Property Management Analytics & Insights: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-analytics-02`.
+- bu-analytics lines 73–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-analytics lines 74–74, Property Management Analytics & Insights: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-analytics-03`.
+- bu-analytics lines 75–110, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### bu-leasing
 
@@ -4025,13 +4844,13 @@ Raw SHA-256: `4ea7d616847704c6ff73d8b99ce067758a76c24f248c0b6cbe8902e2961ce911`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 70–70, Online Leasing Software powered by Dropbox Sign: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-leasing-01`.
-- Lines 71–74, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 75–75, Online Leasing Software powered by Dropbox Sign: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-leasing-02`.
-- Lines 76–76, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 77–77, Online Leasing Software powered by Dropbox Sign: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-leasing-03`.
-- Lines 78–113, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-leasing lines 1–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-leasing lines 70–70, Online Leasing Software powered by Dropbox Sign: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-leasing-01`.
+- bu-leasing lines 71–74, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-leasing lines 75–75, Online Leasing Software powered by Dropbox Sign: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-leasing-02`.
+- bu-leasing lines 76–76, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-leasing lines 77–77, Online Leasing Software powered by Dropbox Sign: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-leasing-03`.
+- bu-leasing lines 78–113, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### bu-resident
 
@@ -4043,36 +4862,36 @@ Raw SHA-256: `890e87e393da81e7bf2d173c67f7b0de3a3733493694a88caeba3129e0e7c7cc`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 74–74, Put your brand front and center: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-01`.
-- Lines 75–83, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 84–84, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-02`.
-- Lines 85–85, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-03`.
-- Lines 86–86, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-04`.
-- Lines 87–87, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 88–88, Communications: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-05`.
-- Lines 89–90, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 91–91, Communications: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-06`.
-- Lines 92–92, Communications: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-07`.
-- Lines 93–94, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 95–95, Maintenance Requests: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-08`.
-- Lines 96–96, Maintenance Requests: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-09`.
-- Lines 97–97, Maintenance Requests: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-10`.
-- Lines 98–98, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 99–99, Community: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-11`.
-- Lines 100–102, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 103–103, Buildium renters insurance: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-12`.
-- Lines 104–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 106–106, Rent reporting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-13`.
-- Lines 107–108, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 109–109, Livble: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-14`.
-- Lines 110–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 112–112, Move-in services: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-15`.
-- Lines 113–114, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 115–115, Obligo security deposit alternative: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-16`.
-- Lines 116–139, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 140–140, Does Resident Center have a mobile app?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-17`.
-- Lines 141–180, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-resident lines 1–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-resident lines 74–74, Put your brand front and center: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-01`.
+- bu-resident lines 75–83, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-resident lines 84–84, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-02`.
+- bu-resident lines 85–85, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-03`.
+- bu-resident lines 86–86, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-04`.
+- bu-resident lines 87–87, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-resident lines 88–88, Communications: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-05`.
+- bu-resident lines 89–90, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-resident lines 91–91, Communications: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-06`.
+- bu-resident lines 92–92, Communications: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-07`.
+- bu-resident lines 93–94, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-resident lines 95–95, Maintenance Requests: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-08`.
+- bu-resident lines 96–96, Maintenance Requests: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-09`.
+- bu-resident lines 97–97, Maintenance Requests: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-10`.
+- bu-resident lines 98–98, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-resident lines 99–99, Community: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-11`.
+- bu-resident lines 100–102, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-resident lines 103–103, Buildium renters insurance: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-12`.
+- bu-resident lines 104–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-resident lines 106–106, Rent reporting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-13`.
+- bu-resident lines 107–108, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-resident lines 109–109, Livble: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-14`.
+- bu-resident lines 110–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-resident lines 112–112, Move-in services: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-15`.
+- bu-resident lines 113–114, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-resident lines 115–115, Obligo security deposit alternative: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-16`.
+- bu-resident lines 116–139, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- bu-resident lines 140–140, Does Resident Center have a mobile app?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `bu-resident-17`.
+- bu-resident lines 141–180, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### rm-mobile
 
@@ -4084,24 +4903,24 @@ Raw SHA-256: `1378ac6434663570cf80dcfc9d940c488bb5e9d4f25495298768c9fca2b0ba2f`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 106–106, Communication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-01`.
-- Lines 107–108, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 109–109, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-02`.
-- Lines 110–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 112–112, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-03`.
-- Lines 113–113, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-04`.
-- Lines 114–114, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-05`.
-- Lines 115–115, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-06`.
-- Lines 116–116, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-07`.
-- Lines 117–117, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 118–118, Service Issues: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-08`, `rm-mobile-09`.
-- Lines 119–119, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 120–120, Violations: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-10`.
-- Lines 121–121, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 122–122, Metered Utilities: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-11`.
-- Lines 123–123, Metered Utilities: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-12`.
-- Lines 124–246, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-mobile lines 1–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-mobile lines 106–106, Communication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-01`.
+- rm-mobile lines 107–108, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-mobile lines 109–109, Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-02`.
+- rm-mobile lines 110–111, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-mobile lines 112–112, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-03`.
+- rm-mobile lines 113–113, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-04`.
+- rm-mobile lines 114–114, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-05`.
+- rm-mobile lines 115–115, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-06`.
+- rm-mobile lines 116–116, Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-07`.
+- rm-mobile lines 117–117, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-mobile lines 118–118, Service Issues: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-08`, `rm-mobile-09`.
+- rm-mobile lines 119–119, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-mobile lines 120–120, Violations: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-10`.
+- rm-mobile lines 121–121, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-mobile lines 122–122, Metered Utilities: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-11`.
+- rm-mobile lines 123–123, Metered Utilities: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-mobile-12`.
+- rm-mobile lines 124–246, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### rm-leasing
 
@@ -4113,44 +4932,44 @@ Raw SHA-256: `5a141e73ed7528171a720d41a4ba3a5bf0adb79c77b954f523ae3ef671a9c790`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 106–106, Prospect & Tenant Online Portal: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-01`.
-- Lines 107–110, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 111–111, Online Applications: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-02`.
-- Lines 112–114, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 115–115, Signable Documents: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-03`.
-- Lines 116–116, Signable Documents: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-04`.
-- Lines 117–118, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 119–119, Online Leasing & Renewals: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-05`.
-- Lines 120–122, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 123–123, Resident Screening: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-06`.
-- Lines 124–126, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 127–127, Resident App: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-07`.
-- Lines 128–129, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 130–130, Prospect Manager and CRM: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-08`.
-- Lines 131–131, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 132–132, Guest Cards: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-09`.
-- Lines 133–135, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 136–136, Web Template Suite: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-10`.
-- Lines 137–137, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 138–138, rmWebPro: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-11`.
-- Lines 139–139, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 140–140, Custom Website Design: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-12`.
-- Lines 141–141, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 142–142, ILS Advertising: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-13`.
-- Lines 143–144, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 145–145, Web Chat: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-14`.
-- Lines 146–146, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 147–147, Letter Templates: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-15`.
-- Lines 148–148, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 149–149, Bird’s Eye View: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-16`.
-- Lines 150–152, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 153–153, Marketing Tool: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-17`.
-- Lines 154–154, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 155–155, Reporting Functionality: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-18`.
-- Lines 156–156, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 157–157, Quick Reference for Prospects: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-19`.
-- Lines 158–278, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 1–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 106–106, Prospect & Tenant Online Portal: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-01`.
+- rm-leasing lines 107–110, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 111–111, Online Applications: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-02`.
+- rm-leasing lines 112–114, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 115–115, Signable Documents: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-03`.
+- rm-leasing lines 116–116, Signable Documents: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-04`.
+- rm-leasing lines 117–118, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 119–119, Online Leasing & Renewals: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-05`.
+- rm-leasing lines 120–122, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 123–123, Resident Screening: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-06`.
+- rm-leasing lines 124–126, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 127–127, Resident App: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-07`.
+- rm-leasing lines 128–129, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 130–130, Prospect Manager and CRM: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-08`.
+- rm-leasing lines 131–131, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 132–132, Guest Cards: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-09`.
+- rm-leasing lines 133–135, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 136–136, Web Template Suite: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-10`.
+- rm-leasing lines 137–137, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 138–138, rmWebPro: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-11`.
+- rm-leasing lines 139–139, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 140–140, Custom Website Design: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-12`.
+- rm-leasing lines 141–141, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 142–142, ILS Advertising: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-13`.
+- rm-leasing lines 143–144, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 145–145, Web Chat: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-14`.
+- rm-leasing lines 146–146, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 147–147, Letter Templates: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-15`.
+- rm-leasing lines 148–148, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 149–149, Bird’s Eye View: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-16`.
+- rm-leasing lines 150–152, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 153–153, Marketing Tool: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-17`.
+- rm-leasing lines 154–154, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 155–155, Reporting Functionality: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-18`.
+- rm-leasing lines 156–156, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-leasing lines 157–157, Quick Reference for Prospects: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-leasing-19`.
+- rm-leasing lines 158–278, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### rm-owner
 
@@ -4162,21 +4981,21 @@ Raw SHA-256: `d07b2c7c62d6734593eca41ef7130853a5a12298443e8d10dd16f3dc177bf0e9`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–102, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 103–103, Owners: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-01`.
-- Lines 104–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 106–106, Owner Portal: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-02`, `rm-owner-03`, `rm-owner-04`.
-- Lines 107–108, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 109–109, Management Fees: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-05`.
-- Lines 110–110, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 111–111, Guest Cards: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-06`.
-- Lines 112–112, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 113–113, Web Chat: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-07`.
-- Lines 114–114, Web Chat: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-08`.
-- Lines 115–115, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- Lines 116–116, NACHA Files: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-09`.
-- Lines 117–117, NACHA Files: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-10`.
-- Lines 118–238, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-owner lines 1–102, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-owner lines 103–103, Owners: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-01`.
+- rm-owner lines 104–105, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-owner lines 106–106, Owner Portal: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-02`, `rm-owner-03`, `rm-owner-04`.
+- rm-owner lines 107–108, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-owner lines 109–109, Management Fees: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-05`.
+- rm-owner lines 110–110, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-owner lines 111–111, Guest Cards: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-06`.
+- rm-owner lines 112–112, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-owner lines 113–113, Web Chat: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-07`.
+- rm-owner lines 114–114, Web Chat: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-08`.
+- rm-owner lines 115–115, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- rm-owner lines 116–116, NACHA Files: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-09`.
+- rm-owner lines 117–117, NACHA Files: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `rm-owner-10`.
+- rm-owner lines 118–238, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### af-smart-maintenance
 
@@ -4188,7 +5007,7 @@ Raw SHA-256: `0619eaf13d260e9de21f1e310991ec563a095286801b654c26700032e9e15335`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–27, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-smart-maintenance lines 1–27, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ### af-owner
 
@@ -4196,11 +5015,70 @@ Raw SHA-256: `0619eaf13d260e9de21f1e310991ec563a095286801b654c26700032e9e15335`.
 
 Raw SHA-256: `95ae2d15f0851726b5dc2baec192363fae0362c827a4ffd69fc017d218923eff`. Capture SHA-256: `e8186dc8272db8f046ab2844b2d7df885d80dcfabf2768c3b4f676cba87c84fb`.
 
-**Audit: unaudited.** Retained official source area has not yet been reconciled into workflow rows. This is an explicit inventory gap, not absence of incumbent capability. Reconciled source workflows: .
+**Audit: partial.** Selected source statements and instructions are reconciled. Unreconciled text and linked or authenticated documentation remain explicitly unaudited; no complete official-source inventory is claimed. Reconciled source workflows: `af-owner-01`, `af-owner-02`, `af-owner-03`, `af-owner-04`, `af-owner-05`, `af-owner-06`, `af-owner-07`, `af-owner-08`, `af-owner-09`, `af-owner-10`, `af-owner-11`, `af-owner-12`, `af-owner-13`, `af-owner-14`, `af-owner-15`, `af-owner-16`, `af-owner-17`, `af-owner-18`, `af-owner-19`, `af-owner-20`, `af-owner-21`, `af-owner-22`, `af-owner-23`, `af-owner-24`, `af-owner-25`, `af-owner-26`, `af-owner-27`, `af-owner-28`, `af-owner-29`, `af-owner-30`, `af-owner-31`, `af-owner-32`, `af-owner-33`, `af-owner-34`, `af-owner-35`, `af-owner-36`, `af-owner-37`, `af-owner-38`, `af-owner-39`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- Lines 1–194, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 1–16, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 17–17, Activate Your Owner Portal: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-01`.
+- af-owner lines 18–18, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 19–19, Activate Your Owner Portal: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-02`.
+- af-owner lines 20–23, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 24–24, Create a Password & Set Up Two-Factor Authentication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-03`.
+- af-owner lines 25–27, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 28–28, Create a Password & Set Up Two-Factor Authentication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-04`.
+- af-owner lines 29–43, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 44–44, Migrate to Phone Two-Factor Authentication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-05`.
+- af-owner lines 45–48, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 49–49, View Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-06`.
+- af-owner lines 50–50, View Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-07`.
+- af-owner lines 51–51, View Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-08`.
+- af-owner lines 52–52, View Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-09`.
+- af-owner lines 53–53, View Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-10`.
+- af-owner lines 54–54, View Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-11`.
+- af-owner lines 55–55, View Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-12`.
+- af-owner lines 56–56, View Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-13`.
+- af-owner lines 57–57, View Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-14`.
+- af-owner lines 58–58, View Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-15`.
+- af-owner lines 59–61, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 62–62, Customize Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-16`.
+- af-owner lines 63–63, Customize Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-17`.
+- af-owner lines 64–64, Customize Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-18`.
+- af-owner lines 65–65, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 66–66, Customize Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-19`.
+- af-owner lines 67–67, Customize Your Dashboard: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-20`.
+- af-owner lines 68–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 70–70, Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-21`.
+- af-owner lines 71–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 72–72, Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-22`.
+- af-owner lines 73–74, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 75–75, Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-23`.
+- af-owner lines 76–76, Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-24`.
+- af-owner lines 77–77, Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-25`.
+- af-owner lines 78–78, Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-26`.
+- af-owner lines 79–79, Reports: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-27`.
+- af-owner lines 80–80, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 81–81, Properties: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-28`.
+- af-owner lines 82–86, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 87–87, Properties: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-29`.
+- af-owner lines 88–88, Properties: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-30`.
+- af-owner lines 89–90, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 91–91, View Statements, Transactions, and Documents: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-31`.
+- af-owner lines 92–92, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 93–93, View Statements, Transactions, and Documents: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-32`.
+- af-owner lines 94–98, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 99–99, Update Your Bank Account Information: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-33`.
+- af-owner lines 100–100, Update Your Bank Account Information: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-34`.
+- af-owner lines 101–102, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 103–103, Make a Contribution: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-35`.
+- af-owner lines 104–104, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 105–105, Make a Contribution: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-36`.
+- af-owner lines 106–107, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 108–108, Make a Contribution: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-37`.
+- af-owner lines 109–109, Make a Contribution: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-38`.
+- af-owner lines 110–119, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-owner lines 120–120, FAQ: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-39`.
+- af-owner lines 121–194, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 
 ## Current Terrace replacement evidence
 
@@ -4775,6 +5653,16 @@ Acceptance source SHA-256: `1744dff0533aae19e7419bf02711e0f7bf35a97a3f5d503067d5
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
 Acceptance source SHA-256: `bbbf42541cd12f1aa887f74eebf8569522f2a3235fd350776309a038c3cb6261`.
+
+### Clause ROLE-002
+
+**Isolate residents owners and vendors — done.**
+
+**Evidence:** `tests/portal.mjs` via `tests/terrace.test.mjs` “ROLE-002: residents, delegated contacts, joint owners and vendors see only the record a live grant names; ownership dates, assignments and revocation apply at once; document doors refuse them”: a resident, delegated contact, two joint owners and two vendors invited through the staff door (role, scope and fresh-proof refusals); links work once and an invitation is refused 7 days on; every portal page, download and API crawled per person without another household, owner, screening, bank detail or document; a dated ownership change and a job reassignment end the touched sessions and apply on the next sign-in; after the sale the former owner reads owned periods only; the delegated contact has no payment or adjustment history in the API, page or CSV and cannot directly read another household; the resident revokes the delegated contact (session ended, recorded as theirs); staff revoke a grant, three people and an unopened invitation, and the crawl again finds every page, download and API closed to them and only their own records for the others; backups exclude portal tables and a restore leaves every portal cookie and link dead. `tests/retention.mjs` via “SAFE-004: …”: erasing the lease removes the resident’s portal person and sessions. `tests/documents-browser.mjs`: staff portal form, each portal page, native resident revocation, sold-owner statement and revoked sign-in at 1440/390. `src/terrace/portal.ts`; `src/terrace/portal-session.ts`; `src/terrace/portal-data.ts`; `src/terrace/portal-http.ts`; `src/terrace/portal-view.ts`; `src/terrace/portal-view-staff.ts`; `migrations/core/0061_portal.sql`; `API.md`
+
+**Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
+
+Acceptance source SHA-256: `49242396f1b6748a332e5f17b1ce09c16c2fe9031342a959bdf6a9ce937247ca`.
 
 ### Clause SAFE-001
 

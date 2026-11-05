@@ -55,6 +55,8 @@ export function loadSwitchChecklist({ root = process.cwd(), contractText, read =
   if (source.resolvedUrl) official(source.resolvedUrl, source.incumbent)
   need(/^\d{4}-\d{2}-\d{2}$/.test(source.capturedOn), 'missing capture date')
   need(/^[a-f0-9]{64}$/.test(source.rawSha256), 'missing raw source hash')
+  need(!source.captureMode || ['http-response', 'browser-rendered'].includes(source.captureMode), 'unknown source capture mode')
+  if (source.captureMode === 'browser-rendered') need(/^[a-f0-9]{64}$/.test(source.renderedSha256), 'missing rendered source hash')
   need(/^[a-z-]+\.txt$/.test(source.capture), 'invalid source capture path')
   const bytes = read(sourceDirectory + source.capture)
   need(hash(bytes) === source.captureSha256, 'captured-source hash mismatch: ' + source.capture)
@@ -136,7 +138,8 @@ export function renderSwitchChecklist(data) {
    `${inventory.workflows.length} inventoried workflows from ${manifest.sources.filter(source => source.incumbent === inventory.incumbent && source.review === 'partial').length} partially audited pages; ${manifest.sources.filter(source => source.incumbent === inventory.incumbent && source.review === 'unaudited').length} unaudited captures. [Discovery register](switch-checklist-sources/${index.capture}): ${index.urls} URLs, captured ${index.capturedOn}; all unselected entries remain unaudited. ${md(index.gap)}`, '',
    `Discovery raw SHA-256: \`${index.rawSha256}\`. Retained register SHA-256: \`${index.captureSha256}\`.`, '')
   for (const area of manifest.unresolvedAreas.filter(area => area.incumbent === inventory.incumbent)) lines.push(`**Unaudited area — ${md(area.area)}:** ${md(area.reason)}${area.url ? ` [Official source area](${area.url})` : ''}`, '')
-  lines.push('**Captured source areas awaiting review:** ' + manifest.sources.filter(source => source.incumbent === inventory.incumbent).flatMap(source => source.areas.filter(area => area.review === 'unaudited').map(area => `${md(source.id)} lines ${area.from}–${area.to} (${md(area.section)})`)).join('; ') + '.', '')
+  const pendingAreas = manifest.sources.filter(source => source.incumbent === inventory.incumbent).flatMap(source => source.areas.filter(area => area.review === 'unaudited'))
+  lines.push(`**Captured source areas awaiting review:** ${pendingAreas.length} unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.`, '')
  }
  for (const inventory of inventories) {
   lines.push(`## ${inventory.name} checklist`, '', `**Partial official-source inventory. ${inventory.workflows.length} workflows; additional source areas remain unaudited.**`, '')
@@ -159,8 +162,9 @@ export function renderSwitchChecklist(data) {
  for (const source of manifest.sources) {
   lines.push(`### ${source.id}`, '', `[Official page](${source.url})${source.url !== source.resolvedUrl ? ` → [resolved page](${source.resolvedUrl})` : ''}; captured ${source.capturedOn}, HTTP ${source.httpStatus}. [Retained normalized text](switch-checklist-sources/${source.capture}).`, '',
   `Raw SHA-256: \`${source.rawSha256}\`. Capture SHA-256: \`${source.captureSha256}\`.`, '', `**Audit: ${source.review}.** ${md(source.unaudited)} Reconciled source workflows: ${source.workflows.map(id => '\`' + id + '\`').join(', ')}.`, '')
+  if (source.captureMode === 'browser-rendered') lines.push(`**Browser-rendered source:** the initial HTTP response is a loading shell; the retained text was read after the official article loaded in a clean browser. Rendered document SHA-256: \`${source.renderedSha256}\`.`, '')
   lines.push('**Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.', '')
-  for (const area of source.areas) lines.push(`- Lines ${area.from}–${area.to}, ${md(area.section)}: **${area.review}**. ${md(area.note)}${area.workflows.length ? ' Workflows: ' + area.workflows.map(id => '\`' + id + '\`').join(', ') + '.' : ''}`)
+  for (const area of source.areas) lines.push(`- ${md(source.id)} lines ${area.from}–${area.to}, ${md(area.section)}: **${area.review}**. ${md(area.note)}${area.workflows.length ? ' Workflows: ' + area.workflows.map(id => '\`' + id + '\`').join(', ') + '.' : ''}`)
   lines.push('')
  }
  lines.push('## Current Terrace replacement evidence', '', 'The following statuses, acceptance fingerprints, Evidence and Gap cells come directly from CONTRACT.md. They describe the related Terrace work, not complete incumbent replacement.', '')

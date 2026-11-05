@@ -440,6 +440,254 @@
       "section": "Does Resident Center have a mobile app?",
       "line": 140,
       "quote": "Yes! The highly-rated Buildium Resident Center mobile app is available for download on iOS and Android. In fact, Buildium’s mobile apps set it apart from the competition."
+    },
+    {
+      "id": "bu-platform-01",
+      "label": "Commercial rent escalations and CAM",
+      "source": "bu-platform",
+      "section": "Commercial Property Management Software",
+      "line": 117,
+      "quote": "Retail, industrial, and office properties all fit under one roof with Buildium. Track leases, rent escalations, and CAM charges with less manual work—and see every financial detail at a glance."
+    },
+    {
+      "id": "bu-platform-02",
+      "label": "Student advance leasing and payments",
+      "source": "bu-platform",
+      "section": "Student Housing",
+      "line": 120,
+      "quote": "Execute leases and receive payments from students in advance of their move-in date, text every resident, file inspection reports in the field, and track maintenance trends and tasks."
+    },
+    {
+      "id": "bu-platform-03",
+      "label": "Mobile association violation tracking",
+      "source": "bu-platform",
+      "section": "Business Operations",
+      "line": 128,
+      "quote": "Manage and track association violations on the go"
+    },
+    {
+      "id": "bu-platform-04",
+      "label": "Vacancy advertising and showing coordination",
+      "source": "bu-platform",
+      "section": "Leasing",
+      "line": 133,
+      "quote": "Effortlessly advertise vacant units and schedule showings"
+    },
+    {
+      "id": "bu-platform-05",
+      "label": "Customized applications and screening",
+      "source": "bu-platform",
+      "section": "Leasing",
+      "line": 134,
+      "quote": "Customize rental applications and run comprehensive tenant screenings"
+    },
+    {
+      "id": "bu-platform-06",
+      "label": "Lease templates and applicant signatures",
+      "source": "bu-platform",
+      "section": "Leasing",
+      "line": 135,
+      "quote": "Set up templates for all your lease documents and collect applicant signatures from any device"
+    },
+    {
+      "id": "bu-platform-07",
+      "label": "Form 1099 filing and tracking",
+      "source": "bu-platform",
+      "section": "Accounting & Payments",
+      "line": 142,
+      "quote": "File and track your Form 1099s in minutes"
+    },
+    {
+      "id": "bu-platform-08",
+      "label": "Property website and service marketing",
+      "source": "bu-platform",
+      "section": "Marketing",
+      "line": 147,
+      "quote": "Stand up a free property management website to boost your brand, advertise listings, and show off the services you offer"
+    },
+    {
+      "id": "bu-platform-09",
+      "label": "Property-owner lead referrals",
+      "source": "bu-platform",
+      "section": "Marketing",
+      "line": 148,
+      "quote": "Connect with property owners looking for your services in your area—or anywhere you want to grow—with All Property Management"
+    },
+    {
+      "id": "bu-platform-10",
+      "label": "Portfolio-wide performance reporting",
+      "source": "bu-platform",
+      "section": "Business Performance",
+      "line": 153,
+      "quote": "Understand your entire portfolio’s performance with a full suite of reporting"
+    },
+    {
+      "id": "bu-platform-11",
+      "label": "Open API data integrations",
+      "source": "bu-platform",
+      "section": "Business Performance",
+      "line": 155,
+      "quote": "Add data workflow horsepower by using Open API to build custom integrations"
+    },
+    {
+      "id": "bu-scheduled-help-01",
+      "label": "Scheduled reports",
+      "source": "bu-scheduled-help",
+      "section": "Schedule Batched Reports",
+      "line": 11,
+      "quote": "Batched reports in Buildium allow you to compile multiple reports into a single, comprehensive packet. Available to customers on Growth and Premium, by scheduling Batched Reports, you can now automate the creation and sharing of these report packets, saving time and ensuring consistency."
+    },
+    {
+      "id": "bu-scheduled-help-02",
+      "label": "Scheduled report portal delivery",
+      "source": "bu-scheduled-help",
+      "section": "Why it makes sense to schedule Batched Reports",
+      "line": 15,
+      "quote": "Convenience: Schedule reports to be sent automatically to recipients’ portals at your desired frequency."
+    },
+    {
+      "id": "bu-scheduled-help-03",
+      "label": "Scheduled batch template creation",
+      "source": "bu-scheduled-help",
+      "section": "How to Schedule and Share Batched Reports",
+      "line": 19,
+      "quote": "On the right side of the page, select Create > New scheduled template."
+    },
+    {
+      "id": "bu-scheduled-help-04",
+      "label": "Scheduled template editor permissions",
+      "source": "bu-scheduled-help",
+      "section": "Fill Out Required Fields",
+      "line": 23,
+      "quote": "Choose which users can edit the template using the toggle (all user roles with access to edit batched reports or only me and account admins)"
+    },
+    {
+      "id": "bu-scheduled-help-05",
+      "label": "Automatic owner report generation and sharing",
+      "source": "bu-scheduled-help",
+      "section": "Schedule and Share",
+      "line": 25,
+      "quote": "Ensure the toggle for ‘Schedule and share automatically’ is on in order to be able to schedule to generate batched reports and share to owner portals automatically."
+    },
+    {
+      "id": "bu-scheduled-help-06",
+      "label": "Report template entity selection",
+      "source": "bu-scheduled-help",
+      "section": "Select Report Entities",
+      "line": 29,
+      "quote": "Add entities if needed by selecting + Add entities and then Save."
+    },
+    {
+      "id": "bu-scheduled-help-07",
+      "label": "Separate association rental owner and company report types",
+      "source": "bu-scheduled-help",
+      "section": "Select Report Entities",
+      "line": 30,
+      "quote": "Note: You can only choose 1 report type (associations, rentals, rental owners, or company). You cannot combine report types in the same template."
+    },
+    {
+      "id": "bu-scheduled-help-08",
+      "label": "Scheduled batch report selection",
+      "source": "bu-scheduled-help",
+      "section": "Add Reports",
+      "line": 33,
+      "quote": "Select the reports to include by clicking + Add reports."
+    },
+    {
+      "id": "bu-scheduled-help-09",
+      "label": "Batch report ordering",
+      "source": "bu-scheduled-help",
+      "section": "Add Reports",
+      "line": 34,
+      "quote": "Drag to reorder the reports if needed in the Selected section and then Save."
+    },
+    {
+      "id": "bu-scheduled-help-10",
+      "label": "Per-report entity and date filters",
+      "source": "bu-scheduled-help",
+      "section": "Set Report Filters",
+      "line": 38,
+      "quote": "Edit and save filters for each report available based on your selected properties or company."
+    },
+    {
+      "id": "bu-scheduled-help-11",
+      "label": "Recurring report attachments and updates",
+      "source": "bu-scheduled-help",
+      "section": "Add Attachments",
+      "line": 42,
+      "quote": "Note: When you add attachments to a template, those same attachments will be included every time the batch is generated. If you need to update or change the attachments, make sure to add the new ones before the batch is scheduled to run."
+    },
+    {
+      "id": "bu-scheduled-help-12",
+      "label": "Consolidated or separate report PDFs",
+      "source": "bu-scheduled-help",
+      "section": "Organize Reports",
+      "line": 44,
+      "quote": "Choose how to export reports (Consolidated PDFs or Separate PDFs)."
+    },
+    {
+      "id": "bu-scheduled-help-13",
+      "label": "Report file ordering",
+      "source": "bu-scheduled-help",
+      "section": "Organize Reports",
+      "line": 45,
+      "quote": "Define the file order if report entities are included in the template."
+    },
+    {
+      "id": "bu-scheduled-help-14",
+      "label": "Owner-specific report recipient routing",
+      "source": "bu-scheduled-help",
+      "section": "Recipients",
+      "line": 48,
+      "quote": "If you have multiple properties and select multiple rental owners, the system will automatically send the appropriate reports to the correct recipients, so you don’t need to worry about every report going to every recipient."
+    },
+    {
+      "id": "bu-scheduled-help-15",
+      "label": "Report recipient email eligibility",
+      "source": "bu-scheduled-help",
+      "section": "Recipients",
+      "line": 49,
+      "quote": "+ Add recipients to choose who you want to share the batched reports with. Important: Batched reports cannot be shared with recipients without email addresses. Select the recipients > Next."
+    },
+    {
+      "id": "bu-scheduled-help-16",
+      "label": "Owner portal report availability notifications",
+      "source": "bu-scheduled-help",
+      "section": "Recipients",
+      "line": 50,
+      "quote": "Note: These reports can only be shared to owner portals, including Board members, Association owners, and Rental owners. Recipients will automatically receive an email notifying them that the reports are available in their portals."
+    },
+    {
+      "id": "bu-scheduled-help-17",
+      "label": "Corporate accounting report staff access",
+      "source": "bu-scheduled-help",
+      "section": "Recipients",
+      "line": 51,
+      "quote": "Note: If your company is the entity, staff members will need to log in and view their reports from the Batched Reports page. They cannot be selected as recipients."
+    },
+    {
+      "id": "bu-scheduled-help-18",
+      "label": "Persistent custom batch names",
+      "source": "bu-scheduled-help",
+      "section": "Recipients",
+      "line": 52,
+      "quote": "Rename the batches (optional): Here, you can change the title of the batches if you would like to by entering the new name in the textbox > Save."
+    },
+    {
+      "id": "bu-scheduled-help-19",
+      "label": "Future report dates and recurrence rules",
+      "source": "bu-scheduled-help",
+      "section": "Set Scheduling Settings",
+      "line": 55,
+      "quote": "Add a new schedule by selecting a future date and setting the recurrence rule using the dropdown menu > Save schedule."
+    },
+    {
+      "id": "bu-scheduled-help-20",
+      "label": "Draft schedule review and confirmed sharing",
+      "source": "bu-scheduled-help",
+      "section": "Save Draft or Schedule and Share",
+      "line": 57,
+      "quote": "Save as draft if still reviewing, or select Schedule and share if ready. You will be asked to confirm the schedule settings, end date, and recipients before generating the schedule > Schedule and share."
     }
   ]
 }

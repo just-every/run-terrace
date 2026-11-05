@@ -3,6 +3,7 @@
   "sources": [
     {
       "source": "af-accounting",
+      "captureSha256": "489ea74a0f200db9108b065ff65ce4979d4e4333e170ae0b970e4a9233b8c9af",
       "areas": [
         {
           "from": 1,
@@ -338,11 +339,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "489ea74a0f200db9108b065ff65ce4979d4e4333e170ae0b970e4a9233b8c9af"
+      ]
     },
     {
       "source": "af-maintenance",
+      "captureSha256": "2f6c39dc37e2a4d03eca6f50620dfceb092acb83f2e3bb7dd73deb6f3e56c76c",
       "areas": [
         {
           "from": 1,
@@ -606,11 +607,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "2f6c39dc37e2a4d03eca6f50620dfceb092acb83f2e3bb7dd73deb6f3e56c76c"
+      ]
     },
     {
       "source": "bu-accounting",
+      "captureSha256": "0b39bf26537fb3619f428e46a86ec05c620980061eca8c9bc135d6d829383342",
       "areas": [
         {
           "from": 1,
@@ -710,11 +711,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "0b39bf26537fb3619f428e46a86ec05c620980061eca8c9bc135d6d829383342"
+      ]
     },
     {
       "source": "bu-company",
+      "captureSha256": "1e92182459a2e08b193d4093f9e68b4b88307b68f2a87c65fb4266e9d4201585",
       "areas": [
         {
           "from": 1,
@@ -778,11 +779,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "1e92182459a2e08b193d4093f9e68b4b88307b68f2a87c65fb4266e9d4201585"
+      ]
     },
     {
       "source": "bu-telephone",
+      "captureSha256": "1d077d245c59de3619273ecefe4ca6862e61217a6f6f314d82047e2ddce0613d",
       "areas": [
         {
           "from": 1,
@@ -846,11 +847,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "1d077d245c59de3619273ecefe4ca6862e61217a6f6f314d82047e2ddce0613d"
+      ]
     },
     {
       "source": "bu-maintenance",
+      "captureSha256": "2a46b8cc61be15acd2ce73f74f1258adc3767e5338010186cfeaab76f900ddc4",
       "areas": [
         {
           "from": 1,
@@ -1018,11 +1019,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "2a46b8cc61be15acd2ce73f74f1258adc3767e5338010186cfeaab76f900ddc4"
+      ]
     },
     {
       "source": "rm-accounting",
+      "captureSha256": "bb679da41595d2b3e68fc1e1420ec58ac06560d4e7c332ec09812fa446a50409",
       "areas": [
         {
           "from": 1,
@@ -1518,11 +1519,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "bb679da41595d2b3e68fc1e1420ec58ac06560d4e7c332ec09812fa446a50409"
+      ]
     },
     {
       "source": "rm-maintenance",
+      "captureSha256": "c6c38fed8bc4fca739698be2ce31bab0200221369139a9c95b4f4966370d4441",
       "areas": [
         {
           "from": 1,
@@ -1866,11 +1867,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "c6c38fed8bc4fca739698be2ce31bab0200221369139a9c95b4f4966370d4441"
+      ]
     },
     {
       "source": "rm-reports",
+      "captureSha256": "72029a7396bede61d073e0bc45a597c50f44810082eb5c9783b7f679750f11ce",
       "areas": [
         {
           "from": 1,
@@ -2078,11 +2079,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "72029a7396bede61d073e0bc45a597c50f44810082eb5c9783b7f679750f11ce"
+      ]
     },
     {
       "source": "rm-schedules",
+      "captureSha256": "eb96d403b7460e37dfb20f7f02030bf260d0f41a0524811b4fc0d87f7058dca3",
       "areas": [
         {
           "from": 1,
@@ -2164,11 +2165,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "eb96d403b7460e37dfb20f7f02030bf260d0f41a0524811b4fc0d87f7058dca3"
+      ]
     },
     {
       "source": "rm-telephone",
+      "captureSha256": "0ca4b34fd4660120237af8704fbc49a843243d777e0563ce739a77c90791b29c",
       "areas": [
         {
           "from": 1,
@@ -2322,11 +2323,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "0ca4b34fd4660120237af8704fbc49a843243d777e0563ce739a77c90791b29c"
+      ]
     },
     {
       "source": "af-vendor",
+      "captureSha256": "c7e86839367c4df61b51d667cc8a87430748bf597a28af700a0479d56974a399",
       "areas": [
         {
           "from": 1,
@@ -2700,11 +2701,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "c7e86839367c4df61b51d667cc8a87430748bf597a28af700a0479d56974a399"
+      ]
     },
     {
       "source": "af-resident",
+      "captureSha256": "ea2a614d3c6c0a47387bae8f483080a790207ae51cce4570330e710fe9a221f1",
       "areas": [
         {
           "from": 1,
@@ -3138,53 +3139,613 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "ea2a614d3c6c0a47387bae8f483080a790207ae51cce4570330e710fe9a221f1"
+      ]
     },
     {
       "source": "af-platform",
+      "captureSha256": "72396b76ba149078d4a3c56d072144b4f039c7ba4fa5838070f6e461769fa161",
       "areas": [
         {
           "from": 1,
+          "to": 29,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 30,
+          "to": 30,
+          "section": "Maintenance",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-platform-01"
+          ]
+        },
+        {
+          "from": 31,
+          "to": 41,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 42,
+          "to": 42,
+          "section": "Workflow Automation",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-platform-02"
+          ]
+        },
+        {
+          "from": 43,
+          "to": 75,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 76,
+          "to": 76,
+          "section": "Max",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-platform-03"
+          ]
+        },
+        {
+          "from": 77,
+          "to": 77,
+          "section": "Max",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-platform-04"
+          ]
+        },
+        {
+          "from": 78,
+          "to": 78,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 79,
+          "to": 79,
+          "section": "Max",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-platform-05"
+          ]
+        },
+        {
+          "from": 80,
           "to": 185,
           "section": "Unreconciled captured text",
           "review": "unaudited",
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "72396b76ba149078d4a3c56d072144b4f039c7ba4fa5838070f6e461769fa161"
+      ]
     },
     {
       "source": "bu-platform",
+      "captureSha256": "c4eddad82edff9e8c5631a4dffdab86119f4d2a9871e623109a6142e687c9e77",
       "areas": [
         {
           "from": 1,
+          "to": 116,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 117,
+          "to": 117,
+          "section": "Commercial Property Management Software",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "bu-platform-01"
+          ]
+        },
+        {
+          "from": 118,
+          "to": 119,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 120,
+          "to": 120,
+          "section": "Student Housing",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "bu-platform-02"
+          ]
+        },
+        {
+          "from": 121,
+          "to": 127,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 128,
+          "to": 128,
+          "section": "Business Operations",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "bu-platform-03"
+          ]
+        },
+        {
+          "from": 129,
+          "to": 132,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 133,
+          "to": 133,
+          "section": "Leasing",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "bu-platform-04"
+          ]
+        },
+        {
+          "from": 134,
+          "to": 134,
+          "section": "Leasing",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "bu-platform-05"
+          ]
+        },
+        {
+          "from": 135,
+          "to": 135,
+          "section": "Leasing",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "bu-platform-06"
+          ]
+        },
+        {
+          "from": 136,
+          "to": 141,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 142,
+          "to": 142,
+          "section": "Accounting & Payments",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "bu-platform-07"
+          ]
+        },
+        {
+          "from": 143,
+          "to": 146,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 147,
+          "to": 147,
+          "section": "Marketing",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "bu-platform-08"
+          ]
+        },
+        {
+          "from": 148,
+          "to": 148,
+          "section": "Marketing",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "bu-platform-09"
+          ]
+        },
+        {
+          "from": 149,
+          "to": 152,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 153,
+          "to": 153,
+          "section": "Business Performance",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "bu-platform-10"
+          ]
+        },
+        {
+          "from": 154,
+          "to": 154,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 155,
+          "to": 155,
+          "section": "Business Performance",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "bu-platform-11"
+          ]
+        },
+        {
+          "from": 156,
           "to": 235,
           "section": "Unreconciled captured text",
           "review": "unaudited",
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "c4eddad82edff9e8c5631a4dffdab86119f4d2a9871e623109a6142e687c9e77"
+      ]
     },
     {
       "source": "bu-scheduled-help",
+      "captureSha256": "dc111fa7ff550ca1727e53229cfb1b43aa2e68d9a0971077153c7fc63beb7eaa",
       "areas": [
         {
           "from": 1,
-          "to": 5,
-          "section": "Unreconciled captured text",
+          "to": 10,
+          "section": "Unreconciled article text and related sources",
           "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
+          "workflows": []
+        },
+        {
+          "from": 11,
+          "to": 11,
+          "section": "Schedule Batched Reports",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-01"
+          ]
+        },
+        {
+          "from": 12,
+          "to": 14,
+          "section": "Unreconciled article text and related sources",
+          "review": "unaudited",
+          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
+          "workflows": []
+        },
+        {
+          "from": 15,
+          "to": 15,
+          "section": "Why it makes sense to schedule Batched Reports",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-02"
+          ]
+        },
+        {
+          "from": 16,
+          "to": 18,
+          "section": "Unreconciled article text and related sources",
+          "review": "unaudited",
+          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
+          "workflows": []
+        },
+        {
+          "from": 19,
+          "to": 19,
+          "section": "How to Schedule and Share Batched Reports",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-03"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 22,
+          "section": "Unreconciled article text and related sources",
+          "review": "unaudited",
+          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
+          "workflows": []
+        },
+        {
+          "from": 23,
+          "to": 23,
+          "section": "Fill Out Required Fields",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-04"
+          ]
+        },
+        {
+          "from": 24,
+          "to": 24,
+          "section": "Unreconciled article text and related sources",
+          "review": "unaudited",
+          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
+          "workflows": []
+        },
+        {
+          "from": 25,
+          "to": 25,
+          "section": "Schedule and Share",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-05"
+          ]
+        },
+        {
+          "from": 26,
+          "to": 28,
+          "section": "Unreconciled article text and related sources",
+          "review": "unaudited",
+          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
+          "workflows": []
+        },
+        {
+          "from": 29,
+          "to": 29,
+          "section": "Select Report Entities",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-06"
+          ]
+        },
+        {
+          "from": 30,
+          "to": 30,
+          "section": "Select Report Entities",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-07"
+          ]
+        },
+        {
+          "from": 31,
+          "to": 32,
+          "section": "Unreconciled article text and related sources",
+          "review": "unaudited",
+          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
+          "workflows": []
+        },
+        {
+          "from": 33,
+          "to": 33,
+          "section": "Add Reports",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-08"
+          ]
+        },
+        {
+          "from": 34,
+          "to": 34,
+          "section": "Add Reports",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-09"
+          ]
+        },
+        {
+          "from": 35,
+          "to": 37,
+          "section": "Unreconciled article text and related sources",
+          "review": "unaudited",
+          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
+          "workflows": []
+        },
+        {
+          "from": 38,
+          "to": 38,
+          "section": "Set Report Filters",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-10"
+          ]
+        },
+        {
+          "from": 39,
+          "to": 41,
+          "section": "Unreconciled article text and related sources",
+          "review": "unaudited",
+          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
+          "workflows": []
+        },
+        {
+          "from": 42,
+          "to": 42,
+          "section": "Add Attachments",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-11"
+          ]
+        },
+        {
+          "from": 43,
+          "to": 43,
+          "section": "Unreconciled article text and related sources",
+          "review": "unaudited",
+          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
+          "workflows": []
+        },
+        {
+          "from": 44,
+          "to": 44,
+          "section": "Organize Reports",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-12"
+          ]
+        },
+        {
+          "from": 45,
+          "to": 45,
+          "section": "Organize Reports",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-13"
+          ]
+        },
+        {
+          "from": 46,
+          "to": 47,
+          "section": "Unreconciled article text and related sources",
+          "review": "unaudited",
+          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
+          "workflows": []
+        },
+        {
+          "from": 48,
+          "to": 48,
+          "section": "Recipients",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-14"
+          ]
+        },
+        {
+          "from": 49,
+          "to": 49,
+          "section": "Recipients",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-15"
+          ]
+        },
+        {
+          "from": 50,
+          "to": 50,
+          "section": "Recipients",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-16"
+          ]
+        },
+        {
+          "from": 51,
+          "to": 51,
+          "section": "Recipients",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-17"
+          ]
+        },
+        {
+          "from": 52,
+          "to": 52,
+          "section": "Recipients",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-18"
+          ]
+        },
+        {
+          "from": 53,
+          "to": 54,
+          "section": "Unreconciled article text and related sources",
+          "review": "unaudited",
+          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
+          "workflows": []
+        },
+        {
+          "from": 55,
+          "to": 55,
+          "section": "Set Scheduling Settings",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-19"
+          ]
+        },
+        {
+          "from": 56,
+          "to": 56,
+          "section": "Unreconciled article text and related sources",
+          "review": "unaudited",
+          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
+          "workflows": []
+        },
+        {
+          "from": 57,
+          "to": 57,
+          "section": "Save Draft or Schedule and Share",
+          "review": "workflows",
+          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
+          "workflows": [
+            "bu-scheduled-help-20"
+          ]
+        },
+        {
+          "from": 58,
+          "to": 78,
+          "section": "Unreconciled article text and related sources",
+          "review": "unaudited",
+          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
           "workflows": []
         }
-      ],
-      "captureSha256": "60459cd7b77e678250073c8fb514e7ac380a508d2cc7564685b026781c4dc83f"
+      ]
     },
     {
       "source": "af-smart-blog",
+      "captureSha256": "6b9bde70cd153d1f552bd0bceee532da2ecb2307e2f02bcf08c083d3da7afbdb",
       "areas": [
         {
           "from": 1,
@@ -3231,11 +3792,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "6b9bde70cd153d1f552bd0bceee532da2ecb2307e2f02bcf08c083d3da7afbdb"
+      ]
     },
     {
       "source": "af-reports",
+      "captureSha256": "3b44fa7a461b85a5f99e1f63bf56248ffebb3293738e18365aab5589e4e3887a",
       "areas": [
         {
           "from": 1,
@@ -3291,11 +3852,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "3b44fa7a461b85a5f99e1f63bf56248ffebb3293738e18365aab5589e4e3887a"
+      ]
     },
     {
       "source": "af-marketing",
+      "captureSha256": "655ec0a26d13ef582a29877be4b0ca06f72a19e49b7049ca0472b3e92ad431be",
       "areas": [
         {
           "from": 1,
@@ -3775,11 +4336,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "655ec0a26d13ef582a29877be4b0ca06f72a19e49b7049ca0472b3e92ad431be"
+      ]
     },
     {
       "source": "af-communication",
+      "captureSha256": "2a2e768b9925260fff55b5060c54626a0de61c7bdb847dba1f5389ee0bcfa52e",
       "areas": [
         {
           "from": 1,
@@ -4143,11 +4704,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "2a2e768b9925260fff55b5060c54626a0de61c7bdb847dba1f5389ee0bcfa52e"
+      ]
     },
     {
       "source": "af-automation",
+      "captureSha256": "50c5616cc7375dd9cda5fe561bd084cebbe3694950e8e5713443c722b58bc4c2",
       "areas": [
         {
           "from": 1,
@@ -4389,11 +4950,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "50c5616cc7375dd9cda5fe561bd084cebbe3694950e8e5713443c722b58bc4c2"
+      ]
     },
     {
       "source": "bu-automation",
+      "captureSha256": "430f0cf269fbb48f63401a4394d389fcdb2676da1683cd0b6b511c46ad09d0b2",
       "areas": [
         {
           "from": 1,
@@ -4559,11 +5120,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "430f0cf269fbb48f63401a4394d389fcdb2676da1683cd0b6b511c46ad09d0b2"
+      ]
     },
     {
       "source": "bu-analytics",
+      "captureSha256": "7c8c53228635138ba2b76b95b561fbb40c0bc1e753bf59e119e98c0c3c96a096",
       "areas": [
         {
           "from": 1,
@@ -4627,11 +5188,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "7c8c53228635138ba2b76b95b561fbb40c0bc1e753bf59e119e98c0c3c96a096"
+      ]
     },
     {
       "source": "bu-leasing",
+      "captureSha256": "f5780b10b82c9402a40825889511d22495d461e788eeb93d572ce4b39a730750",
       "areas": [
         {
           "from": 1,
@@ -4695,11 +5256,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "f5780b10b82c9402a40825889511d22495d461e788eeb93d572ce4b39a730750"
+      ]
     },
     {
       "source": "bu-resident",
+      "captureSha256": "539980a3c8077553bf1ea477fa84d445267c53d5844dd09545c182f70b651ee8",
       "areas": [
         {
           "from": 1,
@@ -4975,11 +5536,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "539980a3c8077553bf1ea477fa84d445267c53d5844dd09545c182f70b651ee8"
+      ]
     },
     {
       "source": "rm-mobile",
+      "captureSha256": "c5f8fd0eba6af686568cc31bf4df67c79e5081f883c35bba9be0f52ccf6e988a",
       "areas": [
         {
           "from": 1,
@@ -5148,11 +5709,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "c5f8fd0eba6af686568cc31bf4df67c79e5081f883c35bba9be0f52ccf6e988a"
+      ]
     },
     {
       "source": "rm-leasing",
+      "captureSha256": "04134d13142ef5c189deb9b7517a653583d31c4239e71e9680ec2fcbddf45ea5",
       "areas": [
         {
           "from": 1,
@@ -5496,11 +6057,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "04134d13142ef5c189deb9b7517a653583d31c4239e71e9680ec2fcbddf45ea5"
+      ]
     },
     {
       "source": "rm-owner",
+      "captureSha256": "5167f9afa12c63ca9e30634b38dbd3af94703f093e133e731079eb0edaae1efa",
       "areas": [
         {
           "from": 1,
@@ -5640,11 +6201,11 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "5167f9afa12c63ca9e30634b38dbd3af94703f093e133e731079eb0edaae1efa"
+      ]
     },
     {
       "source": "af-smart-maintenance",
+      "captureSha256": "18f142098db2145ea36260e3bf2921c89e701d0d05d3dccf3c6468f14b3eed60",
       "areas": [
         {
           "from": 1,
@@ -5654,22 +6215,571 @@
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "18f142098db2145ea36260e3bf2921c89e701d0d05d3dccf3c6468f14b3eed60"
+      ]
     },
     {
       "source": "af-owner",
+      "captureSha256": "e8186dc8272db8f046ab2844b2d7df885d80dcfabf2768c3b4f676cba87c84fb",
       "areas": [
         {
           "from": 1,
+          "to": 16,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 17,
+          "to": 17,
+          "section": "Activate Your Owner Portal",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-01"
+          ]
+        },
+        {
+          "from": 18,
+          "to": 18,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 19,
+          "to": 19,
+          "section": "Activate Your Owner Portal",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-02"
+          ]
+        },
+        {
+          "from": 20,
+          "to": 23,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 24,
+          "to": 24,
+          "section": "Create a Password & Set Up Two-Factor Authentication",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-03"
+          ]
+        },
+        {
+          "from": 25,
+          "to": 27,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 28,
+          "to": 28,
+          "section": "Create a Password & Set Up Two-Factor Authentication",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-04"
+          ]
+        },
+        {
+          "from": 29,
+          "to": 43,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 44,
+          "to": 44,
+          "section": "Migrate to Phone Two-Factor Authentication",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-05"
+          ]
+        },
+        {
+          "from": 45,
+          "to": 48,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 49,
+          "to": 49,
+          "section": "View Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-06"
+          ]
+        },
+        {
+          "from": 50,
+          "to": 50,
+          "section": "View Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-07"
+          ]
+        },
+        {
+          "from": 51,
+          "to": 51,
+          "section": "View Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-08"
+          ]
+        },
+        {
+          "from": 52,
+          "to": 52,
+          "section": "View Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-09"
+          ]
+        },
+        {
+          "from": 53,
+          "to": 53,
+          "section": "View Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-10"
+          ]
+        },
+        {
+          "from": 54,
+          "to": 54,
+          "section": "View Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-11"
+          ]
+        },
+        {
+          "from": 55,
+          "to": 55,
+          "section": "View Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-12"
+          ]
+        },
+        {
+          "from": 56,
+          "to": 56,
+          "section": "View Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-13"
+          ]
+        },
+        {
+          "from": 57,
+          "to": 57,
+          "section": "View Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-14"
+          ]
+        },
+        {
+          "from": 58,
+          "to": 58,
+          "section": "View Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-15"
+          ]
+        },
+        {
+          "from": 59,
+          "to": 61,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 62,
+          "to": 62,
+          "section": "Customize Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-16"
+          ]
+        },
+        {
+          "from": 63,
+          "to": 63,
+          "section": "Customize Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-17"
+          ]
+        },
+        {
+          "from": 64,
+          "to": 64,
+          "section": "Customize Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-18"
+          ]
+        },
+        {
+          "from": 65,
+          "to": 65,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 66,
+          "to": 66,
+          "section": "Customize Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-19"
+          ]
+        },
+        {
+          "from": 67,
+          "to": 67,
+          "section": "Customize Your Dashboard",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-20"
+          ]
+        },
+        {
+          "from": 68,
+          "to": 69,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 70,
+          "to": 70,
+          "section": "Reports",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-21"
+          ]
+        },
+        {
+          "from": 71,
+          "to": 71,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 72,
+          "to": 72,
+          "section": "Reports",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-22"
+          ]
+        },
+        {
+          "from": 73,
+          "to": 74,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 75,
+          "to": 75,
+          "section": "Reports",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-23"
+          ]
+        },
+        {
+          "from": 76,
+          "to": 76,
+          "section": "Reports",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-24"
+          ]
+        },
+        {
+          "from": 77,
+          "to": 77,
+          "section": "Reports",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-25"
+          ]
+        },
+        {
+          "from": 78,
+          "to": 78,
+          "section": "Reports",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-26"
+          ]
+        },
+        {
+          "from": 79,
+          "to": 79,
+          "section": "Reports",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-27"
+          ]
+        },
+        {
+          "from": 80,
+          "to": 80,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 81,
+          "to": 81,
+          "section": "Properties",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-28"
+          ]
+        },
+        {
+          "from": 82,
+          "to": 86,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 87,
+          "to": 87,
+          "section": "Properties",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-29"
+          ]
+        },
+        {
+          "from": 88,
+          "to": 88,
+          "section": "Properties",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-30"
+          ]
+        },
+        {
+          "from": 89,
+          "to": 90,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 91,
+          "to": 91,
+          "section": "View Statements, Transactions, and Documents",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-31"
+          ]
+        },
+        {
+          "from": 92,
+          "to": 92,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 93,
+          "to": 93,
+          "section": "View Statements, Transactions, and Documents",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-32"
+          ]
+        },
+        {
+          "from": 94,
+          "to": 98,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 99,
+          "to": 99,
+          "section": "Update Your Bank Account Information",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-33"
+          ]
+        },
+        {
+          "from": 100,
+          "to": 100,
+          "section": "Update Your Bank Account Information",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-34"
+          ]
+        },
+        {
+          "from": 101,
+          "to": 102,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 103,
+          "to": 103,
+          "section": "Make a Contribution",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-35"
+          ]
+        },
+        {
+          "from": 104,
+          "to": 104,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 105,
+          "to": 105,
+          "section": "Make a Contribution",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-36"
+          ]
+        },
+        {
+          "from": 106,
+          "to": 107,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 108,
+          "to": 108,
+          "section": "Make a Contribution",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-37"
+          ]
+        },
+        {
+          "from": 109,
+          "to": 109,
+          "section": "Make a Contribution",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-38"
+          ]
+        },
+        {
+          "from": 110,
+          "to": 119,
+          "section": "Unreconciled captured text",
+          "review": "unaudited",
+          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
+          "workflows": []
+        },
+        {
+          "from": 120,
+          "to": 120,
+          "section": "FAQ",
+          "review": "workflows",
+          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
+          "workflows": [
+            "af-owner-39"
+          ]
+        },
+        {
+          "from": 121,
           "to": 194,
           "section": "Unreconciled captured text",
           "review": "unaudited",
           "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
           "workflows": []
         }
-      ],
-      "captureSha256": "e8186dc8272db8f046ab2844b2d7df885d80dcfabf2768c3b4f676cba87c84fb"
+      ]
     }
   ]
 }

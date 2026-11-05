@@ -20,6 +20,7 @@ const requiredGaps = [
  ['rm-schedules', /automatically generates and delivers designated Report Batches/, 'Scheduled reports'],
  ['af-smart-blog', /make a quick call/, 'Telephone maintenance intake'],
  ['bu-automation', /Set up reports once and let them send themselves/, 'Scheduled reports'],
+ ['bu-scheduled-help', /automate the creation and sharing of these report packets/, 'Scheduled reports'],
 ]
 const sourceInventory = () => {
  const manifest = JSON.parse(read(sourceDirectory + 'manifest.json'))
@@ -43,6 +44,10 @@ export function assertSwitchChecklistSite(html) {
   const source = manifest.sources.find(item => item.id === workflow.source)
   assert.ok(html.includes('href="' + source.url + '"'), 'official source remains public')
   assert.ok(plain.includes(source.capturedOn) && plain.includes(source.rawSha256) && plain.includes(source.captureSha256), 'dated capture provenance remains visible')
+  const at = headingPositions[headings.findIndex(heading => heading.endsWith('· ' + workflow.id))].index, end = html.indexOf('<h4', at + 1)
+  const row = html.slice(at, end < 0 ? undefined : end)
+  assert.ok(row.includes('href="' + source.url + '"') && row.includes(source.capturedOn) && row.includes('line ' + workflow.line + '.'), 'each rendered workflow retains its own located official source: ' + workflow.id)
+  assert.match(row, /<strong>Gap:<\/strong>/, 'every unqualified workflow remains a named gap')
  }
  for (const [sourceId, documented, label] of requiredGaps) {
   const source = manifest.sources.find(item => item.id === sourceId)
@@ -103,6 +108,8 @@ export function assertSwitchChecklistIntegrity() {
  assert.throws(() => loadSwitchChecklist(altered('docs/switch-checklists.json', unsupported)), /actor, public door, prerequisites and outcome/, 'staff-recorded quotes cannot qualify vendor pre-approval estimates')
  const absent = structuredClone(manifest); delete absent.sources[0].rawSha256
  assert.throws(() => loadSwitchChecklist(altered(sourceDirectory + 'manifest.json', absent)), /missing raw source hash/)
+ const noRenderedSource = structuredClone(manifest); delete noRenderedSource.sources.find(item => item.captureMode === 'browser-rendered').renderedSha256
+ assert.throws(() => loadSwitchChecklist(altered(sourceDirectory + 'manifest.json', noRenderedSource)), /missing rendered source hash/, 'a loading shell cannot stand in for a loaded official help article')
  const unlocated = JSON.parse(read(sourceDirectory + 'appfolio.json')); unlocated.workflows[0].line = 1
  assert.throws(() => loadSwitchChecklist(altered(sourceDirectory + 'appfolio.json', unlocated)), /missing provenance/)
  const corrupted = manifest.sources[0].capture
@@ -147,6 +154,20 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
  const { manifest, workflows } = sourceInventory()
  for (const inventory of manifest.inventories) {
   await visitor.getByRole('heading', { name: names[inventory.incumbent] + ' checklist' }).scrollIntoViewIfNeeded()
+  const required = visitor.getByRole('heading', { name: names[inventory.incumbent] + ' required named gaps' })
+  const assessments = await required.evaluate(element => {
+   let text = '', next = element.nextElementSibling
+   while (next && next.tagName !== 'H4') { text += next.textContent + ' '; next = next.nextElementSibling }
+   return text
+  })
+  for (const name of ['Corporate accounting', 'Telephone maintenance intake', 'Technician GPS', 'Scheduled reports']) assert.ok(assessments.includes(name + ' — '), 'the public checklist exposes the required capability or its source-coverage uncertainty')
+  const documented = manifest.namedGaps.filter(item => item.incumbent === inventory.incumbent && item.status === 'documented')
+  for (const item of documented) {
+   const id = item.workflows[0], workflow = workflows.find(row => row.id === id)
+   await visitor.getByRole('link', { name: workflow.label + ' · ' + id, exact: true }).click()
+   const target = visitor.getByRole('heading', { name: workflow.label + ' · ' + id })
+   assert.equal(await target.evaluate(element => element.id === decodeURIComponent(location.hash.slice(1))), true, 'named gap links reach their sourced workflow row')
+  }
   for (const workflow of workflows.filter(item => item.incumbent === inventory.incumbent)) {
    const heading = visitor.getByRole('heading', { name: workflow.label + ' · ' + workflow.id })
    assert.equal(await heading.count(), 1, workflow.id)
@@ -170,7 +191,7 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
   for (const width of [1440, 390]) {
    await visitor.setViewportSize({ width, height: width === 1440 ? 900 : 844 })
    for (const name of Object.values(names)) {
-    await visitor.getByRole('heading', { name: name + ' checklist' }).scrollIntoViewIfNeeded()
+    await visitor.getByRole('heading', { name: name + ' required named gaps' }).scrollIntoViewIfNeeded()
     await visitor.screenshot({ path: join(directory, name.toLowerCase().replaceAll(' ', '-') + '-' + width + '.png') })
    }
   }
@@ -185,6 +206,6 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
  console.log('PROBE MOVE-012 5: built corporate accounting rows -> AppFolio and Buildium corporate books and Rent Manager company reports remain gaps')
  console.log('PROBE MOVE-012 6: built telephone maintenance rows -> sourced AppFolio, Buildium and Rent Manager call intake remain named gaps')
  console.log('PROBE MOVE-012 7: built technician GPS row -> Rent Manager Service Tech Map remains a gap; association violations GPS remains separate')
- console.log('PROBE MOVE-012 8: built scheduled-report rows -> Buildium automatic report sends and Rent Manager scheduled generation and delivery remain gaps; inaccessible help contents and unaudited AppFolio source coverage stay disclosed')
+ console.log('PROBE MOVE-012 8: built scheduled-report rows -> rendered Buildium scheduling and owner-portal delivery, and Rent Manager scheduled report batches remain sourced gaps; unaudited AppFolio and remaining help areas stay disclosed')
  await visitor.goto(siteOrigin + '/docs')
 }

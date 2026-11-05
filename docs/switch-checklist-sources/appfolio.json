@@ -1200,6 +1200,358 @@
       "section": "Workflow automation",
       "line": 76,
       "quote": "Two-factor authentication defends against phishers, fraudsters, and unwanted users from accessing your sensitive financial and personal data in AppFolio."
+    },
+    {
+      "id": "af-owner-01",
+      "label": "Owner invitation activation",
+      "source": "af-owner",
+      "section": "Activate Your Owner Portal",
+      "line": 17,
+      "quote": "Click the Activate Now button in the email from your property management company to begin setting up the Owner Portal"
+    },
+    {
+      "id": "af-owner-02",
+      "label": "Owner email confirmation",
+      "source": "af-owner",
+      "section": "Activate Your Owner Portal",
+      "line": 19,
+      "quote": "Now, navigate back to your email inbox to find this activation link and click Confirm my email."
+    },
+    {
+      "id": "af-owner-03",
+      "label": "Owner password and two-factor authentication",
+      "source": "af-owner",
+      "section": "Create a Password & Set Up Two-Factor Authentication",
+      "line": 24,
+      "quote": "To keep your personal and financial information secure, your Owner Portal has an additional layer of security with two-factor authentication. This means signing into your portal will periodically require both a password and as well as a security code that will be sent via your preferred method."
+    },
+    {
+      "id": "af-owner-04",
+      "label": "Owner remembered-device sign-in",
+      "source": "af-owner",
+      "section": "Create a Password & Set Up Two-Factor Authentication",
+      "line": 28,
+      "quote": "Additionally, you can check a box that remembers the device you’re on for 30 days, which will automatically log you into your Owner Portal without having to verify your email and password again."
+    },
+    {
+      "id": "af-owner-05",
+      "label": "Owner phone verification migration",
+      "source": "af-owner",
+      "section": "Migrate to Phone Two-Factor Authentication",
+      "line": 44,
+      "quote": "Next, you will be prompted to add a phone number with the following screen. You can set up phone verification via SMS or phone call. You can enter your mobile or landline number. We suggest providing the primary mobile number you use, one that is accessible all the time."
+    },
+    {
+      "id": "af-owner-06",
+      "label": "Owner property income dashboard",
+      "source": "af-owner",
+      "section": "View Your Dashboard",
+      "line": 49,
+      "quote": "Total Income: All receipts against your properties."
+    },
+    {
+      "id": "af-owner-07",
+      "label": "Owner paid-bill expense dashboard",
+      "source": "af-owner",
+      "section": "View Your Dashboard",
+      "line": 50,
+      "quote": "Total Expense: All paid bills against your properties"
+    },
+    {
+      "id": "af-owner-08",
+      "label": "Owner contribution dashboard",
+      "source": "af-owner",
+      "section": "View Your Dashboard",
+      "line": 51,
+      "quote": "‘Your Contribution’ Total - The lump sum of all contributions you have made towards your properties"
+    },
+    {
+      "id": "af-owner-09",
+      "label": "Owner disbursement dashboard",
+      "source": "af-owner",
+      "section": "View Your Dashboard",
+      "line": 52,
+      "quote": "‘Your Disbursement’ Total - The lump sum of all distributions made to you from the property management company"
+    },
+    {
+      "id": "af-owner-10",
+      "label": "Owner latest published statement packet",
+      "source": "af-owner",
+      "section": "View Your Dashboard",
+      "line": 53,
+      "quote": "Most Recent Packet - The most recent packet shared with you by your property management company (click ‘See All’ to see all statements shared)"
+    },
+    {
+      "id": "af-owner-11",
+      "label": "Owner occupancy dashboard",
+      "source": "af-owner",
+      "section": "View Your Dashboard",
+      "line": 54,
+      "quote": "Occupancy percentage - The percentage of your active units that are occupied vs. vacant as of today’s date. (clicking ‘See More’ will take you to the Properties page for more information)"
+    },
+    {
+      "id": "af-owner-12",
+      "label": "Owner rent collection dashboard",
+      "source": "af-owner",
+      "section": "View Your Dashboard",
+      "line": 55,
+      "quote": "Rent Collection - The total amount of rent charged vs. rent paid month-to-date"
+    },
+    {
+      "id": "af-owner-13",
+      "label": "Owner income transaction drill-down",
+      "source": "af-owner",
+      "section": "View Your Dashboard",
+      "line": 56,
+      "quote": "Income breakdown - Each individual transaction that makes up the total shown at the top in Total Income"
+    },
+    {
+      "id": "af-owner-14",
+      "label": "Owner expense transaction drill-down",
+      "source": "af-owner",
+      "section": "View Your Dashboard",
+      "line": 57,
+      "quote": "Expense breakdown - Each individual transaction that makes up the total shown at the top in Total Expense"
+    },
+    {
+      "id": "af-owner-15",
+      "label": "Owner entity and property dashboard filters",
+      "source": "af-owner",
+      "section": "View Your Dashboard",
+      "line": 58,
+      "quote": "By default, your dashboard will show you all active properties. However, if you would like to see specific properties or entities click the dropdown in the top left corner of your dashboard and choose either a specific entity (if your email address is affiliated with more than one entity) or choose a specific property under ownership. When you choose a different item from the dropdown your dashboard will automatically filter to show you details for the selected."
+    },
+    {
+      "id": "af-owner-16",
+      "label": "Owner dashboard widget selection",
+      "source": "af-owner",
+      "section": "Customize Your Dashboard",
+      "line": 62,
+      "quote": "Click ‘Select Widgets’ to add or remove portions of the dashboard"
+    },
+    {
+      "id": "af-owner-17",
+      "label": "Owner dashboard widget arrangement",
+      "source": "af-owner",
+      "section": "Customize Your Dashboard",
+      "line": 63,
+      "quote": "Once you have your desired widgets, you can drag and drop them to different areas of the dashboard."
+    },
+    {
+      "id": "af-owner-18",
+      "label": "Owner dashboard widget sizing",
+      "source": "af-owner",
+      "section": "Customize Your Dashboard",
+      "line": 64,
+      "quote": "Use the bottom right-hand corner of any widget to resize as desired"
+    },
+    {
+      "id": "af-owner-19",
+      "label": "Owner dashboard preferences across devices",
+      "source": "af-owner",
+      "section": "Customize Your Dashboard",
+      "line": 66,
+      "quote": "The next time you log in, you will see the dashboard as you have personalized it - no matter what device you are using."
+    },
+    {
+      "id": "af-owner-20",
+      "label": "Owner dashboard default restoration",
+      "source": "af-owner",
+      "section": "Customize Your Dashboard",
+      "line": 67,
+      "quote": "If at any point you want to start over, there is a ‘Restore to Default’ option in the top left of Customize mode that will set your dashboard back to default settings."
+    },
+    {
+      "id": "af-owner-21",
+      "label": "Owner live report generation",
+      "source": "af-owner",
+      "section": "Reports",
+      "line": 70,
+      "quote": "The reports tab gives you the ability to run reports in real-time for your active properties. To run a report, follow these steps:"
+    },
+    {
+      "id": "af-owner-22",
+      "label": "Owner report property and date filters",
+      "source": "af-owner",
+      "section": "Reports",
+      "line": 72,
+      "quote": "You will be brought to a ‘Customize’ screen where you can select the desired property and applicable date ranges (if you want to see all properties, don’t select any)."
+    },
+    {
+      "id": "af-owner-23",
+      "label": "Owner report text search",
+      "source": "af-owner",
+      "section": "Reports",
+      "line": 75,
+      "quote": "Find in Report allows you to search for specific words or numbers within the report"
+    },
+    {
+      "id": "af-owner-24",
+      "label": "Owner portrait and landscape report PDF",
+      "source": "af-owner",
+      "section": "Reports",
+      "line": 76,
+      "quote": "Print to PDF will give you the ability to print to PDF in either portrait or landscape view"
+    },
+    {
+      "id": "af-owner-25",
+      "label": "Owner Excel and CSV report export",
+      "source": "af-owner",
+      "section": "Reports",
+      "line": 77,
+      "quote": "Actions allows you to export the report to Excel or CSV"
+    },
+    {
+      "id": "af-owner-26",
+      "label": "Owner report data refresh",
+      "source": "af-owner",
+      "section": "Reports",
+      "line": 78,
+      "quote": "Refresh will update the report with any new data, if available"
+    },
+    {
+      "id": "af-owner-27",
+      "label": "Owner report column customization",
+      "source": "af-owner",
+      "section": "Reports",
+      "line": 79,
+      "quote": "Customize will bring you back to the original customize screen to change your filters or columns, when applicable"
+    },
+    {
+      "id": "af-owner-28",
+      "label": "Owner active-property views across entities",
+      "source": "af-owner",
+      "section": "Properties",
+      "line": 81,
+      "quote": "The properties tab is home to all actively owned properties for any entity tied to your e-mail address. Not only can you quickly see the address but you also have a table with the following information:"
+    },
+    {
+      "id": "af-owner-29",
+      "label": "Owner property reserve display",
+      "source": "af-owner",
+      "section": "Properties",
+      "line": 87,
+      "quote": "If you have a reserve on the property, the amount will appear to the right of the address. For properties without a reserve amount, nothing will appear."
+    },
+    {
+      "id": "af-owner-30",
+      "label": "Former-owner active-property suppression",
+      "source": "af-owner",
+      "section": "Properties",
+      "line": 88,
+      "quote": "Your properties tab will only show you information for properties that are active as of today’s date. If your ownership ended on a specific property, you will not see that property on the Properties page."
+    },
+    {
+      "id": "af-owner-31",
+      "label": "Owner published packet download",
+      "source": "af-owner",
+      "section": "View Statements, Transactions, and Documents",
+      "line": 91,
+      "quote": "Statements: View or download published statements and reports. Packets are ordered by date with the most recent at the top and will be grouped under the owner of record. Click Download Packet to download the packet to your computer or mobile device."
+    },
+    {
+      "id": "af-owner-32",
+      "label": "Owner shared original download",
+      "source": "af-owner",
+      "section": "View Statements, Transactions, and Documents",
+      "line": 93,
+      "quote": "Documents: Any files your property manager has shared will be stored here. Click the name of the file to view it online, or click Download to save it to your computer."
+    },
+    {
+      "id": "af-owner-33",
+      "label": "Owner bank account change",
+      "source": "af-owner",
+      "section": "Update Your Bank Account Information",
+      "line": 99,
+      "quote": "4. On this page, you can update or change your Routing Number, Account Number, and Account Type. When completed, check off the box to agree to the terms and finally, click Save Changes."
+    },
+    {
+      "id": "af-owner-34",
+      "label": "Owner bank-change staff notification",
+      "source": "af-owner",
+      "section": "Update Your Bank Account Information",
+      "line": 100,
+      "quote": "5. Your property manager will then receive an email notification letting them know you have updated your bank account settings."
+    },
+    {
+      "id": "af-owner-35",
+      "label": "Owner card and ACH contributions",
+      "source": "af-owner",
+      "section": "Make a Contribution",
+      "line": 103,
+      "quote": "If enabled, you can make secure monetary contributions via credit and debit card or eCheck (ACH) to the property of your choice."
+    },
+    {
+      "id": "af-owner-36",
+      "label": "Owner contribution fee preview",
+      "source": "af-owner",
+      "section": "Make a Contribution",
+      "line": 105,
+      "quote": "Select a property, enter an amount ($15,000 max), select a payment method, and click Continue. Transaction fees apply when paying online. You are notified of the fee amount before you submit the payment."
+    },
+    {
+      "id": "af-owner-37",
+      "label": "Separate owner contribution and fee transactions",
+      "source": "af-owner",
+      "section": "Make a Contribution",
+      "line": 108,
+      "quote": "Note: The contribution and fee will be processed as separate transactions. The base contribution appears on your statement as a transaction from the management company and the fee will appear as a transaction from AppFolio."
+    },
+    {
+      "id": "af-owner-38",
+      "label": "Owner contribution confirmation",
+      "source": "af-owner",
+      "section": "Make a Contribution",
+      "line": 109,
+      "quote": "You will receive an email notification if your payment was successfully submitted. Print or save the confirmation page or email for your records if necessary."
+    },
+    {
+      "id": "af-owner-39",
+      "label": "Owner multi-entity statement packets",
+      "source": "af-owner",
+      "section": "FAQ",
+      "line": 120,
+      "quote": "Access to your Owner Portal is based upon your email address. As long as each record in your property manager's database has the same email address entered, information for all properties should be contained within one portal. Scroll down the page to see separate packets for each entity. If you still cannot find the correct packets, please contact your property manager."
+    },
+    {
+      "id": "af-platform-01",
+      "label": "Unified maintenance intake coordination and feedback",
+      "source": "af-platform",
+      "section": "Maintenance",
+      "line": 30,
+      "quote": "Smart automation powered by built-in agentic AI handles everything from intake and follow-up to vendor coordination and feedback, freeing your team to concentrate on providing exceptional service and maximizing profit."
+    },
+    {
+      "id": "af-platform-02",
+      "label": "Property management workflow automation",
+      "source": "af-platform",
+      "section": "Workflow Automation",
+      "line": 42,
+      "quote": "Performance management workflow automation tools allow you to offload tasks from your to-do list so you can focus on winning new customers, executing multi-year strategies, and surpassing your competition."
+    },
+    {
+      "id": "af-platform-03",
+      "label": "Custom property-management fields",
+      "source": "af-platform",
+      "section": "Max",
+      "line": 76,
+      "quote": "Custom Fields"
+    },
+    {
+      "id": "af-platform-04",
+      "label": "Property-management database API",
+      "source": "af-platform",
+      "section": "Max",
+      "line": 77,
+      "quote": "Database API"
+    },
+    {
+      "id": "af-platform-05",
+      "label": "Accounting budget forecasts",
+      "source": "af-platform",
+      "section": "Max",
+      "line": 79,
+      "quote": "Accounting Performer (Budgeting)"
     }
   ]
 }

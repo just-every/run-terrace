@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "complete": false,
-  "captureMethod": "Public HTTPS response captured on the stated UTC date. Capture text decodes HTML entities, drops script, style, noscript and SVG contents, collapses whitespace by block, omits addresses and expands ambiguous word slash pairs. Raw response and retained normalized text have separate SHA-256 hashes. Hashes identify captures, not present-day source currency.",
+  "captureMethod": "Public HTTPS response captured on the stated UTC date. Capture text decodes HTML entities, drops script, style, noscript and SVG contents, collapses whitespace by block, omits addresses and expands ambiguous word slash pairs. Raw response and retained normalized text have separate SHA-256 hashes. Hashes identify captures, not present-day source currency. Browser-rendered sources explicitly retain hashes for the initial HTTP response, the loaded document and the normalized visible article text; a loading shell is never substituted for the article.",
   "inventories": [
     {
       "incumbent": "appfolio",
@@ -434,9 +434,15 @@
       "rawSha256": "15fe4ab9446a6054573ee544dafa3e12ccea97183f0d71eb5bc430790cb700eb",
       "capture": "af-platform.txt",
       "captureSha256": "72396b76ba149078d4a3c56d072144b4f039c7ba4fa5838070f6e461769fa161",
-      "review": "unaudited",
-      "workflows": [],
-      "unaudited": "Platform entry point retained as an unaudited source area: no workflows have yet been reconciled from its category index and links."
+      "review": "partial",
+      "workflows": [
+        "af-platform-01",
+        "af-platform-02",
+        "af-platform-03",
+        "af-platform-04",
+        "af-platform-05"
+      ],
+      "unaudited": "Selected source statements and instructions are reconciled. Unreconciled text and linked or authenticated documentation remain explicitly unaudited; no complete official-source inventory is claimed."
     },
     {
       "id": "bu-platform",
@@ -448,9 +454,21 @@
       "rawSha256": "75b9ef360bcc855970c2ef0e3c3c4b556294acde496d2c95fda6231c9f28d9af",
       "capture": "bu-platform.txt",
       "captureSha256": "c4eddad82edff9e8c5631a4dffdab86119f4d2a9871e623109a6142e687c9e77",
-      "review": "unaudited",
-      "workflows": [],
-      "unaudited": "Platform entry point retained as an unaudited source area: no workflows have yet been reconciled from its category index and links."
+      "review": "partial",
+      "workflows": [
+        "bu-platform-01",
+        "bu-platform-02",
+        "bu-platform-03",
+        "bu-platform-04",
+        "bu-platform-05",
+        "bu-platform-06",
+        "bu-platform-07",
+        "bu-platform-08",
+        "bu-platform-09",
+        "bu-platform-10",
+        "bu-platform-11"
+      ],
+      "unaudited": "Selected source statements and instructions are reconciled. Unreconciled text and linked or authenticated documentation remain explicitly unaudited; no complete official-source inventory is claimed."
     },
     {
       "id": "bu-scheduled-help",
@@ -459,12 +477,35 @@
       "resolvedUrl": "https://help.buildium.com/hc/s/article/Schedule-Batched-Reports",
       "capturedOn": "2026-11-05",
       "httpStatus": 200,
-      "rawSha256": "a90fa91f1e12f216715d491a803267a8485f6601e7a773496baa7d23103b361f",
+      "rawSha256": "962fc5bd671d7741f3ac12a36e8add747029706b45855c65c928497bb3a0617b",
       "capture": "bu-scheduled-help.txt",
-      "captureSha256": "60459cd7b77e678250073c8fb514e7ac380a508d2cc7564685b026781c4dc83f",
-      "review": "unaudited",
-      "workflows": [],
-      "unaudited": "Scheduled reports article contents were not retrieved: HTTP 200 returns a five-line loading shell with a CSS Error. This is inaccessible source content, not evidence of absence or a verified workflow."
+      "captureSha256": "dc111fa7ff550ca1727e53229cfb1b43aa2e68d9a0971077153c7fc63beb7eaa",
+      "review": "partial",
+      "workflows": [
+        "bu-scheduled-help-01",
+        "bu-scheduled-help-02",
+        "bu-scheduled-help-03",
+        "bu-scheduled-help-04",
+        "bu-scheduled-help-05",
+        "bu-scheduled-help-06",
+        "bu-scheduled-help-07",
+        "bu-scheduled-help-08",
+        "bu-scheduled-help-09",
+        "bu-scheduled-help-10",
+        "bu-scheduled-help-11",
+        "bu-scheduled-help-12",
+        "bu-scheduled-help-13",
+        "bu-scheduled-help-14",
+        "bu-scheduled-help-15",
+        "bu-scheduled-help-16",
+        "bu-scheduled-help-17",
+        "bu-scheduled-help-18",
+        "bu-scheduled-help-19",
+        "bu-scheduled-help-20"
+      ],
+      "unaudited": "The official article was retrieved after JavaScript loading in a clean browser. Selected instructions below are reconciled; related help articles, media and other official documentation remain unaudited. The earlier HTTP-only loading-shell limitation is resolved.",
+      "captureMode": "browser-rendered",
+      "renderedSha256": "87452bd1aab0ac7b7f5affdce869adfaac52118e628ba4b66782667acc986621"
     },
     {
       "id": "af-smart-blog",
@@ -814,9 +855,49 @@
       "captureSha256": "e8186dc8272db8f046ab2844b2d7df885d80dcfabf2768c3b4f676cba87c84fb",
       "incumbent": "appfolio",
       "capture": "af-owner.txt",
-      "review": "unaudited",
-      "workflows": [],
-      "unaudited": "Retained official source area has not yet been reconciled into workflow rows. This is an explicit inventory gap, not absence of incumbent capability."
+      "review": "partial",
+      "workflows": [
+        "af-owner-01",
+        "af-owner-02",
+        "af-owner-03",
+        "af-owner-04",
+        "af-owner-05",
+        "af-owner-06",
+        "af-owner-07",
+        "af-owner-08",
+        "af-owner-09",
+        "af-owner-10",
+        "af-owner-11",
+        "af-owner-12",
+        "af-owner-13",
+        "af-owner-14",
+        "af-owner-15",
+        "af-owner-16",
+        "af-owner-17",
+        "af-owner-18",
+        "af-owner-19",
+        "af-owner-20",
+        "af-owner-21",
+        "af-owner-22",
+        "af-owner-23",
+        "af-owner-24",
+        "af-owner-25",
+        "af-owner-26",
+        "af-owner-27",
+        "af-owner-28",
+        "af-owner-29",
+        "af-owner-30",
+        "af-owner-31",
+        "af-owner-32",
+        "af-owner-33",
+        "af-owner-34",
+        "af-owner-35",
+        "af-owner-36",
+        "af-owner-37",
+        "af-owner-38",
+        "af-owner-39"
+      ],
+      "unaudited": "Selected source statements and instructions are reconciled. Unreconciled text and linked or authenticated documentation remain explicitly unaudited; no complete official-source inventory is claimed."
     }
   ],
   "unresolvedAreas": [
@@ -827,8 +908,8 @@
     },
     {
       "incumbent": "buildium",
-      "area": "Technician GPS and scheduled-report configuration details",
-      "reason": "Technician location tracking is not established by the reviewed public sources. Reporting Automation documents automatic report sends; the separate official help article remains inaccessible, so its scheduling and delivery details remain unaudited."
+      "area": "Technician GPS and remaining report documentation",
+      "reason": "Technician location tracking remains unestablished by the reviewed public sources. Scheduled generation and owner-portal delivery are now documented in the rendered official help article; related reports, help links and complete source coverage remain unaudited."
     },
     {
       "incumbent": "rent-manager",
@@ -837,8 +918,8 @@
     },
     {
       "incumbent": "buildium",
-      "area": "Scheduled reports — official help contents inaccessible",
-      "reason": "The Schedule Batched Reports official help URL still returns HTTP 200 with a loading shell and CSS Error. Reporting Automation is independently documented on the public automation page and retained as a named gap; the help article contents and complete reporting inventory remain unqualified.",
+      "area": "Related scheduled-report help articles and supported report details",
+      "reason": "The official Schedule Batched Reports article now loads in a clean browser and its documented workflows remain gaps. Linked batched-report articles, available-report details and any authenticated documentation remain unaudited; this retrieved article does not establish complete Buildium coverage.",
       "url": "https://help.buildium.com/hc/s/article/Schedule-Batched-Reports"
     }
   ],
@@ -880,7 +961,8 @@
       "category": "corporate",
       "status": "documented",
       "workflows": [
-        "bu-company-01"
+        "bu-company-01",
+        "bu-scheduled-help-17"
       ],
       "gap": "Company books and financial reporting remain unqualified replacements; residential accounting and product boundaries cannot remove this gap."
     },
@@ -905,7 +987,9 @@
       "category": "reports",
       "status": "documented",
       "workflows": [
-        "bu-automation-01"
+        "bu-automation-01",
+        "bu-scheduled-help-01",
+        "bu-scheduled-help-02"
       ],
       "gap": "Documented automatic report generation or delivery remains a gap; manual export does not qualify it."
     },
