@@ -73,11 +73,38 @@ export async function journalData(c:Context,p:Row={}){
  allow(c,'reports.read')
  if(p.propertyId)await journalProperty(c,p.propertyId)
  if(p.tenancyId)await tenancy(c,p.tenancyId)
- const [allEntries,accounts,properties,owners,vendors,tenancies,shares]=await Promise.all([all(c,"SELECT j.*,r.id AS reversed_by,t.time_zone AS source_zone,a.posting_day AS explicit_day FROM tt_journal j LEFT JOIN tt_journal r ON r.reversal_of=j.id LEFT JOIN tt_tenancies t ON t.id=j.tenancy_id LEFT JOIN tt_adjustments a ON j.source_kind='reduction' AND a.id=j.source_id ORDER BY j.day,j.recorded_at,j.id"),all(c,'SELECT * FROM tt_gl_chart ORDER BY code'),all(c,'SELECT id,name,portfolio_id FROM tt_properties ORDER BY name'),all(c,'SELECT id,legal_name FROM tt_owners ORDER BY legal_name'),all(c,'SELECT id,name FROM tt_vendors ORDER BY name'),all(c,'SELECT id,unit_id,tenant_name,address FROM tt_tenancies WHERE erased_at IS NULL ORDER BY address'),all(c,'SELECT h.owner_id,s.property_id FROM tt_ownership_shares h JOIN tt_ownership_sets s ON s.id=h.set_id')])
+ const [allEntries,accounts,properties,owners,vendors,tenancies,shares]=await Promise.all([all(c,`SELECT j.*,r.id AS reversed_by,t.time_zone AS source_zone,a.posting_day AS explicit_day,
+ q.description AS source_description,CASE WHEN j.source_kind='reduction' THEN q.reference WHEN b.id IS NOT NULL THEN NULLIF(b.invoice_number,b.id) WHEN f.id IS NOT NULL THEN NULLIF(f.source_label,f.id) ELSE j.reference END AS source_reference,
+ CASE WHEN t.erased_at IS NULL THEN t.tenant_name END AS resident_name,
+ CASE WHEN t.erased_at IS NULL THEN t.address END AS lease_address,
+ CASE WHEN t.erased_at IS NULL THEN t.owner_name END AS lease_owner
+ FROM tt_journal j LEFT JOIN tt_journal r ON r.reversal_of=j.id
+ LEFT JOIN tt_tenancies t ON t.id=j.tenancy_id
+ LEFT JOIN tt_adjustments a ON j.source_kind='reduction' AND a.id=j.source_id
+ LEFT JOIN tt_receipts s ON j.source_kind='receipt' AND s.id=j.source_id
+ LEFT JOIN tt_charges q ON q.id=CASE WHEN j.source_kind='charge' THEN j.source_id WHEN j.source_kind='receipt' THEN s.charge_id WHEN j.source_kind='reduction' THEN a.charge_id END
+ LEFT JOIN tt_bill_expenses x ON j.source_kind='bill' AND x.id=j.source_id
+ LEFT JOIN tt_bills b ON b.id=x.bill_id
+ LEFT JOIN tt_fees f ON j.source_kind='fee' AND f.id=j.source_id
+ ORDER BY j.day,j.recorded_at,j.id`),all(c,'SELECT * FROM tt_gl_chart ORDER BY code'),all(c,'SELECT id,name,address,portfolio_id FROM tt_properties ORDER BY name'),all(c,'SELECT id,legal_name FROM tt_owners ORDER BY legal_name'),all(c,'SELECT id,name FROM tt_vendors ORDER BY name'),all(c,'SELECT id,unit_id,tenant_name,address FROM tt_tenancies WHERE erased_at IS NULL ORDER BY address'),all(c,'SELECT h.owner_id,s.property_id FROM tt_ownership_shares h JOIN tt_ownership_sets s ON s.id=h.set_id')])
  const mine=properties.filter(x=>reachesPortfolio(c,x.portfolio_id)),ids=new Set(mine.map(x=>x.id))
- const dated:Row[]=allEntries.map(({source_zone,explicit_day,...j})=>({...j,day:j.source_kind==='reduction'&&!explicit_day&&source_zone?localDate(j.recorded_at,source_zone):j.day}))
+ // Presentation context stays outside entries: period closes retain the original accounting evidence.
+ const dated:Row[]=allEntries.map(({source_zone,explicit_day,source_description,source_reference,resident_name,lease_address,lease_owner,...j})=>({...j,day:j.source_kind==='reduction'&&!explicit_day&&source_zone?localDate(j.recorded_at,source_zone):j.day}))
  const rows:Row[]=dated.filter(j=>(j.property_id?ids.has(j.property_id):c.actor.role==='owner'||c.actor.staff?.all)&&(!p.propertyId||j.property_id===p.propertyId)&&(!p.ownerId||j.owner_key===p.ownerId)&&(!p.tenancyId||j.tenancy_id===p.tenancyId)&&(!p.vendorId||j.vendor_id===p.vendorId)&&(!p.fund||j.fund===p.fund)&&(!p.from||j.day>=date(p.from))&&(!p.to||j.day<=date(p.to))).map(j=>({...j,lines:JSON.parse(j.lines)}))
  const trial=accounts.map(a=>{const lines=rows.flatMap(j=>j.lines).filter(l=>l.account===a.code);return{...a,debitCents:lines.reduce((n,l)=>n+l.debit,0),creditCents:lines.reduce((n,l)=>n+l.credit,0)}})
  const ownerIds=new Set([...rows.map(j=>j.owner_key),...shares.filter(s=>ids.has(s.property_id)).map(s=>s.owner_id)])
- return{currency:'USD',entries:rows,trialBalance:trial,debitCents:trial.reduce((n,a)=>n+a.debitCents,0),creditCents:trial.reduce((n,a)=>n+a.creditCents,0),accounts,properties:mine,owners:owners.filter(o=>ownerIds.has(o.id)),tenancies:tenancies.filter(t=>reaches(c,t.unit_id)).map(t=>({...t,label:t.address+' · '+t.tenant_name})),vendors:vendors.filter(v=>c.actor.role==='owner'||c.actor.staff?.all||rows.some(j=>j.vendor_id===v.id)),mayPost:can(c,'journal.post'),mayChart:can(c,'chart.add'),mayReverse:can(c,'journal.reverse')}
+ const contexts=new Map(allEntries.map(j=>[j.id,j]))
+ const label=(j:Row)=>{
+  const source=contexts.get(j.id)!,property=mine.find(p=>p.id===j.property_id),owner=owners.find(o=>o.id===j.owner_key)
+  const internal=[j.id,j.source_id,j.owner_key,j.tenancy_id,j.reversal_of,j.reversed_by]
+  return{day:j.day,kind:j.source_kind.replaceAll('_',' '),description:source.source_description,
+   reference:internal.includes(source.source_reference)?null:source.source_reference,reason:j.source_kind==='reduction'?j.reference:null,
+   property:property?property.name+' · '+property.address:source.lease_address??'Historical lease; property not linked',
+   owner:owner?.legal_name??(j.owner_key.startsWith('lease-owner:')?(source.lease_owner??'Historical lease owner')+' (ownership not linked)':'Beneficiary not linked'),
+   resident:source.resident_name?source.resident_name+' · '+source.lease_address:'Retained resident record',
+   vendor:vendors.find(v=>v.id===j.vendor_id)?.name??'Vendor record unavailable'}
+ }
+ const datedById=new Map(dated.map(j=>[j.id,j]))
+ const entryLabels=Object.fromEntries(rows.map(j=>[j.id,{...label(j),reverses:j.reversal_of?label(datedById.get(j.reversal_of)!):null,reversedBy:j.reversed_by?label(datedById.get(j.reversed_by)!):null}]))
+ return{currency:'USD',entries:rows,entryLabels,trialBalance:trial,debitCents:trial.reduce((n,a)=>n+a.debitCents,0),creditCents:trial.reduce((n,a)=>n+a.creditCents,0),accounts,properties:mine,owners:owners.filter(o=>ownerIds.has(o.id)),tenancies:tenancies.filter(t=>reaches(c,t.unit_id)).map(t=>({...t,label:t.address+' · '+t.tenant_name})),vendors:vendors.filter(v=>c.actor.role==='owner'||c.actor.staff?.all||rows.some(j=>j.vendor_id===v.id)),mayPost:can(c,'journal.post'),mayChart:can(c,'chart.add'),mayReverse:can(c,'journal.reverse')}
 }

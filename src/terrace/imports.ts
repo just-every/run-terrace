@@ -15,10 +15,17 @@ async function importOwner(c: Context) {
   insist(await one(c, "SELECT 1 FROM oa_operators WHERE id=? AND status='active' AND role='owner' AND version=?", c.actor.id, c.actor.version ?? 1), 'forbidden', 'Your owner access changed. Sign in again.', 403)
 }
 
-function csvInput(p: Row): unknown {
+async function csvInput(p: Row): Promise<unknown> {
+  const file = p.csvFile instanceof File && (p.csvFile.name || p.csvFile.size) ? p.csvFile : undefined
+  if (file) {
+    insist(!(typeof p.csv === 'string' && p.csv.length) && p.csvBase64 === undefined, 'invalid_csv', 'Choose a CSV file or paste CSV text, not both.')
+    insist(file.size > 0 && file.size <= 256_000, 'invalid_csv', 'CSV must contain between 1 and 256,000 UTF-8 bytes.')
+    try { return new TextDecoder('utf-8',{fatal:true,ignoreBOM:true}).decode(await file.arrayBuffer()) }
+    catch { throw new Fault('invalid_csv', 'The CSV file must contain valid UTF-8 text.') }
+  }
   if (p.csv !== undefined) return p.csv
   insist(typeof p.csvBase64 === 'string' && p.csvBase64.length <= 350_000, 'invalid_csv', 'CSV source is required.')
-  try { return new TextDecoder('utf-8',{fatal:true}).decode(Uint8Array.from(atob(p.csvBase64), ch => ch.charCodeAt(0))) }
+  try { return new TextDecoder('utf-8',{fatal:true,ignoreBOM:true}).decode(Uint8Array.from(atob(p.csvBase64), ch => ch.charCodeAt(0))) }
   catch { throw new Fault('invalid_csv', 'The preserved CSV source is invalid.') }
 }
 
@@ -44,7 +51,7 @@ export async function importCommand(c: Context, command: string, p: Row): Promis
       return { kit: IMPORT_KIT, job: await applyD1ImportBatches(jobId, { ...context, reviewedFingerprint: current.fingerprint }), replayed:current.state==='completed' }
     }
     if (command === 'import.preview' || command === 'import.apply') {
-      const namespace = importNamespace(p.namespace), csv = csvInput(p)
+      const namespace = importNamespace(p.namespace), csv = await csvInput(p)
       const context = tenancyImportContext(c, namespace)
       const plan = await planD1Import(tenancySource(csv,namespace), tenancyMapping(await officeZone(c)), context)
       const rows = plan.entries.map(entry => ({ ref: entry.source.sourceId, sourceRow: entry.source.location.row, targetId: entry.effects[0]?.targetId, value: entry.effects[0]?.value, rejection: entry.rejection ?? null }))

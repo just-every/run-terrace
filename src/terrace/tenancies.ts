@@ -1,3 +1,5 @@
+import { leaseTermSchedule, leaseTermsOn } from './tenancy-terms'
+import { localDate } from './zones'
 import { independence } from './dual-control'
 import { all, audit, cents, commit, date, email, guard, id, insist, allow, one, sha256, sql, tenancy, text, reaches, everywhere, type Context, type Row } from './core'
 import { officeZone } from './company'
@@ -65,5 +67,16 @@ export async function tenancyCommand(c: Context, command: string, p: Row): Promi
   return {id:r.id,state:approved?'approved':'rejected'}
  }
 }
-export const tenancyData = (c:Context) => all(c,'SELECT * FROM tt_tenancies WHERE erased_at IS NULL ORDER BY address,tenant_name').then(rows=>rows.filter(t=>reaches(c,t.unit_id)))
+export const tenancyData=(c:Context):Promise<Row[]>=>tenancyTermsData(c,false)
+export const tenancyPageData=(c:Context):Promise<Row[]>=>tenancyTermsData(c,true)
+async function tenancyTermsData(c:Context,labels:boolean):Promise<Row[]> {
+ const [rows,history]=await Promise.all([
+  all(c,'SELECT * FROM tt_tenancies WHERE erased_at IS NULL ORDER BY address,tenant_name'),
+  all(c,labels?'SELECT h.*,o.display_name AS confirmed_name FROM tt_lease_history h LEFT JOIN oa_operators o ON o.id=h.confirmed_by ORDER BY h.end_date':'SELECT * FROM tt_lease_history ORDER BY end_date'),
+ ])
+ return rows.filter(t=>reaches(c,t.unit_id)).map(t=>{
+  const day=localDate(c.now,t.time_zone),schedule=leaseTermSchedule(t,history)
+  return {...t,current_terms:leaseTermsOn(t,history,day),upcoming_terms:schedule.filter(h=>h.start_date>day),lease_history:schedule.slice(0,-1)}
+ })
+}
 export const proposals = (c:Context,tenancyId:string) => all(c,"SELECT p.*,COALESCE((SELECT h.agent_label FROM tt_audit h WHERE h.subject=p.id AND h.agent_label IS NOT NULL ORDER BY h.at LIMIT 1),a.display_name,p.prepared_by) AS prepared_name,COALESCE(b.display_name,p.approved_by) AS approved_name FROM tt_proposals p LEFT JOIN oa_operators a ON a.id=p.prepared_by LEFT JOIN oa_operators b ON b.id=p.approved_by WHERE p.tenancy_id=? AND p.kind IN ('renewal','arrears') ORDER BY p.prepared_at DESC",tenancyId)

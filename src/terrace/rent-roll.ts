@@ -1,3 +1,4 @@
+import { leaseTermsOn } from './tenancy-terms'
 // REPORT-001: the rent roll as of a date and the month's collection view. A unit is occupied on a day when a
 // lease covers it (start to move-out or end); otherwise vacant, noting a future lease. Contract rent on a day
 // is the rent of the lease period covering it: a renewal's earlier terms (TER-003 history) until that period
@@ -20,11 +21,10 @@ export async function rentRoll(c: Context, q: Row) {
   all(c, 'SELECT * FROM tt_lease_history ORDER BY end_date'),
   all(c, 'SELECT * FROM tt_lease_terms WHERE starts<=? AND (ends IS NULL OR ends>=?) ORDER BY kind', asOf, asOf),
  ])
- const rentOn = (l: Row) => history.find(h => h.tenancy_id === l.id && h.start_date <= asOf && h.end_date >= asOf)?.rent_cents ?? l.rent_cents
  const line = (unit: Row | null, l: Row | undefined, next: Row | undefined) => {
-  const mine = l ? terms.filter(t => t.tenancy_id === l.id) : []
+  const mine = l ? terms.filter(t => t.tenancy_id === l.id) : [], contract = l ? leaseTermsOn(l,history,asOf) : null
   return { unitId: unit?.id ?? null, portfolio: unit?.portfolio_name ?? '', propertyId: unit?.property_id ?? null, property: unit?.property_name ?? '', unit: unit?.identifier ?? '', address: l?.address ?? (unit ? `Unit ${unit.identifier}, ${unit.property_name}` : ''), bedrooms: unit?.bedrooms ?? null, marketRentCents: unit?.market_rent_cents ?? null,
-   state: l ? 'occupied' : next ? 'vacant, leased' : 'vacant', tenancyId: l?.id ?? null, resident: l?.tenant_name ?? '', leaseStart: l?.start_date ?? '', leaseEnd: l ? occupiedTo(l) : '', contractRentCents: l ? rentOn(l) : 0, currency: l ? shown(l) : 'USD', cadence: l?.cadence ?? '',
+   state: l ? 'occupied' : next ? 'vacant, leased' : 'vacant', tenancyId: l?.id ?? null, resident: l?.tenant_name ?? '', leaseStart: contract?.start_date ?? '', leaseEnd: l ? (l.ended_on ?? contract!.end_date) : '', contractRentCents: contract?.rent_cents ?? 0, currency: l ? shown(l) : 'USD', cadence: l?.cadence ?? '',
    recurring: mine.filter(t => t.kind !== 'concession').map(t => ({ termId: t.id, kind: t.kind, amountCents: t.amount_cents })), concessions: mine.filter(t => t.kind === 'concession').map(t => ({ termId: t.id, amountCents: t.amount_cents })),
    deposit: 'not recorded', nextLease: next ? { tenancyId: next.id, resident: next.tenant_name, start: next.start_date } : null }
  }

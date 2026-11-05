@@ -48,7 +48,7 @@ The proposed end must be later than the current lease end. Preparing saves a pen
 
 An owner or portfolio manager opens **Prepared decisions** for the tenancy, checks the proposed terms and reference, then chooses **Approve renewal** or **Reject proposal**.
 
-Approval records the authenticated reviewer and decision time, archives the previous lease terms and updates the tenancy's end date and rent. Rejection records the decision without changing the terms. Previous terms remain in the backup archive.
+Approval records the authenticated reviewer and decision time and schedules the renewed rent from the day after the previously approved lease end. The tenancy, Tenancies rent roll and charge starting amount keep the rent in force today. **Upcoming approved terms** lists each future period and its rent, including consecutive renewals. **Previous terms** on the tenancy retains each earlier period, rent, approval date and reviewer; backups also retain this history. Rejection records the decision without changing the terms.
 
 A proposal refers to the tenancy version that was current when it was prepared. If the tenancy changed, a stale decision is refused. Check the current details and prepare a new proposal for review.
 

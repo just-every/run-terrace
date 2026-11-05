@@ -30,7 +30,7 @@ export async function monthData(c: Context, tenancies: Row[]) {
  const rows = tenancies.map(t => {
   const local = localDate(c.now, t.time_zone)
   const mine = charges.filter(q => q.tenancy_id === t.id)
-  const due = mine.reduce((s, q) => s + q.amount_cents, 0), balance = mine.reduce((s, q) => s + q.balance_cents, 0), received = mine.reduce((s, q) => s + q.received_cents, 0)
+  const due = mine.reduce((s, q) => s + q.balance_cents + q.received_cents, 0), balance = mine.reduce((s, q) => s + q.balance_cents, 0), received = mine.reduce((s, q) => s + q.received_cents, 0)
   const unpaid = mine.filter(q => q.balance_cents > 0), oldest = unpaid[0]?.due_date
   const standing: Standing = !mine.length ? 'none' : balance === 0 ? 'paid' : received > 0 ? 'partial' : oldest < local ? 'overdue' : 'due'
   const receivedDate = mine.map(q => q.received_date).filter(Boolean).sort().at(-1) ?? ''

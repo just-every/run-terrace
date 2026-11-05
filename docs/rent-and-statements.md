@@ -8,7 +8,7 @@ Terrace records money already received elsewhere. Collection, bank reconciliatio
 
 Choose the tenancy, then use **Add rent charge**. Enter the due date, amount in the tenancy's currency (USD; a tenancy recorded before Terrace stored a currency shows “currency unconfirmed” until the installation owner confirms AUD or USD on Data & access, and is never converted), description and a unique charge reference. Select **Record charge**.
 
-The tenancy's rent fills the amount as a starting value; check it before saving. Enter each charge you intend to record. A saved tenancy or renewal does not itself create rent charges.
+The rent in force today fills the amount as a starting value. Choosing a due date suggests the approved rent for that day unless you have entered a custom amount; check it before saving. Enter each charge you intend to record. A saved tenancy or renewal does not itself create rent charges.
 
 ## Record money received externally
 
@@ -21,7 +21,7 @@ A receipt cannot exceed the selected charge's unpaid balance or use a future rec
 
 ## Reduce an incorrect charge
 
-Open **Reduce an incorrect charge**, choose the unpaid charge and enter the reduction and reason. Select **Record charge reduction**. The reduction cannot exceed the unpaid balance. The explained correction appears under **Charge reductions**; the original charge remains recorded.
+Open **Reduce an incorrect charge**, choose the unpaid charge and enter the reduction and reason. Select **Record charge reduction**. The reduction cannot exceed the unpaid balance. The ledger shows the charge's net amount beside its original amount and total reductions. Each explained correction under **Charge reductions** names the charge and reference; the original charge remains recorded. The Tenancies month tile and row count the amount due after reductions, so recorded receipts plus outstanding equals net due.
 
 ## Review arrears
 
@@ -45,7 +45,7 @@ On **Properties**, owners and admins see the **Rent roll** as of a chosen date: 
 
 ## Download an owner statement
 
-Under **Owner statement**, choose **Period start** and **Period end**, then select **Download owner statement**. The end must be on or after the start. The CSV includes the owner and property, the tenancy's currency and the property's time zone, the exact start and end of the period with their UTC offsets (a period crossing a daylight-saving change shows both offsets), opening receivable, charges, external receipts, reductions within the inclusive period and closing receivable.
+Under **Owner statement**, choose **Period start** and **Period end**, then select **Download owner statement**. The end must be on or after the start. The CSV includes the owner and property, the tenancy's currency and the property's time zone, the exact start and end of the period with their UTC offsets (a period crossing a daylight-saving change shows both offsets), opening receivable, charges, external receipts, reductions within the inclusive period and closing receivable. Each reduction uses its charge reference in **Reference**, with the explanation in a separate **Reason** column.
 
 The opening receivable uses entries dated before the period. Charge entries use their due date; receipts use their received date; reductions use the property-local day they were recorded. Closing receivable equals opening receivable plus period charges, minus period receipts and reductions.
 

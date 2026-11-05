@@ -98,10 +98,45 @@ try {
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'the phone ledger fits 390 pixels without sideways scrolling')
  await row.getByText('$1,250.00').waitFor()
 
+ // Approval schedules rent for the next term and the charge form follows the due day.
+ await page.goto(origin+'/app?tab=tenancy&tenancy='+tenancyId)
+ const renewal=page.locator('form:has(input[name="command"][value="renewal.prepare"])')
+ await renewal.getByLabel('Proposed lease end',{exact:true}).fill('2028-01-31')
+ await renewal.getByLabel('Proposed rent (USD)',{exact:true}).fill('1990')
+ await renewal.getByLabel('Lease reference / reason',{exact:true}).fill('Signed annual renewal schedule')
+ await renewal.getByRole('button',{name:'Prepare renewal',exact:true}).click()
+ await page.getByRole('button',{name:'Approve renewal',exact:true}).click()
+ await page.getByRole('heading',{name:'Previous terms',exact:true}).waitFor()
+ await page.getByRole('link',{name:'Open ledger →',exact:true}).click()
+ const datedCharge=page.locator('form:has(input[name="command"][value="rent.charge"])')
+ assert.equal(await datedCharge.getByLabel('Amount (USD)',{exact:true}).inputValue(),'1850.00')
+ await datedCharge.getByLabel('Due date',{exact:true}).fill('2027-02-01')
+ await datedCharge.getByLabel('Description',{exact:true}).click()
+ assert.equal(await datedCharge.getByLabel('Amount (USD)',{exact:true}).inputValue(),'1990.00')
+ await datedCharge.getByLabel('Amount (USD)',{exact:true}).fill('1940')
+ await datedCharge.getByLabel('Due date',{exact:true}).fill('2026-11-01')
+ await datedCharge.getByLabel('Description',{exact:true}).click()
+ assert.equal(await datedCharge.getByLabel('Amount (USD)',{exact:true}).inputValue(),'1940','the manager’s custom charge is preserved')
+
  // The existing work, move-in and data/access forms remain on their tabs.
  for(const [tab,command] of [['work','inspection.create'],['import','import.preview'],['settings','data.restore']]){
   assert.equal((await page.goto(`${origin}/app?tab=${tab}&tenancy=${tenancyId}`)).status(),200,tab)
   assert.equal(await page.locator(`form input[name="command"][value="${command}"]`).count(),1,`${tab} keeps ${command}`)
+ }
+
+ // Paste capture precedes the browser's CRLF form normalization; uploads keep file bytes.
+ const source='ref,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,rent,cadence,created_at\nCSV-1,18 Elm Street,Rowan Ellis,rowan@example.test,Zoë Ruiz,zoe@example.test,2026-03-01,2027-02-28,2150,monthly,2026-01-01T00:00:00.000Z\n'
+ for(const file of [false,true]){
+  await page.goto(origin+'/app?tab=import')
+  await page.getByLabel('Source namespace',{exact:true}).fill(file?'browser-file':'browser-paste')
+  const bytes=Buffer.from(file?'\ufeff'+source.replaceAll('\n','\r\n'):source)
+  if(file)await page.getByLabel('Or upload original CSV',{exact:true}).setInputFiles({name:'source.csv',mimeType:'text/csv',buffer:bytes})
+  else await page.getByLabel('CSV source',{exact:true}).fill(source)
+  await page.getByRole('button',{name:'Preview import',exact:true}).click()
+  await page.getByRole('button',{name:'Approve and import these tenancies',exact:true}).click()
+  await page.locator('article').filter({has:page.getByRole('heading',{name:file?'browser-file':'browser-paste',exact:true})}).getByRole('button',{name:'Inspect journal and original',exact:true}).click()
+  const href=await page.getByRole('link',{name:'Download exact original',exact:true}).getAttribute('href')
+  assert.deepEqual(Buffer.from(href.split(',')[1],'base64'),bytes,'retained original matches every UTF-8 source byte')
  }
  console.log('TER-012 passed: run site /, /run, /docs and a 404 document; linked tenancy and ledger actions with a stacked 390-pixel ledger')
 } finally {await browser.close();await site.dispose();await app.dispose();await rm(directory,{recursive:true,force:true})}

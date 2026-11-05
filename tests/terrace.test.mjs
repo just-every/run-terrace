@@ -651,7 +651,7 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  await h.command('rent.charge',{tenancyId:west.id,dueDate:'2025-11-01',amount:'620.00',description:'November rent',reference:'5B-2025-11'})
  const statement=async id=>(await(await h.request(`/api/statement?tenancyId=${id}&from=2025-10-26&to=2025-11-08`)).text()).split('\r\n')
  const eastCsv=await statement(east.id),westCsv=await statement(west.id)
- for(const line of ['"Currency","USD"','"Property time zone","America/New_York"','"Period starts","2025-10-26T00:00:00-04:00"','"Period ends before","2025-11-09T00:00:00-05:00"','"Date","Kind","Reference","Charges USD","Receipts USD","Adjustments USD"','"2025-11-01","Charge","5A-2025-11","2400.00","0.00","0.00"','"Closing receivable USD","0.01"'])assert.ok(eastCsv.includes(line),line)
+ for(const line of ['"Currency","USD"','"Property time zone","America/New_York"','"Period starts","2025-10-26T00:00:00-04:00"','"Period ends before","2025-11-09T00:00:00-05:00"','"Date","Kind","Reference","Charges USD","Receipts USD","Adjustments USD","Reason"','"2025-11-01","Charge","5A-2025-11","2400.00","0.00","0.00",""','"Closing receivable USD","0.01"'])assert.ok(eastCsv.includes(line),line)
  for(const line of ['"Property time zone","America/Los_Angeles"','"Period starts","2025-10-26T00:00:00-07:00"','"Period ends before","2025-11-09T00:00:00-08:00"'])assert.ok(westCsv.includes(line),line)
  // An AUD historical tenancy imports as AUD and is never relabelled or converted.
  const csv=['ref,address,owner_name,owner_email,tenant_name,tenant_email,start_date,end_date,rent,cadence,created_at,currency,time_zone','HIST-1,"Unit 3, 12 Wattle Street, Sydney NSW 2000",Okafor Family Trust,okafor@example.test,Mia Park,mia@example.test,2024-02-01,2025-01-31,1850.00,monthly,2024-01-15T00:00:00.000Z,AUD,Australia/Sydney'].join('\n')
@@ -663,8 +663,8 @@ test('PORT-001: a US company in USD, two property time zones across daylight sav
  await h.command('rent.charge',{tenancyId:old.id,dueDate:'2024-11-01',amount:'1850.00',description:'Historical rent',reference:'HIST-2024-11'})
  const ledger=(await h.state(old.id)).ledger;assert.equal(ledger.currency,'AUD');assert.equal(ledger.charges[0].currency,'AUD')
  const oldCsv=(await(await h.request(`/api/statement?tenancyId=${old.id}&from=2024-10-01&to=2024-11-30`)).text()).split('\r\n')
- for(const line of ['"Currency","AUD"','"Period starts","2024-10-01T00:00:00+10:00"','"Period ends before","2024-12-01T00:00:00+11:00"','"2024-11-01","Charge","HIST-2024-11","1850.00","0.00","0.00"','"Closing receivable AUD","1850.00"'])assert.ok(oldCsv.includes(line),line)
- assert.match(await(await h.request(`/app?tab=ledger&tenancy=${old.id}`)).text(),/<th>AUD<\/th>[\s\S]*A\$1,850\.00/)
+ for(const line of ['"Currency","AUD"','"Period starts","2024-10-01T00:00:00+10:00"','"Period ends before","2024-12-01T00:00:00+11:00"','"2024-11-01","Charge","HIST-2024-11","1850.00","0.00","0.00",""','"Closing receivable AUD","1850.00"'])assert.ok(oldCsv.includes(line),line)
+ assert.match(await(await h.request(`/app?tab=ledger&tenancy=${old.id}`)).text(),/<th>Net AUD<\/th>[\s\S]*A\$1,850\.00/)
  assert.match(await(await h.request(`/app?tab=tenancy&tenancy=${old.id}`)).text(),/A\$1,850\.00 monthly<small>AUD · recorded before USD; never converted<\/small>/)
  // This month's totals are kept per currency: USD and AUD are never added together.
  const first=new Date().toISOString().slice(0,8)+'01'
@@ -950,3 +950,6 @@ test('BOUND-002: scoped professional referrals retain held sources, documentary 
 
 import {journey as shadowJourney} from './shadow-run.mjs'
 test('MOVE-008: owner documentary rent comparison holds per-lease differences, binds exact reviews and preserves private custody',shadowJourney)
+
+import {journey as moneyTermsJourney} from './money-terms.mjs'
+test('Dated renewal terms, net rent totals and exact original CSV custody through public doors',moneyTermsJourney)

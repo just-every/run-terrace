@@ -54,10 +54,10 @@ function standing(r: RollRow) {
 }
 
 function rollRow(r: RollRow) {
- const t = r.tenancy, ending = daysBetween(r.today, t.end_date) <= 60
+ const t = r.tenancy, current = t.current_terms ?? t, next = t.upcoming_terms?.[0], ending = daysBetween(r.today, current.end_date) <= 60
  const recorded = r.standing === 'none' ? '<span class="muted">—</span>' : r.standing === 'paid' ? `${money(r.received, r.currency)}<small>${r.receivedDate ? `on ${shortDate(r.receivedDate)}` : 'reduced'}</small>` : `${money(r.received, r.currency)} <span class="muted">of ${money(r.due, r.currency)}</span>`
  const pending = r.pending.length ? pill(r.pending.some(p => p.kind === 'renewal') ? 'Renewal pending' : 'Arrears pending', 'pending') : ''
- return `<a class="roll-row tenancy-row" href="/app?tab=tenancy&amp;tenancy=${e(t.id)}">${avatar(t.tenant_name)}<span class="roll-who"><strong>${r.unit ? `${e(r.unit)} · ` : ''}${e(t.tenant_name)}</strong></span><span class="roll-rent" data-label="Rent">${money(t.rent_cents, shown(t))} <span class="muted">${e(t.cadence)}</span></span><span class="roll-recorded" data-label="Recorded">${recorded}</span><span class="roll-status">${standing(r)}</span><span class="roll-lease${ending ? ' soon' : ''}" data-label="Lease end">${usDate(t.end_date)}${pending}</span>${icon('chevron')}</a>`
+ return `<a class="roll-row tenancy-row" href="/app?tab=tenancy&amp;tenancy=${e(t.id)}">${avatar(t.tenant_name)}<span class="roll-who"><strong>${r.unit ? `${e(r.unit)} · ` : ''}${e(t.tenant_name)}</strong></span><span class="roll-rent" data-label="Rent">${money(current.rent_cents, shown(t))} <span class="muted">${e(t.cadence)}</span>${next?`<small>${money(next.rent_cents,shown(t))} from ${usDate(next.start_date)}</small>`:''}</span><span class="roll-recorded" data-label="Recorded">${recorded}</span><span class="roll-status">${standing(r)}</span><span class="roll-lease${ending ? ' soon' : ''}" data-label="Lease end">${usDate(current.end_date)}${pending}</span>${icon('chevron')}</a>`
 }
 
 function rentRoll(m: Month) {

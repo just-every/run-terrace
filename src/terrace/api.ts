@@ -85,7 +85,7 @@ import { serviceSection } from './service-view'
 import { readableExport } from './readable-export'
 import { history,historyCsv,historyView } from './history'
 import { localDate as today } from './zones'
-import { tenancyCommand,tenancyData,proposals } from './tenancies'
+import { tenancyCommand,tenancyData,tenancyPageData,proposals } from './tenancies'
 import { ledgerCommand,ledgerData,statement,statementCsv } from './ledger'
 import { workCommand,workData,operatorNames,photoResponse,workPacket } from './work'
 import { importCommand,importData,importView } from './imports'
@@ -160,7 +160,7 @@ import { workflowView } from './workflow-view'
 const json=(body:unknown,status=200)=>Response.json(body,{status,headers:{'cache-control':'no-store','x-content-type-options':'nosniff','referrer-policy':'no-referrer'}})
 async function render(c:Context,url:URL,notice='',result:Row={},status=200,request?:Request,env?:Bindings) {
  // SAFE-001: a sign-in that still owes its second factor sees only the security page, whatever it asked for.
- const tab=c.gated?'security':url.searchParams.get('tab')??'tenancy',rows=await tenancyData(c),asked=url.searchParams.get('tenancy'),selected=rows.find(t=>t.id===asked)??rows[0],manage=can(c,'tenancy.create'),ledgers=can(c,'ledger.read')
+ const tab=c.gated?'security':url.searchParams.get('tab')??'tenancy',rows=await tenancyPageData(c),asked=url.searchParams.get('tenancy'),selected=rows.find(t=>t.id===asked)??rows[0],manage=can(c,'tenancy.create'),ledgers=can(c,'ledger.read')
  // ROLE-001: a named tenancy outside the viewer's portfolios (or erased) answers 404, never another tenancy.
  insist(!asked||rows.some(t=>t.id===asked),'not_found','Tenancy not found.',404)
  let body='',title='Tenancies',head={}
