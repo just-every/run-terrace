@@ -133,7 +133,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "3298c27ab8010212392b3d6a5a691447b0d3f2b8f4f853a66999dc037ed3016b",
+      "sha256": "388743a7bbaa46faae98ab2eab3eba488825d435104dd0514293957c4776667c",
       "executable": false
     },
     "DEMO.md": {
@@ -201,7 +201,7 @@
       "executable": false
     },
     "docs/index.md": {
-      "sha256": "0473f326265613107c5294837fbdbd38c98284365d4cbede78569c8be5763f76",
+      "sha256": "486adb7abd2f8f60c659f2673fe1ca03cbf8771d15f4111b995df97b776cc2dd",
       "executable": false
     },
     "docs/inspections-and-maintenance.md": {
@@ -238,6 +238,18 @@
     },
     "docs/state-rule-packs.md": {
       "sha256": "f5f92bdf98ac895623a3111fac898924c3bc6e200aadeaece3635377ae02b028",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/access-appfolio.txt": {
+      "sha256": "9ad60247d941febbe0c3f73b65f5e4765411add51d58fe092d91801ecfe42d5b",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/access-buildium.txt": {
+      "sha256": "2938e9f1284180959e33ab1718d0793a72ff6e4cdb8108c34dcd14e69446de5c",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/access-rent-manager.txt": {
+      "sha256": "412d5869311c6b52b40db1cac7a20748316c139b688c40388038b44f7f636e79",
       "executable": false
     },
     "docs/switch-checklist-sources/af-accounting.txt": {
@@ -376,6 +388,10 @@
       "sha256": "bcc846d0ac65bfda9caf60830cf4afd45f9b548b6f0e8df2c72f70504274b087",
       "executable": false
     },
+    "docs/switch-checklist-sources/documentation-access.json": {
+      "sha256": "44e843b65d91b380671c51b5e203783d21b539364a0a1ffcaf61bd70ebb9c6e0",
+      "executable": false
+    },
     "docs/switch-checklist-sources/manifest.json": {
       "sha256": "4adcc73a6162ee3812fe6e5dfbbedbdb40892e91f1aea3e6fcd8cf2502f2cdae",
       "executable": false
@@ -445,7 +461,7 @@
       "executable": false
     },
     "docs/switch-checklists.md": {
-      "sha256": "20e8c7401f85c37b70e9bb0786193c44043d240a97bcd35ba07899673ac7702f",
+      "sha256": "864431c64b78c8d35eb6a0148b65d10627e48e3b3084188d6ac9e793ab5f6617",
       "executable": false
     },
     "docs/tenancies.md": {
@@ -1473,7 +1489,7 @@
       "executable": false
     },
     "scripts/switch-checklists.mjs": {
-      "sha256": "d96d7f7ef6345b9493eba5c0d6a84c976ae3dde3d9141297bad13ac05cfa037f",
+      "sha256": "891fee12a21bd54af1543c43705c10560aaeadb4b33a37621e41bc07b9aed8e5",
       "executable": false
     },
     "scripts/twilio-sandbox.mjs": {
@@ -5613,7 +5629,7 @@
       "executable": false
     },
     "tests/site/switch-checklists.mjs": {
-      "sha256": "096010c533ed08ed98739245cec0207a675eb0fa917172ed981bc253cde01cf2",
+      "sha256": "f6d3b059f90a9ec73546c3bfd41c328bae9e52140cc857ded6689235e174deab",
       "executable": false
     },
     "tests/statements-browser.mjs": {

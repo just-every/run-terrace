@@ -31,6 +31,14 @@ const sourceInventory = () => {
 export function assertSwitchChecklistSite(html) {
  const { manifest, workflows } = sourceInventory()
  const plain = html.replace(/<[^>]*>/g, ' ').replaceAll('&amp;', '&').replaceAll('&#39;', "'").replace(/\s+/g, ' ')
+ const access = JSON.parse(read(sourceDirectory + 'documentation-access.json'))
+ for (const observation of access.observations) {
+  const heading = names[observation.incumbent].toLowerCase().replaceAll(' ', '-') + '-documentation-access'
+  const section = html.split('id="' + heading + '"')[1]?.split(/<h[23]\b/)[0]
+  assert.ok(section?.includes(observation.gap), 'the actual documentation access gap stays public for ' + observation.incumbent)
+  assert.ok(section.includes('HTTP ' + observation.httpStatus) && section.includes(observation.rawSha256) && section.includes(observation.captureSha256), 'access limitations retain dated response provenance')
+  assert.ok(section.includes('href="' + observation.url + '"') && section.includes('/docs/switch-checklist-sources/' + observation.capture + '"'), 'the official entry and retained response remain navigable')
+ }
  for (const incumbent of manifest.inventories) {
   assert.ok(plain.includes(names[incumbent.incumbent] + ' checklist'), 'public checklist for ' + incumbent.incumbent)
   assert.ok(plain.includes(incumbent.gap), 'incomplete source coverage stays visible')
@@ -110,6 +118,15 @@ export function assertSwitchChecklistIntegrity() {
  const mappings = JSON.parse(read('docs/switch-checklists.json'))
  const areaPath = sourceDirectory + 'source-areas.json', areas = JSON.parse(read(areaPath))
  const altered = (path, value) => ({ read: name => name === path ? JSON.stringify(value) : read(name) })
+ const accessPath = sourceDirectory + 'documentation-access.json', access = JSON.parse(read(accessPath))
+ const noAccess = structuredClone(access); noAccess.observations.pop()
+ assert.throws(() => loadSwitchChecklist(altered(accessPath, noAccess)), /each incumbent needs a documentation access observation/, 'source access uncertainty may not disappear for one incumbent')
+ const falseAccess = structuredClone(access); falseAccess.complete = true
+ assert.throws(() => loadSwitchChecklist(altered(accessPath, falseAccess)), /cannot establish complete documentation coverage/, 'an access observation never qualifies an entire incumbent corpus')
+ const changedAccess = structuredClone(access); changedAccess.observations.find(item => item.quote).line = 1
+ assert.throws(() => loadSwitchChecklist(altered(accessPath, changedAccess)), /missing documentation access provenance/, 'a documentation access claim needs a located official statement')
+ const deniedAccess = structuredClone(access); deniedAccess.observations[0].outcome = 'denied'; deniedAccess.observations[0].httpStatus = 200
+ assert.throws(() => loadSwitchChecklist(altered(accessPath, deniedAccess)), /disagrees with HTTP result/, 'a successful response cannot be described as an access denial')
  const missing = structuredClone(mappings); missing.mappings = missing.mappings.filter(row => row.workflow !== workflows[0].id)
  assert.throws(() => loadSwitchChecklist(altered('docs/switch-checklists.json', missing)), /every inventoried source workflow/, 'deleting a replacement row cannot silently omit a source workflow')
  // Coordinated deletion in both inventories and replacement mappings still leaves the source review unsatisfied.
@@ -196,6 +213,12 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
  await visitor.getByRole('navigation', { name: 'Documentation guides' }).getByRole('link', { name: 'Switch checklists', exact: true }).click()
  await visitor.waitForURL(url => url.pathname === '/docs/switch-checklists')
  const { manifest, workflows } = sourceInventory()
+ await visitor.getByRole('heading', { name: 'Documentation access limits' }).scrollIntoViewIfNeeded()
+ const access = JSON.parse(read(sourceDirectory + 'documentation-access.json'))
+ for (const observation of access.observations) {
+  const heading = visitor.getByRole('heading', { name: names[observation.incumbent] + ' documentation access' })
+  assert.ok((await heading.evaluate(element => element.nextElementSibling.textContent)).includes(observation.gap), 'documentation uncertainty is readable through the public door')
+ }
  for (const inventory of manifest.inventories) {
   await visitor.getByRole('heading', { name: names[inventory.incumbent] + ' checklist' }).scrollIntoViewIfNeeded()
   const required = visitor.getByRole('heading', { name: names[inventory.incumbent] + ' required named gaps' })
@@ -238,6 +261,8 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
   mkdirSync(directory, { recursive: true })
   for (const width of [1440, 390]) {
    await visitor.setViewportSize({ width, height: width === 1440 ? 900 : 844 })
+   await visitor.getByRole('heading', { name: 'Documentation access limits' }).scrollIntoViewIfNeeded()
+   await visitor.screenshot({ path: join(directory, 'documentation-access-' + width + '.png') })
    for (const name of Object.values(names)) {
     for (const [section, suffix] of [['required named gaps', 'gaps'], ['discovery audit', 'discovery']]) {
      await visitor.getByRole('heading', { name: name + ' ' + section }).scrollIntoViewIfNeeded()

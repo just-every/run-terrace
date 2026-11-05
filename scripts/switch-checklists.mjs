@@ -31,6 +31,7 @@ export function loadSwitchChecklist({ root = process.cwd(), contractText, read =
  const manifest = JSON.parse(read(sourceDirectory + 'manifest.json'))
  const audits = unique(JSON.parse(read(sourceDirectory + 'source-areas.json')).sources, 'source', 'source area audit')
  const discoveries = unique(JSON.parse(read(sourceDirectory + 'discovery-audit.json')).discoveries, 'incumbent', 'discovery audit')
+ const access = JSON.parse(read(sourceDirectory + 'documentation-access.json'))
  const mappings = JSON.parse(read('docs/switch-checklists.json')).mappings
  const contractSource = contractText ?? read('CONTRACT.md')
  // Summary counts are generated; the caller supplies a consistent contract when simulating a changed judgment.
@@ -62,6 +63,15 @@ export function loadSwitchChecklist({ root = process.cwd(), contractText, read =
   const bytes = read(sourceDirectory + source.capture)
   need(hash(bytes) === source.captureSha256, 'captured-source hash mismatch: ' + source.capture)
   return bytes
+ }
+ need(access.complete === false, 'access observations cannot establish complete documentation coverage')
+ sameSet(access.observations.map(item => item.incumbent), Object.keys(names), 'each incumbent needs a documentation access observation')
+ for (const observation of access.observations) {
+  const lines = capture(observation).split('\n')
+  required(observation.gap, 'documentation access gap')
+  need(['public-incomplete', 'denied', 'requires-installation'].includes(observation.outcome), 'unknown documentation access outcome')
+  need(observation.outcome === 'denied' ? [401, 403].includes(observation.httpStatus) : observation.httpStatus === 200, 'documentation access outcome disagrees with HTTP result')
+  if (observation.outcome !== 'denied') need(Number.isInteger(observation.line) && observation.line > 0 && lines[observation.line - 1] === observation.quote, 'missing documentation access provenance: ' + observation.incumbent)
  }
  for (const source of sources.values()) {
   need(source.httpStatus === 200 && ['partial', 'unaudited'].includes(source.review), 'source review must disclose its limited audit')
@@ -140,16 +150,24 @@ export function loadSwitchChecklist({ root = process.cwd(), contractText, read =
   need(replacement.coverage === 'gap' && !replacement.proof, 'Covered needs current passed acceptance matching actor, public door, prerequisites and outcome: ' + workflow.id)
   return { ...workflow, source: sources.get(workflow.source), replacement, clauses: mapped }
  })
- return { manifest, inventories, rows, clauses }
+ return { manifest, inventories, rows, clauses, access }
 }
 
 export function renderSwitchChecklist(data) {
- const { manifest, inventories, rows } = data
+ const { manifest, inventories, rows, access } = data
  const lines = ['# Incumbent switch checklists', '',
   'These separate inventories record verified workflows in selected official sources. **Inventory coverage is incomplete for all three incumbents.** Other documented workflows may be omitted. Sampled pages, a sitemap, partner referrals and Terrace product boundaries cannot establish completeness.', '',
   'Every inventoried workflow below remains a **Gap** until current passed replacement acceptance proves its actor, public door, prerequisites and outcome. A related DONE clause, generic CSV importer, staff-recorded substitute or boundary statement alone does not establish replacement. This page grants no migration, payment, provider or operational authority.', '',
   'The [source-corpus manifest](switch-checklist-sources/manifest.json) retains separate inventories, captured-source hashes, source-to-workflow reconciliation and unaudited source areas. Source quotations are documentary claims by the incumbent; they establish no Terrace capability or provider entitlement.', '',
-  '## Corpus coverage and uncertainty', '', md(manifest.captureMethod), '']
+  '## Documentation access limits', '', 'These dated [access observations](switch-checklist-sources/documentation-access.json) explain source access in this inventory. A public help entry, denied request or in-program manual establishes neither workflow absence nor complete documentation coverage. No incumbent account or session was used. Retained access-response text is not an additional audited workflow inventory.', '']
+ for (const observation of access.observations) {
+  lines.push(`### ${names[observation.incumbent]} documentation access`, '',
+   `**${observation.outcome === 'denied' ? 'Request denied' : observation.outcome === 'requires-installation' ? 'In-program Help remains unreviewed' : 'Public help is incomplete'}:** ${md(observation.gap)}`, '',
+   `[Official entry point](${observation.url})${observation.url === observation.resolvedUrl ? '' : ` → [observed destination](${observation.resolvedUrl})`}; captured ${observation.capturedOn}, HTTP ${observation.httpStatus}. [Retained response text](switch-checklist-sources/${observation.capture}).`, '',
+   `Raw SHA-256: \`${observation.rawSha256}\`. Capture SHA-256: \`${observation.captureSha256}\`.`, '')
+  if (observation.quote) lines.push(`> ${md(observation.quote)}`, '', `Located in retained response line ${observation.line}.`, '')
+ }
+ lines.push('## Corpus coverage and uncertainty', '', md(manifest.captureMethod), '')
  for (const inventory of inventories) {
   const index = manifest.discovery.find(item => item.incumbent === inventory.incumbent)
   lines.push(`### ${inventory.name} source coverage`, '', `**Incomplete inventory:** ${md(inventory.gap)}`, '',
