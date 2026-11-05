@@ -94,6 +94,11 @@ export function loadSwitchChecklist({ root = process.cwd(), contractText, read =
   }
   need(next === lines.length, 'source area audit omits captured lines: ' + source.id)
   sameSet(assigned, source.workflows, 'source area workflow reconciliation failed: ' + source.id)
+  if (source.textAudit) {
+   need(source.textAudit.captureSha256 === source.captureSha256, 'retained-text audit is stale: ' + source.id)
+   need(/^\d{4}-\d{2}-\d{2}$/.test(source.textAudit.reviewedOn), 'missing retained-text review date')
+   need(!audit.areas.some(area => area.review === 'unaudited'), 'retained-text audit still has unreviewed areas: ' + source.id)
+  }
   source.areas = audit.areas
  }
  for (const workflow of workflows.values()) need(sources.has(workflow.source), 'unknown source: ' + workflow.source)
@@ -183,6 +188,9 @@ export function renderSwitchChecklist(data) {
   `Raw SHA-256: \`${source.rawSha256}\`. Capture SHA-256: \`${source.captureSha256}\`.`, '', `**Audit: ${source.review}.** ${md(source.unaudited)} Reconciled source workflows: ${source.workflows.map(id => '\`' + id + '\`').join(', ')}.`, '')
   if (source.captureMode === 'browser-rendered') lines.push(`**Browser-rendered source:** the initial HTTP response is a loading shell; the retained text was read after the official article loaded in a clean browser. Rendered document SHA-256: \`${source.renderedSha256}\`.`, '')
   lines.push('**Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.', '')
+  const totals = Object.fromEntries(['workflows', 'context', 'unaudited'].map(review => [review, source.areas.filter(area => area.review === review).reduce((sum, area) => sum + area.to - area.from + 1, 0)]))
+  lines.push(`**Retained text accounting:** ${totals.workflows} lines with inventoried workflows; ${totals.context} lines of reviewed context; ${totals.unaudited} unaudited lines.`, '')
+  if (source.textAudit) lines.push(`**Retained-text review:** ${source.textAudit.reviewedOn}; bound to capture SHA-256 \`${source.textAudit.captureSha256}\`. All retained lines are accounted for. Linked articles, embedded media and authenticated documentation remain unqualified; this is not a complete incumbent inventory.`, '')
   for (const area of source.areas) lines.push(`- ${md(source.id)} lines ${area.from}–${area.to}, ${md(area.section)}: **${area.review}**. ${md(area.note)}${area.workflows.length ? ' Workflows: ' + area.workflows.map(id => '\`' + id + '\`').join(', ') + '.' : ''}`)
   lines.push('')
  }

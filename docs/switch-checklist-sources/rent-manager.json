@@ -1176,6 +1176,22 @@
       "section": "Built-in screening",
       "line": 132,
       "quote": "AmRent’s screening workflows incorporate your resident selection criteria, helping you find an ideal fit for your property."
+    },
+    {
+      "id": "rm-schedules-05",
+      "label": "Simultaneous report batches",
+      "source": "rm-schedules",
+      "section": "Report Automation",
+      "line": 106,
+      "quote": "Tedious tasks like report generation and delivery can consume one of your most valuable resources: time. With Report Batches, users can combine a series of reports and run them simultaneously to save time and promote seamless workflows. You can also save the required options of each report to reflect the needs of specific recipients."
+    },
+    {
+      "id": "rm-schedules-06",
+      "label": "Scheduled report email delivery",
+      "source": "rm-schedules",
+      "section": "Report Automation",
+      "line": 108,
+      "quote": "Report Automation takes the convenience and efficiency of Report Batches to the next level. This time-saving feature allows you to schedule Report Batches automatically at a set frequency, and deliver the report results via email to whomever you choose. You can easily customize and manage the list of Report Batches by reordering and sharing ownership of them with other users."
     }
   ]
 }

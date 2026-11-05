@@ -80,6 +80,20 @@ export function assertSwitchChecklistSite(html) {
  for (const source of manifest.sources) {
   const audit = areas.find(item => item.source === source.id)
   assert.equal(audit.captureSha256, source.captureSha256, 'area review is bound to the retained source revision')
+  const lines = read(sourceDirectory + source.capture).trimEnd().split('\n')
+  const disposition = Array(lines.length).fill(null)
+  for (const area of audit.areas) for (let line = area.from; line <= area.to; line++) {
+   assert.equal(disposition[line - 1], null, 'a retained source line is accounted for only once')
+   disposition[line - 1] = area.review
+  }
+  assert.ok(disposition.every(Boolean), 'every retained source line has an explicit review disposition')
+  const counts = ['workflows', 'context', 'unaudited'].map(review => disposition.filter(value => value === review).length)
+  const section = html.split('id="' + source.id + '"')[1]?.split(/<h[23]\b/)[0]
+  assert.ok(section?.includes(`${counts[0]} lines with inventoried workflows; ${counts[1]} lines of reviewed context; ${counts[2]} unaudited lines.`), 'public review accounting reconciles independently to the captured text: ' + source.id)
+  if (source.textAudit) {
+   assert.equal(counts[2], 0, 'retained-text review leaves no undisposed source line')
+   assert.ok(section.includes(source.textAudit.reviewedOn) && section.includes('this is not a complete incumbent inventory'), 'retained text review never implies full documentation coverage')
+  }
   for (const area of audit.areas.filter(item => item.review === 'unaudited')) assert.ok(plain.includes(`${source.id} lines ${area.from}–${area.to}`), 'unreconciled captured text stays visible independently of workflow mappings')
  }
  for (const incumbent of Object.keys(names)) {
@@ -110,6 +124,12 @@ export function assertSwitchChecklistIntegrity() {
  assert.throws(() => loadSwitchChecklist(altered(areaPath, noArea)), /reconcile every captured line/, 'unreviewed source areas may not disappear')
  const staleArea = structuredClone(areas); staleArea.sources[0].captureSha256 = '0'.repeat(64)
  assert.throws(() => loadSwitchChecklist(altered(areaPath, staleArea)), /source area audit is stale/, 'review of an earlier source capture cannot qualify changed bytes')
+ const falseTextAudit = structuredClone(manifest)
+ const unreviewed = falseTextAudit.sources.find(source => areas.sources.find(area => area.source === source.id).areas.some(area => area.review === 'unaudited'))
+ unreviewed.textAudit = { reviewedOn: unreviewed.capturedOn, captureSha256: unreviewed.captureSha256 }
+ assert.throws(() => loadSwitchChecklist(altered(sourceDirectory + 'manifest.json', falseTextAudit)), /still has unreviewed areas/, 'a sampled quotation cannot qualify a retained-text review')
+ const staleTextAudit = structuredClone(manifest); staleTextAudit.sources.find(source => source.textAudit).textAudit.captureSha256 = '0'.repeat(64)
+ assert.throws(() => loadSwitchChecklist(altered(sourceDirectory + 'manifest.json', staleTextAudit)), /retained-text audit is stale/, 'a text review cannot qualify a different captured revision')
  const discoveryPath = sourceDirectory + 'discovery-audit.json', discovery = JSON.parse(read(discoveryPath))
  const lostUrl = structuredClone(discovery); lostUrl.discoveries[0].urls.pop()
  assert.throws(() => loadSwitchChecklist(altered(discoveryPath, lostUrl)), /retain every captured URL/, 'an unreviewed discovered source cannot disappear')

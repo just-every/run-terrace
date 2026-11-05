@@ -4254,6 +4254,110 @@
       ],
       "coverage": "gap",
       "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-reports-04",
+      "clauses": [
+        "ACCT-012",
+        "ACCT-013"
+      ],
+      "gap": "Complete income and owner financial statements with categorized costs and opening and closing balances remain unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-reports-05",
+      "clauses": [
+        "REPORT-005"
+      ],
+      "gap": "Combining native day-to-day data without duplicate entry remains unqualified for the documented report builder.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-reports-06",
+      "clauses": [
+        "REPORT-005"
+      ],
+      "gap": "Selecting and extending the incumbent base reports remains unqualified; a custom Terrace report alone does not establish the same data or door.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-company-04",
+      "clauses": [],
+      "gap": "Company cash, net income and undeposited-fund actions have no qualified corporate accounting replacement.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-company-05",
+      "clauses": [
+        "ACCT-003"
+      ],
+      "gap": "Incoming rent and security-deposit accounting on the documented accounting surface remain unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-company-06",
+      "clauses": [
+        "PAY-006"
+      ],
+      "gap": "Company fee collection and automation remain unqualified; manual prepared fees do not replace collection.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-company-07",
+      "clauses": [
+        "ACCT-008"
+      ],
+      "gap": "Online company bill payment has no qualified replacement; staff-recorded invoices do not execute payment.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-21",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Named scheduled batch templates with retained descriptions remain unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-22",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Owner entities rather than property or company entities require matching supported selection and output.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-23",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "The documented subset of reports eligible for scheduling remains unqualified; arbitrary report generation does not qualify the supported set.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-scheduled-help-24",
+      "clauses": [
+        "REPORT-005",
+        "REPORT-006"
+      ],
+      "gap": "Custom-date one-time reports remain a separate unqualified capability from recurring scheduled reporting.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-schedules-05",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Combining and running several reports simultaneously with each recipient option retained remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-schedules-06",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Scheduled email delivery to selected recipients remains unqualified; a manual export or prepared delivery is not automatic delivery.",
+      "coverage": "gap"
     }
   ]
 }

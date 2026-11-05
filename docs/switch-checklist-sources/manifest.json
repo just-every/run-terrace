@@ -167,9 +167,17 @@
       "workflows": [
         "bu-company-01",
         "bu-company-02",
-        "bu-company-03"
+        "bu-company-03",
+        "bu-company-04",
+        "bu-company-05",
+        "bu-company-06",
+        "bu-company-07"
       ],
-      "unaudited": "Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing."
+      "unaudited": "All retained normalized text is reconciled to workflow statements or reviewed context. Linked articles, full source revisions, embedded media and authenticated documentation remain unaudited; this retained-text review establishes no complete official-source inventory.",
+      "textAudit": {
+        "reviewedOn": "2026-11-05",
+        "captureSha256": "1e92182459a2e08b193d4093f9e68b4b88307b68f2a87c65fb4266e9d4201585"
+      }
     },
     {
       "id": "bu-telephone",
@@ -332,9 +340,15 @@
         "rm-schedules-01",
         "rm-schedules-02",
         "rm-schedules-03",
-        "rm-schedules-04"
+        "rm-schedules-04",
+        "rm-schedules-05",
+        "rm-schedules-06"
       ],
-      "unaudited": "Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing."
+      "unaudited": "All retained normalized text is reconciled to workflow statements or reviewed context. Linked articles, full source revisions, embedded media and authenticated documentation remain unaudited; this retained-text review establishes no complete official-source inventory.",
+      "textAudit": {
+        "reviewedOn": "2026-11-05",
+        "captureSha256": "eb96d403b7460e37dfb20f7f02030bf260d0f41a0524811b4fc0d87f7058dca3"
+      }
     },
     {
       "id": "rm-telephone",
@@ -547,11 +561,19 @@
         "bu-scheduled-help-17",
         "bu-scheduled-help-18",
         "bu-scheduled-help-19",
-        "bu-scheduled-help-20"
+        "bu-scheduled-help-20",
+        "bu-scheduled-help-21",
+        "bu-scheduled-help-22",
+        "bu-scheduled-help-23",
+        "bu-scheduled-help-24"
       ],
-      "unaudited": "The official article was retrieved after JavaScript loading in a clean browser. Selected instructions below are reconciled; related help articles, media and other official documentation remain unaudited. The earlier HTTP-only loading-shell limitation is resolved.",
+      "unaudited": "All retained normalized text is reconciled to workflow statements or reviewed context. Linked articles, full source revisions, embedded media and authenticated documentation remain unaudited; this retained-text review establishes no complete official-source inventory.",
       "captureMode": "browser-rendered",
-      "renderedSha256": "87452bd1aab0ac7b7f5affdce869adfaac52118e628ba4b66782667acc986621"
+      "renderedSha256": "87452bd1aab0ac7b7f5affdce869adfaac52118e628ba4b66782667acc986621",
+      "textAudit": {
+        "reviewedOn": "2026-11-05",
+        "captureSha256": "dc111fa7ff550ca1727e53229cfb1b43aa2e68d9a0971077153c7fc63beb7eaa"
+      }
     },
     {
       "id": "af-smart-blog",
@@ -585,9 +607,16 @@
       "workflows": [
         "af-reports-01",
         "af-reports-02",
-        "af-reports-03"
+        "af-reports-03",
+        "af-reports-04",
+        "af-reports-05",
+        "af-reports-06"
       ],
-      "unaudited": "Selected source statements are reconciled below. Surrounding text, linked guides, feature details and authenticated documentation remain unaudited; no complete inventory is claimed."
+      "unaudited": "All retained normalized text is reconciled to workflow statements or reviewed context. Linked articles, full source revisions, embedded media and authenticated documentation remain unaudited; this retained-text review establishes no complete official-source inventory.",
+      "textAudit": {
+        "reviewedOn": "2026-11-05",
+        "captureSha256": "3b44fa7a461b85a5f99e1f63bf56248ffebb3293738e18365aab5589e4e3887a"
+      }
     },
     {
       "id": "af-marketing",

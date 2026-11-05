@@ -817,66 +817,103 @@
       "captureSha256": "1e92182459a2e08b193d4093f9e68b4b88307b68f2a87c65fb4266e9d4201585",
       "areas": [
         {
-          "from": 1,
-          "to": 71,
-          "section": "Unreconciled captured text",
-          "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "to": 65,
+          "section": "Site navigation and feature links",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 1
         },
         {
-          "from": 72,
+          "to": 71,
+          "section": "Company accounting headings, trial invitation and testimonial",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 66
+        },
+        {
           "to": 72,
           "section": "Track the books for your business with the same accuracy and efficiency as your managed properties.",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "bu-company-01"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 72
         },
         {
-          "from": 73,
+          "to": 73,
+          "section": "Company accounting headings, trial invitation and testimonial",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 73
+        },
+        {
+          "to": 74,
+          "section": "Company financials",
+          "review": "workflows",
+          "workflows": [
+            "bu-company-04",
+            "bu-company-05",
+            "bu-company-06",
+            "bu-company-07"
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 74
+        },
+        {
           "to": 78,
-          "section": "Unreconciled captured text",
-          "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "section": "Company accounting headings, trial invitation and testimonial",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 75
         },
         {
-          "from": 79,
           "to": 79,
           "section": "Enter data without a hassle",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "bu-company-02"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 79
         },
         {
-          "from": 80,
           "to": 80,
-          "section": "Unreconciled captured text",
-          "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "section": "Company accounting headings, trial invitation and testimonial",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 80
         },
         {
-          "from": 81,
           "to": 81,
           "section": "View and report on key financial metrics",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "bu-company-03"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 81
         },
         {
-          "from": 82,
+          "to": 84,
+          "section": "Company accounting headings, trial invitation and testimonial",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 82
+        },
+        {
           "to": 120,
-          "section": "Unreconciled captured text",
-          "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "section": "Trial form, newsletter, navigation and footer",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 85
         }
       ]
     },
@@ -2185,84 +2222,94 @@
       "captureSha256": "eb96d403b7460e37dfb20f7f02030bf260d0f41a0524811b4fc0d87f7058dca3",
       "areas": [
         {
-          "from": 1,
           "to": 102,
-          "section": "Unreconciled captured text",
-          "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "section": "Site navigation and feature links",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 1
         },
         {
-          "from": 103,
           "to": 103,
           "section": "Report Automation",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "rm-schedules-01"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 103
         },
         {
-          "from": 104,
           "to": 105,
-          "section": "Unreconciled captured text",
-          "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "section": "Report automation headings, repeated summaries and testimonial",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 104
         },
         {
-          "from": 106,
           "to": 106,
           "section": "Report Batches",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
-            "rm-schedules-02"
-          ]
+            "rm-schedules-02",
+            "rm-schedules-05"
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 106
         },
         {
-          "from": 107,
           "to": 107,
-          "section": "Unreconciled captured text",
-          "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "section": "Report automation headings, repeated summaries and testimonial",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 107
         },
         {
-          "from": 108,
           "to": 108,
           "section": "Schedule Report Batches",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
-            "rm-schedules-03"
-          ]
+            "rm-schedules-03",
+            "rm-schedules-06"
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 108
         },
         {
-          "from": 109,
           "to": 111,
-          "section": "Unreconciled captured text",
-          "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "section": "Report automation headings, repeated summaries and testimonial",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 109
         },
         {
-          "from": 112,
           "to": 112,
           "section": "History Tracking",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "rm-schedules-04"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 112
         },
         {
-          "from": 113,
+          "to": 117,
+          "section": "Report automation headings, repeated summaries and testimonial",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 113
+        },
+        {
           "to": 233,
-          "section": "Unreconciled captured text",
-          "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "section": "Support links, product navigation and footer",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 118
         }
       ]
     },
@@ -4111,316 +4158,356 @@
       "captureSha256": "dc111fa7ff550ca1727e53229cfb1b43aa2e68d9a0971077153c7fc63beb7eaa",
       "areas": [
         {
-          "from": 1,
           "to": 10,
-          "section": "Unreconciled article text and related sources",
-          "review": "unaudited",
-          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
-          "workflows": []
+          "section": "Help navigation, article title and publication date",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 1
         },
         {
-          "from": 11,
           "to": 11,
           "section": "Schedule Batched Reports",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-01"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 11
         },
         {
-          "from": 12,
           "to": 14,
-          "section": "Unreconciled article text and related sources",
-          "review": "unaudited",
-          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
-          "workflows": []
+          "section": "Procedure headings, repeated instructions and explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 12
         },
         {
-          "from": 15,
           "to": 15,
           "section": "Why it makes sense to schedule Batched Reports",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-02"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 15
         },
         {
-          "from": 16,
           "to": 18,
-          "section": "Unreconciled article text and related sources",
-          "review": "unaudited",
-          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
-          "workflows": []
+          "section": "Procedure headings, repeated instructions and explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 16
         },
         {
-          "from": 19,
           "to": 19,
           "section": "How to Schedule and Share Batched Reports",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-03"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 19
         },
         {
-          "from": 20,
+          "to": 21,
+          "section": "Procedure headings, repeated instructions and explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 20
+        },
+        {
           "to": 22,
-          "section": "Unreconciled article text and related sources",
-          "review": "unaudited",
-          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
-          "workflows": []
+          "section": "Schedule Batched Reports",
+          "review": "workflows",
+          "workflows": [
+            "bu-scheduled-help-21"
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 22
         },
         {
-          "from": 23,
           "to": 23,
           "section": "Fill Out Required Fields",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-04"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 23
         },
         {
-          "from": 24,
           "to": 24,
-          "section": "Unreconciled article text and related sources",
-          "review": "unaudited",
-          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
-          "workflows": []
+          "section": "Procedure headings, repeated instructions and explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 24
         },
         {
-          "from": 25,
           "to": 25,
           "section": "Schedule and Share",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-05"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 25
         },
         {
-          "from": 26,
           "to": 28,
-          "section": "Unreconciled article text and related sources",
-          "review": "unaudited",
-          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
-          "workflows": []
+          "section": "Procedure headings, repeated instructions and explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 26
         },
         {
-          "from": 29,
           "to": 29,
           "section": "Select Report Entities",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-06"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 29
         },
         {
-          "from": 30,
           "to": 30,
           "section": "Select Report Entities",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-07"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 30
         },
         {
-          "from": 31,
+          "to": 31,
+          "section": "Schedule Batched Reports",
+          "review": "workflows",
+          "workflows": [
+            "bu-scheduled-help-22"
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 31
+        },
+        {
           "to": 32,
-          "section": "Unreconciled article text and related sources",
-          "review": "unaudited",
-          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
-          "workflows": []
+          "section": "Procedure headings, repeated instructions and explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 32
         },
         {
-          "from": 33,
           "to": 33,
           "section": "Add Reports",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-08"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 33
         },
         {
-          "from": 34,
           "to": 34,
           "section": "Add Reports",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-09"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 34
         },
         {
-          "from": 35,
+          "to": 35,
+          "section": "Schedule Batched Reports",
+          "review": "workflows",
+          "workflows": [
+            "bu-scheduled-help-23"
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 35
+        },
+        {
           "to": 37,
-          "section": "Unreconciled article text and related sources",
-          "review": "unaudited",
-          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
-          "workflows": []
+          "section": "Procedure headings, repeated instructions and explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 36
         },
         {
-          "from": 38,
           "to": 38,
           "section": "Set Report Filters",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-10"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 38
         },
         {
-          "from": 39,
+          "to": 39,
+          "section": "Schedule Batched Reports",
+          "review": "workflows",
+          "workflows": [
+            "bu-scheduled-help-24"
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 39
+        },
+        {
           "to": 41,
-          "section": "Unreconciled article text and related sources",
-          "review": "unaudited",
-          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
-          "workflows": []
+          "section": "Procedure headings, repeated instructions and explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 40
         },
         {
-          "from": 42,
           "to": 42,
           "section": "Add Attachments",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-11"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 42
         },
         {
-          "from": 43,
           "to": 43,
-          "section": "Unreconciled article text and related sources",
-          "review": "unaudited",
-          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
-          "workflows": []
+          "section": "Procedure headings, repeated instructions and explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 43
         },
         {
-          "from": 44,
           "to": 44,
           "section": "Organize Reports",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-12"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 44
         },
         {
-          "from": 45,
           "to": 45,
           "section": "Organize Reports",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-13"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 45
         },
         {
-          "from": 46,
           "to": 47,
-          "section": "Unreconciled article text and related sources",
-          "review": "unaudited",
-          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
-          "workflows": []
+          "section": "Procedure headings, repeated instructions and explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 46
         },
         {
-          "from": 48,
           "to": 48,
           "section": "Recipients",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-14"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 48
         },
         {
-          "from": 49,
           "to": 49,
           "section": "Recipients",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-15"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 49
         },
         {
-          "from": 50,
           "to": 50,
           "section": "Recipients",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-16"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 50
         },
         {
-          "from": 51,
           "to": 51,
           "section": "Recipients",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-17"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 51
         },
         {
-          "from": 52,
           "to": 52,
           "section": "Recipients",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-18"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 52
         },
         {
-          "from": 53,
           "to": 54,
-          "section": "Unreconciled article text and related sources",
-          "review": "unaudited",
-          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
-          "workflows": []
+          "section": "Procedure headings, repeated instructions and explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 53
         },
         {
-          "from": 55,
           "to": 55,
           "section": "Set Scheduling Settings",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-19"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 55
         },
         {
-          "from": 56,
           "to": 56,
-          "section": "Unreconciled article text and related sources",
-          "review": "unaudited",
-          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
-          "workflows": []
+          "section": "Procedure headings, repeated instructions and explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 56
         },
         {
-          "from": 57,
           "to": 57,
           "section": "Save Draft or Schedule and Share",
           "review": "workflows",
-          "note": "Official article instruction retained with its source-specific prerequisites and outcome.",
           "workflows": [
             "bu-scheduled-help-20"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 57
         },
         {
-          "from": 58,
           "to": 78,
-          "section": "Unreconciled article text and related sources",
-          "review": "unaudited",
-          "note": "Supporting instructions, article context and related help links remain visible as unaudited source areas.",
-          "workflows": []
+          "section": "Support invitation and related article links",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 58
         }
       ]
     },
@@ -4480,58 +4567,120 @@
       "captureSha256": "3b44fa7a461b85a5f99e1f63bf56248ffebb3293738e18365aab5589e4e3887a",
       "areas": [
         {
-          "from": 1,
-          "to": 26,
-          "section": "Unreconciled captured text",
-          "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "to": 14,
+          "section": "Page title, navigation and article date",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 1
         },
         {
-          "from": 27,
+          "to": 15,
+          "section": "Reporting article context and repeated explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 15
+        },
+        {
+          "to": 16,
+          "section": "Performance reporting and Report Builder",
+          "review": "workflows",
+          "workflows": [
+            "af-reports-04"
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 16
+        },
+        {
+          "to": 23,
+          "section": "Reporting article context and repeated explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 17
+        },
+        {
+          "to": 24,
+          "section": "Performance reporting and Report Builder",
+          "review": "workflows",
+          "workflows": [
+            "af-reports-05"
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 24
+        },
+        {
+          "to": 26,
+          "section": "Reporting article context and repeated explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 25
+        },
+        {
           "to": 27,
           "section": "Customizing your reports in AppFolio Property Manager",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-reports-01"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 27
         },
         {
-          "from": 28,
+          "to": 28,
+          "section": "Reporting article context and repeated explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 28
+        },
+        {
           "to": 29,
-          "section": "Unreconciled captured text",
-          "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "section": "Performance reporting and Report Builder",
+          "review": "workflows",
+          "workflows": [
+            "af-reports-06"
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 29
         },
         {
-          "from": 30,
           "to": 30,
           "section": "Customizing your reports in AppFolio Property Manager",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-reports-02"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 30
         },
         {
-          "from": 31,
           "to": 31,
           "section": "Customizing your reports in AppFolio Property Manager",
           "review": "workflows",
-          "note": "Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review.",
           "workflows": [
             "af-reports-03"
-          ]
+          ],
+          "note": "Located official statement supports the named workflow gaps; linked documentation and complete incumbent coverage remain unqualified.",
+          "from": 31
         },
         {
-          "from": 32,
+          "to": 32,
+          "section": "Reporting article context and repeated explanations",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 32
+        },
+        {
           "to": 94,
-          "section": "Unreconciled captured text",
-          "review": "unaudited",
-          "note": "This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.",
-          "workflows": []
+          "section": "Author biography, linked products, navigation and footer",
+          "review": "context",
+          "workflows": [],
+          "note": "Reviewed retained text: headings, repeated descriptions, navigation, forms, attribution or related links; no additional documented workflow is asserted here. Linked pages are not audited by this text review.",
+          "from": 33
         }
       ]
     },
