@@ -3036,6 +3036,1224 @@
       ],
       "gap": "Draft schedule review and confirmed sharing remains a named gap. Current Terrace report exports and schedule-related evidence do not qualify this documented Buildium workflow; no passed same-capability replacement is established.",
       "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-01",
+      "clauses": [
+        "PORTAL-002",
+        "ACCT-012"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-02",
+      "clauses": [
+        "PORTAL-002",
+        "ACCT-012"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-03",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-04",
+      "clauses": [
+        "REPORT-006"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-05",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-06",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-07",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-08",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-09",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-10",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-11",
+      "clauses": [
+        "PORTAL-002",
+        "ROLE-002"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-12",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-13",
+      "clauses": [
+        "PORTAL-002",
+        "PORTAL-007"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-14",
+      "clauses": [
+        "PORTAL-007"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-15",
+      "clauses": [
+        "PORTAL-007"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-16",
+      "clauses": [
+        "PORTAL-002",
+        "PORTAL-005"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-17",
+      "clauses": [
+        "WORK-003",
+        "ACCT-007"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-18",
+      "clauses": [
+        "ACCT-010"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-19",
+      "clauses": [
+        "PORTAL-010"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-owner-20",
+      "clauses": [
+        "PORTAL-002"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-01",
+      "clauses": [
+        "PAY-002",
+        "PAY-003",
+        "PAY-004"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-02",
+      "clauses": [
+        "ACCT-001"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-03",
+      "clauses": [
+        "PAY-012"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-04",
+      "clauses": [
+        "PAY-004",
+        "PAY-011"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-05",
+      "clauses": [
+        "LEASE-007"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-06",
+      "clauses": [
+        "ACCT-008"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-07",
+      "clauses": [
+        "PAY-002"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-08",
+      "clauses": [
+        "PAY-003"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-09",
+      "clauses": [
+        "PAY-002"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-10",
+      "clauses": [
+        "PAY-007"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-11",
+      "clauses": [
+        "PAY-012"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-12",
+      "clauses": [
+        "PAY-012"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-13",
+      "clauses": [
+        "SAFE-008"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-14",
+      "clauses": [
+        "PAY-003",
+        "PAY-012"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-15",
+      "clauses": [
+        "PAY-002",
+        "PAY-003"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-16",
+      "clauses": [
+        "PORTAL-001"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-payments-17",
+      "clauses": [
+        "SAFE-008"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-application-01",
+      "clauses": [
+        "LEASE-007"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-application-02",
+      "clauses": [
+        "LEASE-001",
+        "LEASE-007"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-application-03",
+      "clauses": [
+        "LEASE-007"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-application-04",
+      "clauses": [
+        "LEASE-007",
+        "LEASE-009"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-application-05",
+      "clauses": [
+        "LEASE-009"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-application-06",
+      "clauses": [
+        "LEASE-008"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-screening-01",
+      "clauses": [
+        "LEASE-008"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-screening-02",
+      "clauses": [
+        "LEASE-009"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-screening-03",
+      "clauses": [
+        "LEASE-009",
+        "PORTAL-001"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-screening-04",
+      "clauses": [
+        "LEASE-008"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-screening-05",
+      "clauses": [
+        "LEASE-008"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-screening-06",
+      "clauses": [
+        "LEASE-009"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-screening-07",
+      "clauses": [
+        "LEASE-009"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-inspection-01",
+      "clauses": [
+        "WORK-012"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-inspection-02",
+      "clauses": [
+        "WORK-012"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-inspection-03",
+      "clauses": [
+        "WORK-011",
+        "WORK-012"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-inspection-04",
+      "clauses": [
+        "WORK-011",
+        "WORK-012"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-inspection-05",
+      "clauses": [
+        "PORTAL-008",
+        "WORK-012"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-inspection-06",
+      "clauses": [
+        "ROLE-002",
+        "WORK-012"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-association-01",
+      "clauses": [],
+      "gap": "No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-association-02",
+      "clauses": [],
+      "gap": "No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-association-03",
+      "clauses": [],
+      "gap": "No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-association-04",
+      "clauses": [],
+      "gap": "No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-tax-01",
+      "clauses": [
+        "ACCT-014"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-tax-02",
+      "clauses": [
+        "ACCT-014"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-tax-03",
+      "clauses": [
+        "ACCT-014"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-tax-04",
+      "clauses": [
+        "ACCT-014"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "bu-tax-05",
+      "clauses": [
+        "ACCT-014"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-communication-01",
+      "clauses": [],
+      "gap": "No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-communication-02",
+      "clauses": [],
+      "gap": "No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-communication-03",
+      "clauses": [
+        "LEASE-005"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-communication-04",
+      "clauses": [],
+      "gap": "No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-communication-05",
+      "clauses": [],
+      "gap": "No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-communication-06",
+      "clauses": [
+        "LEASE-005"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-communication-07",
+      "clauses": [
+        "PORTAL-005"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-communication-08",
+      "clauses": [
+        "PORTAL-005"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-communication-09",
+      "clauses": [],
+      "gap": "No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-communication-10",
+      "clauses": [],
+      "gap": "No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-communication-11",
+      "clauses": [],
+      "gap": "No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-communication-12",
+      "clauses": [],
+      "gap": "No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-payments-01",
+      "clauses": [
+        "ACCT-008",
+        "ACCT-010"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-payments-02",
+      "clauses": [
+        "PAY-002",
+        "PAY-003",
+        "PORTAL-002"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-payments-03",
+      "clauses": [
+        "PAY-007"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-payments-04",
+      "clauses": [
+        "PAY-007"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-payments-05",
+      "clauses": [
+        "PAY-007",
+        "PAY-012"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-payments-06",
+      "clauses": [
+        "PAY-007"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-payments-07",
+      "clauses": [
+        "ACCT-017"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-payments-08",
+      "clauses": [
+        "ACCT-017"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-payments-09",
+      "clauses": [
+        "ACCT-007",
+        "ACCT-008"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-tenant-01",
+      "clauses": [
+        "LEASE-007"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-tenant-02",
+      "clauses": [
+        "LEASE-007"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-tenant-03",
+      "clauses": [
+        "LEASE-011"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-tenant-04",
+      "clauses": [
+        "LEASE-011"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-tenant-05",
+      "clauses": [
+        "OPS-005"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-tenant-06",
+      "clauses": [],
+      "gap": "No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-tenant-07",
+      "clauses": [
+        "LEASE-011",
+        "LEASE-012"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-screening-01",
+      "clauses": [
+        "LEASE-007",
+        "LEASE-008"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-screening-02",
+      "clauses": [
+        "LEASE-008"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-screening-03",
+      "clauses": [
+        "LEASE-009"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-screening-04",
+      "clauses": [
+        "LEASE-008",
+        "SAFE-003"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-screening-05",
+      "clauses": [
+        "LEASE-008"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-screening-06",
+      "clauses": [
+        "LEASE-008"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-screening-07",
+      "clauses": [
+        "LEASE-009"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-screening-08",
+      "clauses": [
+        "LEASE-008"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "rm-screening-09",
+      "clauses": [
+        "LEASE-009"
+      ],
+      "gap": "Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.",
+      "coverage": "gap"
+    },
+    {
+      "workflow": "af-resident-25",
+      "clauses": [
+        "PAY-003"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-26",
+      "clauses": [
+        "PAY-005"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-27",
+      "clauses": [
+        "PAY-002",
+        "PAY-003"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-28",
+      "clauses": [
+        "PAY-004"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-29",
+      "clauses": [
+        "PAY-008"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-30",
+      "clauses": [
+        "PAY-004"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-31",
+      "clauses": [
+        "PAY-003"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-32",
+      "clauses": [
+        "PAY-005",
+        "PAY-007"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-33",
+      "clauses": [
+        "SAFE-003"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-34",
+      "clauses": [
+        "PAY-002"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-35",
+      "clauses": [
+        "PAY-002"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-36",
+      "clauses": [
+        "PAY-003"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-37",
+      "clauses": [
+        "PAY-012"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-38",
+      "clauses": [
+        "PAY-010"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-39",
+      "clauses": [],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. The capability stays a named gap outside current Terrace boundaries."
+    },
+    {
+      "workflow": "af-resident-40",
+      "clauses": [
+        "SAFE-001"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-41",
+      "clauses": [
+        "PORTAL-008"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-42",
+      "clauses": [
+        "PORTAL-007"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-43",
+      "clauses": [
+        "PORTAL-001",
+        "PAY-011"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-44",
+      "clauses": [
+        "PORTAL-008"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-45",
+      "clauses": [
+        "PORTAL-004",
+        "WORK-005"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-46",
+      "clauses": [
+        "WORK-005"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-47",
+      "clauses": [
+        "PORTAL-004",
+        "PORTAL-005"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-48",
+      "clauses": [
+        "PORTAL-005"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-49",
+      "clauses": [
+        "PORTAL-001"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-50",
+      "clauses": [
+        "OPS-005"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-51",
+      "clauses": [
+        "OPS-005"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-52",
+      "clauses": [
+        "OPS-005"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-53",
+      "clauses": [
+        "OPS-005"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-54",
+      "clauses": [
+        "PORTAL-001"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-55",
+      "clauses": [
+        "PORTAL-001"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-56",
+      "clauses": [
+        "LEASE-007"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-57",
+      "clauses": [
+        "LEASE-007",
+        "SAFE-003"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-58",
+      "clauses": [
+        "LEASE-007"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-resident-59",
+      "clauses": [
+        "LEASE-007"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-accounting-20",
+      "clauses": [
+        "ACCT-013",
+        "AGENT-002"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-accounting-21",
+      "clauses": [],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. The capability stays a named gap outside current Terrace boundaries."
+    },
+    {
+      "workflow": "af-accounting-22",
+      "clauses": [],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. The capability stays a named gap outside current Terrace boundaries."
+    },
+    {
+      "workflow": "af-accounting-23",
+      "clauses": [
+        "ACCT-007",
+        "ACCT-008"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-accounting-24",
+      "clauses": [
+        "ACCT-010"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-accounting-25",
+      "clauses": [
+        "PORT-003"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-accounting-26",
+      "clauses": [],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. The capability stays a named gap outside current Terrace boundaries."
+    },
+    {
+      "workflow": "af-maintenance-16",
+      "clauses": [
+        "AGENT-006"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-maintenance-17",
+      "clauses": [
+        "WORK-001",
+        "WORK-006"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-maintenance-18",
+      "clauses": [
+        "WORK-001"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-maintenance-19",
+      "clauses": [
+        "SAFE-002"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-smart-maintenance-01",
+      "clauses": [
+        "WORK-001",
+        "WORK-006"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-smart-maintenance-02",
+      "clauses": [
+        "WORK-005"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-smart-maintenance-03",
+      "clauses": [
+        "WORK-009"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
+    },
+    {
+      "workflow": "af-smart-maintenance-04",
+      "clauses": [
+        "WORK-001"
+      ],
+      "coverage": "gap",
+      "gap": "No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement."
     }
   ]
 }

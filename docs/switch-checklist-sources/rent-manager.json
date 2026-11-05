@@ -880,6 +880,302 @@
       "section": "NACHA Files",
       "line": 117,
       "quote": "Beyond NACHA and ACH, you can pay your owners a specified amount or their full distribution via check or other electronic payment methods."
+    },
+    {
+      "id": "rm-communication-01",
+      "label": "Integrated inbound and outbound voice calls",
+      "source": "rm-communication",
+      "section": "Communications",
+      "line": 106,
+      "quote": "Fully integrated with Rent Manager, rmVoIP allows you to make and receive calls directly from the software. Every call is recorded and automatically attaches a historical audio record to the contact’s History and Notes. If a new contact calls and you don’t have their information saved in the system, a few mouse clicks enable you to create them as a contact in your database. Provide clarity, eliminate “he said and she said” situations, and advance your business with every call."
+    },
+    {
+      "id": "rm-communication-02",
+      "label": "Call audio original attached to contact history",
+      "source": "rm-communication",
+      "section": "Communications",
+      "line": 106,
+      "quote": "Fully integrated with Rent Manager, rmVoIP allows you to make and receive calls directly from the software. Every call is recorded and automatically attaches a historical audio record to the contact’s History and Notes. If a new contact calls and you don’t have their information saved in the system, a few mouse clicks enable you to create them as a contact in your database. Provide clarity, eliminate “he said and she said” situations, and advance your business with every call."
+    },
+    {
+      "id": "rm-communication-03",
+      "label": "Unknown caller creation as native contact",
+      "source": "rm-communication",
+      "section": "Communications",
+      "line": 106,
+      "quote": "Fully integrated with Rent Manager, rmVoIP allows you to make and receive calls directly from the software. Every call is recorded and automatically attaches a historical audio record to the contact’s History and Notes. If a new contact calls and you don’t have their information saved in the system, a few mouse clicks enable you to create them as a contact in your database. Provide clarity, eliminate “he said and she said” situations, and advance your business with every call."
+    },
+    {
+      "id": "rm-communication-04",
+      "label": "Incoming caller history and record lookup",
+      "source": "rm-communication",
+      "section": "Communications",
+      "line": 107,
+      "quote": "You can instantly update tenant information with rmVoIp. Caller records open instantaneously when your phone rings, allowing you to easily identify call trends and histories."
+    },
+    {
+      "id": "rm-communication-05",
+      "label": "Call routing to mobile and simultaneous ring",
+      "source": "rm-communication",
+      "section": "Communications",
+      "line": 109,
+      "quote": "Set up intelligent call paths, ensuring any caller can reach your business at any time. For example, if a caller dials your number and no one is in the office to answer, you can pass the call along to your mobile phone—you can even set it up to ring multiple numbers at once so that no call is missed."
+    },
+    {
+      "id": "rm-communication-06",
+      "label": "Unknown phone number linked to prospect or resident",
+      "source": "rm-communication",
+      "section": "Communications",
+      "line": 110,
+      "quote": "Effortlessly link unknown numbers and create new prospects or tenant profiles in your Rent Manager database. The next time a call is made or received from this number, the linked account will display, keeping your data and communication efforts up to date."
+    },
+    {
+      "id": "rm-communication-07",
+      "label": "Tenant owner vendor and employee texting",
+      "source": "rm-communication",
+      "section": "Communications",
+      "line": 112,
+      "quote": "Rent Manager simplifies communication with your tenants, owners, vendors, and employees through a variety of texting capabilities. With its inherently convenient nature, texting has become the easiest way to reach contacts quickly and unobtrusively."
+    },
+    {
+      "id": "rm-communication-08",
+      "label": "Mass text broadcast and linked work context",
+      "source": "rm-communication",
+      "section": "Communications",
+      "line": 113,
+      "quote": "If you need to notify your tenants about building maintenance, send out a mass text via Text Broadcast in a matter of seconds. View all text correspondence in one window with easily accessible action buttons to help you navigate work orders, tenant information, and more."
+    },
+    {
+      "id": "rm-communication-09",
+      "label": "Recorded voice broadcast scheduling",
+      "source": "rm-communication",
+      "section": "Communications",
+      "line": 115,
+      "quote": "Quickly record and deliver voicemail messages to your Rent Manager contacts using Phone Broadcast. This versatile feature allows you to call as many contacts as you like, in a matter of minutes. Record outgoing messages, build custom contact lists, schedule delivery dates and times, and manage a portfolio of recordings for repeated use with Phone Broadcast."
+    },
+    {
+      "id": "rm-communication-10",
+      "label": "Reusable voice recordings and custom recipient lists",
+      "source": "rm-communication",
+      "section": "Communications",
+      "line": 115,
+      "quote": "Quickly record and deliver voicemail messages to your Rent Manager contacts using Phone Broadcast. This versatile feature allows you to call as many contacts as you like, in a matter of minutes. Record outgoing messages, build custom contact lists, schedule delivery dates and times, and manage a portfolio of recordings for repeated use with Phone Broadcast."
+    },
+    {
+      "id": "rm-communication-11",
+      "label": "Website visitor real-time staff chat",
+      "source": "rm-communication",
+      "section": "Communications",
+      "line": 117,
+      "quote": "Cultivate a strong customer relations model with rapid response times via Web Chat. When implemented, website visitors can speak to your team through the Web Chat window in real time. Rent Manager users can then immediately respond to inquiries from within the database."
+    },
+    {
+      "id": "rm-communication-12",
+      "label": "Chat categorization assignment and transfer",
+      "source": "rm-communication",
+      "section": "Communications",
+      "line": 118,
+      "quote": "Keep chats organized by maintenance requests, payment issues, leasing questions, and any other category that fits your business. Assign or transfer chats to team members when the inquiry falls under their realm of expertise, ensuring that each response is handled carefully."
+    },
+    {
+      "id": "rm-payments-01",
+      "label": "Single batch and recurring electronic disbursements",
+      "source": "rm-payments",
+      "section": "Receivable and payable processing",
+      "line": 103,
+      "quote": "Electronically process tenant payments, owner contributions, distributions, and vendor bills with Rent Manager. Whether it’s a one-time transaction, batch payment, or recurring disbursement, Rent Manager’s electronic payment capabilities can handle all your receivables and payables. Transactions post instantly, eliminating trips to the bank, and ensuring your books are always up-to-date."
+    },
+    {
+      "id": "rm-payments-02",
+      "label": "Online resident and owner card and check payments",
+      "source": "rm-payments",
+      "section": "Receivable and payable processing",
+      "line": 106,
+      "quote": "Using Zego’s advanced online payment technology, ePay provides the freedom to process credit card and check payments in real time. This fully integrated solution makes collecting payments a breeze. Give your tenants and owners the convenience and flexibility associated with electronic payments and reduce the amount of data entry your staff has to tackle each month by incorporating this comprehensive, secure service into your Rent Manager processes."
+    },
+    {
+      "id": "rm-payments-03",
+      "label": "Retail cash rent and immediate ledger entry",
+      "source": "rm-payments",
+      "section": "Receivable and payable processing",
+      "line": 109,
+      "quote": "CashPay lets tenants electronically pay rent with cash from any of 30,000 CheckFreePay locations nationwide. Safe, simple, and secure, CashPay transactions appear in Rent Manager immediately and keep cash out of your management office."
+    },
+    {
+      "id": "rm-payments-04",
+      "label": "Scanned check image linked to payment",
+      "source": "rm-payments",
+      "section": "Receivable and payable processing",
+      "line": 113,
+      "quote": "Swiftly and accurately process check payments with Rent Manager’s user-friendly check scanner. Instantly locate contacts within the program and link a scanned image of the check to their payment transaction. We offer single-feed scanners that process up to 10 checks per minute, and multi-feed scanners that handle as many as 90 checks per minute. Once a check is scanned, the deposit is made automatically and is reflected on the transaction ledger."
+    },
+    {
+      "id": "rm-payments-05",
+      "label": "Automatic scanned-check bank deposit",
+      "source": "rm-payments",
+      "section": "Receivable and payable processing",
+      "line": 113,
+      "quote": "Swiftly and accurately process check payments with Rent Manager’s user-friendly check scanner. Instantly locate contacts within the program and link a scanned image of the check to their payment transaction. We offer single-feed scanners that process up to 10 checks per minute, and multi-feed scanners that handle as many as 90 checks per minute. Once a check is scanned, the deposit is made automatically and is reflected on the transaction ledger."
+    },
+    {
+      "id": "rm-payments-06",
+      "label": "Outsourced lockbox and resident-ledger posting",
+      "source": "rm-payments",
+      "section": "Receivable and payable processing",
+      "line": 114,
+      "quote": "If you’d like to outsource check scanning entirely, consider Lockbox, powered by Zego. Renters and homeowners will send their check payments to a designated P.O. Box, and the Zego team takes it from there. Payments will be processed and then posted directly to your bank account and in each resident’s ledger in Rent Manager."
+    },
+    {
+      "id": "rm-payments-07",
+      "label": "Electronic check email delivery",
+      "source": "rm-payments",
+      "section": "Receivable and payable processing",
+      "line": 117,
+      "quote": "Whether it’s paper or electronic, Rent Manager’s top-notch system keeps track of all your checks. Convenient and easily accessible, eChecks enable you to write checks, pay bills electronically, and securely deliver the payment via email."
+    },
+    {
+      "id": "rm-payments-08",
+      "label": "Printed vendor resident prospect and owner checks",
+      "source": "rm-payments",
+      "section": "Receivable and payable processing",
+      "line": 118,
+      "quote": "You can also write and print checks to vendors, tenants, prospects, and owners directly from the software."
+    },
+    {
+      "id": "rm-payments-09",
+      "label": "Supplier payment review coding and approval",
+      "source": "rm-payments",
+      "section": "Receivable and payable processing",
+      "line": 121,
+      "quote": "AvidPay—a full-service bill payment software powered by AvidXchange—allows you to pay your suppliers faster with flexible, direct deposit payments. Eliminate the stamps, paperwork, and hours of effort, and gain an advanced and automated paperless system. With this comprehensive solution, your team can review, code, and approve bill payments in a matter of a few clicks."
+    },
+    {
+      "id": "rm-tenant-01",
+      "label": "Custom application templates and prospect conversion",
+      "source": "rm-tenant",
+      "section": "Prospect and tenant portal",
+      "line": 106,
+      "quote": "Online applications provide convenience for prospects and deliver faster approval response times for your management company. Quickly convert prospects into tenants by building your own custom online application templates through Rent Manager’s Apply Now feature."
+    },
+    {
+      "id": "rm-tenant-02",
+      "label": "Imported application templates and provider application fees",
+      "source": "rm-tenant",
+      "section": "Prospect and tenant portal",
+      "line": 107,
+      "quote": "Import your existing applications or create high-quality templates from scratch that prospects can easily navigate and complete from your website. Conduct thorough prospect screenings and collect application fees via our integrated providers to connect every integral piece of the application process."
+    },
+    {
+      "id": "rm-tenant-03",
+      "label": "Signable fields on letters and uploaded PDFs",
+      "source": "rm-tenant",
+      "section": "Prospect and tenant portal",
+      "line": 109,
+      "quote": "Expertly craft electronic, signable leases and documents through Rent Manager’s Signable Documents feature. Add signable fields to existing letter templates or PDFs that prospects, tenants, and owners can access and sign through their online portal accounts. After documents are sent to recipients, you can easily track their progress in the Signable Documents register."
+    },
+    {
+      "id": "rm-tenant-04",
+      "label": "Document signature progress register",
+      "source": "rm-tenant",
+      "section": "Prospect and tenant portal",
+      "line": 109,
+      "quote": "Expertly craft electronic, signable leases and documents through Rent Manager’s Signable Documents feature. Add signable fields to existing letter templates or PDFs that prospects, tenants, and owners can access and sign through their online portal accounts. After documents are sent to recipients, you can easily track their progress in the Signable Documents register."
+    },
+    {
+      "id": "rm-tenant-05",
+      "label": "Lease-compliant insurance purchase and compliance",
+      "source": "rm-tenant",
+      "section": "Prospect and tenant portal",
+      "line": 111,
+      "quote": "Ensuring your renters are covered by an insurance policy that meets the requirements of their lease can be challenging. Rent Manager’s built-in renters insurance solution, powered by LeaseTrack, eliminates guesswork by offering lease-compliant policy options and compliance tracking. Plus, renters who do not have a compliant insurance policy can be automatically enrolled in a master policy program so there’s never a lapse in coverage."
+    },
+    {
+      "id": "rm-tenant-06",
+      "label": "Automatic insurance master-policy enrollment",
+      "source": "rm-tenant",
+      "section": "Prospect and tenant portal",
+      "line": 111,
+      "quote": "Ensuring your renters are covered by an insurance policy that meets the requirements of their lease can be challenging. Rent Manager’s built-in renters insurance solution, powered by LeaseTrack, eliminates guesswork by offering lease-compliant policy options and compliance tracking. Plus, renters who do not have a compliant insurance policy can be automatically enrolled in a master policy program so there’s never a lapse in coverage."
+    },
+    {
+      "id": "rm-tenant-07",
+      "label": "Portal electronic leases and renewals",
+      "source": "rm-tenant",
+      "section": "Prospect and tenant portal",
+      "line": 114,
+      "quote": "Connecting people with homes is the heart of your business. Make your leasing and renewals process more efficient and effective with electronic lease signing and renewals. Send new leases to prospects and updated leases to renewing tenants that can be readily accessed and signed through their online portal accounts. Electronic leases with built-in e-sign technology give your business a competitive edge."
+    },
+    {
+      "id": "rm-screening-01",
+      "label": "Native application data for screening",
+      "source": "rm-screening",
+      "section": "Built-in screening",
+      "line": 108,
+      "quote": "Using Rent Manager’s Apply Now feature, collect all the information needed to screen applicants."
+    },
+    {
+      "id": "rm-screening-02",
+      "label": "Automatic or staff-triggered screening",
+      "source": "rm-screening",
+      "section": "Built-in screening",
+      "line": 110,
+      "quote": "Automate the screening as part of the application process, or choose to run it after your team reviews—with just a click of a button!"
+    },
+    {
+      "id": "rm-screening-03",
+      "label": "Applicant selection criteria and next actions",
+      "source": "rm-screening",
+      "section": "Built-in screening",
+      "line": 112,
+      "quote": "Screening workflow tools quickly tell you whether an applicant meets approval criteria, and walk your leasing team through next steps."
+    },
+    {
+      "id": "rm-screening-04",
+      "label": "Retained screening originals and reports",
+      "source": "rm-screening",
+      "section": "Built-in screening",
+      "line": 114,
+      "quote": "With built-in screening, all reports and data are kept in Rent Manager for future reference."
+    },
+    {
+      "id": "rm-screening-05",
+      "label": "Multi-state criminal and housing-court reports",
+      "source": "rm-screening",
+      "section": "Built-in screening",
+      "line": 118,
+      "quote": "Reports contain multi-state, single-state, and county criminal records, as well as easy-to-read housing court records from county courts across the United States."
+    },
+    {
+      "id": "rm-screening-06",
+      "label": "Applicant credit reports",
+      "source": "rm-screening",
+      "section": "Built-in screening",
+      "line": 120,
+      "quote": "Easy-to-read credit reports feature information on an applicant’s credit history, giving you a comprehensive look at potential residents."
+    },
+    {
+      "id": "rm-screening-07",
+      "label": "Applicant-authorized bank activity income verification",
+      "source": "rm-screening",
+      "section": "Built-in screening",
+      "line": 122,
+      "quote": "Stop the manual gathering of paystubs; instead, applicants grant digital access to their actual banking activity to mitigate the risk of receiving fraudulent paystubs."
+    },
+    {
+      "id": "rm-screening-08",
+      "label": "Applicant synthetic identity and fraud indicators",
+      "source": "rm-screening",
+      "section": "Built-in screening",
+      "line": 124,
+      "quote": "The Cross Check report with Synthetic ID indicator provides identity validation for the input name, address, Date of Birth (DOB), Social Security Number (SSN), and phone number, proactively alerting you to potential rental fraud risks."
+    },
+    {
+      "id": "rm-screening-09",
+      "label": "Property-specific resident selection criteria",
+      "source": "rm-screening",
+      "section": "Built-in screening",
+      "line": 132,
+      "quote": "AmRent’s screening workflows incorporate your resident selection criteria, helping you find an ideal fit for your property."
     }
   ]
 }

@@ -14,19 +14,19 @@ Public HTTPS response captured on the stated UTC date. Capture text decodes HTML
 
 **Incomplete inventory:** Complete official-source inventory remains unqualified: selected public pages are only partially audited; help hubs, account-only documentation, nested source areas and linked material may contain omitted workflows.
 
-194 inventoried workflows from 11 partially audited pages; 1 unaudited captures. [Discovery register](switch-checklist-sources/appfolio-discovery.txt): 620 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
+244 inventoried workflows from 12 partially audited pages; 0 unaudited captures. [Discovery register](switch-checklist-sources/appfolio-discovery.txt): 620 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
 
 Discovery raw SHA-256: `fb6caeb03cac37cae19ab8e5ae1dca27374d82af0de5fb299e3048f081740190`. Retained register SHA-256: `f377f2fc41e5df91d8f8d6ad4dd7e5538ed5a34e5b0a23f18560ad9a0cb77703`.
 
 **Unaudited area — Technician GPS and scheduled reports:** Exact capability boundaries in unreviewed or inaccessible official documentation remain unaudited. Association violations GPS and workflow schedule triggers do not establish technician location tracking or report delivery.
 
-**Captured source areas awaiting review:** 163 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
+**Captured source areas awaiting review:** 196 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
 
 ### Buildium source coverage
 
 **Incomplete inventory:** Complete official-source inventory remains unqualified: selected public pages are only partially audited; help hubs, account-only documentation, nested source areas and linked material may contain omitted workflows.
 
-86 inventoried workflows from 10 partially audited pages; 0 unaudited captures. [Discovery register](switch-checklist-sources/buildium-discovery.txt): 171 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
+151 inventoried workflows from 17 partially audited pages; 0 unaudited captures. [Discovery register](switch-checklist-sources/buildium-discovery.txt): 171 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
 
 Discovery raw SHA-256: `fd9c781afb1796c103da3fb7bfd4c3d94d67972bd76e3256e499ba00fe4c0d5b`. Retained register SHA-256: `9e822554e4881605f8b1dfafe1bdcd13c3197a622312b637b5f1b1eb692d983c`.
 
@@ -34,23 +34,23 @@ Discovery raw SHA-256: `fd9c781afb1796c103da3fb7bfd4c3d94d67972bd76e3256e499ba00
 
 **Unaudited area — Related scheduled-report help articles and supported report details:** The official Schedule Batched Reports article now loads in a clean browser and its documented workflows remain gaps. Linked batched-report articles, available-report details and any authenticated documentation remain unaudited; this retrieved article does not establish complete Buildium coverage. [Official source area](https://help.buildium.com/hc/s/article/Schedule-Batched-Reports)
 
-**Captured source areas awaiting review:** 73 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
+**Captured source areas awaiting review:** 119 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
 
 ### Rent Manager source coverage
 
 **Incomplete inventory:** Complete official-source inventory remains unqualified: selected public pages are only partially audited; help hubs, account-only documentation, nested source areas and linked material may contain omitted workflows.
 
-110 inventoried workflows from 8 partially audited pages; 0 unaudited captures. [Discovery register](switch-checklist-sources/rent-manager-discovery.txt): 76 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
+147 inventoried workflows from 12 partially audited pages; 0 unaudited captures. [Discovery register](switch-checklist-sources/rent-manager-discovery.txt): 76 URLs, captured 2026-11-05; all unselected entries remain unaudited. Discovery index only. Unselected URLs, nested sitemaps, help hubs, authenticated manuals and linked sources remain unaudited or inaccessible. An index does not establish documentation completeness.
 
 Discovery raw SHA-256: `f69d227f6bee7e3d99469bf519fec60b6c800d1e26785f669d29b07b3cc3c941`. Retained register SHA-256: `6aaaa762d45b866d37e91a17909998655d1d125629529f67d155c9d8c8476d5c`.
 
 **Unaudited area — Remaining leasing, communications, portals, customization and authenticated help:** Not exhaustively audited; the selected accounting and maintenance sources do not establish a complete inventory.
 
-**Captured source areas awaiting review:** 106 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
+**Captured source areas awaiting review:** 134 unreconciled ranges. [Inspect the source area register](#captured-source-register) for every range and its retained context.
 
 ## AppFolio checklist
 
-**Partial official-source inventory. 194 workflows; additional source areas remain unaudited.**
+**Partial official-source inventory. 244 workflows; additional source areas remain unaudited.**
 
 ### AppFolio required named gaps
 
@@ -2006,9 +2006,509 @@ Documented in [Telephone maintenance intake · af-smart-blog-01](#telephone-main
 
 > Accounting Performer (Budgeting)
 
+#### Resident exact payment date amount and fee review · af-resident-25
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PAY-003](#clause-pay-003) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 47.
+
+> Review the Payment Date and Payment Balance information for accuracy. A transaction fee will also be displayed.
+
+#### Manager-controlled online payment enablement · af-resident-26
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PAY-005](#clause-pay-005) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 50.
+
+> If you see a message stating you cannot make online payments, please contact your property manager as this is a service they can choose to offer their residents.
+
+#### Resident bank card and Apple Pay method selection · af-resident-27
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PAY-002](#clause-pay-002) (missing); [PAY-003](#clause-pay-003) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 53.
+
+> Select your preferred payment method: eCheck (direct withdrawal from bank account), or Credit and debit card (Apple Pay or direct). You can then enter the associated payment information and click Continue.
+
+#### Fixed or outstanding-balance autopay starting date · af-resident-28
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PAY-004](#clause-pay-004) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 54.
+
+> Give the payment a name, select whether you want to pay a fixed amount or your outstanding balance, choose the payment start date.
+
+#### Processed autopay stop-payment referral · af-resident-29
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PAY-008](#clause-pay-008) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 59.
+
+> If you have already received a confirmation email that your payment has been processed this month when it shouldn’t have, you’ll need to reach out to your bank or credit card provider to issue a stop payment.
+
+#### Transaction fee exclusion from autopay cap · af-resident-30
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PAY-004](#clause-pay-004) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 70.
+
+> No, transaction fees are not included in the maximum limit set on pay-in-full auto payments.
+
+#### Payment transaction fee disclosure · af-resident-31
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PAY-003](#clause-pay-003) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 78.
+
+> Transaction fees apply when paying online. You are notified of the fee amount before you submit the payment.
+
+#### Certified-funds-only retail cash payment · af-resident-32
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PAY-005](#clause-pay-005) (partial); [PAY-007](#clause-pay-007) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 90.
+
+> Your property manager can provide you with a reusable PaySlip with a barcode to use when making cash payments at participating locations. The cost to make an electronic cash payment is $4.99 per transaction. Transaction limits apply, please refer to the top of your PaySlip for more details.
+
+#### Private payment details hidden from property staff · af-resident-33
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [SAFE-003](#clause-safe-003) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 98.
+
+> No, your property manager cannot see any of the payment information you have saved or have previously entered.
+
+#### Personal and business bank payment sources · af-resident-34
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PAY-002](#clause-pay-002) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 102.
+
+> You can use a personal or business checking or savings account. Make sure to enter the routing and account number exactly as they appear on your checks and confirm the account has sufficient funds before paying.
+
+#### Electronic check fraud-protection payment limits · af-resident-35
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PAY-002](#clause-pay-002) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 104.
+
+> You are shown the maximum you can pay while making an Online Payment in FolioSpace. If you receive the error message, "Your payment amount is too large. Please contact your property manager, or try again later," you may have hit a limit we put in place for fraud protection. Please ask your property manager to contact AppFolio about the issue.
+
+#### Card limits preserved across charge and unit changes · af-resident-36
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PAY-003](#clause-pay-003) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 107.
+
+> Please note, if your recurring charge amount increases or if you start paying for a new unit in the same FolioSpace account, the max allowed for a credit or debit card payment will not change. This only applies to payments made via credit or debit card, so you can switch to eCheck to pay a larger amount in one payment.
+
+#### Separate payment and provider-fee bank descriptors · af-resident-37
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PAY-012](#clause-pay-012) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 110.
+
+> eCheck payments appear as "\[your management company\]." Credit or debit card payments appear as "AF\* \[your management company\]." Any applicable fee will appear separately as APPFOLIO\_TXNFEE.
+
+#### Resident receipt and confirmation retrieval · af-resident-38
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PAY-010](#clause-pay-010) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 112.
+
+> Please contact your property manager and they can provide you with a receipt. Alternatively, if you have made an online payment, you will be sent an email confirmation and you can also see a record of your payments on the Account Ledger found in the Payments tab.
+
+#### Utility concierge completion and visible follow-up · af-resident-39
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. The capability stays a named gap outside current Terrace boundaries.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 132.
+
+> Once the call is complete, you will receive an email confirmation with a summary of the utilities and any home services you set up. The completed utility setup details will be visible in FolioSpace and your property manager will see that your required utilities have been completed.
+
+#### Resident password change · af-resident-40
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [SAFE-001](#clause-safe-001) (done)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 140.
+
+> Navigate to the Account Profile tab and locate the Password block. Enter your current password, then enter your new password and retype it. Click Save when done. Passwords must be between 8 and 32 characters in length which includes at least one letter and one number or symbol.
+
+#### Resident Spanish-language account · af-resident-41
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PORTAL-008](#clause-portal-008) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 142.
+
+> You can change the language to Spanish. Click the Account Profile tab on the left, then in the Choose Your Language section use the menu to select Spanish, then click Save.
+
+#### Resident notice-to-vacate submission · af-resident-42
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PORTAL-007](#clause-portal-007) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 144.
+
+> Your property manager can choose whether or not you can give notice through FolioSpace. If this feature is enabled you can find it on the Contact Us tab. Select Request Notice to Vacate in the Contact Options block. Provide your desired move out date, your reason for leaving, and your forwarding address (if you have it), then click Submit. If your property manager does not offer this feature, you'll need to contact them directly.
+
+#### Resident email and mobile payment reminders · af-resident-43
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PORTAL-001](#clause-portal-001) (done); [PAY-011](#clause-pay-011) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 146.
+
+> Yes, you can set up either email reminders or mobile push notifications if you have the FolioSpace app on your phone. Navigate to the Account Profile tab, then in the Contact Preferences block, select what kind of recurring payment reminders you would like to enable, then click Save.
+
+#### Preferred-language login and activation · af-resident-44
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PORTAL-008](#clause-portal-008) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 148.
+
+> You can now set your language settings from the FolioSpace login and activation screens on the web. A link on the login screen will allow you to specify whether you prefer Spanish or English, instantly translating the language in view. Upon login, your language is set in the Account Profile. Once the language is set, the next time you navigate to the login page on your device or browser, the language will reflect your preferred setting (provided you have not cleared your cookies).
+
+#### Resident repair photos and key-entry permission · af-resident-45
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PORTAL-004](#clause-portal-004) (done); [WORK-005](#clause-work-005) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 153.
+
+> Enter a detailed description of the issue, upload one or more photos of the item needing attention (must select multiple photos at once from your computer or camera roll), decide whether or not to give the property manager permission to enter with their key, then click Submit Request.
+
+#### Resident selection of maintenance availability · af-resident-46
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [WORK-005](#clause-work-005) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 154.
+
+> On the next screen, select when a maintenance tech can address your maintenance issue. If you choose to provide preferred times, select three or more time slots, then click Submit.
+
+#### Repair communication and status timeline · af-resident-47
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PORTAL-004](#clause-portal-004) (done); [PORTAL-005](#clause-portal-005) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 156.
+
+> You can view the high-level status of your maintenance request on the Maintenance tab. The status will range from received, to technician contacted, to technician scheduled, to completed. Select Check Status for a detailed view of all communication sent to you and a status timeline of your request.
+
+#### Secure resident document delivery notification · af-resident-48
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PORTAL-005](#clause-portal-005) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 159.
+
+> You'll receive an email notification any time your property manager sends you a document securely to your FolioSpace account. Navigate to the Shared Documents tab to access these documents.
+
+#### Resident executed lease download · af-resident-49
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PORTAL-001](#clause-portal-001) (done)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 161.
+
+> Click Property Details from the menu on the left to view or download your online lease documents.
+
+#### Resident insurance original upload · af-resident-50
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [OPS-005](#clause-ops-005) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 163.
+
+> Navigate to the Insurance tab and locate the Upload Renters Insurance Policy block. Enter your insurance company provider, your policy number, policy expiration date, then upload a copy of your proof of insurance. When done, click Submit Policy Information.
+
+#### Resident insurance policy purchase · af-resident-51
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [OPS-005](#clause-ops-005) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 165.
+
+> If your property management company has this feature enabled, you can purchase a renters insurance policy directly through FolioSpace when completing your move-in tasks or at any time by navigating to the Home tab and clicking Purchase Renters Insurance to receive an estimate.
+
+#### Resident insurance policy updates · af-resident-52
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [OPS-005](#clause-ops-005) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 167.
+
+> Navigate to the Insurance tab to view or update your renters insurance policy.
+
+#### Liability-to-landlord coverage summary · af-resident-53
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [OPS-005](#clause-ops-005) (missing)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 169.
+
+> If your property management company has added your unit to its Liability to Landlord Insurance, you will see a Notice of Liability to Landlord Insurance link on the Property Details tab. Click this link to view your summary of coverage.
+
+#### Manager-requested resident account combination · af-resident-54
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PORTAL-001](#clause-portal-001) (done)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 172.
+
+> Only your property manager is capable of combining your FolioSpace accounts, so please contact them directly to make this request. Your accounts must be managed by the same company in order to combine them.
+
+#### Separately activated multiple rental-unit access · af-resident-55
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PORTAL-001](#clause-portal-001) (done)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 174.
+
+> If you rent multiple units from your property management company and you wish to make payments or details for a different unit, click View Another Unit, then click the button for the unit you wish to view. Each unit must be activated separately, so if you don’t see the unit you’re looking for, contact your property manager.
+
+#### Authenticated application and cross-device resume · af-resident-56
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [LEASE-007](#clause-lease-007) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 177.
+
+> Your rental application carries a lot of personal information and an account keeps it behind a login you control instead of a link anyone could open. An account also lets you pause and come back on any device without having to start over. You create the account once, before you enter any application details, and it works across all your FolioSpace applications.
+
+#### Application shared with selected property manager · af-resident-57
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [LEASE-007](#clause-lease-007) (partial); [SAFE-003](#clause-safe-003) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 183.
+
+> The information provided in your rental application is shared only with the property management companies you apply to. Your username and password belong to you.
+
+#### Single applicant account across applications · af-resident-58
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [LEASE-007](#clause-lease-007) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 185.
+
+> No. One account works for every FolioSpace application, at this property or any other. Sign in with the same email each time.
+
+#### Application resume ends when vacancy is unavailable · af-resident-59
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [LEASE-007](#clause-lease-007) (partial)
+
+**Official source:** [af-resident](https://www.appfolio.com/help/online-portal), captured 2026-11-05; section “FolioSpace resident and applicant help”, [capture](switch-checklist-sources/af-resident.txt) line 187.
+
+> You can resume and continue an application as long as the property is listed as available. After this, your application will be inaccessible.
+
+#### Accounting budget forecasts under staff oversight · af-accounting-20
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [ACCT-013](#clause-acct-013) (done); [AGENT-002](#clause-agent-002) (missing)
+
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Accounting and reporting”, [capture](switch-checklist-sources/af-accounting.txt) line 37.
+
+> Nobody got into this business to spend their evenings entering bills. The Accounting Performer works alongside your accounting team to handle the most time-consuming tasks — coding bills, reconciling accounts, closing the books, and preparing budget forecasts — so your team focuses on the work that actually moves the business.
+
+#### Corporate reimbursable expense identification · af-accounting-21
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. The capability stays a named gap outside current Terrace boundaries.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Accounting and reporting”, [capture](switch-checklist-sources/af-accounting.txt) line 45.
+
+> Catch reimbursable expenses the moment they happen at entry, not at month end
+
+#### Corporate reimbursement bill payment · af-accounting-22
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. The capability stays a named gap outside current Terrace boundaries.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Accounting and reporting”, [capture](switch-checklist-sources/af-accounting.txt) line 46.
+
+> Pay reimbursement bills without leaving AppFolio
+
+#### Owner portfolio pooled-funds bill payment · af-accounting-23
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [ACCT-007](#clause-acct-007) (done); [ACCT-008](#clause-acct-008) (missing)
+
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Accounting and reporting”, [capture](switch-checklist-sources/af-accounting.txt) line 53.
+
+> Pay bills against the owner’s full available funds, not under one property at a time
+
+#### Owner distribution automatic true-up · af-accounting-24
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [ACCT-010](#clause-acct-010) (missing)
+
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Accounting and reporting”, [capture](switch-checklist-sources/af-accounting.txt) line 54.
+
+> Automatic true-up on distributions
+
+#### Automatic owner property grouping · af-accounting-25
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [PORT-003](#clause-port-003) (done)
+
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Accounting and reporting”, [capture](switch-checklist-sources/af-accounting.txt) line 55.
+
+> Properties group under the same owner automatically
+
+#### Corporate credit-card statement reconciliation · af-accounting-26
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. The capability stays a named gap outside current Terrace boundaries.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [af-accounting](https://www.appfolio.com/property-manager/accounting-reporting), captured 2026-11-05; section “Accounting and reporting”, [capture](switch-checklist-sources/af-accounting.txt) line 60.
+
+> Reconcile your statements to ensure accuracy
+
+#### Maintenance image interpretation and troubleshooting · af-maintenance-16
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [AGENT-006](#clause-agent-006) (partial)
+
+**Official source:** [af-maintenance](https://www.appfolio.com/property-manager/maintenance), captured 2026-11-05; section “Maintenance and auditing”, [capture](switch-checklist-sources/af-maintenance.txt) line 45.
+
+> Real estate’s only truly agentic AI, the Realm-X Maintenance Performer has the intelligence to reply to residents, analyze images, troubleshoot, prioritize emergencies, and dispatch work to the right technician. Once work is dispatched, you can use automation-driven platform tools to schedule work and bill owners consistently.
+
+#### Automated emergency prioritization and dispatch · af-maintenance-17
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [WORK-001](#clause-work-001) (partial); [WORK-006](#clause-work-006) (done)
+
+**Official source:** [af-maintenance](https://www.appfolio.com/property-manager/maintenance), captured 2026-11-05; section “Maintenance and auditing”, [capture](switch-checklist-sources/af-maintenance.txt) line 45.
+
+> Real estate’s only truly agentic AI, the Realm-X Maintenance Performer has the intelligence to reply to residents, analyze images, troubleshoot, prioritize emergencies, and dispatch work to the right technician. Once work is dispatched, you can use automation-driven platform tools to schedule work and bill owners consistently.
+
+#### Resident contact-center maintenance coordination · af-maintenance-18
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [WORK-001](#clause-work-001) (partial)
+
+**Official source:** [af-maintenance](https://www.appfolio.com/property-manager/maintenance), captured 2026-11-05; section “Maintenance and auditing”, [capture](switch-checklist-sources/af-maintenance.txt) line 47.
+
+> Built into the Online Resident Portal and Contact Center, the Maintenance Performer acts as your AI coordinator, responding to residents and dispatching
+
+#### Maintenance audit filters by staff property date and entity · af-maintenance-19
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [SAFE-002](#clause-safe-002) (done)
+
+**Official source:** [af-maintenance](https://www.appfolio.com/property-manager/maintenance), captured 2026-11-05; section “Maintenance and auditing”, [capture](switch-checklist-sources/af-maintenance.txt) line 57.
+
+> Filterable by user, properties, dates, and entities
+
+#### Service responding and work dispatch · af-smart-maintenance-01
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [WORK-001](#clause-work-001) (partial); [WORK-006](#clause-work-006) (done)
+
+**Official source:** [af-smart-maintenance](https://www.appfolio.com/services/smart-maintenance), captured 2026-11-05; section “Smart Maintenance”, [capture](switch-checklist-sources/af-smart-maintenance.txt) line 12.
+
+> Your maintenance process plays a key role in keeping residents happy and your teams organized. Ensure residents receive the high-quality service they deserve, while your teams maintain the balance of responding to resident requests, dispatching work orders, scheduling work, and billing effortlessly. Smart Maintenance provides end-to-end, full-cycle support for your residents and for your team on one easy-to-use platform.
+
+#### Service work scheduling · af-smart-maintenance-02
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [WORK-005](#clause-work-005) (partial)
+
+**Official source:** [af-smart-maintenance](https://www.appfolio.com/services/smart-maintenance), captured 2026-11-05; section “Smart Maintenance”, [capture](switch-checklist-sources/af-smart-maintenance.txt) line 12.
+
+> Your maintenance process plays a key role in keeping residents happy and your teams organized. Ensure residents receive the high-quality service they deserve, while your teams maintain the balance of responding to resident requests, dispatching work orders, scheduling work, and billing effortlessly. Smart Maintenance provides end-to-end, full-cycle support for your residents and for your team on one easy-to-use platform.
+
+#### Service work billing · af-smart-maintenance-03
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [WORK-009](#clause-work-009) (missing)
+
+**Official source:** [af-smart-maintenance](https://www.appfolio.com/services/smart-maintenance), captured 2026-11-05; section “Smart Maintenance”, [capture](switch-checklist-sources/af-smart-maintenance.txt) line 12.
+
+> Your maintenance process plays a key role in keeping residents happy and your teams organized. Ensure residents receive the high-quality service they deserve, while your teams maintain the balance of responding to resident requests, dispatching work orders, scheduling work, and billing effortlessly. Smart Maintenance provides end-to-end, full-cycle support for your residents and for your team on one easy-to-use platform.
+
+#### Around-the-clock maintenance response · af-smart-maintenance-04
+
+**Gap:** No passed same-capability replacement acceptance establishes this documented workflow. Related native clauses remain context only; their current statuses and gaps do not qualify incumbent replacement.
+
+**Related replacements:** [WORK-001](#clause-work-001) (partial)
+
+**Official source:** [af-smart-maintenance](https://www.appfolio.com/services/smart-maintenance), captured 2026-11-05; section “Smart Maintenance”, [capture](switch-checklist-sources/af-smart-maintenance.txt) line 19.
+
+> Handling maintenance requests around the clock shouldn’t mean your team is on-call 24/7. AppFolio's suite of Smart Maintenance tools helps you stay ahead of resident requests and deliver exceptional experiences, without the overwhelm.
+
 ## Buildium checklist
 
-**Partial official-source inventory. 86 workflows; additional source areas remain unaudited.**
+**Partial official-source inventory. 151 workflows; additional source areas remain unaudited.**
 
 ### Buildium required named gaps
 
@@ -2892,9 +3392,659 @@ Documented in [Scheduled report portal delivery · bu-scheduled-help-02](#schedu
 
 > Save as draft if still reviewing, or select Schedule and share if ready. You will be asked to confirm the schedule settings, end date, and recipients before generating the schedule Schedule and share.
 
+#### Owner financial reports and property transactions · bu-owner-01
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial); [ACCT-012](#clause-acct-012) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 81.
+
+> Put key financial reports within easy reach, including profit and loss statements, income statements, contributions, draws, and property-specific transactions.
+
+#### Selective owner report publication · bu-owner-02
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial); [ACCT-012](#clause-acct-012) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 82.
+
+> Choose which reports owners can access and when
+
+#### Owner self-service report downloads · bu-owner-03
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 83.
+
+> Give owners self-service access to view and download reports
+
+#### Owner report publication schedule · bu-owner-04
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [REPORT-006](#clause-report-006) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 84.
+
+> Share updates on a schedule that works for your business
+
+#### Owner contribution requests and payment history · bu-owner-05
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 86.
+
+> Give owners a way to review contribution requests, send funds, and track transaction history by property.
+
+#### Itemized owner contribution explanations · bu-owner-06
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 87.
+
+> Add notes and line items to clarify each contribution request
+
+#### Owner electronic contributions · bu-owner-07
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 88.
+
+> Support electronic payments through ePay
+
+#### Owner bank and card contribution methods · bu-owner-08
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 89.
+
+> Reduce manual work with EFT and ACH and credit or debit card payments
+
+#### Owner receipts leases and statements library · bu-owner-09
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 91.
+
+> Upload receipts, leases, statements, and other important files to the property owner portal, so owners can find what they need without another email or call.
+
+#### Property-specific owner original sharing · bu-owner-10
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 92.
+
+> Share property-specific documents with the right owners
+
+#### Owner view and download permissions · bu-owner-11
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial); [ROLE-002](#clause-role-002) (done)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 93.
+
+> Control which files owners can view or download
+
+#### Owner document correction and withdrawal · bu-owner-12
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 94.
+
+> Update, edit, or remove documents as details change
+
+#### Contribution request tasks with deadlines · bu-owner-13
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial); [PORTAL-007](#clause-portal-007) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 96.
+
+> Create tasks for contribution requests, assign due dates, and add memos so owners know what’s needed and when.
+
+#### Owner maintenance request tasks · bu-owner-14
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-007](#clause-portal-007) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 97.
+
+> Let owners submit maintenance requests as tasks
+
+#### Owner task history and updates · bu-owner-15
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-007](#clause-portal-007) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 98.
+
+> Keep a full task history so owners can follow updates
+
+#### Automatic owner balance reminder emails · bu-owner-16
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial); [PORTAL-005](#clause-portal-005) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 99.
+
+> Send automatic reminder emails for outstanding balances
+
+#### Owner invoice approval · bu-owner-17
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [WORK-003](#clause-work-003) (done); [ACCT-007](#clause-acct-007) (done)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 120.
+
+> With a property owner portal, owners of rental properties are able to see up-to-date financials and reporting, resolve outstanding tasks, approve invoices, fund contribution requests, and access important documents—24/7 from any device, anywhere.
+
+#### Owner EFT and check disbursements · bu-owner-18
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [ACCT-010](#clause-acct-010) (missing)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 122.
+
+> Payments to rental owners can be made via EFT or by check.
+
+#### Owner complete maintenance and repair history · bu-owner-19
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-010](#clause-portal-010) (missing)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 124.
+
+> Yes! A property owner is able to view the complete history of maintenance and repair tasks completed within their portfolio of properties.
+
+#### Owner multiple-property portal · bu-owner-20
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [bu-owner](https://www.buildium.com/features/property-owner-portal/), captured 2026-11-05; section “Owner portal”, [capture](switch-checklist-sources/bu-owner.txt) line 126.
+
+> Property owners can use the Owner Portal to access all of their properties in one place.
+
+#### Resident recurring bank and card payments · bu-payments-01
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-002](#clause-pay-002) (missing); [PAY-003](#clause-pay-003) (partial); [PAY-004](#clause-pay-004) (missing)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 74.
+
+> Cut payment processing time by up to 70 percent with online rent payment technology. Residents can add their bank accounts or credit cards in the Resident Center, and then set up recurring payments. Funds are automatically transferred to your bank account—no manual deposits necessary.
+
+#### Automatic rent fee and bill accounting · bu-payments-02
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [ACCT-001](#clause-acct-001) (done)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 79.
+
+> Manage your owners’ property finances using built-in property management accounting tools. Track rent, fees, and bills automatically—so everything stays accurate, organized, and ready to report.
+
+#### Real-time payment funding visibility · bu-payments-03
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-012](#clause-pay-012) (missing)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 81.
+
+> Know the moment rent hits your account. Get real-time payment updates and a clear view of your rental income—without logging into separate systems or waiting for bank confirmations.
+
+#### Resident autopay and payment reminders · bu-payments-04
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-004](#clause-pay-004) (missing); [PAY-011](#clause-pay-011) (partial)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 83.
+
+> Help residents stay on schedule with tools built for convenience. Autopay and payment reminders make it easy to pay on time through the Resident Center app—rated 4.8 stars in the App Store.
+
+#### Online application fee collection · bu-payments-05
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-007](#clause-lease-007) (partial)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 85.
+
+> Collect payment information and generate ancillary income right from the start when potential residents submit an online application.
+
+#### Vendor payment and automatic posting · bu-payments-06
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [ACCT-008](#clause-acct-008) (missing)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 87.
+
+> Pay vendor invoices through Buildium, and they’ll be automatically recorded, thanks to a fully integrated property management accounting platform.
+
+#### Resident ACH from checking or savings · bu-payments-07
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-002](#clause-pay-002) (missing)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 98.
+
+> ACH (Automated Clearing House) Payments: Tenants can authorize direct bank transfers from their checking or savings accounts to pay their rent online. This option provides a secure and convenient way to make payments electronically.
+
+#### Resident credit and debit cards · bu-payments-08
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-003](#clause-pay-003) (partial)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 99.
+
+> Credit and Debit Card Payments: Buildium allows tenants to pay their rent online using major credit cards or debit cards. This option offers flexibility for tenants who prefer to use their cards for payments.
+
+#### Resident electronic checks · bu-payments-09
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-002](#clause-pay-002) (missing)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 100.
+
+> E-checks: Tenants can also make rent payments using electronic checks, which are processed through the ACH network. This option allows tenants to pay directly from their bank accounts without the need for physical checks.
+
+#### Resident retail cash rent · bu-payments-10
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-007](#clause-pay-007) (partial)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 101.
+
+> Cash Payments: Buildium integrates with select payment processors that offer cash payment options. This allows tenants to make cash payments at participating retail locations, which are then recorded and tracked within the Buildium platform.
+
+#### Bank funding after provider processing · bu-payments-11
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-012](#clause-pay-012) (missing)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 105.
+
+> It depends how the payment was made, but it usually takes one business day before your bank will acknowledge the funds. For example, if Buildium shows that the transaction funded on Monday the 1st, you’ll see the money in your real-world bank account on the next business day.
+
+#### Method-specific processing cutoff times · bu-payments-12
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-012](#clause-pay-012) (missing)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 106.
+
+> EFT transactions are processed the same day if they are entered by 6pm Central Time. Credit card transactions are processed the same day if they are entered by 11:45pm Central Time.
+
+#### Authorized ePay application and onboarding · bu-payments-13
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [SAFE-008](#clause-safe-008) (partial)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 110.
+
+> All Buildium customers have access to our simple, step-by-step guide on how to apply for ePay. For Growth and Premium customers, our Customer Care team can answer any “how-to” questions throughout your application process.
+
+#### Optional payment processing pass-through fees · bu-payments-14
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-003](#clause-pay-003) (partial); [PAY-012](#clause-pay-012) (missing)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 112.
+
+> (Optional) Recover the costs of ePay Fees by setting up pass-through charges per transaction.
+
+#### Property-specific bank and card enablement · bu-payments-15
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-002](#clause-pay-002) (missing); [PAY-003](#clause-pay-003) (partial)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 113.
+
+> Enable your properties for EFT and Cards
+
+#### Resident portal payment access · bu-payments-16
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-001](#clause-portal-001) (done)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 114.
+
+> Grant your residents access to the Resident Center – this is where your residents will go to pay you
+
+#### Business bank and identity onboarding prerequisites · bu-payments-17
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [SAFE-008](#clause-safe-008) (partial)
+
+**Official source:** [bu-payments](https://www.buildium.com/features/online-rent-payments/), captured 2026-11-05; section “Online payment processing”, [capture](switch-checklist-sources/bu-payments.txt) line 115.
+
+> \*\*To complete your ePay application, you must have a business bank account. Personal bank accounts are not accepted. During the application, you will need to furnish identity and contact details associated with your company’s bank account, along with specific transaction information, as mandated by federal requirements.
+
+#### Branded custom application sections and ordering · bu-application-01
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-007](#clause-lease-007) (partial)
+
+**Official source:** [bu-application](https://www.buildium.com/features/online-rental-applications/), captured 2026-11-05; section “Online rental applications”, [capture](switch-checklist-sources/bu-application.txt) line 75.
+
+> Buildium’s online rental application makes collecting applicant information easy. Start with a standard application form and tweak it to fit your company’s needs. Add, reorder, and create custom sections in just a few clicks, and include images to showcase your brand and company affiliations.
+
+#### Listing-linked applications with online fees · bu-application-02
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-001](#clause-lease-001) (missing); [LEASE-007](#clause-lease-007) (partial)
+
+**Official source:** [bu-application](https://www.buildium.com/features/online-rental-applications/), captured 2026-11-05; section “Online rental applications”, [capture](switch-checklist-sources/bu-application.txt) line 77.
+
+> Online rental applications are fully integrated with your website, so applicants can apply right from the listing. Any related application fees are attached to their account and can be paid online. Prefer paper? Print out as many as you need for walk-in showings.
+
+#### Printable application for walk-in showings · bu-application-03
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-007](#clause-lease-007) (partial)
+
+**Official source:** [bu-application](https://www.buildium.com/features/online-rental-applications/), captured 2026-11-05; section “Online rental applications”, [capture](switch-checklist-sources/bu-application.txt) line 77.
+
+> Online rental applications are fully integrated with your website, so applicants can apply right from the listing. Any related application fees are attached to their account and can be paid online. Prefer paper? Print out as many as you need for walk-in showings.
+
+#### Application dashboard with manual staff updates · bu-application-04
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-007](#clause-lease-007) (partial); [LEASE-009](#clause-lease-009) (partial)
+
+**Official source:** [bu-application](https://www.buildium.com/features/online-rental-applications/), captured 2026-11-05; section “Online rental applications”, [capture](switch-checklist-sources/bu-application.txt) line 79.
+
+> View the status of all applications at a glance in the applicant dashboard. All online applications will appear automatically, and you can manually add or edit information as needed.
+
+#### Custom applicant review checklist · bu-application-05
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-009](#clause-lease-009) (partial)
+
+**Official source:** [bu-application](https://www.buildium.com/features/online-rental-applications/), captured 2026-11-05; section “Online rental applications”, [capture](switch-checklist-sources/bu-application.txt) line 81.
+
+> Don’t miss any important details: create custom checklists for the applicant review process. Then, use one of two integrated, comprehensive tenant screening options to be sure you get qualified tenants in the door, fast.
+
+#### Integrated applicant screening choices · bu-application-06
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-008](#clause-lease-008) (missing)
+
+**Official source:** [bu-application](https://www.buildium.com/features/online-rental-applications/), captured 2026-11-05; section “Online rental applications”, [capture](switch-checklist-sources/bu-application.txt) line 81.
+
+> Don’t miss any important details: create custom checklists for the applicant review process. Then, use one of two integrated, comprehensive tenant screening options to be sure you get qualified tenants in the door, fast.
+
+#### Request and receive tenant background reports · bu-screening-01
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-008](#clause-lease-008) (missing)
+
+**Official source:** [bu-screening](https://www.buildium.com/features/tenant-background-checks/), captured 2026-11-05; section “Tenant background checks”, [capture](switch-checklist-sources/bu-screening.txt) line 74.
+
+> Simply request a tenant background check, and we’ll begin the rental screening process for you. Screening results will show up in your account when they’re ready. Record availability varies.
+
+#### Property-specific credit criteria recommendations · bu-screening-02
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-009](#clause-lease-009) (partial)
+
+**Official source:** [bu-screening](https://www.buildium.com/features/tenant-background-checks/), captured 2026-11-05; section “Tenant background checks”, [capture](switch-checklist-sources/bu-screening.txt) line 79.
+
+> Set custom credit score requirements for each property to offer recommendations based on data collected from applicants. Notify prospective residents as soon as their tenant background check is complete and they’ve been accepted, and seamlessly add them into the Resident Center to begin accepting payments.
+
+#### Applicant acceptance notification and portal transition · bu-screening-03
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-009](#clause-lease-009) (partial); [PORTAL-001](#clause-portal-001) (done)
+
+**Official source:** [bu-screening](https://www.buildium.com/features/tenant-background-checks/), captured 2026-11-05; section “Tenant background checks”, [capture](switch-checklist-sources/bu-screening.txt) line 79.
+
+> Set custom credit score requirements for each property to offer recommendations based on data collected from applicants. Notify prospective residents as soon as their tenant background check is complete and they’ve been accepted, and seamlessly add them into the Resident Center to begin accepting payments.
+
+#### Applicant screening information and consent · bu-screening-04
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-008](#clause-lease-008) (missing)
+
+**Official source:** [bu-screening](https://www.buildium.com/features/tenant-background-checks/), captured 2026-11-05; section “Tenant background checks”, [capture](switch-checklist-sources/bu-screening.txt) line 102.
+
+> In general, most background checks take 2-7 business days to complete, although some may take longer. The tenant initiates the process by submitting their information and consent to a background check.
+
+#### Credit criminal and eviction report coverage · bu-screening-05
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-008](#clause-lease-008) (missing)
+
+**Official source:** [bu-screening](https://www.buildium.com/features/tenant-background-checks/), captured 2026-11-05; section “Tenant background checks”, [capture](switch-checklist-sources/bu-screening.txt) line 105.
+
+> A rental background check includes a credit check, criminal background check, and eviction history report, based on records available through our screening provider’s databases. Coverage varies by state and county, and local or federal law may limit what’s reportable.
+
+#### Employer income verification · bu-screening-06
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-009](#clause-lease-009) (partial)
+
+**Official source:** [bu-screening](https://www.buildium.com/features/tenant-background-checks/), captured 2026-11-05; section “Tenant background checks”, [capture](switch-checklist-sources/bu-screening.txt) line 111.
+
+> Verifying employment: Contact the tenant’s employer to verify their employment status and income level.
+
+#### Previous-landlord rental reference review · bu-screening-07
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-009](#clause-lease-009) (partial)
+
+**Official source:** [bu-screening](https://www.buildium.com/features/tenant-background-checks/), captured 2026-11-05; section “Tenant background checks”, [capture](switch-checklist-sources/bu-screening.txt) line 112.
+
+> Contacting previous landlords: Review rental history, including their payment history, any damages they caused to the property.
+
+#### Partner mobile inspections synchronized with Buildium · bu-inspection-01
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [WORK-012](#clause-work-012) (missing)
+
+**Official source:** [bu-inspection](https://www.buildium.com/features/mobile-property-inspection-app/), captured 2026-11-05; section “Mobile property inspections”, [capture](switch-checklist-sources/bu-inspection.txt) line 72.
+
+> Property inspection software, powered by HappyCo, is integrated with Buildium so you can perform inspections on the go and sync all your data in one simple step.
+
+#### Inspection report and unit-data synchronization · bu-inspection-02
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [WORK-012](#clause-work-012) (missing)
+
+**Official source:** [bu-inspection](https://www.buildium.com/features/mobile-property-inspection-app/), captured 2026-11-05; section “Mobile property inspections”, [capture](switch-checklist-sources/bu-inspection.txt) line 77.
+
+> Once you download the Inspections by HappyCo mobile app, you can easily sync your unit data from within Buildium every time you file an inspection report.
+
+#### Custom inspection templates · bu-inspection-03
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [WORK-011](#clause-work-011) (partial); [WORK-012](#clause-work-012) (missing)
+
+**Official source:** [bu-inspection](https://www.buildium.com/features/mobile-property-inspection-app/), captured 2026-11-05; section “Mobile property inspections”, [capture](switch-checklist-sources/bu-inspection.txt) line 79.
+
+> Choose from a number of inspection templates, or easily define your own for consistency in the field. You’ll always get the data you need, no matter who’s filing the reports.
+
+#### Offline inspection capture and later synchronization · bu-inspection-04
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [WORK-011](#clause-work-011) (partial); [WORK-012](#clause-work-012) (missing)
+
+**Official source:** [bu-inspection](https://www.buildium.com/features/mobile-property-inspection-app/), captured 2026-11-05; section “Mobile property inspections”, [capture](switch-checklist-sources/bu-inspection.txt) line 81.
+
+> Inspect properties with your phone or tablet no matter where you are—even if you’re offline. Inspection data will save and sync as soon as you’re back online.
+
+#### Native inspection apps on iOS and Android · bu-inspection-05
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-008](#clause-portal-008) (partial); [WORK-012](#clause-work-012) (missing)
+
+**Official source:** [bu-inspection](https://www.buildium.com/features/mobile-property-inspection-app/), captured 2026-11-05; section “Mobile property inspections”, [capture](switch-checklist-sources/bu-inspection.txt) line 83.
+
+> Inspections by HappyCo is a property inspection app available for both iOS and Android, so staff can perform apartment and home inspections from any mobile device. Plus, you can grant access to any number of app users.
+
+#### Inspection mobile user access grants · bu-inspection-06
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [ROLE-002](#clause-role-002) (done); [WORK-012](#clause-work-012) (missing)
+
+**Official source:** [bu-inspection](https://www.buildium.com/features/mobile-property-inspection-app/), captured 2026-11-05; section “Mobile property inspections”, [capture](switch-checklist-sources/bu-inspection.txt) line 83.
+
+> Inspections by HappyCo is a property inspection app available for both iOS and Android, so staff can perform apartment and home inspections from any mobile device. Plus, you can grant access to any number of app users.
+
+#### Association mail email and text announcements · bu-association-01
+
+**Gap:** No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [bu-association](https://www.buildium.com/features/homeowner-and-board-communications/), captured 2026-11-05; section “Homeowner and board communication”, [capture](switch-checklist-sources/bu-association.txt) line 72.
+
+> Engage your community and send announcements through mail, email, text, or the Resident Center. Add a resident directory and message board to the portal, so homeowners and board members can continue the conversation even after association meetings have ended.
+
+#### Association resident directory and message board · bu-association-02
+
+**Gap:** No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [bu-association](https://www.buildium.com/features/homeowner-and-board-communications/), captured 2026-11-05; section “Homeowner and board communication”, [capture](switch-checklist-sources/bu-association.txt) line 72.
+
+> Engage your community and send announcements through mail, email, text, or the Resident Center. Add a resident directory and message board to the portal, so homeowners and board members can continue the conversation even after association meetings have ended.
+
+#### Homeowner inquiries and maintenance request history · bu-association-03
+
+**Gap:** No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [bu-association](https://www.buildium.com/features/homeowner-and-board-communications/), captured 2026-11-05; section “Homeowner and board communication”, [capture](switch-checklist-sources/bu-association.txt) line 74.
+
+> Invite homeowners to the Resident Center, a hub for all the resources they need, accessible from any device. Homeowners can submit general inquiries and maintenance requests through the portal, and view a log of their previous requests by status. Every communication is available to you in one place so you don’t have to worry about missing a thing.
+
+#### Board financial reports and shared documents · bu-association-04
+
+**Gap:** No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [bu-association](https://www.buildium.com/features/homeowner-and-board-communications/), captured 2026-11-05; section “Homeowner and board communication”, [capture](switch-checklist-sources/bu-association.txt) line 76.
+
+> Build trust and save time by giving board members self-service access to financials, files, and reports. Share important documents such as by-laws, owner statements, and meeting minutes for increased transparency.
+
+#### Owner and vendor 1099-MISC and 1099-NEC e-filing · bu-tax-01
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [ACCT-014](#clause-acct-014) (missing)
+
+**Official source:** [bu-tax](https://www.buildium.com/features/1099-efiling/), captured 2026-11-05; section “Owner and vendor tax filing”, [capture](switch-checklist-sources/bu-tax.txt) line 70.
+
+> Start each year off right by e-Filing your 1099-MISCs and 1099-NECs through Buildium. Ensure accuracy by tracking all owner and vendor payments in your Buildium account. Create forms online for both property owners and vendors, and have them postmarked the same day.
+
+#### Owner and vendor tax original mailing · bu-tax-02
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [ACCT-014](#clause-acct-014) (missing)
+
+**Official source:** [bu-tax](https://www.buildium.com/features/1099-efiling/), captured 2026-11-05; section “Owner and vendor tax filing”, [capture](switch-checklist-sources/bu-tax.txt) line 70.
+
+> Start each year off right by e-Filing your 1099-MISCs and 1099-NECs through Buildium. Ensure accuracy by tracking all owner and vendor payments in your Buildium account. Create forms online for both property owners and vendors, and have them postmarked the same day.
+
+#### Pre-filing tax totals and missing-recipient review · bu-tax-03
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [ACCT-014](#clause-acct-014) (missing)
+
+**Official source:** [bu-tax](https://www.buildium.com/features/1099-efiling/), captured 2026-11-05; section “Owner and vendor tax filing”, [capture](switch-checklist-sources/bu-tax.txt) line 72.
+
+> Buildium gives you access to the e-Filing tool a few weeks before filing officially opens with the IRS so you can start to verify your tax numbers and view any recipients with missing tax information before you file.
+
+#### Tax recipient delivery and summary-form tracking · bu-tax-04
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [ACCT-014](#clause-acct-014) (missing)
+
+**Official source:** [bu-tax](https://www.buildium.com/features/1099-efiling/), captured 2026-11-05; section “Owner and vendor tax filing”, [capture](switch-checklist-sources/bu-tax.txt) line 77.
+
+> Meet all your tax deadlines. Access data for any 1099 from your Buildium account. Confirm 1099 efiles were sent to recipients and track summary forms as they make their way to your office.
+
+#### Digital and paper tax copies to recipients · bu-tax-05
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [ACCT-014](#clause-acct-014) (missing)
+
+**Official source:** [bu-tax](https://www.buildium.com/features/1099-efiling/), captured 2026-11-05; section “Owner and vendor tax filing”, [capture](switch-checklist-sources/bu-tax.txt) line 79.
+
+> Send digital copies along with the hard paper copy we send to recipients with online 1099 filing. Digital copies are completely free when you file with Buildium.
+
 ## Rent Manager checklist
 
-**Partial official-source inventory. 110 workflows; additional source areas remain unaudited.**
+**Partial official-source inventory. 147 workflows; additional source areas remain unaudited.**
 
 ### Rent Manager required named gaps
 
@@ -4018,6 +5168,376 @@ Documented in [Scheduled reports · rm-schedules-01](#scheduled-reports-rm-sched
 
 > Beyond NACHA and ACH, you can pay your owners a specified amount or their full distribution via check or other electronic payment methods.
 
+#### Integrated inbound and outbound voice calls · rm-communication-01
+
+**Gap:** No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [rm-communication](https://www.rentmanager.com/communication/), captured 2026-11-05; section “Communications”, [capture](switch-checklist-sources/rm-communication.txt) line 106.
+
+> Fully integrated with Rent Manager, rmVoIP allows you to make and receive calls directly from the software. Every call is recorded and automatically attaches a historical audio record to the contact’s History and Notes. If a new contact calls and you don’t have their information saved in the system, a few mouse clicks enable you to create them as a contact in your database. Provide clarity, eliminate “he said and she said” situations, and advance your business with every call.
+
+#### Call audio original attached to contact history · rm-communication-02
+
+**Gap:** No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [rm-communication](https://www.rentmanager.com/communication/), captured 2026-11-05; section “Communications”, [capture](switch-checklist-sources/rm-communication.txt) line 106.
+
+> Fully integrated with Rent Manager, rmVoIP allows you to make and receive calls directly from the software. Every call is recorded and automatically attaches a historical audio record to the contact’s History and Notes. If a new contact calls and you don’t have their information saved in the system, a few mouse clicks enable you to create them as a contact in your database. Provide clarity, eliminate “he said and she said” situations, and advance your business with every call.
+
+#### Unknown caller creation as native contact · rm-communication-03
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-005](#clause-lease-005) (done)
+
+**Official source:** [rm-communication](https://www.rentmanager.com/communication/), captured 2026-11-05; section “Communications”, [capture](switch-checklist-sources/rm-communication.txt) line 106.
+
+> Fully integrated with Rent Manager, rmVoIP allows you to make and receive calls directly from the software. Every call is recorded and automatically attaches a historical audio record to the contact’s History and Notes. If a new contact calls and you don’t have their information saved in the system, a few mouse clicks enable you to create them as a contact in your database. Provide clarity, eliminate “he said and she said” situations, and advance your business with every call.
+
+#### Incoming caller history and record lookup · rm-communication-04
+
+**Gap:** No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [rm-communication](https://www.rentmanager.com/communication/), captured 2026-11-05; section “Communications”, [capture](switch-checklist-sources/rm-communication.txt) line 107.
+
+> You can instantly update tenant information with rmVoIp. Caller records open instantaneously when your phone rings, allowing you to easily identify call trends and histories.
+
+#### Call routing to mobile and simultaneous ring · rm-communication-05
+
+**Gap:** No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [rm-communication](https://www.rentmanager.com/communication/), captured 2026-11-05; section “Communications”, [capture](switch-checklist-sources/rm-communication.txt) line 109.
+
+> Set up intelligent call paths, ensuring any caller can reach your business at any time. For example, if a caller dials your number and no one is in the office to answer, you can pass the call along to your mobile phone—you can even set it up to ring multiple numbers at once so that no call is missed.
+
+#### Unknown phone number linked to prospect or resident · rm-communication-06
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-005](#clause-lease-005) (done)
+
+**Official source:** [rm-communication](https://www.rentmanager.com/communication/), captured 2026-11-05; section “Communications”, [capture](switch-checklist-sources/rm-communication.txt) line 110.
+
+> Effortlessly link unknown numbers and create new prospects or tenant profiles in your Rent Manager database. The next time a call is made or received from this number, the linked account will display, keeping your data and communication efforts up to date.
+
+#### Tenant owner vendor and employee texting · rm-communication-07
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-005](#clause-portal-005) (partial)
+
+**Official source:** [rm-communication](https://www.rentmanager.com/communication/), captured 2026-11-05; section “Communications”, [capture](switch-checklist-sources/rm-communication.txt) line 112.
+
+> Rent Manager simplifies communication with your tenants, owners, vendors, and employees through a variety of texting capabilities. With its inherently convenient nature, texting has become the easiest way to reach contacts quickly and unobtrusively.
+
+#### Mass text broadcast and linked work context · rm-communication-08
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PORTAL-005](#clause-portal-005) (partial)
+
+**Official source:** [rm-communication](https://www.rentmanager.com/communication/), captured 2026-11-05; section “Communications”, [capture](switch-checklist-sources/rm-communication.txt) line 113.
+
+> If you need to notify your tenants about building maintenance, send out a mass text via Text Broadcast in a matter of seconds. View all text correspondence in one window with easily accessible action buttons to help you navigate work orders, tenant information, and more.
+
+#### Recorded voice broadcast scheduling · rm-communication-09
+
+**Gap:** No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [rm-communication](https://www.rentmanager.com/communication/), captured 2026-11-05; section “Communications”, [capture](switch-checklist-sources/rm-communication.txt) line 115.
+
+> Quickly record and deliver voicemail messages to your Rent Manager contacts using Phone Broadcast. This versatile feature allows you to call as many contacts as you like, in a matter of minutes. Record outgoing messages, build custom contact lists, schedule delivery dates and times, and manage a portfolio of recordings for repeated use with Phone Broadcast.
+
+#### Reusable voice recordings and custom recipient lists · rm-communication-10
+
+**Gap:** No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [rm-communication](https://www.rentmanager.com/communication/), captured 2026-11-05; section “Communications”, [capture](switch-checklist-sources/rm-communication.txt) line 115.
+
+> Quickly record and deliver voicemail messages to your Rent Manager contacts using Phone Broadcast. This versatile feature allows you to call as many contacts as you like, in a matter of minutes. Record outgoing messages, build custom contact lists, schedule delivery dates and times, and manage a portfolio of recordings for repeated use with Phone Broadcast.
+
+#### Website visitor real-time staff chat · rm-communication-11
+
+**Gap:** No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [rm-communication](https://www.rentmanager.com/communication/), captured 2026-11-05; section “Communications”, [capture](switch-checklist-sources/rm-communication.txt) line 117.
+
+> Cultivate a strong customer relations model with rapid response times via Web Chat. When implemented, website visitors can speak to your team through the Web Chat window in real time. Rent Manager users can then immediately respond to inquiries from within the database.
+
+#### Chat categorization assignment and transfer · rm-communication-12
+
+**Gap:** No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [rm-communication](https://www.rentmanager.com/communication/), captured 2026-11-05; section “Communications”, [capture](switch-checklist-sources/rm-communication.txt) line 118.
+
+> Keep chats organized by maintenance requests, payment issues, leasing questions, and any other category that fits your business. Assign or transfer chats to team members when the inquiry falls under their realm of expertise, ensuring that each response is handled carefully.
+
+#### Single batch and recurring electronic disbursements · rm-payments-01
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [ACCT-008](#clause-acct-008) (missing); [ACCT-010](#clause-acct-010) (missing)
+
+**Official source:** [rm-payments](https://www.rentmanager.com/payments/), captured 2026-11-05; section “Receivable and payable processing”, [capture](switch-checklist-sources/rm-payments.txt) line 103.
+
+> Electronically process tenant payments, owner contributions, distributions, and vendor bills with Rent Manager. Whether it’s a one-time transaction, batch payment, or recurring disbursement, Rent Manager’s electronic payment capabilities can handle all your receivables and payables. Transactions post instantly, eliminating trips to the bank, and ensuring your books are always up-to-date.
+
+#### Online resident and owner card and check payments · rm-payments-02
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-002](#clause-pay-002) (missing); [PAY-003](#clause-pay-003) (partial); [PORTAL-002](#clause-portal-002) (partial)
+
+**Official source:** [rm-payments](https://www.rentmanager.com/payments/), captured 2026-11-05; section “Receivable and payable processing”, [capture](switch-checklist-sources/rm-payments.txt) line 106.
+
+> Using Zego’s advanced online payment technology, ePay provides the freedom to process credit card and check payments in real time. This fully integrated solution makes collecting payments a breeze. Give your tenants and owners the convenience and flexibility associated with electronic payments and reduce the amount of data entry your staff has to tackle each month by incorporating this comprehensive, secure service into your Rent Manager processes.
+
+#### Retail cash rent and immediate ledger entry · rm-payments-03
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-007](#clause-pay-007) (partial)
+
+**Official source:** [rm-payments](https://www.rentmanager.com/payments/), captured 2026-11-05; section “Receivable and payable processing”, [capture](switch-checklist-sources/rm-payments.txt) line 109.
+
+> CashPay lets tenants electronically pay rent with cash from any of 30,000 CheckFreePay locations nationwide. Safe, simple, and secure, CashPay transactions appear in Rent Manager immediately and keep cash out of your management office.
+
+#### Scanned check image linked to payment · rm-payments-04
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-007](#clause-pay-007) (partial)
+
+**Official source:** [rm-payments](https://www.rentmanager.com/payments/), captured 2026-11-05; section “Receivable and payable processing”, [capture](switch-checklist-sources/rm-payments.txt) line 113.
+
+> Swiftly and accurately process check payments with Rent Manager’s user-friendly check scanner. Instantly locate contacts within the program and link a scanned image of the check to their payment transaction. We offer single-feed scanners that process up to 10 checks per minute, and multi-feed scanners that handle as many as 90 checks per minute. Once a check is scanned, the deposit is made automatically and is reflected on the transaction ledger.
+
+#### Automatic scanned-check bank deposit · rm-payments-05
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-007](#clause-pay-007) (partial); [PAY-012](#clause-pay-012) (missing)
+
+**Official source:** [rm-payments](https://www.rentmanager.com/payments/), captured 2026-11-05; section “Receivable and payable processing”, [capture](switch-checklist-sources/rm-payments.txt) line 113.
+
+> Swiftly and accurately process check payments with Rent Manager’s user-friendly check scanner. Instantly locate contacts within the program and link a scanned image of the check to their payment transaction. We offer single-feed scanners that process up to 10 checks per minute, and multi-feed scanners that handle as many as 90 checks per minute. Once a check is scanned, the deposit is made automatically and is reflected on the transaction ledger.
+
+#### Outsourced lockbox and resident-ledger posting · rm-payments-06
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [PAY-007](#clause-pay-007) (partial)
+
+**Official source:** [rm-payments](https://www.rentmanager.com/payments/), captured 2026-11-05; section “Receivable and payable processing”, [capture](switch-checklist-sources/rm-payments.txt) line 114.
+
+> If you’d like to outsource check scanning entirely, consider Lockbox, powered by Zego. Renters and homeowners will send their check payments to a designated P.O. Box, and the Zego team takes it from there. Payments will be processed and then posted directly to your bank account and in each resident’s ledger in Rent Manager.
+
+#### Electronic check email delivery · rm-payments-07
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [ACCT-017](#clause-acct-017) (missing)
+
+**Official source:** [rm-payments](https://www.rentmanager.com/payments/), captured 2026-11-05; section “Receivable and payable processing”, [capture](switch-checklist-sources/rm-payments.txt) line 117.
+
+> Whether it’s paper or electronic, Rent Manager’s top-notch system keeps track of all your checks. Convenient and easily accessible, eChecks enable you to write checks, pay bills electronically, and securely deliver the payment via email.
+
+#### Printed vendor resident prospect and owner checks · rm-payments-08
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [ACCT-017](#clause-acct-017) (missing)
+
+**Official source:** [rm-payments](https://www.rentmanager.com/payments/), captured 2026-11-05; section “Receivable and payable processing”, [capture](switch-checklist-sources/rm-payments.txt) line 118.
+
+> You can also write and print checks to vendors, tenants, prospects, and owners directly from the software.
+
+#### Supplier payment review coding and approval · rm-payments-09
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [ACCT-007](#clause-acct-007) (done); [ACCT-008](#clause-acct-008) (missing)
+
+**Official source:** [rm-payments](https://www.rentmanager.com/payments/), captured 2026-11-05; section “Receivable and payable processing”, [capture](switch-checklist-sources/rm-payments.txt) line 121.
+
+> AvidPay—a full-service bill payment software powered by AvidXchange—allows you to pay your suppliers faster with flexible, direct deposit payments. Eliminate the stamps, paperwork, and hours of effort, and gain an advanced and automated paperless system. With this comprehensive solution, your team can review, code, and approve bill payments in a matter of a few clicks.
+
+#### Custom application templates and prospect conversion · rm-tenant-01
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-007](#clause-lease-007) (partial)
+
+**Official source:** [rm-tenant](https://www.rentmanager.com/prospect-tenant-portal/), captured 2026-11-05; section “Prospect and tenant portal”, [capture](switch-checklist-sources/rm-tenant.txt) line 106.
+
+> Online applications provide convenience for prospects and deliver faster approval response times for your management company. Quickly convert prospects into tenants by building your own custom online application templates through Rent Manager’s Apply Now feature.
+
+#### Imported application templates and provider application fees · rm-tenant-02
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-007](#clause-lease-007) (partial)
+
+**Official source:** [rm-tenant](https://www.rentmanager.com/prospect-tenant-portal/), captured 2026-11-05; section “Prospect and tenant portal”, [capture](switch-checklist-sources/rm-tenant.txt) line 107.
+
+> Import your existing applications or create high-quality templates from scratch that prospects can easily navigate and complete from your website. Conduct thorough prospect screenings and collect application fees via our integrated providers to connect every integral piece of the application process.
+
+#### Signable fields on letters and uploaded PDFs · rm-tenant-03
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-011](#clause-lease-011) (missing)
+
+**Official source:** [rm-tenant](https://www.rentmanager.com/prospect-tenant-portal/), captured 2026-11-05; section “Prospect and tenant portal”, [capture](switch-checklist-sources/rm-tenant.txt) line 109.
+
+> Expertly craft electronic, signable leases and documents through Rent Manager’s Signable Documents feature. Add signable fields to existing letter templates or PDFs that prospects, tenants, and owners can access and sign through their online portal accounts. After documents are sent to recipients, you can easily track their progress in the Signable Documents register.
+
+#### Document signature progress register · rm-tenant-04
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-011](#clause-lease-011) (missing)
+
+**Official source:** [rm-tenant](https://www.rentmanager.com/prospect-tenant-portal/), captured 2026-11-05; section “Prospect and tenant portal”, [capture](switch-checklist-sources/rm-tenant.txt) line 109.
+
+> Expertly craft electronic, signable leases and documents through Rent Manager’s Signable Documents feature. Add signable fields to existing letter templates or PDFs that prospects, tenants, and owners can access and sign through their online portal accounts. After documents are sent to recipients, you can easily track their progress in the Signable Documents register.
+
+#### Lease-compliant insurance purchase and compliance · rm-tenant-05
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [OPS-005](#clause-ops-005) (missing)
+
+**Official source:** [rm-tenant](https://www.rentmanager.com/prospect-tenant-portal/), captured 2026-11-05; section “Prospect and tenant portal”, [capture](switch-checklist-sources/rm-tenant.txt) line 111.
+
+> Ensuring your renters are covered by an insurance policy that meets the requirements of their lease can be challenging. Rent Manager’s built-in renters insurance solution, powered by LeaseTrack, eliminates guesswork by offering lease-compliant policy options and compliance tracking. Plus, renters who do not have a compliant insurance policy can be automatically enrolled in a master policy program so there’s never a lapse in coverage.
+
+#### Automatic insurance master-policy enrollment · rm-tenant-06
+
+**Gap:** No Terrace replacement is qualified for this documented workflow; it remains a named gap even where it lies outside the current residential product boundary.
+
+**Related replacements:** Intentionally unmapped; no qualified Terrace replacement.
+
+**Official source:** [rm-tenant](https://www.rentmanager.com/prospect-tenant-portal/), captured 2026-11-05; section “Prospect and tenant portal”, [capture](switch-checklist-sources/rm-tenant.txt) line 111.
+
+> Ensuring your renters are covered by an insurance policy that meets the requirements of their lease can be challenging. Rent Manager’s built-in renters insurance solution, powered by LeaseTrack, eliminates guesswork by offering lease-compliant policy options and compliance tracking. Plus, renters who do not have a compliant insurance policy can be automatically enrolled in a master policy program so there’s never a lapse in coverage.
+
+#### Portal electronic leases and renewals · rm-tenant-07
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-011](#clause-lease-011) (missing); [LEASE-012](#clause-lease-012) (done)
+
+**Official source:** [rm-tenant](https://www.rentmanager.com/prospect-tenant-portal/), captured 2026-11-05; section “Prospect and tenant portal”, [capture](switch-checklist-sources/rm-tenant.txt) line 114.
+
+> Connecting people with homes is the heart of your business. Make your leasing and renewals process more efficient and effective with electronic lease signing and renewals. Send new leases to prospects and updated leases to renewing tenants that can be readily accessed and signed through their online portal accounts. Electronic leases with built-in e-sign technology give your business a competitive edge.
+
+#### Native application data for screening · rm-screening-01
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-007](#clause-lease-007) (partial); [LEASE-008](#clause-lease-008) (missing)
+
+**Official source:** [rm-screening](https://www.rentmanager.com/screening-solutions/), captured 2026-11-05; section “Built-in screening”, [capture](switch-checklist-sources/rm-screening.txt) line 108.
+
+> Using Rent Manager’s Apply Now feature, collect all the information needed to screen applicants.
+
+#### Automatic or staff-triggered screening · rm-screening-02
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-008](#clause-lease-008) (missing)
+
+**Official source:** [rm-screening](https://www.rentmanager.com/screening-solutions/), captured 2026-11-05; section “Built-in screening”, [capture](switch-checklist-sources/rm-screening.txt) line 110.
+
+> Automate the screening as part of the application process, or choose to run it after your team reviews—with just a click of a button!
+
+#### Applicant selection criteria and next actions · rm-screening-03
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-009](#clause-lease-009) (partial)
+
+**Official source:** [rm-screening](https://www.rentmanager.com/screening-solutions/), captured 2026-11-05; section “Built-in screening”, [capture](switch-checklist-sources/rm-screening.txt) line 112.
+
+> Screening workflow tools quickly tell you whether an applicant meets approval criteria, and walk your leasing team through next steps.
+
+#### Retained screening originals and reports · rm-screening-04
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-008](#clause-lease-008) (missing); [SAFE-003](#clause-safe-003) (partial)
+
+**Official source:** [rm-screening](https://www.rentmanager.com/screening-solutions/), captured 2026-11-05; section “Built-in screening”, [capture](switch-checklist-sources/rm-screening.txt) line 114.
+
+> With built-in screening, all reports and data are kept in Rent Manager for future reference.
+
+#### Multi-state criminal and housing-court reports · rm-screening-05
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-008](#clause-lease-008) (missing)
+
+**Official source:** [rm-screening](https://www.rentmanager.com/screening-solutions/), captured 2026-11-05; section “Built-in screening”, [capture](switch-checklist-sources/rm-screening.txt) line 118.
+
+> Reports contain multi-state, single-state, and county criminal records, as well as easy-to-read housing court records from county courts across the United States.
+
+#### Applicant credit reports · rm-screening-06
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-008](#clause-lease-008) (missing)
+
+**Official source:** [rm-screening](https://www.rentmanager.com/screening-solutions/), captured 2026-11-05; section “Built-in screening”, [capture](switch-checklist-sources/rm-screening.txt) line 120.
+
+> Easy-to-read credit reports feature information on an applicant’s credit history, giving you a comprehensive look at potential residents.
+
+#### Applicant-authorized bank activity income verification · rm-screening-07
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-009](#clause-lease-009) (partial)
+
+**Official source:** [rm-screening](https://www.rentmanager.com/screening-solutions/), captured 2026-11-05; section “Built-in screening”, [capture](switch-checklist-sources/rm-screening.txt) line 122.
+
+> Stop the manual gathering of paystubs; instead, applicants grant digital access to their actual banking activity to mitigate the risk of receiving fraudulent paystubs.
+
+#### Applicant synthetic identity and fraud indicators · rm-screening-08
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-008](#clause-lease-008) (missing)
+
+**Official source:** [rm-screening](https://www.rentmanager.com/screening-solutions/), captured 2026-11-05; section “Built-in screening”, [capture](switch-checklist-sources/rm-screening.txt) line 124.
+
+> The Cross Check report with Synthetic ID indicator provides identity validation for the input name, address, Date of Birth (DOB), Social Security Number (SSN), and phone number, proactively alerting you to potential rental fraud risks.
+
+#### Property-specific resident selection criteria · rm-screening-09
+
+**Gap:** Current related clauses do not establish the same documented actor, public door, prerequisites and outcome; passed replacement acceptance remains unqualified.
+
+**Related replacements:** [LEASE-009](#clause-lease-009) (partial)
+
+**Official source:** [rm-screening](https://www.rentmanager.com/screening-solutions/), captured 2026-11-05; section “Built-in screening”, [capture](switch-checklist-sources/rm-screening.txt) line 132.
+
+> AmRent’s screening workflows incorporate your resident selection criteria, helping you find an ideal fit for your property.
+
 ## Discovery audit register
 
 Every URL in each retained discovery capture is accounted for below, including pages outside Terrace product boundaries. A partially audited capture qualifies only its inventoried quotations; every other URL remains unaudited. Discovery is itself incomplete: omitted indexes, nested links and authenticated documentation remain open.
@@ -4649,7 +6169,7 @@ Every URL in each retained discovery capture is accounted for below, including p
 
 ### Buildium discovery audit
 
-[Capture-bound discovery audit](switch-checklist-sources/discovery-audit.json): 171 URLs reconciled; 161 have no retained source audit.
+[Capture-bound discovery audit](switch-checklist-sources/discovery-audit.json): 171 URLs reconciled; 154 have no retained source audit.
 
 - [https://www.buildium.com/](https://www.buildium.com/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.buildium.com/resources/](https://www.buildium.com/resources/) — **unaudited**. No workflow absence or replacement is inferred.
@@ -4768,19 +6288,19 @@ Every URL in each retained discovery capture is accounted for below, including p
 - [https://www.buildium.com/customer-stories/](https://www.buildium.com/customer-stories/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.buildium.com/privacy-policy/](https://www.buildium.com/privacy-policy/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.buildium.com/features/company-financials/](https://www.buildium.com/features/company-financials/) — **partial**. Retained source areas: [bu-company](#bu-company); surrounding and linked documentation remains unqualified.
-- [https://www.buildium.com/features/online-rent-payments/](https://www.buildium.com/features/online-rent-payments/) — **unaudited**. No workflow absence or replacement is inferred.
+- [https://www.buildium.com/features/online-rent-payments/](https://www.buildium.com/features/online-rent-payments/) — **partial**. Retained source areas: [bu-payments](#bu-payments); surrounding and linked documentation remains unqualified.
 - [https://www.buildium.com/features/document-storage/](https://www.buildium.com/features/document-storage/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.buildium.com/features/customer-care/](https://www.buildium.com/features/customer-care/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.buildium.com/features/data-security/](https://www.buildium.com/features/data-security/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.buildium.com/features/property-management-analytics/](https://www.buildium.com/features/property-management-analytics/) — **partial**. Retained source areas: [bu-analytics](#bu-analytics); surrounding and linked documentation remains unqualified.
 - [https://www.buildium.com/features/msi-renters-insurance/](https://www.buildium.com/features/msi-renters-insurance/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.buildium.com/features/property-insurance/](https://www.buildium.com/features/property-insurance/) — **unaudited**. No workflow absence or replacement is inferred.
-- [https://www.buildium.com/features/mobile-property-inspection-app/](https://www.buildium.com/features/mobile-property-inspection-app/) — **unaudited**. No workflow absence or replacement is inferred.
+- [https://www.buildium.com/features/mobile-property-inspection-app/](https://www.buildium.com/features/mobile-property-inspection-app/) — **partial**. Retained source areas: [bu-inspection](#bu-inspection); surrounding and linked documentation remains unqualified.
 - [https://www.buildium.com/features/online-leasing/](https://www.buildium.com/features/online-leasing/) — **partial**. Retained source areas: [bu-leasing](#bu-leasing); surrounding and linked documentation remains unqualified.
 - [https://www.buildium.com/features/property-management-accounting/](https://www.buildium.com/features/property-management-accounting/) — **partial**. Retained source areas: [bu-accounting](#bu-accounting); surrounding and linked documentation remains unqualified.
-- [https://www.buildium.com/features/online-rental-applications/](https://www.buildium.com/features/online-rental-applications/) — **unaudited**. No workflow absence or replacement is inferred.
+- [https://www.buildium.com/features/online-rental-applications/](https://www.buildium.com/features/online-rental-applications/) — **partial**. Retained source areas: [bu-application](#bu-application); surrounding and linked documentation remains unqualified.
 - [https://www.buildium.com/features/onboarding/](https://www.buildium.com/features/onboarding/) — **unaudited**. No workflow absence or replacement is inferred.
-- [https://www.buildium.com/features/homeowner-and-board-communications/](https://www.buildium.com/features/homeowner-and-board-communications/) — **unaudited**. No workflow absence or replacement is inferred.
+- [https://www.buildium.com/features/homeowner-and-board-communications/](https://www.buildium.com/features/homeowner-and-board-communications/) — **partial**. Retained source areas: [bu-association](#bu-association); surrounding and linked documentation remains unqualified.
 - [https://www.buildium.com/features/all-property-management/](https://www.buildium.com/features/all-property-management/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.buildium.com/features/open-api/](https://www.buildium.com/features/open-api/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.buildium.com/features/maintenance-request-management/](https://www.buildium.com/features/maintenance-request-management/) — **partial**. Retained source areas: [bu-maintenance](#bu-maintenance); surrounding and linked documentation remains unqualified.
@@ -4814,18 +6334,18 @@ Every URL in each retained discovery capture is accounted for below, including p
 - [https://www.buildium.com/portfolios/single-family-property-management/](https://www.buildium.com/portfolios/single-family-property-management/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.buildium.com/features/ai-property-management-software/](https://www.buildium.com/features/ai-property-management-software/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.buildium.com/features/property-management-portfolio-growth/](https://www.buildium.com/features/property-management-portfolio-growth/) — **unaudited**. No workflow absence or replacement is inferred.
-- [https://www.buildium.com/features/tenant-background-checks/](https://www.buildium.com/features/tenant-background-checks/) — **unaudited**. No workflow absence or replacement is inferred.
-- [https://www.buildium.com/features/property-owner-portal/](https://www.buildium.com/features/property-owner-portal/) — **unaudited**. No workflow absence or replacement is inferred.
+- [https://www.buildium.com/features/tenant-background-checks/](https://www.buildium.com/features/tenant-background-checks/) — **partial**. Retained source areas: [bu-screening](#bu-screening); surrounding and linked documentation remains unqualified.
+- [https://www.buildium.com/features/property-owner-portal/](https://www.buildium.com/features/property-owner-portal/) — **partial**. Retained source areas: [bu-owner](#bu-owner); surrounding and linked documentation remains unqualified.
 - [https://www.buildium.com/features/resident-center/](https://www.buildium.com/features/resident-center/) — **partial**. Retained source areas: [bu-resident](#bu-resident); surrounding and linked documentation remains unqualified.
 - [https://www.buildium.com/buy-now-eu/](https://www.buildium.com/buy-now-eu/) — **unaudited**. No workflow absence or replacement is inferred.
-- [https://www.buildium.com/features/1099-efiling/](https://www.buildium.com/features/1099-efiling/) — **unaudited**. No workflow absence or replacement is inferred.
+- [https://www.buildium.com/features/1099-efiling/](https://www.buildium.com/features/1099-efiling/) — **partial**. Retained source areas: [bu-tax](#bu-tax); surrounding and linked documentation remains unqualified.
 - [https://www.buildium.com/features/property-management-websites/](https://www.buildium.com/features/property-management-websites/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.buildium.com/pricing/](https://www.buildium.com/pricing/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.buildium.com/portfolios/association-management-software/](https://www.buildium.com/portfolios/association-management-software/) — **unaudited**. No workflow absence or replacement is inferred.
 
 ### Rent Manager discovery audit
 
-[Capture-bound discovery audit](switch-checklist-sources/discovery-audit.json): 76 URLs reconciled; 68 have no retained source audit.
+[Capture-bound discovery audit](switch-checklist-sources/discovery-audit.json): 76 URLs reconciled; 64 have no retained source audit.
 
 - [https://www.rentmanager.com/](https://www.rentmanager.com/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.rentmanager.com/emails/](https://www.rentmanager.com/emails/) — **unaudited**. No workflow absence or replacement is inferred.
@@ -4841,15 +6361,15 @@ Every URL in each retained discovery capture is accounted for below, including p
 - [https://www.rentmanager.com/website-services/](https://www.rentmanager.com/website-services/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.rentmanager.com/virginia-consumer-data-protection-act/](https://www.rentmanager.com/virginia-consumer-data-protection-act/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.rentmanager.com/remote-assistance/](https://www.rentmanager.com/remote-assistance/) — **unaudited**. No workflow absence or replacement is inferred.
-- [https://www.rentmanager.com/prospect-tenant-portal/](https://www.rentmanager.com/prospect-tenant-portal/) — **unaudited**. No workflow absence or replacement is inferred.
+- [https://www.rentmanager.com/prospect-tenant-portal/](https://www.rentmanager.com/prospect-tenant-portal/) — **partial**. Retained source areas: [rm-tenant](#rm-tenant); surrounding and linked documentation remains unqualified.
 - [https://www.rentmanager.com/resident-app/](https://www.rentmanager.com/resident-app/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.rentmanager.com/rent-manager-university/](https://www.rentmanager.com/rent-manager-university/) — **unaudited**. No workflow absence or replacement is inferred.
-- [https://www.rentmanager.com/payments/](https://www.rentmanager.com/payments/) — **unaudited**. No workflow absence or replacement is inferred.
+- [https://www.rentmanager.com/payments/](https://www.rentmanager.com/payments/) — **partial**. Retained source areas: [rm-payments](#rm-payments); surrounding and linked documentation remains unqualified.
 - [https://www.rentmanager.com/rv-park-campgrounds/](https://www.rentmanager.com/rv-park-campgrounds/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.rentmanager.com/self-storage/](https://www.rentmanager.com/self-storage/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.rentmanager.com/onboarding/](https://www.rentmanager.com/onboarding/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.rentmanager.com/affordable-housing/](https://www.rentmanager.com/affordable-housing/) — **unaudited**. No workflow absence or replacement is inferred.
-- [https://www.rentmanager.com/communication/](https://www.rentmanager.com/communication/) — **unaudited**. No workflow absence or replacement is inferred.
+- [https://www.rentmanager.com/communication/](https://www.rentmanager.com/communication/) — **partial**. Retained source areas: [rm-communication](#rm-communication); surrounding and linked documentation remains unqualified.
 - [https://www.rentmanager.com/screen-share-policies/](https://www.rentmanager.com/screen-share-policies/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.rentmanager.com/rent-manager-screen-share-terms-of-use/](https://www.rentmanager.com/rent-manager-screen-share-terms-of-use/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.rentmanager.com/report-automation/](https://www.rentmanager.com/report-automation/) — **partial**. Retained source areas: [rm-schedules](#rm-schedules); surrounding and linked documentation remains unqualified.
@@ -4887,7 +6407,7 @@ Every URL in each retained discovery capture is accounted for below, including p
 - [https://www.rentmanager.com/become-or-refer-a-partner/](https://www.rentmanager.com/become-or-refer-a-partner/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.rentmanager.com/digital-payments/](https://www.rentmanager.com/digital-payments/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.rentmanager.com/integrations/](https://www.rentmanager.com/integrations/) — **unaudited**. No workflow absence or replacement is inferred.
-- [https://www.rentmanager.com/screening-solutions/](https://www.rentmanager.com/screening-solutions/) — **unaudited**. No workflow absence or replacement is inferred.
+- [https://www.rentmanager.com/screening-solutions/](https://www.rentmanager.com/screening-solutions/) — **partial**. Retained source areas: [rm-screening](#rm-screening); surrounding and linked documentation remains unqualified.
 - [https://www.rentmanager.com/security-deposits/](https://www.rentmanager.com/security-deposits/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.rentmanager.com/leasetrack-calculator/](https://www.rentmanager.com/leasetrack-calculator/) — **unaudited**. No workflow absence or replacement is inferred.
 - [https://www.rentmanager.com/request-demo/](https://www.rentmanager.com/request-demo/) — **unaudited**. No workflow absence or replacement is inferred.
@@ -4912,47 +6432,54 @@ Every URL in each retained discovery capture is accounted for below, including p
 
 Raw SHA-256: `24fc945167f735a7a95c556df693e59b8dc4909d9bd1992f0aaa126662b65505`. Capture SHA-256: `489ea74a0f200db9108b065ff65ce4979d4e4333e170ae0b970e4a9233b8c9af`.
 
-**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `af-accounting-01`, `af-accounting-02`, `af-accounting-03`, `af-accounting-04`, `af-accounting-05`, `af-accounting-06`, `af-accounting-07`, `af-accounting-08`, `af-accounting-09`, `af-accounting-10`, `af-accounting-11`, `af-accounting-12`, `af-accounting-13`, `af-accounting-14`, `af-accounting-15`, `af-accounting-16`, `af-accounting-17`, `af-accounting-18`, `af-accounting-19`.
+**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `af-accounting-01`, `af-accounting-02`, `af-accounting-03`, `af-accounting-04`, `af-accounting-05`, `af-accounting-06`, `af-accounting-07`, `af-accounting-08`, `af-accounting-09`, `af-accounting-10`, `af-accounting-11`, `af-accounting-12`, `af-accounting-13`, `af-accounting-14`, `af-accounting-15`, `af-accounting-16`, `af-accounting-17`, `af-accounting-18`, `af-accounting-19`, `af-accounting-20`, `af-accounting-21`, `af-accounting-22`, `af-accounting-23`, `af-accounting-24`, `af-accounting-25`, `af-accounting-26`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- af-accounting lines 1–36, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 37–37, Realm-X Accounting Performer: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-02`.
-- af-accounting lines 38–42, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 43–43, Corporate Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-01`.
-- af-accounting lines 44–51, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 52–52, Portfolio Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-03`.
-- af-accounting lines 53–56, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 57–57, Credit Card Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-04`.
-- af-accounting lines 58–58, Credit Card Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-05`.
-- af-accounting lines 59–59, Credit Card Accounting: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-06`.
-- af-accounting lines 60–63, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 64–64, Extended Access to Data: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-07`.
-- af-accounting lines 65–65, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 66–66, Online Payments: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-08`.
-- af-accounting lines 67–67, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 68–68, Auto Bank Reconciliation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-09`.
-- af-accounting lines 69–69, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 70–70, Late Fee Waivers: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-10`.
-- af-accounting lines 71–71, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 72–72, CAM Tracking & Reconciliation: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-11`.
-- af-accounting lines 73–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 74–74, Automated Late Fees: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-12`.
-- af-accounting lines 75–77, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 78–78, eCheck: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-13`.
-- af-accounting lines 79–81, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 82–82, Tenant Debt Collections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-14`.
-- af-accounting lines 83–83, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 84–84, Bulk Tenant Charges: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-15`.
-- af-accounting lines 85–87, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 88–88, Holding Deposits: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-16`.
-- af-accounting lines 89–89, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 90–90, Loan Tracking: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-17`.
-- af-accounting lines 91–91, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 92–92, Reimbursable Expenses: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-18`.
-- af-accounting lines 93–93, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-accounting lines 94–94, Unified Chart of Accounts: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-accounting-19`.
-- af-accounting lines 95–167, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-accounting lines 1–36, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 37–37, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-02`, `af-accounting-20`.
+- af-accounting lines 38–42, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 43–43, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-01`.
+- af-accounting lines 44–44, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 45–45, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-21`.
+- af-accounting lines 46–46, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-22`.
+- af-accounting lines 47–51, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 52–52, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-03`.
+- af-accounting lines 53–53, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-23`.
+- af-accounting lines 54–54, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-24`.
+- af-accounting lines 55–55, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-25`.
+- af-accounting lines 56–56, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 57–57, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-04`.
+- af-accounting lines 58–58, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-05`.
+- af-accounting lines 59–59, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-06`.
+- af-accounting lines 60–60, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-26`.
+- af-accounting lines 61–63, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 64–64, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-07`.
+- af-accounting lines 65–65, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 66–66, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-08`.
+- af-accounting lines 67–67, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 68–68, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-09`.
+- af-accounting lines 69–69, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 70–70, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-10`.
+- af-accounting lines 71–71, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 72–72, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-11`.
+- af-accounting lines 73–73, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 74–74, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-12`.
+- af-accounting lines 75–77, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 78–78, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-13`.
+- af-accounting lines 79–81, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 82–82, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-14`.
+- af-accounting lines 83–83, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 84–84, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-15`.
+- af-accounting lines 85–87, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 88–88, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-16`.
+- af-accounting lines 89–89, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 90–90, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-17`.
+- af-accounting lines 91–91, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 92–92, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-18`.
+- af-accounting lines 93–93, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-accounting lines 94–94, Accounting and reporting: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-accounting-19`.
+- af-accounting lines 95–167, Unreviewed source context: **unaudited**. Remaining source text and linked documentation remain unaudited for omitted workflows.
 
 ### af-maintenance
 
@@ -4960,39 +6487,42 @@ Raw SHA-256: `24fc945167f735a7a95c556df693e59b8dc4909d9bd1992f0aaa126662b65505`.
 
 Raw SHA-256: `594ccd7df985cb985087e502e10e736d19538b259a6e026f4ca68fcb6ef17727`. Capture SHA-256: `2f6c39dc37e2a4d03eca6f50620dfceb092acb83f2e3bb7dd73deb6f3e56c76c`.
 
-**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `af-maintenance-01`, `af-maintenance-02`, `af-maintenance-03`, `af-maintenance-04`, `af-maintenance-05`, `af-maintenance-06`, `af-maintenance-07`, `af-maintenance-08`, `af-maintenance-09`, `af-maintenance-10`, `af-maintenance-11`, `af-maintenance-12`, `af-maintenance-13`, `af-maintenance-14`, `af-maintenance-15`.
+**Audit: partial.** Other text, linked guides, account documentation, variants and prerequisites have not been exhaustively audited; additional workflows may be missing. Reconciled source workflows: `af-maintenance-01`, `af-maintenance-02`, `af-maintenance-03`, `af-maintenance-04`, `af-maintenance-05`, `af-maintenance-06`, `af-maintenance-07`, `af-maintenance-08`, `af-maintenance-09`, `af-maintenance-10`, `af-maintenance-11`, `af-maintenance-12`, `af-maintenance-13`, `af-maintenance-14`, `af-maintenance-15`, `af-maintenance-16`, `af-maintenance-17`, `af-maintenance-18`, `af-maintenance-19`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- af-maintenance lines 1–24, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-maintenance lines 25–25, Track Work Orders From Beginning To Finish: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-01`.
-- af-maintenance lines 26–36, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-maintenance lines 37–37, Pay Your Bills, Owners, and Vendors: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-02`.
-- af-maintenance lines 38–44, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-maintenance lines 45–45, The Realm-X Maintenance Performer & Automated Scheduling & Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-03`.
-- af-maintenance lines 46–47, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-maintenance lines 48–48, The Realm-X Maintenance Performer & Automated Scheduling & Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-04`.
-- af-maintenance lines 49–49, The Realm-X Maintenance Performer & Automated Scheduling & Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-05`.
-- af-maintenance lines 50–50, The Realm-X Maintenance Performer & Automated Scheduling & Billing: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-06`.
-- af-maintenance lines 51–51, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-maintenance lines 52–52, Auditing Center: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-07`.
-- af-maintenance lines 53–60, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-maintenance lines 61–61, Mobile Inspections: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-08`.
-- af-maintenance lines 62–62, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-maintenance lines 63–63, Unit Turn Board: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-09`.
-- af-maintenance lines 64–66, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-maintenance lines 67–67, Online Maintenance Requests: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-10`.
-- af-maintenance lines 68–68, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-maintenance lines 69–69, Common Area Maintenance: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-11`.
-- af-maintenance lines 70–70, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-maintenance lines 71–71, Mobile Violations & Tracking: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-12`.
-- af-maintenance lines 72–72, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-maintenance lines 73–73, Architectural Reviews: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-13`.
-- af-maintenance lines 74–74, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-maintenance lines 75–75, Board Member Roles & Tenure Tracking: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-14`.
-- af-maintenance lines 76–78, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-maintenance lines 79–79, In-House Maintenance: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-maintenance-15`.
-- af-maintenance lines 80–179, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-maintenance lines 1–24, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-maintenance lines 25–25, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-01`.
+- af-maintenance lines 26–36, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-maintenance lines 37–37, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-02`.
+- af-maintenance lines 38–44, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-maintenance lines 45–45, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-03`, `af-maintenance-16`, `af-maintenance-17`.
+- af-maintenance lines 46–46, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-maintenance lines 47–47, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-18`.
+- af-maintenance lines 48–48, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-04`.
+- af-maintenance lines 49–49, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-05`.
+- af-maintenance lines 50–50, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-06`.
+- af-maintenance lines 51–51, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-maintenance lines 52–52, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-07`.
+- af-maintenance lines 53–56, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-maintenance lines 57–57, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-19`.
+- af-maintenance lines 58–60, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-maintenance lines 61–61, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-08`.
+- af-maintenance lines 62–62, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-maintenance lines 63–63, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-09`.
+- af-maintenance lines 64–66, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-maintenance lines 67–67, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-10`.
+- af-maintenance lines 68–68, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-maintenance lines 69–69, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-11`.
+- af-maintenance lines 70–70, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-maintenance lines 71–71, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-12`.
+- af-maintenance lines 72–72, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-maintenance lines 73–73, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-13`.
+- af-maintenance lines 74–74, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-maintenance lines 75–75, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-14`.
+- af-maintenance lines 76–78, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-maintenance lines 79–79, Maintenance and auditing: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-maintenance-15`.
+- af-maintenance lines 80–179, Unreviewed source context: **unaudited**. Remaining source text and linked documentation remain unaudited for omitted workflows.
 
 ### bu-accounting
 
@@ -5336,58 +6866,122 @@ Raw SHA-256: `0e606402e90ccbacef46ac67583783e4424590914cd792c5b9275475a895ff27`.
 
 Raw SHA-256: `797ea2dc1d22cc03e137d23e0c5ce9b8982bce47f753bc12803a686f30b80e7e`. Capture SHA-256: `ea2a614d3c6c0a47387bae8f483080a790207ae51cce4570330e710fe9a221f1`.
 
-**Audit: partial.** Other text and linked source areas remain unaudited; no exhaustive coverage is claimed. Reconciled source workflows: `af-resident-01`, `af-resident-02`, `af-resident-03`, `af-resident-04`, `af-resident-05`, `af-resident-06`, `af-resident-07`, `af-resident-08`, `af-resident-09`, `af-resident-10`, `af-resident-11`, `af-resident-12`, `af-resident-13`, `af-resident-14`, `af-resident-15`, `af-resident-16`, `af-resident-17`, `af-resident-18`, `af-resident-19`, `af-resident-20`, `af-resident-21`, `af-resident-22`, `af-resident-23`, `af-resident-24`.
+**Audit: partial.** Other text and linked source areas remain unaudited; no exhaustive coverage is claimed. Reconciled source workflows: `af-resident-01`, `af-resident-02`, `af-resident-03`, `af-resident-04`, `af-resident-05`, `af-resident-06`, `af-resident-07`, `af-resident-08`, `af-resident-09`, `af-resident-10`, `af-resident-11`, `af-resident-12`, `af-resident-13`, `af-resident-14`, `af-resident-15`, `af-resident-16`, `af-resident-17`, `af-resident-18`, `af-resident-19`, `af-resident-20`, `af-resident-21`, `af-resident-22`, `af-resident-23`, `af-resident-24`, `af-resident-25`, `af-resident-26`, `af-resident-27`, `af-resident-28`, `af-resident-29`, `af-resident-30`, `af-resident-31`, `af-resident-32`, `af-resident-33`, `af-resident-34`, `af-resident-35`, `af-resident-36`, `af-resident-37`, `af-resident-38`, `af-resident-39`, `af-resident-40`, `af-resident-41`, `af-resident-42`, `af-resident-43`, `af-resident-44`, `af-resident-45`, `af-resident-46`, `af-resident-47`, `af-resident-48`, `af-resident-49`, `af-resident-50`, `af-resident-51`, `af-resident-52`, `af-resident-53`, `af-resident-54`, `af-resident-55`, `af-resident-56`, `af-resident-57`, `af-resident-58`, `af-resident-59`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- af-resident lines 1–13, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 14–14, Activate Your Account Online: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-01`.
-- af-resident lines 15–18, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 19–19, Download the Mobile App: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-02`.
-- af-resident lines 20–27, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 28–28, Set Up Two Factor Authentication: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-03`.
-- af-resident lines 29–36, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 37–37, Reset Your Password: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-04`.
-- af-resident lines 38–42, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 43–43, Make a One-Time Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-05`.
-- af-resident lines 44–44, Make a One-Time Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-06`.
-- af-resident lines 45–45, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 46–46, Make a One-Time Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-07`.
-- af-resident lines 47–47, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 48–48, Make a One-Time Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-08`.
-- af-resident lines 49–50, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 51–51, Set Up an Auto Payment: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-09`.
-- af-resident lines 52–57, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 58–58, How Do I Delete My Auto Payment?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-10`.
-- af-resident lines 59–60, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 61–61, How Do I Skip My Auto Payment?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-11`.
-- af-resident lines 62–62, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 63–63, How Do I Change the Amount of My Auto Payment?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-12`.
-- af-resident lines 64–65, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 66–66, How Do I Change the Payment Information of My Auto Payment?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-13`.
-- af-resident lines 67–67, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 68–68, How Do I Change My Auto Payment Maximum Limit?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-14`.
-- af-resident lines 69–73, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 74–74, View Payment History: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-15`.
-- af-resident lines 75–75, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 76–76, Can I Delete My Saved Bank Account or Card?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-16`.
-- af-resident lines 77–95, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 96–96, Where Can I Find My Electronic Cash Payment Slip?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-17`.
-- af-resident lines 97–116, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 117–117, How Do I Sign My Lease Electronically?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-18`.
-- af-resident lines 118–118, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 119–119, How Do I Renew My Lease Electronically?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-19`.
-- af-resident lines 120–122, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 123–123, How Do I Update My Electronic Signature for Signing Documents?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-20`.
-- af-resident lines 124–124, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 125–125, How Do I Set Up My Utilities in FolioSpace?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-21`.
-- af-resident lines 126–126, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 127–127, How Do I Get Help With Utilities?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-22`.
-- af-resident lines 128–135, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 136–136, Update Your Contact Information: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-23`.
-- af-resident lines 137–137, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
-- af-resident lines 138–138, I No Longer Rent With This Property Manager. How Do I Delete My Account?: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-resident-24`.
-- af-resident lines 139–190, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-resident lines 1–13, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 14–14, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-01`.
+- af-resident lines 15–18, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 19–19, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-02`.
+- af-resident lines 20–27, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 28–28, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-03`.
+- af-resident lines 29–36, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 37–37, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-04`.
+- af-resident lines 38–42, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 43–43, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-05`.
+- af-resident lines 44–44, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-06`.
+- af-resident lines 45–45, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 46–46, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-07`.
+- af-resident lines 47–47, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-25`.
+- af-resident lines 48–48, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-08`.
+- af-resident lines 49–49, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 50–50, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-26`.
+- af-resident lines 51–51, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-09`.
+- af-resident lines 52–52, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 53–53, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-27`.
+- af-resident lines 54–54, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-28`.
+- af-resident lines 55–57, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 58–58, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-10`.
+- af-resident lines 59–59, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-29`.
+- af-resident lines 60–60, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 61–61, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-11`.
+- af-resident lines 62–62, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 63–63, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-12`.
+- af-resident lines 64–65, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 66–66, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-13`.
+- af-resident lines 67–67, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 68–68, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-14`.
+- af-resident lines 69–69, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 70–70, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-30`.
+- af-resident lines 71–73, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 74–74, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-15`.
+- af-resident lines 75–75, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 76–76, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-16`.
+- af-resident lines 77–77, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 78–78, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-31`.
+- af-resident lines 79–89, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 90–90, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-32`.
+- af-resident lines 91–95, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 96–96, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-17`.
+- af-resident lines 97–97, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 98–98, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-33`.
+- af-resident lines 99–101, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 102–102, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-34`.
+- af-resident lines 103–103, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 104–104, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-35`.
+- af-resident lines 105–106, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 107–107, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-36`.
+- af-resident lines 108–109, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 110–110, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-37`.
+- af-resident lines 111–111, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 112–112, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-38`.
+- af-resident lines 113–116, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 117–117, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-18`.
+- af-resident lines 118–118, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 119–119, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-19`.
+- af-resident lines 120–122, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 123–123, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-20`.
+- af-resident lines 124–124, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 125–125, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-21`.
+- af-resident lines 126–126, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 127–127, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-22`.
+- af-resident lines 128–131, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 132–132, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-39`.
+- af-resident lines 133–135, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 136–136, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-23`.
+- af-resident lines 137–137, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 138–138, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-24`.
+- af-resident lines 139–139, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 140–140, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-40`.
+- af-resident lines 141–141, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 142–142, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-41`.
+- af-resident lines 143–143, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 144–144, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-42`.
+- af-resident lines 145–145, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 146–146, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-43`.
+- af-resident lines 147–147, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 148–148, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-44`.
+- af-resident lines 149–152, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 153–153, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-45`.
+- af-resident lines 154–154, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-46`.
+- af-resident lines 155–155, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 156–156, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-47`.
+- af-resident lines 157–158, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 159–159, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-48`.
+- af-resident lines 160–160, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 161–161, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-49`.
+- af-resident lines 162–162, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 163–163, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-50`.
+- af-resident lines 164–164, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 165–165, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-51`.
+- af-resident lines 166–166, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 167–167, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-52`.
+- af-resident lines 168–168, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 169–169, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-53`.
+- af-resident lines 170–171, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 172–172, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-54`.
+- af-resident lines 173–173, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 174–174, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-55`.
+- af-resident lines 175–176, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 177–177, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-56`.
+- af-resident lines 178–182, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 183–183, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-57`.
+- af-resident lines 184–184, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 185–185, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-58`.
+- af-resident lines 186–186, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-resident lines 187–187, FolioSpace resident and applicant help: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-resident-59`.
+- af-resident lines 188–190, Unreviewed source context: **unaudited**. Remaining source text and linked documentation remain unaudited for omitted workflows.
 
 ### af-platform
 
@@ -5889,11 +7483,15 @@ Raw SHA-256: `d07b2c7c62d6734593eca41ef7130853a5a12298443e8d10dd16f3dc177bf0e9`.
 
 Raw SHA-256: `0619eaf13d260e9de21f1e310991ec563a095286801b654c26700032e9e15335`. Capture SHA-256: `18f142098db2145ea36260e3bf2921c89e701d0d05d3dccf3c6468f14b3eed60`.
 
-**Audit: unaudited.** Retained official source area has not yet been reconciled into workflow rows. This is an explicit inventory gap, not absence of incumbent capability. Reconciled source workflows: .
+**Audit: partial.** Retained official source area has not yet been reconciled into workflow rows. This is an explicit inventory gap, not absence of incumbent capability. Reconciled source workflows: `af-smart-maintenance-01`, `af-smart-maintenance-02`, `af-smart-maintenance-03`, `af-smart-maintenance-04`.
 
 **Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
 
-- af-smart-maintenance lines 1–27, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+- af-smart-maintenance lines 1–11, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-smart-maintenance lines 12–12, Smart Maintenance: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-smart-maintenance-01`, `af-smart-maintenance-02`, `af-smart-maintenance-03`.
+- af-smart-maintenance lines 13–18, Unreviewed source context: **unaudited**. Surrounding source content remains unaudited for additional documented workflows.
+- af-smart-maintenance lines 19–19, Smart Maintenance: **workflows**. Located official statement supports the named workflow gaps, not a complete page or qualified Terrace replacement. Workflows: `af-smart-maintenance-04`.
+- af-smart-maintenance lines 20–27, Unreviewed source context: **unaudited**. Remaining source text and linked documentation remain unaudited for omitted workflows.
 
 ### af-owner
 
@@ -5965,6 +7563,291 @@ Raw SHA-256: `95ae2d15f0851726b5dc2baec192363fae0362c827a4ffd69fc017d218923eff`.
 - af-owner lines 110–119, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
 - af-owner lines 120–120, FAQ: **workflows**. Selected official statement retained as source evidence; detailed actor and prerequisite boundaries remain subject to source review. Workflows: `af-owner-39`.
 - af-owner lines 121–194, Unreconciled captured text: **unaudited**. This retained text has not been exhaustively reviewed for additional workflows. It may include navigation, supporting instructions, or capabilities still missing from this inventory.
+
+### bu-owner
+
+[Official page](https://www.buildium.com/features/property-owner-portal/); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/bu-owner.txt).
+
+Raw SHA-256: `b35db719918c96037f2617275c7a70a84c2c30882cd827db391216dcb57870f2`. Capture SHA-256: `6cfbde9630b9b06dad6f4805c9bfa62d22184ccc7b4754fa6984d6ee221a885c`.
+
+**Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `bu-owner-01`, `bu-owner-02`, `bu-owner-03`, `bu-owner-04`, `bu-owner-05`, `bu-owner-06`, `bu-owner-07`, `bu-owner-08`, `bu-owner-09`, `bu-owner-10`, `bu-owner-11`, `bu-owner-12`, `bu-owner-13`, `bu-owner-14`, `bu-owner-15`, `bu-owner-16`, `bu-owner-17`, `bu-owner-18`, `bu-owner-19`, `bu-owner-20`.
+
+**Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+- bu-owner lines 1–80, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-owner lines 81–81, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-01`.
+- bu-owner lines 82–82, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-02`.
+- bu-owner lines 83–83, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-03`.
+- bu-owner lines 84–84, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-04`.
+- bu-owner lines 85–85, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-owner lines 86–86, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-05`.
+- bu-owner lines 87–87, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-06`.
+- bu-owner lines 88–88, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-07`.
+- bu-owner lines 89–89, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-08`.
+- bu-owner lines 90–90, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-owner lines 91–91, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-09`.
+- bu-owner lines 92–92, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-10`.
+- bu-owner lines 93–93, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-11`.
+- bu-owner lines 94–94, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-12`.
+- bu-owner lines 95–95, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-owner lines 96–96, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-13`.
+- bu-owner lines 97–97, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-14`.
+- bu-owner lines 98–98, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-15`.
+- bu-owner lines 99–99, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-16`.
+- bu-owner lines 100–119, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-owner lines 120–120, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-17`.
+- bu-owner lines 121–121, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-owner lines 122–122, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-18`.
+- bu-owner lines 123–123, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-owner lines 124–124, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-19`.
+- bu-owner lines 125–125, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-owner lines 126–126, Owner portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-owner-20`.
+- bu-owner lines 127–162, Unreviewed source context: **unaudited**. Remaining text and linked source areas remain unaudited for additional documented workflows.
+
+### bu-payments
+
+[Official page](https://www.buildium.com/features/online-rent-payments/); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/bu-payments.txt).
+
+Raw SHA-256: `3becd0ff87359847e32393ed91706e4c590f8930a5831b92a448b275ac0d38f0`. Capture SHA-256: `e50737d684e858fa7d298e8e4409e468dd896bf02d911f5607b8e5cfa1e93a95`.
+
+**Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `bu-payments-01`, `bu-payments-02`, `bu-payments-03`, `bu-payments-04`, `bu-payments-05`, `bu-payments-06`, `bu-payments-07`, `bu-payments-08`, `bu-payments-09`, `bu-payments-10`, `bu-payments-11`, `bu-payments-12`, `bu-payments-13`, `bu-payments-14`, `bu-payments-15`, `bu-payments-16`, `bu-payments-17`.
+
+**Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+- bu-payments lines 1–73, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-payments lines 74–74, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-01`.
+- bu-payments lines 75–78, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-payments lines 79–79, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-02`.
+- bu-payments lines 80–80, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-payments lines 81–81, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-03`.
+- bu-payments lines 82–82, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-payments lines 83–83, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-04`.
+- bu-payments lines 84–84, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-payments lines 85–85, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-05`.
+- bu-payments lines 86–86, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-payments lines 87–87, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-06`.
+- bu-payments lines 88–97, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-payments lines 98–98, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-07`.
+- bu-payments lines 99–99, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-08`.
+- bu-payments lines 100–100, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-09`.
+- bu-payments lines 101–101, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-10`.
+- bu-payments lines 102–104, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-payments lines 105–105, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-11`.
+- bu-payments lines 106–106, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-12`.
+- bu-payments lines 107–109, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-payments lines 110–110, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-13`.
+- bu-payments lines 111–111, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-payments lines 112–112, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-14`.
+- bu-payments lines 113–113, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-15`.
+- bu-payments lines 114–114, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-16`.
+- bu-payments lines 115–115, Online payment processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-payments-17`.
+- bu-payments lines 116–151, Unreviewed source context: **unaudited**. Remaining text and linked source areas remain unaudited for additional documented workflows.
+
+### bu-application
+
+[Official page](https://www.buildium.com/features/online-rental-applications/); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/bu-application.txt).
+
+Raw SHA-256: `5094969189972eee802d93336bcd6bee0cdf202594df9d6b4d93c2956e5045a1`. Capture SHA-256: `0293b5364be9407949ce9ec0c576041abc858d68452708861abce954e8d3f6dd`.
+
+**Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `bu-application-01`, `bu-application-02`, `bu-application-03`, `bu-application-04`, `bu-application-05`, `bu-application-06`.
+
+**Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+- bu-application lines 1–74, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-application lines 75–75, Online rental applications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-application-01`.
+- bu-application lines 76–76, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-application lines 77–77, Online rental applications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-application-02`, `bu-application-03`.
+- bu-application lines 78–78, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-application lines 79–79, Online rental applications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-application-04`.
+- bu-application lines 80–80, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-application lines 81–81, Online rental applications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-application-05`, `bu-application-06`.
+- bu-application lines 82–123, Unreviewed source context: **unaudited**. Remaining text and linked source areas remain unaudited for additional documented workflows.
+
+### bu-screening
+
+[Official page](https://www.buildium.com/features/tenant-background-checks/); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/bu-screening.txt).
+
+Raw SHA-256: `bb689e34f423e9594699a6adeb9c2cca3331a5ae6afe1ad14385b28a279e908d`. Capture SHA-256: `814dbce80dc05e122b614b9989e0c15b8c3001b93286c060e382ec95ca8da365`.
+
+**Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `bu-screening-01`, `bu-screening-02`, `bu-screening-03`, `bu-screening-04`, `bu-screening-05`, `bu-screening-06`, `bu-screening-07`.
+
+**Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+- bu-screening lines 1–73, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-screening lines 74–74, Tenant background checks: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-screening-01`.
+- bu-screening lines 75–78, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-screening lines 79–79, Tenant background checks: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-screening-02`, `bu-screening-03`.
+- bu-screening lines 80–101, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-screening lines 102–102, Tenant background checks: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-screening-04`.
+- bu-screening lines 103–104, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-screening lines 105–105, Tenant background checks: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-screening-05`.
+- bu-screening lines 106–110, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-screening lines 111–111, Tenant background checks: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-screening-06`.
+- bu-screening lines 112–112, Tenant background checks: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-screening-07`.
+- bu-screening lines 113–150, Unreviewed source context: **unaudited**. Remaining text and linked source areas remain unaudited for additional documented workflows.
+
+### bu-inspection
+
+[Official page](https://www.buildium.com/features/mobile-property-inspection-app/); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/bu-inspection.txt).
+
+Raw SHA-256: `ab31c38826d9055eba6ecb1c8a62f7803dab4f571003344c6f0522207b0eedff`. Capture SHA-256: `cab22f1a5c457d534833508612d6bcde991805a7dc5b6eee439cf13c1e03d095`.
+
+**Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `bu-inspection-01`, `bu-inspection-02`, `bu-inspection-03`, `bu-inspection-04`, `bu-inspection-05`, `bu-inspection-06`.
+
+**Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+- bu-inspection lines 1–71, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-inspection lines 72–72, Mobile property inspections: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-inspection-01`.
+- bu-inspection lines 73–76, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-inspection lines 77–77, Mobile property inspections: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-inspection-02`.
+- bu-inspection lines 78–78, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-inspection lines 79–79, Mobile property inspections: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-inspection-03`.
+- bu-inspection lines 80–80, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-inspection lines 81–81, Mobile property inspections: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-inspection-04`.
+- bu-inspection lines 82–82, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-inspection lines 83–83, Mobile property inspections: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-inspection-05`, `bu-inspection-06`.
+- bu-inspection lines 84–119, Unreviewed source context: **unaudited**. Remaining text and linked source areas remain unaudited for additional documented workflows.
+
+### bu-association
+
+[Official page](https://www.buildium.com/features/homeowner-and-board-communications/); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/bu-association.txt).
+
+Raw SHA-256: `af778c235a373cf8792f9aaf3113c090fcfef59c930a7626ca4ded7623f3ba4b`. Capture SHA-256: `2b261b27956d4be6ba9f671529852bfa38a1de0304b43630801767f4b519141c`.
+
+**Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `bu-association-01`, `bu-association-02`, `bu-association-03`, `bu-association-04`.
+
+**Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+- bu-association lines 1–71, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-association lines 72–72, Homeowner and board communication: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-association-01`, `bu-association-02`.
+- bu-association lines 73–73, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-association lines 74–74, Homeowner and board communication: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-association-03`.
+- bu-association lines 75–75, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-association lines 76–76, Homeowner and board communication: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-association-04`.
+- bu-association lines 77–115, Unreviewed source context: **unaudited**. Remaining text and linked source areas remain unaudited for additional documented workflows.
+
+### bu-tax
+
+[Official page](https://www.buildium.com/features/1099-efiling/); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/bu-tax.txt).
+
+Raw SHA-256: `9da00071708824e4cf87598ee1f2bcbf24f25283155e69f562ca309d29485b7f`. Capture SHA-256: `038634d093a49b2cc3d82397f56123f71e6c5478bb15d3f143f8e580f5702613`.
+
+**Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `bu-tax-01`, `bu-tax-02`, `bu-tax-03`, `bu-tax-04`, `bu-tax-05`.
+
+**Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+- bu-tax lines 1–69, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-tax lines 70–70, Owner and vendor tax filing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-tax-01`, `bu-tax-02`.
+- bu-tax lines 71–71, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-tax lines 72–72, Owner and vendor tax filing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-tax-03`.
+- bu-tax lines 73–76, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-tax lines 77–77, Owner and vendor tax filing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-tax-04`.
+- bu-tax lines 78–78, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- bu-tax lines 79–79, Owner and vendor tax filing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `bu-tax-05`.
+- bu-tax lines 80–115, Unreviewed source context: **unaudited**. Remaining text and linked source areas remain unaudited for additional documented workflows.
+
+### rm-communication
+
+[Official page](https://www.rentmanager.com/communication/); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/rm-communication.txt).
+
+Raw SHA-256: `71b05793b97b68ca63556c0ed7ad3965b5dd1f8d1e1e0ac5179101e598d00d5a`. Capture SHA-256: `c1afa2684b997146a868b79ab896fa5f8c60efc5d09170d10beb2a8e3bf4c502`.
+
+**Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `rm-communication-01`, `rm-communication-02`, `rm-communication-03`, `rm-communication-04`, `rm-communication-05`, `rm-communication-06`, `rm-communication-07`, `rm-communication-08`, `rm-communication-09`, `rm-communication-10`, `rm-communication-11`, `rm-communication-12`.
+
+**Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+- rm-communication lines 1–105, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-communication lines 106–106, Communications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-communication-01`, `rm-communication-02`, `rm-communication-03`.
+- rm-communication lines 107–107, Communications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-communication-04`.
+- rm-communication lines 108–108, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-communication lines 109–109, Communications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-communication-05`.
+- rm-communication lines 110–110, Communications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-communication-06`.
+- rm-communication lines 111–111, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-communication lines 112–112, Communications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-communication-07`.
+- rm-communication lines 113–113, Communications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-communication-08`.
+- rm-communication lines 114–114, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-communication lines 115–115, Communications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-communication-09`, `rm-communication-10`.
+- rm-communication lines 116–116, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-communication lines 117–117, Communications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-communication-11`.
+- rm-communication lines 118–118, Communications: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-communication-12`.
+- rm-communication lines 119–239, Unreviewed source context: **unaudited**. Remaining text and linked source areas remain unaudited for additional documented workflows.
+
+### rm-payments
+
+[Official page](https://www.rentmanager.com/payments/); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/rm-payments.txt).
+
+Raw SHA-256: `d8159e9e0901eb2a84becbed131a887a331ee7edb50c8df3719b4f61b0f276e9`. Capture SHA-256: `ebbdb617ae101365ed9ef77f03ce95e2cc837ed4ebce5713c0480fc80c236be8`.
+
+**Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `rm-payments-01`, `rm-payments-02`, `rm-payments-03`, `rm-payments-04`, `rm-payments-05`, `rm-payments-06`, `rm-payments-07`, `rm-payments-08`, `rm-payments-09`.
+
+**Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+- rm-payments lines 1–102, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-payments lines 103–103, Receivable and payable processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-payments-01`.
+- rm-payments lines 104–105, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-payments lines 106–106, Receivable and payable processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-payments-02`.
+- rm-payments lines 107–108, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-payments lines 109–109, Receivable and payable processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-payments-03`.
+- rm-payments lines 110–112, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-payments lines 113–113, Receivable and payable processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-payments-04`, `rm-payments-05`.
+- rm-payments lines 114–114, Receivable and payable processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-payments-06`.
+- rm-payments lines 115–116, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-payments lines 117–117, Receivable and payable processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-payments-07`.
+- rm-payments lines 118–118, Receivable and payable processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-payments-08`.
+- rm-payments lines 119–120, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-payments lines 121–121, Receivable and payable processing: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-payments-09`.
+- rm-payments lines 122–243, Unreviewed source context: **unaudited**. Remaining text and linked source areas remain unaudited for additional documented workflows.
+
+### rm-tenant
+
+[Official page](https://www.rentmanager.com/prospect-tenant-portal/); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/rm-tenant.txt).
+
+Raw SHA-256: `4f8f155824283a17be37d7f30addd26ad30ef2b5845f58463f6f76d6e1456dfb`. Capture SHA-256: `2bb6059858e1db610f3b17e566444ce59a16042c55292165fcc5d1a6f1636b1d`.
+
+**Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `rm-tenant-01`, `rm-tenant-02`, `rm-tenant-03`, `rm-tenant-04`, `rm-tenant-05`, `rm-tenant-06`, `rm-tenant-07`.
+
+**Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+- rm-tenant lines 1–105, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-tenant lines 106–106, Prospect and tenant portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-tenant-01`.
+- rm-tenant lines 107–107, Prospect and tenant portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-tenant-02`.
+- rm-tenant lines 108–108, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-tenant lines 109–109, Prospect and tenant portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-tenant-03`, `rm-tenant-04`.
+- rm-tenant lines 110–110, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-tenant lines 111–111, Prospect and tenant portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-tenant-05`, `rm-tenant-06`.
+- rm-tenant lines 112–113, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-tenant lines 114–114, Prospect and tenant portal: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-tenant-07`.
+- rm-tenant lines 115–235, Unreviewed source context: **unaudited**. Remaining text and linked source areas remain unaudited for additional documented workflows.
+
+### rm-screening
+
+[Official page](https://www.rentmanager.com/screening-solutions/); captured 2026-11-05, HTTP 200. [Retained normalized text](switch-checklist-sources/rm-screening.txt).
+
+Raw SHA-256: `f18aa54ced17137516291b901ed2f689ee7bacedc7a04e11f3cc70ca2ae38885`. Capture SHA-256: `f84499deb7aec93ef7deec80cd818e5f68797656a5e9935ec9fd68985b95a87b`.
+
+**Audit: partial.** The listed source statements are retained and reconciled. Surrounding content, navigation, linked manuals, prerequisites and authenticated help remain unaudited; this selected page establishes no complete incumbent inventory. Reconciled source workflows: `rm-screening-01`, `rm-screening-02`, `rm-screening-03`, `rm-screening-04`, `rm-screening-05`, `rm-screening-06`, `rm-screening-07`, `rm-screening-08`, `rm-screening-09`.
+
+**Source area reconciliation:** [review register](switch-checklist-sources/source-areas.json). Each retained line belongs to exactly one area; workflow references reconcile independently of replacement mappings. A reviewed quotation does not audit the surrounding page or linked manuals.
+
+- rm-screening lines 1–107, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-screening lines 108–108, Built-in screening: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-screening-01`.
+- rm-screening lines 109–109, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-screening lines 110–110, Built-in screening: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-screening-02`.
+- rm-screening lines 111–111, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-screening lines 112–112, Built-in screening: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-screening-03`.
+- rm-screening lines 113–113, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-screening lines 114–114, Built-in screening: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-screening-04`.
+- rm-screening lines 115–117, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-screening lines 118–118, Built-in screening: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-screening-05`.
+- rm-screening lines 119–119, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-screening lines 120–120, Built-in screening: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-screening-06`.
+- rm-screening lines 121–121, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-screening lines 122–122, Built-in screening: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-screening-07`.
+- rm-screening lines 123–123, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-screening lines 124–124, Built-in screening: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-screening-08`.
+- rm-screening lines 125–131, Unreviewed source context: **unaudited**. Surrounding source text remains unaudited for additional documented workflows.
+- rm-screening lines 132–132, Built-in screening: **workflows**. Retained official statement supports the named workflow gaps; no complete page or Terrace replacement qualification. Workflows: `rm-screening-09`.
+- rm-screening lines 133–260, Unreviewed source context: **unaudited**. Remaining text and linked source areas remain unaudited for additional documented workflows.
 
 ## Current Terrace replacement evidence
 
@@ -6140,6 +8023,16 @@ Acceptance source SHA-256: `5820ca4cecd3e7ec456fdcabb5aca17d06595762253a31b26bb4
 
 Acceptance source SHA-256: `c6c11a6844e6e791d120d90465bb6945f182140dad96e40d35e6e8534ca73d7c`.
 
+### Clause AGENT-006
+
+**Compare inspection evidence without inventing damage — partial.**
+
+**Evidence:** `src/terrace/work.ts`; `tests/terrace.test.mjs`
+
+**Remaining clause gap:** Original photo custody exists; AI comparison, uncertainty and reviewed finding workflows are absent.
+
+Acceptance source SHA-256: `445499df46a9fe35c9d79a63dd9617fb3768680094b1d75052a03cb2db24cae8`.
+
 ### Clause AGENT-008
 
 **Keep agent authority and evidence inspectable — partial.**
@@ -6220,6 +8113,16 @@ Acceptance source SHA-256: `cbd6460326c8b4a94846fb741a3bdd8b6eec273d8df645715f13
 
 Acceptance source SHA-256: `e10c4e9930d55c3b6a970fd49aa391abd22f53ecd6e1d35248e441c8c46f0257`.
 
+### Clause LEASE-008
+
+**Order consented TransUnion screening — missing.**
+
+**Evidence:** No executed evidence.
+
+**Remaining clause gap:** Screening integration, consent and restricted reports are absent.
+
+Acceptance source SHA-256: `a8d714b45beacd058c8057bc570c49183365f125a6ec698f803bbe9ab0ecf073`.
+
 ### Clause LEASE-009
 
 **Review applicants and adverse actions — partial.**
@@ -6279,6 +8182,16 @@ Acceptance source SHA-256: `eb2323b4b7b566ac163a230cd709338a574fe477920b805aeaae
 **Remaining clause gap:** Cloudflare hosted Cron cadence not measured.
 
 Acceptance source SHA-256: `3650edd5e40802863a9154b49b59eabee47fd44889fd829fcc933f883e15123b`.
+
+### Clause OPS-005
+
+**Link insurance coverage through MSI — missing.**
+
+**Evidence:** No executed evidence.
+
+**Remaining clause gap:** MSI integration, external coverage proof and expiry follow-up are absent.
+
+Acceptance source SHA-256: `e22fce68da55ad75aad0cfae83f6c410ed3511a08762f63080ca8a19a3ba063a`.
 
 ### Clause PAY-001
 
@@ -6380,6 +8293,16 @@ Acceptance source SHA-256: `5f052251fb2eefdea17453a8842abd723d929bb7159f90ca69d5
 
 Acceptance source SHA-256: `e311cd51f09a46bc03336c28c93ecbc8c20961ffdfbb6c5f987255cad1521303`.
 
+### Clause PAY-012
+
+**Reconcile processor fees and settlements — missing.**
+
+**Evidence:** No executed evidence.
+
+**Remaining clause gap:** Processor settlements and bank-to-subledger matching are absent.
+
+Acceptance source SHA-256: `06b7ac7d9bdc1d63c4b224dd0c0ea30c3fe9836a6655e7463dec758f783050cf`.
+
 ### Clause PAY-013
 
 **Split voucher rent between resident and housing authority — done.**
@@ -6389,6 +8312,16 @@ Acceptance source SHA-256: `e311cd51f09a46bc03336c28c93ecbc8c20961ffdfbb6c5f9872
 **Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
 
 Acceptance source SHA-256: `79a2092c8393ef2f850ddb991f6d2835a8d763ff5311ee725620f290ea529af8`.
+
+### Clause PORT-003
+
+**Manage owners and management agreements — done.**
+
+**Evidence:** `migrations/core/0031_owners.sql`; `src/terrace/owners.ts`; `src/terrace/owner-view.ts`; `src/terrace/api.ts`; `tests/terrace.test.mjs`
+
+**Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
+
+Acceptance source SHA-256: `f662cf2aedb656f5ab595bf80043888447e42bf3ad87a7019ff1ec91a2d23ac5`.
 
 ### Clause PORT-006
 
@@ -6440,6 +8373,16 @@ Acceptance source SHA-256: `48f8afbc9b90b732f7139f5970e00106c00cfd2f2a815bc43370
 
 Acceptance source SHA-256: `c308041f17122bdde67d8d8abd476719536cb251193b6d98da53edb1bad01416`.
 
+### Clause PORTAL-004
+
+**Receive resident maintenance requests — done.**
+
+**Evidence:** `tests/portal-requests.mjs` — "journey" invoked by `tests/portal.mjs` — "journey" in the ROLE-002 registration of `tests/terrace.test.mjs`: leaking-tap report with original photo, access restrictions, pets and preferred times; exact video bytes; private tracking and scheduled work; second verified mailbox with a separate original concern and answer; resident confirmation without closing another report or the work order; staff role 403 and portfolio 404 on linking and original review; unrelated resident, delegated contact, owner and vendor refusal; gas-smell WORK-001 case with frozen approved guidance version, on-call email and replay without a duplicate alert; fresh authorized invitations after restore with original media and no restored credentials. `tests/portal-requests-browser.mjs`: intake, receipt, tracking, scheduled work, answer, resolution, emergency guidance, staff review and urgent queue at 1440 and 390; text-labelled portal controls and staff hover and keyboard tooltips.
+
+**Remaining clause gap:** None in the clause; same-capability checklist qualification still required.
+
+Acceptance source SHA-256: `f186211afe85609cb46c24a1f079750d95dec522c1209de31f024ec217f9deff`.
+
 ### Clause PORTAL-005
 
 **Deliver two-way email and SMS — partial.**
@@ -6479,6 +8422,16 @@ Acceptance source SHA-256: `e413ef2f3dd4b4b38dcf6aa7770bcaef30955e8cc2af6e37d84f
 **Remaining clause gap:** Terrace counsel engagement and PORT-008 reviewed authored packs and notice template contents remain unavailable; statutory sufficiency, notice eligibility, service-based deadlines and mailing extensions remain unqualified. Deposit-disposition acceptance still depends on ACCT-004. Lob account and entitlement, provider mailing and tracking events and complete acceptance across pay-or-quit, lease violation, entry, nonrenewal, deposit disposition and owner letters remain outstanding. Vendor postal addresses are not yet recorded, so their print preparation is held rather than guessed. Current communication authority, consent and custody limits remain unchanged; recorded service and a printed PDF prove no legal sufficiency or provider delivery.
 
 Acceptance source SHA-256: `701e3f2118014a410a625541b98314df2cf2c32cc52dfc9dd6e195fcaa100138`.
+
+### Clause PORTAL-010
+
+**Tell owners what was fixed, at what cost, with photos — missing.**
+
+**Evidence:** No executed evidence.
+
+**Remaining clause gap:** Owner completion notices are absent; no owner portal, repair completion or invoiced cost exists to notify from.
+
+Acceptance source SHA-256: `881c4c5709ae56da35f2d6a0f0b075bb6650d83efb55775080700e4ff357e7ed`.
 
 ### Clause REPORT-001
 
@@ -6600,6 +8553,16 @@ Acceptance source SHA-256: `f3dfad930bf07a3a65f48e6e771183499ace6b4ca8d1e92b1ce9
 
 Acceptance source SHA-256: `18e47a91afdc99aa7a27c871b594708a77201ff4d5596b5922c5ff3577505ad1`.
 
+### Clause SAFE-008
+
+**Make configuration limits and costs visible — partial.**
+
+**Evidence:** `src/terrace/work.ts`; `src/terrace/data.ts`; `README.md`
+
+**Remaining clause gap:** Current upload and archive limits are enforced; target provider agreements, SAFE-009 capacity results in setup and cost and fee setup are absent.
+
+Acceptance source SHA-256: `5cb71458628574e9b76b540c31062e2ce795508e0588008dd099b46541c014a8`.
+
 ### Clause WORK-001
 
 **Triage safety and emergency requests — partial.**
@@ -6709,6 +8672,16 @@ Acceptance source SHA-256: `07c045793c0a7d645ce2086aebad59c5577bfbc213394b1492cd
 **Remaining clause gap:** Structured room and asset checklists, original media, readings, sourced acknowledgement and disputes, completed inspections, entry and exit comparison and evidence-gated human work and deduction proposals ship. Adopted conservative default pending ct: new capture/configuration/acknowledgement/proposal doors are owner or portfolio-manager only; offline originals stay on the device only by explicit consent until explicit sync or deletion; acknowledgements are staff-sourced, never resident authentication or signatures; human decisions execute no work or deposit charge.
 
 Acceptance source SHA-256: `a0c6eaa92ee9ef7a8eeac1cd49fb349de2e3a530eda0d523d584a5b8e1fbf47b`.
+
+### Clause WORK-012
+
+**Integrate HappyCo inspection evidence — missing.**
+
+**Evidence:** No executed evidence.
+
+**Remaining clause gap:** HappyCo adapter and provider inspection reconciliation are absent.
+
+Acceptance source SHA-256: `3b49bef4430421351824733558d445446c16f7174a54f17d8741b3a8a81b7844`.
 
 ### Clause WORK-013
 
