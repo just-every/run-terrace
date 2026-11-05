@@ -745,7 +745,7 @@
       "executable": false
     },
     "public/app/charge-default.js": {
-      "sha256": "b3351f4f0233b0a30e9d320ce83a8ec69bff21b5ca4340fa936c126e13eb11f7",
+      "sha256": "a6c5e62d623fe26053b5074a85e3355b14eeb175867f11cc60dcefbae832b465",
       "executable": false
     },
     "public/app/content.css": {
@@ -4353,7 +4353,7 @@
       "executable": false
     },
     "src/terrace/journal.ts": {
-      "sha256": "a39985299abc7354b2dcc51d4fa73eaa4be4572dfb5e6f3614f02820be79e5f9",
+      "sha256": "ee9032a0b7f20c12e27e986731f472e0cfa4bc913c17ed30b48395c17cbf18d1",
       "executable": false
     },
     "src/terrace/late-fee-view.ts": {
@@ -5001,7 +5001,7 @@
       "executable": false
     },
     "tests/app-journey.mjs": {
-      "sha256": "af82b31194db307842840db540b615f8afa9d02e27c3e56d05bd1838297d1d78",
+      "sha256": "e9fdd1f9642cc55a2615a24eb3161ed5c78706cb20597da8c2ea44f0e41c9018",
       "executable": false
     },
     "tests/application-fees.mjs": {
@@ -5029,7 +5029,7 @@
       "executable": false
     },
     "tests/bills.mjs": {
-      "sha256": "3982173b6f541f4bf5259a518ea640e01f0f83981440c7dbe879303b8304f4f7",
+      "sha256": "baec3162218563c7514f448a625aa98dfd04b24b6a1420bc67876dd467be8cf2",
       "executable": false
     },
     "tests/capacity-fixture.mjs": {

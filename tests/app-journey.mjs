@@ -101,11 +101,14 @@ try {
  // Approval schedules rent for the next term and the charge form follows the due day.
  await page.goto(origin+'/app?tab=tenancy&tenancy='+tenancyId)
  const renewal=page.locator('form:has(input[name="command"][value="renewal.prepare"])')
- await renewal.getByLabel('Proposed lease end',{exact:true}).fill('2028-01-31')
- await renewal.getByLabel('Proposed rent (USD)',{exact:true}).fill('1990')
- await renewal.getByLabel('Lease reference / reason',{exact:true}).fill('Signed annual renewal schedule')
- await renewal.getByRole('button',{name:'Prepare renewal',exact:true}).click()
- await page.getByRole('button',{name:'Approve renewal',exact:true}).click()
+ await page.setViewportSize({width:1440,height:900})
+ for(const [end,rent]of [['2028-01-31','1990'],['2029-01-31','2070']]){
+  await renewal.getByLabel('Proposed lease end',{exact:true}).fill(end)
+  await renewal.getByLabel('Proposed rent (USD)',{exact:true}).fill(rent)
+  await renewal.getByLabel('Lease reference / reason',{exact:true}).fill('Signed annual renewal schedule')
+  await renewal.getByRole('button',{name:'Prepare renewal',exact:true}).click()
+  await page.getByRole('button',{name:'Approve renewal',exact:true}).click()
+ }
  await page.getByRole('heading',{name:'Previous terms',exact:true}).waitFor()
  await page.getByRole('link',{name:'Open ledger →',exact:true}).click()
  const datedCharge=page.locator('form:has(input[name="command"][value="rent.charge"])')
@@ -117,6 +120,19 @@ try {
  await datedCharge.getByLabel('Due date',{exact:true}).fill('2026-11-01')
  await datedCharge.getByLabel('Description',{exact:true}).click()
  assert.equal(await datedCharge.getByLabel('Amount (USD)',{exact:true}).inputValue(),'1940','the manager’s custom charge is preserved')
+
+ // A typed amount stays manual even when it equals a later date's suggestion.
+ await page.reload()
+ await datedCharge.getByLabel('Amount (USD)',{exact:true}).fill('1990')
+ for(const day of ['2027-02-01','2028-02-01']){
+  await datedCharge.getByLabel('Due date',{exact:true}).fill(day)
+  await datedCharge.getByLabel('Description',{exact:true}).click()
+  assert.equal(await datedCharge.getByLabel('Amount (USD)',{exact:true}).inputValue(),'1990')
+ }
+ await datedCharge.getByLabel('Unique charge reference',{exact:true}).fill('CUSTOM-RENEWAL')
+ await datedCharge.getByRole('button',{name:'Record charge',exact:true}).click()
+ const saved=(await(await context.request.get(origin+'/api/state?tenancy='+tenancyId)).json()).ledger.charges.find(q=>q.reference==='CUSTOM-RENEWAL')
+ assert.equal(saved.amount_cents,199000,'the recorded charge preserves the agreed custom amount')
 
  // The existing work, move-in and data/access forms remain on their tabs.
  for(const [tab,command] of [['work','inspection.create'],['import','import.preview'],['settings','data.restore']]){

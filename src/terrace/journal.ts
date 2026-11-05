@@ -73,8 +73,9 @@ export async function journalData(c:Context,p:Row={}){
  allow(c,'reports.read')
  if(p.propertyId)await journalProperty(c,p.propertyId)
  if(p.tenancyId)await tenancy(c,p.tenancyId)
+ // Bill labels belong to the posted revision; current terms may belong to another portfolio.
  const [allEntries,accounts,properties,owners,vendors,tenancies,shares]=await Promise.all([all(c,`SELECT j.*,r.id AS reversed_by,t.time_zone AS source_zone,a.posting_day AS explicit_day,
- q.description AS source_description,CASE WHEN j.source_kind='reduction' THEN q.reference WHEN b.id IS NOT NULL THEN NULLIF(b.invoice_number,b.id) WHEN f.id IS NOT NULL THEN NULLIF(f.source_label,f.id) ELSE j.reference END AS source_reference,
+ q.description AS source_description,CASE WHEN j.source_kind='reduction' THEN q.reference WHEN x.id IS NOT NULL THEN NULLIF(json_extract(b.terms,'$.invoiceNumber'),x.bill_id) WHEN f.id IS NOT NULL THEN NULLIF(f.source_label,f.id) ELSE j.reference END AS source_reference,
  CASE WHEN t.erased_at IS NULL THEN t.tenant_name END AS resident_name,
  CASE WHEN t.erased_at IS NULL THEN t.address END AS lease_address,
  CASE WHEN t.erased_at IS NULL THEN t.owner_name END AS lease_owner
@@ -84,7 +85,7 @@ export async function journalData(c:Context,p:Row={}){
  LEFT JOIN tt_receipts s ON j.source_kind='receipt' AND s.id=j.source_id
  LEFT JOIN tt_charges q ON q.id=CASE WHEN j.source_kind='charge' THEN j.source_id WHEN j.source_kind='receipt' THEN s.charge_id WHEN j.source_kind='reduction' THEN a.charge_id END
  LEFT JOIN tt_bill_expenses x ON j.source_kind='bill' AND x.id=j.source_id
- LEFT JOIN tt_bills b ON b.id=x.bill_id
+ LEFT JOIN tt_bill_revisions b ON b.bill_id=x.bill_id AND b.version=x.version
  LEFT JOIN tt_fees f ON j.source_kind='fee' AND f.id=j.source_id
  ORDER BY j.day,j.recorded_at,j.id`),all(c,'SELECT * FROM tt_gl_chart ORDER BY code'),all(c,'SELECT id,name,address,portfolio_id FROM tt_properties ORDER BY name'),all(c,'SELECT id,legal_name FROM tt_owners ORDER BY legal_name'),all(c,'SELECT id,name FROM tt_vendors ORDER BY name'),all(c,'SELECT id,unit_id,tenant_name,address FROM tt_tenancies WHERE erased_at IS NULL ORDER BY address'),all(c,'SELECT h.owner_id,s.property_id FROM tt_ownership_shares h JOIN tt_ownership_sets s ON s.id=h.set_id')])
  const mine=properties.filter(x=>reachesPortfolio(c,x.portfolio_id)),ids=new Set(mine.map(x=>x.id))

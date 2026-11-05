@@ -135,6 +135,21 @@ export async function journey() {
   for(const item of ['receipts','deposits','exceptions'])await h.command('period.signoff',{month:'2024-10',item})
   await h.command('period.close',{month:'2024-10'})
   await h.command('bill.create',{...base,invoiceNumber:'CLOSED',date:'2024-10-01',original:pdf('closed')},{status:409})
+  // A retained posting and its reversal link describe their own invoice revision,
+  // never a current invoice moved into a portfolio the accountant cannot read.
+  await h.command('bill.revise',{...base,billId:after.id,version:1,invoiceNumber:'SOUTH-PRIVATE-REVISED',date:'2024-06-20',allocations:[{propertyId:outside.id,amount:'100'}]})
+  await h.command('operator.role',{operatorId:memberId,role:'accountant',['portfolio:'+portfolio.id]:'1'})
+  assert.ok(!(await read(member)).bills.some(x=>x.id===after.id))
+  const journal=await(await h.request('/api/journal',{as:member})).json()
+  assert.ok(!JSON.stringify(journal).includes('SOUTH-PRIVATE-REVISED'))
+  const original=journal.entries.find(j=>journal.entryLabels[j.id].reference==='LAND-AFTER')
+  assert.ok(original,'the original approved invoice label is retained')
+  const reversal=journal.entries.find(j=>j.reversal_of===original.id)
+  assert.ok(reversal,'the scoped historical reversal is retained')
+  assert.equal(journal.entryLabels[reversal.id].reverses.reference,'LAND-AFTER')
+  const journalPage=await(await h.request('/app?tab=journal',{as:member})).text()
+  assert.ok(!journalPage.includes('SOUTH-PRIVATE-REVISED'))
+  assert.ok(journalPage.includes('LAND-AFTER'))
   await retention(h,{portfolioId:portfolio.id,ownerId:seller.id,vendorId:vendor.id,manager})
   // Archiving keeps private invoice bytes, approval evidence and payable owner allocations through restore.
   const archive=await(await h.request('/api/backup')).text(),fresh=await installation()
