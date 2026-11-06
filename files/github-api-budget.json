@@ -1,5 +1,5 @@
 {
-  "total": 6,
+  "total": 7,
   "calls": [
     {
       "kind": "main discovery",
@@ -33,6 +33,13 @@
       "kind": "terminal candidate poll",
       "run": 42291301710,
       "at": "2026-11-06T21:02:48.034731+00:00",
+      "calls": 1,
+      "exit": 0
+    },
+    {
+      "kind": "terminal candidate poll",
+      "run": 42291301710,
+      "at": "2026-11-06T21:07:49.503865+00:00",
       "calls": 1,
       "exit": 0
     }

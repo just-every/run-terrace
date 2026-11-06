@@ -44,8 +44,8 @@
     "run": 42291301710,
     "event": "push",
     "head": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae",
-    "status": "in_progress",
-    "conclusion": null,
+    "status": "completed",
+    "conclusion": "success",
     "head_sha": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae",
     "html_url": "https://github.com/just-every/run-terrace/actions/runs/42291301710"
   },
@@ -69,7 +69,7 @@
     ],
     "browserInspected": true,
     "scope": "AGENT-007 first documentary acceptance segment",
-    "visualInspectionSource": "8d29c8908c255f90c94e9fee264a63b2e98f19ff",
+    "visualInspectionSource": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae",
     "terminalScreensRegenerated": true
   },
   "claim": {
@@ -86,5 +86,9 @@
   },
   "runtimeSourceUnchangedFrom": "8d29c8908c255f90c94e9fee264a63b2e98f19ff",
   "checkHead": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae",
-  "githubTaskRestCalls": 6
+  "githubTaskRestCalls": 7,
+  "evidenceStageHead": "bbaa96b8a91ee25f621f9d5f19c31dda90946695",
+  "readyForGuardedLanding": true,
+  "productLanded": false,
+  "blockers": []
 }
