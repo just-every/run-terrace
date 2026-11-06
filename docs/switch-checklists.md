@@ -8557,9 +8557,9 @@ Acceptance source SHA-256: `18e47a91afdc99aa7a27c871b594708a77201ff4d5596b5922c5
 
 **Make configuration limits and costs visible — partial.**
 
-**Evidence:** `src/terrace/work.ts`; `src/terrace/data.ts`; `README.md`
+**Evidence:** `tests/integration-health.mjs` — journey, registered as OPS-004 in `tests/terrace.test.mjs`: authenticated owner-only setup-readiness endpoint and native Settings; non-owner, revoked-session and API-credential refusal; actual upload-door byte ceilings from native definitions; configured credentials, successful exchanges and owner-reported entitlement never verify agreements or activation; dated owner cost assumptions reflected after native metadata edits, pricing sources and unknown fees; refused activation writes leave state unchanged; SAFE-009 target bounds without fabricated reference measurements; secret-free read responses, unchanged money and configuration, no provider requests and inert restored observations. `tests/integration-health-browser.mjs`: native read-only setup, displayed byte limits, unknown reference results, keyboard disclosure controls and readable Settings at 1440 with captures at 1440 and 390 through existing push Verify.
 
-**Remaining clause gap:** Current upload and archive limits are enforced; target provider agreements, SAFE-009 capacity results in setup and cost and fee setup are absent.
+**Remaining clause gap:** Disclosure slice only. Required provider agreements and authorized provider credentials remain unverified. Actual provider connection, authorized account, scope and entitlement verification, activation and completion of a real operation remain outstanding. SAFE-009 hosted reference results and their dated commit and dataset receipts, measured storage and external billing remain unavailable. Unchunked document and signed-lease storage remains constrained by D1 row limits; upload ceilings establish no qualified storage maximum. Native distribution and existing account, CT, Base and device holds remain unchanged. These reads grant no provider execution, financial policy, credential-management or deployment authority.
 
 Acceptance source SHA-256: `5cb71458628574e9b76b540c31062e2ce795508e0588008dd099b46541c014a8`.
 
