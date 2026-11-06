@@ -472,3 +472,26 @@ sources, not contracted quotes. `capacity` lists SAFE-009's required reference
 and dataset and each target bound; qualified is false, receipt is null and
 measured timings are null while hosted reference results are unavailable.
 Local readiness runs never become qualified reference measurements here.
+
+## Read-only operating-risk analysis
+
+`GET /api/operating-risks` requires a current installation-owner session;
+API credentials and every non-owner role are refused. Required query fields
+are `propertyId`, `from`, `to` and `assetIds` (comma-separated distinct recorded
+HVAC identifiers belonging to that property). Dates are inclusive and local to
+the property, with the leasing report's existing bounded window. The HVAC
+window selects jobs by local preparation date. Attempt effective dates and
+recording dates, and resident-check recording dates, must be on or before To.
+
+Optional scenario fields are `assumptionDate`, `assumptionReference`,
+`preventiveCost`, `callbackCost` and `avoidedCallbacks`; supplying any requires
+all five. Money inputs are positive exact USD amounts with at most two decimal
+places; the count is a whole number from zero through 1,000. Scenario output is
+hypothetical cost and benefit, never settled cost or realized savings.
+
+The owner page is `/app?tab=operating-risks`, reached from Properties.
+Every requested analysis recomputes from current native records and returns
+`Cache-Control: no-store`. Unselected asset evidence and other-property
+prospect cases are omitted. The door creates no workload, proposal, approval,
+financial entry or provider request. See [Operating-risk observations](docs/operating-risks.md)
+for source cohorts, duplicate exclusions and the remaining product boundary.

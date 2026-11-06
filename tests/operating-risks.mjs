@@ -94,10 +94,12 @@ export async function journey({inspect,assets=false}={}){
    const address=email(role)
    await h.command('operator.invite',{displayName:'Synthetic '+role,email:address,role,['portfolio:'+local.f.id]:'1'})
    staff[role]=await h.accept(address)
+   const deniedBefore=await snapshot()
    for(const path of [endpoint(q),'/app?tab=operating-risks&'+new URLSearchParams(q)]){
     const r=await h.request(path,{as:staff[role]});assert.equal(r.status,403)
     const body=await r.text();assert.ok(!body.includes(repair.id)&&!body.includes('Furnace short cycling')&&!body.includes(outsideJob.id))
    }
+   assert.deepEqual(await snapshot(),deniedBefore,'denied reads change no domain state')
   }
   assert.equal((await h.request(endpoint(q),{as:''})).status,401)
   const credential=await h.command('credential.mint',{label:'Synthetic analysis read',role:'portfolio_manager',scope:'read',allPortfolios:true})

@@ -113,7 +113,7 @@
       "executable": false
     },
     "API.md": {
-      "sha256": "6b43778ba932b02e1dd88c9020b3d00e0bbd035d0f90a610a13d72b1f2736e39",
+      "sha256": "9cf7c085c7947fcd1d2549610160e610f7cb322ea75e243c499b272e1e41f3e2",
       "executable": false
     },
     "base-copies.json": {
@@ -214,6 +214,10 @@
     },
     "docs/office-print.md": {
       "sha256": "6c072efe57f76c908f05bfb19f1957d29a2dfc19f58c14ecdf1d4b7d7d3bd241",
+      "executable": false
+    },
+    "docs/operating-risks.md": {
+      "sha256": "eb0a6baec859f35de06f2d97c4b725316af6c6d5bbae8080f1c7911e6ad46009",
       "executable": false
     },
     "docs/payment-policies.md": {
@@ -1269,7 +1273,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "267b93cb842c2c0ad383b433c3171566bfa5f1bb4248421085b7c830e61e4285",
+      "sha256": "2fa46cecfef128e9c5954491c56ec94a25cef5ce28ffeecd7f50338de7e14963",
       "executable": false
     },
     "rer-project.json": {
@@ -4688,6 +4692,14 @@
       "sha256": "a61973b34326cc88ac3fe4b2a49d54d7340c3083625fe09e53d0cb59fbe6ff2c",
       "executable": false
     },
+    "src/terrace/operating-risk-view.ts": {
+      "sha256": "e8828004fde8931e16212a03c433e54df94df8784f17d5949ec80512d4eba273",
+      "executable": false
+    },
+    "src/terrace/operating-risks.ts": {
+      "sha256": "774680411bcd4e8afb3bd41411c354cb2d6bea2d7e6bb7d519305bf3e3a89229",
+      "executable": false
+    },
     "src/terrace/owner-invoices.ts": {
       "sha256": "5463874630f2cde7809e8a2d42144951b4f4a962a23e58aaa83289d737e06426",
       "executable": false
@@ -5486,6 +5498,14 @@
     },
     "tests/open-installation.mjs": {
       "sha256": "9f985cc67ae290710e5bcf0908fda0607f944236858cb077fb1d816eee57368d",
+      "executable": false
+    },
+    "tests/operating-risks-browser.mjs": {
+      "sha256": "b950651232ea782c3e69e0aaa82feff8995054ec8af3d1da4524c0d3d870ef1d",
+      "executable": false
+    },
+    "tests/operating-risks.mjs": {
+      "sha256": "311ca6e82e38137be0520951fdcab10f6da76f97bb8329842fe9053ebfd154e9",
       "executable": false
     },
     "tests/owned-installation.mjs": {
