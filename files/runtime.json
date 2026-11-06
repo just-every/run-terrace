@@ -1,0 +1,5 @@
+{
+  "node": "v22.20.0",
+  "executable": "/home/agent/.rer/toolchain/node-22.20.0/node_modules/node/bin/node",
+  "head": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae"
+}

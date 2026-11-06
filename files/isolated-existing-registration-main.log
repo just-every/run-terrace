@@ -1,0 +1,35 @@
+TAP version 13
+# [33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+# Subtest: PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; legacy money currency unconfirmed until the owner confirms it; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready; PORT-004 households; REPORT-001 rent roll; ACCT-009 fees; ACCT-016 recoveries; ACCT-007 vendor bills; REPORT-007 cash and vacancy scenarios; REPORT-003 dated leasing performance; REPORT-002 delinquency
+not ok 1 - PORT-001: a US company in USD, two property time zones across daylight saving and an imported AUD tenancy kept as AUD; legacy money currency unconfirmed until the owner confirms it; PAY-001 runs post each period once; PORT-002 units keep their history; WORK-013 make-ready; PORT-004 households; REPORT-001 rent roll; ACCT-009 fees; ACCT-016 recoveries; ACCT-007 vendor bills; REPORT-007 cash and vacancy scenarios; REPORT-003 dated leasing performance; REPORT-002 delinquency
+  ---
+  duration_ms: 27980.646909
+  type: 'test'
+  location: '/workspace/terrace-f91-baseline/tests/terrace.test.mjs:628:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    {"ok":true,"result":{"posted":2,"lines":[{"ownerId":"0cb0202f-afbc-40b2-b520-dbd666dcb67c","day":"2026-09-30","kind":"minimum","source":"minimum:2026-09","sourceLabel":"Monthly minimum 300.00 less management fees 0.00","baseCents":30000,"rateBp":null,"amountCents":20001,"taxBp":450,"taxCents":900,"agreementReference":"Management agreement 2026, schedule A"},{"ownerId":"4fc91a3d-2858-476b-a5ea-aaf375c3b351","day":"2026-09-30","kind":"minimum","source":"minimum:2026-09","sourceLabel":"Monthly minimum 300.00 less management fees 0.00","baseCents":30000,"rateBp":null,"amountCents":9999,"taxBp":450,"taxCents":450,"agreementReference":"Management agreement 2026, schedule A"}],"skipped":[],"notice":"Fee run posted 2 lines."}}
+    
+    200 !== 409
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 409
+  actual: 200
+  operator: 'strictEqual'
+  stack: |-
+    Object.command (file:///workspace/terrace-f91-baseline/tests/api/harness.mjs:26:176)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async TestContext.<anonymous> (file:///workspace/terrace-f91-baseline/tests/terrace.test.mjs:879:16)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 29237.371895

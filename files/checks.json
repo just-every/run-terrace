@@ -1,0 +1,48 @@
+{
+  "head": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae",
+  "node": "22.20.0",
+  "checks": [
+    {
+      "name": "http",
+      "command": "timeout 300 env TERRACE_ASYNC_SQL=1 node --test --test-name-pattern=\"AGENT-007: owner read-only\" --test-concurrency=1 tests/terrace.test.mjs",
+      "exit": 0,
+      "seconds": 10.17,
+      "head": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae"
+    },
+    {
+      "name": "typecheck",
+      "command": "pnpm run typecheck",
+      "exit": 0,
+      "seconds": 0.78,
+      "head": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae"
+    },
+    {
+      "name": "first-party",
+      "command": "timeout 300 npx -y @runeditrun/rer check --profile first-party",
+      "exit": 0,
+      "seconds": 1.57,
+      "head": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae"
+    },
+    {
+      "name": "browser",
+      "command": "timeout 1200 env RER_CHROMIUM_PATH=/usr/bin/chromium OPERATING_RISK_SCREENSHOTS=/home/agent/rer-consolidation/work/sx-terrace-c-f91/packet node tests/operating-risks-browser.mjs",
+      "exit": 0,
+      "seconds": 11.46,
+      "head": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae"
+    },
+    {
+      "name": "source-lock",
+      "command": "node scripts/edition-authoring/cli.mjs check",
+      "exit": 0,
+      "seconds": 0.61,
+      "head": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae"
+    },
+    {
+      "name": "contract-views",
+      "command": "node scripts/contract-docs.mjs check",
+      "exit": 0,
+      "seconds": 0.76,
+      "head": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae"
+    }
+  ]
+}

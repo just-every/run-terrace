@@ -1,0 +1,42 @@
+Heavy job admitted: Terrace build:workflow [0e151d789900]
+Checking pinned pnpm
+10.12.4
+Building your application
+build:app
+▲ [WARNING] Proxy environment variables detected. We'll use your proxy for fetch requests.
+
+
+(node:3672) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 135 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/client/.assetsignore               0.02 kB
+dist/client/assets/index-DgoNPDnv.js  311.20 kB │ gzip: 100.86 kB
+
+✓ built in 262ms
+vite v8.2.2 building ssr environment for production...
+transforming...
+✓ 883 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/server/wrangler.json                                      1.54 kB │ gzip:     0.79 kB
+dist/server/.vite/manifest.json                                2.55 kB │ gzip:     0.56 kB
+dist/server/assets/empty-plugin-adapters-D_0twvAa.js           0.28 kB │ gzip:     0.18 kB
+dist/server/assets/start-D8qDT34V.js                           0.28 kB │ gzip:     0.21 kB
+dist/server/assets/_tanstack-start-manifest_v-CLo0vJ0j.js      0.35 kB │ gzip:     0.25 kB
+dist/server/assets/hash-DzlUKWoV.js                            6.07 kB │ gzip:     2.70 kB
+dist/server/assets/router-C3N5ww7U.js                         37.20 kB │ gzip:    10.06 kB
+dist/server/assets/Match-D8M6pl9c.js                         161.52 kB │ gzip:    40.54 kB
+dist/server/assets/owners-C7dizpSr.js                        189.19 kB │ gzip:    51.75 kB
+dist/server/index.js                                       3,784.16 kB │ gzip: 1,012.78 kB
+
+[INEFFECTIVE_DYNAMIC_IMPORT] src/mail.server.mjs is dynamically imported by src/terrace/portal-http.ts but also statically imported by src/auth.server.ts, src/terrace/action-requests.ts, src/terrace/application-access.ts, src/terrace/emergency-alert.ts, src/terrace/integration-mail.ts, ..., dynamic import will not move module into another chunk.
+
+[INEFFECTIVE_DYNAMIC_IMPORT] src/terrace/workflow-scheduler.ts is dynamically imported by src/terrace/workflows.ts but also statically imported by src/server.ts, dynamic import will not move module into another chunk.
+
+✓ built in 914ms
+Your application is built
+build: complete (exit 0)

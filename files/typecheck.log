@@ -1,0 +1,5 @@
+rer toolchain: node v22.20.0 pnpm 10.12.4 (pins 22.20.0 / 10.12.4)
+
+> @residential/terrace@0.1.4 typecheck /workspace/terrace-f91
+> tsc --build --incremental
+

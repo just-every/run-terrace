@@ -1,0 +1,40 @@
+{
+  "total": 6,
+  "calls": [
+    {
+      "kind": "main discovery",
+      "calls": 1
+    },
+    {
+      "kind": "superseded candidate discovery",
+      "calls": 1,
+      "run": 42290492821
+    },
+    {
+      "kind": "terminal candidate discovery",
+      "calls": 1,
+      "run": 42291301710
+    },
+    {
+      "kind": "terminal candidate poll",
+      "run": 42291301710,
+      "at": "2026-11-06T20:52:45.506169+00:00",
+      "calls": 1,
+      "exit": 0
+    },
+    {
+      "kind": "terminal candidate poll",
+      "run": 42291301710,
+      "at": "2026-11-06T20:57:46.944800+00:00",
+      "calls": 1,
+      "exit": 0
+    },
+    {
+      "kind": "terminal candidate poll",
+      "run": 42291301710,
+      "at": "2026-11-06T21:02:48.034731+00:00",
+      "calls": 1,
+      "exit": 0
+    }
+  ]
+}

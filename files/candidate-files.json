@@ -1,0 +1,40 @@
+{
+  "head": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae",
+  "files": [
+    {
+      "path": "src/terrace/api.ts",
+      "sha256": "dedf9ec7fe08ea004471c182b2ad4da45c35a4155dce8eff55175b912722b3fd",
+      "blob": "cc166c6706b8578c31715a11a626957b0339ca56"
+    },
+    {
+      "path": "src/terrace/operating-risks.ts",
+      "sha256": "774680411bcd4e8afb3bd41411c354cb2d6bea2d7e6bb7d519305bf3e3a89229",
+      "blob": "0e075364ba6408585c503a046550aaa558a9df71"
+    },
+    {
+      "path": "src/terrace/operating-risk-view.ts",
+      "sha256": "e8828004fde8931e16212a03c433e54df94df8784f17d5949ec80512d4eba273",
+      "blob": "6e9fc65b11c7b9a642b5d654c2933a17284cc110"
+    },
+    {
+      "path": "tests/operating-risks.mjs",
+      "sha256": "7320227cb8ef91fbd8cace039f5c81c6a1272790cdef91dfa510f5c5e475b332",
+      "blob": "f61102797ea262b35bef41e4a45167eb04140eaf"
+    },
+    {
+      "path": "tests/operating-risks-browser.mjs",
+      "sha256": "e9b0cbf0ff49c5c84002e29e54064bf9682ab234b58d050c797a41ee23d66cc7",
+      "blob": "b83d5fc5df163cc6343f68c7f309659adf53456a"
+    },
+    {
+      "path": "verification.json",
+      "sha256": "82bd420994c0268dedcce32a94f4166f9b77940489a22aa0701d0ac0f7754873",
+      "blob": "c90325c5c615cfa7f3dfd40a33011d591f56264a"
+    },
+    {
+      "path": "sources.lock.json",
+      "sha256": "89110dfa82f588ad689f27d70ad1dc7bf2f148f64b150df2c5db3ddc1bd19600",
+      "blob": "321a5d8285febcd20fef93ac829fcde1f038015b"
+    }
+  ]
+}

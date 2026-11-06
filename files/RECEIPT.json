@@ -1,0 +1,90 @@
+{
+  "tag": "sx-terrace-c-f91",
+  "repository": "just-every/run-terrace",
+  "branch": "cloud/sx-terrace-c-f91",
+  "head": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae",
+  "base": "c945ca7d5fe1d73c52f3e09bfd59c616077b9fc2",
+  "pr": null,
+  "productPushed": true,
+  "commits": [
+    "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae Prove operating-risk reads refuse mutation requests",
+    "8d29c8908c255f90c94e9fee264a63b2e98f19ff Expose owner-only operating-risk observations",
+    "1c1cb12e235feba02c647491eb75ecad65bce785 Add owner operating-risk source analysis [skip ci]"
+  ],
+  "identityCheck": {
+    "command": "git log origin/main..HEAD --format=\"%an <%ae>%n%cn <%ce>%n%(trailers:only,unfold)\"",
+    "passed": true,
+    "allParents": true,
+    "trailers": []
+  },
+  "contractCountsBefore": {
+    "done": 59,
+    "partial": 56,
+    "missing": 43,
+    "total": 158
+  },
+  "contractCountsAfter": {
+    "done": 59,
+    "partial": 56,
+    "missing": 43,
+    "total": 158
+  },
+  "statusCellsChanged": false,
+  "generatedViewsCommitted": false,
+  "testsBefore": 50,
+  "testsAfter": 52,
+  "cap": 200,
+  "assertionsRemoved": 0,
+  "assertionsNarrowed": 0,
+  "sourceLockCheckExit": 0,
+  "viewWriteExit": 0,
+  "viewCheckExit": 0,
+  "migrationLedger": "not applicable: no migrations",
+  "verify": {
+    "run": 42291301710,
+    "event": "push",
+    "head": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae",
+    "status": "in_progress",
+    "conclusion": null,
+    "head_sha": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae",
+    "html_url": "https://github.com/just-every/run-terrace/actions/runs/42291301710"
+  },
+  "publicationScan": {
+    "commit": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae",
+    "complete": null,
+    "historyScanned": null,
+    "findings": null,
+    "reason": "Delegated to the guarded Mac lander; cloud scan not required"
+  },
+  "mainEquality": false,
+  "runSite": {
+    "candidate": null,
+    "reason": "Main-only guarded landing step"
+  },
+  "proof": {
+    "checks": "checks.json",
+    "screens": [
+      "operating-risks-1440.png",
+      "operating-risks-390.png"
+    ],
+    "browserInspected": true,
+    "scope": "AGENT-007 first documentary acceptance segment",
+    "visualInspectionSource": "8d29c8908c255f90c94e9fee264a63b2e98f19ff",
+    "terminalScreensRegenerated": true
+  },
+  "claim": {
+    "clause": "AGENT-007",
+    "status": "PARTIAL",
+    "points": [],
+    "reason": "No complete acceptance sentence is closed; detection and quantified source assumptions are proven, preventive plan and subsequent outcomes remain owed"
+  },
+  "supersededVerify": {
+    "head": "8d29c8908c255f90c94e9fee264a63b2e98f19ff",
+    "run": 42290492821,
+    "lastObservedStatus": "in_progress",
+    "reason": "Superseded by a stronger public mutation-refusal assertion; final status not inferred"
+  },
+  "runtimeSourceUnchangedFrom": "8d29c8908c255f90c94e9fee264a63b2e98f19ff",
+  "checkHead": "5caa2a6268f4cf1fa7b246a62ce2035694bf65ae",
+  "githubTaskRestCalls": 6
+}
