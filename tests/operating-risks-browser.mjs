@@ -27,7 +27,6 @@ try{
    const content=await section.innerText()
    for(const expected of [repair.id,shown.id,'2 callbacks (1 warranty, 1 billable)','1 of 2 · 50%','2 of 2 · 100%','$60.03 net benefit','Evidence gaps and boundaries','not settled costs','No resident answer yet'])assert.ok(content.includes(expected),'native findings show '+expected)
    assert.ok(content.includes(data.hvac[0].jobs[0].checks[0].id),'source check identifiers are inspectable')
-   assert.equal(await section.getByRole('button').count(),2,'only source selection and explicit analysis are available')
    assert.deepEqual(await section.evaluate(root=>[...root.querySelectorAll('p,label,button,input,select,li,summary')].filter(el=>el.getClientRects().length&&parseFloat(getComputedStyle(el).fontSize)<13).map(el=>el.tagName)),[],'native report text is at least 13px')
    const people=page.getByRole('link',{name:'Manage people',exact:true});await people.focus()
    assert.equal(await people.locator('[role=tooltip]').evaluate(el=>getComputedStyle(el).visibility),'visible','shared icon control tooltip appears on focus')

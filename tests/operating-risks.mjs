@@ -82,6 +82,7 @@ export async function journey({inspect,assets=false}={}){
   }
   const before=await snapshot(),messages=h.messages.length
   await read(scenario)
+  assert.equal((await h.request('/api/operating-risks',{method:'POST',body:{...q,command:'maintenance.prepare'}})).status,405,'analysis cannot execute a mutation')
   const page=await h.request('/app?tab=operating-risks&'+new URLSearchParams(scenario));assert.equal(page.status,200)
   const html=await page.text()
   assert.ok(html.includes(repair.id));assert.ok(html.includes('$60.03'));assert.ok(html.includes('Hypothesis:'));assert.ok(html.includes('Evidence gaps'))

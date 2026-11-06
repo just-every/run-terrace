@@ -5501,11 +5501,11 @@
       "executable": false
     },
     "tests/operating-risks-browser.mjs": {
-      "sha256": "b950651232ea782c3e69e0aaa82feff8995054ec8af3d1da4524c0d3d870ef1d",
+      "sha256": "e9b0cbf0ff49c5c84002e29e54064bf9682ab234b58d050c797a41ee23d66cc7",
       "executable": false
     },
     "tests/operating-risks.mjs": {
-      "sha256": "311ca6e82e38137be0520951fdcab10f6da76f97bb8329842fe9053ebfd154e9",
+      "sha256": "7320227cb8ef91fbd8cace039f5c81c6a1272790cdef91dfa510f5c5e475b332",
       "executable": false
     },
     "tests/owned-installation.mjs": {
