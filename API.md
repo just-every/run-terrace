@@ -443,3 +443,55 @@ retention and legal holds cover provider receipts; eligible erasure removes
 them. Backup and readable export retain evidence, while a restored installation
 cannot accept archived callbacks. Synthetic signed fixtures establish no live
 sender, delivery, inbound identity or account entitlement.
+
+## Setup readiness disclosures
+
+SAFE-008: `GET /api/setup-readiness` serves only the signed-in installation
+owner, with no-store responses. Other operators and API credentials receive 403;
+missing or revoked authentication receives 401. The read-only native section is
+under `/app?tab=settings`. There is no activation or configuration command here.
+
+The response separates contract-required provider onboarding and agreements from
+implementation availability, configuration presence, historical successful
+exchanges and owner-reported entitlement. Agreements, authorized credentials,
+authority and activation remain unverified, including after archive restoration.
+No provider request, connection check, send, collection or configuration write
+runs from a readiness read.
+
+`limits` gives kind-specific byte ceilings used by native upload validation,
+including separate inspection photographs, tenancy documents, signed lease
+originals, chunked visual and document evidence, chunks and browser archive
+restore. These are upper validation bounds; content checks and D1 row limits
+can refuse smaller files. They establish no qualified storage maximum. Larger
+archives use the existing `rer import` command.
+
+`costs` retains existing dated owner assumptions in USD cents per thousand
+outbound requests, with observed counts and estimates kept separate from unknown
+measured storage billing and external fees. Official pricing links are review
+sources, not contracted quotes. `capacity` lists SAFE-009's required reference
+and dataset and each target bound; qualified is false, receipt is null and
+measured timings are null while hosted reference results are unavailable.
+Local readiness runs never become qualified reference measurements here.
+
+## Read-only operating-risk analysis
+
+`GET /api/operating-risks` requires a current installation-owner session;
+API credentials and every non-owner role are refused. Required query fields
+are `propertyId`, `from`, `to` and `assetIds` (comma-separated distinct recorded
+HVAC identifiers belonging to that property). Dates are inclusive and local to
+the property, with the leasing report's existing bounded window. The HVAC
+window selects jobs by local preparation date. Attempt effective dates and
+recording dates, and resident-check recording dates, must be on or before To.
+
+Optional scenario fields are `assumptionDate`, `assumptionReference`,
+`preventiveCost`, `callbackCost` and `avoidedCallbacks`; supplying any requires
+all five. Money inputs are positive exact USD amounts with at most two decimal
+places; the count is a whole number from zero through 1,000. Scenario output is
+hypothetical cost and benefit, never settled cost or realized savings.
+
+The owner page is `/app?tab=operating-risks`, reached from Properties.
+Every requested analysis recomputes from current native records and returns
+`Cache-Control: no-store`. Unselected asset evidence and other-property
+prospect cases are omitted. The door creates no workload, proposal, approval,
+financial entry or provider request. See [Operating-risk observations](docs/operating-risks.md)
+for source cohorts, duplicate exclusions and the remaining product boundary.

@@ -101,7 +101,7 @@
       "executable": false
     },
     "ACCEPTANCE.md": {
-      "sha256": "58a22110abf5fbb6e6dd5ac642cc492a9de9c7eec7e078480007138ccd5fd4c5",
+      "sha256": "9084772f9dfb8ca94824d3e3245a200859aae1f1b625c94a2773e433fe35fade",
       "executable": false
     },
     "agent-surface.json": {
@@ -113,7 +113,7 @@
       "executable": false
     },
     "API.md": {
-      "sha256": "571d7ed65162ae36658aa6bd3902b64091f859db28ffb1dab8a75860f15f0957",
+      "sha256": "9cf7c085c7947fcd1d2549610160e610f7cb322ea75e243c499b272e1e41f3e2",
       "executable": false
     },
     "base-copies.json": {
@@ -133,7 +133,7 @@
       "executable": false
     },
     "CONTRACT.md": {
-      "sha256": "146d7e680cc9fe636021ddd7094e4f543d947e12d4ab7dac3ebb4c6d88b9d6a7",
+      "sha256": "35656cd4283c6125c67ec834ecc6420418ec0eb3767e079c0a62896a8ed3f29c",
       "executable": false
     },
     "DEMO.md": {
@@ -201,7 +201,7 @@
       "executable": false
     },
     "docs/index.md": {
-      "sha256": "0473f326265613107c5294837fbdbd38c98284365d4cbede78569c8be5763f76",
+      "sha256": "486adb7abd2f8f60c659f2673fe1ca03cbf8771d15f4111b995df97b776cc2dd",
       "executable": false
     },
     "docs/inspections-and-maintenance.md": {
@@ -214,6 +214,10 @@
     },
     "docs/office-print.md": {
       "sha256": "6c072efe57f76c908f05bfb19f1957d29a2dfc19f58c14ecdf1d4b7d7d3bd241",
+      "executable": false
+    },
+    "docs/operating-risks.md": {
+      "sha256": "eb0a6baec859f35de06f2d97c4b725316af6c6d5bbae8080f1c7911e6ad46009",
       "executable": false
     },
     "docs/payment-policies.md": {
@@ -238,6 +242,18 @@
     },
     "docs/state-rule-packs.md": {
       "sha256": "f5f92bdf98ac895623a3111fac898924c3bc6e200aadeaece3635377ae02b028",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/access-appfolio.txt": {
+      "sha256": "9ad60247d941febbe0c3f73b65f5e4765411add51d58fe092d91801ecfe42d5b",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/access-buildium.txt": {
+      "sha256": "2938e9f1284180959e33ab1718d0793a72ff6e4cdb8108c34dcd14e69446de5c",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/access-rent-manager.txt": {
+      "sha256": "412d5869311c6b52b40db1cac7a20748316c139b688c40388038b44f7f636e79",
       "executable": false
     },
     "docs/switch-checklist-sources/af-accounting.txt": {
@@ -293,7 +309,7 @@
       "executable": false
     },
     "docs/switch-checklist-sources/appfolio.json": {
-      "sha256": "57140a74719f1944d8a957cd496c36b0de720db4ede1069ef911cff54897134a",
+      "sha256": "c3a7598e79ef356e5f23daea8dc920a747c2a7f122d1877951a49e870301d335",
       "executable": false
     },
     "docs/switch-checklist-sources/bu-accounting.txt": {
@@ -304,6 +320,14 @@
       "sha256": "7c8c53228635138ba2b76b95b561fbb40c0bc1e753bf59e119e98c0c3c96a096",
       "executable": false
     },
+    "docs/switch-checklist-sources/bu-application.txt": {
+      "sha256": "0293b5364be9407949ce9ec0c576041abc858d68452708861abce954e8d3f6dd",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/bu-association.txt": {
+      "sha256": "2b261b27956d4be6ba9f671529852bfa38a1de0304b43630801767f4b519141c",
+      "executable": false
+    },
     "docs/switch-checklist-sources/bu-automation.txt": {
       "sha256": "430f0cf269fbb48f63401a4394d389fcdb2676da1683cd0b6b511c46ad09d0b2",
       "executable": false
@@ -312,12 +336,24 @@
       "sha256": "1e92182459a2e08b193d4093f9e68b4b88307b68f2a87c65fb4266e9d4201585",
       "executable": false
     },
+    "docs/switch-checklist-sources/bu-inspection.txt": {
+      "sha256": "cab22f1a5c457d534833508612d6bcde991805a7dc5b6eee439cf13c1e03d095",
+      "executable": false
+    },
     "docs/switch-checklist-sources/bu-leasing.txt": {
       "sha256": "f5780b10b82c9402a40825889511d22495d461e788eeb93d572ce4b39a730750",
       "executable": false
     },
     "docs/switch-checklist-sources/bu-maintenance.txt": {
       "sha256": "2a46b8cc61be15acd2ce73f74f1258adc3767e5338010186cfeaab76f900ddc4",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/bu-owner.txt": {
+      "sha256": "6cfbde9630b9b06dad6f4805c9bfa62d22184ccc7b4754fa6984d6ee221a885c",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/bu-payments.txt": {
+      "sha256": "e50737d684e858fa7d298e8e4409e468dd896bf02d911f5607b8e5cfa1e93a95",
       "executable": false
     },
     "docs/switch-checklist-sources/bu-platform.txt": {
@@ -332,6 +368,14 @@
       "sha256": "dc111fa7ff550ca1727e53229cfb1b43aa2e68d9a0971077153c7fc63beb7eaa",
       "executable": false
     },
+    "docs/switch-checklist-sources/bu-screening.txt": {
+      "sha256": "814dbce80dc05e122b614b9989e0c15b8c3001b93286c060e382ec95ca8da365",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/bu-tax.txt": {
+      "sha256": "038634d093a49b2cc3d82397f56123f71e6c5478bb15d3f143f8e580f5702613",
+      "executable": false
+    },
     "docs/switch-checklist-sources/bu-telephone.txt": {
       "sha256": "1d077d245c59de3619273ecefe4ca6862e61217a6f6f314d82047e2ddce0613d",
       "executable": false
@@ -341,11 +385,19 @@
       "executable": false
     },
     "docs/switch-checklist-sources/buildium.json": {
-      "sha256": "4943465e361c967c5276524863598ff7db3cec36e4f4bdba71e4033119328450",
+      "sha256": "f412044d3d59d331b5d0c67791f55fc9bc7692a06f164db25e324568b3114d53",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/discovery-audit.json": {
+      "sha256": "bcc846d0ac65bfda9caf60830cf4afd45f9b548b6f0e8df2c72f70504274b087",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/documentation-access.json": {
+      "sha256": "44e843b65d91b380671c51b5e203783d21b539364a0a1ffcaf61bd70ebb9c6e0",
       "executable": false
     },
     "docs/switch-checklist-sources/manifest.json": {
-      "sha256": "e1fbf4555f01479c0d1747cbbc18624bd163ab66c955856a8d570859d73eabc5",
+      "sha256": "4adcc73a6162ee3812fe6e5dfbbedbdb40892e91f1aea3e6fcd8cf2502f2cdae",
       "executable": false
     },
     "docs/switch-checklist-sources/rent-manager-discovery.txt": {
@@ -353,11 +405,15 @@
       "executable": false
     },
     "docs/switch-checklist-sources/rent-manager.json": {
-      "sha256": "98e3627b269633ac4d01ba0527c20d54060ec68440f177cc4b76096ff91f62f5",
+      "sha256": "4d9d2cd02e71854119be4ff4bd08a8be23642978585d48ffb17698b5f98c66f9",
       "executable": false
     },
     "docs/switch-checklist-sources/rm-accounting.txt": {
       "sha256": "bb679da41595d2b3e68fc1e1420ec58ac06560d4e7c332ec09812fa446a50409",
+      "executable": false
+    },
+    "docs/switch-checklist-sources/rm-communication.txt": {
+      "sha256": "c1afa2684b997146a868b79ab896fa5f8c60efc5d09170d10beb2a8e3bf4c502",
       "executable": false
     },
     "docs/switch-checklist-sources/rm-leasing.txt": {
@@ -376,6 +432,10 @@
       "sha256": "5167f9afa12c63ca9e30634b38dbd3af94703f093e133e731079eb0edaae1efa",
       "executable": false
     },
+    "docs/switch-checklist-sources/rm-payments.txt": {
+      "sha256": "ebbdb617ae101365ed9ef77f03ce95e2cc837ed4ebce5713c0480fc80c236be8",
+      "executable": false
+    },
     "docs/switch-checklist-sources/rm-reports.txt": {
       "sha256": "72029a7396bede61d073e0bc45a597c50f44810082eb5c9783b7f679750f11ce",
       "executable": false
@@ -384,20 +444,28 @@
       "sha256": "eb96d403b7460e37dfb20f7f02030bf260d0f41a0524811b4fc0d87f7058dca3",
       "executable": false
     },
+    "docs/switch-checklist-sources/rm-screening.txt": {
+      "sha256": "f84499deb7aec93ef7deec80cd818e5f68797656a5e9935ec9fd68985b95a87b",
+      "executable": false
+    },
     "docs/switch-checklist-sources/rm-telephone.txt": {
       "sha256": "0ca4b34fd4660120237af8704fbc49a843243d777e0563ce739a77c90791b29c",
       "executable": false
     },
+    "docs/switch-checklist-sources/rm-tenant.txt": {
+      "sha256": "2bb6059858e1db610f3b17e566444ce59a16042c55292165fcc5d1a6f1636b1d",
+      "executable": false
+    },
     "docs/switch-checklist-sources/source-areas.json": {
-      "sha256": "469863fc5bea436319abac4bf6b1131d884bbdaf996fb2c4958eb3220561f9a5",
+      "sha256": "efe37d84f2bab6ce699ecf9eecf2a88133d8be4bd73e17f4116ddbf979ff4293",
       "executable": false
     },
     "docs/switch-checklists.json": {
-      "sha256": "e18244cc2947b6cce168617981a6321ada5b1521fb1a42b634b1617252674053",
+      "sha256": "39e1b416261149ba48a7a74b70b3a0b9c855cf60ef979668afb0dc0cb68b4d5b",
       "executable": false
     },
     "docs/switch-checklists.md": {
-      "sha256": "1410c95bbb9cf5b48ac7951c8f8593975579a7ceafc3df661d51804df13fb5cd",
+      "sha256": "62f71f41dd733062b59140a3e2652b4f36cca17f191dbfbf104ab21800f1da50",
       "executable": false
     },
     "docs/tenancies.md": {
@@ -925,7 +993,7 @@
       "executable": false
     },
     "public/app/integrations.css": {
-      "sha256": "6bf34b06f0b966544ba5642985687a6330fa6dd6fdb776d95cfdb279c908c81f",
+      "sha256": "f2642119ec3999a1e6f4580067a91d286865f4b5bb3d4df0fc7a00520506a741",
       "executable": false
     },
     "public/app/pages.css": {
@@ -1181,7 +1249,7 @@
       "executable": false
     },
     "README.md": {
-      "sha256": "232a2ba56d64acfac799c93b3b9611899eef400a2be4283e90cb1c687112ebab",
+      "sha256": "59271107cc837a39d7ab37988ba96d55a6e70d88720a2f49e7bf81e522048129",
       "executable": false
     },
     "release-history/0.1.0.json": {
@@ -1205,7 +1273,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "b6afc0b2430912f1cc4fe3bafa01b7b1ee2d1a99c08af6a987e0b8366f221617",
+      "sha256": "2fa46cecfef128e9c5954491c56ec94a25cef5ce28ffeecd7f50338de7e14963",
       "executable": false
     },
     "rer-project.json": {
@@ -1229,7 +1297,7 @@
       "executable": false
     },
     "scripts/contract-docs.mjs": {
-      "sha256": "60f28138658da6a5036b3aac61c1a156366808c4eb19140196170aaf8e8cf3f1",
+      "sha256": "5868cf1012ca721203a1214457ae9e4f3b586c6e210e06c9f589ab7ba554d0ce",
       "executable": false
     },
     "scripts/delivery/base/artifact.mjs": {
@@ -1425,7 +1493,7 @@
       "executable": false
     },
     "scripts/switch-checklists.mjs": {
-      "sha256": "983c97940b651b42a35dfac6a3280109e70f957a6a829f7454208371ac754b29",
+      "sha256": "891fee12a21bd54af1543c43705c10560aaeadb4b33a37621e41bc07b9aed8e5",
       "executable": false
     },
     "scripts/twilio-sandbox.mjs": {
@@ -4085,7 +4153,7 @@
       "executable": false
     },
     "src/terrace/api.ts": {
-      "sha256": "f759186c9f646577052d219c5dc9e06b364279568183963636fd8beb77a67364",
+      "sha256": "dedf9ec7fe08ea004471c182b2ad4da45c35a4155dce8eff55175b912722b3fd",
       "executable": false
     },
     "src/terrace/application-access.ts": {
@@ -4265,7 +4333,7 @@
       "executable": false
     },
     "src/terrace/data.ts": {
-      "sha256": "ea807051195b7d426860840915284b49bb82320f8beefa73520ef0b7837ea9ea",
+      "sha256": "0d3187360a0a389f841f0b601e132667889e87f875ff40f29079cf867a05d677",
       "executable": false
     },
     "src/terrace/delinquency-math.ts": {
@@ -4321,7 +4389,7 @@
       "executable": false
     },
     "src/terrace/documents.ts": {
-      "sha256": "66cf67e00e795677d9b4351cfa2e7b04de21bc1cd74ee26cfede9e7cbb3f44cf",
+      "sha256": "527a741c1ae65d4d06992bbcbb5113f857da58d01d37d8588536aa309f1a4408",
       "executable": false
     },
     "src/terrace/dual-control.ts": {
@@ -4369,7 +4437,7 @@
       "executable": false
     },
     "src/terrace/field-evidence-media.ts": {
-      "sha256": "76dbae833463cef45a065e93226419471e57c4bc7062a357584172f4eb8111a6",
+      "sha256": "c23440d16f7202062a949aae5a387f86072d0ff20692ce2f7a92192713d72325",
       "executable": false
     },
     "src/terrace/field-evidence-view.ts": {
@@ -4525,7 +4593,7 @@
       "executable": false
     },
     "src/terrace/lease-source.ts": {
-      "sha256": "06ea495a4727d01af6be9b6ca8c14d9907643409a632aae4e8c5a0f9ef418cdd",
+      "sha256": "f670bd42af5f58ff574fb3d66c6c575e95131bd1bbe341115c168473e151a3f2",
       "executable": false
     },
     "src/terrace/lease-versions.ts": {
@@ -4622,6 +4690,14 @@
     },
     "src/terrace/office-print.ts": {
       "sha256": "a61973b34326cc88ac3fe4b2a49d54d7340c3083625fe09e53d0cb59fbe6ff2c",
+      "executable": false
+    },
+    "src/terrace/operating-risk-view.ts": {
+      "sha256": "e8828004fde8931e16212a03c433e54df94df8784f17d5949ec80512d4eba273",
+      "executable": false
+    },
+    "src/terrace/operating-risks.ts": {
+      "sha256": "774680411bcd4e8afb3bd41411c354cb2d6bea2d7e6bb7d519305bf3e3a89229",
       "executable": false
     },
     "src/terrace/owner-invoices.ts": {
@@ -4933,7 +5009,15 @@
       "executable": false
     },
     "src/terrace/settings-view.ts": {
-      "sha256": "8468867f6d7df8a919eda5e2cfd249d10610aa87b511fc4febe4ad76af716466",
+      "sha256": "6c52f23dbb7a086e48fd675a87492801b66a39d05456a326d28df70d78de769f",
+      "executable": false
+    },
+    "src/terrace/setup-readiness-view.ts": {
+      "sha256": "6f2cfe15e53ce35517c8060859a9720f9e12b1a0add6cb629aa5cddf990eee36",
+      "executable": false
+    },
+    "src/terrace/setup-readiness.ts": {
+      "sha256": "ff98f1cf867baeb21d5ee1cc5c7206408b4527de2a30235a5646a22002d15872",
       "executable": false
     },
     "src/terrace/shadow-run-archive.mjs": {
@@ -5057,7 +5141,7 @@
       "executable": false
     },
     "src/terrace/work.ts": {
-      "sha256": "0257d3a30d777479ee2e4f6dd1fb433171231ce0063a121e9269a4961c44c7fd",
+      "sha256": "a3e8dc24c9d124522b5e9f915a934eb6b9e6ae49ff1253ea65aa390550c595ab",
       "executable": false
     },
     "src/terrace/workflow-mail.ts": {
@@ -5093,7 +5177,7 @@
       "executable": false
     },
     "test-budget.json": {
-      "sha256": "ce4212107885757e05091e94803c1efb28d4e40ec2f82d5c2716c166246cc0b5",
+      "sha256": "b93c1e638cd3127b26c7943b1f8686b2a58c544454627f9c709c4334557d8f90",
       "executable": false
     },
     "tests/accessibility-browser.mjs": {
@@ -5341,11 +5425,11 @@
       "executable": false
     },
     "tests/integration-health-browser.mjs": {
-      "sha256": "8ade527a208d3446f77d5e0e10395e80d3ad383e0598bd98c99a59fa2189712c",
+      "sha256": "23a48845d3274d56a4dce51f6498c7d456ee89c67f0f97bdae89bad91452da69",
       "executable": false
     },
     "tests/integration-health.mjs": {
-      "sha256": "d6859c8a9b8b1e7639dc0b261d7820850abc4952b6cf9486d7fc78ed6ced78fb",
+      "sha256": "c6a1a58fed9f0ce992073dac52849cf044347637430ce2280b0d53dc8d65f33b",
       "executable": false
     },
     "tests/journal-browser.mjs": {
@@ -5414,6 +5498,14 @@
     },
     "tests/open-installation.mjs": {
       "sha256": "9f985cc67ae290710e5bcf0908fda0607f944236858cb077fb1d816eee57368d",
+      "executable": false
+    },
+    "tests/operating-risks-browser.mjs": {
+      "sha256": "e9b0cbf0ff49c5c84002e29e54064bf9682ab234b58d050c797a41ee23d66cc7",
+      "executable": false
+    },
+    "tests/operating-risks.mjs": {
+      "sha256": "7320227cb8ef91fbd8cace039f5c81c6a1272790cdef91dfa510f5c5e475b332",
       "executable": false
     },
     "tests/owned-installation.mjs": {
@@ -5565,7 +5657,7 @@
       "executable": false
     },
     "tests/site/switch-checklists.mjs": {
-      "sha256": "2a1720eff8cacdf21ad5eb22880c155c63a2e8ca4c88f977d134daedce1f1483",
+      "sha256": "f6d3b059f90a9ec73546c3bfd41c328bae9e52140cc857ded6689235e174deab",
       "executable": false
     },
     "tests/statements-browser.mjs": {
@@ -5585,7 +5677,7 @@
       "executable": false
     },
     "tests/terrace.test.mjs": {
-      "sha256": "121f8fcce0071f7896765fad578cf800c8ca90120859873ceaf3c7f8ebbd075c",
+      "sha256": "5ddf92f5b0292942178676060355afb5973e4150ed4afe8298789038a4c40860",
       "executable": false
     },
     "tests/trust-browser.mjs": {
@@ -5625,7 +5717,7 @@
       "executable": false
     },
     "verification.json": {
-      "sha256": "bf62373e5cd60be2e1ef775c4e62fba599a8e9e6adaec973874f7becd20a0b2c",
+      "sha256": "82bd420994c0268dedcce32a94f4166f9b77940489a22aa0701d0ac0f7754873",
       "executable": false
     },
     "VERIFY-WORKFLOW.md": {

@@ -51,6 +51,23 @@ rer demo
 
 Owners control imports, backup, restore, erasure and operators. Admins are property managers: they record rent and inspections and approve proposals. Members can read the portfolio and prepare proposals only. Invite people in **Data & access**. Company agents use the [shared door](docs/agent-door-adoption.md) under signed policy; native command credentials retain their read/prepare limits. A person's owner/admin account performs native approval.
 
+## Review setup readiness
+
+The installation owner can open **Data & access → Setup readiness** at
+`/app?tab=settings` to review required provider agreements, onboarding and
+entitlements, available implementations and native distribution gaps. This
+section reads current setup information and offers no activation controls.
+Configured credentials, a successful exchange and owner-reported entitlement
+leave agreement verification and activation readiness unverified.
+
+The same section shows enforced attachment and archive byte ceilings, dated
+owner cost assumptions and official pricing sources. Saving an assumption in
+Integration diagnostics updates its displayed amount and date; it does not
+verify a contracted price or measured billing. Storage and external fees remain
+unknown. SAFE-009 target bounds are shown separately from unavailable hosted
+reference measurements; local readiness runs establish no qualified capacity.
+The authenticated owner-only read endpoint is documented in [API.md](API.md).
+
 ## Backup, restore and checks
 
 The browser supports archives up to 20 MB. The CLI supports larger archives:

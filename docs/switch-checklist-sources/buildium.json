@@ -688,6 +688,590 @@
       "section": "Save Draft or Schedule and Share",
       "line": 57,
       "quote": "Save as draft if still reviewing, or select Schedule and share if ready. You will be asked to confirm the schedule settings, end date, and recipients before generating the schedule > Schedule and share."
+    },
+    {
+      "id": "bu-owner-01",
+      "label": "Owner financial reports and property transactions",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 81,
+      "quote": "Put key financial reports within easy reach, including profit and loss statements, income statements, contributions, draws, and property-specific transactions."
+    },
+    {
+      "id": "bu-owner-02",
+      "label": "Selective owner report publication",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 82,
+      "quote": "Choose which reports owners can access and when"
+    },
+    {
+      "id": "bu-owner-03",
+      "label": "Owner self-service report downloads",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 83,
+      "quote": "Give owners self-service access to view and download reports"
+    },
+    {
+      "id": "bu-owner-04",
+      "label": "Owner report publication schedule",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 84,
+      "quote": "Share updates on a schedule that works for your business"
+    },
+    {
+      "id": "bu-owner-05",
+      "label": "Owner contribution requests and payment history",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 86,
+      "quote": "Give owners a way to review contribution requests, send funds, and track transaction history by property."
+    },
+    {
+      "id": "bu-owner-06",
+      "label": "Itemized owner contribution explanations",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 87,
+      "quote": "Add notes and line items to clarify each contribution request"
+    },
+    {
+      "id": "bu-owner-07",
+      "label": "Owner electronic contributions",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 88,
+      "quote": "Support electronic payments through ePay"
+    },
+    {
+      "id": "bu-owner-08",
+      "label": "Owner bank and card contribution methods",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 89,
+      "quote": "Reduce manual work with EFT and ACH and credit or debit card payments"
+    },
+    {
+      "id": "bu-owner-09",
+      "label": "Owner receipts leases and statements library",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 91,
+      "quote": "Upload receipts, leases, statements, and other important files to the property owner portal, so owners can find what they need without another email or call."
+    },
+    {
+      "id": "bu-owner-10",
+      "label": "Property-specific owner original sharing",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 92,
+      "quote": "Share property-specific documents with the right owners"
+    },
+    {
+      "id": "bu-owner-11",
+      "label": "Owner view and download permissions",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 93,
+      "quote": "Control which files owners can view or download"
+    },
+    {
+      "id": "bu-owner-12",
+      "label": "Owner document correction and withdrawal",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 94,
+      "quote": "Update, edit, or remove documents as details change"
+    },
+    {
+      "id": "bu-owner-13",
+      "label": "Contribution request tasks with deadlines",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 96,
+      "quote": "Create tasks for contribution requests, assign due dates, and add memos so owners know what’s needed and when."
+    },
+    {
+      "id": "bu-owner-14",
+      "label": "Owner maintenance request tasks",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 97,
+      "quote": "Let owners submit maintenance requests as tasks"
+    },
+    {
+      "id": "bu-owner-15",
+      "label": "Owner task history and updates",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 98,
+      "quote": "Keep a full task history so owners can follow updates"
+    },
+    {
+      "id": "bu-owner-16",
+      "label": "Automatic owner balance reminder emails",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 99,
+      "quote": "Send automatic reminder emails for outstanding balances"
+    },
+    {
+      "id": "bu-owner-17",
+      "label": "Owner invoice approval",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 120,
+      "quote": "With a property owner portal, owners of rental properties are able to see up-to-date financials and reporting, resolve outstanding tasks, approve invoices, fund contribution requests, and access important documents—24/7 from any device, anywhere."
+    },
+    {
+      "id": "bu-owner-18",
+      "label": "Owner EFT and check disbursements",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 122,
+      "quote": "Payments to rental owners can be made via EFT or by check."
+    },
+    {
+      "id": "bu-owner-19",
+      "label": "Owner complete maintenance and repair history",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 124,
+      "quote": "Yes! A property owner is able to view the complete history of maintenance and repair tasks completed within their portfolio of properties."
+    },
+    {
+      "id": "bu-owner-20",
+      "label": "Owner multiple-property portal",
+      "source": "bu-owner",
+      "section": "Owner portal",
+      "line": 126,
+      "quote": "Property owners can use the Owner Portal to access all of their properties in one place."
+    },
+    {
+      "id": "bu-payments-01",
+      "label": "Resident recurring bank and card payments",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 74,
+      "quote": "Cut payment processing time by up to 70 percent with online rent payment technology. Residents can add their bank accounts or credit cards in the Resident Center, and then set up recurring payments. Funds are automatically transferred to your bank account—no manual deposits necessary."
+    },
+    {
+      "id": "bu-payments-02",
+      "label": "Automatic rent fee and bill accounting",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 79,
+      "quote": "Manage your owners’ property finances using built-in property management accounting tools. Track rent, fees, and bills automatically—so everything stays accurate, organized, and ready to report."
+    },
+    {
+      "id": "bu-payments-03",
+      "label": "Real-time payment funding visibility",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 81,
+      "quote": "Know the moment rent hits your account. Get real-time payment updates and a clear view of your rental income—without logging into separate systems or waiting for bank confirmations."
+    },
+    {
+      "id": "bu-payments-04",
+      "label": "Resident autopay and payment reminders",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 83,
+      "quote": "Help residents stay on schedule with tools built for convenience. Autopay and payment reminders make it easy to pay on time through the Resident Center app—rated 4.8 stars in the App Store."
+    },
+    {
+      "id": "bu-payments-05",
+      "label": "Online application fee collection",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 85,
+      "quote": "Collect payment information and generate ancillary income right from the start when potential residents submit an online application."
+    },
+    {
+      "id": "bu-payments-06",
+      "label": "Vendor payment and automatic posting",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 87,
+      "quote": "Pay vendor invoices through Buildium, and they’ll be automatically recorded, thanks to a fully integrated property management accounting platform."
+    },
+    {
+      "id": "bu-payments-07",
+      "label": "Resident ACH from checking or savings",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 98,
+      "quote": "ACH (Automated Clearing House) Payments: Tenants can authorize direct bank transfers from their checking or savings accounts to pay their rent online. This option provides a secure and convenient way to make payments electronically."
+    },
+    {
+      "id": "bu-payments-08",
+      "label": "Resident credit and debit cards",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 99,
+      "quote": "Credit and Debit Card Payments: Buildium allows tenants to pay their rent online using major credit cards or debit cards. This option offers flexibility for tenants who prefer to use their cards for payments."
+    },
+    {
+      "id": "bu-payments-09",
+      "label": "Resident electronic checks",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 100,
+      "quote": "E-checks: Tenants can also make rent payments using electronic checks, which are processed through the ACH network. This option allows tenants to pay directly from their bank accounts without the need for physical checks."
+    },
+    {
+      "id": "bu-payments-10",
+      "label": "Resident retail cash rent",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 101,
+      "quote": "Cash Payments: Buildium integrates with select payment processors that offer cash payment options. This allows tenants to make cash payments at participating retail locations, which are then recorded and tracked within the Buildium platform."
+    },
+    {
+      "id": "bu-payments-11",
+      "label": "Bank funding after provider processing",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 105,
+      "quote": "It depends how the payment was made, but it usually takes one business day before your bank will acknowledge the funds. For example, if Buildium shows that the transaction funded on Monday the 1st, you’ll see the money in your real-world bank account on the next business day."
+    },
+    {
+      "id": "bu-payments-12",
+      "label": "Method-specific processing cutoff times",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 106,
+      "quote": "EFT transactions are processed the same day if they are entered by 6pm Central Time. Credit card transactions are processed the same day if they are entered by 11:45pm Central Time."
+    },
+    {
+      "id": "bu-payments-13",
+      "label": "Authorized ePay application and onboarding",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 110,
+      "quote": "All Buildium customers have access to our simple, step-by-step guide on how to apply for ePay. For Growth and Premium customers, our Customer Care team can answer any “how-to” questions throughout your application process."
+    },
+    {
+      "id": "bu-payments-14",
+      "label": "Optional payment processing pass-through fees",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 112,
+      "quote": "(Optional) Recover the costs of ePay Fees by setting up pass-through charges per transaction."
+    },
+    {
+      "id": "bu-payments-15",
+      "label": "Property-specific bank and card enablement",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 113,
+      "quote": "Enable your properties for EFT and Cards"
+    },
+    {
+      "id": "bu-payments-16",
+      "label": "Resident portal payment access",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 114,
+      "quote": "Grant your residents access to the Resident Center – this is where your residents will go to pay you"
+    },
+    {
+      "id": "bu-payments-17",
+      "label": "Business bank and identity onboarding prerequisites",
+      "source": "bu-payments",
+      "section": "Online payment processing",
+      "line": 115,
+      "quote": "**To complete your ePay application, you must have a business bank account. Personal bank accounts are not accepted. During the application, you will need to furnish identity and contact details associated with your company’s bank account, along with specific transaction information, as mandated by federal requirements."
+    },
+    {
+      "id": "bu-application-01",
+      "label": "Branded custom application sections and ordering",
+      "source": "bu-application",
+      "section": "Online rental applications",
+      "line": 75,
+      "quote": "Buildium’s online rental application makes collecting applicant information easy. Start with a standard application form and tweak it to fit your company’s needs. Add, reorder, and create custom sections in just a few clicks, and include images to showcase your brand and company affiliations."
+    },
+    {
+      "id": "bu-application-02",
+      "label": "Listing-linked applications with online fees",
+      "source": "bu-application",
+      "section": "Online rental applications",
+      "line": 77,
+      "quote": "Online rental applications are fully integrated with your website, so applicants can apply right from the listing. Any related application fees are attached to their account and can be paid online. Prefer paper? Print out as many as you need for walk-in showings."
+    },
+    {
+      "id": "bu-application-03",
+      "label": "Printable application for walk-in showings",
+      "source": "bu-application",
+      "section": "Online rental applications",
+      "line": 77,
+      "quote": "Online rental applications are fully integrated with your website, so applicants can apply right from the listing. Any related application fees are attached to their account and can be paid online. Prefer paper? Print out as many as you need for walk-in showings."
+    },
+    {
+      "id": "bu-application-04",
+      "label": "Application dashboard with manual staff updates",
+      "source": "bu-application",
+      "section": "Online rental applications",
+      "line": 79,
+      "quote": "View the status of all applications at a glance in the applicant dashboard. All online applications will appear automatically, and you can manually add or edit information as needed."
+    },
+    {
+      "id": "bu-application-05",
+      "label": "Custom applicant review checklist",
+      "source": "bu-application",
+      "section": "Online rental applications",
+      "line": 81,
+      "quote": "Don’t miss any important details: create custom checklists for the applicant review process. Then, use one of two integrated, comprehensive tenant screening options to be sure you get qualified tenants in the door, fast."
+    },
+    {
+      "id": "bu-application-06",
+      "label": "Integrated applicant screening choices",
+      "source": "bu-application",
+      "section": "Online rental applications",
+      "line": 81,
+      "quote": "Don’t miss any important details: create custom checklists for the applicant review process. Then, use one of two integrated, comprehensive tenant screening options to be sure you get qualified tenants in the door, fast."
+    },
+    {
+      "id": "bu-screening-01",
+      "label": "Request and receive tenant background reports",
+      "source": "bu-screening",
+      "section": "Tenant background checks",
+      "line": 74,
+      "quote": "Simply request a tenant background check, and we’ll begin the rental screening process for you. Screening results will show up in your account when they’re ready. Record availability varies."
+    },
+    {
+      "id": "bu-screening-02",
+      "label": "Property-specific credit criteria recommendations",
+      "source": "bu-screening",
+      "section": "Tenant background checks",
+      "line": 79,
+      "quote": "Set custom credit score requirements for each property to offer recommendations based on data collected from applicants. Notify prospective residents as soon as their tenant background check is complete and they’ve been accepted, and seamlessly add them into the Resident Center to begin accepting payments."
+    },
+    {
+      "id": "bu-screening-03",
+      "label": "Applicant acceptance notification and portal transition",
+      "source": "bu-screening",
+      "section": "Tenant background checks",
+      "line": 79,
+      "quote": "Set custom credit score requirements for each property to offer recommendations based on data collected from applicants. Notify prospective residents as soon as their tenant background check is complete and they’ve been accepted, and seamlessly add them into the Resident Center to begin accepting payments."
+    },
+    {
+      "id": "bu-screening-04",
+      "label": "Applicant screening information and consent",
+      "source": "bu-screening",
+      "section": "Tenant background checks",
+      "line": 102,
+      "quote": "In general, most background checks take 2-7 business days to complete, although some may take longer. The tenant initiates the process by submitting their information and consent to a background check."
+    },
+    {
+      "id": "bu-screening-05",
+      "label": "Credit criminal and eviction report coverage",
+      "source": "bu-screening",
+      "section": "Tenant background checks",
+      "line": 105,
+      "quote": "A rental background check includes a credit check, criminal background check, and eviction history report, based on records available through our screening provider’s databases. Coverage varies by state and county, and local or federal law may limit what’s reportable."
+    },
+    {
+      "id": "bu-screening-06",
+      "label": "Employer income verification",
+      "source": "bu-screening",
+      "section": "Tenant background checks",
+      "line": 111,
+      "quote": "Verifying employment: Contact the tenant’s employer to verify their employment status and income level."
+    },
+    {
+      "id": "bu-screening-07",
+      "label": "Previous-landlord rental reference review",
+      "source": "bu-screening",
+      "section": "Tenant background checks",
+      "line": 112,
+      "quote": "Contacting previous landlords: Review rental history, including their payment history, any damages they caused to the property."
+    },
+    {
+      "id": "bu-inspection-01",
+      "label": "Partner mobile inspections synchronized with Buildium",
+      "source": "bu-inspection",
+      "section": "Mobile property inspections",
+      "line": 72,
+      "quote": "Property inspection software, powered by HappyCo, is integrated with Buildium so you can perform inspections on the go and sync all your data in one simple step."
+    },
+    {
+      "id": "bu-inspection-02",
+      "label": "Inspection report and unit-data synchronization",
+      "source": "bu-inspection",
+      "section": "Mobile property inspections",
+      "line": 77,
+      "quote": "Once you download the Inspections by HappyCo mobile app, you can easily sync your unit data from within Buildium every time you file an inspection report."
+    },
+    {
+      "id": "bu-inspection-03",
+      "label": "Custom inspection templates",
+      "source": "bu-inspection",
+      "section": "Mobile property inspections",
+      "line": 79,
+      "quote": "Choose from a number of inspection templates, or easily define your own for consistency in the field. You’ll always get the data you need, no matter who’s filing the reports."
+    },
+    {
+      "id": "bu-inspection-04",
+      "label": "Offline inspection capture and later synchronization",
+      "source": "bu-inspection",
+      "section": "Mobile property inspections",
+      "line": 81,
+      "quote": "Inspect properties with your phone or tablet no matter where you are—even if you’re offline. Inspection data will save and sync as soon as you’re back online."
+    },
+    {
+      "id": "bu-inspection-05",
+      "label": "Native inspection apps on iOS and Android",
+      "source": "bu-inspection",
+      "section": "Mobile property inspections",
+      "line": 83,
+      "quote": "Inspections by HappyCo is a property inspection app available for both iOS and Android, so staff can perform apartment and home inspections from any mobile device. Plus, you can grant access to any number of app users."
+    },
+    {
+      "id": "bu-inspection-06",
+      "label": "Inspection mobile user access grants",
+      "source": "bu-inspection",
+      "section": "Mobile property inspections",
+      "line": 83,
+      "quote": "Inspections by HappyCo is a property inspection app available for both iOS and Android, so staff can perform apartment and home inspections from any mobile device. Plus, you can grant access to any number of app users."
+    },
+    {
+      "id": "bu-association-01",
+      "label": "Association mail email and text announcements",
+      "source": "bu-association",
+      "section": "Homeowner and board communication",
+      "line": 72,
+      "quote": "Engage your community and send announcements through mail, email, text, or the Resident Center. Add a resident directory and message board to the portal, so homeowners and board members can continue the conversation even after association meetings have ended."
+    },
+    {
+      "id": "bu-association-02",
+      "label": "Association resident directory and message board",
+      "source": "bu-association",
+      "section": "Homeowner and board communication",
+      "line": 72,
+      "quote": "Engage your community and send announcements through mail, email, text, or the Resident Center. Add a resident directory and message board to the portal, so homeowners and board members can continue the conversation even after association meetings have ended."
+    },
+    {
+      "id": "bu-association-03",
+      "label": "Homeowner inquiries and maintenance request history",
+      "source": "bu-association",
+      "section": "Homeowner and board communication",
+      "line": 74,
+      "quote": "Invite homeowners to the Resident Center, a hub for all the resources they need, accessible from any device. Homeowners can submit general inquiries and maintenance requests through the portal, and view a log of their previous requests by status. Every communication is available to you in one place so you don’t have to worry about missing a thing."
+    },
+    {
+      "id": "bu-association-04",
+      "label": "Board financial reports and shared documents",
+      "source": "bu-association",
+      "section": "Homeowner and board communication",
+      "line": 76,
+      "quote": "Build trust and save time by giving board members self-service access to financials, files, and reports. Share important documents such as by-laws, owner statements, and meeting minutes for increased transparency."
+    },
+    {
+      "id": "bu-tax-01",
+      "label": "Owner and vendor 1099-MISC and 1099-NEC e-filing",
+      "source": "bu-tax",
+      "section": "Owner and vendor tax filing",
+      "line": 70,
+      "quote": "Start each year off right by e-Filing your 1099-MISCs and 1099-NECs through Buildium. Ensure accuracy by tracking all owner and vendor payments in your Buildium account. Create forms online for both property owners and vendors, and have them postmarked the same day."
+    },
+    {
+      "id": "bu-tax-02",
+      "label": "Owner and vendor tax original mailing",
+      "source": "bu-tax",
+      "section": "Owner and vendor tax filing",
+      "line": 70,
+      "quote": "Start each year off right by e-Filing your 1099-MISCs and 1099-NECs through Buildium. Ensure accuracy by tracking all owner and vendor payments in your Buildium account. Create forms online for both property owners and vendors, and have them postmarked the same day."
+    },
+    {
+      "id": "bu-tax-03",
+      "label": "Pre-filing tax totals and missing-recipient review",
+      "source": "bu-tax",
+      "section": "Owner and vendor tax filing",
+      "line": 72,
+      "quote": "Buildium gives you access to the e-Filing tool a few weeks before filing officially opens with the IRS so you can start to verify your tax numbers and view any recipients with missing tax information before you file."
+    },
+    {
+      "id": "bu-tax-04",
+      "label": "Tax recipient delivery and summary-form tracking",
+      "source": "bu-tax",
+      "section": "Owner and vendor tax filing",
+      "line": 77,
+      "quote": "Meet all your tax deadlines. Access data for any 1099 from your Buildium account. Confirm 1099 efiles were sent to recipients and track summary forms as they make their way to your office."
+    },
+    {
+      "id": "bu-tax-05",
+      "label": "Digital and paper tax copies to recipients",
+      "source": "bu-tax",
+      "section": "Owner and vendor tax filing",
+      "line": 79,
+      "quote": "Send digital copies along with the hard paper copy we send to recipients with online 1099 filing. Digital copies are completely free when you file with Buildium."
+    },
+    {
+      "id": "bu-company-04",
+      "label": "Company cash and undeposited funds review",
+      "source": "bu-company",
+      "section": "Company financials",
+      "line": 74,
+      "quote": "Use real estate accounting software to get a snapshot of your company cash and net income, and quickly take action on any undeposited funds. Manage incoming rent and security deposits, collect and automate fees, and pay bills online easily."
+    },
+    {
+      "id": "bu-company-05",
+      "label": "Rent and security deposit accounting",
+      "source": "bu-company",
+      "section": "Company financials",
+      "line": 74,
+      "quote": "Use real estate accounting software to get a snapshot of your company cash and net income, and quickly take action on any undeposited funds. Manage incoming rent and security deposits, collect and automate fees, and pay bills online easily."
+    },
+    {
+      "id": "bu-company-06",
+      "label": "Company fee collection and automation",
+      "source": "bu-company",
+      "section": "Company financials",
+      "line": 74,
+      "quote": "Use real estate accounting software to get a snapshot of your company cash and net income, and quickly take action on any undeposited funds. Manage incoming rent and security deposits, collect and automate fees, and pay bills online easily."
+    },
+    {
+      "id": "bu-company-07",
+      "label": "Company online bill payment",
+      "source": "bu-company",
+      "section": "Company financials",
+      "line": 74,
+      "quote": "Use real estate accounting software to get a snapshot of your company cash and net income, and quickly take action on any undeposited funds. Manage incoming rent and security deposits, collect and automate fees, and pay bills online easily."
+    },
+    {
+      "id": "bu-scheduled-help-21",
+      "label": "Scheduled template name and description",
+      "source": "bu-scheduled-help",
+      "section": "Schedule Batched Reports",
+      "line": 22,
+      "quote": "Enter the Name and Description for the template."
+    },
+    {
+      "id": "bu-scheduled-help-22",
+      "label": "Owner-specific report entity selection",
+      "source": "bu-scheduled-help",
+      "section": "Schedule Batched Reports",
+      "line": 31,
+      "quote": "Note: If your selected ‘Report type’ is “Rental owner”, when adding entities, instead of property and company names, you will have a list of rental owners (people) to choose from."
+    },
+    {
+      "id": "bu-scheduled-help-23",
+      "label": "Schedulable report eligibility",
+      "source": "bu-scheduled-help",
+      "section": "Schedule Batched Reports",
+      "line": 35,
+      "quote": "Note: Currently, only 14 reports support scheduling. This means you’ll see different reports when creating a scheduled template compared to a non-scheduled template."
+    },
+    {
+      "id": "bu-scheduled-help-24",
+      "label": "Unscheduled custom-date report filters",
+      "source": "bu-scheduled-help",
+      "section": "Schedule Batched Reports",
+      "line": 39,
+      "quote": "Note: For custom date filters, we only recommend custom dates for unscheduled, one-time reports."
     }
   ]
 }

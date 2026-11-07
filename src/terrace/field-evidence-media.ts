@@ -4,6 +4,7 @@ import {bill,billGuard} from './bills-input'
 import {scan} from './document-scan'
 export const MEDIA_COMMANDS=['media.begin','media.chunk','media.finish','media.abort']
 export const CHUNK=262144, MEDIA_LIMIT=25*1024*1024
+export const MEDIA_DOCUMENT_LIMIT=5*1024*1024
 const columns:Record<string,string>={inspection:'inspection_id',work:'job_id',invoice:'bill_id'}
 export function mediaTarget(r:Row) {return r.inspection_id?{kind:'inspection',recordId:r.inspection_id}:r.job_id?{kind:'work',recordId:r.job_id}:{kind:'invoice',recordId:r.bill_id}}
 export async function mediaRecord(c:Context,kind:string,value:unknown,write=false) {
@@ -35,7 +36,7 @@ async function checkedType(bytes:Uint8Array,type:string,kind:string) {
   // No external scanner or transcoding: retain originals and serve as a sandboxed download.
  } else {
   // Existing static screen is bounded to 5 MB; screen large raster signatures without sending bytes elsewhere.
-  if(bytes.length>5*1024*1024) {
+  if(bytes.length>MEDIA_DOCUMENT_LIMIT) {
    insist(type==='image/png'?[137,80,78,71,13,10,26,10].every((b,i)=>bytes[i]===b):type==='image/jpeg'&&bytes[0]===255&&bytes[1]===216&&bytes[2]===255,'media_type','Large files must be JPEG, PNG or video.')
   } else {const check=await scan(bytes,type);insist(check.ok,'media_refused',check.ok?'':check.reason,422)}
  }
@@ -52,7 +53,7 @@ export async function mediaCommand(c:Context,command:string,p:Row):Promise<Row|u
   if(p.attachmentId)insist(previous&&previous[target.column]===target.row.id&&previous.version===Number(p.version),'media_version','Review the latest attachment version on this record.',409)
   const key=id(),version=previous?previous.version+1:1,attachment=previous?.attachment_id??key
   const type=text(p.mediaType,'Media type',100)
-  insist(type.startsWith('image/')||type.startsWith('video/')||size<=5*1024*1024,'media_size','Document originals are at most 5 MB; photos and video are at most 25 MB.')
+  insist(type.startsWith('image/')||type.startsWith('video/')||size<=MEDIA_DOCUMENT_LIMIT,'media_size','Document originals are at most 5 MB; photos and video are at most 25 MB.')
   insist(['image/png','image/jpeg','video/mp4','video/quicktime','video/webm','application/pdf','text/plain','text/csv','message/rfc822'].includes(type),'media_type','This media type is not supported.')
   await commit(c,[...target.guards,sql(c,`INSERT INTO tt_record_media(id,attachment_id,version,${target.column},name,media_type,size,sha256,source,captured_at,uploaded_by,uploaded_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,key,attachment,version,target.row.id,text(p.name,'Filename',255),type,size,digest,text(p.source,'Original source',500),date(p.capturedAt,'Capture date'),c.actor.id,c.now)],command,target.row.id)
   return {id:key,attachmentId:attachment,version,chunkSize:CHUNK,notice:'Upload started. No attachment is published until every chunk and the original hash verify.'}

@@ -1,0 +1,4438 @@
+{
+  "schemaVersion": 1,
+  "discoveries": [
+    {
+      "incumbent": "appfolio",
+      "captureSha256": "f377f2fc41e5df91d8f8d6ad4dd7e5538ed5a34e5b0a23f18560ad9a0cb77703",
+      "urls": [
+        {
+          "url": "https://www.appfolio.com/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/affordable-housing-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/affordable-housing-property-management/guide",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/ai",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/ai/free-demo",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/community-associations",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/community-associations/guide",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/company/careers",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/company/diversity-equity-inclusion-commitments",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/company/leasing-signals",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/company/who-we-are",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/consumer",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-experience",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-experience-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-experience-management/guide",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/dr/apm-im-demo",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/effective-property-management-teams",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/effective-property-management-teams/guide",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/enterprise",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/help/online-portal",
+          "review": "partial",
+          "sources": [
+            "af-resident"
+          ]
+        },
+        {
+          "url": "https://www.appfolio.com/help/owner",
+          "review": "partial",
+          "sources": [
+            "af-owner"
+          ]
+        },
+        {
+          "url": "https://www.appfolio.com/help-billing-services",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/industry-insights",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/innovations",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/investment-manager",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/investment-manager/asset-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/investment-manager/free-demo",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/investment-manager/investment-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/investment-manager/investor-communication",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/investment-manager/relationship-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/real-estate-investment-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/login",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/login-owner",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/markets/affordable-housing",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/markets/commercial",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/markets/hoa",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/markets/hoa/communication",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/markets/hoa/financials",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/markets/hoa/management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/markets/investment-manager",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/markets/multifamily",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/markets/single-family",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/markets/student-housing",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/multifamily-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/multifamily-property-management/guide",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/metro-dfw",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/metro-la",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/open-roles",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/30-lines",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/aldous",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/amazon",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/appwork",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/avidxchange",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/avidxchange-payment-automation",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/axela",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/banner",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/banyan",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/birdeye",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/breezeway",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/butterflymx",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/conservice",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/happyco",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/homebase",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/hunterwarfield",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/jack-jaffa",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/latch",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/leadsimple",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/lowes",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/lula",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/netvendor",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/northspyre",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/opiniion",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/petscreening",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/pointcentral",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/propertymeld",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/remotelock",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/rentcheck",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/rent-dynamics",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/respage",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/showdigs",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/showmojo",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/simplevoip",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/smartproperty",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/snapinspect",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/sortly",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/tenant-turner",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/zinspector",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/payready",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/tour24",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/utility-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/partners/zego",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/pricing",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/privacy",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/privacy-stateterms",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/property-management-ai",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/property-management-ai/guide",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/property-management-growth",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/property-management-growth/guide",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/property-management-maintenance",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/property-management-maintenance/guide",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/property-management-marketing/guide",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/property-manager",
+          "review": "partial",
+          "sources": [
+            "af-platform"
+          ]
+        },
+        {
+          "url": "https://www.appfolio.com/property-manager/accounting-reporting",
+          "review": "partial",
+          "sources": [
+            "af-accounting"
+          ]
+        },
+        {
+          "url": "https://www.appfolio.com/property-manager/communication-service",
+          "review": "partial",
+          "sources": [
+            "af-communication"
+          ]
+        },
+        {
+          "url": "https://www.appfolio.com/property-manager/maintenance",
+          "review": "partial",
+          "sources": [
+            "af-maintenance"
+          ]
+        },
+        {
+          "url": "https://www.appfolio.com/property-manager/workflow-automation",
+          "review": "partial",
+          "sources": [
+            "af-automation"
+          ]
+        },
+        {
+          "url": "https://www.appfolio.com/property-manager/marketing-leasing",
+          "review": "partial",
+          "sources": [
+            "af-marketing"
+          ]
+        },
+        {
+          "url": "https://www.appfolio.com/property-manager/staffing-training",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/real-estate-leasing",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/real-estate-leasing/guide",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/real-estate-marketing",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/rental-accounting-automation",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/rental-accounting-automation/guide",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/services",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/services/ai-leasing-assistant",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/services/maintenance-efficiency/demo",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/services/leasingcrm",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/services/premium-listing-details",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/services/smart-maintenance",
+          "review": "partial",
+          "sources": [
+            "af-smart-maintenance"
+          ]
+        },
+        {
+          "url": "https://www.appfolio.com/services/stack",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/services/tenant-screening",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/single-family-rental-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/property-management-owner-experience",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resident-experience",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/single-family-rental-management/guide",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/single-family-rentals",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/stack",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/stack/become-a-partner",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/stack/listing-partners",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/stack/marketplace",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/stack/partner-application",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/stack/partners/api",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/stack/solutions/contact",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/student-housing-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/student-housing-property-management/guide",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/who-we-serve/community-associations/hoa-loans",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/2022-q1-product-update",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/2022-q2-product-update",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/2022-q3-product-update",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/2022-q4-product-update",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/2023-q1-product-update",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/2023-q2-product-update",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/2023-q3-product-update",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/2023-q4-product-update",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/2024-q1-product-update",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/2024-q2-product-update",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/2024-q3-product-update",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/2024-q4-product-update",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/2025-q3-product-update",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/apm-im-deminar",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/appfolio-property-manager-max",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/automated-bank-reconciliations",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/bulk-actions",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/owner-experience",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/articles/vendor-portal",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/4-degrees-real-estate",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/at-home-real-estate-services",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/austin-landmark-property-services",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/bend-property-management-company",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/bennett-management-company",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/cambridge-management-group",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/carina-lyons",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/cassidy-associates-real-estate",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/chamberlin-and-associates",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/coldwell-banker-danforth-associates",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/dawson-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/dodson-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/drexel-properties",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/glenn-martin-company",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/hanes-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/hms-development",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/howard-management-group",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/key-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/landmark-real-estate-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/long-and-foster-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/m3-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/maple-leaf-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/market-street-group",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/mccombs-commercial-realty",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/mk-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/nancy-chandler-associates",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/ocf-realty",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/pam-steele",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/register-real-estate",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/renters-warehouse",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/skyline-property",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/somak-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/specialized-real-estate-group",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/sundance-property-management-llc",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/the-cadman-group",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/the-property-management-group",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/vista-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/windermere-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/winfield-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/case-studies/yale-management-services",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/advanced-management-company",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/amc",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/artcraft",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/atlas",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/atlas-real-estate",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/atrium-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/barrington-real-estate",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/berkshire-hathaway",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/bk-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/blue-key-property",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/byers-and-harvey",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/cadman",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/centana-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/daniel-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/dickson-realty",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/dje-investor-portal",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/dje-texas-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/dlp-capital",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/do-good-property",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/elevation",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/enclave-properties",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/evernest",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/fairlawn-real-estate",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/flock-dc",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/focus",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/granite",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/gsf-properties",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/hoa-assist",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/jamkee-properties",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/jw-property-services",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/key-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/lp-investor-experience",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/kh-properties",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/md-squared",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/nebraska-lifestyles",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/nomad",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/northwest",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/one-family",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/paladin-realty",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/park-row-equity-partners",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/pelican",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/prosper-capital",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/rainier-properties",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/real-property-management-express",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/rcp-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/redwood-property-investors",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/rent-right",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/riedman",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/rst",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/shaw-real-estate",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/shaw-realty",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/southwest-property",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/sterling-group",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/stone-and-browning",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/strive-realty",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/sunbelt-properties",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/trilogy-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/tr-lawing-realty",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/twelve-rivers",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/two-seas",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/upholdings",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/velo-residential",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/winstar-properties",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/customer-stories/wpd-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/newsroom",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/newsroom/appfolio-accelerates-platform-with-new-security-deposit",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/newsroom/appfolio-sees-strong-demand-for-new-plan-designed-for-large-property-management-operations",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/newsroom/appfolio-connects-realm-x-to-anthropics-claude-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/newsroom/appfolio-deepens-agentic-ai-across-leasing-accounting-and-resident-operations",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/newsroom/property-manager-benchmark-survey-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/newsroom/renter-preferences-report-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/audio-series",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/2-things-hurting-your-investment-management-business/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/5-benefits-of-real-estate-investing/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/5-tips-for-improving-asset-management-processes-using-software/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/6-insights-your-investors-want-you-to-know/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/7-ways-to-drive-collaboration-engagement-with-your-teams-while-working-from-home/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/a-complete-solution-for-all-your-investment-and-property-management-needs/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/appfolio-investment-management-places-1-in-g2-fall-2022-grid-report/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/appfolio-investment-management-places-1-in-g2-grid-report/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/appfolio-investment-management-receives-soc2-type-2-certification/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/appfolio-investment-manager-premier/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/are-you-exposing-your-data-to-risk/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/boost-confidence-in-times-of-disruption-covid-19/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/category/audio-series/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/category/ebook/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/category/education/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/category/featured/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/category/news/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/category/stories/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/category/trends/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/category/webinar/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/cresoftwarepartner/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/effective-ways-to-get-started-in-real-estate-investing/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/episode-1-defying-market-conditions/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/episode-2-driving-generational-success-in-real-estate-investing/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/episode-3-long-term-growth-in-the-pacific-northwest/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/episode-4-the-evolution-of-real-estate-technology/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/episode-5-protect-preserve-grow/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/episode-6-managing-investors-in-uncertain-market/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/event-recap-finding-your-competitive-edge-in-the-real-estate-investing-industry/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/finding-deals-tough-economy/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/how-real-estate-market-shifts-will-impact-investor-strategy/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/how-to-create-a-real-estate-investment-fund/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/how-to-do-real-estate-syndication/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/how-to-impress-investors/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/how-to-start-a-real-estate-syndication-company/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/how-to-streamline-tax-prep/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/industry-meets-innovation-at-the-10th-annual-appfolio-customer-conference/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/insights-across-property-types-key-takeaways-from-an-appfolio-customer-conference-panel/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/introducing-appfolio-alpha/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/introducing-investor-verify-by-appfolio-investment-management/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/investment-management-tool/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/investor-websites-by-appfolio-investment-management/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/invest-smarter-with-an-investor-portal/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/meet-the-expectations-of-your-most-important-clients/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/new-investor-report-data-real-estate/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/one-percent-rule-in-real-estate/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/opportunistic-and-distressed-investing-trends-in-commercial-real-estate-2020-and-beyond/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/real-estate-general-partners-operational-efficiency/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/real-estate-investing-risks/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/real-estate-investor-concerns/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/roi-real-estate-investment-management-software/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/smarter-tools-for-modern-investment-management/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/state-of-market-panel/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/tag/commercial-real-estate/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/tag/real-estate-software/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/the-appfolio-investment-management-difference/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/these-investment-managers-bought-software-in-2020-heres-what-they-have-to-say-about-investing-in-technology-during-economic-downturns/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/the-sexy-side-of-self-storage-with-john-c-lindsey/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/the-true-cost-of-not-taking-your-real-estate-investment-management-digital/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/tips-for-calculating-the-rate-of-return-on-a-rental-property/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/tips-to-streamline-tax-season-for-real-estate-investment-managers/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/top-trends-in-asset-class-performance/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/types-of-real-estate-investments/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/unpacking-trends-and-technologies-in-real-estate-investment-management-roundtable-insights/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/what-is-a-real-estate-investment-trust/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/what-real-estate-investors-want/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/who-should-be-on-team-for-real-estate-syndication/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/capital-insights/why-investment-management-companies-need-investor-portal/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/contact",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/events",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/authors/marc-frenkiel",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/authors/megan-monroe",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/authors/rae-parker",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/commercial",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/community-associations",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/customer-stories",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/data-and-insights",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/i/1505578-hotma-preparation-checklist/0",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/innovations",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/marketing-and-leasing",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/multifamily-residential",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/podcasts",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/read/archives/i/277204/1505578",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/single-family-rentals",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/staffing-training",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/industry-insights/videos",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/library/ai-report",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/library/benchmark-report",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/library/benchmark-report/opt-in",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/library/employee-experience",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/library/employee-experience/opt-in",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/library/im/2023-investor-report/investor-report-step1a",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/library/property-management-software-guide-2023",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/library/renter-preferences",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/library/renter-preferences/opt-in",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/library/state-of-affordable",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/library/top-challenges-report",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/library/top-challenges-report/opt-in",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/resources/podcast",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/rpm/rpm-model",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/rpm/what-is-rpm",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/deminar/discover-appfolio-realm-x",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/deminar/one-powerful-platform",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/innovations/decoding-ai",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/innovations/june-product-showcase-06262024",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/innovations/maximize-the-benefits-of-affordable-housing-management-technology/video",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/research/2024-benchmark",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/2026-appfolio-benchmark-report",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/brand-building",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/brand-building/brand-building",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/build-smarter-with-realm-x-flows-q1replay",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/conquer-leasing-season",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/demo-switch-legacy",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/demo-switch-lite",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/exclusive-demo-realm-x-performers",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/exclusive-demo-realm-x-performers/register",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/improving-resident-retention-with-ai",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/investor-portal-demo",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/leading-with-ai",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/leading-with-ai/leading-with-ai",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/modern-ir-playbook",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/modern-ir-playbook/modern-ir-playbook",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/optimize-your-vendor-strategy",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/practical-ai-solutions-for-real-estate-investment",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/reduce-back-office-backlogs/reduce-back-office-backlogs",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/resident-research-webinar",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/resident-research-webinar/customer-registration",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/resident-research-webinar/resident-research-webinar",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/see-appfolio-realmx-flows-in-action",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/see-appfolio-realmx-flows-in-action/register",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/signs-of-rental-fraud",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/stand-out-online-and-fill-vacancies-faster-with-appfolio-and-zillow",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/what-the-2026-investor-report-reveals",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sessions/research/new-data-on-employee-expectations-and-retention-in-property-management/video",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/success-snapshot/2bliving",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/success-snapshot/bear-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/success-snapshot/consensys",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/success-snapshot/duckworth-morris-real-estate",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/success-snapshot/equity",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/success-snapshot/skyline",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/sfwm-learn-more-smb",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/smb/services-experience",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/switch",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/switch-legacy",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/switch-lite",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/time-to-switch",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/appfolio-vs-eliseai-performance-platform-comparison-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/appfolio-vs-buildium-performance-platform-comparison-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/accounting-process-kpis",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/accounting-property-management-software-comparison-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/ai-apartmentalize",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/ai-benefits-leasing",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/ai-employee-experience",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/ai-empowered-with-zack-kass",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/ai-report",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/appfolio-data-protection-for-property-managers",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/artificial-intelligence-survey",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/attract-top-property-management-talent",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/attracting-owners",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/benchmark-report-highlights",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/benefits-adding-lihtc-portfolio",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-property-management-accounting-software-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-property-management-software-for-ease-of-use-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-property-management-software-for-leasing-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-property-management-software-for-marketing-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-property-management-softwares-compared-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/beyond-tasks-people-first-strategies-for-closing-the-performance-gap",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/board-member-expectations",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/boost-communication-within-your-association",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/boost-employee-retention",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/centralizing-multifamily-property-management-teams",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/choosing-property-management-software",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/closer-look-affordable-housing",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/combat-rental-fraud-with-verification-technology",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/communication-in-association-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/crm-strategy-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/cross-training-teams",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/customer-experience",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/customer-experience-student-housing",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/data-simplifies-decision-making-multifamily",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/digitize-lead-to-lease",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/drive-profitability-6-key-metrics",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/embracing-responsible-property-management-ai",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/embracing-technology-online-payments-grow-your-business",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/employee-retention",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/end-of-year-reporting-1099s",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/episode-2-driving-generational-success-in-real-estate-investing",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/episode-3-long-term-growth-in-the-pacific-northwest",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/episode-4-the-evolution-of-real-estate-technology",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/episode-5-protect-preserve-grow",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/episode-6-managing-investors-in-uncertain-market",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/episode-7-ai-101-for-investment-managers",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/expert-insights-improve-company-culture",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/exploring-opportunities-challenges-affordable-housing-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/fair-housing-best-practices",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/financial-flexibility",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/five-tips-for-improving-asset-management-processes-using-software",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/four-common-software-switching-roadblocks",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/four-tips-successful-property-manager",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/four-ways-to-streamline-maintenance",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/future-conference",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/future-insights-what-property-managers-need-to-know-2025",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/going-green",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/hiring-retention-challenges",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/hotma-affordable-housing-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/housing-choice-vouchers",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/how-property-management-companies-can-benefit-from-adopting-consumer-payment-trends",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/how-to-control-costs-multifamily-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/how-to-get-more-actionable-insights-from-property-management-data",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/improve-operations-with-accounting",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/income-verification-competitive-advantage",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/lease-renewal-strategies",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/leasing-crm",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/leasing-kpis-every-property-manager-should-track",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/leasing-season",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/low-income-housing-tax-credits",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/maintenance-automation",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/maintenance-resident-experience",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/market-update-1q2025",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/market-update-4q2025",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/marketing-leasing-automation",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/marketing-your-association-management-company",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/multifamily-property-management-ai-myths-facts",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/multifamily-property-management-technology-trends-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/naa-top-challenges-2025",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/new-proptech-innovations",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/new-research-reveals-what-hoa-board-members-want",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/online-payments-residents",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/optimal-marketing",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/optimizing-maintenance-boosts-noi",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/overcoming-challenges-managing-multiple-property-types",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/owner-relationships",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/paying-rent-online",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/performance-gap",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/performance-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/post-2022-top-property-management-challenges",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/post-2023-employee-experience",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/post-2023-hiring-retention-report",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/post-2023-renter-preferences",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/post-2025-benchmark-report",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/product-update-2025-q4",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/property-maintenance-services-ultimate-guide",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/property-management-ai",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/property-management-marketing",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/property-management-team-benefit-ai",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/property-management-website-seo",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/real-time-data-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/rental-listings",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/renter-preferences-2025",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/residents-by-the-numbers",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/secret-resident-retention",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/self-guided-showings",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/setting-owners-up-for-success-onboarding",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/single-family-rental-business-mobile-friendly-software-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/single-family-rental-growth-strategies",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/six-hidden-inefficiencies-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/small-medium-business",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/smart-home-property-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/smart-home-technology",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/smart-maintenance",
+          "review": "partial",
+          "sources": [
+            "af-smart-blog"
+          ]
+        },
+        {
+          "url": "https://www.appfolio.com/blog/spend-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/staffing-maintenance",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/staffing-training",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/strategies-to-recruit-and-retain",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/streamline-unit-turns",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/strengthen-vendor-relationships",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/student-housing-conventional-overlap",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/student-housing-trends",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/tax-season",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/tenant-screening",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/the-appfolio-services-experience-infographic",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/the-top-floor-property-management-2025-moses-kagan",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/three-things-homeowners-need",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/tips-and-tricks-for-customizing-your-appfolio-reports",
+          "review": "partial",
+          "sources": [
+            "af-reports"
+          ]
+        },
+        {
+          "url": "https://www.appfolio.com/blog/tips-for-starting-a-property-management-company",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/top-floor-demetri-themelis-crm",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/top-floor-kelly-dean-inspections",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/top-property-management-accounting-challenges",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/top-property-management-trends",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/true-cost-application-fraud-verification-technology",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/two-things-hurting-your-investment-management-business",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/value-ecosystem-steps-for-unlocking-real-performance",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/verifying-income",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/virtual-showings",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/website-health-check-3-tips",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/what-property-management-employees-want",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/why-agentic-operations-real-estate",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/why-customer-relationship-management-is-essential-for-marketing-and-leasing",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/why-resident-satisfaction-is-a-top-competitive-differentiator",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-value-property-management-software",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-property-management-software-for-vacant-units-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-property-management-software-large-portfolios-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-agentic-ai-property-management-software-compared-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/streamline-marketing-and-leasing-with-appfolio",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/real-estate-solutions-for-managing-1500-units-or-more",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/understanding-property-management-software-pricing-models",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/leasing-crm/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/property-management-experts-real-estate-ai/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/artificial-intelligence-survey/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/secret-resident-retention/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-property-management-software-for-landlords-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-property-management-apps-for-iphone-and-android-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/top-tools-for-multifamily-property-management-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/appfolio-onboarding-process",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/real-estate-investment-management-top-software-leaders-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/high-demand-market",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/utility-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/appfolio-connects-realm-x-to-anthropic-claude",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/renter-preferences-report-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/market-update-2q2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/product-update-2026-q2",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-tool-for-automating-rent-collection-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-tools-for-tenant-communication-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-tenant-screening-software-in-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/top-rental-application-management-platforms-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/top-digital-lease-management-tools-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-tools-for-managing-rental-property-operating-expenses-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/product-demos/realm-x-flows",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/product-demos/realm-x-assistant",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/product-demos/realm-x-performers",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/product-demos/resident-onboarding",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/rpm-model",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/top-tools-for-virtual-apartment-showings-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-lease-renewal-automation-software-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/automated-reporting-your-competitive-edge-for-investment-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/GP-social-media-brand",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/market-update-3q2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/product-update-2026-q1",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/affordablehousing-leasing",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/investment-management-market-update-q2-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/appfolio-investment-manager-premier",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/leasing-performer",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/investment-management-branding",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/lula-vendor-network",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/asset-management-to-performance-management",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/avidxchange",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/market-paradox",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/ai-adoption-real-estate-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/what-renters-want-after-free-rent-concessions-end",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/bluestone-achieves-30-percent-application-conversion-with-the-appfolio-realm-x-leasing-performer",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/six-dimensions-of-rpm",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/best-financial-dashboards-for-real-estate-owners-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/property-management-onboarding-how-to-switch-platforms",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/choosing-property-management-software-under-250-units",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/property-management-software-cost-breakdown",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/top-software-for-rental-income-and-tax-reporting-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/narpm-ai-property-management-report-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/appfolio-vs-doorloop-performance-platform-comparison-2026",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.appfolio.com/blog/product-update-2026-q3",
+          "review": "unaudited",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "incumbent": "buildium",
+      "captureSha256": "9e822554e4881605f8b1dfafe1bdcd13c3197a622312b637b5f1b1eb692d983c",
+      "urls": [
+        {
+          "url": "https://www.buildium.com/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/resources/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/news-events/news/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/page-subheader/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/free-trial-registration/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/webinar-30-days-success-associations/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/news-events/press-releases/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/laws/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/laws-directory/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/how-to-write-listings-that-rent-themselves/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/news-events/awards-recognition/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/optinmonster-blog-exit-popup/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/optinmonster-demo-request-exit-popup/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/guided-tour/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/optinmonster-pricing-calculator-exit-popup/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/pricing-options/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/pricing-plans/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/see-how-premium-tenant-screening-delivers-faster-results/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/see-how-elease-eliminates-paperwork/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/tenant-screening-testimonial/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/rent-roll-update/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/epay-for-online-payments/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/why-buildium-software/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/current-software-not-good-enough/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/worried-about-budget-1/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/worried-about-budget-2/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/too-busy/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/stressed-about-new-software/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/investment/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/assurant-liability-insurance/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/save-time-with-mobile-property-inspections-webinar/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/property-accounting-video/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/get-roi-fast-business-benefits-that-last/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/buildium-is-easy-to-learn/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/buildium-works-hard-budget/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/online-payments-video/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/grow-business-buildium/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/why_customers_pick_buildium/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/try-buildium-academy/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/webinar-recording-preparing-for-tax-season/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/sharethelove/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/anatomy-perfect-lease-webinar-recording/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/leasing-season-playbook-part-ii-webinar-recording/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/assessment/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/free-trial-registration-eu/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/introducing-retail-cash-payments-powered-by-paynearme/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/demystify-data-webinar-recording/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/3-5-is-the-new-5/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/whos-got-your-back/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/1099-misc-webinar-2019/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/two-factor-authentication/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/webinar-recording-getting-started-with-buildium-part-1-entering-data/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/webinar-recording-getting-started-with-buildium-part-2-accounting-cycle/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/resident-site-help-center/resident-site-help-center/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/resident-site-video/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/support/team/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/buildiums-build-u-scholarship/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/women-in-technology-scholarship/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/introduction-to-buildium-for-residential-management/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/industry-report-thank-you/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/thank-you-contact-me/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/assessment-thank-you/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/thank-you-naa/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/bigger-pockets/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/ios-mobile-app-video/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/growth-for-property-managers/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/resident-site-help-center/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/support/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/partner-with-buildium/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/guided-tour-eu/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/whats-new-11-2019/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/everything-you-need-to-know-for-1099/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/yoursuccess/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/3-property-managers-talk-covid-19/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/buildium-subscriptions/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/buildium-subscription-plans/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/all-property-management-walkthrough/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/buildium-subscriptions-overview/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/resident-reminders-epay-opt-in/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/2022-industry-report-thank-you/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/resident-reminders-epay-thank-you/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/partner-program-thankyou/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/customers/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/2020-leasing-season-playbook/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/1099-misc-webinar-2020/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/2023-industry-report-pre-reg-thank-you/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/pm-nation-2023-save-the-date-thank-you/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/portfolios/student-housing-software/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/privacy-policy/cookie-policy/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/site-map/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/core-essential-plan/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/forms-thank-you/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/marketplace-partner-program/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/partners/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/marketplace-partner-referral-program/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/contact-us/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/not-ready-buildium/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/portfolios/affordable-housing-management-software/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/portfolios/residential-property-management/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/support/academy/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/security-policy/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/ultimate-community-management-software-bundle/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/buy-now/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/resident-center-resources/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/careers/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/property-manager-podcast/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/pro-growth-plan/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/marketplace/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/maintenance-contact-center/",
+          "review": "partial",
+          "sources": [
+            "bu-telephone"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/resident-center-terms-of-service-2/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/affiliate-program/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/dictionary/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/blog/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/onboarding-templates/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/customer-stories/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/privacy-policy/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/company-financials/",
+          "review": "partial",
+          "sources": [
+            "bu-company"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/features/online-rent-payments/",
+          "review": "partial",
+          "sources": [
+            "bu-payments"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/features/document-storage/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/customer-care/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/data-security/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/property-management-analytics/",
+          "review": "partial",
+          "sources": [
+            "bu-analytics"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/features/msi-renters-insurance/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/property-insurance/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/mobile-property-inspection-app/",
+          "review": "partial",
+          "sources": [
+            "bu-inspection"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/features/online-leasing/",
+          "review": "partial",
+          "sources": [
+            "bu-leasing"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/features/property-management-accounting/",
+          "review": "partial",
+          "sources": [
+            "bu-accounting"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/features/online-rental-applications/",
+          "review": "partial",
+          "sources": [
+            "bu-application"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/features/onboarding/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/homeowner-and-board-communications/",
+          "review": "partial",
+          "sources": [
+            "bu-association"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/features/all-property-management/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/open-api/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/maintenance-request-management/",
+          "review": "partial",
+          "sources": [
+            "bu-maintenance"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/features/rental-listing-syndication/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/violations-tracking/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/showings-coordinator/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/property-management-insurance/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/buildium-rewards/rent-reporting/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/buildium-rewards/epay/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/request-demo/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/portfolios/commercial-property-management/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/portfolios/enterprise-property-management-software/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/litedemo/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/custom-property-management-software/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/property-management-automation-software/",
+          "review": "partial",
+          "sources": [
+            "bu-automation"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/features/business-performance/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/property-management-marketing/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/accounting-and-payments/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/property-lease-management/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/business-operations/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/",
+          "review": "partial",
+          "sources": [
+            "bu-platform"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/forms/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/built-for-whats-next/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/property-management-maintenance-software/",
+          "review": "partial",
+          "sources": [
+            "bu-maintenance"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/features/retail-cash-payments/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/sales-demo/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/demo-video/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/resident-experience-software/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/portfolios/multifamily-property-management/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/portfolios/mixed-use-property-management/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/portfolios/single-family-property-management/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/ai-property-management-software/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/property-management-portfolio-growth/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/tenant-background-checks/",
+          "review": "partial",
+          "sources": [
+            "bu-screening"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/features/property-owner-portal/",
+          "review": "partial",
+          "sources": [
+            "bu-owner"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/features/resident-center/",
+          "review": "partial",
+          "sources": [
+            "bu-resident"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/buy-now-eu/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/features/1099-efiling/",
+          "review": "partial",
+          "sources": [
+            "bu-tax"
+          ]
+        },
+        {
+          "url": "https://www.buildium.com/features/property-management-websites/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/pricing/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.buildium.com/portfolios/association-management-software/",
+          "review": "unaudited",
+          "sources": []
+        }
+      ]
+    },
+    {
+      "incumbent": "rent-manager",
+      "captureSha256": "6aaaa762d45b866d37e91a17909998655d1d125629529f67d155c9d8c8476d5c",
+      "urls": [
+        {
+          "url": "https://www.rentmanager.com/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/emails/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/project-management/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/rmuplusenrollment/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/virtual-classroom-enrollment-form/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/california-consumers-request-to-delete/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/california-consumers-request-to-opt-out/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/google-embed-api-key-instructions/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/owners/",
+          "review": "partial",
+          "sources": [
+            "rm-owner"
+          ]
+        },
+        {
+          "url": "https://www.rentmanager.com/california-consumers-request-to-know/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/do-not-sell-my-info/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/website-services/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/virginia-consumer-data-protection-act/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/remote-assistance/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/prospect-tenant-portal/",
+          "review": "partial",
+          "sources": [
+            "rm-tenant"
+          ]
+        },
+        {
+          "url": "https://www.rentmanager.com/resident-app/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/rent-manager-university/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/payments/",
+          "review": "partial",
+          "sources": [
+            "rm-payments"
+          ]
+        },
+        {
+          "url": "https://www.rentmanager.com/rv-park-campgrounds/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/self-storage/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/onboarding/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/affordable-housing/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/communication/",
+          "review": "partial",
+          "sources": [
+            "rm-communication"
+          ]
+        },
+        {
+          "url": "https://www.rentmanager.com/screen-share-policies/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/rent-manager-screen-share-terms-of-use/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/report-automation/",
+          "review": "partial",
+          "sources": [
+            "rm-schedules"
+          ]
+        },
+        {
+          "url": "https://www.rentmanager.com/podcast/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/mobile-app/",
+          "review": "partial",
+          "sources": [
+            "rm-mobile"
+          ]
+        },
+        {
+          "url": "https://www.rentmanager.com/call-center/",
+          "review": "partial",
+          "sources": [
+            "rm-telephone"
+          ]
+        },
+        {
+          "url": "https://www.rentmanager.com/data-security/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/reporting/",
+          "review": "partial",
+          "sources": [
+            "rm-reports"
+          ]
+        },
+        {
+          "url": "https://www.rentmanager.com/marketing-leasing/",
+          "review": "partial",
+          "sources": [
+            "rm-leasing"
+          ]
+        },
+        {
+          "url": "https://www.rentmanager.com/about-rent-manager-2/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/about-rent-manager/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/guided-online-training/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/contact-us/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/submit-a-feature-request/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/awards-and-recognitions/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/our-company/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/integration-confirmation/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/software-customization/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/checker-test/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/rmx/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/events/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/residential-properties/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/associations/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/free-demo/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/tools/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/business-operations/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/manufactured-housing/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/student-housing/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/other-markets/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/training/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/terms-of-service/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/industry-resources/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/privacy-statement/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/support/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/become-or-refer-a-partner/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/digital-payments/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/integrations/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/screening-solutions/",
+          "review": "partial",
+          "sources": [
+            "rm-screening"
+          ]
+        },
+        {
+          "url": "https://www.rentmanager.com/security-deposits/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/leasetrack-calculator/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/request-demo/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/renters-insurance/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/rmucview/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/maintenance/",
+          "review": "partial",
+          "sources": [
+            "rm-maintenance"
+          ]
+        },
+        {
+          "url": "https://www.rentmanager.com/ar-ap-test/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/new-bundle/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/avidxchange-resources/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/accounting/",
+          "review": "partial",
+          "sources": [
+            "rm-accounting"
+          ]
+        },
+        {
+          "url": "https://www.rentmanager.com/solutions-partners/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/commercial/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/ap-automation/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/ai-property-management-software/",
+          "review": "unaudited",
+          "sources": []
+        },
+        {
+          "url": "https://www.rentmanager.com/pricing/",
+          "review": "unaudited",
+          "sources": []
+        }
+      ]
+    }
+  ]
+}

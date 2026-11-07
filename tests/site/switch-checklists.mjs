@@ -31,6 +31,14 @@ const sourceInventory = () => {
 export function assertSwitchChecklistSite(html) {
  const { manifest, workflows } = sourceInventory()
  const plain = html.replace(/<[^>]*>/g, ' ').replaceAll('&amp;', '&').replaceAll('&#39;', "'").replace(/\s+/g, ' ')
+ const access = JSON.parse(read(sourceDirectory + 'documentation-access.json'))
+ for (const observation of access.observations) {
+  const heading = names[observation.incumbent].toLowerCase().replaceAll(' ', '-') + '-documentation-access'
+  const section = html.split('id="' + heading + '"')[1]?.split(/<h[23]\b/)[0]
+  assert.ok(section?.includes(observation.gap), 'the actual documentation access gap stays public for ' + observation.incumbent)
+  assert.ok(section.includes('HTTP ' + observation.httpStatus) && section.includes(observation.rawSha256) && section.includes(observation.captureSha256), 'access limitations retain dated response provenance')
+  assert.ok(section.includes('href="' + observation.url + '"') && section.includes('/docs/switch-checklist-sources/' + observation.capture + '"'), 'the official entry and retained response remain navigable')
+ }
  for (const incumbent of manifest.inventories) {
   assert.ok(plain.includes(names[incumbent.incumbent] + ' checklist'), 'public checklist for ' + incumbent.incumbent)
   assert.ok(plain.includes(incumbent.gap), 'incomplete source coverage stays visible')
@@ -61,10 +69,39 @@ export function assertSwitchChecklistSite(html) {
   assert.doesNotMatch(row, /<strong>Covered/, 'a related done or boundary clause cannot establish replacement')
  }
  for (const area of manifest.unresolvedAreas) assert.ok(plain.includes(area.reason), 'unaudited source area cannot disappear')
+ for (const index of manifest.discovery) {
+  const id = names[index.incumbent].toLowerCase().replaceAll(' ', '-') + '-discovery-audit'
+  const start = html.indexOf('id="' + id + '"')
+  assert.ok(start > 0, 'each incumbent exposes its full discovery audit')
+  const body = html.slice(html.indexOf('>', start) + 1).split(/<h[23]\b/)[0]
+  const urls = read(sourceDirectory + index.capture).trim().split('\n')
+  assert.equal([...body.matchAll(/<li>/g)].length, urls.length, 'every discovery URL renders independently of workflow mappings')
+  for (const url of urls) {
+   const row = [...body.matchAll(/<li>(.*?)<\/li>/g)].find(match => match[1].includes('href="' + url + '"'))?.[1]
+   assert.ok(row, 'a discovered official source may not disappear: ' + url)
+   const retained = manifest.sources.filter(source => source.incumbent === index.incumbent && [source.url, source.resolvedUrl].includes(url))
+   assert.match(row, retained.length ? /<strong>partial<\/strong>/ : /<strong>unaudited<\/strong>/, 'retained captures never imply complete source coverage')
+   for (const source of retained) assert.ok(row.includes('href="#' + source.id + '"'), 'discovery links to the actual captured source area')
+  }
+ }
  const areas = JSON.parse(read(sourceDirectory + 'source-areas.json')).sources
  for (const source of manifest.sources) {
   const audit = areas.find(item => item.source === source.id)
   assert.equal(audit.captureSha256, source.captureSha256, 'area review is bound to the retained source revision')
+  const lines = read(sourceDirectory + source.capture).trimEnd().split('\n')
+  const disposition = Array(lines.length).fill(null)
+  for (const area of audit.areas) for (let line = area.from; line <= area.to; line++) {
+   assert.equal(disposition[line - 1], null, 'a retained source line is accounted for only once')
+   disposition[line - 1] = area.review
+  }
+  assert.ok(disposition.every(Boolean), 'every retained source line has an explicit review disposition')
+  const counts = ['workflows', 'context', 'unaudited'].map(review => disposition.filter(value => value === review).length)
+  const section = html.split('id="' + source.id + '"')[1]?.split(/<h[23]\b/)[0]
+  assert.ok(section?.includes(`${counts[0]} lines with inventoried workflows; ${counts[1]} lines of reviewed context; ${counts[2]} unaudited lines.`), 'public review accounting reconciles independently to the captured text: ' + source.id)
+  if (source.textAudit) {
+   assert.equal(counts[2], 0, 'retained-text review leaves no undisposed source line')
+   assert.ok(section.includes(source.textAudit.reviewedOn) && section.includes('this is not a complete incumbent inventory'), 'retained text review never implies full documentation coverage')
+  }
   for (const area of audit.areas.filter(item => item.review === 'unaudited')) assert.ok(plain.includes(`${source.id} lines ${area.from}–${area.to}`), 'unreconciled captured text stays visible independently of workflow mappings')
  }
  for (const incumbent of Object.keys(names)) {
@@ -81,6 +118,15 @@ export function assertSwitchChecklistIntegrity() {
  const mappings = JSON.parse(read('docs/switch-checklists.json'))
  const areaPath = sourceDirectory + 'source-areas.json', areas = JSON.parse(read(areaPath))
  const altered = (path, value) => ({ read: name => name === path ? JSON.stringify(value) : read(name) })
+ const accessPath = sourceDirectory + 'documentation-access.json', access = JSON.parse(read(accessPath))
+ const noAccess = structuredClone(access); noAccess.observations.pop()
+ assert.throws(() => loadSwitchChecklist(altered(accessPath, noAccess)), /each incumbent needs a documentation access observation/, 'source access uncertainty may not disappear for one incumbent')
+ const falseAccess = structuredClone(access); falseAccess.complete = true
+ assert.throws(() => loadSwitchChecklist(altered(accessPath, falseAccess)), /cannot establish complete documentation coverage/, 'an access observation never qualifies an entire incumbent corpus')
+ const changedAccess = structuredClone(access); changedAccess.observations.find(item => item.quote).line = 1
+ assert.throws(() => loadSwitchChecklist(altered(accessPath, changedAccess)), /missing documentation access provenance/, 'a documentation access claim needs a located official statement')
+ const deniedAccess = structuredClone(access); deniedAccess.observations[0].outcome = 'denied'; deniedAccess.observations[0].httpStatus = 200
+ assert.throws(() => loadSwitchChecklist(altered(accessPath, deniedAccess)), /disagrees with HTTP result/, 'a successful response cannot be described as an access denial')
  const missing = structuredClone(mappings); missing.mappings = missing.mappings.filter(row => row.workflow !== workflows[0].id)
  assert.throws(() => loadSwitchChecklist(altered('docs/switch-checklists.json', missing)), /every inventoried source workflow/, 'deleting a replacement row cannot silently omit a source workflow')
  // Coordinated deletion in both inventories and replacement mappings still leaves the source review unsatisfied.
@@ -95,6 +141,21 @@ export function assertSwitchChecklistIntegrity() {
  assert.throws(() => loadSwitchChecklist(altered(areaPath, noArea)), /reconcile every captured line/, 'unreviewed source areas may not disappear')
  const staleArea = structuredClone(areas); staleArea.sources[0].captureSha256 = '0'.repeat(64)
  assert.throws(() => loadSwitchChecklist(altered(areaPath, staleArea)), /source area audit is stale/, 'review of an earlier source capture cannot qualify changed bytes')
+ const falseTextAudit = structuredClone(manifest)
+ const unreviewed = falseTextAudit.sources.find(source => areas.sources.find(area => area.source === source.id).areas.some(area => area.review === 'unaudited'))
+ unreviewed.textAudit = { reviewedOn: unreviewed.capturedOn, captureSha256: unreviewed.captureSha256 }
+ assert.throws(() => loadSwitchChecklist(altered(sourceDirectory + 'manifest.json', falseTextAudit)), /still has unreviewed areas/, 'a sampled quotation cannot qualify a retained-text review')
+ const staleTextAudit = structuredClone(manifest); staleTextAudit.sources.find(source => source.textAudit).textAudit.captureSha256 = '0'.repeat(64)
+ assert.throws(() => loadSwitchChecklist(altered(sourceDirectory + 'manifest.json', staleTextAudit)), /retained-text audit is stale/, 'a text review cannot qualify a different captured revision')
+ const discoveryPath = sourceDirectory + 'discovery-audit.json', discovery = JSON.parse(read(discoveryPath))
+ const lostUrl = structuredClone(discovery); lostUrl.discoveries[0].urls.pop()
+ assert.throws(() => loadSwitchChecklist(altered(discoveryPath, lostUrl)), /retain every captured URL/, 'an unreviewed discovered source cannot disappear')
+ const staleDiscovery = structuredClone(discovery); staleDiscovery.discoveries[0].captureSha256 = '0'.repeat(64)
+ assert.throws(() => loadSwitchChecklist(altered(discoveryPath, staleDiscovery)), /discovery audit is stale/, 'discovery audit is bound to its captured URL corpus')
+ const wrongSource = structuredClone(discovery); wrongSource.discoveries[0].urls[0].sources = [manifest.sources[0].id]
+ assert.throws(() => loadSwitchChecklist(altered(discoveryPath, wrongSource)), /actual retained sources/, 'an unrelated capture cannot audit a discovered URL')
+ const falseAudit = structuredClone(discovery); falseAudit.discoveries[0].urls.find(item => item.sources.length === 0).review = 'partial'
+ assert.throws(() => loadSwitchChecklist(altered(discoveryPath, falseAudit)), /complete discovery coverage/, 'a source without a capture cannot be promoted to reviewed')
  for (const [source, , label] of requiredGaps) {
   const inventory = manifest.inventories.find(item => workflows.find(workflow => workflow.source === source)?.incumbent === item.incumbent)
   const path = sourceDirectory + inventory.file, value = JSON.parse(read(path))
@@ -152,6 +213,12 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
  await visitor.getByRole('navigation', { name: 'Documentation guides' }).getByRole('link', { name: 'Switch checklists', exact: true }).click()
  await visitor.waitForURL(url => url.pathname === '/docs/switch-checklists')
  const { manifest, workflows } = sourceInventory()
+ await visitor.getByRole('heading', { name: 'Documentation access limits' }).scrollIntoViewIfNeeded()
+ const access = JSON.parse(read(sourceDirectory + 'documentation-access.json'))
+ for (const observation of access.observations) {
+  const heading = visitor.getByRole('heading', { name: names[observation.incumbent] + ' documentation access' })
+  assert.ok((await heading.evaluate(element => element.nextElementSibling.textContent)).includes(observation.gap), 'documentation uncertainty is readable through the public door')
+ }
  for (const inventory of manifest.inventories) {
   await visitor.getByRole('heading', { name: names[inventory.incumbent] + ' checklist' }).scrollIntoViewIfNeeded()
   const required = visitor.getByRole('heading', { name: names[inventory.incumbent] + ' required named gaps' })
@@ -173,6 +240,10 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
    assert.equal(await heading.count(), 1, workflow.id)
    assert.match(await heading.evaluate(element => element.nextElementSibling.textContent), /^Gap:/, 'each source workflow shows its replacement gap')
   }
+  await visitor.getByRole('navigation', { name: 'On this page' }).getByRole('link', { name: names[inventory.incumbent] + ' discovery audit', exact: true }).click()
+  const discovery = visitor.getByRole('heading', { name: names[inventory.incumbent] + ' discovery audit' })
+  assert.equal(await discovery.evaluate(element => element.id === decodeURIComponent(location.hash.slice(1))), true, 'the public discovery audit is reachable through page navigation')
+  assert.match(await discovery.evaluate(element => element.nextElementSibling.textContent), /URLs reconciled.*no retained source audit/, 'unaudited discovery sources stay visible')
  }
  await visitor.getByRole('heading', { name: 'Buildium checklist' }).scrollIntoViewIfNeeded()
  const permalink = visitor.getByRole('link', { name: 'Link to Buildium checklist', exact: true })
@@ -190,9 +261,13 @@ export async function inspectSwitchChecklists(visitor, siteOrigin) {
   mkdirSync(directory, { recursive: true })
   for (const width of [1440, 390]) {
    await visitor.setViewportSize({ width, height: width === 1440 ? 900 : 844 })
+   await visitor.getByRole('heading', { name: 'Documentation access limits' }).scrollIntoViewIfNeeded()
+   await visitor.screenshot({ path: join(directory, 'documentation-access-' + width + '.png') })
    for (const name of Object.values(names)) {
-    await visitor.getByRole('heading', { name: name + ' required named gaps' }).scrollIntoViewIfNeeded()
-    await visitor.screenshot({ path: join(directory, name.toLowerCase().replaceAll(' ', '-') + '-' + width + '.png') })
+    for (const [section, suffix] of [['required named gaps', 'gaps'], ['discovery audit', 'discovery']]) {
+     await visitor.getByRole('heading', { name: name + ' ' + section }).scrollIntoViewIfNeeded()
+     await visitor.screenshot({ path: join(directory, name.toLowerCase().replaceAll(' ', '-') + '-' + suffix + '-' + width + '.png') })
+    }
    }
   }
   await visitor.setViewportSize({ width: 1440, height: 900 })

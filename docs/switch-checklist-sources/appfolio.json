@@ -1552,6 +1552,430 @@
       "section": "Max",
       "line": 79,
       "quote": "Accounting Performer (Budgeting)"
+    },
+    {
+      "id": "af-resident-25",
+      "label": "Resident exact payment date amount and fee review",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 47,
+      "quote": "Review the Payment Date and Payment Balance information for accuracy. A transaction fee will also be displayed."
+    },
+    {
+      "id": "af-resident-26",
+      "label": "Manager-controlled online payment enablement",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 50,
+      "quote": "If you see a message stating you cannot make online payments, please contact your property manager as this is a service they can choose to offer their residents."
+    },
+    {
+      "id": "af-resident-27",
+      "label": "Resident bank card and Apple Pay method selection",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 53,
+      "quote": "Select your preferred payment method: eCheck (direct withdrawal from bank account), or Credit and debit card (Apple Pay or direct). You can then enter the associated payment information and click Continue."
+    },
+    {
+      "id": "af-resident-28",
+      "label": "Fixed or outstanding-balance autopay starting date",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 54,
+      "quote": "Give the payment a name, select whether you want to pay a fixed amount or your outstanding balance, choose the payment start date."
+    },
+    {
+      "id": "af-resident-29",
+      "label": "Processed autopay stop-payment referral",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 59,
+      "quote": "If you have already received a confirmation email that your payment has been processed this month when it shouldn’t have, you’ll need to reach out to your bank or credit card provider to issue a stop payment."
+    },
+    {
+      "id": "af-resident-30",
+      "label": "Transaction fee exclusion from autopay cap",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 70,
+      "quote": "No, transaction fees are not included in the maximum limit set on pay-in-full auto payments."
+    },
+    {
+      "id": "af-resident-31",
+      "label": "Payment transaction fee disclosure",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 78,
+      "quote": "Transaction fees apply when paying online. You are notified of the fee amount before you submit the payment."
+    },
+    {
+      "id": "af-resident-32",
+      "label": "Certified-funds-only retail cash payment",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 90,
+      "quote": "Your property manager can provide you with a reusable PaySlip with a barcode to use when making cash payments at participating locations. The cost to make an electronic cash payment is $4.99 per transaction. Transaction limits apply, please refer to the top of your PaySlip for more details."
+    },
+    {
+      "id": "af-resident-33",
+      "label": "Private payment details hidden from property staff",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 98,
+      "quote": "No, your property manager cannot see any of the payment information you have saved or have previously entered."
+    },
+    {
+      "id": "af-resident-34",
+      "label": "Personal and business bank payment sources",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 102,
+      "quote": "You can use a personal or business checking or savings account. Make sure to enter the routing and account number exactly as they appear on your checks and confirm the account has sufficient funds before paying."
+    },
+    {
+      "id": "af-resident-35",
+      "label": "Electronic check fraud-protection payment limits",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 104,
+      "quote": "You are shown the maximum you can pay while making an Online Payment in FolioSpace. If you receive the error message, \"Your payment amount is too large. Please contact your property manager, or try again later,\" you may have hit a limit we put in place for fraud protection. Please ask your property manager to contact AppFolio about the issue."
+    },
+    {
+      "id": "af-resident-36",
+      "label": "Card limits preserved across charge and unit changes",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 107,
+      "quote": "Please note, if your recurring charge amount increases or if you start paying for a new unit in the same FolioSpace account, the max allowed for a credit or debit card payment will not change. This only applies to payments made via credit or debit card, so you can switch to eCheck to pay a larger amount in one payment."
+    },
+    {
+      "id": "af-resident-37",
+      "label": "Separate payment and provider-fee bank descriptors",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 110,
+      "quote": "eCheck payments appear as \"[your management company].\" Credit or debit card payments appear as \"AF* [your management company].\" Any applicable fee will appear separately as APPFOLIO_TXNFEE."
+    },
+    {
+      "id": "af-resident-38",
+      "label": "Resident receipt and confirmation retrieval",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 112,
+      "quote": "Please contact your property manager and they can provide you with a receipt. Alternatively, if you have made an online payment, you will be sent an email confirmation and you can also see a record of your payments on the Account Ledger found in the Payments tab."
+    },
+    {
+      "id": "af-resident-39",
+      "label": "Utility concierge completion and visible follow-up",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 132,
+      "quote": "Once the call is complete, you will receive an email confirmation with a summary of the utilities and any home services you set up. The completed utility setup details will be visible in FolioSpace and your property manager will see that your required utilities have been completed."
+    },
+    {
+      "id": "af-resident-40",
+      "label": "Resident password change",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 140,
+      "quote": "Navigate to the Account Profile tab and locate the Password block. Enter your current password, then enter your new password and retype it. Click Save when done. Passwords must be between 8 and 32 characters in length which includes at least one letter and one number or symbol."
+    },
+    {
+      "id": "af-resident-41",
+      "label": "Resident Spanish-language account",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 142,
+      "quote": "You can change the language to Spanish. Click the Account Profile tab on the left, then in the Choose Your Language section use the menu to select Spanish, then click Save."
+    },
+    {
+      "id": "af-resident-42",
+      "label": "Resident notice-to-vacate submission",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 144,
+      "quote": "Your property manager can choose whether or not you can give notice through FolioSpace. If this feature is enabled you can find it on the Contact Us tab. Select Request Notice to Vacate in the Contact Options block. Provide your desired move out date, your reason for leaving, and your forwarding address (if you have it), then click Submit. If your property manager does not offer this feature, you'll need to contact them directly."
+    },
+    {
+      "id": "af-resident-43",
+      "label": "Resident email and mobile payment reminders",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 146,
+      "quote": "Yes, you can set up either email reminders or mobile push notifications if you have the FolioSpace app on your phone. Navigate to the Account Profile tab, then in the Contact Preferences block, select what kind of recurring payment reminders you would like to enable, then click Save."
+    },
+    {
+      "id": "af-resident-44",
+      "label": "Preferred-language login and activation",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 148,
+      "quote": "You can now set your language settings from the FolioSpace login and activation screens on the web. A link on the login screen will allow you to specify whether you prefer Spanish or English, instantly translating the language in view. Upon login, your language is set in the Account Profile. Once the language is set, the next time you navigate to the login page on your device or browser, the language will reflect your preferred setting (provided you have not cleared your cookies)."
+    },
+    {
+      "id": "af-resident-45",
+      "label": "Resident repair photos and key-entry permission",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 153,
+      "quote": "Enter a detailed description of the issue, upload one or more photos of the item needing attention (must select multiple photos at once from your computer or camera roll), decide whether or not to give the property manager permission to enter with their key, then click Submit Request."
+    },
+    {
+      "id": "af-resident-46",
+      "label": "Resident selection of maintenance availability",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 154,
+      "quote": "On the next screen, select when a maintenance tech can address your maintenance issue. If you choose to provide preferred times, select three or more time slots, then click Submit."
+    },
+    {
+      "id": "af-resident-47",
+      "label": "Repair communication and status timeline",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 156,
+      "quote": "You can view the high-level status of your maintenance request on the Maintenance tab. The status will range from received, to technician contacted, to technician scheduled, to completed. Select Check Status for a detailed view of all communication sent to you and a status timeline of your request."
+    },
+    {
+      "id": "af-resident-48",
+      "label": "Secure resident document delivery notification",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 159,
+      "quote": "You'll receive an email notification any time your property manager sends you a document securely to your FolioSpace account. Navigate to the Shared Documents tab to access these documents."
+    },
+    {
+      "id": "af-resident-49",
+      "label": "Resident executed lease download",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 161,
+      "quote": "Click Property Details from the menu on the left to view or download your online lease documents."
+    },
+    {
+      "id": "af-resident-50",
+      "label": "Resident insurance original upload",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 163,
+      "quote": "Navigate to the Insurance tab and locate the Upload Renters Insurance Policy block. Enter your insurance company provider, your policy number, policy expiration date, then upload a copy of your proof of insurance. When done, click Submit Policy Information."
+    },
+    {
+      "id": "af-resident-51",
+      "label": "Resident insurance policy purchase",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 165,
+      "quote": "If your property management company has this feature enabled, you can purchase a renters insurance policy directly through FolioSpace when completing your move-in tasks or at any time by navigating to the Home tab and clicking Purchase Renters Insurance to receive an estimate."
+    },
+    {
+      "id": "af-resident-52",
+      "label": "Resident insurance policy updates",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 167,
+      "quote": "Navigate to the Insurance tab to view or update your renters insurance policy."
+    },
+    {
+      "id": "af-resident-53",
+      "label": "Liability-to-landlord coverage summary",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 169,
+      "quote": "If your property management company has added your unit to its Liability to Landlord Insurance, you will see a Notice of Liability to Landlord Insurance link on the Property Details tab. Click this link to view your summary of coverage."
+    },
+    {
+      "id": "af-resident-54",
+      "label": "Manager-requested resident account combination",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 172,
+      "quote": "Only your property manager is capable of combining your FolioSpace accounts, so please contact them directly to make this request. Your accounts must be managed by the same company in order to combine them."
+    },
+    {
+      "id": "af-resident-55",
+      "label": "Separately activated multiple rental-unit access",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 174,
+      "quote": "If you rent multiple units from your property management company and you wish to make payments or details for a different unit, click View Another Unit, then click the button for the unit you wish to view. Each unit must be activated separately, so if you don’t see the unit you’re looking for, contact your property manager."
+    },
+    {
+      "id": "af-resident-56",
+      "label": "Authenticated application and cross-device resume",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 177,
+      "quote": "Your rental application carries a lot of personal information and an account keeps it behind a login you control instead of a link anyone could open. An account also lets you pause and come back on any device without having to start over. You create the account once, before you enter any application details, and it works across all your FolioSpace applications."
+    },
+    {
+      "id": "af-resident-57",
+      "label": "Application shared with selected property manager",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 183,
+      "quote": "The information provided in your rental application is shared only with the property management companies you apply to. Your username and password belong to you."
+    },
+    {
+      "id": "af-resident-58",
+      "label": "Single applicant account across applications",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 185,
+      "quote": "No. One account works for every FolioSpace application, at this property or any other. Sign in with the same email each time."
+    },
+    {
+      "id": "af-resident-59",
+      "label": "Application resume ends when vacancy is unavailable",
+      "source": "af-resident",
+      "section": "FolioSpace resident and applicant help",
+      "line": 187,
+      "quote": "You can resume and continue an application as long as the property is listed as available. After this, your application will be inaccessible."
+    },
+    {
+      "id": "af-accounting-20",
+      "label": "Accounting budget forecasts under staff oversight",
+      "source": "af-accounting",
+      "section": "Accounting and reporting",
+      "line": 37,
+      "quote": "Nobody got into this business to spend their evenings entering bills. The Accounting Performer works alongside your accounting team to handle the most time-consuming tasks — coding bills, reconciling accounts, closing the books, and preparing budget forecasts — so your team focuses on the work that actually moves the business."
+    },
+    {
+      "id": "af-accounting-21",
+      "label": "Corporate reimbursable expense identification",
+      "source": "af-accounting",
+      "section": "Accounting and reporting",
+      "line": 45,
+      "quote": "Catch reimbursable expenses the moment they happen at entry, not at month end"
+    },
+    {
+      "id": "af-accounting-22",
+      "label": "Corporate reimbursement bill payment",
+      "source": "af-accounting",
+      "section": "Accounting and reporting",
+      "line": 46,
+      "quote": "Pay reimbursement bills without leaving AppFolio"
+    },
+    {
+      "id": "af-accounting-23",
+      "label": "Owner portfolio pooled-funds bill payment",
+      "source": "af-accounting",
+      "section": "Accounting and reporting",
+      "line": 53,
+      "quote": "Pay bills against the owner’s full available funds, not under one property at a time"
+    },
+    {
+      "id": "af-accounting-24",
+      "label": "Owner distribution automatic true-up",
+      "source": "af-accounting",
+      "section": "Accounting and reporting",
+      "line": 54,
+      "quote": "Automatic true-up on distributions"
+    },
+    {
+      "id": "af-accounting-25",
+      "label": "Automatic owner property grouping",
+      "source": "af-accounting",
+      "section": "Accounting and reporting",
+      "line": 55,
+      "quote": "Properties group under the same owner automatically"
+    },
+    {
+      "id": "af-accounting-26",
+      "label": "Corporate credit-card statement reconciliation",
+      "source": "af-accounting",
+      "section": "Accounting and reporting",
+      "line": 60,
+      "quote": "Reconcile your statements to ensure accuracy"
+    },
+    {
+      "id": "af-maintenance-16",
+      "label": "Maintenance image interpretation and troubleshooting",
+      "source": "af-maintenance",
+      "section": "Maintenance and auditing",
+      "line": 45,
+      "quote": "Real estate’s only truly agentic AI, the Realm-X Maintenance Performer has the intelligence to reply to residents, analyze images, troubleshoot, prioritize emergencies, and dispatch work to the right technician. Once work is dispatched, you can use automation-driven platform tools to schedule work and bill owners consistently."
+    },
+    {
+      "id": "af-maintenance-17",
+      "label": "Automated emergency prioritization and dispatch",
+      "source": "af-maintenance",
+      "section": "Maintenance and auditing",
+      "line": 45,
+      "quote": "Real estate’s only truly agentic AI, the Realm-X Maintenance Performer has the intelligence to reply to residents, analyze images, troubleshoot, prioritize emergencies, and dispatch work to the right technician. Once work is dispatched, you can use automation-driven platform tools to schedule work and bill owners consistently."
+    },
+    {
+      "id": "af-maintenance-18",
+      "label": "Resident contact-center maintenance coordination",
+      "source": "af-maintenance",
+      "section": "Maintenance and auditing",
+      "line": 47,
+      "quote": "Built into the Online Resident Portal and Contact Center, the Maintenance Performer acts as your AI coordinator, responding to residents and dispatching"
+    },
+    {
+      "id": "af-maintenance-19",
+      "label": "Maintenance audit filters by staff property date and entity",
+      "source": "af-maintenance",
+      "section": "Maintenance and auditing",
+      "line": 57,
+      "quote": "Filterable by user, properties, dates, and entities"
+    },
+    {
+      "id": "af-smart-maintenance-01",
+      "label": "Service responding and work dispatch",
+      "source": "af-smart-maintenance",
+      "section": "Smart Maintenance",
+      "line": 12,
+      "quote": "Your maintenance process plays a key role in keeping residents happy and your teams organized. Ensure residents receive the high-quality service they deserve, while your teams maintain the balance of responding to resident requests, dispatching work orders, scheduling work, and billing effortlessly. Smart Maintenance provides end-to-end, full-cycle support for your residents and for your team on one easy-to-use platform."
+    },
+    {
+      "id": "af-smart-maintenance-02",
+      "label": "Service work scheduling",
+      "source": "af-smart-maintenance",
+      "section": "Smart Maintenance",
+      "line": 12,
+      "quote": "Your maintenance process plays a key role in keeping residents happy and your teams organized. Ensure residents receive the high-quality service they deserve, while your teams maintain the balance of responding to resident requests, dispatching work orders, scheduling work, and billing effortlessly. Smart Maintenance provides end-to-end, full-cycle support for your residents and for your team on one easy-to-use platform."
+    },
+    {
+      "id": "af-smart-maintenance-03",
+      "label": "Service work billing",
+      "source": "af-smart-maintenance",
+      "section": "Smart Maintenance",
+      "line": 12,
+      "quote": "Your maintenance process plays a key role in keeping residents happy and your teams organized. Ensure residents receive the high-quality service they deserve, while your teams maintain the balance of responding to resident requests, dispatching work orders, scheduling work, and billing effortlessly. Smart Maintenance provides end-to-end, full-cycle support for your residents and for your team on one easy-to-use platform."
+    },
+    {
+      "id": "af-smart-maintenance-04",
+      "label": "Around-the-clock maintenance response",
+      "source": "af-smart-maintenance",
+      "section": "Smart Maintenance",
+      "line": 19,
+      "quote": "Handling maintenance requests around the clock shouldn’t mean your team is on-call 24/7. AppFolio's suite of Smart Maintenance tools helps you stay ahead of resident requests and deliver exceptional experiences, without the overwhelm."
+    },
+    {
+      "id": "af-reports-04",
+      "label": "Income and owner statement reporting",
+      "source": "af-reports",
+      "section": "Performance reporting and Report Builder",
+      "line": 16,
+      "quote": "For example, you may rely on reports like an income statement, which tells you whether revenue is sufficient to pay off all expenses and, of course, the property’s net operating income. There are also owner statements, which help maintain accurate and categorized accounts of financial transactions, including utilities and contractor payments. Owner statements typically include beginning and ending balances."
+    },
+    {
+      "id": "af-reports-05",
+      "label": "Native operational report data",
+      "source": "af-reports",
+      "section": "Performance reporting and Report Builder",
+      "line": 24,
+      "quote": "With dedicated property management reporting technology, you can build reports using day-to-day data that already exists in the system. There’s no need for double data entry, removing another vector for human error."
+    },
+    {
+      "id": "af-reports-06",
+      "label": "Base report selection",
+      "source": "af-reports",
+      "section": "Performance reporting and Report Builder",
+      "line": 29,
+      "quote": "The user selects a base report that already contains most of the information they are looking for. For our example, let’s use the Rent Roll as a base report."
     }
   ]
 }
