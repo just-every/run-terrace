@@ -1,5 +1,16 @@
 # Changes
 
+## 0.1.5
+
+Terrace's work since 0.1.4 (25 Oct), released so its demo opens current code. 37 migrations are added (0077_action_requests.sql … 0117_repair_mail_events.sql, all listed in RELEASE.json); the RER CLI pin is 0.2.91.
+
+- Owner set-up: owner-only operating-risk observations, setup requirements, costs and capacity gaps, with read-only refusals for mutation requests.
+- Switching: public switch checklists list source areas, incumbent workflow gaps and official documentation access limits.
+- Money: shadow rent activity and signed corrections fixed; shadow reviews are invalidated when financial events change; a payment lookup timeout stays durably uncertain; protected metadata is redacted in charge previews.
+- Agent door: the core agent door is adopted with native prepare authority, conflicts, local pause and client revocation.
+- Privacy and restore: erased repair callbacks stay inert, held office print batches survive tenancy erasure, and the owner email stays in deployment secret custody.
+- Accessibility: keyboard focus recovers in collapsed form validation, and work and history actions are at least 44 pixels on phones.
+
 ## 2026-10-24
 
 - REPORT-006: apply the approved per-send owner approval and snapshot custody riders. Adopt retention until explicit owner deletion; add audited legal and accountant holds and releases, atomic hold-blocked snapshot deletion, and replay prevention after deletion. Migration 0076 preserves existing frozen statements; snapshots and custody records remain installation-only.
