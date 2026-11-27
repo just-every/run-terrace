@@ -948,6 +948,10 @@
       "sha256": "297a92efcd96ea1cb46be1cbfcbb2bf89bd35039a8fc767d1957514d5ce71cc0",
       "executable": false
     },
+    "migrations/core/0118_agent_door_relay.sql": {
+      "sha256": "1345864cda1bf261ae3dfb78e37ffeebc187973163d1371dba7de67bd33ca996",
+      "executable": false
+    },
     "ONBOARDING.md": {
       "sha256": "d9ae36e9db2e9bd75e88a78688c3a94155aec155ce7213160ebfd101c93ff3c5",
       "executable": false
@@ -1270,6 +1274,10 @@
     },
     "release-history/0.1.4.json": {
       "sha256": "2fa46cecfef128e9c5954491c56ec94a25cef5ce28ffeecd7f50338de7e14963",
+      "executable": false
+    },
+    "release-history/0.1.5.json": {
+      "sha256": "9b9c37da8fcaaf71c75676a2befb65b06bc449bde832d871bff61f5ca85c2cba",
       "executable": false
     },
     "release-media/terrace-demo.png": {
@@ -1684,6 +1692,10 @@
       "sha256": "7a0cfafee742fe63005f156386306f386cfb893d5ca5424f9520be8312dd0e39",
       "executable": false
     },
+    "src/modules/agent-door/business-state.ts": {
+      "sha256": "fdce33b3b16e60856bde4089a9924d6df6c8ce864d48227c04b695764041a18a",
+      "executable": false
+    },
     "src/modules/agent-door/capabilities.d.mts": {
       "sha256": "af9a1d9f81a15df8caef2ab257c24b031dab60690984df557b9b82022888f339",
       "executable": false
@@ -1922,6 +1934,10 @@
     },
     "src/modules/agent-door/registry.ts": {
       "sha256": "2759ba22b30528c322a5d4605ed41c690fc0bf33f86c3e0a57c252bff20cef24",
+      "executable": false
+    },
+    "src/modules/agent-door/relay.ts": {
+      "sha256": "9d794eb6c245e7cb3f7d744cef8245c5620f0f3e6a25ab47ff705ef0549bf3de",
       "executable": false
     },
     "src/modules/agent-door/resource-tool.ts": {
