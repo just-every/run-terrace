@@ -64,6 +64,9 @@
           "resend",
           "sendgrid",
           "cloudflare"
+        ],
+        "credentialSecretNames": [
+          "MAIL_API_KEY"
         ]
       },
       "surfaces": {

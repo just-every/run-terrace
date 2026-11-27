@@ -57,8 +57,8 @@ a forward migration and verified transition/recovery.
 `rer deploy --dry-run` validates the real owner-account
 deployment declaration and builds locally without provider requests. Real
 deployment requires privately supplied `CLOUDFLARE_ACCOUNT_ID` and
-`CLOUDFLARE_API_TOKEN`, the declared owner/session/setup secrets, and a real
-verified mail sender in `deploy.json`. Follow the owner-account deploy-kit
+`CLOUDFLARE_API_TOKEN` and the declared owner/session/setup secrets. Follow the
+owner-account deploy kit
 instructions under `node_modules/@runeditrun/rer/modules/deploy-kit`; account scope,
 resource ownership, migrations, receipt and health checks are defined there.
 Local validation does not prove hosted acceptance, provider delivery or remote
@@ -73,10 +73,31 @@ migrations and recovery procedure. After `pnpm run build`, run
 `node scripts/delivery/base/cli.mjs package --config packaging.json --output rer-package`;
 the output directory must be new. Generated delivery folders are disposable.
 
-Local development suppresses email. Before hosting, select Resend, SendGrid,
+Local development suppresses email. For hosted email, select Resend, SendGrid,
 Cloudflare or RER in setup and supply the matching sender and private API key.
 Cloudflare also needs its account ID. Managed hosting assigns `MAIL_PROVIDER`,
 `MAIL_FROM`, `MAIL_RELAY_URL` and the private `MAIL_API_KEY`. Configure-email-later
 is for local setup; it does not provide production delivery. Provider acceptance
 is distinct from delivery, and human approval remains required for outbound
 product actions.
+
+To host without outbound email, set `MAIL_PROVIDER=none` and leave the sender
+and mail credentials unset. Email links and invitations are unavailable. From
+the deployment checkout, run `rer signin` with the Cloudflare credentials used
+to deploy and the same `--environment NAME` if you named an environment. Open
+the one-time owner link privately and confirm.
+
+A deployment already sending mail holds its provider, sender or credentials on
+the Worker. To switch it off, use the same checkout and Cloudflare credentials
+as the deployment. For a named environment, add `--environment NAME` to both
+commands. Keep `MAIL_PROVIDER=none` in the inputs for later full redeploys.
+
+```sh
+rer deploy --set-secret MAIL_PROVIDER=none
+rer deploy --unset-secret MAIL_API_KEY
+```
+
+When upgrading a 0.1.5 deployment that will keep sending mail, supply
+`MAIL_FROM` again. Resend is the default. To choose another provider, set
+`MAIL_PROVIDER` and supply its credentials. The existing `MAIL_API_KEY` is inherited
+on a full redeploy.

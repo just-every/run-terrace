@@ -1,5 +1,10 @@
 # Changes
 
+## 0.1.6
+
+- Host Terrace with `MAIL_PROVIDER=none` and use `rer signin` for owner access.
+- Update to RER 0.2.144 and adopt Base's authenticated MCP discovery, policy renewal and Business decision relay. Migration 0118 adds the relay without changing existing audit records.
+
 ## 0.1.5
 
 Terrace's work since 0.1.4 (25 Oct), released so its demo opens current code. 37 migrations are added (0077_action_requests.sql … 0117_repair_mail_events.sql, all listed in RELEASE.json); the RER CLI pin is 0.2.91.

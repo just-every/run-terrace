@@ -3,7 +3,9 @@
 Terrace serves one shared agent door at `/mcp`, its canonical metadata at
 `/.well-known/oauth-protected-resource/mcp`, and native person controls at
 `/agents`. MCP supports 2026-07-28 and 2025-11-25. The runtime is copied from
-Base `2135c394939f4a737adabdc8003b0e667b31ac5a`; the CLI is released rer 0.2.91.
+Base, with the authenticated MCP and Business relay wiring adopted from
+[the Mallet integration](https://github.com/just-every/run-mallet/commit/a2551562).
+The pinned CLI is rer 0.2.144.
 `agent-surface.json` records the exact declared registry and disposable journey.
 
 The declared capabilities are tools, policy, pause, audit and idempotency.
@@ -42,6 +44,9 @@ Business owner is policy owner, Business admin is editor, and Business member
 has no policy-edit role. A native promotion cannot grant a Business role.
 Unknown, inactive and natively inadmissible people are refused. Approval execution
 re-reads native people and grants; consent and agent revocation close the next call.
+The signed decision feed at `/api/rer/agent-decisions` serves the current
+Business and stops on signed detachment. It starts with new decisions. Existing
+audit records remain available locally.
 The native owner lifecycle remains the declared setup-token POST to
 `/auth/bootstrap`, independently of the signed `/auth/owner-claim` handler.
 
@@ -76,7 +81,7 @@ revocation. The replay-admission phase reuses a real native preparation to prove
 missing/hidden equivalence and credential revocation through production HTTP.
 Door arguments, decisions, pending approvals and replay outcomes are retained. The native resident erasure/export flow does not yet map or atomically redact those new stores; no agent custody or erasure tool is exposed, and native custody completion is not claimed. Base supplies no generic client-scoped erasure adapter. This remains a named integration gap, including its retention-versus-erasure decision.
 
-The executed source-shard command is `pnpm run typecheck && npx -y @runeditrun/rer@0.2.91 build && SEED_VERIFY_SHARD=source npx -y @runeditrun/rer@0.2.91 verify`; the normal CLI completed with 1753/1753 BASE-AGENT points, including the native journey. The full existing suite remains the CI wall. The native page walkthrough renders pending, rejected, paused and unavailable states at 1440 and 390. Unknown-subject and changed-email tokens are exercised by the shared conformance harness with unchanged native witnesses. Inactive native people are refused by the copied people adapter; a separate signed-token fixture for suspension is not claimed here. Terrace does not configure a native email allow-list, so no excluded-person fixture or allow-list completion is claimed.
+On 29 October 2026, the executed source-shard command is `pnpm run typecheck && npx -y @runeditrun/rer@0.2.91 build && SEED_VERIFY_SHARD=source npx -y @runeditrun/rer@0.2.91 verify`; the normal CLI completed with 1753/1753 BASE-AGENT points, including the native journey. The full existing suite remains the CI wall. The native page walkthrough renders pending, rejected, paused and unavailable states at 1440 and 390. Unknown-subject and changed-email tokens are exercised by the shared conformance harness with unchanged native witnesses. Inactive native people are refused by the copied people adapter; a separate signed-token fixture for suspension is not claimed here. Terrace does not configure a native email allow-list, so no excluded-person fixture or allow-list completion is claimed.
 
 No optional family is credited by its omission. Shared and specialist clauses
 remain PARTIAL where their broader acceptance is unproved.
