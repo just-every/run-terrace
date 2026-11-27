@@ -2,6 +2,7 @@ import { createMailSender } from './modules/mail/index.mjs'
 
 // Construct only on send; demo and local mail use Base's suppressed sender.
 export function operatorMail(env) {
+ if (env.MAIL_PROVIDER === 'none') return undefined
  if (env.RER_DEMO === '1' || (env.MAIL_PROVIDER === 'development' && env.AUTH_LOCAL === 'true')) {
   return createMailSender({ provider: 'development', mode: 'development' })
  }

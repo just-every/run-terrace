@@ -4,12 +4,13 @@ const queued=await queuedEntrypoint(import.meta.url,'verify:email-link');if(queu
 // explicitly requested message contacts the configured mail provider. Only the paid mail
 // provider is replaced; development mail is deliberately suppressed by Base.
 import assert from 'node:assert/strict'
-import { randomBytes } from 'node:crypto'
+import { randomBytes, randomUUID } from 'node:crypto'
 import { mkdtemp, readdir, readFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { Miniflare, convertV4MiniflareOptions } from 'miniflare'
 import { unstable_splitSqlQuery } from 'wrangler'
+import { ownerSigninDigest } from '../src/modules/operator-auth/owner-signin-grant.mjs'
 
 const directory=await mkdtemp(join(tmpdir(),'terrace-email-link-')),messages=[]
 const secret=()=>randomBytes(32).toString('base64url'),owner='owner@example.test'
@@ -51,4 +52,32 @@ try {
  assert.equal((await post('/auth/confirm',{token:link.searchParams.get('token')})).status,400,'a consumed link cannot be reused')
  assert.equal((await fetch(origin+'/__dev/outbox')).status,404)
  console.log('Email-link sign-in passed against emitted Worker: provider edge, confirmation, session, single use')
+
+ // Explicit mail-off must also refuse to use any previously saved sender.
+ vars.MAIL_PROVIDER='none'
+ await worker.setOptions(options(Number(new URL(origin).port)))
+ const signIn=await fetch(origin+'/signin')
+ assert.equal(signIn.status,200)
+ assert.doesNotMatch(await signIn.text(),/action="\/auth\/magic-link"/)
+ const disabled=await post('/auth/magic-link',{email:owner})
+ assert.equal(disabled.status,503)
+ assert.equal((await disabled.json()).error,'mail_unavailable')
+
+ // At the Cloudflare boundary, use the same grant, owner version and digest
+ // as rer signin rather than making the test depend on a real account.
+ const token=secret(), now=Date.now(), store=await worker.getD1Database('DB')
+ const grant=await store.prepare(`INSERT INTO oa_owner_signins(id,token_hash,operator_id,operator_version,created_at,expires_at)
+  SELECT ?,?,id,version,?,? FROM oa_operators WHERE email=? AND role='owner' AND status='active'`)
+  .bind(randomUUID(),await ownerSigninDigest(token),now,now+60_000,owner).run()
+ assert.equal(grant.meta.changes,1)
+ assert.equal((await fetch(origin+'/auth/owner-signin?token='+token)).status,200)
+ const ownerSignIn=await post('/auth/owner-signin',{token})
+ assert.equal(ownerSignIn.status,303)
+ const ownerCookie=ownerSignIn.headers.getSetCookie().map(line=>line.split(';')[0]).join('; ')
+ const ownerSession=await fetch(origin+'/auth/session',{headers:{cookie:ownerCookie}})
+ assert.equal(ownerSession.status,200)
+ assert.equal((await ownerSession.json()).operator.email,owner)
+ assert.equal((await post('/auth/owner-signin',{token})).status,400)
+ assert.equal(messages.length,1,'mail-off signs in the owner without contacting a provider')
+ console.log('Mail-off owner sign-in passed against emitted Worker: email disabled, one-time owner grant, session')
 } finally {await worker.dispose();await rm(directory,{recursive:true,force:true})}

@@ -1,7 +1,7 @@
 {
   "id": "terrace",
   "name": "Terrace",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "maturity": "first-release-build",
   "category": "property-management",
   "spine": {
@@ -66,6 +66,7 @@
       "/.well-known/oauth-protected-resource",
       "/.well-known/oauth-protected-resource/mcp",
       "/api/rer/agent-policy",
+      "/api/rer/agent-decisions",
       "/api/rer/business-settings",
       "/agents",
       "/docs/agents"

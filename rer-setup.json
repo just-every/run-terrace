@@ -85,6 +85,10 @@
           "label": "RER managed mail"
         },
         {
+          "value": "none",
+          "label": "Turn off outbound email"
+        },
+        {
           "value": "resend",
           "label": "Resend"
         },
@@ -98,7 +102,7 @@
         }
       ],
       "group": "mail",
-      "help": "Local development uses its suppressed outbox. Before hosting, choose a configured provider and supply its sender and private credential. Managed hosting assigns RER mail."
+      "help": "Local development uses its suppressed outbox. For hosting, choose a mail provider or turn off outbound email and use rer signin for owner access. Managed hosting assigns RER mail."
     },
     {
       "name": "MAIL_FROM",
