@@ -90,7 +90,7 @@ the one-time owner link privately and confirm.
 A deployment already sending mail holds its provider, sender or credentials on
 the Worker. To switch it off, use the same checkout and Cloudflare credentials
 as the deployment. For a named environment, add `--environment NAME` to both
-commands.
+commands. Keep `MAIL_PROVIDER=none` in the inputs for later full redeploys.
 
 ```sh
 rer deploy --set-secret MAIL_PROVIDER=none
@@ -98,4 +98,6 @@ rer deploy --unset-secret MAIL_API_KEY
 ```
 
 When upgrading a 0.1.5 deployment that will keep sending mail, supply
-`MAIL_PROVIDER` and `MAIL_FROM` again. Its existing `MAIL_API_KEY` is inherited.
+`MAIL_FROM` again. Resend is the default. To choose another provider, set
+`MAIL_PROVIDER` and supply its credentials. The existing `MAIL_API_KEY` is inherited
+on a full redeploy.

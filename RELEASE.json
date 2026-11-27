@@ -5,6 +5,6 @@
     "0118_agent_door_relay.sql"
   ],
   "breaking": false,
-  "agentUpdateInstructions": "Back up and exercise a restored copy before adopting. Install the frozen dependencies with RER CLI 0.2.144, then run the normal deployment update to apply migration 0118_agent_door_relay.sql. For outbound email, supply MAIL_PROVIDER and MAIL_FROM again when coming from 0.1.5 because they were plain settings. The existing MAIL_API_KEY secret is inherited. With MAIL_PROVIDER=none, leave mail credentials unset and run rer signin in the deployment checkout. The new Business relay begins with new decisions; existing audit rows remain in the local audit. See OPERATIONS.md to turn mail off on a deployment that already has mail.",
+  "agentUpdateInstructions": "Back up and exercise a restored copy before adopting. Install the frozen dependencies with RER CLI 0.2.144, then run the normal deployment update to apply migration 0118_agent_door_relay.sql. For outbound email, supply MAIL_FROM again when coming from 0.1.5 because it was a plain setting. Resend remains the default. The existing MAIL_API_KEY secret is inherited. With MAIL_PROVIDER=none, leave mail credentials unset and run rer signin in the deployment checkout. The new Business relay begins with new decisions; existing audit rows remain in the local audit. See OPERATIONS.md to turn mail off on a deployment that already has mail.",
   "previousVersion": "0.1.5"
 }

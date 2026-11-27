@@ -13,7 +13,7 @@
   "originVar": "AUTH_ORIGIN",
   "vars": {
     "AUTH_LOCAL": "false",
-    "MAIL_PROVIDER": "",
+    "MAIL_PROVIDER": "resend",
     "MAIL_FROM": ""
   },
   "secrets": [

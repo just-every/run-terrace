@@ -149,7 +149,7 @@
       "executable": false
     },
     "deploy.json": {
-      "sha256": "201f7ffe60181c688f024d5cffd516a3eba6ef01cdf4c93fe2200f45eef132ae",
+      "sha256": "6f1c3f77ef887aa943b20e9e4826bba3a5d6da38a39d29fee12260f38d29af5b",
       "executable": false
     },
     "docs/agent-door-adoption.md": {
@@ -497,7 +497,7 @@
       "executable": false
     },
     "management/integration/deployment-spec.json": {
-      "sha256": "9b513cc75b3188cd92842650a560390c2a5e51d2573e48765381a992a106a87a",
+      "sha256": "f22a58e943e2b830fd8da533777a60a4815aad500f1b7727ee70d002bdd68279",
       "executable": false
     },
     "migrations/core/0001_owner.sql": {
@@ -961,7 +961,7 @@
       "executable": false
     },
     "OPERATIONS.md": {
-      "sha256": "23191f9ed2a848faa73dc784fce1c01db81e937586f9212c74251a2013958016",
+      "sha256": "4d8e6f5666414d1d5113a7a423bf54919b74c99b6419be70275c2e919d6f5ac2",
       "executable": false
     },
     "package.json": {
@@ -1285,7 +1285,7 @@
       "executable": false
     },
     "RELEASE.json": {
-      "sha256": "cc8a8b75b4aecf9c94682abde552347673785e1417260a421a19e7edc6f476c9",
+      "sha256": "12f1f92f8b7c935d884ae00a60181fc9d3afa63bbcb997be92a9fe3887a0b500",
       "executable": false
     },
     "rer-project.json": {
@@ -5749,7 +5749,7 @@
       "executable": false
     },
     "wrangler.jsonc": {
-      "sha256": "94b608262692f604e3d931a46f8edd48d48b74b537aa08f385e6ad3a91ea6e98",
+      "sha256": "33a69c77191676332d7aa1710962168d5efa0df0d9757bd1623d437a54c575ca",
       "executable": false
     }
   }
