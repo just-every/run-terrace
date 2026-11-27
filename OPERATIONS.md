@@ -86,3 +86,16 @@ and mail credentials unset. Email links and invitations are unavailable. From
 the deployment checkout, run `rer signin` with the Cloudflare credentials used
 to deploy and the same `--environment NAME` if you named an environment. Open
 the one-time owner link privately and confirm.
+
+A deployment already sending mail holds its provider, sender or credentials on
+the Worker. To switch it off, use the same checkout and Cloudflare credentials
+as the deployment. For a named environment, add `--environment NAME` to both
+commands.
+
+```sh
+rer deploy --set-secret MAIL_PROVIDER=none
+rer deploy --unset-secret MAIL_API_KEY
+```
+
+When upgrading a 0.1.5 deployment that will keep sending mail, supply
+`MAIL_PROVIDER` and `MAIL_FROM` again. Its existing `MAIL_API_KEY` is inherited.

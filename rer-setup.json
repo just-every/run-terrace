@@ -102,7 +102,7 @@
         }
       ],
       "group": "mail",
-      "help": "Local development uses its suppressed outbox. For hosting, choose a mail provider or turn off outbound email and use rer signin for owner access. Managed hosting assigns RER mail."
+      "help": "Local development uses its suppressed outbox by default. For hosting, choose a mail provider or turn off outbound email and use rer signin for owner access. Managed hosting assigns RER mail."
     },
     {
       "name": "MAIL_FROM",
